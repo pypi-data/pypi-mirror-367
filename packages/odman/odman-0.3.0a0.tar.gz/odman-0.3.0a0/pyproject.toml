@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "odman"
+version = "0.3.0-alpha.0"
+description = "OneDrive Manager (odman) - A professional CLI tool for OneDrive file operations via app-only authentication."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "msal>=1.32.3",
+    "requests>=2.32.4",
+    "rich>=14.0.0",
+]
+
+
+[project.scripts]
+odman = "odman.cli.main:main"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "semver2"
+version_provider = "uv"
+update_changelog_on_bump = true
+major_version_zero = true
