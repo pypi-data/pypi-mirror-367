@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sast-fixer-mcp"
+version = "1.0.0"
+description = "SAST vulnerability fixing service for MCP"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mcp==1.6.0",
+    "python-docx==1.1.2",
+    "click>=8.1.7",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+sast-fixer-mcp = "sast_fixer_mcp:main"
+
+[project.entry-points."mcp.servers"]
+sast-fixer = "sast_fixer_mcp.server:async_main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/sast-fixer-mcp"
+Repository = "https://github.com/yourusername/sast-fixer-mcp"
+Issues = "https://github.com/yourusername/sast-fixer-mcp/issues"
+
+[tool.hatch.version]
+path = "src/sast_fixer_mcp/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sast_fixer_mcp"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+# MCP Server 特定配置
+[tool.mcp]
+name = "sast-fixer-mcp"
+description = "SAST vulnerability fixing service"
+version = "1.0.0"
