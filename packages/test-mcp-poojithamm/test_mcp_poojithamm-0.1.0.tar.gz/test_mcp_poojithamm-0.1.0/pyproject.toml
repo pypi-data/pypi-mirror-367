@@ -1,0 +1,25 @@
+[project]
+name = "test-mcp-poojithamm"
+version = "0.1.0"
+description = "Test MCP tools"
+authors = [{ name = "Poojitha29", email = "poojitha.mm@thoughtclan.com" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "mcp-math-tools>=0.1.0",
+    "numpy>=1.24.0",
+    "sympy>=1.12"
+]
+
+[project.optional-dependencies]
+cli = ["mcp[cli]>=1.12.3"]
+
+[project.scripts]
+test-mcp = "test_mcp.main:main"
+
+[tool.mcp]
+tools = [
+    "test_mcp.tools.matrix_tool.matrix_multiplication",
+    "test_mcp.tools.quadratic_tool.solve_quadratic",
+    "test_mcp.tools.eigen_tool.solve_eigen"
+]
