@@ -1,0 +1,32 @@
+[package]
+name = "stpc"
+version = "0.1.0-alpha.3"
+edition = "2021"
+
+[lib]
+name = "stpc"  # Название Rust-библиотеки
+crate-type = ["cdylib"]
+
+[dependencies]
+rsa = { version = "0.9", features = ["sha2"], optional = true }
+pyo3 = { version = "0.25", features = ["extension-module"] }
+pqcrypto-falcon = { version = "0.4", features = ["avx2", "neon"], optional = true }
+ed25519-dalek = { version = "2.1", optional = true }
+rand = "0.8"
+pqcrypto-traits = "0.3.5"
+
+[features]
+# Обычная фича по умолчанию
+default = ["ed25519", "falcon512", "falcon1024"]
+
+# Фича для ed25519
+ed25519 = ["ed25519-dalek"]
+
+# Фича для Falcon512 и Falcon1024
+falcon512 = ["pqcrypto-falcon"]
+falcon1024 = ["pqcrypto-falcon"]
+rsa_dep = ["rsa"]
+
+
+[package.metadata.maturin]
+include-pyi = true
