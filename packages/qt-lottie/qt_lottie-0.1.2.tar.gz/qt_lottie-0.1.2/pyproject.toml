@@ -1,0 +1,116 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "build", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qt-lottie"
+dynamic = ["version"]
+description = "Cross-platform Python library providing Lottie animation support for Qt applications"
+readme = "README.md"
+license = { text = "MIT License" }
+authors = [
+    {name = "Qt Lottie Contributors"}
+]
+maintainers = [
+    {name = "Qt Lottie Contributors"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Software Development :: User Interfaces",
+]
+keywords = ["qt", "lottie", "animation", "qml", "pyside6", "pyqt6", "graphics"]
+requires-python = ">=3.8"
+dependencies = [
+    "rlottie-python>=1.0.0",
+    "Pillow>=8.0.0",
+]
+
+[project.optional-dependencies]
+pyside6 = ["PySide6>=6.0.0"]
+pyqt6 = ["PyQt6>=6.0.0"]
+dev = [
+    "pytest>=6.0",
+    "pytest-qt>=4.0",
+    "black>=22.0",
+    "flake8>=4.0",
+    "mypy>=0.900",
+]
+docs = [
+    "sphinx>=4.0",
+    "sphinx-rtd-theme>=1.0",
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/acemetrics-oss/qt-lottie"
+Repository = "https://gitlab.com/acemetrics-oss/qt-lottie.git"
+"Bug Tracker" = "https://gitlab.com/acemetrics-oss/qt-lottie/-/issues"
+"Source Code" = "https://gitlab.com/acemetrics-oss/qt-lottie"
+
+[tool.setuptools]
+packages = ["qtlottie", "qtlottie.core", "qtlottie.rlottie", "qtlottie.qml", "qtlottie.utils"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+qtlottie = ["py.typed"]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "node-and-date"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "rlottie.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "tests",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "qt: marks tests that require Qt",
+]
