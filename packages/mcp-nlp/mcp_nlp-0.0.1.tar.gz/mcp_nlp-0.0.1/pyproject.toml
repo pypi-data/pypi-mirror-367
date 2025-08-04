@@ -1,0 +1,92 @@
+[project]
+name = "mcp-nlp"
+dynamic= ["version"]
+description = "MCP-NLP is a Python package for Natural Language Processing tasks using the MCP"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+    "click>=8.1.8",
+    "fastmcp==2.10.6",
+    "textdistance==4.6.2",
+]
+
+[[project.authors]]
+name = "tivaliy"
+email = "vitaliy@kulanov.org.ua"
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning>=0.8.2"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mcp-nlp = "mcp_nlp.__main__:main"
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "httpx>=0.28.1",
+    "mypy>=1.16.1",
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.12.2",
+]
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+line-length = 100
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "W", "I", "N", "UP", "ANN", "S", "BLE", "FBT", "C4", "DTZ", "T10", "EM", "ISC", "ICN"]
+ignore = ["ANN401", "EM101"]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S", "ANN", "B017"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.12"
+exclude = "^src/"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+style = "pep440"
+bump = true
+fallback-version = "0.0.0"
