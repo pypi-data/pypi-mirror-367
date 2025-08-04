@@ -1,0 +1,217 @@
+Metadata-Version: 2.4
+Name: autorpt
+Version: 0.1.2
+Summary: Automated budget report generator for grant management with Excel input and Word output
+Home-page: https://github.com/VRConservation/autorpt
+Author: Vance Russell
+Author-email: vance@3point.xyz
+License: MIT license
+Keywords: autorpt
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: python-docx>=0.8.11
+Requires-Dist: pathlib
+Requires-Dist: openpyxl>=3.0.0
+Requires-Dist: docx2pdf>=0.1.8
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# autorpt
+
+[![image](https://img.shields.io/pypi/v/autorpt.svg)](https://pypi.python.org/pypi/autorpt)
+[![image](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**Automated content discovery and report generator with Excel and Markdown support**
+
+-   Free software: MIT license
+-   Documentation: https://VRConservation.github.io/autorpt
+
+## Features
+
+-   **Auto-Discovery**: Automatically finds and combines all `.md` and `.xlsx` files in your content folder
+-   **Excel Table Integration**: Any Excel file becomes a formatted table in your report
+-   **Markdown Content**: Write content in markdown format for easy editing and version control
+-   **Mixed Content Support**: Combine multiple markdown files and Excel tables in one report
+-   **Customizable Content**: Use example files or create your own content structure
+-   **Command Line Interface**: Simple commands for different workflows
+-   **Python API**: Use programmatically in your own scripts
+-   **Visual Charts**: Automatically generates budget comparison charts
+-   **Professional Formatting**: Clean, business-ready Word document output
+-   **PDF Conversion**: Built-in PDF generation from Word documents
+
+## Quick Start
+
+### Installation
+
+```bash
+pip install autorpt
+```
+
+### Basic Usage (Recommended: Folder-Based Workflow)
+
+1. **Prepare your content in the `reports/` folder**:
+
+    - Copy or edit the provided example files:
+        - `reports/budget.xlsx` (your budget data)
+        - `reports/content.md` (custom content sections)
+    - Or add your own `.md` (markdown) and `.xlsx` (Excel) files to the `reports/` folder.
+
+2. **Generate a report from all content in the folder**:
+
+    ```bash
+    # Auto-discover and combine all .md and .xlsx files in reports/
+    autorpt --auto-content
+    ```
+
+    - This will create a Word document in the `reports/` folder using all detected files.
+
+3. **Convert the generated Word report to PDF (optional)**:
+
+    ```bash
+    # Convert the latest report in reports/ to PDF
+    autorpt --pdf-only
+    ```
+
+---
+
+### Advanced Usage (Custom Files)
+
+You can still specify custom files if needed:
+
+```bash
+# Specify input/output files
+autorpt --input my_budget.xlsx --output custom_report.docx
+```
+
+### File Structure
+
+Your project directory should contain:
+
+```
+your_project/
+â”œâ”€â”€ reports/             # Content folder for your files
+â”‚   â”œâ”€â”€ budget.xlsx      # Your budget data (example provided)
+â”‚   â”œâ”€â”€ content.md       # Custom content sections (example provided)
+â”‚   â”œâ”€â”€ your_data.xlsx   # Any additional Excel files
+â”‚   â”œâ”€â”€ notes.md         # Any additional markdown files
+â”‚   â””â”€â”€ generated_reports.docx  # Auto-generated reports
+â””â”€â”€ (other project files)
+```
+
+### Customizing Content
+
+Add your content files to the `reports/` folder:
+
+**Example markdown file (`reports/project_notes.md`)**:
+
+```markdown
+# Summary
+
+Your custom summary content here...
+
+# Deliverables Progress
+
+-   Custom deliverable 1
+-   Custom deliverable 2
+
+# Challenges
+
+Current project challenges...
+
+# Next Period Activities
+
+Planned activities...
+```
+
+**Example Excel file**: Any `.xlsx` file with tabular data will be automatically formatted as tables in your report.
+
+## Command Line Options
+
+```bash
+autorpt --help
+
+# Basic report generation with auto-discovery
+autorpt --auto-content               # Auto-discover files in reports/
+autorpt --auto-content --content-folder "data"  # Use custom folder
+
+# Traditional single-file approach
+autorpt --input budget.xlsx --output report.docx --verbose
+
+# PDF generation
+autorpt --pdf                     # Generate report + PDF
+autorpt --pdf-only                # Convert latest report to PDF
+autorpt --pdf-all                 # Convert all reports to PDF
+
+# Advanced content mixing
+autorpt --markdown notes.md       # Add specific markdown file
+autorpt --excel data.xlsx         # Add specific Excel file
+autorpt --mixed file1.md data.xlsx  # Add multiple specific files
+```
+
+**Key Options:**
+
+-   `--auto-content`: Auto-discover and combine all .md and .xlsx files from content folder
+-   `--content-folder`: Specify which folder to scan (default: reports)
+-   `--input, -i`: Input Excel file (default: budget.xlsx)
+-   `--output, -o`: Output Word document filename
+-   `--markdown, -m`: Add specific markdown file to report
+-   `--excel, -e`: Add specific Excel file as table
+-   `--mixed`: Add multiple specific files (markdown and/or Excel)
+-   `--pdf, -p`: Also convert the report to PDF
+-   `--pdf-only`: Convert most recent report to PDF (no new generation)
+-   `--pdf-all`: Convert all Word reports to PDF
+-   `--verbose, -v`: Enable verbose output
+
+## PDF Conversion
+
+autorpt includes built-in PDF conversion capabilities. See the `pdf/` folder for:
+
+-   Complete PDF documentation (`pdf/PDF_README.md`)
+-   Helper scripts for easy PDF operations
+-   Simple command aliases setup
+
+Quick PDF usage:
+
+```bash
+# Built-in commands
+autorpt --pdf                     # Generate new report + PDF
+autorpt --pdf-only                # Convert latest report to PDF
+
+# Helper scripts (from pdf/ folder)
+.\pdf\setup-aliases.ps1           # Set up simple aliases
+pdf-latest                        # Then use: convert latest to PDF
+pdf-new                           # Generate new report + PDF
+```
+
+## Output
+
+The package generates:
+
+-   Professional Word document in `reports/` folder with combined content
+-   Automatic integration of all markdown content as formatted sections
+-   Excel data converted to professional tables with proper formatting
+-   Optional PDF conversion of reports
+-   Budget comparison charts (when budget data is included)
+-   Summary statistics and insights from your data
+-   Clean, business-ready formatting throughout
