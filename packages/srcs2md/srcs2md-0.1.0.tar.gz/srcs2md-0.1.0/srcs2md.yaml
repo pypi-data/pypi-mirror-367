@@ -1,0 +1,51 @@
+# srcs2md configuration file
+# This file defines what source files to include in the generated markdown
+
+# Optional header configuration
+header:
+  # Path to a file whose content will be included at the top (e.g., README.md)
+  include_file: null
+  # Custom header text (will be added after include_file if both are specified)
+  custom_text: |
+    ## Source codes
+
+    This section contains source code files for LLM context.
+
+# File patterns to include
+patterns:
+  - pattern: "src/**/*.py"
+    language: python
+    description: "Python source files"
+  
+  - pattern: "src/**/*.rs"
+    language: rust
+    description: "Rust source files"
+  
+  - pattern: "*.md"
+    language: markdown
+    description: "Documentation files"
+
+# Files and patterns to ignore
+ignore:
+  - "**/__pycache__/**"
+  - "**/.git/**" 
+  - "**/node_modules/**"
+  - "**/*.pyc"
+  - "**/target/**"
+  - "**/.mypy_cache/**"
+  - "**/.pytest_cache/**"
+  - "**/.venv/**"
+  - "**/venv/**"
+  - ".gitignore"
+  - "*.log"
+
+# Output configuration
+output:
+  # If not specified, outputs to stdout
+  file: null
+  # Whether to include file paths in the output
+  include_paths: true
+  # Whether to sort files alphabetically
+  sort_files: true
+  # Whether to respect .gitignore patterns (default: true)
+  respect_gitignore: true

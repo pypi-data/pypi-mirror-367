@@ -1,0 +1,118 @@
+# srcs2md
+
+A CLI utility to generate markdown files from source code using glob patterns. Perfect for creating context files for LLM models.
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+Or with development dependencies:
+
+```bash
+pip install -e ".[dev]"
+```
+
+## Usage
+
+### Basic Usage
+
+1. Create a configuration file:
+   ```bash
+   srcs2md --init
+   ```
+
+2. Edit `srcs2md.yaml` to specify your source patterns
+
+3. Generate markdown:
+   ```bash
+   srcs2md                    # Output to stdout
+   srcs2md -o output.md       # Output to file
+   ```
+
+### Configuration File
+
+The default configuration file `srcs2md.yaml` supports:
+
+- **Header**: Include README content or custom text at the top
+- **Patterns**: Glob patterns with language specification
+- **Ignore**: Files/patterns to exclude
+- **Output**: Formatting options
+
+Example configuration:
+
+```yaml
+header:
+  include_file: "README.md"
+  custom_text: |
+    ## Source codes
+    
+    This section contains source code files.
+
+patterns:
+  - pattern: "src/**/*.py"
+    language: python
+    description: "Python source files"
+  
+  - pattern: "src/**/*.rs"
+    language: rust
+    description: "Rust source files"
+
+ignore:
+  - "**/__pycache__/**"
+  - "**/.git/**"
+  - "**/*.pyc"
+
+output:
+  include_paths: true
+  sort_files: true
+```
+
+### Command Line Options
+
+- `-c, --config PATH`: Specify configuration file (default: srcs2md.yaml)
+- `-o, --output PATH`: Output file (default: stdout)
+- `-p, --pattern PATTERN`: Add file pattern in format 'pattern;language' (can be used multiple times)
+- `--no-config`: Skip configuration file entirely, use only command-line options
+- `--init`: Create default configuration file
+- `--version`: Show version
+
+### Pattern Examples
+
+```bash
+# Use configuration file patterns
+srcs2md
+
+# Add additional patterns to default config file (srcs2md.yaml) patterns
+srcs2md -p "src/**/*.py;python" -p "*.md;markdown"
+
+# Use only command line patterns (no config file needed)
+srcs2md -p "src/**/*.rs;rust" -p "tests/**/*.rs;rust" -o output.md
+
+# Mix config file and command line patterns
+srcs2md -c custom.yaml -p "scripts/*.sh;bash"
+
+# Skip config file entirely (even if srcs2md.yaml exists)
+srcs2md --no-config -p "*.py;python" -p "*.rs;rust"
+```
+
+## Development
+
+Install development dependencies:
+
+```bash
+pip install -e ".[dev]"
+```
+
+Run linting and type checking:
+
+```bash
+ruff check .
+ruff format .
+mypy srcs2md/
+```
+
+## License
+
+MIT
