@@ -1,0 +1,30 @@
+[project]
+name = "test-mcp-poojitha"
+version = "0.1.0"
+description = "MCP tools for matrix multiplication, quadratic equations, and eigenvalue solving"
+authors = [{ name = "Poojitha29", email = "poojitha.mm@thoughtclan.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "mcp[cli]>=1.12.3",
+    "numpy>=1.26.4",       # 2.x is not stable yet on most clients
+    "sympy>=1.14.0"
+]
+
+[project.scripts]
+test-mcp = "test_mcp.main:main"
+
+[tool.mcp]
+tools = [
+    "test_mcp.tools.matrix_tool.matrix_multiplication",
+    "test_mcp.tools.quadratic_tool.solve_quadratic",
+    "test_mcp.tools.eigen_tool.solve_eigen"
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
