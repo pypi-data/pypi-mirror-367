@@ -1,0 +1,1 @@
+class SchemaMissingRequiredKeys(Exception): pass
