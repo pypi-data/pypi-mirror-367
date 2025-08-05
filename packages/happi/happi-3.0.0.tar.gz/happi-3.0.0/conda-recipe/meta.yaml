@@ -1,0 +1,59 @@
+{% set package_name = "happi" %}
+{% set import_name = "happi" %}
+{% set version = load_file_regex(load_file=os.path.join(import_name, "_version.py"), regex_pattern=".*version = '(\S+)'").group(1) %}
+
+package:
+  name: {{ package_name }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+
+
+requirements:
+  build:
+  - python >=3.9
+  - pip
+  - setuptools_scm
+  run:
+  - python >=3.9
+  - click
+  - coloredlogs
+  - entrypoints
+  - jinja2
+  - platformdirs
+  - prettytable
+  - simplejson
+  run_constrained:
+  - psdm_qs_cli >=0.3.1
+  - pymongo >=4.0.2
+  # - bson  # bson is vendored by pymongo, and should not be installed separately
+
+test:
+  commands:
+  - happi --help
+  imports:
+  - happi
+  requires:
+  - pytest
+  - ipython
+  - line_profiler
+  - mongomock
+  - pcdsutils
+  - pcdsdevices
+  - pymongo
+
+about:
+  dev_url: https://github.com/pcdshub/happi/
+  doc_url: https://pcdshub.github.io/happi/
+  home: https://github.com/pcdshub/happi/
+  license: LicenseRef-BSD-3-Clause-SLAC
+  license_family: BSD
+  license_file: LICENSE.md
+  summary: Heuristic Access to Positions of Photon Instruments
