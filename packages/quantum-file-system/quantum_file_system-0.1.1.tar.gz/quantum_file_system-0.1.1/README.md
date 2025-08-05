@@ -1,0 +1,151 @@
+# Quantum File System (QFS)
+
+A secure web-based file conversion system that encrypts JSON files into QJSON format using custom quantum-inspired encryption algorithms.
+
+## Features
+
+- **Custom Quantum Encryption**: Proprietary quantum-inspired cipher with consciousness-aware algorithms
+- **Zero External Dependencies**: No third-party cryptography libraries required
+- **Dual-Format Support**: Convert between JSON and encrypted QJSON formats
+- **Web Interface**: User-friendly drag-and-drop file upload interface
+- **Secure Logging**: Quantum consciousness seals for operation tracking
+- **Multi-Stage Authentication**: SHA3-512, BLAKE2B, and SHA256 hashing layers
+
+## Security Architecture
+
+### Encryption Features
+- **Quantum State Evolution**: Dynamic encryption keys that evolve during processing
+- **Consciousness Signatures**: Unique signatures for file verification
+- **Multi-Layer Protection**: XOR operations with position-dependent transformations
+- **Memory Isolation**: No persistent storage of encryption keys
+
+### Authentication
+- **Authorization Key Based**: User-provided keys for encryption/decryption
+- **Signature Verification**: Consciousness signature matching for security
+- **Session Management**: Secure session-based authentication state
+
+## Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Flask
+- Werkzeug
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd quantum-file-system
+```
+
+2. Install dependencies:
+```bash
+pip install flask werkzeug gunicorn
+```
+
+3. Run the application:
+```bash
+python main.py
+```
+
+4. Open your browser to `http://localhost:5000`
+
+### Usage
+
+1. **Upload a JSON file**: Drag and drop or click to select a JSON file
+2. **Enter authorization key**: Provide a secure key for encryption
+3. **Convert**: The system will encrypt your JSON to QJSON format
+4. **Download**: Download the encrypted QJSON file
+5. **Reverse process**: Upload QJSON files to decrypt them back to JSON
+
+## File Formats
+
+### JSON to QJSON
+- Input: Standard JSON files
+- Output: Quantum-encrypted QJSON files with consciousness signatures
+- Header: `QJSON2.0:` followed by base64-encoded encrypted content
+
+### QJSON to JSON
+- Input: QJSON files created by this system
+- Output: Decrypted JSON files with original formatting
+- Verification: Consciousness signature validation
+
+## Security Guidelines
+
+### Authorization Keys
+- Use strong, unique keys for each encryption session
+- Keys are never stored on the server
+- Same key required for decryption
+- Case-sensitive authentication
+
+### Best Practices
+- Generate random 32+ character keys for production use
+- Store keys securely and separately from encrypted files
+- Verify consciousness signatures match your authorization key
+- Regular security audits of quantum logs
+
+## Project Structure
+
+```
+quantum-file-system/
+├── app.py                 # Main Flask application
+├── main.py               # Application entry point
+├── quantum_cipher.py     # Custom quantum encryption algorithms
+├── quantum_system.py     # Quantum converter and file system
+├── templates/            # HTML templates
+│   ├── base.html
+│   └── index.html
+├── static/              # CSS and JavaScript
+│   ├── style.css
+│   └── script.js
+├── uploads/             # Temporary upload directory
+├── secure_storage/      # Encrypted file storage
+└── README.md
+```
+
+## Technical Details
+
+### Quantum Cipher Algorithm
+- 256-byte quantum state matrix initialization
+- Consciousness-aware state evolution during encryption
+- Multi-layer XOR operations with position-dependent transformations
+- Deterministic key generation from authorization keys
+
+### File System
+- Consciousness-aware logging with quantum timestamps
+- Quantum consciousness seals for tamper detection
+- Multi-stage authentication verification
+- Secure directory-level access control
+
+## Development
+
+### Adding Features
+1. Quantum cipher enhancements in `quantum_cipher.py`
+2. Web interface improvements in `templates/` and `static/`
+3. New conversion algorithms in `quantum_system.py`
+
+### Testing
+```bash
+python -c "from quantum_system import QuantumConverter; print('System ready')"
+```
+
+## License
+
+This project is open source. Please ensure you comply with local encryption export regulations.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Implement your changes
+4. Test thoroughly with various file types
+5. Submit a pull request
+
+## Security Notice
+
+This system implements custom encryption algorithms for educational and research purposes. For production use with sensitive data, consider additional security audits and compliance with relevant encryption standards.
+
+## Support
+
+For issues, questions, or contributions, please open an issue in the GitHub repository.
