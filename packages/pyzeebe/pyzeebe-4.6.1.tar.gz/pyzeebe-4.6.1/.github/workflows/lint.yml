@@ -1,0 +1,59 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  type-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.19"
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+      - name: Lint with mypy
+        run: |
+          uv run mypy pyzeebe
+
+  import-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.19"
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+      - name: Check imports
+        run: |
+          uv run isort . --check --diff
+
+  format-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.19"
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+      - name: Check imports
+        run: |
+          uv run black --check .
