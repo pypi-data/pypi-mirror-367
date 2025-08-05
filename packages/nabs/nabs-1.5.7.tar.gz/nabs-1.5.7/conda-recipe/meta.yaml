@@ -1,0 +1,46 @@
+{% set package_name = "nabs" %}
+{% set import_name = "nabs" %}
+{% set version = load_file_regex(load_file=os.path.join(import_name, "_version.py"), regex_pattern=".*version = '(\S+)'").group(1) %}
+
+package:
+  name: {{ package_name }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  build:
+  - python >=3.6
+  - setuptools_scm
+  - pip
+  run:
+  - python >=3.6
+  - bluesky-base
+  - numpy
+  - ophyd
+  - pandas
+  - scipy
+  - toolz
+  run_constrained:
+  - pyqt =5
+
+test:
+  requires:
+  - matplotlib-base
+  - pcdsdaq
+  - pcdsdevices
+  - pytest
+  - pytest-timeout
+  imports:
+  - nabs
+
+about:
+  home: https://github.com/pcdshub/nabs
+  license: SLAC Open License
+  summary: 'NABS: Not a Beamline Scientist'
