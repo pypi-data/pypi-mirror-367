@@ -1,0 +1,47 @@
+[project]
+authors = [
+    {name = "Max Halford", email = "maxhalford25@gmail.com"},
+]
+license = "MIT"
+requires-python = "<4.0,>=3.10"
+readme = "README.md"
+dependencies = [
+    "scikit-learn<2.0.0,>=1.5.1",
+    "pandas<3.0.0,>=2.2.0",
+    "altair<6.0.0,>=5.0.0",
+]
+name = "prince"
+version = "0.16.1"
+description = "Factor analysis in Python: PCA, CA, MCA, MFA, FAMD, GPA"
+
+[dependency-groups]
+dev = [
+    "nbconvert<8.0.0,>=7.16.5",
+    "fbpca<2.0,>=1.0",
+    "pytest<9.0.0,>=8.3.4",
+    "ipykernel<7.0.0,>=6.13.0",
+    "rpy2<4.0.0,>=3.5.2",
+    "ruff<1.0.0,>=0.8.5",
+    "xarray<2026.0.0,>=2025.1.0",
+    "pre-commit<5.0.0,>=4.0.1",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--verbose",
+    "--doctest-modules",
+    "--doctest-glob=*.md"
+]
+doctest_optionflags = "NORMALIZE_WHITESPACE NUMBER ELLIPSIS"
+
+[tool.ruff]
+lint.select = ["E", "F", "I", "UP"]  # https://beta.ruff.rs/docs/rules/
+lint.ignore = ["E501"]
+line-length = 100
+target-version = 'py310'
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+[tool.uv]
+package = true
