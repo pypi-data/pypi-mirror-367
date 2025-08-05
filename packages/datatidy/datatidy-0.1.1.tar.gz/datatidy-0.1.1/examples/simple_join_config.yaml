@@ -1,0 +1,63 @@
+# Simple Join Example - CSV + Excel
+# Demonstrates basic two-table join functionality
+
+inputs:
+  employees:
+    type: csv
+    source: "examples/employees.csv"
+    options:
+      encoding: utf-8
+
+  departments:
+    type: excel
+    source:
+      path: "examples/departments.xlsx"
+      sheet_name: "Sheet1"
+
+joins:
+  - left: employees
+    right: departments
+    on: dept_id              # Join key - will keep original name in result
+    how: left                # Keep all employees, add department info where available
+    suffix: ["", "_dept"]    # Suffix behavior explained:
+                            # - LEFT TABLE (employees): Keep original column names (empty suffix)
+                            #   * employees.id -> id (no change)
+                            #   * employees.name -> name (no change)
+                            # - RIGHT TABLE (departments): Add _dept suffix to conflicting columns
+                            #   * departments.id -> id_dept 
+                            #   * departments.name -> name_dept
+                            # - JOIN KEY: dept_id keeps original name (no suffix)
+                            # - UNIQUE COLUMNS: Keep original names
+                            #   * budget (only in departments) -> budget
+
+output:
+  columns:
+    # Employee data
+    employee_id:
+      source: "id"
+      type: int
+
+    full_name:
+      source: "name"
+      type: string
+      transformation: "str.strip().title()"
+
+    # Department data (with suffix)
+    department_name:
+      source: "name_dept"
+      type: string
+      default: "Unknown"
+
+    # Computed field using both sources
+    employee_display:
+      transformation: "f'{full_name} - {department_name}'"
+      type: string
+
+  sort:
+    - column: department_name
+      ascending: true
+    - column: full_name
+      ascending: true
+
+global_settings:
+  ignore_errors: false

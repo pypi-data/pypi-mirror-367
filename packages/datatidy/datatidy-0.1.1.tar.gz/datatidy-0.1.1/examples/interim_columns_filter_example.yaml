@@ -1,0 +1,71 @@
+# Interim Columns in Filters Example
+# Demonstrates using interim columns for filtering while excluding them from output
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  only_output_columns: false  # Keep input columns + final output columns
+  
+  columns:
+    total_value:
+      transformation: "price * quantity"
+      type: float
+      interim: true  # Used in filter but NOT included in final output
+      validation:
+        min_value: 0
+    
+    high_value_product:
+      transformation: "f'{product}: ${total_value:.2f}'"
+      type: string
+    
+    value_category:
+      transformation: "'premium' if total_value > 1000 else 'standard'"
+      type: string
+      validation:
+        allowed_values: ["premium", "standard"]
+    
+    # Additional interim calculations
+    profit_estimate:
+      transformation: "total_value * 0.25"  # 25% profit margin
+      type: float
+      interim: true
+    
+    profitability_tier:
+      transformation: |
+        'high' if profit_estimate > 250 else (
+          'medium' if profit_estimate > 100 else 'low'
+        )
+      type: string
+      validation:
+        allowed_values: ["high", "medium", "low"]
+
+  # Filters using interim columns
+  filters:
+    - condition: "total_value > 500"      # Filter using interim column
+      action: keep
+    - condition: "profit_estimate > 50"   # Another interim column filter
+      action: keep
+
+  # Sort by interim column (allowed)
+  sort:
+    - column: total_value  # Can sort by interim columns
+      ascending: false
+
+# Final output will contain:
+# - Input columns: id, product, price, quantity, category, region, date
+# - Final output columns: high_value_product, value_category, profitability_tier
+# - Interim columns excluded: total_value, profit_estimate
+
+# Processing flow:
+# 1. Calculate interim columns (total_value, profit_estimate)
+# 2. Calculate final columns using interim values
+# 3. Apply filters using interim columns
+# 4. Sort by interim column
+# 5. Remove interim columns from final output
+
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false

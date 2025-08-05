@@ -1,0 +1,136 @@
+# Multi-Input DataTidy Configuration Example
+# This demonstrates joining data from multiple sources
+
+inputs:
+  users:
+    type: csv
+    source: "examples/users.csv"
+    options:
+      encoding: utf-8
+      delimiter: ","
+
+  orders:
+    type: parquet
+    source: "examples/orders.parquet"
+
+  products:
+    type: database
+    source: "SELECT id, name, category, price FROM products WHERE active = true"
+    connection_string: "postgresql://user:password@localhost/ecommerce"
+
+joins:
+  # First join: users with their orders
+  - left: users
+    right: orders
+    on: user_id              # Join on common user_id column
+    how: inner               # Only include records that exist in both tables
+    suffix: ["_user", "_order"]  # Suffix behavior:
+                            # - user_id: no suffix (join key)
+                            # - Conflicting columns get suffixes:
+                            #   * users.name -> name_user
+                            #   * orders.name -> name_order  
+                            #   * users.id -> id_user
+                            #   * orders.id -> id_order
+                            # - Unique columns keep original names:
+                            #   * email, created_at, total_amount, etc.
+  
+  # Second join: add product information
+  - left: result            # Reference the result from previous join
+    right: products
+    on:
+      left: product_id      # Column from previous join result
+      right: id             # Primary key in products table
+    how: left               # Keep all records from result, add product info where available
+    suffix: ["", "_product"] # Suffix behavior:
+                            # - Left table (result) columns keep original names
+                            # - Right table (products) conflicting columns get _product:
+                            #   * products.name -> name_product
+                            #   * products.id -> id_product (if not used as join key)
+                            # - product_id: no suffix (join key)
+
+output:
+  columns:
+    # User information
+    customer_id:
+      source: "user_id"
+      type: int
+      validation:
+        required: true
+        min_value: 1
+
+    customer_name:
+      source: "name_user"  # Column from users table with suffix
+      type: string
+      transformation: "str.strip().title()"
+      validation:
+        required: true
+        min_length: 2
+
+    customer_email:
+      source: "email_user"
+      type: string
+      validation:
+        required: true
+        pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+
+    # Order information  
+    order_id:
+      source: "id_order"
+      type: int
+      validation:
+        required: true
+
+    order_date:
+      source: "created_at_order"
+      type: datetime
+      format: "%Y-%m-%d"
+
+    order_total:
+      source: "total_amount"
+      type: float
+      validation:
+        min_value: 0
+
+    # Product information
+    product_name:
+      source: "name_product"
+      type: string
+      default: "Unknown Product"
+
+    product_category:
+      source: "category"
+      type: string
+      default: "Other"
+
+    # Computed fields using data from multiple sources
+    order_value_category:
+      transformation: |
+        'high' if order_total > 500 else (
+          'medium' if order_total > 100 else 'low'
+        )
+      type: string
+      validation:
+        allowed_values: ["high", "medium", "low"]
+
+    customer_lifetime_summary:
+      transformation: "f'{customer_name} has ordered {product_name} for ${order_total:.2f}'"
+      type: string
+
+  # Filter out cancelled orders and invalid data
+  filters:
+    - condition: "order_total > 0"
+      action: keep
+    - condition: "customer_email.find('@') > 0"
+      action: keep
+
+  # Sort by customer and order date
+  sort:
+    - column: customer_id
+      ascending: true
+    - column: order_date
+      ascending: false
+
+global_settings:
+  ignore_errors: false
+  max_errors: 100
+  encoding: utf-8

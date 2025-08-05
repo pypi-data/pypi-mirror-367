@@ -1,0 +1,172 @@
+# Dependency-Aware Column Processing Example
+# Demonstrates interim columns and automatic dependency resolution
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+  # Sample data: id, product, price, quantity, category, region, date
+
+output:
+  # Control final output
+  only_output_columns: false  # Keep input columns + final output columns
+  
+  columns:
+    # NOTE: Columns are defined in RANDOM order to test dependency resolution
+    # The engine will automatically determine the correct execution order
+    
+    # FINAL COLUMN: Uses multiple interim columns
+    final_score:
+      transformation: "(profitability_score * 0.4) + (volume_score * 0.3) + (regional_score * 0.3)"
+      type: float
+      validation:
+        min_value: 0
+        max_value: 10
+    
+    # INTERIM COLUMN: Calculate total sales (used by other columns)
+    total_sales:
+      transformation: "price * quantity"
+      type: float
+      interim: true  # This column won't appear in final output
+    
+    # FINAL COLUMN: Depends on total_sales
+    sales_category:
+      transformation: |
+        'high' if total_sales > 1000 else (
+          'medium' if total_sales > 500 else 'low'
+        )
+      type: string
+      validation:
+        allowed_values: ["high", "medium", "low"]
+    
+    # INTERIM COLUMN: Regional scoring (used by final_score)
+    regional_score:
+      transformation: |
+        {'North': 8, 'South': 6, 'East': 7, 'West': 9}.get(region, 5)
+      type: float
+      interim: true
+    
+    # INTERIM COLUMN: Volume scoring (depends on quantity)
+    volume_score:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              10 if x > 100 else
+              8 if x > 50 else
+              6 if x > 20 else
+              4 if x > 5 else
+              2
+            )
+      source: "quantity"
+      type: float
+      interim: true
+    
+    # INTERIM COLUMN: Profitability scoring (depends on total_sales and category)
+    profitability_score:
+      transformation: |
+        base_score = {'Electronics': 9, 'Clothing': 7, 'Books': 5, 'Home': 6}.get(category, 5)
+        if total_sales > 2000:
+            base_score + 1
+        elif total_sales < 200:
+            max(1, base_score - 2)
+        else:
+            base_score
+      type: float
+      interim: true
+    
+    # FINAL COLUMN: Product analysis (depends on multiple columns)
+    product_analysis:
+      transformation: |
+        f"{product} ({category}): ${total_sales:.2f} sales, {sales_category} volume, Score: {final_score:.1f}"
+      type: string
+    
+    # INTERIM COLUMN: Date processing
+    year:
+      transformation: "pd.to_datetime(date).dt.year"
+      type: int
+      interim: true
+    
+    # INTERIM COLUMN: Month processing (depends on date)
+    month:
+      transformation: "pd.to_datetime(date).dt.month"
+      type: int
+      interim: true
+    
+    # FINAL COLUMN: Seasonal analysis (depends on month)
+    season:
+      transformation: |
+        'Winter' if month in [12, 1, 2] else (
+          'Spring' if month in [3, 4, 5] else (
+            'Summer' if month in [6, 7, 8] else 'Fall'
+          )
+        )
+      type: string
+    
+    # FINAL COLUMN: Complex calculation using multiple interim columns
+    performance_summary:
+      transformation: |
+        f"Year {year}, {season}: {sales_category.title()} performer (Score: {final_score:.1f}/10)"
+      type: string
+    
+    # INTERIM COLUMN: Price tier (used for recommendations)
+    price_tier:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'premium' if x > 500 else
+              'mid' if x > 100 else
+              'budget'
+            )
+      source: "price"
+      type: string
+      interim: true
+    
+    # FINAL COLUMN: Recommendation engine (depends on multiple interim columns)
+    recommendation:
+      transformation: |
+        if final_score > 8:
+            f"Promote {product} heavily in {region}"
+        elif final_score > 6:
+            f"Maintain {product} inventory for {season}"
+        elif price_tier == 'budget' and volume_score > 6:
+            f"Bundle {product} with premium items"
+        else:
+            f"Review {product} performance"
+      type: string
+
+  # Apply filters using both original and computed columns
+  filters:
+    - condition: "total_sales > 0"  # Uses interim column in filter
+      action: keep
+    - condition: "final_score >= 2"  # Uses final column in filter
+      action: keep
+
+  # Sort by computed columns
+  sort:
+    - column: final_score
+      ascending: false
+    - column: total_sales
+      ascending: false
+
+# Global settings for debugging
+global_settings:
+  ignore_errors: false
+  max_errors: 10
+  show_execution_plan: true  # Show how columns will be processed
+  verbose: true              # Show progress during processing
+
+# Expected execution order (automatically determined):
+# 1. total_sales (depends on: price, quantity)
+# 2. year (depends on: date)  
+# 3. month (depends on: date)
+# 4. volume_score (depends on: quantity)
+# 5. regional_score (depends on: region)
+# 6. price_tier (depends on: price)
+# 7. sales_category (depends on: total_sales)
+# 8. profitability_score (depends on: total_sales, category)
+# 9. season (depends on: month)
+# 10. final_score (depends on: profitability_score, volume_score, regional_score)
+# 11. product_analysis (depends on: product, category, total_sales, sales_category, final_score)
+# 12. performance_summary (depends on: year, season, sales_category, final_score)
+# 13. recommendation (depends on: final_score, product, region, season, price_tier, volume_score)

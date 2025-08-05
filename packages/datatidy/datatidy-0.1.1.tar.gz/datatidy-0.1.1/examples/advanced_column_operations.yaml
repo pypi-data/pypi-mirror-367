@@ -1,0 +1,172 @@
+# Advanced Column Operations Example
+# Demonstrates map/reduce/filter operations with lambda functions
+
+input:
+  type: csv
+  source: "examples/advanced_data.csv"
+  # Sample data: id, text, numbers, category, value, timestamp
+
+output:
+  columns:
+    # MAP OPERATION - Apply function to each element
+    cleaned_text:
+      source: "text"
+      operations:
+        - type: map
+          function: "lambda x: str(x).strip().lower().replace('_', ' ') if pd.notna(x) else ''"
+      type: string
+      validation:
+        required: true
+
+    # MAP with regex operations
+    extracted_numbers:
+      source: "text"
+      operations:
+        - type: map
+          function: "lambda x: re.findall(r'\\d+', str(x)) if pd.notna(x) else []"
+        - type: map  # Chain operations: extract numbers then join them
+          function: "lambda x: ','.join(x) if x else 'none'"
+      type: string
+
+    # FILTER OPERATION - Keep only values meeting condition
+    filtered_values:
+      source: "value"
+      operations:
+        - type: filter
+          condition: "lambda x: x > 100"  # Keep values > 100
+          fill_value: 0  # Replace filtered values with 0
+      type: float
+
+    # FILTER with complex conditions
+    valid_categories:
+      source: "category"  
+      operations:
+        - type: filter
+          condition: "lambda x: isinstance(x, str) and len(x) > 0 and x.lower() not in ['invalid', 'test']"
+          fill_value: "unknown"
+      type: string
+
+    # REDUCE OPERATION - Aggregate column values
+    running_total:
+      source: "value"
+      operations:
+        - type: reduce
+          function: "lambda acc, x: acc + x"  # Sum all values
+          initial_value: 0
+      type: float
+
+    # REDUCE for string concatenation
+    text_summary:
+      source: "text"
+      operations:
+        - type: reduce  
+          function: "lambda acc, x: acc + ' | ' + str(x) if acc else str(x)"
+          initial_value: ""
+      type: string
+
+    # GROUP OPERATION - Group-based calculations
+    category_average:
+      source: "value"
+      operations:
+        - type: group
+          group_by: "category"  # Group by category column
+          function: "mean"      # Average value per category
+      type: float
+
+    # GROUP with custom aggregation
+    category_count:
+      source: "id"
+      operations:
+        - type: group
+          group_by: "category"
+          function: "count"     # Count records per category
+      type: int
+
+    # WINDOW OPERATION - Rolling calculations
+    moving_average:
+      source: "value"
+      operations:
+        - type: window
+          window_size: 3        # 3-row rolling window
+          function: "mean"      # Rolling average
+      type: float
+
+    # WINDOW with custom function
+    rolling_max_min_diff:
+      source: "value"
+      operations:
+        - type: window
+          window_size: 5
+          function: "lambda x: x.max() - x.min()"  # Range in window
+      type: float
+
+    # CHAINED OPERATIONS - Multiple operations in sequence
+    complex_transformation:
+      source: "text"
+      operations:
+        - type: map
+          function: "lambda x: str(x).strip().lower()"  # Clean text
+        - type: filter  
+          condition: "lambda x: len(x) > 3"             # Keep longer strings
+          fill_value: "short"
+        - type: map
+          function: "lambda x: x.title() if x != 'short' else x"  # Title case
+      type: string
+
+    # ADVANCED MAP - Complex data manipulation
+    parsed_data:
+      source: "numbers"  # Assume this contains comma-separated numbers
+      operations:
+        - type: map
+          function: |
+            lambda x: {
+                'count': len(str(x).split(',')),
+                'sum': sum(float(n) for n in str(x).split(',') if n.strip().replace('.','').isdigit()),
+                'avg': np.mean([float(n) for n in str(x).split(',') if n.strip().replace('.','').isdigit()])
+            } if pd.notna(x) and str(x).strip() else {'count': 0, 'sum': 0, 'avg': 0}
+        - type: map
+          function: "lambda x: f\"Count: {x['count']}, Sum: {x['sum']:.2f}, Avg: {x['avg']:.2f}\""
+      type: string
+
+    # TEXT PROCESSING with lambda
+    word_analysis:
+      source: "text"
+      operations:
+        - type: map
+          function: |
+            lambda x: {
+                'word_count': len(str(x).split()),
+                'char_count': len(str(x)),
+                'has_numbers': bool(re.search(r'\d', str(x))),
+                'uppercase_ratio': sum(1 for c in str(x) if c.isupper()) / len(str(x)) if len(str(x)) > 0 else 0
+            } if pd.notna(x) else {'word_count': 0, 'char_count': 0, 'has_numbers': False, 'uppercase_ratio': 0}
+        - type: map
+          function: "lambda x: f\"Words: {x['word_count']}, Chars: {x['char_count']}, HasNums: {x['has_numbers']}, Upper: {x['uppercase_ratio']:.2%}\""
+      type: string
+
+    # CONDITIONAL MAPPING
+    risk_score:
+      source: "value"
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+                'HIGH' if x > 1000 else 
+                'MEDIUM' if x > 500 else 
+                'LOW' if x > 100 else 
+                'MINIMAL'
+            ) if pd.notna(x) else 'UNKNOWN'
+      type: string
+
+  # Apply basic filters to final result
+  filters:
+    - condition: "cleaned_text != ''"
+      action: keep
+
+  sort:
+    - column: "category_average"
+      ascending: false
+
+global_settings:
+  ignore_errors: false
+  max_errors: 50
