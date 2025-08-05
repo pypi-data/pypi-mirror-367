@@ -1,0 +1,7 @@
+from enum import Enum
+
+
+class SplitType(str, Enum):
+    SPLIT_INTERNAL_TRANSFER = "SPLIT_INTERNAL_TRANSFER"
+    SPLIT_SUB_ACCOUNT = "SPLIT_SUB_ACCOUNT"
+    SPLIT_PARTNER = "SPLIT_PARTNER"
