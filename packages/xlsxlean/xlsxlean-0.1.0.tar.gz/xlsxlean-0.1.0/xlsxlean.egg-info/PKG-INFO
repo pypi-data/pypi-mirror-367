@@ -1,0 +1,115 @@
+Metadata-Version: 2.4
+Name: xlsxlean
+Version: 0.1.0
+Summary: Minimal memory XLSX reader with safe preview and full content options
+Author: Animesh Ranjan
+Author-email: ranjananimesh5@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: psutil
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# xlsxlean
+
+`xlsxlean` is a lightweight Python package that reads `.xlsx` (Excel) files using minimal memory. It is ideal for memory-constrained environments or scenarios where Excel files might be large or potentially malformed.
+
+---
+
+## 🚀 Features
+
+- **Memory-safe** `.xlsx` reading
+- Read **entire content** or just a **preview (e.g., 3000 characters)**
+- Automatically parses shared strings and inline values
+- Graceful fallback when memory usage exceeds a threshold
+- No need for pandas or openpyxl
+- Fast and portable — perfect for backend scripts and CLI tools
+
+---
+
+## 📦 Installation
+
+```bash
+pip install xlsxlean
+```
+
+---
+
+## 🧪 Usage
+
+### Import the Reader
+
+```python
+from xlsxlean.reader import read_xlsx_full_content, read_xlsx_preview_3000_chars
+```
+
+### Read Entire XLSX File
+
+```python
+content = read_xlsx_full_content("example.xlsx", max_memory_mb=2048)
+print(content)
+```
+
+### Read First 3000 Characters
+
+```python
+preview = read_xlsx_preview_3000_chars("example.xlsx")
+print(preview)
+```
+
+---
+
+## ⚙️ Parameters
+
+- `filepath`: Path to `.xlsx` file
+- `max_memory_mb`: (Optional) Max memory in MB. If exceeded, function returns whatever is collected so far
+- `char_limit`: (Optional) For preview function — default is 3000
+
+---
+
+## 📂 How It Works
+
+- Unzips `.xlsx` files using Python's `zipfile`
+- Parses XML content with `ElementTree`
+- Looks for:
+  - `xl/sharedStrings.xml` for global text
+  - `xl/worksheets/sheet*.xml` for cell values
+
+---
+
+## 🛡️ Memory Safety
+
+- Uses `psutil` to monitor memory usage
+- If memory exceeds `max_memory_mb`, function stops and returns collected content
+
+---
+
+## 🔧 Requirements
+
+- Python 3.6+
+- `psutil` (installed automatically)
+
+---
+
+## 📄 License
+
+MIT License. See `LICENSE` file for details.
+
+---
+
+## ✍️ Author
+
+**Animesh Ranjan**   
