@@ -1,0 +1,124 @@
+# ComicView: Image Archive Viewer
+
+ComicView is an image archive viewer for ZIP, RAR, CBR and CBZ files. Open archive files containing images and browse them in a fullscreen mode with a keyboard- and mouse-friendly user interface.
+
+This image archive viewer is built in Python and uses Qt for its user interface. 
+
+It can be used for viewing comic books, photo collections, or any image archives.
+
+## Features
+
+- View images from ZIP, RAR, CBR and CBZ archives (PNG, JPG)
+- Fullscreen view
+- Mouse and keyboard navigation
+- Zoom and pan with mouse or keyboard
+
+The list of files in the archive is sorted alphabetically upon loading.
+
+To see help in the application press "H" at any time.
+
+## Supported Formats
+
+### Archive Formats
+
+- **CBR files** (`.cbr`) - Comic Book RAR files
+- **CBZ files** (`.cbz`) - Comic Book ZIP files
+- **RAR files** (`.rar`) - RAR archives
+- **ZIP files** (`.zip`) - ZIP archives
+
+### Image Formats
+
+- PNG (`.png`)
+- JPEG (`.jpg`, `.jpeg`)
+
+## Installation
+
+### Compatibility
+
+ComicView works with:
+- Linux
+- macOS
+- Microsoft Windows
+
+### Prerequisites
+
+- Python 3.8 or higher
+- unrar (for reading CBR and RAR files)
+
+### Dependencies
+
+- PyQt5
+- Pillow
+- rarfile (for reading CBR and RAR files)
+
+The application will fail reading CBR and RAR files if `unrar` is not installed.
+- for macOS and Linux: `unrar` can be installed using a package manager (e.g. Homebrew on macOS)
+- for Windows: download `unrar` from the [RARLab site](https://www.rarlab.com/rar_add.htm) and put it in a folder on the system search PATH.
+
+### Install from PyPI
+
+You can install `ComicView` as a `uv` tool and then run it directly from shell:
+
+```
+uv tool install image-archive-viewer
+```
+
+The application installed this way will be available globally on the command line.
+This installation method requires the [uv package manager](https://docs.astral.sh/uv/) for Python.
+
+You can also install `ComicView` using `pip` or `uv pip` command, typically inside a Python virtual environment:
+
+```
+pip install image-archive-viewer
+```
+
+Using `uv pip`:
+
+```
+uv pip install image-archive-viewer
+```
+
+## Usage
+
+After installation, run the viewer:
+
+```bash
+comic_view
+```
+
+You will be prompted to select a comic book or archive file containing images. The viewer will open in a fullscreen mode.
+
+## Controls
+
+### Navigation
+- **Right Arrow** or **Space**: Next image
+- **Left Arrow**: Previous image
+- **Q** or **Esc**: Quit
+
+### Zoom
+- **+** or **=**: Zoom in
+- **-**: Zoom out
+- **0**: Reset zoom to fit window
+- **Mouse wheel**: Zoom in/out (centered on cursor)
+
+### Panning
+- **W**: Pan down
+- **S**: Pan up
+- **A**: Pan right
+- **D**: Pan left
+- **Mouse drag**: Pan image (when zoomed in)
+
+### Other
+- **H**: Show/hide help information 
+- **O**: Open a new archive file
+
+## Tips
+
+- Press **H** anytime to see a help screen with all available controls
+- Use **0** to quickly reset zoom and fit the image to the window
+- The mouse wheel zooms centered on your cursor position for precise control
+- When zoomed in, you can drag with the mouse to pan around the image
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
