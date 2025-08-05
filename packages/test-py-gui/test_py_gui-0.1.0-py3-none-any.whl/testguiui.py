@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+import pathlib
+import tkinter as tk
+import pygubu
+
+PROJECT_PATH = pathlib.Path(__file__).parent
+PROJECT_UI = PROJECT_PATH / "test-py.ui"
+RESOURCE_PATHS = [PROJECT_PATH]
+
+
+class TestGUIUI:
+    def __init__(
+        self,
+        master=None,
+        translator=None,
+        on_first_object_cb=None,
+        data_pool=None
+    ):
+        self.builder = pygubu.Builder(
+            translator=translator,
+            on_first_object=on_first_object_cb,
+            data_pool=data_pool
+        )
+        self.builder.add_resource_paths(RESOURCE_PATHS)
+        self.builder.add_from_file(PROJECT_UI)
+        # Main widget
+        self.mainwindow: tk.Toplevel = self.builder.get_object(
+            "Toplevel1", master)
+        self.builder.connect_callbacks(self)
+
+    def run(self):
+        self.mainwindow.mainloop()
+
+    def clickMe(self):
+        pass
