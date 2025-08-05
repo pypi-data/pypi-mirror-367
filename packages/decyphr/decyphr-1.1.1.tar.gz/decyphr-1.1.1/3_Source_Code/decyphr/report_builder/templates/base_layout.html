@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decyphr Analysing</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+    <style>
+        {{ embedded_css | safe }}
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="logo-text">Decyphr</h1>
+            </div>
+            <nav class="top-nav">
+                <ul>
+                    {% for section_id, section_title in sections %}
+                        <li><a href="#" data-section-id="{{ section_id }}" class="nav-link {% if loop.first %}active{% endif %}"><span class="shiny-text">{{ section_title }}</span></a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <div class="header-right">
+                <button class="theme-toggle-button" id="theme-toggle" aria-label="Toggle theme">
+                    <span class="icon-sun"></span>
+                    <span class="icon-moon"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="report-header">
+            <h2>Analysis Dashboard</h2>
+            <p>Dataset: <strong>{{ dataset_name }}</strong> &nbsp;&middot;&nbsp; Generated: {{ generation_date }}</p>
+        </div>
+
+        {% for section_id, section_content in sections_data.items() %}
+            <div class="content-panel {% if loop.first %}active{% endif %}" id="panel-{{ section_id }}">
+                <h3 class="section-title">{{ section_content.title }}</h3>
+                
+                {% if section_content.details_html %}
+                    <div class="details-container">
+                        {{ section_content.details_html | safe }}
+                    </div>
+                {% endif %}
+
+                {% if section_content.visuals_count > 0 %}
+                    <div class="content-grid">
+                        {% for i in range(section_content.visuals_count) %}
+                            <div class="analysis-card">
+                                <div class="plot-placeholder" id="plot-{{ section_id }}-{{ i }}"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </main>
+    
+    <footer class="app-footer">
+        <p>Decyphr v{{ decyphr_version }} &middot; Designed by Ayush Singh</p>
+    </footer>
+
+    <script id="plot-data" type="application/json">
+        {{ all_plots_data_json | safe }}
+    </script>
+    
+    <script>
+        {{ embedded_js | safe }}
+    </script>
+</body>
+</html>
