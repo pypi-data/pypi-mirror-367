@@ -1,0 +1,271 @@
+Metadata-Version: 2.4
+Name: ai-shell-cli
+Version: 0.1.0
+Summary: AI-Powered Interactive Shell - Convert natural language to shell commands
+Home-page: https://github.com/ai-shell/ai-shell
+Author: AI-shell Team
+Author-email: AI-shell Team <contact@ai-shell.dev>
+Maintainer-email: AI-shell Team <contact@ai-shell.dev>
+License: MIT
+Project-URL: Homepage, https://github.com/ai-shell/ai-shell
+Project-URL: Documentation, https://github.com/ai-shell/ai-shell#readme
+Project-URL: Repository, https://github.com/ai-shell/ai-shell
+Project-URL: Issues, https://github.com/ai-shell/ai-shell/issues
+Keywords: shell,ai,cli,terminal,automation,command-line
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Shells
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# AI-shell - AI-Powered Interactive Shell
+
+🧠 **AI-shell** is an interactive command-line shell that accepts natural language input and suggests equivalent shell commands using an LLM. It behaves like a real terminal but with AI-powered command generation.
+
+## Features
+
+- 🤖 **AI-powered**: Uses OpenAI API with GPT-4o-mini for intelligent command generation
+- 🛡️ **Safety first**: Built-in safety checker to detect potentially dangerous commands
+- 📝 **Command logging**: All interactions are logged to `~/.ai_shell_history.log`
+- 🎨 **Rich UI**: Beautiful terminal interface with colors and formatting
+- 🔍 **Interactive**: Real-time command generation and execution
+- 📖 **Help system**: Built-in help and history commands
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install ai-shell
+```
+
+### From Source
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd AI-shell
+   ```
+
+2. **Install in development mode:**
+   ```bash
+   pip install -e .
+   ```
+
+3. **Set up your OpenAI API key:**
+   ```bash
+   # Run the setup script
+   ./setup_env.sh
+   
+   # Edit the .env file with your API key
+   nano .env
+   ```
+
+### Quick Start
+
+After installation, you can start the shell with:
+
+```bash
+ai-shell
+```
+
+Or run the demo mode:
+
+```bash
+ai-shell-demo
+```
+
+## Usage
+
+### Starting the Shell
+
+```bash
+ai-shell
+```
+
+You'll see a prompt like:
+```
+AI-shell> 
+```
+
+### Natural Language Queries
+
+Type natural language descriptions of what you want to do:
+
+```bash
+AI-shell> find all PDF files larger than 10MB
+💡 Suggested: find . -name "*.pdf" -size +10M
+Run this command? [y/N]: y
+📤 Executing...
+✅ Command executed successfully!
+
+📄 Output:
+./documents/report.pdf
+./downloads/manual.pdf
+```
+
+### Special Commands
+
+- `:quit` or `:exit` - Exit the shell
+- `:help` - Show help information
+- `:history` - Show recent command history
+- `:clear` - Clear the screen
+
+### Example Interactions
+
+```bash
+AI-shell> delete all .zip files in Downloads
+💡 Suggested: rm ~/Downloads/*.zip
+Run this command? [y/N]: n
+❌ Cancelled
+
+AI-shell> list all python files modified in the last 24 hours
+💡 Suggested: find . -name "*.py" -mtime -1
+Run this command? [y/N]: y
+📤 Executing...
+✅ Command executed successfully!
+
+📄 Output:
+./main.py
+./utils/llm.py
+./test_basic.py
+```
+
+## Project Structure
+
+```
+AI-shell/
+├── main.py          # Interactive shell loop
+├── llm.py           # OpenRouter API integration
+├── safety.py        # Safety checker for dangerous commands
+├── executor.py      # Command execution and logging
+├── requirements.txt # Python dependencies
+├── env.example      # Environment variables template
+├── setup_env.sh     # Environment setup script
+├── test_basic.py    # Basic functionality tests
+└── README.md        # This file
+```
+
+## Safety Features
+
+The shell includes comprehensive safety checks for:
+
+- File deletion commands (`rm -rf`, etc.)
+- System modification commands (`sudo`, `chmod 777`, etc.)
+- Dangerous redirects (`> /dev/`, `> /etc/`, etc.)
+- Shell injection patterns
+- Fork bombs and other malicious patterns
+- Network commands that pipe to shell
+
+## Command History
+
+All interactions are automatically logged to `~/.ai_shell_history.log` in JSON format:
+
+```json
+{
+  "timestamp": "2024-01-15T10:30:00",
+  "original_query": "find all PDF files",
+  "generated_command": "find . -name \"*.pdf\"",
+  "working_directory": "/home/user",
+  "user": "user"
+}
+```
+
+## API Configuration
+
+The shell uses OpenAI API with the following configuration:
+
+- **Model**: `gpt-4o-mini`
+- **Temperature**: 0.1 (for consistent command generation)
+- **Max tokens**: 500
+- **Timeout**: 30 seconds
+
+### Environment Variables
+
+You can customize the behavior using environment variables in your `.env` file:
+
+```bash
+# Required
+OPENAI_API_KEY=your_api_key_here
+
+# Optional
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_TEMPERATURE=0.1
+OPENAI_MAX_TOKENS=500
+OPENAI_TIMEOUT=30
+AISH_HISTORY_FILE=~/.ai_shell_history.log
+AISH_DEBUG=false
+```
+
+## Testing
+
+Run the basic tests to verify functionality:
+
+```bash
+python test_basic.py
+```
+
+## Error Handling
+
+- Network timeouts and API errors are handled gracefully
+- Dangerous commands trigger warnings but don't prevent execution
+- Command execution has a 5-minute timeout
+- Failed commands are logged with error details
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Disclaimer
+
+⚠️ **Use at your own risk!** While this tool includes safety checks, it's still possible to generate and execute dangerous commands. Always review generated commands before execution.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **API Key Error**: Make sure `OPENAI_API_KEY` is set correctly in `.env`
+2. **Import Errors**: Install dependencies with `pip install -r requirements.txt`
+3. **Network Issues**: Check your internet connection and API endpoint accessibility
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check the command history: `cat ~/.ai_shell_history.log`
+2. Verify your API key is set: `echo $OPENAI_API_KEY`
+3. Run tests: `python test_basic.py`
+4. Check the help: `:help` in the shell 
