@@ -1,0 +1,37 @@
+name: Examples and docs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.13
+      - name: Install Tox
+        run: pip install tox
+      - name: Run examples
+        run: tox -e examples
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.13
+      - name: Install Tox
+        run: pip install tox
+      - name: Build docs
+        run: tox -e build_docs
