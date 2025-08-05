@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: cartagon-monday-client
+Version: 0.1.3
+Summary: Cliente Python para integraciones con la API GraphQL de Monday.com
+Author-email: Miguel Diaz <mpsdiaz@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/MiguelDN/cartagon-monday-client/settings
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: responses>=0.18; extra == "dev"
+
+# 🧩 Cartagon Monday Client
+
+Cliente Python para interactuar con la API GraphQL de [Monday.com](https://monday.com) de forma sencilla, con reintentos automáticos, manejo de errores y utilidades avanzadas.
+
+## 🚀 Instalación
+
+```bash
+pip install cartagon-monday-client
+```
+
+## 🔑 Requisitos
+
+Necesitas una API Key válida de Monday.com con acceso a los tableros que quieres consultar o modificar.
+
+## ✨ Características principales
+
+- Manejo automático de errores y reintentos (`ComplexityException`, `403`, `5xx`, etc.)
+- Acceso a tableros, ítems, columnas y subítems
+- Creación y actualización de ítems/subítems
+- Consultas con paginación y filtrado por columnas
+- Fragmentos predefinidos para todas las columnas comunes
+- Eliminación segura de ítems
+
+## 🧱 Uso básico
+
+```python
+from cartagon_monday_client import MondayClient
+
+client = MondayClient(api_key="TU_API_KEY")
+
+# Verificar conexión
+if client.test_connection():
+    print("Conexión OK")
+
+# Obtener tableros
+boards = client.get_boards(limit=5)
+
+# Crear un ítem
+item = client.create_item(board_id=12345, item_name="Nuevo item")
+```
+
+## 🔧 Funcionalidades disponibles
+
+### Autenticación y Conexión
+- `test_connection()`: Verifica si la API Key es válida.
+
+### Tableros
+- `get_boards(limit=10, page=1, fields=None)`: Lista de tableros.
+- `board_columns(board_id)`: Columnas de un tablero.
+
+### Ítems y Subítems
+- `get_all_items(board_id, ...)`: Ítems con paginación por cursor.
+- `get_items_by_column_value(...)`: Filtrado por valor de columna.
+- `get_item(item_id, columns_ids=None)`: Obtener ítem por ID.
+- `create_item(...)`: Crear un nuevo ítem.
+- `create_subitem(...)`: Crear subítem.
+- `update_simple_column_value(...)`: Modificar valor de columna simple.
+- `update_multiple_column_values(...)`: Modificar varias columnas.
+- `delete_item(item_id)`: Eliminar ítem.
+
+### Columnas
+- `item_columns(item_id)`: Columnas de un ítem.
+- `subitems_columns(board_id)`: Columnas de subítems de un tablero.
+
+## 🛠 Excepciones
+
+El cliente lanza `MondayAPIError` cuando ocurre un fallo en la API de Monday.com.
+
+```python
+from cartagon_monday_client.exceptions import MondayAPIError
+```
+
+## 🧪 Tests
+
+(Agrega aquí si tienes tests automatizados, o deja este bloque para el futuro)
+
+---
+
+## 📝 Licencia
+
+MIT License. Desarrollado por el equipo de Cartagon.
