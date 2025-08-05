@@ -1,0 +1,87 @@
+Metadata-Version: 2.4
+Name: skabelon
+Version: 1.1.0
+Summary: Create complex document templates using Jinja2
+Author-email: rmk2 <ryko@rmk2.org>
+License-Expression: Apache-2.0
+Project-URL: Repository, https://gitlab.com/rmk2/skabelon
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jinja2~=3.1
+Requires-Dist: pyyaml~=6.0
+Dynamic: license-file
+
+# skabelon
+
+Skabelon ([sɡ̊ɑb̥əˈloːˀn]), from the Danish word for "template", is a python package to create complex document
+templates. It wraps the [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/) library and enriches its default filters
+with sensible options for converting Python types to Markdown and LaTeX (e.g. for lists and tables).
+
+## Usage
+
+### Filters
+
+Filters (i.e. Jinja2 functions) can be called like any filter within a Jinja2 template, and are designed to be used
+directly with corresponding Python types.
+
+#### Example: *_list
+
+For example, both `latex_list` and `markdown_list` accept a list of strings
+(or any other type that can be represented as a string) and transform them into appropriate templated strings during
+rendering.
+
+Assume that our Python list looks like this: `foo = ["foo", "bar", "baz"]`. In a Markdown Jinja2 template, applying the
+filter could like this:
+
+```
+# My rendered list
+
+This example renders a markdown list:
+
+{{ foo | markdown_list }}
+```
+
+Which would result in the following rendered output:
+
+```markdown
+# My rendered list
+
+This example renders a markdown list:
+
+- foo
+- bar
+- baz
+```
+
+For LaTeX templates, the template and outlook would look like this:
+
+```
+\section{My rendered list}
+
+This example renders a \LaTeX list:
+
+{{ foo | latex_list }}
+```
+
+Which accordingly would result in the following rendered output:
+
+```latex
+\section{My rendered list}
+
+This example renders a \LaTeX list:
+
+\begin{itemize}
+\item foo
+\item bar
+\item baz
+\end{itemize}
+```
+
+Both rendered outputs could then be processed further with their respective toolchains, e.g. a Markdown renderer, or a
+LaTeX toolchain matching the overall templated contents (e.g., LuaLaTeX).
+
+## Development
+
+This project is written in python3. It uses `pipenv` for dependency management, `pytest` for testing, and `black` for
+formatting.
