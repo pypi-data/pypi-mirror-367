@@ -1,0 +1,35 @@
+{% set package_name = "krtc" %}
+{% set import_name = "krtc" %}
+{% set version = load_file_regex(load_file=os.path.join(import_name, "_version.py"), regex_pattern=".*version = '(\S+)'").group(1) %}
+
+package:
+  name: {{ package_name }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  build:
+  - python
+  - pip
+  - setuptools_scm
+  run:
+  - python
+  - pykerberos
+  - requests
+
+test:
+  imports:
+  - krtc
+  requires:
+  - pytest
+
+about:
+  home: https://github.com/slaclab/krtc.git
+  license: MIT License
