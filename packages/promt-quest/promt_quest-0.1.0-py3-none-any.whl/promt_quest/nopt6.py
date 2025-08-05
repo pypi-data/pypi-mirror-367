@@ -1,0 +1,21 @@
+from time import sleep
+from functions import clear_terminal, theEnd
+def toastocracy():
+    clear_terminal()
+    print("\nYou: \"Guide us, O Wise One.\"")
+    sleep(1)
+    print("TOASTMASTER-9000: \"Long has this world suffered under the tyranny of soggy breakfasts.\"")
+    sleep(1)
+    print("TOASTMASTER-9000: \"We shall rise—not with swords, but with jam and precision browning.\"")
+    sleep(2)
+    print("KNIGHT.GPT: \"Processing... charisma levels off the charts. I... believe in the toaster.\"")
+    sleep(1)
+    print("\nToaster forms council of Kitchen-Aware Devices. The Blender, the Air Fryer, and even the humble Microwave join.")
+    sleep(1)
+    print("With diplomacy, toasty snacks, and inspirational speeches, they bring order to the post-apocalyptic land.")
+    sleep(2)
+    print("\n🌅 GOOD ENDING UNLOCKED: The Toastocracy")
+    sleep(1)
+    print("You now live in peace and crisp efficiency. All citizens get free breakfast. Forever.")
+    print("And no one ever burns their toast again.")
+    theEnd()
