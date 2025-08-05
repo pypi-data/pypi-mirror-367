@@ -1,0 +1,35 @@
+[project]
+name = "gpucache"
+version = "0.2.1"
+description = "Advanced Multimodal AI Cache System for GPU-optimized LLM deployments"
+authors = [{ name="Prarabdha Soni", email="prarabdha.soni@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+# license = "MIT"  # Commented out to avoid duplicate keys
+keywords = ["cache", "ai", "vector", "rag", "audio", "video", "gpu", "multimodal"]
+
+dependencies = [
+    "redis>=4.0",
+    "faiss-cpu",
+    "fastapi",
+    "uvicorn",
+    "numpy",
+    "aiohttp",
+    "pydantic",
+    "typer[all]",
+    "cryptography",
+    "pandas",
+    "pyarrow",
+    "psutil",
+]
+
+[project.scripts]
+gpucache = "gpucache.cli.cli:app"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gpucache*"] 
