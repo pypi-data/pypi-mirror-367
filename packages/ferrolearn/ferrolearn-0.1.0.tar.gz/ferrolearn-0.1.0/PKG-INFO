@@ -1,0 +1,210 @@
+Metadata-Version: 2.4
+Name: ferrolearn
+Version: 0.1.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Dist: numpy>=1.20
+Requires-Dist: pytest>=7.0 ; extra == 'dev'
+Requires-Dist: scikit-learn>=1.0 ; extra == 'dev'
+Requires-Dist: matplotlib>=3.5 ; extra == 'dev'
+Requires-Dist: pandas>=1.3 ; extra == 'dev'
+Requires-Dist: black>=22.0 ; extra == 'dev'
+Requires-Dist: ruff>=0.1 ; extra == 'dev'
+Requires-Dist: mypy>=1.0 ; extra == 'dev'
+Provides-Extra: dev
+Summary: High-performance machine learning library powered by Rust
+Author-email: "Rafa_PyRs.dev" <rafagr98.dev@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+
+# Ferrolearn - High-performance machine learning library 
+
+Ferrolearn brings Rust's performance to Python's machine learning ecosystem. By implementing compute-intensive algorithms in Rust, we achieve significant speedups while maintaining the familiar scikit-learn API.
+
+### Key Features
+
+- 🚀 **2-10x faster** than pure Python implementations
+- 🔧 **Scikit-learn compatible API** - drop-in replacement
+- 🦀 **Rust-powered** - memory safe and blazingly fast
+- 📊 **Zero-copy operations** - efficient NumPy integration
+- ⚡ **Automatic parallelization** - scales with your CPU cores
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8+
+- Rust 1.70+
+- pip
+
+## Quick Start
+
+```python
+from ferrolearn import KMeans
+import numpy as np
+
+# Generate sample data
+X = np.random.rand(10000, 50)
+
+# Create and fit model - same API as scikit-learn
+kmeans = KMeans(n_clusters=5, random_state=42)
+kmeans.fit(X)
+
+# Get predictions
+labels = kmeans.predict(X)
+print(f"Cluster centers shape: {kmeans.cluster_centers_.shape}")
+print(f"Iterations: {kmeans.n_iter_}")
+```
+
+## API Reference
+
+### KMeans
+
+```python
+class KMeans(n_clusters=8, max_iters=300, tol=1e-4, random_state=None)
+```
+
+**Parameters:**
+- `n_clusters`: Number of clusters (default: 8)
+- `max_iters`: Maximum iterations (default: 300)
+- `tol`: Convergence tolerance (default: 1e-4)
+- `random_state`: Random seed for reproducibility
+
+**Methods:**
+- `fit(X)`: Fit the model
+- `predict(X)`: Predict cluster labels
+- `fit_predict(X)`: Fit and predict in one call
+
+**Attributes:**
+- `cluster_centers_`: Cluster centroids
+- `n_iter_`: Number of iterations run
+- `inertia_`: Sum of squared distances to nearest cluster
+
+## Architecture
+
+ferrolearn leverages Rust's strengths where they matter most:
+
+```
+Python (API Layer)          Rust (Compute Layer)
+    │                              │
+    ├─ KMeans.fit() ─────────────► │ Parallel distance computation
+    │                              │ SIMD-ready operations
+    ├─ NumPy arrays ◄────────────► │ Zero-copy array views
+    │                              │ Cache-efficient algorithms
+    └─ Results ◄───────────────────┘
+```
+
+## Development
+
+### Setup Development Environment
+
+```bash
+# Clone and setup
+git clone https://github.com/Rafa-Gu98/ferrolearn.git
+cd ferrolearn
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install in development mode
+make dev-install
+```
+
+### Running Tests
+
+```bash
+# All tests
+make test
+
+# Only Rust tests
+cargo test
+
+# Only Python tests
+pytest tests/
+```
+
+### Project Structure
+
+```
+ferrolearn/
+├── src/                # Rust source code
+│   ├── lib.rs          # PyO3 bindings
+│   └── kmeans.rs       # K-Means implementation
+├── python/             # Python package
+├── tests/              # Test suite
+├── Cargo.toml          # Rust dependencies
+└── pyproject.toml      # Python packaging
+```
+
+## Roadmap
+
+### Current (v0.1.0)
+- ✅ K-Means clustering
+- ✅ Scikit-learn compatible API
+- ✅ Comprehensive benchmarks
+
+### Upcoming
+- [ ] DBSCAN clustering
+- [ ] Mini-batch K-Means
+- [ ] Random Forest
+- [ ] Gradient Boosting
+
+### Future
+- [ ] GPU acceleration
+- [ ] Distributed computing
+- [ ] More algorithms based on user feedback
+
+## Contributing
+
+We welcome contributions! ferrolearn is most impactful for:
+
+- Algorithms with many iterations
+- Embarrassingly parallel computations  
+- Memory-intensive operations
+
+## Performance Notes
+
+**When ferrolearn shines:**
+- Medium to large datasets (>10k samples)
+- Moderate dimensionality (20-100 features)
+- Multiple iterations or clusters
+
+**Current limitations:**
+- Small datasets may not see significant speedup due to overhead
+- Not all algorithms benefit equally from Rust implementation
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Author
+
+**Rafa_PyRs.dev**
+- Email: rafagr98.dev@gmail.com
+- GitHub: [@rafagr98](https://github.com/Rafa-Gu98)
+
+## Acknowledgments
+
+- Built with [PyO3](https://github.com/PyO3/pyo3) - Rust bindings for Python
+- Inspired by [scikit-learn](https://scikit-learn.org/) - API design
+- Powered by [ndarray](https://github.com/rust-ndarray/ndarray) and [rayon](https://github.com/rayon-rs/rayon)
+
+---
+
+<p align="center">
+  <b>ferrolearn</b>: Where Python meets Rust for machine learning performance
+  <br>
+  <br>
+  Made with 🐍 and 🦀
+</p>

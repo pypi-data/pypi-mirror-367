@@ -1,0 +1,29 @@
+[package]
+name = "ferrolearn"
+version = "0.1.0"
+edition = "2021"
+authors = ["Rafa_PyRs.dev <rafagr98.dev@gmail.com>"]
+description = "High-performance machine learning library powered by Rust"
+license = "MIT"
+repository = "https://github.com/Rafa-Gu98/ferrolearn"
+
+[lib]
+name = "ferrolearn"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.21", features = ["extension-module"] }
+numpy = "0.21"
+ndarray = { version = "0.15", features = ["rayon"] }
+rayon = "1.8"
+rand = "0.8"
+rand_chacha = "0.3"
+
+[dev-dependencies]
+approx = "0.5"
+criterion = "0.5"
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
