@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trpl-m"
+version = "2.1.0"
+description = "Practice mental math in the terminal."
+readme = "README.md"
+requires-python = ">=3.11"
+
+authors = [
+    {name = "Grant Achuzia", email = "grant.achuzia@lumetnum.com"},
+]
+
+dependencies = [
+    "markdown-it-py>=3.0.0",
+    "mdurl>=0.1.2",
+    "Pygments>=2.19.1",
+    "rich>=13.9.4",
+    "setuptools>=78.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "black>=25.1.0",
+    "flake8>=7.2.0",
+    "pre-commit>=2.20.0",
+]
+
+[project.scripts]
+trpl-m = "trplm.trplm:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["trplm*", "trplm.*"]
