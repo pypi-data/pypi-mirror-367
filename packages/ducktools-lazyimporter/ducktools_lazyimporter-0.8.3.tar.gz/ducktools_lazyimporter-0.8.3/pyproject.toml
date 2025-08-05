@@ -1,0 +1,58 @@
+[build-system]
+requires = [
+    "setuptools>=64",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="ducktools-lazyimporter"
+description="LazyImporter class to manage imports on attribute access."
+authors = [
+  { name="David C Ellis" },
+]
+readme="README.md"
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+dynamic = ['version']
+
+[project.urls]
+Homepage = "https://github.com/davidcellis/ducktools-lazyimporter"
+
+[project.optional-dependencies]
+docs = [
+    "sphinx>=8.1", 
+    "myst-parser>=4.0", 
+    "sphinx_rtd_theme>=3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4",
+    "pytest-cov>=6.1",
+    "mypy>=1.16",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ducktools.lazyimporter.__version__"}
+
+[tool.black]
+skip-string-normalization = true
+
+[tool.pytest.ini_options]
+addopts= "--cov=src/ --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
