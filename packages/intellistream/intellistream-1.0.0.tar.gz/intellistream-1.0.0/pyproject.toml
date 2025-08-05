@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intellistream"
+version = "1.0.0"
+description = "IntelliStream Platform - Next-Generation Stream Processing Framework"
+readme = "README.md"
+requires-python = ">=3.10"
+
+license = {text = "MIT"}
+
+authors = [
+    {name = "IntelliStream Team", email = "sage@intellistream.cc"},
+]
+maintainers = [
+    {name = "IntelliStream Team", email = "sage@intellistream.cc"},
+]
+
+keywords = ["stream processing", "real-time", "data streams", "analytics", "machine learning"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research", 
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11", 
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+]
+
+# 依赖所有子模块
+dependencies = [
+    "intellistream-sage-kernel>=1.0.0",
+    "intellistream-sage-middleware>=1.0.0", 
+    "intellistream-sage-userspace>=1.0.0",
+    "intellistream-sage>=1.0.0",
+]
+
+# 可选依赖
+[project.optional-dependencies]
+dev = [
+    "intellistream-dev-toolkit>=1.0.0",
+]
+frontend = [
+    "intellistream-frontend>=1.0.0",
+]
+all = [
+    "intellistream-dev-toolkit>=1.0.0",
+    "intellistream-frontend>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/intellistream/SAGE"
+Documentation = "https://intellistream.github.io/SAGE/"
+Repository = "https://github.com/intellistream/SAGE.git"
+Issues = "https://github.com/intellistream/SAGE/issues"
+Changelog = "https://github.com/intellistream/SAGE/releases"
+
+[project.scripts]
+intellistream = "intellistream.cli:main"
+
+[tool.setuptools]
+py-modules = ["intellistream"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["intellistream*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
