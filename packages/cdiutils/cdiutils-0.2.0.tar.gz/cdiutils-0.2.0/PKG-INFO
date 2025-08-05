@@ -1,0 +1,171 @@
+Metadata-Version: 2.4
+Name: cdiutils
+Version: 0.2.0
+Summary: A Python package for (Bragg) Coherent X-ray Diffraction Imaging processing, analysis and visualisation workflows.
+Author: Corentin Chatelier, David Simonne, Matthieu Deschamps, Kyle Olson
+Author-email: Clement Atlan <clement.atlan@esrf.fr>
+Maintainer-email: Clement Atlan <clement.atlan@esrf.fr>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/clatlan/cdiutils
+Keywords: reconstruction,coherent X-ray imaging,Bragg,pipeline,synchrotron radiation,quantitative analysis
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: colorcet>=3.0.0
+Requires-Dist: h5py>=3.6.0
+Requires-Dist: hdf5plugin>=3.2.0
+Requires-Dist: ipykernel
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: numpy
+Requires-Dist: pandas>=1.4.2
+Requires-Dist: scikit-image>=0.19.2
+Requires-Dist: scikit-learn>=1.1.3
+Requires-Dist: scipy>=1.8.0
+Requires-Dist: seaborn>=0.12.1
+Requires-Dist: silx
+Requires-Dist: tabulate
+Requires-Dist: xrayutilities>=1.7.3
+Requires-Dist: ipyvolume
+Requires-Dist: ipython_genutils
+Requires-Dist: bokeh
+Requires-Dist: panel
+Requires-Dist: tornado
+Provides-Extra: vtk
+Requires-Dist: vtk>=9.0.1; extra == "vtk"
+Dynamic: license-file
+
+# cdiutils
+
+[![DOI](https://zenodo.org/badge/360442527.svg)](https://zenodo.org/badge/latestdoi/360442527)
+
+[![License](https://img.shields.io/github/license/clatlan/cdiutils)](https://github.com/clatlan/cdiutils/blob/main/LICENSE)
+
+My python package to help X-ray Bragg Coherent Diffraction Imaging (BCDI) practitioners in their analysis and visualisation workflows. I developed the package during my PhD.
+
+The package is designed to handle the three primary stages of a BCDI data processing workflow:
+
+* **Pre-processing** (data centering and cropping)
+* **Phase retrieval**: utilises  PyNX for accurate phasing (refer to [PyNX documentation](https://pynx.esrf.fr/en/latest/)).
+* **Post-processing** (orthogonalisation, phase manipulation, strain computation etc.)
+
+It is assumed that the phase retrieval is conducted using the PyNX package. The `BcdiPipeline` class runs all three stages and can manage connections to different machines, especially for GPU-based phase retrieval.
+
+Some features of this package include:
+
+* **Flexibility in Hardware:** While the phase retrieval stage may leverage GPUs, pre- and post-processing can be executed without GPU support.
+* **Utility Functions:** The package provides utility functions to analyse processed data and generate plots suitable for potential publications.
+
+For a visual wrap-up, see the associated poster presented at [XTOP24](https://xtop2024.sciencesconf.org/):
+![xtop_poster](https://github.com/clatlan/cdiutils/blob/master/images/XTOP_24_cdiutils_poster_200_dpi.png)
+
+
+## Installation
+
+### Using conda (recommended)
+
+Create a new conda environment with all dependencies:
+
+```bash
+# Clone the repository first
+git clone https://github.com/clatlan/cdiutils.git
+cd cdiutils
+
+# Create conda environment from environment.yml
+conda env create -f environment.yml
+
+# Activate the environment
+conda activate cdiutils
+
+# Install cdiutils in development mode
+pip install -e .
+```
+
+For development (includes documentation and testing tools):
+
+```bash
+# Create development environment
+conda env create -f environment-dev.yml
+conda activate cdiutils-dev
+pip install -e .
+```
+
+### Using pip (from PyPI - coming soon)
+
+Once published on PyPI, you'll be able to install directly:
+
+```bash
+pip install cdiutils
+```
+
+### Using pip (from GitHub - current method)
+
+You can install the package directly from GitHub:
+
+```bash
+pip install git+https://github.com/clatlan/cdiutils.git
+```
+
+To update your environment with the latest commits:
+
+```bash
+pip install -I --no-deps git+https://github.com/clatlan/cdiutils.git
+```
+
+_Note: Check out the dev branch for the latest features and bug fixes. The dev branch is not guaranteed to be stable._
+
+Upgrade your environment with a new version of the package:
+
+```bash
+pip install -U git+https://github.com/clatlan/cdiutils.git
+```
+
+## Getting started
+
+Once the package is installed, you can try it right away using the notebook template directly accessible with the command:
+
+```bash
+prepare_bcdi_notebook [path_to_destination]
+```
+
+This will generate a notebook template at the given destination.
+
+## Processing BCDI data
+
+Once data are processed, the `BcdiPipeline` instance saves the data in .npz, .cxi and .vti files following the CXI file format convention (see [https://www.cxidb.org/cxi.html]()). It also plots summary and debug figures such as:
+
+* **Summary Slice Plot**
+  ![summary](https://github.com/clatlan/cdiutils/blob/master/images/cdiutils_S311_summary_slice_plot.png)
+* **Isosurface determination**
+  ![isosurface](https://github.com/clatlan/cdiutils/blob/master/images/cdiutils_S311_amplitude_distribution_plot.png)
+* **Different strain computation methods**
+  ![strain](https://github.com/clatlan/cdiutils/blob/master/images/cdiutils_S311_different_strain_methods.png)
+
+## BCDI reconstruction analysis
+If want to analyse and compare your reconstructions, check out the example notebook [bcdi_reconstruction_analysis.ipynb](https://github.com/clatlan/cdiutils/blob/master/examples/bcdi_reconstruction_analysis.ipynb) in the `examples` folder. This notebook provides a comprehensive overview of the analysis process, including:
+* **Slice plots of any quantity you like (here phase) across different conditions:**
+  ![](https://github.com/clatlan/cdiutils/blob/master/images/multi_slice_plots_phase.png)
+
+
+* **Reciprocal space plots in the orthogonal frame (lab frame)**
+  ![](https://github.com/clatlan/cdiutils/blob/master/images/reciprocal_space_q_lab.png)
+
+* **Histogram plots of any quantity you like across different conditions:**
+  ![](https://github.com/clatlan/cdiutils/blob/master/images/strain_histograms.png)
+
+
+## Cross section quiver
+The cross section quiver is nice tool for visualising the strain and displacement fields and their relationship in BCDI data. 
+
+* The cross section quiver allows to plot cross section of strain and displacement field on the same plot.
+  ![Cross Section Quiver](https://github.com/clatlan/cdiutils/blob/master/images/cross_section_quiver.png)
+* For different conditions
+  ![Quivers](https://github.com/clatlan/cdiutils/blob/master/images/multi_cross_sections.png)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+If you encounter any issues or have questions, please open an issue on the [GitHub repository](https://github.com/clatlan/cdiutils/issues).
+
