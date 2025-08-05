@@ -1,0 +1,44 @@
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[project]
+name = "felix_django"
+description = "Felix' Django stuff"
+version = "1.0.1"
+readme = "README.md"
+authors = [{ name = "Felix Hummel", email = "felix@felixhummel.de" }]
+requires-python = ">=3.11"
+dependencies = [
+    "django",
+    "structlog",
+]
+
+[project.urls]
+Repository = "https://gitlab.com/felixhummel/felix-django/"
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "single"
+
+[dependency-groups]
+dev = [
+    "uv-build>=0.8.4",
+    "bump2version",
+    "cython",          # for pycharm debugger extensions
+    "django-types",
+    "ipython",
+    "mypy",
+    "pip-tools",
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "ruff",
+    "ty",
+]
+
+# basedpyright less strict
+[tool.pyright]
+typeCheckingMode = "basic"
