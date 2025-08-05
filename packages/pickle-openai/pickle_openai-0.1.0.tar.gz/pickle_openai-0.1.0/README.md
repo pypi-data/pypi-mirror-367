@@ -1,0 +1,59 @@
+# pickle-openai
+
+[![PyPI version](https://badge.fury.io/py/pickle-openai.svg)](https://badge.fury.io/py/pickle-openai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Securely serialize and deserialize OpenAI client instances.
+
+This library allows you to safely store your OpenAI client configuration (including API keys) in an encrypted format. It uses `pickle` for serialization and `cryptography` for strong encryption, requiring a password to protect your data.
+
+## Installation
+
+```bash
+pip install pickle-openai
+```
+
+## Usage
+
+Here's how to securely dump an `OpenAI` client to an encrypted string and load it back.
+
+```python
+import os
+from pickle_openai import PickledOpenAI
+from openai import OpenAI
+
+# 1. Initialize your OpenAI client
+# Make sure OPENAI_API_KEY is set in your environment
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+# 2. Create a PickledOpenAI instance from your client
+pickled_client = PickledOpenAI.from_openai(client)
+
+# 3. Dump the client to a password-protected, encrypted string
+password = "your-strong-password"
+encrypted_string = pickled_client.pickle_dumps(password)
+
+print(f"Encrypted client string: {encrypted_string}")
+
+# You can now store this encrypted_string safely.
+
+# 4. Load the client back from the encrypted string
+loaded_pickled_client = PickledOpenAI.pickle_loads(encrypted_string, password)
+
+# 5. Recreate the OpenAI client
+recreated_client = loaded_pickled_client.to_openai_sync()
+
+# The recreated client is ready to use
+response = recreated_client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello world!"}],
+)
+print(f"OpenAI API Response: {response.choices[0].message.content}")
+
+```
+
+This works for both `openai.OpenAI` and `openai.AzureOpenAI` clients (and their async versions).
+
+## License
+
+This project is licensed under the MIT License.
