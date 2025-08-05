@@ -1,0 +1,303 @@
+Metadata-Version: 2.4
+Name: optionc
+Version: 0.1.0
+Summary: Scala-inspired Option type for Python with functional programming utilities
+Project-URL: Homepage, https://github.com/your-username/optionc
+Project-URL: Repository, https://github.com/your-username/optionc.git
+Project-URL: Issues, https://github.com/your-username/optionc/issues
+Author: Carl You
+License: MIT
+License-File: LICENSE
+Keywords: functional,maybe,monads,option,programming,scala
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Provides-Extra: dev
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Provides-Extra: underscorec
+Requires-Dist: underscorec; extra == 'underscorec'
+Description-Content-Type: text/markdown
+
+# optionc
+
+A Scala-inspired Option type for Python, providing `Some` and `Nil` types for safe handling of nullable values with functional programming patterns.
+
+## Installation
+
+```bash
+pip install optionc
+```
+
+## Quick Start
+
+```python
+from optionc import Option, Some, Nil
+
+# Create options (Scala-like)
+user_email = Option("john@example.com")  # Some("john@example.com")
+empty_value = Option(None)               # Nil()
+
+# Direct construction
+valid_user = Some("alice@example.com")
+no_user = Nil()
+
+# Safe transformations
+result = (user_email
+          .map(str.upper)
+          .filter(lambda s: '@' in s)
+          .map(lambda s: s.split('@')[1]))
+
+print(result.get_or_else("unknown"))  # "EXAMPLE.COM"
+```
+
+## Core Usage
+
+### Creating Options
+
+```python
+from optionc import Option, Some, Nil
+
+# From values
+Option("hello")     # Some("hello")
+Option(42)          # Some(42)  
+Option(None)        # Nil()
+Option([])          # Some([]) - empty collections are valid
+
+# Direct construction
+Some("direct")      # Some("direct")
+Nil()              # Nil()
+```
+
+### Transformations
+
+```python
+# Safe mapping
+result = Some(5).map(lambda x: x * 2)  # Some(10)
+empty = Nil().map(lambda x: x * 2)     # Nil()
+
+# Filtering
+Some(10).filter(lambda x: x > 5)       # Some(10)
+Some(3).filter(lambda x: x > 5)        # Nil()
+
+# Flat mapping for nested operations
+def divide_by_two(x):
+    return Some(x / 2) if x % 2 == 0 else Nil()
+
+Some(8).flat_map(divide_by_two)        # Some(4.0)
+Some(5).flat_map(divide_by_two)        # Nil()
+```
+
+### Exception Handling
+
+```python
+# Normal methods throw exceptions naturally
+Some("hello").map(lambda s: s.nonexistent_method())  # AttributeError
+
+# Safe variants return Nil on exceptions  
+Some("hello").map_safe(lambda s: s.nonexistent_method())  # Nil()
+
+# Available safe methods: map_safe, flat_map_safe, filter_safe, foreach_safe
+```
+
+### Extracting Values
+
+```python
+# Get with default
+Some("hello").get_or_else("default")    # "hello"
+Nil().get_or_else("default")           # "default"
+
+# Get with lazy default
+Nil().get_or_else_get(lambda: compute_default())
+
+# Unsafe get (throws on Nil)
+Some("hello").get()                    # "hello"
+Nil().get()                           # ValueError
+```
+
+## Utility Functions
+
+Common patterns for creating Options from various sources:
+
+```python
+from optionc import from_callable, from_dict_get, from_getattr
+
+# From function calls
+config = from_callable(lambda: load_config_file())  # Some(config) or Nil()
+
+# From dictionary access
+user_name = from_dict_get(data, "name", "anonymous")  # Some("anonymous") if key missing
+
+# From object attributes  
+email = from_getattr(user, "email", None)  # Some(email) or Nil()
+```
+
+### Real-World Example
+
+```python
+from optionc import Option, from_dict_get, from_getattr
+
+def process_user_data(data):
+    """Safe user data processing pipeline."""
+    return (from_dict_get(data, "user")
+            .flat_map(lambda user: from_dict_get(user, "profile"))
+            .flat_map(lambda profile: from_dict_get(profile, "email"))
+            .filter(lambda email: "@" in email)
+            .map(lambda email: email.lower())
+            .get_or_else("no-email@example.com"))
+
+# Usage
+user_data = {
+    "user": {
+        "profile": {
+            "email": "ALICE@EXAMPLE.COM"
+        }
+    }
+}
+
+result = process_user_data(user_data)  # "alice@example.com"
+result = process_user_data({})         # "no-email@example.com"
+```
+
+## Decorators
+
+Automatically wrap function returns in Options:
+
+### @option
+
+Returns `Some(result)` for non-None values, `Nil()` for None. Exceptions propagate normally:
+
+```python
+from optionc import option
+
+@option
+def find_user(user_id: str) -> User:
+    return database.get(user_id)  # Returns Option[User]
+
+@option  
+def compute_discount(price: float) -> float:
+    if price < 0:
+        raise ValueError("Invalid price")
+    return price * 0.1
+
+# Usage
+user = find_user("123")  # Some(User) or Nil()
+discount = compute_discount(100.0)  # Some(10.0)
+# compute_discount(-1) raises ValueError
+```
+
+### @option_safe
+
+Same as `@option` but catches exceptions and returns `Nil()`:
+
+```python
+from optionc import option_safe
+
+@option_safe
+def parse_int(s: str) -> int:
+    return int(s)  # Some(42) or Nil() on ValueError
+
+@option_safe
+def safe_divide(a: int, b: int) -> float:
+    return a / b  # Some(result) or Nil() on ZeroDivisionError
+
+# Usage
+result = parse_int("42")        # Some(42)
+result = parse_int("invalid")   # Nil()
+result = safe_divide(10, 2)     # Some(5.0)
+result = safe_divide(10, 0)     # Nil()
+```
+
+### Decorator Chaining
+
+Decorators work seamlessly with Option methods:
+
+```python
+@option_safe
+def extract_domain(email: str) -> str:
+    if "@" not in email:
+        raise ValueError("Invalid email")
+    return email.split("@")[1]
+
+# Chain decorated functions
+result = (Option("user@EXAMPLE.com")
+          .map(str.lower)
+          .flat_map(lambda email: extract_domain(email))
+          .map(str.upper))
+
+print(result.get())  # "EXAMPLE.COM"
+```
+
+## Why use optionc?
+
+### Good for:
+- **Null safety**: Eliminate `None` checks and `AttributeError` exceptions
+- **Functional pipelines**: Chain operations without intermediate null checks  
+- **API design**: Clear contracts about nullable vs non-nullable values
+- **Error handling**: Graceful degradation with safe method variants
+
+### Integration:
+- **Type hints**: Full generic type support with `Option[T]`
+- **underscorec**: Works seamlessly with functional programming patterns
+- **Testing**: Deterministic behavior makes testing easier
+
+## API Reference
+
+### Option Methods
+
+```python
+# Checking state
+.is_defined()           # True for Some, False for Nil
+.is_empty()            # False for Some, True for Nil
+
+# Transformations
+.map(func)             # Transform value if present
+.map_safe(func)        # Transform value, Nil on exception
+.flat_map(func)        # Transform and flatten nested Options  
+.flat_map_safe(func)   # Flat map, Nil on exception
+.filter(predicate)     # Keep value if predicate matches
+.filter_safe(pred)     # Filter, Nil on exception
+
+# Extracting values
+.get()                 # Get value (throws on Nil)
+.get_or_else(default)  # Get value or default
+.get_or_else_get(func) # Get value or call function
+
+# Combining
+.or_else(alternative)  # Return self if Some, else alternative
+.or_else_get(func)     # Return self if Some, else call function
+
+# Side effects  
+.foreach(func)         # Execute function if Some
+.foreach_safe(func)    # Execute function, ignore exceptions
+```
+
+## Contributing
+
+Development setup:
+
+```bash
+# Clone and setup
+git clone https://github.com/carlyou/optionc.git
+cd optionc
+uv sync --dev
+
+# Run tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=optionc --cov-report=html
+```
+
+## Future Improvements
+
+- **Async support**: `AsyncOption` for asynchronous operations
+- **Pattern matching**: Python 3.10+ match statement integration  
+- **Serialization**: JSON/pickle support for Some/Nil instances
