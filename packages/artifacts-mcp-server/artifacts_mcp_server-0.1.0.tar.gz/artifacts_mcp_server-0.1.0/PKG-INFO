@@ -1,0 +1,228 @@
+Metadata-Version: 2.4
+Name: artifacts-mcp-server
+Version: 0.1.0
+Summary: Zero-config MCP Server for AI code artifacts with AgentSphere
+Project-URL: Homepage, https://github.com/yourusername/artifacts-mcp-server
+Project-URL: Repository, https://github.com/yourusername/artifacts-mcp-server
+Project-URL: Documentation, https://github.com/yourusername/artifacts-mcp-server#readme
+Project-URL: Issues, https://github.com/yourusername/artifacts-mcp-server/issues
+Author-email: Artifacts MCP <noreply@example.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: agentsphere,ai,artifacts,claude,mcp
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development
+Requires-Python: >=3.9
+Requires-Dist: agentsphere>=0.1.0
+Requires-Dist: fastmcp>=2.0.0
+Provides-Extra: dev
+Requires-Dist: black>=22.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Artifacts MCP Server
+
+🚀 **Zero-config MCP server for AI code artifacts with AgentSphere execution**
+
+Let AI write code and see results instantly! Supports Python, JavaScript, HTML, React, and more.
+
+## ✨ Features
+
+- 🎯 **Zero Configuration**: Just one JSON config, no files to download
+- ⚡ **Instant Setup**: 2-minute installation with uvx
+- 🔒 **Secure Execution**: Code runs in AgentSphere cloud sandboxes
+- 🌐 **Live Preview**: Automatic preview URLs for web applications
+- 📦 **Multiple Templates**: Python, JavaScript, HTML, React, Vue, Streamlit, Gradio
+- 🔄 **Auto Updates**: Always uses the latest version via uvx
+
+## 🚀 Quick Start
+
+### 1. Get API Key (2 minutes)
+
+1. Visit [AgentSphere](https://www.agentsphere.run/)
+2. Register and login
+3. Go to [API Key page](https://www.agentsphere.run/apikey)
+4. Click **CREATE KEY**
+5. Copy your API key (starts with `as_`)
+
+### 2. Configure Your AI Client (30 seconds)
+
+Choose your AI client and copy the JSON config:
+
+#### Claude Desktop
+
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "artifacts": {
+      "command": "uvx",
+      "args": ["artifacts-mcp-server"],
+      "env": {
+        "AGENTSPHERE_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+#### Raycast AI
+
+Edit `~/.config/raycast/ai/mcp_servers.json`:
+
+```json
+{
+  "mcpServers": {
+    "artifacts": {
+      "command": "uvx", 
+      "args": ["artifacts-mcp-server"],
+      "env": {
+        "AGENTSPHERE_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+#### Cursor
+
+Edit `~/.cursor/mcp_servers.json`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "artifacts": {
+        "command": "uvx",
+        "args": ["artifacts-mcp-server"], 
+        "env": {
+          "AGENTSPHERE_API_KEY": "your_api_key_here"
+        }
+      }
+    }
+  }
+}
+```
+
+#### Other Clients
+
+See full client configuration guide in the documentation.
+
+### 3. Start Using
+
+1. Replace `your_api_key_here` with your actual API key
+2. Restart your AI client
+3. Test: "Create a Python script that prints hello world using artifacts"
+
+**Done!** 🎉
+
+## 🎮 Usage Examples
+
+### Python Script
+```
+Create a Python script that generates the Fibonacci sequence using artifacts
+```
+
+### Web Application
+```
+Create an HTML calculator page using artifacts
+```
+
+### React App
+```
+Create a React todo application using artifacts
+```
+
+### Data Visualization
+```
+Create a Streamlit app that shows stock data charts using artifacts
+```
+
+## 🛠️ Supported Templates
+
+| Template | Description | Live Preview |
+|----------|-------------|--------------|
+| `python` | Python scripts with console output | ❌ |
+| `javascript` | JavaScript/Node.js scripts | ❌ |
+| `html` | Static HTML pages | ✅ |
+| `react` | React applications | ✅ |
+| `vue` | Vue.js applications | ✅ |
+| `streamlit` | Streamlit data applications | ✅ |
+| `gradio` | Gradio AI applications | ✅ |
+
+✅ = Automatic preview URL with browser auto-open
+
+## 🔧 How It Works
+
+1. **uvx** downloads and runs the latest version automatically
+2. **AgentSphere** provides secure cloud sandboxes for code execution
+3. **FastMCP** handles the Model Context Protocol communication
+4. **Zero maintenance** - always uses the latest version
+
+## 🆚 Why UVX?
+
+| Method | Files Needed | Setup Time | Updates |
+|--------|--------------|------------|---------|
+| **UVX** | 0 | 2 minutes | Automatic |
+| Manual | 2-4 | 10 minutes | Manual |
+
+## 📋 Requirements
+
+- **UV** package manager (auto-installs if missing)
+- **AgentSphere API key** (free tier available)
+- **MCP-compatible AI client** (Claude Desktop, Raycast, Cursor, etc.)
+
+## ❓ Troubleshooting
+
+### "uvx: command not found"
+
+Install UV:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### First run is slow
+
+uvx downloads dependencies on first run (1-2 minutes). Subsequent runs are instant.
+
+### API Key errors
+
+Ensure your API key:
+- Starts with `as_`
+- Is completely copied without extra spaces
+- Is properly formatted in JSON
+
+## 🤝 Supported Clients
+
+- ✅ **Claude Desktop** - Free, full-featured
+- ✅ **Raycast AI** - macOS, requires Pro
+- ✅ **Cursor** - AI code editor
+- ✅ **Zed Editor** - High-performance
+- ✅ **VS Code + Cline** - Popular combination
+- ✅ **Continue.dev** - VS Code extension
+
+## 📖 Documentation
+
+- **AgentSphere**: https://docs.agentsphere.run/
+- **Model Context Protocol**: https://modelcontextprotocol.io/
+- **FastMCP**: https://gofastmcp.com/
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- [Anthropic](https://anthropic.com/) for the Model Context Protocol
+- [AgentSphere](https://agentsphere.run/) for secure code execution
+- [Astral](https://astral.sh/) for the amazing UV package manager
