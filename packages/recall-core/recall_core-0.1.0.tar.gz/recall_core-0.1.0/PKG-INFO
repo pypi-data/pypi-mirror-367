@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: recall-core
+Version: 0.1.0
+Summary: Memory layer and SDK for LLMs
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: openai>=1.98.0
+Requires-Dist: pinecone>=7.3.0
+Requires-Dist: python-dotenv>=1.1.1
+Requires-Dist: slowapi>=0.1.9
+Requires-Dist: uvicorn>=0.35.0
+Requires-Dist: requests>=2.0.0
+Requires-Dist: pymongo>=4.13.2
+Requires-Dist: build>=1.3.0
+Requires-Dist: twine>=6.1.0
+Dynamic: license-file
+
+# Reca11 — Memory Layer for LLMs
+
+**Reca11** is a plug-and-play memory layer for your LLM apps. It captures three key aspects of every conversation — recent history, core facts, and evolving themes — delivering a complete memory system through a simple API.
+
+---
+
+## Installation
+
+```bash
+pip install recall-core
+
+
+⸻
+
+Generate an API Key
+
+Visit https://reca11-memory.onrender.com
+Click the “Generate API Key” button to instantly receive your key.
+
+⸻
+
+Quickstart
+
+from reca11 import Reca11
+
+rc = Reca11(
+    api_key="your-api-key",
+    openai_key="your-openai-key",
+    project_name="my-project"
+)
+
+chat_pair = {
+    "user": "What did I say I wanted to build?",
+    "assistant": "You said you wanted to build a memory SDK for LLMs."
+}
+
+memory = rc.recall(chat_pair)
+
+print(memory)
+
+
+⸻
+
+Health Check
+
+To verify the backend is running, visit:
+
+GET https://reca11-memory.onrender.com/health
+
+Expected response:
+
+{ "status": "ok" }
+
+
