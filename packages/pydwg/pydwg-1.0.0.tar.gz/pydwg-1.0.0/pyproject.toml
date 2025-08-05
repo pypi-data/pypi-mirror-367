@@ -1,0 +1,109 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydwg"
+version = "1.0.0"
+description = "A Python package for generating drilling patterns for tunnel excavation based on AutoCAD polylines"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Sanjeev Bashyal", email = "sanjeev.bashyal01@gmail.com"}
+]
+maintainers = [
+    {name = "Sanjeev Bashyal", email = "sanjeev.bashyal01@gmail.com"}
+]
+keywords = ["drilling", "pattern", "tunnel", "excavation", "autocad", "civil engineering", "mining"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "pyautocad>=0.2.0",
+    "numpy>=1.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+]
+
+[project.urls]
+Homepage = "https://github.com/SanjeevBashyal/UTHP"
+Documentation = "https://github.com/SanjeevBashyal/UTHP"
+Repository = "https://github.com/SanjeevBashyal/UTHP"
+"Bug Tracker" = "https://github.com/SanjeevBashyal/UTHP/issues"
+
+[project.scripts]
+pydwg = "pydwg.cli:main"
+
+# Version management - using static version for now
+# [tool.setuptools_scm]
+# write_to = "pydwg/_version.py"
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = [
+    "tests",
+]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pyautocad.*",
+]
+ignore_missing_imports = true 
