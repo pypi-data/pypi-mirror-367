@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "obiguard"
+dynamic = ["version"]
+description = "Python SDK for Obiguard"
+readme = "README.md"
+
+requires-python = ">=3.9"
+dependencies = [
+    'obiguard-trace-python-sdk>=3.8.17'
+]
+
+[tool.mypy]
+exclude = ['obiguard/_vendor', 'tests']
+ignore_missing_imports = true
+follow_imports = "silent"
+disable_error_code = ['import-untyped', 'import-not-found']
+
+[[tool.mypy.overrides]]
+module = 'obiguard._vendor.*'
+ignore_errors = true
+
+[tool.black]
+force-exclude = '''(obiguard/_vendor)/'''
+
+[tool.ruff]
+exclude =  ["obiguard/_vendor", "tests"]
