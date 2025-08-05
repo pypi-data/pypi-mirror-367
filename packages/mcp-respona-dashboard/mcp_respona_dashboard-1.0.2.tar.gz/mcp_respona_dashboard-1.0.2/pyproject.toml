@@ -1,0 +1,102 @@
+[project]
+name = "mcp-respona-dashboard"
+version = "1.0.2"
+description = "MCP server for Respona Dashboard API integration - enables natural language interactions with ticket management and analytics systems"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "raihan0824", email = "raihan0824@users.noreply.github.com" }]
+maintainers = [{ name = "raihan0824", email = "raihan0824@users.noreply.github.com" }]
+license = { text = "MIT" }
+homepage = "https://github.com/raihan0824/mcp-respona-dashboard"
+repository = "https://github.com/raihan0824/mcp-respona-dashboard"
+documentation = "https://github.com/raihan0824/mcp-respona-dashboard#readme"
+keywords = ["mcp", "model-context-protocol", "respona", "dashboard", "api", "tickets", "analytics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Communications",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.7.4",
+    "mypy>=1.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[project.scripts]
+mcp-respona-dashboard = "respona_mcp_server.server:cli_main"
+
+[project.urls]
+Homepage = "https://github.com/raihan0824/mcp-respona-dashboard"
+Repository = "https://github.com/raihan0824/mcp-respona-dashboard"
+Issues = "https://github.com/raihan0824/mcp-respona-dashboard/issues"
+Changelog = "https://github.com/raihan0824/mcp-respona-dashboard/releases"
+
+[build-system]
+requires = ["hatchling>=1.21.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "respona_mcp_server/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["respona_mcp_server"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/respona_mcp_server",
+    "/tests",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.7.4",
+    "mypy>=1.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --disable-warnings"
+asyncio_mode = "auto" 
