@@ -1,0 +1,2 @@
+class DecoratorUsageValidationError(Exception):
+    pass

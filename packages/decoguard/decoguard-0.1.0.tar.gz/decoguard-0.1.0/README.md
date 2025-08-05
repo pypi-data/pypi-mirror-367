@@ -1,0 +1,48 @@
+<div align="center">
+  <img src="docs/logo.png" alt="decoguard logo" width="250">
+</div>
+
+# 🛡️ DECOGUARD
+[![Documentation](https://img.shields.io/badge/View%20Docs-online-blue?logo=readthedocs)](https://decoguard.readthedocs.io/en/latest/)
+[![AGPL v3 License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Python](https://img.shields.io/badge/Python-3.13%2B-blue?logo=python)](https://www.python.org/)
+[![Validation](https://img.shields.io/badge/Validation-Yes-brightgreen)](https://docs.python.org/3/glossary.html#term-decorator)
+[![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red)](https://gitlab.com/Shacode/decoguard)
+
+Lightweight Python library for robustly validating decorated functions, providing a clean, structured way to ensure they comply with defined conditions.
+
+[📚 The complete documentation is available here. It includes more examples and use cases, so be sure to take a look. 📚](https://decoguard.readthedocs.io/en/latest/)
+
+## ✨ Features
+
+- **Meta-Decorators**: Easily add validation logic to your decorators and decorator factories.
+- **Validator Functions**: Fine-grained validation rules for function signatures and usage.
+- **Assertion Utilities**: Reusable assertion helpers for standalone validation.
+- **Centralized Validation**: Keep your validation logic clean and maintainable.
+- **Clear Error Reporting**: Developer-friendly exceptions for invalid decorator usage.
+- **Drop-In Simplicity**: Integrate with existing Python code with minimal changes.
+
+## 🚀 Getting Started
+
+1. **Install decoguard**
+   ```bash
+   pip install decoguard
+   ```
+2. **Import and use meta-decorators**
+   ```python
+   from decoguard.decorators import validate_decorated
+   from decoguard.validators import require_params
+
+   @validate_decorated(require_params("x", "y"))
+   def my_decorator(func): return func
+
+   @my_decorator
+   def correct_usage(x, y): pass
+
+   @my_decorator
+   def bad_usage(x): pass # Will raise DecoratorUsageValidationError
+   ```
+
+## 📄 License
+
+This project is licensed under the GNU Affero General Public License v3.0. See [LICENSE](LICENSE) for details.
