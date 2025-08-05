@@ -1,0 +1,133 @@
+[build-system]
+requires = ["poetry-core>=2.0.0", ]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "singleton-decorator1"
+description = "Packaged selections from Python Decorator Library on wiki.python.org"
+authors = [{name = "Doug Sojourner", email = "<doug@sojournings.org>"}, {name = "Editor 82 of wiki.python.org"}, ]
+readme = "README.md"
+requires-python = ">=3.7,<4.0"
+license = { text = "GNU General Public License v3 (GPLv3)" }
+version="0.5.2"
+
+dependencies = []
+
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+]
+
+keywords = ["decorators", "singleton", "threadsafe", "testable"]
+
+[dependency-groups]
+self = ["singleton-decorator1==0.5.2"]
+dev = [
+	"mypy>=0.942",
+	"isort>=5.12.0",
+	"pytest>=7.4.4",
+	"black>=24.4.0",
+	]
+build = [
+	  "poetry-core>=2.0"
+	  ]
+
+
+[project.urls]
+repository = "https://codeberg.org/Sojournings/singleton-decorator.git"
+
+[tool.poetry]
+include = [
+    { path = "tests/test_singleton.py", format = "sdist" },
+    { path = "tests/.python-version", format = "sdist" },
+    { path = "tests/pyproject.toml", format = "sdist" },
+    { path = "singleton_decorator1", format = ["sdist", "wheel"] },
+]
+
+[tool.poetry.requires-plugins]
+poethepoet = { version = ">=0.10.0", extras = ["poetry_plugin"]}
+
+[tool.poetry.dependencies]
+#importlib-metadata = {version = "^1.0", python = "<3.8"}
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+ignore_missing_imports = false
+check_untyped_defs = true
+
+# siginificantly speed up pytest
+[tool.pytest.ini_options]
+testpaths = [ "tests"]
+
+[tool.poe]
+shell_interpreter = "bash"
+
+[tool.poe.poetry_hooks]
+pre_build  = "test_seq_1"
+#         Set version, propogate to module
+post_build = "test_seq_2"
+pre_publish = "test_seq_3"
+#         push
+
+[tool.poe.tasks]
+test_seq_1 = ["clean", "black", "mypy" ]
+test_seq_2 = ["local_source", "pytest", "local_source_stop"]
+test_seq_3 = ["local_source", "pytest", "mypy", "local_source_stop"]
+
+[tool.poe.tasks.local_source]
+shell = """
+   PID_SIMPLEINDEX=$(pgrep simpleindex)
+   if [[ "x${PID_SIMPLEINDEX}" != "x" ]] ; then
+      kill ${PID_SIMPLEINDEX}
+   fi
+   simple503 -B ${PWD}/tests/simple -e -s  -c ${PWD}/dist ${PWD}/tests/simple
+   nohup simpleindex ${PWD}/tests/simple/configuration.toml &
+"""
+
+[tool.poe.tasks.local_source_stop]
+shell = """
+   PID_SIMPLEINDEX=$(pgrep simpleindex)
+   if [[ "x${PID_SIMPLEINDEX}" != "x" ]] ; then
+      kill ${PID_SIMPLEINDEX}
+   fi
+"""
+
+[tool.poe.tasks.black]
+shell = """
+   $(poetry env activate)
+   black .
+"""
+
+[tool.poe.tasks.pytest]
+shell = """
+   for py in 3.7 3.9 3.11 3.13; do
+   done
+   pytest -v 
+"""
+cwd = "tests"
+
+[tool.poe.tasks.mypy]
+shell = """
+   pyenv depends mypy-3.13 
+   pyenv activate mypy-3.13
+   for py in 3.7 3.9 3.11 3.13; do
+      for os in linux linux2 win32 darwin
+	     mypy --python-version ${py} --platform ${os} singleton_decorator1 tests
+	  done
+   done
+"""
+
+[tool.poe.tasks.clean]
+shell = """
+   find . -type f -name '*~' -execdir rm {} \\;
+"""
