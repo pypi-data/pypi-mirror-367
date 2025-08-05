@@ -1,0 +1,1470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; Cache Middleware 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="/cache-middleware/api.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Extending Backends" href="extending-backends.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Cache Middleware
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what-is.html">What is Cache Middleware?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="middleware-configuration.html">Middleware Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending-backends.html">Extending Backends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-cache_middleware.middleware">Core Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.middleware.CacheMiddleware"><code class="docutils literal notranslate"><span class="pre">CacheMiddleware</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cache_middleware.middleware.CacheMiddleware.__init__"><code class="docutils literal notranslate"><span class="pre">CacheMiddleware.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cache_middleware.middleware.CacheMiddleware.dispatch"><code class="docutils literal notranslate"><span class="pre">CacheMiddleware.dispatch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.decorators.cache"><code class="docutils literal notranslate"><span class="pre">cache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#backend-implementations">Backend Implementations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-cache_middleware.backends.redis_backend">Redis Backend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cache_middleware.backends.redis_backend.RedisBackend"><code class="docutils literal notranslate"><span class="pre">RedisBackend</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-cache_middleware.backends.memory_backend">Memory Backend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cache_middleware.backends.memory_backend.MemoryBackend"><code class="docutils literal notranslate"><span class="pre">MemoryBackend</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cache_middleware.helpers">Helper Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.auto_configure_backend"><code class="docutils literal notranslate"><span class="pre">auto_configure_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.create_development_backend"><code class="docutils literal notranslate"><span class="pre">create_development_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.create_memory_backend_from_env"><code class="docutils literal notranslate"><span class="pre">create_memory_backend_from_env()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.create_production_redis_backend"><code class="docutils literal notranslate"><span class="pre">create_production_redis_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.create_redis_backend_from_env"><code class="docutils literal notranslate"><span class="pre">create_redis_backend_from_env()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.helpers.get_backend_for_environment"><code class="docutils literal notranslate"><span class="pre">get_backend_for_environment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cache_middleware.logger_config">Logger Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache_middleware.logger_config.configure_logger"><code class="docutils literal notranslate"><span class="pre">configure_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#type-definitions">Type Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-hierarchy">Class Hierarchy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-classes">Backend Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#middleware-classes">Middleware Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exception-classes">Exception Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-examples">Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-api-usage">Basic API Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-api-usage">Advanced API Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helper-functions-api">Helper Functions API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-parameters">Configuration Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cachemiddleware-parameters">CacheMiddleware Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache-decorator-parameters">&#64;cache Decorator Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redisbackend-parameters">RedisBackend Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memorybackend-parameters">MemoryBackend Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#error-codes">Error Codes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#http-headers">HTTP Headers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache-status-headers">Cache Status Headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-headers">Request Headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache-control-directives">Cache-Control Directives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-metrics">Performance Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#timing-metrics">Timing Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hit-rate-metrics">Hit Rate Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backend-health">Backend Health</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development-tools">Development Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#testing-utilities">Testing Utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debug-mode">Debug Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#benchmarking">Benchmarking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#migration-guide">Migration Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-version-1-x-to-2-x">From Version 1.x to 2.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-changes">Configuration Changes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#compatibility-notes">Compatibility Notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-version-support">Python Version Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#framework-compatibility">Framework Compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redis-version-support">Redis Version Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-design-guidelines">API Design Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-style">Code Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pull-request-process">Pull Request Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cache Middleware</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This section provides detailed API documentation for all modules, classes, and functions in the Cache Middleware package.</p>
+<section id="module-cache_middleware.middleware">
+<span id="core-components"></span><h2>Core Components<a class="headerlink" href="#module-cache_middleware.middleware" title="Link to this heading"></a></h2>
+<p>FastAPI/Starlette caching middleware implementation.</p>
+<p>This module provides HTTP response caching capabilities through a middleware
+that integrates with configurable cache backends.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cache_middleware.middleware.CacheMiddleware">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cache_middleware.middleware.</span></span><span class="sig-name descname"><span class="pre">CacheMiddleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://fastapi.tiangolo.com/reference/fastapi/#fastapi.FastAPI" title="(in FastAPI v0.0.0)"><span class="pre">FastAPI</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CacheBackend</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/middleware.html#CacheMiddleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.middleware.CacheMiddleware" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHTTPMiddleware</span></code></p>
+<p>HTTP caching middleware for FastAPI/Starlette applications.</p>
+<p>This middleware intercepts HTTP requests and provides response caching
+using a configurable backend. It works in conjunction with the &#64;cache
+decorator to determine which endpoints should be cached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<em>FastAPI</em>) – The FastAPI application instance</p></li>
+<li><p><strong>backend</strong> (<em>CacheBackend</em>) – A fully initialized cache backend instance that implements
+the CacheBackend interface</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">redis_backend</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.middleware.CacheMiddleware.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://fastapi.tiangolo.com/reference/fastapi/#fastapi.FastAPI" title="(in FastAPI v0.0.0)"><span class="pre">FastAPI</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">CacheBackend</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/middleware.html#CacheMiddleware.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.middleware.CacheMiddleware.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the cache middleware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<em>FastAPI</em>) – The FastAPI application instance</p></li>
+<li><p><strong>backend</strong> (<em>CacheBackend</em>) – A fully initialized cache backend instance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.middleware.CacheMiddleware.dispatch">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://fastapi.tiangolo.com/reference/request/#fastapi.Request" title="(in FastAPI v0.0.0)"><span class="pre">Request</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_next</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/middleware.html#CacheMiddleware.dispatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.middleware.CacheMiddleware.dispatch" title="Link to this definition"></a></dt>
+<dd><p>Process HTTP requests and apply caching logic.</p>
+<p>This method intercepts incoming requests, checks if the endpoint
+has caching enabled via the &#64;cache decorator, and either returns
+a cached response or caches the response from the endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>Request</em>) – The incoming HTTP request</p></li>
+<li><p><strong>call_next</strong> (<em>callable</em>) – The next middleware or endpoint in the chain</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Either a cached JSONResponse or the response from the endpoint</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The caching logic follows these steps:
+1. Find the endpoint function from the application routes
+2. Check if endpoint has the _use_cache attribute (set by &#64;cache decorator)
+3. Handle Cache-Control headers (no-store, no-cache)
+4. Generate a unique cache key based on method, path, params, and body
+5. Try to return cached response if available
+6. Call the actual endpoint and cache successful JSON responses</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-cache_middleware.decorators">Cache decorators for FastAPI/Starlette endpoints.</p>
+<p>This module provides decorators to mark endpoints for caching.
+The actual caching logic is implemented in the CacheMiddleware.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.decorators.cache">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.decorators.</span></span><span class="sig-name descname"><span class="pre">cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/decorators.html#cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.decorators.cache" title="Link to this definition"></a></dt>
+<dd><p>Decorator to enable caching for a FastAPI endpoint.</p>
+<p>This decorator marks a function as cacheable by setting internal
+attributes that the CacheMiddleware will inspect. The decorator
+itself doesn’t perform any caching - it only provides metadata
+to the middleware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=300</em>) – Cache expiration timeout in seconds</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The decorator function that marks the endpoint for caching</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/items&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>  <span class="c1"># Cache for 10 minutes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/calculate&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>  <span class="c1"># Cache for 2 minutes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">calculate</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numbers&quot;</span><span class="p">,</span> <span class="p">[]))}</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The decorator sets two attributes on the function:
+- _use_cache: Boolean flag indicating caching is enabled
+- _cache_timeout: Integer timeout value in seconds</p>
+<p>The CacheMiddleware looks for these attributes to determine
+which endpoints should be cached and for how long.</p>
+</dd></dl>
+
+</section>
+<section id="backend-implementations">
+<h2>Backend Implementations<a class="headerlink" href="#backend-implementations" title="Link to this heading"></a></h2>
+<section id="module-cache_middleware.backends.redis_backend">
+<span id="redis-backend"></span><h3>Redis Backend<a class="headerlink" href="#module-cache_middleware.backends.redis_backend" title="Link to this heading"></a></h3>
+<p>Redis cache backend implementation.</p>
+<p>This module provides a Redis-based cache backend for production use.
+It supports connection pooling, automatic reconnection, and comprehensive
+error handling.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cache_middleware.backends.redis_backend.</span></span><span class="sig-name descname"><span class="pre">RedisBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'redis://localhost:6379'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CacheBackend</span></code></p>
+<p>Redis cache backend for production deployments.</p>
+<p>This backend uses Redis as the caching layer, providing persistence,
+clustering support, and high performance. It implements lazy connection
+initialization and comprehensive error handling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default=&quot;redis://localhost:6379&quot;</em>) – Redis connection URL (e.g., “redis://localhost:6379”, “rediss://secure:6380”)</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments passed to redis.asyncio.from_url()
+Common options include:
+- max_connections: Maximum connections in the pool
+- retry_on_timeout: Whether to retry on timeout
+- password: Redis password
+- socket_keepalive: Enable TCP keepalive</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.url">
+<span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.url" title="Link to this definition"></a></dt>
+<dd><p>Redis connection URL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.connection_kwargs">
+<span class="sig-name descname"><span class="pre">connection_kwargs</span></span><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.connection_kwargs" title="Link to this definition"></a></dt>
+<dd><p>Additional connection parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.redis">
+<span class="sig-name descname"><span class="pre">redis</span></span><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.redis" title="Link to this definition"></a></dt>
+<dd><p>Redis client instance (initialized lazily)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[aioredis.Redis]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Basic usage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># With custom configuration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">max_connections</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;secret&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'redis://localhost:6379'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Redis cache backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default=&quot;redis://localhost:6379&quot;</em>) – Redis connection URL</p></li>
+<li><p><strong>**kwargs</strong> – Additional connection parameters for Redis client</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.close">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.close" title="Link to this definition"></a></dt>
+<dd><p>Close the Redis connection and clean up resources.</p>
+<p>This method should be called during application shutdown
+to properly close the Redis connection pool.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.delete">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete a key from Redis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key to delete</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.get" title="Link to this definition"></a></dt>
+<dd><p>Retrieve a value from Redis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cached value if found, None otherwise or on error</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.redis_backend.RedisBackend.set">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/redis_backend.html#RedisBackend.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.redis_backend.RedisBackend.set" title="Link to this definition"></a></dt>
+<dd><p>Store a value in Redis with expiration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The value to cache</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Expiration timeout in seconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cache_middleware.backends.memory_backend">
+<span id="memory-backend"></span><h3>Memory Backend<a class="headerlink" href="#module-cache_middleware.backends.memory_backend" title="Link to this heading"></a></h3>
+<p>In-memory cache backend implementation.</p>
+<p>This module provides a simple in-memory cache backend suitable for
+development, testing, and single-instance deployments where Redis
+is not available or needed.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cache_middleware.backends.memory_backend.</span></span><span class="sig-name descname"><span class="pre">MemoryBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CacheBackend</span></code></p>
+<p>In-memory cache backend for development and testing.</p>
+<p>This backend stores cache entries in memory using a Python dictionary.
+It includes automatic expiration of entries and simple LRU eviction
+when the cache reaches its maximum size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=1000</em>) – Maximum number of entries to store in the cache</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.max_size">
+<span class="sig-name descname"><span class="pre">max_size</span></span><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.max_size" title="Link to this definition"></a></dt>
+<dd><p>Maximum cache size</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend._cache">
+<span class="sig-name descname"><span class="pre">_cache</span></span><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend._cache" title="Link to this definition"></a></dt>
+<dd><p>Internal cache storage mapping keys to (value, expiry_time) tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Tuple[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span> <span class="s2">&quot;value1&quot;</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">value</span> <span class="o">=</span> <span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;key1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the in-memory cache backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=1000</em>) – Maximum number of cache entries to store</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.close">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.close" title="Link to this definition"></a></dt>
+<dd><p>Close the cache backend and clean up resources.</p>
+<p>For the in-memory backend, this clears all cached entries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.delete">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete a key from the cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key to delete</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.get">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.get" title="Link to this definition"></a></dt>
+<dd><p>Retrieve a value from the cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cached value if found and not expired, None otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cache_middleware.backends.memory_backend.MemoryBackend.set">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/backends/memory_backend.html#MemoryBackend.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.backends.memory_backend.MemoryBackend.set" title="Link to this definition"></a></dt>
+<dd><p>Store a value in the cache with expiration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The cache key</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The value to cache</p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Expiration timeout in seconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="module-cache_middleware.helpers">
+<span id="helper-functions"></span><h2>Helper Functions<a class="headerlink" href="#module-cache_middleware.helpers" title="Link to this heading"></a></h2>
+<p>Helper functions for common backend configurations.</p>
+<p>This module provides convenience functions to create and configure
+cache backends using environment variables and common patterns.
+It simplifies backend setup for different deployment environments.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.auto_configure_backend">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">auto_configure_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CacheBackend</span></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#auto_configure_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.auto_configure_backend" title="Link to this definition"></a></dt>
+<dd><p>Auto-configure backend based on environment variables.</p>
+<p>This function automatically selects and configures the appropriate
+backend based on the CACHE_BACKEND environment variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>CacheBackend</em> – Configured backend instance</p></li>
+<li><p><em>Environment Variables</em></p></li>
+<li><p><em>——————–</em></p></li>
+<li><p><strong>CACHE_BACKEND</strong> (<em>str, default=”memory”</em>) – Backend type to use (“redis” or “memory”)</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If an unknown backend type is specified</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CACHE_BACKEND&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;redis&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">auto_configure_backend</span><span class="p">()</span>  <span class="c1"># Returns RedisBackend</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.create_development_backend">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">create_development_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cache_middleware.backends.memory_backend.MemoryBackend" title="cache_middleware.backends.memory_backend.MemoryBackend"><span class="pre">MemoryBackend</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#create_development_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.create_development_backend" title="Link to this definition"></a></dt>
+<dd><p>Create in-memory backend optimized for development.</p>
+<p>This function creates a small in-memory cache suitable for
+development and testing environments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Development-optimized memory backend</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cache_middleware.backends.memory_backend.MemoryBackend" title="cache_middleware.backends.memory_backend.MemoryBackend">MemoryBackend</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.create_memory_backend_from_env">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">create_memory_backend_from_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cache_middleware.backends.memory_backend.MemoryBackend" title="cache_middleware.backends.memory_backend.MemoryBackend"><span class="pre">MemoryBackend</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#create_memory_backend_from_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.create_memory_backend_from_env" title="Link to this definition"></a></dt>
+<dd><p>Create in-memory backend using environment variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>MemoryBackend</em> – Configured in-memory backend instance</p></li>
+<li><p><em>Environment Variables</em></p></li>
+<li><p><em>——————–</em></p></li>
+<li><p><strong>MEMORY_CACHE_SIZE</strong> (<em>int, default=1000</em>) – Maximum number of cache entries to store</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;MEMORY_CACHE_SIZE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;500&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">create_memory_backend_from_env</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.create_production_redis_backend">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">create_production_redis_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cache_middleware.backends.redis_backend.RedisBackend" title="cache_middleware.backends.redis_backend.RedisBackend"><span class="pre">RedisBackend</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#create_production_redis_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.create_production_redis_backend" title="Link to this definition"></a></dt>
+<dd><p>Create Redis backend optimized for production.</p>
+<p>This function creates a Redis backend with production-ready settings
+including connection pooling, keepalive, and health checks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Production-optimized Redis backend</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cache_middleware.backends.redis_backend.RedisBackend" title="cache_middleware.backends.redis_backend.RedisBackend">RedisBackend</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.13)"><strong>ImportError</strong></a> – If redis backend dependencies are not installed</p></li>
+<li><p><strong>Environment Variables</strong> – </p></li>
+<li><p><strong>--------------------</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises REDIS_URL : str, default=”redis://localhost:6379”: Redis connection URL</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.create_redis_backend_from_env">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">create_redis_backend_from_env</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cache_middleware.backends.redis_backend.RedisBackend" title="cache_middleware.backends.redis_backend.RedisBackend"><span class="pre">RedisBackend</span></a></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#create_redis_backend_from_env"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.create_redis_backend_from_env" title="Link to this definition"></a></dt>
+<dd><p>Create Redis backend using environment variables.</p>
+<p>This function reads Redis configuration from environment variables,
+making it easy to configure the backend for different deployment
+environments without code changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configured Redis backend instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cache_middleware.backends.redis_backend.RedisBackend" title="cache_middleware.backends.redis_backend.RedisBackend">RedisBackend</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.13)"><strong>ImportError</strong></a> – If redis backend dependencies are not installed</p></li>
+<li><p><strong>Environment Variables</strong> – </p></li>
+<li><p><strong>--------------------</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p>:raises REDIS_URL : str, default=”redis://localhost:6379”: Redis connection URL
+:raises REDIS_MAX_CONNECTIONS : int, default=10: Maximum number of connections in the pool
+:raises REDIS_PASSWORD : str, optional: Redis authentication password
+:raises REDIS_RETRY_ON_TIMEOUT : bool, default=True: Whether to retry operations on timeout</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set environment variables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;redis://prod-redis:6379&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;REDIS_MAX_CONNECTIONS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;20&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">create_redis_backend_from_env</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.helpers.get_backend_for_environment">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.helpers.</span></span><span class="sig-name descname"><span class="pre">get_backend_for_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CacheBackend</span></span></span><a class="reference internal" href="_modules/cache_middleware/helpers.html#get_backend_for_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.helpers.get_backend_for_environment" title="Link to this definition"></a></dt>
+<dd><p>Get backend configured for a specific environment.</p>
+<p>This function provides environment-specific backend configurations
+with sensible defaults for common deployment scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Environment name (“development”, “production”, “testing”).
+If None, uses the ENVIRONMENT environment variable.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>CacheBackend</em> – Backend configured for the specified environment</p></li>
+<li><p><em>Environment Variables</em></p></li>
+<li><p><em>——————–</em></p></li>
+<li><p><strong>ENVIRONMENT</strong> (<em>str, default=”development”</em>) – Deployment environment when env parameter is None</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Explicit environment</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">get_backend_for_environment</span><span class="p">(</span><span class="s2">&quot;production&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># From environment variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;production&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">get_backend_for_environment</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-cache_middleware.logger_config">
+<span id="logger-configuration"></span><h2>Logger Configuration<a class="headerlink" href="#module-cache_middleware.logger_config" title="Link to this heading"></a></h2>
+<p>Logger configuration for the cache middleware.</p>
+<p>This module provides logger setup using loguru, which replaces
+the standard Python logging module for better performance and
+ease of use. It’s specifically named logger_config.py to avoid
+circular import issues with the stdlib logging module.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cache_middleware.logger_config.configure_logger">
+<span class="sig-prename descclassname"><span class="pre">cache_middleware.logger_config.</span></span><span class="sig-name descname"><span class="pre">configure_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cache_middleware/logger_config.html#configure_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cache_middleware.logger_config.configure_logger" title="Link to this definition"></a></dt>
+<dd><p>Configure the logger for the application.</p>
+<p>This function sets up the loguru logger with default settings.
+It can be extended to add custom log handlers, formatters,
+and output destinations.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">configure_logger</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Application started&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Common configuration options that can be added:
+- File rotation: logger.add(“app.log”, rotation=”1 MB”, level=”INFO”)
+- Console output: logger.add(sys.stderr, level=”DEBUG”)
+- JSON formatting: logger.add(“app.json”, serialize=True)</p>
+</dd></dl>
+
+</section>
+<section id="type-definitions">
+<h2>Type Definitions<a class="headerlink" href="#type-definitions" title="Link to this heading"></a></h2>
+<p>The Cache Middleware uses type hints throughout the codebase. Here are the key types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">starlette.requests</span><span class="w"> </span><span class="kn">import</span> <span class="n">Request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">starlette.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+
+<span class="c1"># Cache backend type hint</span>
+<span class="n">CacheBackendType</span> <span class="o">=</span> <span class="n">CacheBackend</span>
+
+<span class="c1"># Cache decorator type hint</span>
+<span class="n">CacheDecoratorType</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">],</span> <span class="n">Callable</span><span class="p">]</span>
+
+<span class="c1"># Request/Response types from Starlette</span>
+<span class="n">RequestType</span> <span class="o">=</span> <span class="n">Request</span>
+<span class="n">ResponseType</span> <span class="o">=</span> <span class="n">Response</span>
+
+<span class="c1"># Configuration types</span>
+<span class="n">CacheConfigType</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">BackendConfigType</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span>
+</pre></div>
+</div>
+</section>
+<section id="class-hierarchy">
+<h2>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Link to this heading"></a></h2>
+<section id="backend-classes">
+<h3>Backend Classes<a class="headerlink" href="#backend-classes" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CacheBackend (ABC)
+├── MemoryBackend
+├── RedisBackend
+└── Custom backends (user-defined)
+</pre></div>
+</div>
+</section>
+<section id="middleware-classes">
+<h3>Middleware Classes<a class="headerlink" href="#middleware-classes" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>BaseHTTPMiddleware
+└── CacheMiddleware
+</pre></div>
+</div>
+</section>
+<section id="exception-classes">
+<h3>Exception Classes<a class="headerlink" href="#exception-classes" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Exception
+├── CacheMiddlewareError (future)
+│   ├── BackendError (future)
+│   ├── ConfigurationError (future)
+│   └── SerializationError (future)
+└── ValueError (built-in)
+    └── InvalidTimeoutError (future)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading"></a></h2>
+<section id="basic-api-usage">
+<h3>Basic API Usage<a class="headerlink" href="#basic-api-usage" title="Link to this heading"></a></h3>
+<p>Creating and configuring backends:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memory_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheMiddleware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
+<span class="c1"># Create Redis backend</span>
+<span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="c1"># Create Memory backend</span>
+<span class="n">memory_backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Register middleware with FastAPI</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">redis_backend</span><span class="p">)</span>
+
+<span class="c1"># Use cache decorator</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/data&quot;</span><span class="p">)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;cached_response&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-api-usage">
+<h3>Advanced API Usage<a class="headerlink" href="#advanced-api-usage" title="Link to this heading"></a></h3>
+<p>Custom backend implementation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomBackend</span><span class="p">(</span><span class="n">CacheBackend</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="c1"># Custom implementation</span>
+        <span class="k">pass</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Custom implementation</span>
+        <span class="k">pass</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Custom implementation</span>
+        <span class="k">pass</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Custom implementation</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="helper-functions-api">
+<h3>Helper Functions API<a class="headerlink" href="#helper-functions-api" title="Link to this heading"></a></h3>
+<p>Configuration helpers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">auto_configure_backend</span><span class="p">,</span>
+    <span class="n">get_backend_for_environment</span><span class="p">,</span>
+    <span class="n">create_redis_backend</span><span class="p">,</span>
+    <span class="n">create_memory_backend</span>
+<span class="p">)</span>
+
+<span class="c1"># Auto-configure from environment</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">auto_configure_backend</span><span class="p">()</span>
+
+<span class="c1"># Environment-specific backend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">get_backend_for_environment</span><span class="p">(</span><span class="s2">&quot;production&quot;</span><span class="p">)</span>
+
+<span class="c1"># Direct backend creation</span>
+<span class="n">redis_backend</span> <span class="o">=</span> <span class="n">create_redis_backend</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">20</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-parameters">
+<h2>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Link to this heading"></a></h2>
+<section id="cachemiddleware-parameters">
+<h3>CacheMiddleware Parameters<a class="headerlink" href="#cachemiddleware-parameters" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>backend</p></td>
+<td><p>CacheBackend</p></td>
+<td><p>Cache backend instance (required)</p></td>
+</tr>
+<tr class="row-odd"><td><p>exclude_paths</p></td>
+<td><p>List[str]</p></td>
+<td><p>Paths to exclude from caching</p></td>
+</tr>
+<tr class="row-even"><td><p>include_paths</p></td>
+<td><p>List[str]</p></td>
+<td><p>Only cache these specific paths</p></td>
+</tr>
+<tr class="row-odd"><td><p>cache_header_name</p></td>
+<td><p>str</p></td>
+<td><p>HTTP header for cache status (default: “X-Cache-Status”)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cache-decorator-parameters">
+<h3>&#64;cache Decorator Parameters<a class="headerlink" href="#cache-decorator-parameters" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>timeout</p></td>
+<td><p>int</p></td>
+<td><p>Cache timeout in seconds (required)</p></td>
+</tr>
+<tr class="row-odd"><td><p>cache_control</p></td>
+<td><p>bool</p></td>
+<td><p>Respect HTTP Cache-Control headers (default: True)</p></td>
+</tr>
+<tr class="row-even"><td><p>exclude_headers</p></td>
+<td><p>List[str]</p></td>
+<td><p>Headers to exclude from cache key</p></td>
+</tr>
+<tr class="row-odd"><td><p>include_headers</p></td>
+<td><p>List[str]</p></td>
+<td><p>Headers to include in cache key</p></td>
+</tr>
+<tr class="row-even"><td><p>vary_on</p></td>
+<td><p>List[str]</p></td>
+<td><p>Additional parameters for cache key variation</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="redisbackend-parameters">
+<h3>RedisBackend Parameters<a class="headerlink" href="#redisbackend-parameters" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>url</p></td>
+<td><p>str</p></td>
+<td><p>Redis connection URL (required)</p></td>
+</tr>
+<tr class="row-odd"><td><p>max_connections</p></td>
+<td><p>int</p></td>
+<td><p>Maximum connections in pool (default: 10)</p></td>
+</tr>
+<tr class="row-even"><td><p>retry_on_timeout</p></td>
+<td><p>bool</p></td>
+<td><p>Retry operations on timeout (default: True)</p></td>
+</tr>
+<tr class="row-odd"><td><p>socket_keepalive</p></td>
+<td><p>bool</p></td>
+<td><p>Enable TCP keepalive (default: True)</p></td>
+</tr>
+<tr class="row-even"><td><p>socket_keepalive_options</p></td>
+<td><p>Dict[int, int]</p></td>
+<td><p>TCP keepalive options</p></td>
+</tr>
+<tr class="row-odd"><td><p>health_check_interval</p></td>
+<td><p>int</p></td>
+<td><p>Health check interval in seconds (default: 30)</p></td>
+</tr>
+<tr class="row-even"><td><p>password</p></td>
+<td><p>str</p></td>
+<td><p>Redis password (optional)</p></td>
+</tr>
+<tr class="row-odd"><td><p>db</p></td>
+<td><p>int</p></td>
+<td><p>Redis database number (default: 0)</p></td>
+</tr>
+<tr class="row-even"><td><p>ssl</p></td>
+<td><p>bool</p></td>
+<td><p>Enable SSL connection (default: False)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ssl_keyfile</p></td>
+<td><p>str</p></td>
+<td><p>SSL key file path</p></td>
+</tr>
+<tr class="row-even"><td><p>ssl_certfile</p></td>
+<td><p>str</p></td>
+<td><p>SSL certificate file path</p></td>
+</tr>
+<tr class="row-odd"><td><p>ssl_cert_reqs</p></td>
+<td><p>str</p></td>
+<td><p>SSL certificate requirements</p></td>
+</tr>
+<tr class="row-even"><td><p>ssl_ca_certs</p></td>
+<td><p>str</p></td>
+<td><p>SSL CA certificates file path</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="memorybackend-parameters">
+<h3>MemoryBackend Parameters<a class="headerlink" href="#memorybackend-parameters" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>max_size</p></td>
+<td><p>int</p></td>
+<td><p>Maximum number of cached items (default: 1000)</p></td>
+</tr>
+<tr class="row-odd"><td><p>cleanup_interval</p></td>
+<td><p>int</p></td>
+<td><p>Cleanup interval in seconds (default: 300)</p></td>
+</tr>
+<tr class="row-even"><td><p>default_timeout</p></td>
+<td><p>int</p></td>
+<td><p>Default timeout for items (default: 3600)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>The Cache Middleware supports configuration via environment variables:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CACHE_BACKEND</p></td>
+<td><p>Backend type: “redis” or “memory”</p></td>
+</tr>
+<tr class="row-odd"><td><p>REDIS_URL</p></td>
+<td><p>Redis connection URL</p></td>
+</tr>
+<tr class="row-even"><td><p>REDIS_MAX_CONNECTIONS</p></td>
+<td><p>Maximum Redis connections</p></td>
+</tr>
+<tr class="row-odd"><td><p>REDIS_PASSWORD</p></td>
+<td><p>Redis password</p></td>
+</tr>
+<tr class="row-even"><td><p>REDIS_DB</p></td>
+<td><p>Redis database number</p></td>
+</tr>
+<tr class="row-odd"><td><p>REDIS_SSL</p></td>
+<td><p>Enable Redis SSL (“true”/”false”)</p></td>
+</tr>
+<tr class="row-even"><td><p>MEMORY_CACHE_SIZE</p></td>
+<td><p>Memory backend max size</p></td>
+</tr>
+<tr class="row-odd"><td><p>CACHE_DEFAULT_TIMEOUT</p></td>
+<td><p>Default cache timeout in seconds</p></td>
+</tr>
+<tr class="row-even"><td><p>CACHE_CLEANUP_INTERVAL</p></td>
+<td><p>Cleanup interval in seconds</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h2>
+<p>The Cache Middleware provides built-in error handling. Custom exception classes will be implemented in future versions:</p>
+<ul class="simple">
+<li><p><strong>CacheMiddlewareError</strong>: Base exception for all cache-related errors</p></li>
+<li><p><strong>BackendError</strong>: Raised when backend operations fail</p></li>
+<li><p><strong>ConfigurationError</strong>: Raised for invalid configuration</p></li>
+<li><p><strong>SerializationError</strong>: Raised when response serialization fails</p></li>
+</ul>
+<section id="error-codes">
+<h3>Error Codes<a class="headerlink" href="#error-codes" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Code</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BACKEND_ERROR</p></td>
+<td><p>Backend operation failed</p></td>
+</tr>
+<tr class="row-odd"><td><p>CONFIGURATION_ERROR</p></td>
+<td><p>Invalid configuration provided</p></td>
+</tr>
+<tr class="row-even"><td><p>SERIALIZATION_ERROR</p></td>
+<td><p>Failed to serialize/deserialize response</p></td>
+</tr>
+<tr class="row-odd"><td><p>TIMEOUT_ERROR</p></td>
+<td><p>Operation timed out</p></td>
+</tr>
+<tr class="row-even"><td><p>CONNECTION_ERROR</p></td>
+<td><p>Failed to connect to backend service</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="http-headers">
+<h2>HTTP Headers<a class="headerlink" href="#http-headers" title="Link to this heading"></a></h2>
+<section id="cache-status-headers">
+<h3>Cache Status Headers<a class="headerlink" href="#cache-status-headers" title="Link to this heading"></a></h3>
+<p>The middleware adds cache status information via HTTP headers:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>X-Cache-Status</p></td>
+<td><p>“HIT” or “MISS” indicating cache status</p></td>
+</tr>
+<tr class="row-odd"><td><p>X-Cache-Key</p></td>
+<td><p>The cache key used (debug mode only)</p></td>
+</tr>
+<tr class="row-even"><td><p>X-Cache-Timeout</p></td>
+<td><p>Cache timeout value used</p></td>
+</tr>
+<tr class="row-odd"><td><p>X-Cache-Backend</p></td>
+<td><p>Backend type used for caching</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="request-headers">
+<h3>Request Headers<a class="headerlink" href="#request-headers" title="Link to this heading"></a></h3>
+<p>Headers that affect caching behavior:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cache-Control</p></td>
+<td><p>Standard HTTP cache control directives</p></td>
+</tr>
+<tr class="row-odd"><td><p>If-None-Match</p></td>
+<td><p>ETag validation (future feature)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pragma</p></td>
+<td><p>HTTP/1.0 cache control (no-cache support)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cache-control-directives">
+<h3>Cache-Control Directives<a class="headerlink" href="#cache-control-directives" title="Link to this heading"></a></h3>
+<p>Supported Cache-Control directives:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Directive</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>no-cache</p></td>
+<td><p>Bypass cache for this request</p></td>
+</tr>
+<tr class="row-odd"><td><p>no-store</p></td>
+<td><p>Do not cache this response</p></td>
+</tr>
+<tr class="row-even"><td><p>max-age=seconds</p></td>
+<td><p>Override default cache timeout</p></td>
+</tr>
+<tr class="row-odd"><td><p>must-revalidate</p></td>
+<td><p>Force revalidation on expired cache</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="performance-metrics">
+<h2>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading"></a></h2>
+<p>The Cache Middleware provides built-in performance monitoring:</p>
+<section id="timing-metrics">
+<h3>Timing Metrics<a class="headerlink" href="#timing-metrics" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example metrics collected</span>
+<span class="p">{</span>
+    <span class="s2">&quot;cache_get_time&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span>      <span class="c1"># Time to retrieve from cache</span>
+    <span class="s2">&quot;cache_set_time&quot;</span><span class="p">:</span> <span class="mf">0.002</span><span class="p">,</span>      <span class="c1"># Time to store in cache</span>
+    <span class="s2">&quot;backend_latency&quot;</span><span class="p">:</span> <span class="mf">0.0015</span><span class="p">,</span>    <span class="c1"># Backend operation latency</span>
+    <span class="s2">&quot;total_request_time&quot;</span><span class="p">:</span> <span class="mf">0.150</span>   <span class="c1"># Total request processing time</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="hit-rate-metrics">
+<h3>Hit Rate Metrics<a class="headerlink" href="#hit-rate-metrics" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cache performance metrics</span>
+<span class="p">{</span>
+    <span class="s2">&quot;cache_hits&quot;</span><span class="p">:</span> <span class="mi">850</span><span class="p">,</span>
+    <span class="s2">&quot;cache_misses&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+    <span class="s2">&quot;hit_rate&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span>             <span class="c1"># 85% hit rate</span>
+    <span class="s2">&quot;total_requests&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="backend-health">
+<h3>Backend Health<a class="headerlink" href="#backend-health" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Backend health status</span>
+<span class="p">{</span>
+    <span class="s2">&quot;backend_type&quot;</span><span class="p">:</span> <span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;connection_pool_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;active_connections&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;last_health_check&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-01-15T10:30:00Z&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development-tools">
+<h2>Development Tools<a class="headerlink" href="#development-tools" title="Link to this heading"></a></h2>
+<section id="testing-utilities">
+<h3>Testing Utilities<a class="headerlink" href="#testing-utilities" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.testing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MockCacheBackend</span><span class="p">,</span>
+    <span class="n">TestCacheMiddleware</span><span class="p">,</span>
+    <span class="n">assert_cached</span><span class="p">,</span>
+    <span class="n">assert_not_cached</span>
+<span class="p">)</span>
+
+<span class="c1"># Mock backend for testing</span>
+<span class="n">mock_backend</span> <span class="o">=</span> <span class="n">MockCacheBackend</span><span class="p">()</span>
+
+<span class="c1"># Test assertions</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_caching</span><span class="p">():</span>
+    <span class="k">await</span> <span class="n">assert_cached</span><span class="p">(</span><span class="s2">&quot;/api/data&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">assert_not_cached</span><span class="p">(</span><span class="s2">&quot;/api/dynamic&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="debug-mode">
+<h3>Debug Mode<a class="headerlink" href="#debug-mode" title="Link to this heading"></a></h3>
+<p>Enable debug mode for development:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable debug logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;cache_middleware&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="c1"># Add debug headers</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
+    <span class="n">CacheMiddleware</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+    <span class="n">debug</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Adds X-Cache-Key header</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="benchmarking">
+<h3>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading"></a></h3>
+<p>Built-in benchmarking tools:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.benchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_backend</span>
+
+<span class="c1"># Benchmark backend performance</span>
+<span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">benchmark_backend</span><span class="p">(</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">redis_backend</span><span class="p">,</span>
+    <span class="n">operations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">concurrency</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Operations per second: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;ops_per_second&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="migration-guide">
+<h2>Migration Guide<a class="headerlink" href="#migration-guide" title="Link to this heading"></a></h2>
+<section id="from-version-1-x-to-2-x">
+<h3>From Version 1.x to 2.x<a class="headerlink" href="#from-version-1-x-to-2-x" title="Link to this heading"></a></h3>
+<p>Breaking changes and migration path:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Version 1.x (factory pattern)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">RedisBackendFactory</span>
+
+<span class="n">factory</span> <span class="o">=</span> <span class="n">RedisBackendFactory</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend_factory</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
+
+<span class="c1"># Version 2.x (dependency injection)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheMiddleware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-changes">
+<h3>Configuration Changes<a class="headerlink" href="#configuration-changes" title="Link to this heading"></a></h3>
+<p>Updated configuration format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Old configuration</span>
+<span class="n">cache_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;backend_type&quot;</span><span class="p">:</span> <span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;redis_url&quot;</span><span class="p">:</span> <span class="s2">&quot;redis://localhost:6379&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># New configuration</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="compatibility-notes">
+<h2>Compatibility Notes<a class="headerlink" href="#compatibility-notes" title="Link to this heading"></a></h2>
+<section id="python-version-support">
+<h3>Python Version Support<a class="headerlink" href="#python-version-support" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Python 3.8+</strong>: Minimum supported version</p></li>
+<li><p><strong>Python 3.12</strong>: Recommended version</p></li>
+<li><p><strong>Python 3.13</strong>: Full support</p></li>
+</ul>
+</section>
+<section id="framework-compatibility">
+<h3>Framework Compatibility<a class="headerlink" href="#framework-compatibility" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>FastAPI</strong>: Full support (recommended)</p></li>
+<li><p><strong>Starlette</strong>: Full support</p></li>
+<li><p><strong>Django</strong>: Limited support via ASGI</p></li>
+<li><p><strong>Flask</strong>: Not supported (use Flask-Caching instead)</p></li>
+</ul>
+</section>
+<section id="redis-version-support">
+<h3>Redis Version Support<a class="headerlink" href="#redis-version-support" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Redis 5.0+</strong>: Minimum supported version</p></li>
+<li><p><strong>Redis 6.x</strong>: Full support</p></li>
+<li><p><strong>Redis 7.x</strong>: Full support with enhanced features</p></li>
+</ul>
+</section>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h3>
+<p>Core dependencies and their versions:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>fastapi&gt;=0.68.0
+starlette&gt;=0.14.0
+redis[hiredis]&gt;=4.0.0
+loguru&gt;=0.6.0
+pydantic&gt;=1.8.0
+</pre></div>
+</div>
+</section>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h2>
+<section id="api-design-guidelines">
+<h3>API Design Guidelines<a class="headerlink" href="#api-design-guidelines" title="Link to this heading"></a></h3>
+<p>When contributing to the API:</p>
+<ol class="arabic simple">
+<li><p><strong>Type Hints</strong>: All public functions must have complete type hints</p></li>
+<li><p><strong>Docstrings</strong>: Use NumPy-style docstrings for all public APIs</p></li>
+<li><p><strong>Async/Await</strong>: All I/O operations must be async</p></li>
+<li><p><strong>Error Handling</strong>: Fail gracefully, log errors appropriately</p></li>
+<li><p><strong>Testing</strong>: Maintain 100% test coverage for new APIs</p></li>
+</ol>
+</section>
+<section id="code-style">
+<h3>Code Style<a class="headerlink" href="#code-style" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Formatter</strong>: Use <cite>ruff format</cite> for code formatting</p></li>
+<li><p><strong>Linter</strong>: Use <cite>ruff check</cite> for code linting</p></li>
+<li><p><strong>Type Checker</strong>: Use <cite>mypy</cite> for type checking</p></li>
+<li><p><strong>Documentation</strong>: Use <cite>sphinx</cite> for API documentation</p></li>
+</ul>
+</section>
+<section id="pull-request-process">
+<h3>Pull Request Process<a class="headerlink" href="#pull-request-process" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Fork the repository</p></li>
+<li><p>Create a feature branch</p></li>
+<li><p>Add tests for new functionality</p></li>
+<li><p>Update documentation</p></li>
+<li><p>Run the full test suite</p></li>
+<li><p>Submit pull request with clear description</p></li>
+</ol>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="what-is.html"><span class="doc">What is Cache Middleware?</span></a> - Introduction to Cache Middleware</p></li>
+<li><p><a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> - Installation instructions</p></li>
+<li><p><a class="reference internal" href="user-guide.html"><span class="doc">User Guide</span></a> - Usage examples and tutorials</p></li>
+<li><p><a class="reference internal" href="middleware-configuration.html"><span class="doc">Middleware Configuration</span></a> - Configuration options</p></li>
+<li><p><a class="reference internal" href="extending-backends.html"><span class="doc">Extending Backends</span></a> - Custom backend development</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="extending-backends.html" class="btn btn-neutral float-left" title="Extending Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, impalah.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

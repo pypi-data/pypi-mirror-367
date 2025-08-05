@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Middleware Configuration &mdash; Cache Middleware 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="/cache-middleware/middleware-configuration.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Extending Backends" href="extending-backends.html" />
+    <link rel="prev" title="User Guide" href="user-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Cache Middleware
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what-is.html">What is Cache Middleware?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Middleware Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#backend-configuration">Backend Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache-backend-interface">Cache Backend Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redis-backend-options">Redis Backend Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-backend-options">Memory Backend Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-backend-configuration">Custom Backend Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#decorator-configuration">Decorator Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache-decorator-options">Cache Decorator Options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#middleware-registration">Middleware Registration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-registration">Basic Registration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#middleware-with-dependency-injection">Middleware with Dependency Injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-middleware-instances">Multiple Middleware Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-based-configuration">Environment-Based Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-configuration">Development Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#production-configuration">Production Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-factory">Configuration Factory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cache-key-configuration">Cache Key Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#default-key-generation">Default Key Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-key-generation">Custom Key Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cache-invalidation">Cache Invalidation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-tuning">Performance Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connection-pooling">Connection Pooling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-optimization">Memory Optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-configuration">Monitoring Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#logging-configuration">Logging Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metrics-collection">Metrics Collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#health-checks">Health Checks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extending-backends.html">Extending Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cache Middleware</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Middleware Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/middleware-configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="middleware-configuration">
+<h1>Middleware Configuration<a class="headerlink" href="#middleware-configuration" title="Link to this heading"></a></h1>
+<p>This section provides detailed information about configuring the Cache Middleware, including backend options, decorator parameters, and advanced settings.</p>
+<section id="backend-configuration">
+<h2>Backend Configuration<a class="headerlink" href="#backend-configuration" title="Link to this heading"></a></h2>
+<section id="cache-backend-interface">
+<h3>Cache Backend Interface<a class="headerlink" href="#cache-backend-interface" title="Link to this heading"></a></h3>
+<p>All cache backends implement the <code class="docutils literal notranslate"><span class="pre">CacheBackend</span></code> interface:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CacheBackend</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for cache backends.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a value from the cache.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a value in the cache with expiration.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a key from the cache.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close backend connections.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="redis-backend-options">
+<h3>Redis Backend Options<a class="headerlink" href="#redis-backend-options" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">RedisBackend</span></code> supports extensive configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+
+<span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>           <span class="c1"># Redis connection URL</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                     <span class="c1"># Max connections in pool</span>
+    <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># Retry on timeout</span>
+    <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># Enable TCP keepalive</span>
+    <span class="n">socket_keepalive_options</span><span class="o">=</span><span class="p">{</span>              <span class="c1"># TCP keepalive settings</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># TCP_KEEPIDLE</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># TCP_KEEPINTVL</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># TCP_KEEPCNT</span>
+    <span class="p">},</span>
+    <span class="n">health_check_interval</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>               <span class="c1"># Health check interval (seconds)</span>
+    <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                          <span class="c1"># Redis password</span>
+    <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>                                   <span class="c1"># Redis database number</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>                       <span class="c1"># String encoding</span>
+    <span class="n">decode_responses</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># Auto-decode responses</span>
+    <span class="n">socket_timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>                     <span class="c1"># Socket timeout</span>
+    <span class="n">socket_connect_timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>             <span class="c1"># Connection timeout</span>
+    <span class="n">connection_pool</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                   <span class="c1"># Custom connection pool</span>
+    <span class="n">ssl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                              <span class="c1"># Enable SSL</span>
+    <span class="n">ssl_keyfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                       <span class="c1"># SSL key file</span>
+    <span class="n">ssl_certfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                      <span class="c1"># SSL certificate file</span>
+    <span class="n">ssl_cert_reqs</span><span class="o">=</span><span class="s1">&#39;required&#39;</span><span class="p">,</span>               <span class="c1"># SSL certificate requirements</span>
+    <span class="n">ssl_ca_certs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                      <span class="c1"># SSL CA certificates</span>
+    <span class="n">ssl_check_hostname</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>               <span class="c1"># Verify hostname in SSL</span>
+    <span class="n">max_connections_per_pool</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>            <span class="c1"># Max connections per pool</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>URL Format Examples:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic Redis</span>
+<span class="s2">&quot;redis://localhost:6379&quot;</span>
+
+<span class="c1"># Redis with password</span>
+<span class="s2">&quot;redis://:password@localhost:6379&quot;</span>
+
+<span class="c1"># Redis with username and password</span>
+<span class="s2">&quot;redis://username:password@localhost:6379&quot;</span>
+
+<span class="c1"># Redis with specific database</span>
+<span class="s2">&quot;redis://localhost:6379/1&quot;</span>
+
+<span class="c1"># Redis with SSL</span>
+<span class="s2">&quot;rediss://localhost:6380&quot;</span>
+
+<span class="c1"># Redis Sentinel</span>
+<span class="s2">&quot;redis+sentinel://sentinel-host:26379/mymaster&quot;</span>
+</pre></div>
+</div>
+<p><strong>Production Redis Configuration:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://prod-redis-01:6379&quot;</span><span class="p">,</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">health_check_interval</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">socket_timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+    <span class="n">socket_connect_timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+    <span class="c1"># Enable SSL for production</span>
+    <span class="n">ssl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ssl_cert_reqs</span><span class="o">=</span><span class="s1">&#39;required&#39;</span><span class="p">,</span>
+    <span class="n">ssl_ca_certs</span><span class="o">=</span><span class="s1">&#39;/etc/ssl/certs/redis-ca.pem&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-backend-options">
+<h3>Memory Backend Options<a class="headerlink" href="#memory-backend-options" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">MemoryBackend</span></code> has simpler configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memory_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryBackend</span>
+
+<span class="n">memory_backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span>
+    <span class="n">max_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>          <span class="c1"># Maximum number of cached items</span>
+    <span class="n">cleanup_interval</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>    <span class="c1"># Cleanup expired items every 5 minutes</span>
+    <span class="n">default_timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>    <span class="c1"># Default timeout for items (1 hour)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Memory Usage Considerations:</strong></p>
+<ul class="simple">
+<li><p>Each cached item stores both key and value in memory</p></li>
+<li><p>Large response bodies consume significant memory</p></li>
+<li><p>Consider using Redis for production or large datasets</p></li>
+<li><p>Monitor memory usage in production environments</p></li>
+</ul>
+</section>
+<section id="custom-backend-configuration">
+<h3>Custom Backend Configuration<a class="headerlink" href="#custom-backend-configuration" title="Link to this heading"></a></h3>
+<p>For implementing custom backends:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheBackend</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomBackend</span><span class="p">(</span><span class="n">CacheBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">custom_param</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_param</span> <span class="o">=</span> <span class="n">custom_param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;expires&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">item</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># Clean up expired item</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">expires</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;expires&#39;</span><span class="p">:</span> <span class="n">expires</span><span class="p">}</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="decorator-configuration">
+<h2>Decorator Configuration<a class="headerlink" href="#decorator-configuration" title="Link to this heading"></a></h2>
+<section id="cache-decorator-options">
+<h3>Cache Decorator Options<a class="headerlink" href="#cache-decorator-options" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">&#64;cache</span></code> decorator accepts several parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
+<span class="nd">@cache</span><span class="p">(</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>            <span class="c1"># Cache timeout in seconds</span>
+    <span class="n">cache_control</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>     <span class="c1"># Respect HTTP Cache-Control headers</span>
+    <span class="n">exclude_headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>   <span class="c1"># Headers to exclude from cache key</span>
+    <span class="n">include_headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>   <span class="c1"># Headers to include in cache key</span>
+<span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">my_endpoint</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;cached&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Timeout Configuration:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Short-lived cache (1 minute)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">real_time_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()}</span>
+
+<span class="c1"># Medium-lived cache (5 minutes)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">user_profile</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">}</span>
+
+<span class="c1"># Long-lived cache (1 hour)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">application_config</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Cache-Control Header Support:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">cache_control</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cacheable_endpoint</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Supports standard HTTP Cache-Control directives:</span>
+<span class="sd">    - no-cache: Bypasses cache for this request</span>
+<span class="sd">    - no-store: Prevents caching of this response</span>
+<span class="sd">    - max-age=60: Overrides default timeout</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Header-Based Cache Keys:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Include specific headers in cache key</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">include_headers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Accept-Language&#39;</span><span class="p">,</span> <span class="s1">&#39;User-Agent&#39;</span><span class="p">])</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">localized_content</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello&quot;</span><span class="p">}</span>
+
+<span class="c1"># Exclude sensitive headers from cache key</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">exclude_headers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;Cookie&#39;</span><span class="p">])</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">public_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;public&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="middleware-registration">
+<h2>Middleware Registration<a class="headerlink" href="#middleware-registration" title="Link to this heading"></a></h2>
+<section id="basic-registration">
+<h3>Basic Registration<a class="headerlink" href="#basic-registration" title="Link to this heading"></a></h3>
+<p>Register the middleware with your FastAPI application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheMiddleware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="c1"># Create backend instance</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">)</span>
+
+<span class="c1"># Register middleware</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Important Notes:</strong></p>
+<ul class="simple">
+<li><p>Backend must be fully initialized before passing to middleware</p></li>
+<li><p>Middleware should be registered before route definitions</p></li>
+<li><p>Each application instance requires its own backend instance</p></li>
+</ul>
+</section>
+<section id="middleware-with-dependency-injection">
+<h3>Middleware with Dependency Injection<a class="headerlink" href="#middleware-with-dependency-injection" title="Link to this heading"></a></h3>
+<p>For advanced scenarios, use dependency injection:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_cache_backend</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_backend</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dependency to provide cache backend&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_cache_backend</span><span class="p">()</span>
+
+<span class="c1"># Use in routes that need direct cache access</span>
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/cache-stats&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cache_stats</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="n">CacheBackend</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_backend</span><span class="p">)):</span>
+    <span class="c1"># Direct backend access for administrative functions</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;operational&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-middleware-instances">
+<h3>Multiple Middleware Instances<a class="headerlink" href="#multiple-middleware-instances" title="Link to this heading"></a></h3>
+<p>For applications needing different cache strategies:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Different backends for different purposes</span>
+<span class="n">session_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">)</span>
+<span class="n">data_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Register multiple middleware instances (not recommended)</span>
+<span class="c1"># Instead, use a single middleware with smart routing</span>
+
+<span class="c1"># Better approach: Backend router</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BackendRouter</span><span class="p">(</span><span class="n">CacheBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backends</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backends</span> <span class="o">=</span> <span class="n">backends</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">backend_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_backend_for_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">backends</span><span class="p">[</span><span class="n">backend_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_backend_for_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;session:&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;session&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;data&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environment-based-configuration">
+<h2>Environment-Based Configuration<a class="headerlink" href="#environment-based-configuration" title="Link to this heading"></a></h2>
+<section id="development-configuration">
+<h3>Development Configuration<a class="headerlink" href="#development-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_backend_from_env</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_development_backend</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Development-specific backend configuration&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;USE_REDIS&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">),</span>
+            <span class="n">max_connections</span><span class="o">=</span><span class="mi">5</span>  <span class="c1"># Lower connection pool for dev</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># Small cache for dev</span>
+</pre></div>
+</div>
+</section>
+<section id="production-configuration">
+<h3>Production Configuration<a class="headerlink" href="#production-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_production_backend</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Production-specific backend configuration&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">),</span>
+        <span class="n">max_connections</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_MAX_CONNECTIONS&quot;</span><span class="p">,</span> <span class="s2">&quot;50&quot;</span><span class="p">)),</span>
+        <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">health_check_interval</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">socket_timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+        <span class="c1"># Production SSL settings</span>
+        <span class="n">ssl</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_SSL&quot;</span><span class="p">,</span> <span class="s2">&quot;false&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+        <span class="n">ssl_cert_reqs</span><span class="o">=</span><span class="s1">&#39;required&#39;</span><span class="p">,</span>
+        <span class="n">ssl_ca_certs</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_SSL_CA_CERTS&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-factory">
+<h3>Configuration Factory<a class="headerlink" href="#configuration-factory" title="Link to this heading"></a></h3>
+<p>Create a configuration factory for different environments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CacheConfig</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_backend</span><span class="p">(</span><span class="n">environment</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+        <span class="n">config_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;development&quot;</span><span class="p">:</span> <span class="n">CacheConfig</span><span class="o">.</span><span class="n">_development_config</span><span class="p">,</span>
+            <span class="s2">&quot;testing&quot;</span><span class="p">:</span> <span class="n">CacheConfig</span><span class="o">.</span><span class="n">_testing_config</span><span class="p">,</span>
+            <span class="s2">&quot;staging&quot;</span><span class="p">:</span> <span class="n">CacheConfig</span><span class="o">.</span><span class="n">_staging_config</span><span class="p">,</span>
+            <span class="s2">&quot;production&quot;</span><span class="p">:</span> <span class="n">CacheConfig</span><span class="o">.</span><span class="n">_production_config</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">config_func</span> <span class="o">=</span> <span class="n">config_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">environment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">config_func</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown environment: </span><span class="si">{</span><span class="n">environment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">config_func</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_development_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_testing_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_staging_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;redis://staging-redis:6379&quot;</span><span class="p">),</span>
+            <span class="n">max_connections</span><span class="o">=</span><span class="mi">10</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_production_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">),</span>
+            <span class="n">max_connections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">ssl</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cache-key-configuration">
+<h2>Cache Key Configuration<a class="headerlink" href="#cache-key-configuration" title="Link to this heading"></a></h2>
+<section id="default-key-generation">
+<h3>Default Key Generation<a class="headerlink" href="#default-key-generation" title="Link to this heading"></a></h3>
+<p>The middleware generates cache keys using this pattern:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Key format: cache:{hash}</span>
+<span class="c1"># Hash includes: method, path, query parameters, request body</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_cache_key</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span>
+    <span class="n">query_params</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&amp;&quot;</span><span class="p">))</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="k">await</span> <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">()</span>
+
+    <span class="n">key_base</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="s1">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_params</span><span class="p">)</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cache:</span><span class="si">{</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">key_base</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">cache_key</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-key-generation">
+<h3>Custom Key Generation<a class="headerlink" href="#custom-key-generation" title="Link to this heading"></a></h3>
+<p>Override key generation for specific needs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomCacheMiddleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_cache_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="c1"># Custom key generation logic</span>
+        <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-User-ID&quot;</span><span class="p">,</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">)</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;user_cache:</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="cache-invalidation">
+<h3>Cache Invalidation<a class="headerlink" href="#cache-invalidation" title="Link to this heading"></a></h3>
+<p>Implement cache invalidation patterns:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/invalidate-cache&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">invalidate_cache</span><span class="p">(</span><span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">CacheBackend</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_backend</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Invalidate cache entries matching pattern&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="s1">&#39;delete_pattern&#39;</span><span class="p">):</span>
+        <span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">delete_pattern</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Cache invalidated&quot;</span><span class="p">}</span>
+
+<span class="c1"># Tag-based invalidation</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;user_data&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;user_</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_profile</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-tuning">
+<h2>Performance Tuning<a class="headerlink" href="#performance-tuning" title="Link to this heading"></a></h2>
+<section id="connection-pooling">
+<h3>Connection Pooling<a class="headerlink" href="#connection-pooling" title="Link to this heading"></a></h3>
+<p>Optimize Redis connection pooling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># High-traffic configuration</span>
+<span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># Increased pool size</span>
+    <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">socket_keepalive_options</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>  <span class="c1"># TCP_KEEPIDLE (10 minutes)</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>   <span class="c1"># TCP_KEEPINTVL (1 minute)</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>    <span class="c1"># TCP_KEEPCNT</span>
+    <span class="p">},</span>
+    <span class="n">health_check_interval</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+    <span class="n">socket_timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-optimization">
+<h3>Memory Optimization<a class="headerlink" href="#memory-optimization" title="Link to this heading"></a></h3>
+<p>For memory-constrained environments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optimize memory backend</span>
+<span class="n">memory_backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span>
+    <span class="n">max_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>           <span class="c1"># Smaller cache size</span>
+    <span class="n">cleanup_interval</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>    <span class="c1"># More frequent cleanup</span>
+<span class="p">)</span>
+
+<span class="c1"># Use compression for large responses</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompressedMemoryBackend</span><span class="p">(</span><span class="n">MemoryBackend</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">compressed_value</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">compressed_value</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">compressed_value</span> <span class="o">=</span> <span class="k">await</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">compressed_value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">compressed_value</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="monitoring-configuration">
+<h2>Monitoring Configuration<a class="headerlink" href="#monitoring-configuration" title="Link to this heading"></a></h2>
+<section id="logging-configuration">
+<h3>Logging Configuration<a class="headerlink" href="#logging-configuration" title="Link to this heading"></a></h3>
+<p>Configure detailed cache monitoring:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.logger_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">configure_logger</span><span class="p">,</span> <span class="n">logger</span>
+
+<span class="c1"># Production logging</span>
+<span class="n">configure_logger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+    <span class="s2">&quot;cache_middleware.log&quot;</span><span class="p">,</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;100 MB&quot;</span><span class="p">,</span>
+    <span class="n">retention</span><span class="o">=</span><span class="s2">&quot;30 days&quot;</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;{time:YYYY-MM-DD HH:mm:ss} | </span><span class="si">{level}</span><span class="s2"> | </span><span class="si">{message}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">serialize</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># JSON format for log aggregation</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="metrics-collection">
+<h3>Metrics Collection<a class="headerlink" href="#metrics-collection" title="Link to this heading"></a></h3>
+<p>Integrate with monitoring systems:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MetricsBackend</span><span class="p">(</span><span class="n">CacheBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">CacheBackend</span><span class="p">,</span> <span class="n">metrics_client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics_client</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="s1">&#39;cache.get.duration&#39;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">&#39;cache.get.requests&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">&#39;cache.get.hits&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">&#39;cache.get.misses&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</section>
+<section id="health-checks">
+<h3>Health Checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h3>
+<p>Implement backend health monitoring:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/health/cache&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">cache_health</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="n">CacheBackend</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_backend</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check cache backend health&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Test cache operations</span>
+        <span class="n">test_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;health_check_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">test_key</span><span class="p">,</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">test_key</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">backend</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">test_key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;ok&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span><span class="p">,</span> <span class="s2">&quot;backend&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;degraded&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Cache not responding correctly&quot;</span><span class="p">}</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;unhealthy&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Learn how to implement custom backends in <a class="reference internal" href="extending-backends.html"><span class="doc">Extending Backends</span></a></p></li>
+<li><p>Check the complete API documentation in <a class="reference internal" href="api.html"><span class="doc">API Reference</span></a></p></li>
+<li><p>Return to practical examples in <a class="reference internal" href="user-guide.html"><span class="doc">User Guide</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user-guide.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="extending-backends.html" class="btn btn-neutral float-right" title="Extending Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, impalah.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

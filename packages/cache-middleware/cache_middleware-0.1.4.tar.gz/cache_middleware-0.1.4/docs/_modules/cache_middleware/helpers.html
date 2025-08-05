@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cache_middleware.helpers &mdash; Cache Middleware 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="/cache-middleware/_modules/cache_middleware/helpers.html" />
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Cache Middleware
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../what-is.html">What is Cache Middleware?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../middleware-configuration.html">Middleware Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../extending-backends.html">Extending Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Cache Middleware</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cache_middleware.helpers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cache_middleware.helpers</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helper functions for common backend configurations.</span>
+
+<span class="sd">This module provides convenience functions to create and configure</span>
+<span class="sd">cache backends using environment variables and common patterns.</span>
+<span class="sd">It simplifies backend setup for different deployment environments.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memcached_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemcachedBackend</span>
+
+<span class="c1"># Optional imports with proper error handling</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+    <span class="n">_REDIS_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_REDIS_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memcached_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemcachedBackend</span>
+    <span class="n">_MEMCACHED_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_MEMCACHED_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memory_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheBackend</span>
+
+
+<div class="viewcode-block" id="create_redis_backend_from_env">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.create_redis_backend_from_env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_redis_backend_from_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;RedisBackend&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create Redis backend using environment variables.</span>
+<span class="sd">    </span>
+<span class="sd">    This function reads Redis configuration from environment variables,</span>
+<span class="sd">    making it easy to configure the backend for different deployment</span>
+<span class="sd">    environments without code changes.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    RedisBackend</span>
+<span class="sd">        Configured Redis backend instance</span>
+<span class="sd">        </span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        If redis backend dependencies are not installed</span>
+<span class="sd">        </span>
+<span class="sd">    Environment Variables</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    REDIS_URL : str, default=&quot;redis://localhost:6379&quot;</span>
+<span class="sd">        Redis connection URL</span>
+<span class="sd">    REDIS_MAX_CONNECTIONS : int, default=10</span>
+<span class="sd">        Maximum number of connections in the pool</span>
+<span class="sd">    REDIS_PASSWORD : str, optional</span>
+<span class="sd">        Redis authentication password</span>
+<span class="sd">    REDIS_RETRY_ON_TIMEOUT : bool, default=True</span>
+<span class="sd">        Whether to retry operations on timeout</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Set environment variables</span>
+<span class="sd">    &gt;&gt;&gt; os.environ[&quot;REDIS_URL&quot;] = &quot;redis://prod-redis:6379&quot;</span>
+<span class="sd">    &gt;&gt;&gt; os.environ[&quot;REDIS_MAX_CONNECTIONS&quot;] = &quot;20&quot;</span>
+<span class="sd">    &gt;&gt;&gt; backend = create_redis_backend_from_env()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_REDIS_AVAILABLE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;Redis backend requires &#39;redis[hiredis]&#39;. &quot;</span>
+            <span class="s2">&quot;Install with: pip install cache-middleware[redis]&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">),</span>
+        <span class="n">max_connections</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_MAX_CONNECTIONS&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">)),</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_PASSWORD&quot;</span><span class="p">),</span>
+        <span class="n">retry_on_timeout</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_RETRY_ON_TIMEOUT&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_memory_backend_from_env">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.create_memory_backend_from_env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_memory_backend_from_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">MemoryBackend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create in-memory backend using environment variables.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    MemoryBackend</span>
+<span class="sd">        Configured in-memory backend instance</span>
+<span class="sd">        </span>
+<span class="sd">    Environment Variables</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    MEMORY_CACHE_SIZE : int, default=1000</span>
+<span class="sd">        Maximum number of cache entries to store</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; os.environ[&quot;MEMORY_CACHE_SIZE&quot;] = &quot;500&quot;</span>
+<span class="sd">    &gt;&gt;&gt; backend = create_memory_backend_from_env()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span>
+        <span class="n">max_size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MEMORY_CACHE_SIZE&quot;</span><span class="p">,</span> <span class="s2">&quot;1000&quot;</span><span class="p">))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="auto_configure_backend">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.auto_configure_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_configure_backend</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Auto-configure backend based on environment variables.</span>
+<span class="sd">    </span>
+<span class="sd">    This function automatically selects and configures the appropriate</span>
+<span class="sd">    backend based on the CACHE_BACKEND environment variable.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    CacheBackend</span>
+<span class="sd">        Configured backend instance</span>
+<span class="sd">        </span>
+<span class="sd">    Environment Variables</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    CACHE_BACKEND : str, default=&quot;memory&quot;</span>
+<span class="sd">        Backend type to use (&quot;redis&quot; or &quot;memory&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If an unknown backend type is specified</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; os.environ[&quot;CACHE_BACKEND&quot;] = &quot;redis&quot;</span>
+<span class="sd">    &gt;&gt;&gt; backend = auto_configure_backend()  # Returns RedisBackend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend_type</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CACHE_BACKEND&quot;</span><span class="p">,</span> <span class="s2">&quot;memory&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">backend_type</span> <span class="o">==</span> <span class="s2">&quot;redis&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">create_redis_backend_from_env</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">backend_type</span> <span class="o">==</span> <span class="s2">&quot;memory&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">create_memory_backend_from_env</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend type from env: </span><span class="si">{</span><span class="n">backend_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_production_redis_backend">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.create_production_redis_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_production_redis_backend</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;RedisBackend&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create Redis backend optimized for production.</span>
+<span class="sd">    </span>
+<span class="sd">    This function creates a Redis backend with production-ready settings</span>
+<span class="sd">    including connection pooling, keepalive, and health checks.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    RedisBackend</span>
+<span class="sd">        Production-optimized Redis backend</span>
+<span class="sd">        </span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        If redis backend dependencies are not installed</span>
+<span class="sd">        </span>
+<span class="sd">    Environment Variables</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    REDIS_URL : str, default=&quot;redis://localhost:6379&quot;</span>
+<span class="sd">        Redis connection URL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_REDIS_AVAILABLE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;Redis backend requires &#39;redis[hiredis]&#39;. &quot;</span>
+            <span class="s2">&quot;Install with: pip install cache-middleware[redis]&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">RedisBackend</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;REDIS_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">),</span>
+        <span class="n">max_connections</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">retry_on_timeout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">socket_keepalive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">socket_keepalive_options</span><span class="o">=</span><span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># TCP_KEEPIDLE</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># TCP_KEEPINTVL  </span>
+            <span class="mi">3</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># TCP_KEEPCNT</span>
+        <span class="p">},</span>
+        <span class="n">health_check_interval</span><span class="o">=</span><span class="mi">30</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_development_backend">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.create_development_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_development_backend</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">MemoryBackend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create in-memory backend optimized for development.</span>
+<span class="sd">    </span>
+<span class="sd">    This function creates a small in-memory cache suitable for</span>
+<span class="sd">    development and testing environments.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    MemoryBackend</span>
+<span class="sd">        Development-optimized memory backend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_backend_for_environment">
+<a class="viewcode-back" href="../../api.html#cache_middleware.helpers.get_backend_for_environment">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_backend_for_environment</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CacheBackend</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get backend configured for a specific environment.</span>
+<span class="sd">    </span>
+<span class="sd">    This function provides environment-specific backend configurations</span>
+<span class="sd">    with sensible defaults for common deployment scenarios.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    env : str, optional</span>
+<span class="sd">        Environment name (&quot;development&quot;, &quot;production&quot;, &quot;testing&quot;).</span>
+<span class="sd">        If None, uses the ENVIRONMENT environment variable.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    CacheBackend</span>
+<span class="sd">        Backend configured for the specified environment</span>
+<span class="sd">        </span>
+<span class="sd">    Environment Variables</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    ENVIRONMENT : str, default=&quot;development&quot;</span>
+<span class="sd">        Deployment environment when env parameter is None</span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Explicit environment</span>
+<span class="sd">    &gt;&gt;&gt; backend = get_backend_for_environment(&quot;production&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; # From environment variable</span>
+<span class="sd">    &gt;&gt;&gt; os.environ[&quot;ENVIRONMENT&quot;] = &quot;production&quot;</span>
+<span class="sd">    &gt;&gt;&gt; backend = get_backend_for_environment()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;development&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">create_production_redis_backend</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">create_development_backend</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;testing&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># Small cache for tests</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">auto_configure_backend</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, impalah.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

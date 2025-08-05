@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; Cache Middleware 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="/cache-middleware/installation.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Guide" href="user-guide.html" />
+    <link rel="prev" title="What is Cache Middleware?" href="what-is.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Cache Middleware
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what-is.html">What is Cache Middleware?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-installation">Basic Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core-package-only">Core Package Only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backend-specific-installation">Backend-Specific Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#package-manager-examples">Package Manager Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conda">conda</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#backend-dependencies">Backend Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#redis-backend">Redis Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memcached-backend">Memcached Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-backend">Memory Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#all-backends">All Backends</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development-installation">Development Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-source">From Source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#development-dependencies">Development Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-installation">Docker Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#docker-compose-example">Docker Compose Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-setup">Environment Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#memory-backend-setup">Memory Backend Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redis-setup">Redis Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memcached-setup">Memcached Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#verification">Verification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-specific-verification">Backend-Specific Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complete-example">Complete Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#common-issues">Common Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-help">Getting Help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="middleware-configuration.html">Middleware Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending-backends.html">Extending Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cache Middleware</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>Cache Middleware can be installed using various Python package managers. Choose the method that best fits your development workflow.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Python</strong>: 3.12 or higher</p></li>
+<li><p><strong>FastAPI</strong>: 0.116.1 or higher</p></li>
+<li><p><strong>Redis</strong>: Optional, required only for Redis backend</p></li>
+<li><p><strong>Memcached</strong>: Optional, required only for Memcached backend</p></li>
+</ul>
+</section>
+<section id="basic-installation">
+<h2>Basic Installation<a class="headerlink" href="#basic-installation" title="Link to this heading"></a></h2>
+<p>The base package includes only core functionality with the in-memory backend. Additional backends can be installed as needed.</p>
+<section id="core-package-only">
+<h3>Core Package Only<a class="headerlink" href="#core-package-only" title="Link to this heading"></a></h3>
+<p>Install just the core cache middleware (includes Memory backend only):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware
+</pre></div>
+</div>
+<p>This provides:
+- Memory backend for development and testing
+- Core middleware functionality
+- All decorators and utilities</p>
+</section>
+<section id="backend-specific-installation">
+<h3>Backend-Specific Installation<a class="headerlink" href="#backend-specific-installation" title="Link to this heading"></a></h3>
+<p>Install with specific backend support:</p>
+<p><strong>Redis Backend:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Memcached Backend:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>memcached<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Multiple Backends:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis,memcached<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>All Available Backends:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="package-manager-examples">
+<h3>Package Manager Examples<a class="headerlink" href="#package-manager-examples" title="Link to this heading"></a></h3>
+<p><strong>pip:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core only</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware
+
+<span class="c1"># With Redis backend</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span>
+
+<span class="c1"># With all backends</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+<p>For development with additional tools:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all,dev<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>uv (Recommended):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core only</span>
+uv<span class="w"> </span>add<span class="w"> </span>cache-middleware
+
+<span class="c1"># With Redis backend</span>
+uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[redis]&quot;</span>
+
+<span class="c1"># With all backends</span>
+uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[all]&quot;</span>
+</pre></div>
+</div>
+<p>For development dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[all]&quot;</span><span class="w"> </span>--group<span class="w"> </span>dev
+</pre></div>
+</div>
+<p><strong>Poetry:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core only</span>
+poetry<span class="w"> </span>add<span class="w"> </span>cache-middleware
+
+<span class="c1"># With Redis backend</span>
+poetry<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[redis]&quot;</span>
+
+<span class="c1"># With all backends</span>
+poetry<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[all]&quot;</span>
+</pre></div>
+</div>
+<p>For development dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;cache-middleware[all]&quot;</span><span class="w"> </span>--group<span class="w"> </span>dev
+</pre></div>
+</div>
+<p><strong>pipenv:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core only</span>
+pipenv<span class="w"> </span>install<span class="w"> </span>cache-middleware
+
+<span class="c1"># With Redis backend</span>
+pipenv<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cache-middleware[redis]&quot;</span>
+</pre></div>
+</div>
+<p>For development dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pipenv<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cache-middleware[all]&quot;</span><span class="w"> </span>--dev
+</pre></div>
+</div>
+</section>
+<section id="conda">
+<h3>conda<a class="headerlink" href="#conda" title="Link to this heading"></a></h3>
+<p>For Anaconda/Miniconda environments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: Conda packages may not support optional dependencies</span>
+<span class="c1"># Install base package and then add backend dependencies manually</span>
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>cache-middleware
+pip<span class="w"> </span>install<span class="w"> </span>redis<span class="o">[</span>hiredis<span class="o">]</span><span class="w">  </span><span class="c1"># For Redis backend</span>
+pip<span class="w"> </span>install<span class="w"> </span>aiomcache<span class="w">       </span><span class="c1"># For Memcached backend</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="backend-dependencies">
+<h2>Backend Dependencies<a class="headerlink" href="#backend-dependencies" title="Link to this heading"></a></h2>
+<p>The package now supports modular installation of backend dependencies:</p>
+<section id="redis-backend">
+<h3>Redis Backend<a class="headerlink" href="#redis-backend" title="Link to this heading"></a></h3>
+<p>The Redis backend requires additional dependencies installed via extras:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span>
+</pre></div>
+</div>
+<p>This includes:
+- <code class="docutils literal notranslate"><span class="pre">redis[hiredis]&gt;=6.2.0</span></code> - Redis client with hiredis for performance
+- Hiredis provides faster Redis protocol parsing</p>
+<p><strong>Manual Installation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware
+pip<span class="w"> </span>install<span class="w"> </span>redis<span class="o">[</span>hiredis<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="memcached-backend">
+<h3>Memcached Backend<a class="headerlink" href="#memcached-backend" title="Link to this heading"></a></h3>
+<p>The Memcached backend requires additional dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>memcached<span class="o">]</span>
+</pre></div>
+</div>
+<p>This includes:
+- <code class="docutils literal notranslate"><span class="pre">aiomcache&gt;=0.8.2</span></code> - Async Memcached client</p>
+<p><strong>Manual Installation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware
+pip<span class="w"> </span>install<span class="w"> </span>aiomcache
+</pre></div>
+</div>
+</section>
+<section id="memory-backend">
+<h3>Memory Backend<a class="headerlink" href="#memory-backend" title="Link to this heading"></a></h3>
+<p>The in-memory backend has no external dependencies and is included in the core package.</p>
+</section>
+<section id="all-backends">
+<h3>All Backends<a class="headerlink" href="#all-backends" title="Link to this heading"></a></h3>
+<p>To install all available backends at once:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+<p>This is equivalent to:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis,memcached<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development-installation">
+<h2>Development Installation<a class="headerlink" href="#development-installation" title="Link to this heading"></a></h2>
+<p>For contributing to Cache Middleware or running from source:</p>
+<section id="from-source">
+<h3>From Source<a class="headerlink" href="#from-source" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/impalah/cache-middleware.git
+<span class="nb">cd</span><span class="w"> </span>cache-middleware
+uv<span class="w"> </span>sync
+</pre></div>
+</div>
+<p>This will install all dependencies including development tools and all backends.</p>
+</section>
+<section id="development-dependencies">
+<h3>Development Dependencies<a class="headerlink" href="#development-dependencies" title="Link to this heading"></a></h3>
+<p>Development installation includes all backends plus development tools:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest&gt;=8.3.5</span></code> - Testing framework</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest-asyncio&gt;=0.26.0</span></code> - Async test support</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest-cov&gt;=6.0.0</span></code> - Coverage reporting</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mypy&gt;=1.15.0</span></code> - Type checking</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ruff&gt;=0.11.0</span></code> - Linting and formatting</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bandit&gt;=1.8.3</span></code> - Security scanning</p></li>
+</ul>
+</section>
+</section>
+<section id="docker-installation">
+<h2>Docker Installation<a class="headerlink" href="#docker-installation" title="Link to this heading"></a></h2>
+<p>For containerized environments, choose the appropriate backend extras:</p>
+<p><strong>Memory Backend Only (minimal):</strong></p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12-slim</span>
+
+<span class="c"># Install core cache-middleware only</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware
+
+<span class="c"># Copy your application</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Run your FastAPI app</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;main:app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>With Redis Backend:</strong></p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12-slim</span>
+
+<span class="c"># Install cache-middleware with Redis support</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span>
+
+<span class="c"># Copy your application</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Run your FastAPI app</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;main:app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>With All Backends:</strong></p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.12-slim</span>
+
+<span class="c"># Install cache-middleware with all backends</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+
+<span class="c"># Copy your application</span>
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>/app
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="c"># Run your FastAPI app</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;main:app&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="docker-compose-example">
+<h3>Docker Compose Example<a class="headerlink" href="#docker-compose-example" title="Link to this heading"></a></h3>
+<p>Complete setup with Redis backend:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL=redis://redis:6379</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+
+<span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:7-alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6379:6379&quot;</span>
+</pre></div>
+</div>
+<p>For multi-backend development environment:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">REDIS_URL=redis://redis:6379</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MEMCACHED_URL=memcached:11211</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">memcached</span>
+
+<span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:7-alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6379:6379&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis-data:/data</span>
+
+<span class="w">  </span><span class="nt">memcached</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">memcached:latest</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;11211:11211&quot;</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">redis-data</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="environment-setup">
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Link to this heading"></a></h2>
+<p>Depending on your chosen backend, you may need to set up external services:</p>
+<section id="memory-backend-setup">
+<h3>Memory Backend Setup<a class="headerlink" href="#memory-backend-setup" title="Link to this heading"></a></h3>
+<p>No external setup required. The memory backend works out of the box.</p>
+</section>
+<section id="redis-setup">
+<h3>Redis Setup<a class="headerlink" href="#redis-setup" title="Link to this heading"></a></h3>
+<p>If using the Redis backend, you’ll need a Redis server. Here are common setup methods:</p>
+<p><strong>Local Redis with Docker:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>redis<span class="w"> </span>-p<span class="w"> </span><span class="m">6379</span>:6379<span class="w"> </span>redis:7-alpine
+</pre></div>
+</div>
+<p><strong>Docker Compose (for development):</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:7-alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6379:6379&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis-data:/data</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">redis-data</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>System Installation:</strong></p>
+<p>Ubuntu/Debian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis-server
+</pre></div>
+</div>
+<p>macOS with Homebrew:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>redis
+brew<span class="w"> </span>services<span class="w"> </span>start<span class="w"> </span>redis
+</pre></div>
+</div>
+<p>Windows with WSL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>redis-server
+sudo<span class="w"> </span>service<span class="w"> </span>redis-server<span class="w"> </span>start
+</pre></div>
+</div>
+</section>
+<section id="memcached-setup">
+<h3>Memcached Setup<a class="headerlink" href="#memcached-setup" title="Link to this heading"></a></h3>
+<p>If using the Memcached backend, you’ll need a Memcached server:</p>
+<p><strong>Local Memcached with Docker:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>memcached<span class="w"> </span>-p<span class="w"> </span><span class="m">11211</span>:11211<span class="w"> </span>memcached:latest
+</pre></div>
+</div>
+<p><strong>System Installation:</strong></p>
+<p>Ubuntu/Debian:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>memcached
+</pre></div>
+</div>
+<p>macOS with Homebrew:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>memcached
+brew<span class="w"> </span>services<span class="w"> </span>start<span class="w"> </span>memcached
+</pre></div>
+</div>
+<p>Windows:
+Download from the official Memcached website or use Docker.</p>
+</section>
+</section>
+<section id="verification">
+<h2>Verification<a class="headerlink" href="#verification" title="Link to this heading"></a></h2>
+<p>Verify your installation by running:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cache_middleware</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cache_middleware</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="backend-specific-verification">
+<h3>Backend-Specific Verification<a class="headerlink" href="#backend-specific-verification" title="Link to this heading"></a></h3>
+<p><strong>Memory Backend (always available):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memory_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryBackend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memory backend available&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Redis Backend:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.redis_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisBackend</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Redis backend available&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Redis backend not available: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Memcached Backend:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memcached_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemcachedBackend</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Memcached backend available&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Memcached backend not available: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="complete-example">
+<h3>Complete Example<a class="headerlink" href="#complete-example" title="Link to this heading"></a></h3>
+<p>Test with a simple FastAPI app:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheMiddleware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.backends.memory_backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="c1"># Use memory backend for testing (always available)</span>
+<span class="n">memory_backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">memory_backend</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/test&quot;</span><span class="p">)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_endpoint</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Cache middleware is working!&quot;</span><span class="p">}</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">uvicorn</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run this and visit <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/test</span></code> to verify caching is working.</p>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<p><strong>Import Error:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ImportError: No module named &#39;cache_middleware&#39;
+</pre></div>
+</div>
+<p>Solution: Ensure you’re in the correct virtual environment and cache-middleware is installed.</p>
+<p><strong>Backend Import Error:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ImportError: Redis backend requires &#39;redis[hiredis]&#39;. Install with: pip install cache-middleware[redis]
+</pre></div>
+</div>
+<p>Solution: Install the appropriate backend extras:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Redis backend</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span>
+
+<span class="c1"># For Memcached backend</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>memcached<span class="o">]</span>
+
+<span class="c1"># For all backends</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Redis Connection Error:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>redis.exceptions.ConnectionError: Error connecting to Redis
+</pre></div>
+</div>
+<p>Solution: Verify Redis is running and accessible at the configured URL.</p>
+<p><strong>Memcached Connection Error:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OSError: [Errno 111] Connection refused
+</pre></div>
+</div>
+<p>Solution: Verify Memcached is running and accessible at the configured host/port.</p>
+<p><strong>Version Conflicts:</strong></p>
+<p>If you encounter dependency conflicts, try creating a fresh virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>fresh-env
+<span class="nb">source</span><span class="w"> </span>fresh-env/bin/activate<span class="w">  </span><span class="c1"># On Windows: fresh-env\\Scripts\\activate</span>
+pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Performance Issues:</strong></p>
+<p>For optimal performance with Redis, ensure you have hiredis installed (included with redis extras):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cache-middleware<span class="o">[</span>redis<span class="o">]</span><span class="w">  </span><span class="c1"># Includes hiredis</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-help">
+<h3>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h3>
+<p>If you encounter issues:</p>
+<ol class="arabic simple">
+<li><p>Check the <a class="reference external" href="https://github.com/impalah/cache-middleware/issues">GitHub Issues</a></p></li>
+<li><p>Review the configuration documentation</p></li>
+<li><p>Enable debug logging to diagnose issues</p></li>
+<li><p>Create a minimal reproduction case</p></li>
+</ol>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After installation, proceed to the <a class="reference internal" href="user-guide.html"><span class="doc">User Guide</span></a> to learn how to configure and use Cache Middleware in your FastAPI applications.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="what-is.html" class="btn btn-neutral float-left" title="What is Cache Middleware?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user-guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, impalah.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
