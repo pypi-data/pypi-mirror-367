@@ -1,0 +1,78 @@
+[project]
+name = "sing-box-config"
+dynamic = []
+description = "The configuration generator for sing-box"
+authors = [
+    { name = "ak1ra", email = "git@ak1ra.xyz" },
+]
+dependencies = [
+    "argcomplete>=3.6.2",
+    "httpx>=0.28.1",
+]
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+keywords = [
+    "ansible",
+    "tproxy",
+    "sing-box",
+]
+license = "MIT"
+version = "0.4.0"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/ak1ra-lab/sing-box-tproxy"
+Changelog = "https://github.com/ak1ra-lab/sing-box-tproxy/blob/master/CHANGELOG.md"
+
+[project.scripts]
+sing-box-config = "sing_box_config.cmd:main"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+includes = [
+    "config",
+    "roles",
+    "src",
+    "tests",
+    "ansible.cfg",
+    "playbook.yaml",
+]
+
+[tool.pdm.version]
+source = "scm"
+
+[dependency-groups]
+tests = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+]
+lint = [
+    "ruff>=0.9.4",
+]
+dev = [
+    { include-group = "tests" },
+    { include-group = "lint" },
+    "nox>=2024.10.9",
+    "pre-commit>=4.2.0",
+]
