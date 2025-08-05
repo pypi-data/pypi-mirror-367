@@ -1,0 +1,351 @@
+Metadata-Version: 2.4
+Name: nebula-client
+Version: 1.0.1
+Summary: Official Python SDK for Nebula Cloud API - Memory Focus
+Author-email: Nebula Cloud <support@nebulacloud.app>
+License: Proprietary
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+
+# Nebula Client SDK
+
+A clean, intuitive Python SDK for Nebula Cloud API with memory and collection management capabilities.
+
+## Features
+
+- **Memory Management**: Store, retrieve, and manage memories with rich metadata
+- **Collection Support**: Organize memories into collections for better organization
+- **Agent Chat**: Chat with agents using their memories for context
+- **Advanced Retrieval**: Multiple retrieval types (simple, planning, reasoning, deep research)
+- **Error Handling**: Comprehensive error handling with custom exceptions
+- **Type Safety**: Full TypeScript-style type hints and dataclass models
+
+## Installation
+
+```bash
+pip install nebula-client
+```
+
+## Quick Start
+
+```python
+from nebula_client import NebulaClient
+
+# Initialize the client
+client = NebulaClient(api_key="your-api-key")
+
+# Create a collection
+collection = client.create_collection(
+    name="Customer Support Knowledge",
+    description="Collection of customer support interactions"
+)
+
+# Store a memory in the collection
+memory = client.store(
+    agent_id="support-bot",
+    content="Customer prefers email communication over phone calls",
+    metadata={"user_id": "user-123", "preference_type": "communication"},
+    collection_id=collection.id
+)
+
+# Retrieve relevant memories
+memories = client.retrieve(
+    agent_id="support-bot",
+    query="communication preferences",
+    collection_id=collection.id,
+    limit=5
+)
+
+# Chat with agent using collection context
+response = client.chat(
+    agent_id="support-bot",
+    message="What's the best way to contact this customer?",
+    collection_id=collection.id
+)
+
+print(response.content)
+```
+
+## Core Concepts
+
+### Memories
+Memories are the fundamental unit of data in Nebula. They represent pieces of information that can be stored, retrieved, and used by agents for context.
+
+### Collections
+Collections are groups of related memories. They help organize data and provide scoped access for retrieval and chat operations.
+
+### Agents
+Agents are entities that can store memories and engage in conversations. Each memory belongs to an agent, and agents can have multiple memories.
+
+## API Reference
+
+### Collection Management
+
+```python
+# Create a collection
+collection = client.create_collection(name, description, metadata)
+
+# List all collections
+collections = client.list_collections(limit=100, offset=0)
+
+# Get a specific collection
+collection = client.get_collection(collection_id)
+
+# Update a collection
+updated = client.update_collection(collection_id, name, description, metadata)
+
+# Delete a collection
+success = client.delete_collection(collection_id)
+
+# Get memories in a collection
+memories = client.get_collection_memories(collection_id)
+
+# Add memory to collection
+success = client.add_memory_to_collection(collection_id, memory_id)
+
+# Remove memory from collection
+success = client.remove_memory_from_collection(collection_id, memory_id)
+```
+
+### Memory Management
+
+```python
+# Store a memory
+memory = client.store(agent_id, content, metadata, collection_id)
+
+# Get a specific memory
+memory = client.get(memory_id)
+
+# List agent memories
+memories = client.list_agent_memories(agent_id, limit=100, offset=0)
+
+# Delete a memory
+success = client.delete(memory_id)
+```
+
+### Retrieval
+
+```python
+# Retrieve memories for an agent
+results = client.retrieve(
+    agent_id="agent-123",
+    query="search query",
+    limit=10,
+    retrieval_type="simple",  # or "planning", "reasoning", "deep_research"
+    filters={"category": "support"},
+    collection_id="collection-123"
+)
+
+# Search across all memories
+results = client.search(
+    query="search query",
+    limit=10,
+    filters={"agent_id": "agent-123"}
+)
+```
+
+### Agent Chat
+
+```python
+# Chat with an agent
+response = client.chat(
+    agent_id="agent-123",
+    message="Hello, how can you help me?",
+    conversation_id="conv-123",  # for multi-turn conversations
+    model="gpt-4",
+    temperature=0.7,
+    max_tokens=500,
+    retrieval_type="reasoning",
+    collection_id="collection-123"
+)
+```
+
+## Data Models
+
+### Memory
+```python
+@dataclass
+class Memory:
+    id: str
+    agent_id: str
+    content: str
+    metadata: Dict[str, Any]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+```
+
+### Collection
+```python
+@dataclass
+class Collection:
+    id: str
+    name: str
+    description: Optional[str]
+    metadata: Dict[str, Any]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+    memory_count: int
+    owner_id: Optional[str]
+```
+
+### SearchResult
+```python
+@dataclass
+class SearchResult:
+    id: str
+    content: str
+    score: float
+    metadata: Dict[str, Any]
+    source: Optional[str]
+```
+
+### AgentResponse
+```python
+@dataclass
+class AgentResponse:
+    content: str
+    agent_id: str
+    conversation_id: Optional[str]
+    metadata: Dict[str, Any]
+    citations: List[Dict[str, Any]]
+```
+
+## Error Handling
+
+The SDK provides custom exceptions for different error types:
+
+```python
+from nebula_client import (
+    NebulaException,
+    NebulaClientException,
+    NebulaAuthenticationException,
+    NebulaRateLimitException,
+    NebulaValidationException
+)
+
+try:
+    memories = client.retrieve("agent-123", "query")
+except NebulaAuthenticationException as e:
+    print(f"Authentication error: {e}")
+except NebulaRateLimitException as e:
+    print(f"Rate limited: {e}")
+except NebulaValidationException as e:
+    print(f"Validation error: {e}")
+except NebulaClientException as e:
+    print(f"Client error: {e}")
+except NebulaException as e:
+    print(f"API error: {e}")
+```
+
+## Retrieval Types
+
+- **SIMPLE**: Basic semantic search across memories
+- **PLANNING**: Decompose complex queries into sub-queries
+- **REASONING**: Apply logical reasoning over retrieved information
+- **DEEP_RESEARCH**: Multi-step recursive exploration
+
+## Examples
+
+### Customer Support Bot
+```python
+# Create support collection
+support_collection = client.create_collection(
+    name="Customer Support",
+    description="Customer support interactions and solutions"
+)
+
+# Store customer interactions
+client.store(
+    agent_id="support-bot",
+    content="Customer reported login issues with mobile app on iOS",
+    metadata={"user_id": "user-123", "issue_type": "login", "platform": "ios"},
+    collection_id=support_collection.id
+)
+
+# Chat with context
+response = client.chat(
+    agent_id="support-bot",
+    message="How should I help user-123 with their current issue?",
+    collection_id=support_collection.id
+)
+```
+
+### Research Assistant
+```python
+# Create research collection
+research_collection = client.create_collection(
+    name="Research Findings",
+    description="Research data and findings"
+)
+
+# Store research data
+client.store(
+    agent_id="research-assistant",
+    content="Study shows 70% of users prefer dark mode in productivity apps",
+    metadata={"topic": "ui_preferences", "source": "academic_paper", "year": 2023},
+    collection_id=research_collection.id
+)
+
+# Deep research query
+results = client.retrieve(
+    agent_id="research-assistant",
+    query="What are the latest trends in user interface design preferences?",
+    retrieval_type="deep_research",
+    collection_id=research_collection.id
+)
+```
+
+## Backward Compatibility
+
+The SDK maintains backward compatibility with chunk terminology:
+
+```python
+# These are equivalent:
+client.store(...) == client.store_chunk(...)
+client.retrieve(...) == client.retrieve_chunks(...)
+client.delete(...) == client.delete_chunk(...)
+client.get(...) == client.get_chunk(...)
+client.list_agent_memories(...) == client.list_agent_chunks(...)
+client.search(...) == client.search_chunks(...)
+client.chat(...) == client.chat_with_chunks(...)
+```
+
+## Development
+
+### Installation
+```bash
+git clone <repository>
+cd nebula-client
+pip install -e .
+```
+
+### Testing
+```bash
+pytest
+```
+
+### Building
+```bash
+python -m build
+```
+
+### Deployment
+```bash
+./deploy.sh
+```
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Support
+
+For support and questions, please contact support@nebulacloud.app or visit our documentation at https://docs.nebulacloud.app. 
