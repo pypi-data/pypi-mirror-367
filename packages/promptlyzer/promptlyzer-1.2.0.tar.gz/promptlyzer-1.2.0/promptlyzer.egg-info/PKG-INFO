@@ -1,0 +1,358 @@
+Metadata-Version: 2.4
+Name: promptlyzer
+Version: 1.2.0
+Summary: Python SDK for Promptlyzer - Manage prompts, run multi-provider LLM inference, track costs
+Home-page: https://promptlyzer.com
+Author: Promptlyzer Team
+Author-email: contact@promptlyzer.com
+Project-URL: Homepage, https://promptlyzer.com
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: aiohttp>=3.9.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: anthropic>=0.15.0
+Requires-Dist: nest-asyncio>=1.5.6
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Promptlyzer Python Client
+
+The official Python client for [Promptlyzer](https://promptlyzer.com) - manage prompts, optimize them automatically, and run inference across multiple LLM providers.
+
+## Key Features
+
+- **Prompt Management** - Version control with dev/staging/prod environments
+- **Prompt Optimization** - Automatically find the best prompt-model combination  
+- **Multi-Provider Inference** - Single API for OpenAI, Anthropic, and Together AI
+- **Intelligent Data Collection** - Learn from real usage to improve prompts
+
+## Installation
+
+```bash
+pip install promptlyzer
+```
+
+## Quick Start
+
+```python
+from promptlyzer import PromptlyzerClient
+
+# Initialize with API key (get yours at promptlyzer.com)
+client = PromptlyzerClient(api_key="pk_live_YOUR_API_KEY")
+
+# Configure LLM provider
+client.configure_inference_provider("openai", "sk-...")
+
+# Use a prompt from Promptlyzer
+response = client.inference.infer(
+    prompt={"project_id": "your-project-id", "prompt_name": "assistant"},
+    model="gpt-4o"
+)
+
+print(response.content)
+```
+
+## Core Features
+
+### 1. Prompt Management
+
+Manage and version control your prompts with automatic caching:
+
+```python
+# Get a specific prompt from your project
+prompt = client.get_prompt("project-id", "customer-support")
+print(f"Content: {prompt['content']}")
+
+# Use prompts with dynamic variables
+custom_prompt = prompt['content'].format(
+    customer_name="John Doe",
+    issue="billing inquiry"
+)
+
+# List all prompts in a project
+prompts = client.list_prompts("project-id")
+for prompt in prompts["prompts"]:
+    print(f"{prompt['name']}: v{prompt['current_version']}")
+
+# Get real-time updates (bypass cache)
+prompt = client.get_prompt("project-id", "prompt-name", use_cache=False)
+```
+
+### 2. Automatic Prompt Optimization
+
+Find the best prompt-model combination automatically by testing variations across multiple models:
+
+```python
+# Basic usage - optimize a system message across models
+result = client.optimization.create(
+    name="Customer Support Bot",
+    dataset="support_queries.json",  # Requires 5+ examples
+    system_message="You are a helpful customer support agent.",
+    models=["gpt-4o", "claude-3.5-sonnet"],
+    project_id="your-project-id"
+)
+
+print(f"Best Model: {result['best_model']}")
+print(f"Accuracy: {result['best_accuracy']:.1%}")
+print(f"Optimized Prompt: {result['best_prompt']}")
+```
+
+#### Dataset Format
+
+```json
+{
+    "data": [
+        {
+            "question": "My package hasn't arrived yet",
+            "answer": "I apologize for the delay. Let me track your package for you."
+        },
+        {
+            "question": "How do I cancel my subscription?",
+            "answer": "I'd be happy to help you cancel. May I ask why you're canceling?"
+        }
+        // ... minimum 5 examples
+    ]
+}
+```
+
+```python
+# Advanced usage with multiple models and configuration
+result = client.optimization.create(
+    name="Advanced Support Bot",
+    dataset="dataset_65abc789",  # Use existing dataset ID
+    system_message="""You are an expert support agent.
+    Be empathetic, professional, and solution-oriented.
+    Always acknowledge concerns before providing solutions.""",
+    models=[
+        {"provider": "openai", "model": "gpt-4o", "temperature": 0.3},
+        {"provider": "anthropic", "model": "claude-3.5-sonnet-20241022"},
+        {"provider": "together", "model": "llama-3.3-70b-turbo"}
+    ],
+    project_id="your-project-id",
+    max_depth=3,
+    max_variations=3,
+    progress_callback=lambda p: print(f"Progress: {p:.1f}%")
+)
+
+# Run in background
+experiment = client.optimization.create(
+    name="Background Optimization",
+    dataset="data.json",
+    system_message="You are a helpful assistant.",
+    models=["gpt-4o"],
+    project_id="your-project-id",
+    wait_for_completion=False
+)
+
+# Check status
+summary = client.optimization.get_summary(experiment['experiment_id'])
+```
+
+### 3. Multi-Provider Inference
+
+Run inference across multiple LLM providers with a single API:
+
+```python
+# Configure providers
+client.configure_inference_provider("openai", "sk-...")
+client.configure_inference_provider("anthropic", "sk-ant-...")
+
+# Direct text prompt
+response = client.inference.infer(
+    prompt="Explain quantum computing in simple terms",
+    model="gpt-4o"
+)
+
+# Use Promptlyzer prompt
+response = client.inference.infer(
+    prompt={"project_id": "your-project", "prompt_name": "assistant"},
+    model="claude-3-5-sonnet-20241022"
+)
+
+print(response.content)
+print(f"Cost: ${response.metrics.cost:.4f}")
+```
+
+```python
+# Streaming responses
+for chunk in client.inference.infer(
+    prompt="Write a story about a robot",
+    model="gpt-4o",
+    stream=True
+):
+    print(chunk.content, end='', flush=True)
+```
+
+```python
+# Compare models
+for model in ["gpt-4o", "claude-3-5-sonnet-20241022"]:
+    response = client.inference.infer(
+        prompt="What is the capital of France?",
+        model=model
+    )
+    print(f"{model}: {response.content} (${response.metrics.cost:.4f})")
+```
+
+### 4. Intelligent Data Collection
+
+Automatically collect high-quality inference data to continuously improve your prompts:
+
+```python
+# Basic data collection
+response = client.inference.infer(
+    prompt="Where is my order?",
+    model="gpt-4o",
+    session_id="support_session_123",
+    optimization_data={
+        "user_question": "Where is my order?",
+        "category": "order_tracking"
+    }
+)
+
+# Customer support with context
+response = client.inference.infer(
+    prompt=full_prompt,  # Your formatted prompt
+    model="gpt-4o",
+    session_id="support_session_456",
+    optimization_data={
+        "system_message": "You are a helpful support agent",
+        "user_question": "Where is my order #12345?",
+        "context": {
+            "order_id": "12345",
+            "status": "shipped",
+            "customer_name": "John Doe"
+        }
+    }
+)
+
+# With conversation history
+messages = [
+    {"role": "user", "content": "I need help"},
+    {"role": "assistant", "content": "How can I help you?"},
+    {"role": "user", "content": "Where is my order?"}
+]
+
+response = client.inference.infer(
+    prompt=format_messages(messages),
+    model="gpt-4o",
+    session_id="conv_789",
+    optimization_data={
+        "system_message": "You are a helpful assistant",
+        "user_question": "Where is my order?",
+        "messages": messages  # Include conversation history
+    }
+)
+```
+
+The collected data is automatically used to:
+- Find optimal prompts for your use case
+- Select the best model for cost/quality balance
+- Improve response quality over time
+
+Note: All data collection is optional and can be disabled by omitting the `optimization_data` parameter.
+
+### 5. External Provider Integration
+
+Using OpenAI, Anthropic, or other providers directly? You can still benefit from Promptlyzer's optimization:
+
+```python
+# Your own inference
+import openai
+response = openai.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Where is my order?"}]
+)
+
+# Send to Promptlyzer for optimization (minimal)
+client.collect_inference_data(
+    prompt="Where is my order?",
+    response=response.choices[0].message.content,
+    project_id="your-project-id"  # Optional but recommended
+)
+
+# With optimization data
+client.collect_inference_data(
+    prompt="Where is my order?",
+    response=response.choices[0].message.content,
+    project_id="your-project-id",
+    optimization_data={
+        "system_message": "You are a helpful assistant",
+        "user_question": "Where is my order?",
+        "context": {"order_id": "12345"}
+    },
+    session_id="support_123"  # Optional
+)
+```
+
+This allows you to benefit from prompt optimization even when using external inference providers.
+
+### 6. Advanced Configuration
+
+Fine-tune data collection with intelligent sampling, batching, and quota management:
+
+```python
+# Initialize with custom settings
+client = PromptlyzerClient(
+    api_key="pk_live_...",
+    enable_data_collection=True,      # Enable/disable collection
+    collection_sample_rate=0.2,       # Collect 20% of requests
+    collection_batch_size=10,         # Send in batches of 10
+    weekly_collection_quota=100       # Max 100 per week
+)
+
+# Check collection status
+status = client.get_collection_status()
+print(f"Weekly quota: {status['remaining']}/{status['weekly_quota']} remaining")
+print(f"Buffer size: {status['buffer_size']}")
+print(f"Active sessions: {status['active_sessions']}")
+
+# Manually flush buffer (happens automatically when full)
+client.flush_collection_buffer()
+```
+
+## Configuration
+
+### Environment Variables
+
+Set these environment variables to avoid passing API keys in code:
+
+```bash
+export PROMPTLYZER_API_KEY="pk_live_YOUR_API_KEY"    # Required
+export OPENAI_API_KEY="sk-..."                      # For OpenAI inference
+export ANTHROPIC_API_KEY="sk-ant-..."               # For Anthropic inference
+export TOGETHER_API_KEY="..."                       # For Together AI inference
+```
+
+## Requirements
+
+- Python 3.7+
+- Promptlyzer API key (get one at [promptlyzer.com](https://promptlyzer.com))
+- Provider API keys for inference features
+
+## Support
+
+- Documentation: [docs.promptlyzer.com](https://docs.promptlyzer.com)
+- Email: contact@promptlyzer.com
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
