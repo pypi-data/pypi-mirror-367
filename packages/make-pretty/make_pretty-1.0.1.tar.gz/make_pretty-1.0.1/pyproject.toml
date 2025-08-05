@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "make-pretty"                    # hyphen in package name
+version = "1.0.1"                       # bump version
+description = "A command-line tool to format Python files with isort and black"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "isort>=5",
+    "black>=24",
+]
+
+[project.scripts]
+make-pretty = "make_pretty.cli:main"    # underscore in module name
+
+[tool.setuptools.packages.find]
+where = ["src"]
