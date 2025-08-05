@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIDesk - API Documentation</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>AI Desk</h1>
+        <nav>
+            <ul>
+                <li><a href="/" class="active">API Docs</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/manage-instances">Manage Instances</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="master-info">
+            <h2>Master Server Information</h2>
+            <table>
+                <tr>
+                    <th>Hostname</th>
+                    <td>{{ master_hostname }}</td>
+                </tr>
+                <tr>
+                    <th>IP Address</th>
+                    <td>{{ master_ip }}</td>
+                </tr>
+                <tr>
+                    <th>Port</th>
+                    <td>{{ master_port }}</td>
+                </tr>
+                <tr>
+                    <th>Start Time</th>
+                    <td>{{ master_start_time }}</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section class="api-docs">
+            <h2>API Documentation</h2>
+            
+            <div class="api-endpoint">
+                <h3>Authentication</h3>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/login</div>
+                    <div class="description">
+                        <p>Authenticates a user and creates a session.</p>
+                        <h4>Parameters:</h4>
+                        <ul>
+                            <li><code>username</code> - User username</li>
+                            <li><code>password</code> - User password</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/logout</div>
+                    <div class="description">
+                        <p>Destroys the current user session.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-endpoint">
+                <h3>File Operations</h3>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/generate-file</div>
+                    <div class="description">
+                        <p>Generates a file from provided content. Requires authentication.</p>
+                        <h4>Parameters:</h4>
+                        <ul>
+                            <li><code>filename</code> - Name of the file to generate</li>
+                            <li><code>content</code> - Multi-line text content for the file</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/upload-file</div>
+                    <div class="description">
+                        <p>Uploads a file. Requires authentication.</p>
+                        <h4>Parameters:</h4>
+                        <ul>
+                            <li><code>file</code> - File data as multipart/form-data</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-endpoint">
+                <h3>Instance Management</h3>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/instances/register</div>
+                    <div class="description">
+                        <p>Registers another aidesk instance with this server. No authentication required.</p>
+                        <h4>Parameters:</h4>
+                        <ul>
+                            <li><code>hostname</code> - Instance hostname</li>
+                            <li><code>ip</code> - Instance IP address</li>
+                            <li><code>port</code> - Instance port number</li>
+                            <li><code>start_time</code> - Instance start time (ISO format)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="method post">POST</div>
+                    <div class="path">/api/instances/ping</div>
+                    <div class="description">
+                        <p>Updates instance status (heartbeat). No authentication required.</p>
+                        <h4>Parameters:</h4>
+                        <ul>
+                            <li><code>instance_id</code> - ID of the instance (format: ip:port)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="method get">GET</div>
+                    <div class="path">/api/instances</div>
+                    <div class="description">
+                        <p>Gets all registered instances. Requires authentication.</p>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="method delete">DELETE</div>
+                    <div class="path">/api/instances/{instance_id}</div>
+                    <div class="description">
+                        <p>Removes a registered instance. Requires authentication.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 aidesk. All rights reserved.</p>
+    </footer>
+</body>
+</html>
