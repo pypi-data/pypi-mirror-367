@@ -1,0 +1,123 @@
+Metadata-Version: 2.4
+Name: magnuslib
+Version: 0.0.10
+Summary: My_library
+Home-page: https://github.com/magnusred1986
+Author: sergey_k
+Author-email: qwertyz19861@gmail.com
+Project-URL: GitHub, https://github.com/magnusred1986
+Keywords: my library
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pywin32
+Requires-Dist: openpyxl
+Requires-Dist: pandas
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Набор некоторых функций которые будут становиться лучше
+
+### Модули которые могут потребоваться
+    import pandas, pywin32, openpyxl
+
+### Импорт функций после установки
+
+    import magnuslib.main as mg
+    # или
+    from magnuslib import main as mg
+
+## links_main()
+Функция: для работы с путями, ссылки, вводные данные хранятся в блокноте
+имеют 2 поля (пример текстового блокнота ниже):
+
+ключ;значение       
+server;local/32/rut     
+pass;111
+
+вызов функции `links_main('ключ', 'значение', 'f_links.txt', 'server', sep=';')` **return** `111`
+
+    
+    links_main(name_column_key, name_column_result, name_file, key, sep=';')
+
+## dir_link()
+Функция : возвращает полный путь к директории
+работает в `.py .ipynb` **return**
+`C:\Users\sergey_krutko\PycharmProjects\magnuslb\magnuslib`
+
+    dir_link()
+
+## yesterday()
+Функция : возвращает дату на вчера - по уморлчанию минус 1 день, можно регулировать +.-
+**result** `2025-08-04 00:01:51.921337` format `datetime`
+
+    yesterday() # или yesterday(5)
+
+## create_date()
+Функция : создает дату в формате `datetime`     
+`create_date(2025, 12, 12)` return `2025-12-12`
+
+    create_date(2025, 12, 12)
+
+## converter_month_to_int()
+Функция : конвертирует месяц в число            
+`converter_month_to_int('май')` return `5`
+
+    converter_month_to_int('май')
+
+## last_day_of_month()
+Функция : возвращает последний день указанного месяца и года        
+`last_day_of_month(2025, 5)` return `31`
+
+    last_day_of_month()    
+
+## date_start_stop()
+Функция : возвращает начало и конец периода в формате YYYY-MM-DD       
+`date_start_stop(2025, 7)` return `('2025-07-01', '2025-07-31')`
+
+    date_start_stop() 
+
+## update_file()
+Функция : бновление сводной таблицы Excel      
+`update_file('myFile.xlsx')` return `update sv.tabl in file 'myFile.xlsx'`
+
+    update_file() 
+
+## send_mail()
+Функция : рассылки почты     
+```
+send_mail('xxxxxx@xxxx.ru',
+        'server-vm20.XXL.LOCAL',
+        555,
+        'skrutko',
+        'XXXZZZpoew11o',
+        ['xxxxxx@xxxx.ru', 'zzzzzzzx@xxxx.ru'],
+        'C:index_road.xlsx',
+        'my_file.xlsx',
+        'Индекс РОАД',
+        'Здравствуйте во вложении файл ......')
+   ```
+
+
+    update_file() 
+
+
+
+    
+
+
+
+    
