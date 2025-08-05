@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: heudiconv-ancp
+Version: 0.1.1
+Summary: Heuristic DICOM Converter
+Author: HeuDiConv team and contributors
+License: Apache 2.0
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: dcmstack>=0.8
+Requires-Dist: etelemetry
+Requires-Dist: filelock>=3.0.12
+Requires-Dist: nibabel>=5.3.1
+Requires-Dist: nipype-ancp
+Requires-Dist: pydicom>=1.0.0
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: tinydb; extra == "tests"
+Requires-Dist: inotify; extra == "tests"
+Provides-Extra: extras
+Requires-Dist: duecredit; extra == "extras"
+Provides-Extra: datalad
+Requires-Dist: datalad>=0.13.0; extra == "datalad"
+Provides-Extra: all
+Requires-Dist: pytest; extra == "all"
+Requires-Dist: tinydb; extra == "all"
+Requires-Dist: inotify; extra == "all"
+Requires-Dist: duecredit; extra == "all"
+Requires-Dist: datalad>=0.13.0; extra == "all"
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+## About this fork
+
+This is **not the official version of HeuDiConv**.  
+It is a customized fork developed at the *Applied Neurocognitive Psychology Lab*, aimed at improving compatibility and usability in specific workflows.
+
+In particular, this variant offers **full support for Windows environments** and **removes file-writing restrictions** present in the original version, making it more flexible for local pipelines and GUI-based tools.
+
+All credits for the original development go to the NiPy community. This version is provided under the same [Apache 2.0 License](LICENSE) and is intended for specialized use cases.
+
+
+Convert DICOM dirs based on heuristic info - HeuDiConv
+uses the dcmstack package and dcm2niix tool to convert DICOM directories or
+tarballs into collections of NIfTI files following pre-defined heuristic(s).
