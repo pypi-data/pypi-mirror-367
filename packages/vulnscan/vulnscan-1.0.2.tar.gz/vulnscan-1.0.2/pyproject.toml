@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vulnscan"
+version = "1.0.2"
+authors = [
+  { name="Gokul Kannan G", email="gokulkannan.dev@gmail.com" },
+]
+description = "A vulnerability scanner"
+readme = "README.md"
+requires-python = ">=3.7, <3.14"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "selenium",
+    "tqdm",
+    "reportlab",
+    "python-nmap",
+    "colorama",
+    "fuzzywuzzy",
+    "python-Levenshtein",
+    "cryptography",
+    "progress",
+    "python-dotenv",
+    "tensorflow",
+    "keras",
+    "scikit-learn",
+    "numpy",
+    "pandas",
+    "boto3",
+    "google-cloud-storage",
+    "azure-storage-blob",
+    "kubernetes",
+    "graphql-core",
+    "requests-toolbelt",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "dnspython",
+    "html5lib",
+    "chardet",
+    "playwright",
+    "uvloop",
+    "jinja2",
+    "weasyprint",
+    "joblib",
+    "h5py",
+    "openapi-spec-validator",
+    "dotenv"
+]
+
+[project.scripts]
+# IMPORTANT: This entry still needs to be corrected. It will likely cause the next error.
+# You must point this to a real function in your code. For example, if your main
+# function is `run()` in `pdf_vulnscan.py`, change this to:
+# vulnscan = "pdf_vulnscan:run"
+vulnscan = "vulnscan.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/iamgokulkannan/vulnscan"
+"Bug Tracker" = "https://github.com/iamgokulkannan/vulnscan/issues"
+
+# This section is now correctly formatted to find your packages and modules.
+[tool.setuptools]
+py-modules = ["pdf_vulnscan", "pdf_vulnscan_updated"]
+
+[tool.setuptools.packages.find]
+where = ["."]  # Look for packages in the root directory.
+include = ["base*", "db*", "modules*", "reports*"] # Find all packages starting with these names.
