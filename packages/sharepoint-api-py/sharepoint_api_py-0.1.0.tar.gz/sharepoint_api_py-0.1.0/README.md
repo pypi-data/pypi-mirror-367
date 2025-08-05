@@ -1,0 +1,248 @@
+# SharePoint API Client
+
+A modern Python library for interacting with Microsoft SharePoint sites using the Microsoft Graph API. Built with httpx for high-performance async/sync operations, automatic connection management, and streaming support for large files.
+
+## Features
+
+✨ **Modern httpx-based implementation** with HTTP/2 support ready  
+🔄 **Both sync and async clients** with identical APIs  
+🚀 **Automatic URL parsing** - just paste SharePoint URLs  
+💾 **Streaming support** for large file uploads/downloads  
+🔧 **Automatic connection management** with configurable cleanup  
+📁 **Rich data models** with comprehensive SharePoint object support  
+🛡️ **OAuth2 authentication** via Microsoft Graph API  
+
+## Installation
+
+```bash
+pip install sharepoint-api-py
+# or
+poetry add sharepoint-api-py
+```
+
+## Quick Start
+
+### 1. Setup Credentials
+
+Create a `.env` file or set environment variables:
+
+```bash
+SHAREPOINT_TENANT_ID="your_tenant_id"
+SHAREPOINT_APP_ID="your_app_id"  
+SHAREPOINT_APP_SECRET="your_app_secret"
+```
+
+### 2. Basic Usage
+
+```python
+from sharepoint_api import SharePointClient
+
+# Initialize client from environment
+client = SharePointClient.from_env()
+
+# Upload a file - just provide local path and SharePoint folder URL
+client.upload(
+    "./report.pdf",
+    "https://contoso.sharepoint.com/sites/MyTeam/Shared%20Documents/Reports/"
+)
+
+# Download a file - just provide SharePoint file URL and local folder
+client.download(
+    "https://contoso.sharepoint.com/sites/MyTeam/Shared%20Documents/data.xlsx",
+    target_path="./downloads/"
+)
+```
+
+### 3. Async Usage
+
+```python
+from sharepoint_api import AsyncSharePointClient
+
+async def main():
+    client = AsyncSharePointClient.from_env()
+    
+    # Same simple API, but async
+    await client.upload(
+        "./large_dataset.csv",
+        "https://contoso.sharepoint.com/sites/MyTeam/Documents/"
+    )
+    
+    await client.download(
+        "https://contoso.sharepoint.com/sites/MyTeam/Documents/results.xlsx",
+        target_path="./downloads/"
+    )
+```
+
+## Core Concepts
+
+### Automatic URL Parsing
+
+No need to manually extract site IDs, drive names, or folder paths. Just copy SharePoint URLs from your browser:
+
+```python
+# Copy any SharePoint URL from your browser and use it directly
+client.upload("./file.pdf", "https://contoso.sharepoint.com/sites/TeamSite/Documents/Reports/")
+client.download("https://contoso.sharepoint.com/sites/TeamSite/Documents/file.xlsx", "./downloads/")
+```
+
+### Context Management
+
+The client automatically handles all the complexity behind the scenes. You just provide URLs:
+
+```python
+# No setup needed - each operation is self-contained
+client.upload("./file1.txt", "https://sharepoint.com/sites/TeamA/Documents/")
+client.upload("./file2.txt", "https://sharepoint.com/sites/TeamB/Reports/")  # Different site? No problem!
+```
+
+### Streaming for Large Files
+
+Large files are automatically streamed to avoid memory issues:
+
+```python
+# Files larger than threshold (default: 100MB) are automatically streamed
+large_file = client.download("https://sharepoint.com/huge_dataset.csv")
+
+# Force streaming for any file
+client.download_file(file_obj, use_streaming=True)
+
+# Configure thresholds
+client = SharePointClient.from_env(
+    large_file_threshold=50*1024*1024,  # 50MB threshold
+    auto_close_timeout=60  # Close idle connections after 60s
+)
+```
+
+## API Reference
+
+### Client Initialization
+
+```python
+from sharepoint_api import SharePointClient, AsyncSharePointClient
+from sharepoint_api.config import SharepointConfig
+
+# From environment variables
+client = SharePointClient.from_env()
+
+# From config object
+config = SharepointConfig(
+    tenant_id="...",
+    client_id="...", 
+    client_secret="...",
+    resource_url="https://graph.microsoft.com/",
+    resource_url_version="v1.0"
+)
+client = SharePointClient.from_config(config)
+
+# With custom settings
+client = SharePointClient.from_env(
+    auto_close_timeout=120,  # Close idle connections after 2 minutes
+    large_file_threshold=200*1024*1024  # 200MB streaming threshold
+)
+```
+
+### File and Folder Operations
+
+```python
+# Upload files - just provide local path and SharePoint folder URL
+client.upload("./document.pdf", "https://sharepoint.com/sites/Team/Documents/Reports/")
+
+# Download files - provide SharePoint file URL and local destination
+client.download("https://sharepoint.com/sites/Team/Documents/report.xlsx", "./downloads/")
+
+# Browse folder contents (if needed)
+folder = client.path("https://sharepoint.com/sites/Team/Documents/Reports/")
+for item in folder.children:
+    print(f"📄 {item.name}")
+```
+
+### Data Models
+
+Rich data models provide comprehensive SharePoint object information:
+
+```python
+from sharepoint_api import GraphSiteData, DriveFolder, DriveFile, FileSize
+
+# Site information
+site = client.get_site(site_name="TeamSite")
+print(f"Site: {site.name} ({site.web_url})")
+
+# File information with rich metadata
+file = client.path("https://sharepoint.com/file.xlsx")
+print(f"File: {file.name}")
+print(f"Size: {file.size}")  # Automatically formatted (e.g., "1.5 MB") 
+print(f"Modified: {file.last_modified_date_time}")
+print(f"Download URL: {file.download_url}")
+
+# Folder with children
+folder = client.path("https://sharepoint.com/folder/")
+for item in folder.children:
+    item_type = "📁" if isinstance(item, DriveFolder) else "📄"
+    print(f"{item_type} {item.name}")
+```
+
+## Advanced Usage
+
+### Custom Authentication
+
+```python
+# Use your own OAuth2 tokens
+client = SharePointClient(
+    client_id="your_app_id",
+    client_secret="your_secret", 
+    tenant_id="your_tenant",
+    resource_url="https://graph.microsoft.com/",
+    resource_url_version="v1.0"
+)
+```
+
+### Error Handling
+
+```python
+from sharepoint_api.core.errors import SharepointAPIError
+
+try:
+    file = client.download("https://sharepoint.com/nonexistent.xlsx")
+except SharepointAPIError as e:
+    print(f"SharePoint API error: {e}")
+except Exception as e:
+    print(f"General error: {e}")
+```
+
+### Performance Tuning
+
+```python
+# Configure connection pooling and timeouts
+client = SharePointClient.from_env(
+    auto_close_timeout=300,  # 5 minute idle timeout
+    large_file_threshold=500*1024*1024,  # 500MB streaming threshold
+)
+
+# HTTP/2 support (requires h2 package)
+# pip install h2
+# client.http2 = True  # Coming soon
+```
+
+## Examples
+
+See the `examples/` directory for complete examples:
+
+- **Basic operations**: Site access, file upload/download
+- **Async operations**: Using AsyncSharePointClient  
+- **Bulk operations**: Processing multiple files
+- **Advanced scenarios**: Custom authentication, error handling
+
+## Contributing
+
+Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+**Built with ❤️ using:**
+- [httpx](https://www.python-httpx.org/) - Modern HTTP client
+- [authlib](https://authlib.org/) - OAuth2 authentication
+- [pydantic](https://pydantic.dev/) - Data validation and models
