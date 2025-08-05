@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aidesk - Manage Instances</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>aidesk</h1>
+        <nav>
+            <ul>
+                <li><a href="/">API Docs</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/manage-instances" class="active">Manage Instances</a></li>
+            </ul>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="instance-management">
+            <h2>Instance Management</h2>
+            <p>Here you can view and manage all registered aidesk instances.</p>
+            
+            <div class="action-buttons">
+                <button id="refreshBtn">Refresh List</button>
+            </div>
+            
+            <div class="instances-table-container">
+                <table class="instances-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Hostname</th>
+                            <th>IP Address</th>
+                            <th>Port</th>
+                            <th>Start Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ master_row }}
+                        {{ instances_rows }}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 aidesk. All rights reserved.</p>
+    </footer>
+    
+    <script src="/static/js/manage-instances.js"></script>
+</body>
+</html>
