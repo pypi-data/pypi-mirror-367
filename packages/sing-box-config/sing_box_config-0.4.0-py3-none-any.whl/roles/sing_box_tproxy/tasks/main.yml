@@ -1,0 +1,127 @@
+---
+- name: ensure packages is installed
+  ansible.builtin.package:
+    name:
+      - bash
+      - curl
+      - iproute2
+      - nftables
+    state: present
+
+- name: ensure required kernel module is loaded
+  community.general.modprobe:
+    name: "{{ module }}"
+    state: present
+    persistent: present
+  loop:
+    - nft_tproxy
+    - nft_socket
+    - nf_tproxy_ipv4
+    - nf_tproxy_ipv6
+  loop_control:
+    loop_var: module
+
+# should we enable net.ipv4.conf.all.route_localnet=1 ?
+- name: ensure ip_forward is enabled
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    ignoreerrors: true
+  loop:
+    - name: net.ipv4.ip_forward
+      value: 1
+    - name: net.ipv4.conf.all.proxy_arp
+      value: 1
+    - name: net.ipv6.conf.all.forwarding
+      value: 1
+
+- name: enable tcp_bbr
+  when:
+    - ansible_kernel >= '4.9.0'
+    - (tcp_bbr_enabled | ansible.builtin.bool)
+  block:
+    - name: load tcp_bbr module
+      community.general.modprobe:
+        name: "{{ module }}"
+        state: present
+        persistent: present
+      loop:
+        - tcp_bbr
+      loop_control:
+        loop_var: module
+
+    - name: enable tcp_bbr
+      ansible.posix.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+      loop:
+        # default 'pfifo_fast'
+        - name: net.core.default_qdisc
+          value: fq
+        - name: net.ipv4.tcp_congestion_control
+          value: bbr
+
+# 系统目录不能设置 permission 和 ownership
+- name: create system drop-in directory
+  ansible.builtin.file:
+    path: "{{ directory }}"
+    state: directory
+  loop:
+    - /etc/netplan
+    - /etc/systemd/system
+    - /etc/iproute2/rt_tables.d
+  loop_control:
+    loop_var: directory
+
+- name: template iproute2 rt_tables on remote
+  ansible.builtin.template:
+    src: etc/iproute2/rt_tables.d/sing_box_tproxy.conf.j2
+    dest: /etc/iproute2/rt_tables.d/sing_box_tproxy.conf
+
+- name: template nftables.conf on remote
+  ansible.builtin.template:
+    src: etc/nftables.conf.j2
+    dest: /etc/nftables.conf
+  notify:
+    - systemctl restart nftables.service
+
+- name: template systemd service on remote
+  ansible.builtin.template:
+    src: "{{ template }}"
+    dest: "{{ ['/', template] | ansible.builtin.path_join | ansible.builtin.splitext | first }}"
+  loop:
+    - etc/systemd/system/sing-box.service.j2
+    - etc/systemd/system/sing-box-reload.path.j2
+    - etc/systemd/system/sing-box-reload.service.j2
+  loop_control:
+    loop_var: template
+  notify:
+    - systemctl daemon-reload
+
+- name: template netplan config on remote
+  ansible.builtin.template:
+    src: etc/netplan/99-sing_box_tproxy.yaml.j2
+    dest: /etc/netplan/99-sing_box_tproxy.yaml
+    mode: "0600"
+  notify:
+    - netplan apply
+
+- name: ensure nftables.service started and enabled
+  ansible.builtin.systemd_service:
+    name: nftables.service
+    state: started
+    enabled: true
+
+- name: ensure sing-box-reload.path started and enabled
+  ansible.builtin.systemd_service:
+    name: sing-box-reload.path
+    state: started
+    enabled: true
+
+- name: ensure sing-box.service restarted
+  ansible.builtin.systemd_service:
+    name: sing-box.service
+    state: restarted
+    enabled: true
