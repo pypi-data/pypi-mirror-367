@@ -1,0 +1,272 @@
+Metadata-Version: 2.4
+Name: gwanicli
+Version: 0.1.0
+Summary: A command-line interface for accessing Quranic verses and translations
+Home-page: https://github.com/bhantsi/gwani-cli
+Author: Hamza Danjaji
+Author-email: Hamza Danjaji <bhantsi@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 GwaniCLI Contributors
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/bhantsi/gwani-cli
+Project-URL: Repository, https://github.com/bhantsi/gwani-cli
+Project-URL: Issues, https://github.com/bhantsi/gwani-cli/issues
+Project-URL: Documentation, https://github.com/bhantsi/gwani-cli#readme
+Keywords: quran,islam,cli,terminal,verses,translation
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Religion
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: toml>=0.10.0
+Requires-Dist: arabic-reshaper>=3.0.0
+Requires-Dist: python-bidi>=0.4.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# GwaniCLI
+![CI](https://github.com/bhantsi/gwani-cli/workflows/CI%2FCD%20Pipeline/badge.svg)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+
+A command-line interface for accessing Quranic verses and translations with elegant formatting and caching capabilities.
+
+## Features
+
+- 🔄 **Random verses**: Get random Quranic verses with translations
+- 📖 **Surah browsing**: Access specific surahs and ayahs
+- 🌍 **Multiple translations**: Support for various translation options
+- 💾 **Smart caching**: Offline access with configurable TTL
+- 🎨 **Beautiful formatting**: Colored console output with Arabic text support
+- ⚙️ **Configurable**: User-friendly configuration management
+- 📱 **JSON output**: Machine-readable output option
+
+## Installation
+
+### From PyPI (when published)
+```bash
+pip install gwanicli
+```
+
+### From Source
+```bash
+git clone https://github.com/bhantsi/gwani-cli.git
+cd gwani-cli
+pip install -e .
+```
+
+## Quick Start
+
+### Get a random verse
+```bash
+gwani random
+```
+
+### Get a specific surah
+```bash
+gwani surah 1  # Al-Fatiha
+gwani surah "Al-Baqarah" --ayah 255  # Ayat al-Kursi
+```
+
+### Configure translation
+```bash
+gwani config set translation en.sahih
+gwani config get translation
+```
+
+### JSON output
+```bash
+gwani random --json
+```
+
+## Commands
+
+### `gwani random`
+Get a random Quranic verse with translation.
+
+**Options:**
+- `--translation, -t TEXT`: Specify translation (e.g., en.pickthall)
+- `--no-cache`: Skip cache and fetch fresh data
+- `--json`: Output in JSON format
+
+**Examples:**
+```bash
+gwani random
+gwani random --translation en.sahih
+gwani random --json --no-cache
+```
+
+### `gwani surah <identifier>`
+Get verses from a specific surah by number or name.
+
+**Arguments:**
+- `identifier`: Surah number (1-114) or name (e.g., "Al-Fatiha")
+
+**Options:**
+- `--ayah, -a INT`: Specific ayah number
+- `--translation, -t TEXT`: Specify translation
+- `--no-cache`: Skip cache and fetch fresh data
+- `--json`: Output in JSON format
+
+**Examples:**
+```bash
+gwani surah 1                    # Entire Al-Fatiha
+gwani surah 2 --ayah 255        # Ayat al-Kursi
+gwani surah "Al-Fatiha" --json  # JSON format
+```
+
+### `gwani config`
+Manage configuration settings.
+
+**Subcommands:**
+- `set <key> <value>`: Set a configuration value
+- `get <key>`: Get a configuration value
+
+**Supported Keys:**
+- `translation`: Default translation (e.g., en.pickthall)
+- `cache_ttl`: Cache time-to-live in seconds
+
+**Examples:**
+```bash
+gwani config set translation en.sahih
+gwani config set cache_ttl 3600
+gwani config get translation
+```
+
+### `gwani version`
+Show version information.
+
+## Configuration
+
+GwaniCLI stores configuration in `~/.config/gwanicli/config.toml`.
+
+**Default configuration:**
+```toml
+translation = "en.pickthall"
+cache_ttl = 86400
+```
+
+## Caching
+
+The application caches API responses to improve performance and enable offline access:
+
+- **Location**: `~/.cache/gwanicli/cache.db`
+- **Storage**: SQLite database
+- **TTL**: Configurable expiration time
+- **Management**: Automatic cleanup of expired entries
+
+## Translations
+
+Common translation identifiers:
+- `en.pickthall`: Pickthall English translation
+- `en.sahih`: Sahih International
+- `en.yusufali`: Abdullah Yusuf Ali
+- `ar.alafasy`: Arabic (Mishary Alafasy)
+
+## Development
+
+### Setup Development Environment
+```bash
+git clone https://github.com/bhantsi/gwani-cli.git
+cd gwani-cli
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -e ".[dev]"
+```
+
+### Run Tests
+```bash
+pytest
+```
+
+### Code Formatting
+```bash
+black qwanicli/
+flake8 qwanicli/
+mypy qwanicli/
+```
+
+## Project Structure
+
+```
+qwanicli/
+├── __init__.py      # Package initialization
+├── cli.py           # Main CLI entry point with Click commands
+├── api_client.py    # HTTP client for Quran API
+├── config.py        # Configuration management
+├── cache.py         # SQLite-based caching layer
+├── formatter.py     # Output formatting (console & JSON)
+└── utils.py         # Common utilities and error handling
+```
+
+## API
+
+GwaniCLI uses the [Al-Quran Cloud API](https://alquran.cloud/api) to fetch Quranic content.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Al-Quran Cloud API](https://alquran.cloud/) for providing the Quranic data
+- [Click](https://click.palletsprojects.com/) for the excellent CLI framework
+- The open-source community for various Python packages used
+
+## Support
+
+If you encounter any issues or have questions:
+
+1. Check the [FAQ](https://github.com/yourusername/gwani-cli/wiki/FAQ)
+2. Search [existing issues](https://github.com/yourusername/gwani-cli/issues)
+3. Create a [new issue](https://github.com/yourusername/gwani-cli/issues/new)
+
+---
+
+**Note**: This tool is for educational and personal use. Please respect the sacred nature of the Quranic content.

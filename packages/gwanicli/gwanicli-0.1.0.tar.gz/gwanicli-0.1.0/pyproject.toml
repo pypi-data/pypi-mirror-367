@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gwanicli"
+version = "0.1.0"
+authors = [
+    {name = "Hamza Danjaji", email = "bhantsi@gmail.com"},
+]
+description = "A command-line interface for accessing Quranic verses and translations"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Religion",
+    "Topic :: Utilities",
+    "Environment :: Console",
+]
+keywords = ["quran", "islam", "cli", "terminal", "verses", "translation"]
+dependencies = [
+    "click>=8.0.0",
+    "requests>=2.25.0",
+    "toml>=0.10.0",
+    "arabic-reshaper>=3.0.0",
+    "python-bidi>=0.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+]
+
+[project.scripts]
+gwani = "qwanicli.cli:gwani"
+
+[project.urls]
+Homepage = "https://github.com/bhantsi/gwani-cli"
+Repository = "https://github.com/bhantsi/gwani-cli"
+Issues = "https://github.com/bhantsi/gwani-cli/issues"
+Documentation = "https://github.com/bhantsi/gwani-cli#readme"
+
+[tool.setuptools]
+packages = ["qwanicli"]
+
+[tool.setuptools.package-data]
+qwanicli = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311", "py312"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
