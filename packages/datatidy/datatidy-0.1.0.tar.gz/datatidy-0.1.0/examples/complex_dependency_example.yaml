@@ -1,0 +1,79 @@
+# Complex Multi-Level Dependencies Example
+# Demonstrates complex interdependencies with multiple calculation levels
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  only_output_columns: true  # Only output columns in final result (no input columns)
+  
+  columns:
+    # Defined in RANDOM order - engine will resolve all dependencies automatically
+    
+    final_rating:  # Level 4: Depends on profit_score, volume_score
+      transformation: "(profit_score + volume_score) / 2"
+      type: float
+      validation:
+        min_value: 0
+        max_value: 10
+    
+    base_revenue:  # Level 1: Base calculation - no dependencies
+      transformation: "price * quantity"
+      type: float
+      interim: true
+    
+    recommendation:  # Level 5: Final output - depends on final_rating, profit_margin, volume_tier
+      transformation: "f'Rating: {final_rating:.1f}, Margin: {profit_margin:.1%}, Volume: {volume_tier}'"
+      type: string
+    
+    profit_margin:  # Level 3: Depends on profit, base_revenue
+      transformation: "profit / base_revenue if base_revenue > 0 else 0"
+      type: float
+      interim: true
+      validation:
+        min_value: 0
+        max_value: 1
+    
+    volume_tier:  # Level 4: Depends on volume_score
+      transformation: "'High' if volume_score > 7 else ('Medium' if volume_score > 4 else 'Low')"
+      type: string
+      interim: true
+      validation:
+        allowed_values: ["High", "Medium", "Low"]
+    
+    profit:  # Level 2: Depends on base_revenue
+      transformation: "base_revenue * 0.3"  # 30% profit margin
+      type: float
+      interim: true
+    
+    volume_score:  # Level 2: Depends on quantity (input column)
+      operations:
+        - type: map
+          function: "lambda x: min(10, max(1, x / 10))"
+      source: "quantity"
+      type: float
+      interim: true
+    
+    profit_score:  # Level 4: Depends on profit_margin
+      operations:
+        - type: map
+          function: "lambda x: min(10, max(1, x * 20))"
+      source: "profit_margin"
+      type: float
+      interim: true
+
+# Expected execution order (automatically determined):
+# 1. base_revenue (depends on: price, quantity)
+# 2. profit (depends on: base_revenue)
+# 2. volume_score (depends on: quantity)
+# 3. profit_margin (depends on: profit, base_revenue)
+# 4. profit_score (depends on: profit_margin)
+# 4. final_rating (depends on: profit_score, volume_score)
+# 4. volume_tier (depends on: volume_score)
+# 5. recommendation (depends on: final_rating, profit_margin, volume_tier)
+
+global_settings:
+  show_execution_plan: true
+  verbose: false  # Don't show individual column processing
+  ignore_errors: false

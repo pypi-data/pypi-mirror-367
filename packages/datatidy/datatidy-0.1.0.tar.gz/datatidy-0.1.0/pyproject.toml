@@ -1,0 +1,132 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "datatidy"
+version = "0.1.0"
+description = "A powerful, configuration-driven data processing and cleaning package"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Wendi Wang", email = "wwd1015@gmail.com"}
+]
+maintainers = [
+    {name = "Wendi Wang", email = "wwd1015@gmail.com"}
+]
+keywords = ["data processing", "data cleaning", "ETL", "configuration-driven", "pandas", "data transformation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pandas>=1.5.0",
+    "PyYAML>=6.0",
+    "sqlalchemy>=1.4.0",
+    "openpyxl>=3.0.0",
+    "snowflake-sqlalchemy>=1.4.0",
+    "psycopg2-binary>=2.9.0",
+    "pymysql>=1.0.0",
+    "jsonschema>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.18.0",
+]
+all = [
+    "pyarrow>=10.0.0",  # For Parquet support
+    "fastparquet>=0.8.0",  # Alternative Parquet engine
+]
+
+[project.urls]
+Homepage = "https://github.com/wwd1015/datatidy"
+Documentation = "https://github.com/wwd1015/datatidy#readme"
+Repository = "https://github.com/wwd1015/datatidy"
+"Bug Reports" = "https://github.com/wwd1015/datatidy/issues"
+Changelog = "https://github.com/wwd1015/datatidy/blob/main/CHANGELOG.md"
+
+[project.scripts]
+datatidy = "datatidy.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["datatidy"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=datatidy --cov-report=term-missing"
+minversion = "6.0"
+
+[tool.coverage.run]
+source = ["datatidy"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[dependency-groups]
+dev = [
+    "twine>=6.1.0",
+]

@@ -1,0 +1,36 @@
+# Circular Dependency Detection Example
+# This configuration INTENTIONALLY has circular dependencies to demonstrate error detection
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  columns:
+    # CIRCULAR DEPENDENCY: A -> B -> C -> A
+    # This will cause DataTidy to throw a "Circular dependency detected" error
+    
+    column_a:
+      transformation: "column_c + 1"  # A depends on C
+      type: float
+    
+    column_b:  
+      transformation: "column_a * 2"  # B depends on A
+      type: float
+    
+    column_c:
+      transformation: "column_b + 5"  # C depends on B -> CREATES CIRCLE!
+      type: float
+
+# This configuration will fail with error:
+# "Circular dependency detected in columns: {'column_a', 'column_b', 'column_c'}"
+
+# The dependency chain:
+# column_a needs column_c
+# column_c needs column_b  
+# column_b needs column_a
+# -> Impossible to resolve!
+
+global_settings:
+  show_execution_plan: true  # Will show the error during planning
+  ignore_errors: false

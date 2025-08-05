@@ -1,0 +1,116 @@
+# DataTidy Join Suffix Behavior Demonstration
+# This config demonstrates exactly how column suffixes work in joins
+
+inputs:
+  users:
+    type: csv
+    source: "examples/users_demo.csv"
+    # Columns: id, name, email, created_at
+    
+  orders:
+    type: csv  
+    source: "examples/orders_demo.csv"
+    # Columns: id, user_id, name, total, created_at
+
+joins:
+  - left: users
+    right: orders
+    on: 
+      left: id        # users.id
+      right: user_id  # orders.user_id
+    how: inner
+    suffix: ["_customer", "_order"]
+
+# SUFFIX BEHAVIOR BREAKDOWN:
+# 
+# Original columns:
+# users:  id, name, email, created_at
+# orders: id, user_id, name, total, created_at
+#
+# After join with suffix: ["_customer", "_order"]
+#
+# 1. JOIN COLUMNS (no suffix applied):
+#    - id (from users, used as join key) -> id
+#    - user_id (from orders, used as join key) -> user_id
+#
+# 2. CONFLICTING COLUMNS (suffix applied):
+#    - users.name + orders.name -> name_customer, name_order
+#    - users.created_at + orders.created_at -> created_at_customer, created_at_order  
+#
+# 3. UNIQUE COLUMNS (no suffix applied):
+#    - users.email -> email (only in users)
+#    - orders.total -> total (only in orders)
+#
+# FINAL RESULT COLUMNS:
+# id, user_id, name_customer, email, created_at_customer, name_order, total, created_at_order
+
+output:
+  columns:
+    # Demonstrate referencing columns with suffixes
+    customer_name:
+      source: "name_customer"    # Column from users table with suffix
+      type: string
+      transformation: "str.title()"
+      
+    order_description:
+      source: "name_order"       # Column from orders table with suffix  
+      type: string
+      
+    customer_email:
+      source: "email"            # Unique column, no suffix needed
+      type: string
+      
+    order_total:
+      source: "total"            # Unique column, no suffix needed
+      type: float
+      
+    # Demonstrate using both suffixed columns in transformations
+    summary:
+      transformation: "f'{customer_name} placed order: {order_description} for ${order_total}'"
+      type: string
+      
+    # Show date handling with suffixes
+    order_age_days:
+      transformation: "(pd.to_datetime(created_at_order) - pd.to_datetime(created_at_customer)).days"
+      type: int
+
+# Additional examples of different suffix patterns:
+
+---
+# Example 2: Keep left table names unchanged
+inputs:
+  employees: {type: csv, source: "employees.csv"}  # id, name, dept_id
+  departments: {type: csv, source: "departments.csv"}  # id, name, budget
+
+joins:
+  - left: employees
+    right: departments  
+    on: {left: dept_id, right: id}
+    suffix: ["", "_dept"]    # Empty string for left = no change to left column names
+
+# Result columns:
+# - dept_id (join key, no suffix)
+# - id (from employees, no suffix due to empty string)  
+# - name (from employees, no suffix due to empty string)
+# - id_dept (from departments, conflicted with employees.id)
+# - name_dept (from departments, conflicted with employees.name)
+# - budget (unique to departments, no suffix)
+
+---
+# Example 3: Default suffix behavior  
+inputs:
+  table1: {type: csv, source: "table1.csv"}  # id, value, status
+  table2: {type: csv, source: "table2.csv"}  # id, value, category
+
+joins:
+  - left: table1
+    right: table2
+    on: id
+    # suffix not specified = defaults to ["_left", "_right"]
+
+# Result columns:
+# - id (join key, no suffix)
+# - value_left (from table1)
+# - status (unique to table1, no suffix)  
+# - value_right (from table2)
+# - category (unique to table2, no suffix)

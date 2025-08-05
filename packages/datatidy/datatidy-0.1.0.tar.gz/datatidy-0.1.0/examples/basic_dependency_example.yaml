@@ -1,0 +1,40 @@
+# Basic Dependency Resolution Example
+# Demonstrates automatic dependency resolution with columns defined in wrong order
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  only_output_columns: false  # Keep input columns + final output columns
+  
+  columns:
+    # Column C depends on B, B depends on A
+    # Defined in DELIBERATE wrong order to test dependency resolution
+    
+    sales_category:  # C - depends on total_sales (B) - defined FIRST
+      transformation: "'high' if total_sales > 500 else 'low'"
+      type: string
+      validation:
+        allowed_values: ["high", "low"]
+    
+    revenue:  # A - no dependencies (base calculation) - defined SECOND
+      transformation: "price * quantity"
+      type: float
+      validation:
+        min_value: 0
+    
+    total_sales:  # B - depends on revenue (A) - defined LAST
+      transformation: "revenue * 1.2"  # Add 20% markup
+      type: float
+      interim: true  # This won't appear in final output
+
+# Expected execution order (automatically determined):
+# 1. revenue (depends on: price, quantity)
+# 2. total_sales (depends on: revenue)  
+# 3. sales_category (depends on: total_sales)
+
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false

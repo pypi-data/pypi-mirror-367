@@ -1,0 +1,160 @@
+# Lag Operations Example
+# Demonstrates calculations based on previous row values (lag operations)
+
+input:
+  type: csv
+  source: "examples/time_series_data.csv"
+  # Expected columns: date, price, volume, symbol
+
+output:
+  only_output_columns: false
+  
+  columns:
+    # SIMPLE LAG OPERATIONS using shift() function
+    
+    # Previous day's price (lag 1)
+    price_lag1:
+      operations:
+        - type: map
+          function: "lambda x: df['price'].shift(1).iloc[x.name] if hasattr(df['price'].shift(1), 'iloc') and x.name < len(df) else None"
+      source: "price"  # Source column (value not used in calculation)
+      type: float
+      interim: true
+    
+    # 2-day lagged volume
+    volume_lag2:
+      transformation: "df['volume'].shift(2)"
+      type: float
+      interim: true
+    
+    # CALCULATIONS USING LAG VALUES
+    
+    # Price change from previous day
+    price_change:
+      transformation: "price - price_lag1 if pd.notna(price_lag1) else 0"
+      type: float
+      validation:
+        nullable: true
+    
+    # Price change percentage
+    price_change_pct:
+      transformation: "((price - price_lag1) / price_lag1 * 100) if pd.notna(price_lag1) and price_lag1 != 0 else 0"
+      type: float
+      validation:
+        min_value: -100
+        max_value: 1000
+    
+    # Volume momentum (current vs 2-day lag)
+    volume_momentum:
+      transformation: "volume / volume_lag2 if pd.notna(volume_lag2) and volume_lag2 > 0 else 1"
+      type: float
+    
+    # ROLLING LAG CALCULATIONS
+    
+    # 3-day moving average (shifted 1 day)
+    price_ma3_lag1:
+      operations:
+        - type: window
+          window_size: 3
+          function: "mean"
+        - type: map
+          function: "lambda x: df[df.columns[-1]].shift(1).iloc[x.name] if x.name > 0 else None"
+      source: "price"
+      type: float
+      interim: true
+    
+    # Signal based on price vs lagged moving average
+    ma_signal:
+      transformation: |
+        'BUY' if price > price_ma3_lag1 and pd.notna(price_ma3_lag1) else (
+          'SELL' if price < price_ma3_lag1 and pd.notna(price_ma3_lag1) else 'HOLD'
+        )
+      type: string
+      validation:
+        allowed_values: ["BUY", "SELL", "HOLD"]
+    
+    # COMPLEX LAG DEPENDENCIES
+    
+    # Volatility based on price changes
+    volatility_signal:
+      transformation: |
+        abs(price_change_pct) > 5 if pd.notna(price_change_pct) else False
+      type: bool
+    
+    # Trend detection using multiple lags
+    trend_direction:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'UPTREND' if price > price_lag1 and price_change_pct > 2 else
+              'DOWNTREND' if price < price_lag1 and price_change_pct < -2 else
+              'SIDEWAYS'
+            ) if pd.notna(price_lag1) and pd.notna(price_change_pct) else 'UNKNOWN'
+      source: "price"
+      type: string
+    
+    # MULTI-COLUMN LAG DEPENDENCIES
+    
+    # Previous row's volume-price ratio
+    vp_ratio_lag1:
+      transformation: "(df['volume'].shift(1) / df['price'].shift(1)) if all(pd.notna([df['volume'].shift(1), df['price'].shift(1)])) else 0"
+      type: float
+      interim: true
+    
+    # Compare current ratio with previous
+    vp_momentum:
+      transformation: |
+        current_ratio = volume / price if price > 0 else 0
+        if vp_ratio_lag1 > 0:
+            current_ratio / vp_ratio_lag1
+        else:
+            1
+      type: float
+    
+    # ADVANCED LAG PATTERNS
+    
+    # Cross-over detection (price vs lagged MA)
+    crossover_signal:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'GOLDEN_CROSS' if price > price_ma3_lag1 and df['price'].shift(1).iloc[x.name] <= df['price'].rolling(3).mean().shift(2).iloc[x.name] else
+              'DEATH_CROSS' if price < price_ma3_lag1 and df['price'].shift(1).iloc[x.name] >= df['price'].rolling(3).mean().shift(2).iloc[x.name] else
+              'NO_CROSS'
+            ) if x.name >= 3 and pd.notna(price_ma3_lag1) else 'INSUFFICIENT_DATA'
+      source: "price"
+      type: string
+    
+    # Summary with lag-based calculations
+    analysis_summary:
+      transformation: |
+        f"{symbol}: Price ${price:.2f} ({price_change_pct:+.1f}%), Trend: {trend_direction}, Signal: {ma_signal}"
+      type: string
+
+  # Sort by date to ensure proper lag calculations
+  sort:
+    - column: date
+      ascending: true
+
+# Global settings for lag operations
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false
+
+# Expected execution order:
+# 1. price_lag1, volume_lag2, vp_ratio_lag1 (lag calculations)
+# 2. price_ma3_lag1 (window + lag)
+# 3. price_change, price_change_pct (depend on price_lag1)
+# 4. volume_momentum (depends on volume_lag2)
+# 5. ma_signal (depends on price_ma3_lag1)
+# 6. volatility_signal (depends on price_change_pct)
+# 7. trend_direction (depends on price_lag1, price_change_pct)
+# 8. vp_momentum (depends on vp_ratio_lag1)
+# 9. crossover_signal (depends on price_ma3_lag1 and complex lag logic)
+# 10. analysis_summary (depends on multiple previous calculations)
+
+# Note: Lag operations work best with sorted time series data
+# First few rows will have NaN/None values for lag calculations

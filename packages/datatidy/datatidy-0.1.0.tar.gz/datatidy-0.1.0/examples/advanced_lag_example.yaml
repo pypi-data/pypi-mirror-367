@@ -1,0 +1,248 @@
+# Advanced Lag Operations Example
+# Demonstrates sophisticated lag-based calculations for time series analysis
+
+input:
+  type: csv
+  source: "examples/stock_data.csv"
+  # Expected columns: date, open, high, low, close, volume, symbol
+
+output:
+  only_output_columns: false
+  
+  columns:
+    # BASIC LAG VALUES (building blocks)
+    
+    close_lag1:  # Previous day's closing price
+      transformation: "df['close'].shift(1)"
+      type: float
+      interim: true
+    
+    close_lag5:  # 5-day lagged close
+      transformation: "df['close'].shift(5)"
+      type: float
+      interim: true
+    
+    volume_lag1:  # Previous day's volume
+      transformation: "df['volume'].shift(1)"
+      type: float
+      interim: true
+    
+    high_lag1:  # Previous day's high
+      transformation: "df['high'].shift(1)"
+      type: float
+      interim: true
+    
+    # PRICE-BASED LAG CALCULATIONS
+    
+    # Daily return based on previous close
+    daily_return:
+      transformation: "((close - close_lag1) / close_lag1 * 100) if pd.notna(close_lag1) and close_lag1 > 0 else 0"
+      type: float
+      validation:
+        min_value: -50
+        max_value: 50
+    
+    # Gap analysis: today's open vs yesterday's close
+    gap_percent:
+      transformation: "((open - close_lag1) / close_lag1 * 100) if pd.notna(close_lag1) and close_lag1 > 0 else 0"
+      type: float
+    
+    # 5-day cumulative return
+    return_5d:
+      transformation: "((close - close_lag5) / close_lag5 * 100) if pd.notna(close_lag5) and close_lag5 > 0 else 0"
+      type: float
+    
+    # VOLUME-BASED LAG ANALYSIS
+    
+    # Volume change from previous day
+    volume_change_pct:
+      transformation: "((volume - volume_lag1) / volume_lag1 * 100) if pd.notna(volume_lag1) and volume_lag1 > 0 else 0"
+      type: float
+    
+    # Volume-price relationship vs previous day
+    volume_price_divergence:
+      transformation: |
+        price_up = close > close_lag1 if pd.notna(close_lag1) else False
+        volume_up = volume > volume_lag1 if pd.notna(volume_lag1) else False
+        if price_up and volume_up:
+            'BULLISH_CONFIRMATION'
+        elif price_up and not volume_up:
+            'BULLISH_DIVERGENCE'
+        elif not price_up and volume_up:
+            'BEARISH_DIVERGENCE'
+        else:
+            'BEARISH_CONFIRMATION'
+      type: string
+    
+    # TECHNICAL INDICATOR LAG PATTERNS
+    
+    # RSI-style momentum using lag
+    momentum_indicator:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              min(100, max(0, 50 + (daily_return * 2))) if pd.notna(daily_return) else 50
+            )
+      source: "close"
+      type: float
+      interim: true
+    
+    # Momentum signal based on lag comparison
+    momentum_signal:
+      transformation: |
+        'OVERBOUGHT' if momentum_indicator > 70 else (
+          'OVERSOLD' if momentum_indicator < 30 else 'NEUTRAL'
+        )
+      type: string
+    
+    # BREAKOUT DETECTION using lags
+    
+    # Previous day's high breakout
+    breakout_high:
+      transformation: "close > high_lag1 if pd.notna(high_lag1) else False"
+      type: bool
+    
+    # Multi-day high breakout
+    breakout_5d_high:
+      transformation: "close > df['high'].rolling(5).max().shift(1) if df.index.name is not None and df.index.name >= 5 else False"
+      type: bool
+      interim: true
+    
+    # Breakout strength
+    breakout_strength:
+      transformation: |
+        if breakout_high and breakout_5d_high:
+            'STRONG_BREAKOUT'
+        elif breakout_high:
+            'MINOR_BREAKOUT'
+        elif close > close_lag1:
+            'UPWARD_MOVE'
+        else:
+            'NO_BREAKOUT'
+      type: string
+    
+    # COMPLEX LAG-BASED STRATEGIES
+    
+    # Mean reversion signal
+    mean_reversion_signal:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              # Calculate 10-day average (using available data)
+              ma_10 = df['close'].rolling(min_periods=1, window=min(10, x.name + 1)).mean().iloc[x.name] if x.name >= 0 else close
+              deviation = (close - ma_10) / ma_10 * 100 if ma_10 > 0 else 0
+              
+              'MEAN_REVERT_BUY' if deviation < -5 and daily_return < -2 else
+              'MEAN_REVERT_SELL' if deviation > 5 and daily_return > 2 else
+              'HOLD'
+            )
+      source: "close"
+      type: string
+    
+    # Trend continuation vs reversal
+    trend_analysis:
+      transformation: |
+        # Multi-timeframe analysis
+        short_trend = 'UP' if daily_return > 0 else 'DOWN'
+        medium_trend = 'UP' if return_5d > 0 else 'DOWN'
+        
+        if short_trend == medium_trend == 'UP' and volume_change_pct > 10:
+            'STRONG_UPTREND'
+        elif short_trend == medium_trend == 'DOWN' and volume_change_pct > 10:
+            'STRONG_DOWNTREND'
+        elif short_trend != medium_trend:
+            'TREND_REVERSAL'
+        else:
+            'CONSOLIDATION'
+      type: string
+    
+    # RISK MANAGEMENT using lags
+    
+    # Stop loss level based on previous support
+    stop_loss_level:
+      transformation: "close_lag1 * 0.95 if pd.notna(close_lag1) else close * 0.95"
+      type: float
+    
+    # Position sizing based on volatility
+    position_risk_score:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              # Calculate recent volatility using available data
+              returns = df['close'].pct_change().rolling(min_periods=1, window=min(10, x.name + 1)).std() * 100
+              volatility = returns.iloc[x.name] if x.name >= 0 else 0
+              
+              'HIGH_RISK' if volatility > 5 else
+              'MEDIUM_RISK' if volatility > 2 else
+              'LOW_RISK'
+            )
+      source: "close"
+      type: string
+    
+    # FINAL COMPREHENSIVE SIGNAL
+    
+    trading_recommendation:
+      transformation: |
+        # Combine all signals for final recommendation
+        signals = []
+        
+        # Price momentum
+        if daily_return > 2:
+            signals.append('BULLISH_MOMENTUM')
+        elif daily_return < -2:
+            signals.append('BEARISH_MOMENTUM')
+        
+        # Volume confirmation
+        if volume_price_divergence in ['BULLISH_CONFIRMATION']:
+            signals.append('VOLUME_SUPPORT')
+        elif volume_price_divergence in ['BEARISH_DIVERGENCE']:
+            signals.append('VOLUME_WARNING')
+        
+        # Breakout confirmation
+        if breakout_strength == 'STRONG_BREAKOUT':
+            signals.append('BREAKOUT')
+        
+        # Risk assessment
+        risk_level = position_risk_score
+        
+        # Final decision
+        bullish_signals = len([s for s in signals if 'BULLISH' in s or s == 'BREAKOUT' or s == 'VOLUME_SUPPORT'])
+        bearish_signals = len([s for s in signals if 'BEARISH' in s or s == 'VOLUME_WARNING'])
+        
+        if bullish_signals >= 2 and risk_level != 'HIGH_RISK':
+            'STRONG_BUY'
+        elif bullish_signals > bearish_signals and risk_level == 'LOW_RISK':
+            'BUY'
+        elif bearish_signals > bullish_signals:
+            'SELL'
+        else:
+            'HOLD'
+      type: string
+    
+    # Summary with all lag-based insights
+    market_analysis:
+      transformation: |
+        f"{symbol}: ${close:.2f} ({daily_return:+.1f}%), Gap: {gap_percent:+.1f}%, " +
+        f"5D: {return_5d:+.1f}%, Vol: {volume_change_pct:+.0f}%, " +
+        f"Trend: {trend_analysis}, Signal: {trading_recommendation}"
+      type: string
+
+  # Essential: Sort by date for proper lag calculations
+  sort:
+    - column: date
+      ascending: true
+
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false
+
+# Key Lag Operation Patterns:
+# 1. df['column'].shift(n) - Basic lag operation
+# 2. Rolling + shift - Lagged moving averages
+# 3. Conditional logic with lag values
+# 4. Cross-references between current and lagged values
+# 5. Multi-lag comparisons for trend analysis

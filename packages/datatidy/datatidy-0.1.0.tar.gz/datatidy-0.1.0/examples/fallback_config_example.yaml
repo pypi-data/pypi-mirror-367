@@ -1,0 +1,129 @@
+# Example configuration demonstrating robust fallback processing capabilities
+# This configuration shows how to use DataTidy's enhanced error handling and fallback systems
+
+input:
+  type: csv
+  source: examples/sample_data.csv
+
+output:
+  columns:
+    # Simple column mapping
+    facility_id:
+      source: id
+      type: int
+      validation:
+        required: true
+
+    # Transformation that might fail due to null values
+    cash_flow_leverage:
+      transformation: "debt_to_income * leverage_ratio"
+      type: float
+      validation:
+        required: true
+        min_value: 0
+        max_value: 10
+
+    # Complex calculation that could have dependency issues
+    risk_score:
+      transformation: "np.where(cash_flow_leverage > 5, 'HIGH', np.where(cash_flow_leverage > 2, 'MEDIUM', 'LOW'))"
+      type: string
+      validation:
+        allowed_values: ["LOW", "MEDIUM", "HIGH"]
+
+    # Column with pattern validation that might fail
+    formatted_id:
+      transformation: "f'FAC-{facility_id:06d}'"
+      type: string
+      validation:
+        pattern: "^FAC-\\d{6}$"
+
+    # Basic column that should always succeed
+    facility_name:
+      source: name
+      type: string
+      default: "Unknown Facility"
+
+  # Optional filters and sorting
+  filters:
+    - condition: "facility_id > 0"
+      action: keep
+
+  sort:
+    - column: facility_id
+      ascending: true
+
+# Global settings for enhanced error handling and fallback processing
+global_settings:
+  # Processing mode: strict, partial, or fallback
+  processing_mode: partial
+
+  # Error handling settings
+  max_errors: 50
+  ignore_errors: false
+  max_column_failures: 3
+  failure_threshold: 0.4  # 40% failure rate triggers fallback
+
+  # Fallback processing settings
+  enable_partial_processing: true
+  enable_fallback: true
+  
+  # Fallback transformations for problematic columns
+  fallback_transformations:
+    cash_flow_leverage:
+      type: default_value
+      value: 1.0
+    
+    risk_score:
+      type: copy_column
+      source: existing_risk_level
+    
+    formatted_id:
+      type: basic_calculation
+      operation: "format"
+      source: facility_id
+      format: "FAC-{:06d}"
+
+  # Debugging and logging settings
+  verbose: true
+  show_execution_plan: true
+
+# Example usage patterns:
+#
+# 1. Strict mode (default behavior):
+#    datatidy process fallback_config_example.yaml --mode strict
+#    - Fails completely if any column fails
+#    - Best for critical data processing where accuracy is paramount
+#
+# 2. Partial mode (recommended for development):
+#    datatidy process fallback_config_example.yaml --mode partial --show-summary
+#    - Processes successful columns, skips failed ones
+#    - Shows detailed error information for debugging
+#    - Provides recommendations for fixing issues
+#
+# 3. Fallback mode (for production resilience):
+#    datatidy process fallback_config_example.yaml --mode fallback
+#    - Uses fallback transformations when primary processing fails
+#    - Ensures data is always returned, even if simplified
+#
+# 4. Enhanced debugging:
+#    datatidy process fallback_config_example.yaml --mode partial --error-log errors.json --show-recommendations
+#    - Exports detailed error log for analysis
+#    - Shows specific recommendations for improving config
+#
+# 5. Production usage with fallback function:
+#    # In your application code:
+#    dt = DataTidy('fallback_config_example.yaml')
+#    
+#    def fallback_database_query():
+#        return pd.read_sql("SELECT * FROM facilities", connection)
+#    
+#    result = dt.process_data_with_fallback(fallback_query_func=fallback_database_query)
+#    
+#    if result.fallback_used:
+#        logger.warning("DataTidy processing failed, using fallback database query")
+#    
+#    # Compare quality if both are available
+#    if not result.fallback_used:
+#        fallback_data = fallback_database_query()
+#        quality_comparison = dt.compare_with_fallback(fallback_data)
+#        DataQualityMetrics.print_comparison_summary(quality_comparison)

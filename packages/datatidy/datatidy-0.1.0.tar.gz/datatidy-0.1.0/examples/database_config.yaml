@@ -1,0 +1,95 @@
+# Database Processing Example
+# Shows how to process data from various database sources
+
+input:
+  type: database
+  source:
+    query: |
+      SELECT 
+        u.id,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.age,
+        u.salary,
+        u.department_id,
+        d.department_name,
+        u.hire_date,
+        u.is_active
+      FROM users u
+      LEFT JOIN departments d ON u.department_id = d.id
+      WHERE u.created_at >= '2023-01-01'
+    connection_string: "postgresql://username:password@localhost:5432/company_db"
+  options:
+    chunksize: 1000  # Process in chunks for large datasets
+
+output:
+  columns:
+    employee_id:
+      source: "id"
+      type: int
+      validation:
+        required: true
+        min_value: 1
+
+    full_name:
+      transformation: "first_name.strip() + ' ' + last_name.strip()"
+      type: string
+      validation:
+        required: true
+        min_length: 3
+        max_length: 100
+
+    email_domain:
+      transformation: "email.split('@')[1] if '@' in email else 'unknown'"
+      type: string
+
+    salary_grade:
+      transformation: |
+        'executive' if salary > 150000 else (
+          'senior' if salary > 100000 else (
+            'mid' if salary > 60000 else (
+              'junior' if salary > 30000 else 'entry'
+            )
+          )
+        )
+      type: string
+      validation:
+        allowed_values: ["executive", "senior", "mid", "junior", "entry"]
+
+    department:
+      source: "department_name"
+      type: string
+      default: "Unassigned"
+
+    years_of_service:
+      transformation: "(pd.Timestamp.now() - pd.to_datetime(hire_date)).days / 365.25"
+      type: float
+
+    employment_status:
+      transformation: "'Active' if is_active else 'Inactive'"
+      type: string
+      validation:
+        allowed_values: ["Active", "Inactive"]
+
+    hire_year:
+      transformation: "pd.to_datetime(hire_date).year"
+      type: int
+
+  filters:
+    - condition: "salary > 0"
+      action: keep
+    - condition: "age >= 16 and age <= 80"
+      action: keep
+
+  sort:
+    - column: department
+      ascending: true
+    - column: salary_grade
+      ascending: false
+    - column: full_name
+      ascending: true
+
+global_settings:
+  ignore_errors: false
+  max_errors: 100

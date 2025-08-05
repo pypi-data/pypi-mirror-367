@@ -1,0 +1,118 @@
+# DataTidy Sample Configuration
+# This example demonstrates various features of DataTidy
+
+input:
+  type: csv
+  source: "examples/sample_data.csv"
+  options:
+    encoding: utf-8
+    delimiter: ","
+    header: 0
+
+output:
+  columns:
+    # Simple column mapping with validation
+    user_id:
+      source: "id"
+      type: int
+      validation:
+        required: true
+        min_value: 1
+
+    # String transformation and validation
+    full_name:
+      source: "name"
+      type: string
+      transformation: "str.strip().title()"
+      validation:
+        required: true
+        min_length: 2
+        max_length: 100
+        pattern: "^[A-Za-z\\s]+$"
+
+    # Email validation
+    email:
+      source: "email_address" 
+      type: string
+      validation:
+        required: true
+        pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+
+    # Age category based on transformation
+    age_group:
+      transformation: "'senior' if age > 65 else ('adult' if age >= 18 else 'minor')"
+      type: string
+      validation:
+        allowed_values: ["senior", "adult", "minor"]
+
+    # Income bracket calculation
+    income_bracket:
+      transformation: |
+        'high' if annual_income > 100000 else (
+          'upper_middle' if annual_income > 75000 else (
+            'middle' if annual_income > 50000 else (
+              'lower_middle' if annual_income > 25000 else 'low'
+            )
+          )
+        )
+      type: string
+      validation:
+        allowed_values: ["high", "upper_middle", "middle", "lower_middle", "low"]
+
+    # Date formatting
+    signup_date:
+      source: "registration_date"
+      type: datetime
+      format: "%Y-%m-%d"
+      validation:
+        required: true
+
+    # Boolean conversion
+    is_active:
+      source: "status"
+      transformation: "status.lower() == 'active'"
+      type: bool
+
+    # Default value example
+    department:
+      source: "dept"
+      type: string
+      default: "General"
+      validation:
+        nullable: true
+
+    # Complex calculation
+    bmi:
+      transformation: "round(weight_kg / ((height_cm / 100) ** 2), 1)"
+      type: float
+      validation:
+        min_value: 10.0
+        max_value: 50.0
+
+    # Score normalization
+    normalized_score:
+      transformation: "round((score - 0) / (100 - 0) * 100, 2)"
+      type: float
+      validation:
+        min_value: 0.0
+        max_value: 100.0
+
+  # Filter out invalid records
+  filters:
+    - condition: "age >= 0 and age <= 120"
+      action: keep
+    - condition: "annual_income > 0"
+      action: keep
+    - condition: "email.find('@') > 0"
+      action: keep
+
+  # Sort by user_id
+  sort:
+    - column: user_id
+      ascending: true
+
+# Global processing settings
+global_settings:
+  ignore_errors: false
+  max_errors: 50
+  encoding: utf-8

@@ -1,0 +1,160 @@
+# Advanced Operations with Dependencies Example
+# Combines lambda operations with dependency resolution
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  only_output_columns: true  # Only include final output columns
+  
+  columns:
+    # Complex dependency chain with advanced operations
+    
+    # Level 1: Base transformations
+    revenue:
+      transformation: "price * quantity"
+      type: float
+      interim: true
+    
+    # Level 2: Advanced operations on base data
+    price_tier:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'premium' if x > 500 else
+              'mid' if x > 100 else
+              'budget'
+            )
+      source: "price"
+      type: string
+      interim: true
+    
+    volume_category:
+      operations:
+        - type: map
+          function: "lambda x: 'high' if x > 50 else ('medium' if x > 20 else 'low')"
+      source: "quantity"
+      type: string
+      interim: true
+    
+    # Level 3: Operations dependent on Level 1 calculations
+    revenue_tier:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'excellent' if x > 2000 else
+              'good' if x > 1000 else
+              'fair' if x > 500 else
+              'poor'
+            )
+      source: "revenue"  # Depends on interim column
+      type: string
+      interim: true
+    
+    # Level 4: Reduce operations for aggregation
+    total_revenue_benchmark:
+      operations:
+        - type: reduce
+          function: "lambda acc, x: acc + x"
+          initial_value: 0
+      source: "revenue"
+      type: float
+      interim: true
+    
+    # Level 5: Window operations
+    revenue_moving_avg:
+      operations:
+        - type: window
+          window_size: 3
+          function: "mean"
+      source: "revenue"
+      type: float
+      interim: true
+    
+    # Level 6: Complex operations using multiple dependencies
+    performance_score:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              {'premium': 10, 'mid': 7, 'budget': 4}.get(price_tier, 5) +
+              {'high': 8, 'medium': 5, 'low': 2}.get(volume_category, 3) +
+              {'excellent': 9, 'good': 6, 'fair': 4, 'poor': 1}.get(revenue_tier, 3)
+            ) / 3
+      source: "price"  # Source doesn't matter for complex calculations
+      type: float
+      interim: true
+    
+    # Level 7: Chained operations with dependencies
+    market_position:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              'market_leader' if performance_score > 8 else
+              'strong_performer' if performance_score > 6 else
+              'average_performer' if performance_score > 4 else
+              'underperformer'
+            )
+        - type: map
+          function: "lambda x: x.replace('_', ' ').title()"
+      source: "price"  # Source column (value not used in transformation)
+      type: string
+      interim: true
+    
+    # Level 8: Final outputs using all previous calculations
+    product_summary:
+      transformation: |
+        f"{product} ({category}): {price_tier.title()} Price, {volume_category.title()} Volume, {revenue_tier.title()} Revenue"
+      type: string
+    
+    performance_analysis:
+      transformation: |
+        f"Score: {performance_score:.1f}/10, Position: {market_position}, Revenue: ${revenue:.2f} (Avg: ${revenue_moving_avg:.2f})"
+      type: string
+    
+    recommendation_engine:
+      operations:
+        - type: map
+          function: |
+            lambda x: (
+              f"Promote heavily - {market_position} with {revenue_tier} revenue" if performance_score > 7 else
+              f"Maintain current strategy - {market_position} status" if performance_score > 5 else
+              f"Review and optimize - {market_position} needs improvement" if performance_score > 3 else
+              f"Consider discontinuation - {market_position} with poor metrics"
+            )
+      source: "price"  # Source not used
+      type: string
+
+  # Filter using interim columns from operations
+  filters:
+    - condition: "revenue > 100"           # Uses Level 1 interim column
+      action: keep
+    - condition: "performance_score > 3"   # Uses Level 6 interim column
+      action: keep
+
+  # Sort by computed values
+  sort:
+    - column: performance_score
+      ascending: false
+
+# Execution will be automatically ordered by dependencies:
+# 1. revenue (price * quantity)
+# 2. price_tier (map operation on price)
+# 3. volume_category (map operation on quantity) 
+# 4. revenue_tier (map operation on revenue)
+# 5. total_revenue_benchmark (reduce operation on revenue)
+# 6. revenue_moving_avg (window operation on revenue)
+# 7. performance_score (complex map using price_tier, volume_category, revenue_tier)
+# 8. market_position (chained operations using performance_score)
+# 9. product_summary (transformation using multiple interim columns)
+# 10. performance_analysis (transformation using multiple interim columns)
+# 11. recommendation_engine (map operation using market_position, revenue_tier, performance_score)
+
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false

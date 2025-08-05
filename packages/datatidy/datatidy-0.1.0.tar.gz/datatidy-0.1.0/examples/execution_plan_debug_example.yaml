@@ -1,0 +1,81 @@
+# Execution Plan Debugging Example
+# Demonstrates debugging features with detailed execution plan output
+
+input:
+  type: csv
+  source: "examples/sales_data.csv"
+
+output:
+  only_output_columns: false
+  
+  columns:
+    # Deliberately mixed up order to show execution plan resolution
+    
+    step_5:  # Depends on step_3, step_4
+      transformation: "step_3 + step_4"
+      type: float
+      interim: true
+    
+    step_1:  # Base calculation
+      transformation: "price * 2"
+      type: float
+      interim: true
+    
+    step_3:  # Depends on step_1, step_2
+      transformation: "step_1 + step_2"
+      type: float
+      interim: true
+    
+    final_result:  # Final output - depends on step_5
+      transformation: "f'Final Result: {step_5:.2f}'"
+      type: string
+    
+    step_2:  # Another base calculation
+      transformation: "quantity * 3"
+      type: float
+      interim: true
+    
+    step_4:  # Depends on step_1
+      transformation: "step_1 * 0.1"
+      type: float
+      interim: true
+    
+    # Additional complex dependency
+    summary:  # Depends on multiple steps
+      transformation: "f'Steps: 1={step_1:.1f}, 2={step_2:.1f}, 3={step_3:.1f}, 4={step_4:.1f}, 5={step_5:.1f}'"
+      type: string
+
+# Expected execution order:
+# 1. step_1 (depends on: price)
+# 2. step_2 (depends on: quantity)
+# 3. step_3 (depends on: step_1, step_2)
+# 4. step_4 (depends on: step_1)
+# 5. step_5 (depends on: step_3, step_4)
+# 6. final_result (depends on: step_5)
+# 7. summary (depends on: step_1, step_2, step_3, step_4, step_5)
+
+global_settings:
+  show_execution_plan: true  # Show detailed execution plan
+  verbose: true              # Show processing progress for each column
+  ignore_errors: false
+
+# Expected debug output:
+# === EXECUTION PLAN ===
+# Total columns to process: 7
+# Execution order: step_1 -> step_2 -> step_3 -> step_4 -> step_5 -> final_result -> summary
+# Interim columns: ['step_1', 'step_2', 'step_3', 'step_4', 'step_5']
+# Final columns: ['final_result', 'summary']
+# Dependencies:
+#   step_3 depends on: step_1, step_2
+#   step_4 depends on: step_1
+#   step_5 depends on: step_3, step_4
+#   final_result depends on: step_5
+#   summary depends on: step_1, step_2, step_3, step_4, step_5
+# ======================
+# ✓ Processed column: step_1
+# ✓ Processed column: step_2
+# ✓ Processed column: step_3
+# ✓ Processed column: step_4
+# ✓ Processed column: step_5
+# ✓ Processed column: final_result
+# ✓ Processed column: summary

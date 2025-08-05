@@ -1,0 +1,278 @@
+# Lag + Chain Operations Combinations
+# Demonstrates combining lag operations with chained operations for advanced analysis
+
+input:
+  type: csv
+  source: "examples/time_series_data.csv"
+  # Expected columns: date, price, volume, symbol
+
+output:
+  only_output_columns: false
+  
+  columns:
+    # BASIC LAG FOUNDATION
+    
+    price_lag1:
+      transformation: "df['price'].shift(1)"
+      type: float
+      interim: true
+    
+    price_lag2:
+      transformation: "df['price'].shift(2)"
+      type: float
+      interim: true
+    
+    volume_lag1:
+      transformation: "df['volume'].shift(1)"
+      type: float
+      interim: true
+    
+    # LAG + CHAINED OPERATIONS EXAMPLES
+    
+    # Example 1: Lag → Window → Map chain
+    price_momentum_signal:
+      operations:
+        # Step 1: Create lagged moving average
+        - type: map
+          function: "lambda x: df['price'].shift(1).rolling(5).mean().iloc[x.name] if x.name >= 5 else None"
+        
+        # Step 2: Compare current price to lagged MA
+        - type: map
+          function: "lambda x: (price / x) - 1 if pd.notna(x) and x > 0 else 0"
+        
+        # Step 3: Categorize momentum strength
+        - type: map
+          function: |
+            lambda x: (
+              'STRONG_UP' if x > 0.05 else
+              'MILD_UP' if x > 0.02 else
+              'STRONG_DOWN' if x < -0.05 else
+              'MILD_DOWN' if x < -0.02 else
+              'NEUTRAL'
+            )
+      source: "price"
+      type: string
+    
+    # Example 2: Multi-lag → Filter → Reduce chain
+    trend_strength_score:
+      operations:
+        # Step 1: Create array of recent price changes vs lags
+        - type: map
+          function: |
+            lambda x: [
+              (price - df['price'].shift(i).iloc[x.name]) / df['price'].shift(i).iloc[x.name] 
+              if x.name >= i and pd.notna(df['price'].shift(i).iloc[x.name]) and df['price'].shift(i).iloc[x.name] > 0 
+              else 0
+              for i in range(1, min(6, x.name + 1))
+            ]
+        
+        # Step 2: Filter out zero values
+        - type: filter
+          function: "lambda x: [val for val in x if val != 0]"
+        
+        # Step 3: Calculate trend consistency score
+        - type: reduce
+          function: |
+            lambda acc, x: (
+              len([val for val in x if val > 0]) / len(x) * 100 
+              if len(x) > 0 else 50
+            )
+          initial_value: 0
+      source: "price"
+      type: float
+    
+    # Example 3: Lag-based rolling correlation chain
+    price_volume_lag_relationship:
+      operations:
+        # Step 1: Create lagged price changes
+        - type: map
+          function: "lambda x: (price - price_lag1) / price_lag1 if pd.notna(price_lag1) and price_lag1 > 0 else 0"
+        
+        # Step 2: Create lagged volume changes  
+        - type: map
+          function: "lambda x: (volume - volume_lag1) / volume_lag1 if pd.notna(volume_lag1) and volume_lag1 > 0 else 0"
+        
+        # Step 3: Rolling correlation over 10 periods
+        - type: window
+          window_size: 10
+          function: |
+            lambda x: (
+              x.corr(pd.Series([
+                (df['volume'].iloc[i] - df['volume'].shift(1).iloc[i]) / df['volume'].shift(1).iloc[i]
+                if pd.notna(df['volume'].shift(1).iloc[i]) and df['volume'].shift(1).iloc[i] > 0 else 0
+                for i in range(max(0, x.index[-1] - 9), x.index[-1] + 1)
+              ]))
+              if len(x) >= 5 else 0
+            )
+      source: "price"
+      type: float
+    
+    # Example 4: Complex lag dependency chain with operations
+    volatility_regime:
+      operations:
+        # Step 1: Calculate returns using lags
+        - type: map
+          function: |
+            lambda x: [
+              (df['price'].iloc[max(0, x.name - i)] - df['price'].iloc[max(0, x.name - i - 1)]) / df['price'].iloc[max(0, x.name - i - 1)]
+              if x.name >= i + 1 and df['price'].iloc[max(0, x.name - i - 1)] > 0
+              else 0
+              for i in range(min(20, x.name))
+            ]
+        
+        # Step 2: Filter recent returns only
+        - type: filter
+          function: "lambda x: x[-10:] if len(x) >= 10 else x"
+        
+        # Step 3: Calculate volatility
+        - type: map
+          function: "lambda x: np.std(x) * 100 if len(x) > 1 else 0"
+        
+        # Step 4: Classify regime
+        - type: map
+          function: |
+            lambda x: (
+              'HIGH_VOL' if x > 3 else
+              'MEDIUM_VOL' if x > 1.5 else
+              'LOW_VOL'
+            )
+      source: "price"
+      type: string
+    
+    # Example 5: Multi-timeframe lag analysis with chains
+    multi_timeframe_signal:
+      operations:
+        # Step 1: Short-term momentum (1-3 days)
+        - type: map
+          function: |
+            lambda x: (
+              sum([
+                1 if df['price'].iloc[max(0, x.name - i)] > df['price'].iloc[max(0, x.name - i - 1)] else -1
+                for i in range(min(3, x.name))
+              ]) / min(3, x.name + 1) if x.name >= 0 else 0
+            )
+        
+        # Step 2: Medium-term momentum (4-7 days) 
+        - type: map
+          function: |
+            lambda x: (
+              sum([
+                1 if df['price'].iloc[max(0, x.name - i)] > df['price'].iloc[max(0, x.name - i - 1)] else -1
+                for i in range(3, min(7, x.name))
+              ]) / max(1, min(4, x.name - 2)) if x.name >= 3 else 0
+            )
+        
+        # Step 3: Combine timeframes for final signal
+        - type: map
+          function: |
+            lambda x: (
+              'STRONG_BUY' if x > 0.6 else
+              'BUY' if x > 0.2 else
+              'STRONG_SELL' if x < -0.6 else
+              'SELL' if x < -0.2 else
+              'HOLD'
+            )
+      source: "price"
+      type: string
+    
+    # Example 6: Lag-based breakout detection with chained validation
+    breakout_confirmation:
+      operations:
+        # Step 1: Check if current price breaks recent highs
+        - type: map
+          function: |
+            lambda x: (
+              df['price'].iloc[max(0, x.name - 10):x.name].max() 
+              if x.name >= 10 else 
+              df['price'].iloc[:x.name + 1].max() if x.name > 0 else price
+            )
+        
+        # Step 2: Calculate breakout percentage
+        - type: map
+          function: "lambda x: ((price - x) / x * 100) if x > 0 else 0"
+        
+        # Step 3: Validate with volume confirmation
+        - type: map
+          function: |
+            lambda x: (
+              volume_confirmation = volume > volume_lag1 if pd.notna(volume_lag1) else False
+              strength = 'STRONG' if x > 2 and volume_confirmation else 'WEAK' if x > 2 else 'NONE'
+              f"BREAKOUT_{strength}" if x > 0.5 else "NO_BREAKOUT"
+            )
+      source: "price"
+      type: string
+    
+    # COMBINED ANALYSIS USING ALL LAG+CHAIN RESULTS
+    
+    # Master trading signal combining all lag+chain indicators
+    master_signal:
+      transformation: |
+        signals = []
+        
+        # Momentum component
+        if price_momentum_signal in ['STRONG_UP', 'MILD_UP']:
+            signals.append('MOMENTUM_BULL')
+        elif price_momentum_signal in ['STRONG_DOWN', 'MILD_DOWN']:
+            signals.append('MOMENTUM_BEAR')
+        
+        # Trend component
+        if trend_strength_score > 70:
+            signals.append('TREND_BULL')
+        elif trend_strength_score < 30:
+            signals.append('TREND_BEAR')
+        
+        # Volatility component
+        if volatility_regime == 'LOW_VOL' and multi_timeframe_signal in ['BUY', 'STRONG_BUY']:
+            signals.append('LOWVOL_BULL')
+        elif volatility_regime == 'HIGH_VOL':
+            signals.append('HIGHVOL_CAUTION')
+        
+        # Breakout component
+        if 'STRONG' in breakout_confirmation:
+            signals.append('BREAKOUT_BULL')
+        
+        # Final decision
+        bull_signals = len([s for s in signals if 'BULL' in s])
+        bear_signals = len([s for s in signals if 'BEAR' in s])
+        caution_signals = len([s for s in signals if 'CAUTION' in s])
+        
+        if bull_signals >= 3:
+            'STRONG_BUY'
+        elif bull_signals >= 2 and caution_signals == 0:
+            'BUY'
+        elif bear_signals >= 2:
+            'SELL'
+        elif caution_signals > 0:
+            'CAUTION'
+        else:
+            'HOLD'
+      type: string
+    
+    # Detailed analysis summary
+    analysis_report:
+      transformation: |
+        f"""
+        Price: ${price:.2f} | Momentum: {price_momentum_signal} | Trend: {trend_strength_score:.0f}%
+        Volatility: {volatility_regime} | Timeframe: {multi_timeframe_signal} | Breakout: {breakout_confirmation}
+        → Final Signal: {master_signal}
+        """
+      type: string
+
+  # Sort by date for proper lag calculations
+  sort:
+    - column: date
+      ascending: true
+
+global_settings:
+  show_execution_plan: true
+  verbose: true
+  ignore_errors: false
+
+# Key Lag+Chain Patterns Demonstrated:
+# 1. Lag → Window → Map: Lagged moving averages with comparisons
+# 2. Multi-lag → Filter → Reduce: Complex trend analysis
+# 3. Lag → Map → Window: Rolling correlations with lagged values
+# 4. Lag → Map → Map → Map: Multi-step volatility calculations
+# 5. Lag → Map → Map → Map: Multi-timeframe momentum analysis  
+# 6. Lag → Map → Map → Map: Breakout detection with validation
+# 7. Complex dependency chains using all lag+chain results
