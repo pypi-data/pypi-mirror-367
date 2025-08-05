@@ -1,0 +1,26 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+- name: Ensure the sdist directory exists
+  ansible.builtin.file:
+    name: "{{ antsibull_sdist_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Clone the ansible-build-data git repository
+  ansible.builtin.git:
+    repo: "{{ antsibull_data_git_repo }}"
+    dest: "{{ antsibull_data_git_dir }}"
+    version: "{{ antsibull_data_version }}"
+    force: true
+  # By setting antsibull_data_reset to false, we can run with an edited or otherwise prepared version of ansible-build-data
+  when: antsibull_data_reset | bool
+
+- name: Ensure {{ antsibull_data_git_dir }} exists when antsibull_data_reset variable is set to false
+  ansible.builtin.stat:
+    path: "{{ antsibull_data_git_dir }}"
+  register: antsibull_data_directory
+  failed_when: not antsibull_data_directory.stat.exists
+  when: not (antsibull_data_reset | bool)

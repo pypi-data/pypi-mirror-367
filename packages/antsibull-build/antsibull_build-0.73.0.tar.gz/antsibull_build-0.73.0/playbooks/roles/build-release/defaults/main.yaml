@@ -1,0 +1,88 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# The command to run `antsibull-build`
+antsibull_build_command: antsibull-build
+
+# The directory where antsibull will build the Ansible release tarball
+antsibull_sdist_dir: "{{ playbook_dir | dirname }}/build"
+
+# The build file
+antsibull_build_file: "ansible-{{ antsibull_ansible_major_version }}.build"
+
+# Skip the prepare step if a `.deps` file already exists for the release
+antsibull_skip_prepare: false
+
+# Force a rebuild by deleting an existing release tarball and python wheel, if they exist
+antsibull_force_rebuild: false
+
+# Where to get the ansible-build-data repository from
+antsibull_data_git_repo: "https://github.com/ansible-community/ansible-build-data"
+
+# The tag (or branch) of the ansible-build-data git repo to checkout
+# Could be "main", "devel", etc
+antsibull_data_version: main
+
+# Whether to forcefully reset the ansible-build-data repo
+# ex: set to false if there are manual changes that should not be overwritten
+antsibull_data_reset: true
+
+# Where the ansible-build-data git repository will be cloned to
+antsibull_data_git_dir: "{{ antsibull_sdist_dir }}/ansible-build-data"
+
+# Directory to read .build and .deps files from
+antsibull_data_dir: "{{ antsibull_data_git_dir }}/{{ antsibull_ansible_major_version }}"
+
+# The major version of ansible to build
+antsibull_ansible_major_version: "{{ (antsibull_ansible_version | default('')).split('.', 1)[0] }}"
+
+# Where the Ansible release tarball will be installed for test purposes
+antsibull_ansible_venv: "{{ antsibull_sdist_dir }}/venv"
+
+# Whether to forcefully reset the ansible-X.build file for alpha and beta-1 releases
+# ex: set to false if there are manual changes that should not be overwritten
+antsibull_build_reset: "{{ antsibull_data_reset }}"
+
+# Whether to preserve existing .deps files during the prepare step
+antsibull_preserve_deps: false
+
+# Whether to ignore feature freeze
+antsibull_ignore_feature_freeze: false
+
+# Whether or not to start from scratch with a new venv if one exists
+antsibull_venv_cleanup: true
+
+
+#####
+# These variables relate to verifying that collections properly tag their
+# releases as per the Collection Requirements.
+# None of them apply if antsibull_tags_validate is false
+#####
+# Whether to generate a tags data file and validate it
+antsibull_tags_validate: "{{ antsibull_ansible_version is
+                             _antsibull_packaging_version('7.2.0', '>=') }}"
+
+# Whether to abort on `antsibull-build validate-tags-file` errors.
+# When False, only warnings are printed.
+# This option is unconditionally enabled for `ansible >= 9.0.0a1`.
+antsibull_tags_enforce_policy: false
+
+# File containing a newline separated list of collections to ignore
+antsibull_tags_ignores_file: "{{ antsibull_data_dir }}/validate-tags-ignores"
+
+
+#####
+# These variables relate to testing byte-compilation of the Python code in the
+# package.
+# None of them apply if antsibull_test_bytecompile is false.
+antsibull_test_bytecompile: true
+antsibull_test_bytecompile_pythons:
+  - "{{ ansible_python_executable | default(ansible_playbook_python) }}"
+# Default to using all CPUs
+antsibull_test_bytecompile_jobs: 0
+
+# TODO:
+# --dest-data-dir (Directory to write .build and .deps files to, as well as changelog and porting guide if applicable. Defaults to --data-dir)
+# --collection-cache (Directory of cached collection tarballs. Will be used if a collection tarball to be downloaded exists in here, and will be populated when downloading new tarballs.)

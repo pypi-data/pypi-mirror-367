@@ -1,0 +1,158 @@
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "antsibull-build"
+dynamic = [
+    "version",
+]
+description = "Tools for building the Ansible Distribution"
+license = "GPL-3.0-or-later AND Python-2.0.1"
+license-files = {globs=["LICENSES/*.txt"]}
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Ansible",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "antsibull-changelog >= 0.34.0",
+    "antsibull-core >= 3.4.0, < 4.0.0",
+    "antsibull-docs-parser >= 1.1.0, < 2.0.0",
+    "antsibull-fileutils >= 1.0.0, < 2.0.0",
+    "asyncio-pool",
+    "build",
+    "jinja2",
+    "packaging >= 20.0",
+    "semantic_version",
+    "aiofiles",
+    "aiohttp >= 3.0.0",
+    "twiggy",
+    "pyyaml",
+    "pydantic >= 2, < 3",
+    # pydantic already pulls it in, but we use it for TypedDict
+    "typing_extensions",
+]
+
+[[project.authors]]
+name = "Toshio Kuratomi"
+email = "a.badger@gmail.com"
+
+[[project.authors]]
+name = "Felix Fontein"
+email = "felix@fontein.de"
+
+[[project.maintainers]]
+name = "Felix Fontein"
+email = "felix@fontein.de"
+
+[[project.maintainers]]
+name = "Maxwell G"
+email = "maxwell@gtmx.me"
+
+[project.urls]
+"Source code" = "https://github.com/ansible-community/antsibull-build"
+"Code of Conduct" = "https://docs.ansible.com/ansible/latest/community/code_of_conduct.html"
+"Bug tracker" = "https://github.com/ansible-community/antsibull-build/issues"
+"Changelog" = "https://github.com/ansible-community/antsibull-build/tree/main/CHANGELOG.md"
+
+[project.scripts]
+antsibull-build = "antsibull_build.cli.antsibull_build:main"
+
+[project.optional-dependencies]
+# User-facing extras
+clipboard = [
+    "pyperclip",
+]
+all = [
+    "antsibull-build[clipboard]",
+]
+
+# Dev extras
+coverage = [
+    "coverage[toml]",
+]
+codeqa = [
+    "flake8 >= 3.8.0",
+    "pylint",
+    "reuse",
+]
+formatters = [
+    "black>=24",
+    "isort",
+]
+test = [
+    "asynctest",
+    "cryptography",
+    "pytest",
+    "pytest-asyncio >= 0.12",
+    "pytest-cov",
+    "pytest-error-for-skips",
+]
+typing = [
+    "mypy",
+    "types-aiofiles",
+    "types-docutils",
+    "types-PyYAML",
+    "types-setuptools",
+    "pytest",
+]
+dev = [
+    # Used by nox sessions
+    "antsibull-build[codeqa]",
+    "antsibull-build[coverage]",
+    "antsibull-build[test]",
+    "antsibull-build[typing]",
+    # misc
+    "antsibull-build[all]",
+    "nox",
+]
+
+[tool.hatch.version]
+path = "src/antsibull_build/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/antsibull_build"]
+
+[tool.isort]
+profile = "black"
+extend_skip = [
+    "tests/test_data",
+]
+
+[tool.black]
+extend-exclude = '''
+(
+^/tests/test_data/.*
+| ^/tests/.cache/.*
+)
+'''
+
+[tool.coverage.paths]
+source = [
+    "src",
+    "*/site-packages",
+]
+
+[tool.mypy]
+mypy_path = "stubs/"
+exclude = '''(?x)(
+    ^tests/test_data/package-files/.+
+)
+'''
+
+[[tool.mypy.overrides]]
+module = "semantic_version"
+ignore_missing_imports = true
