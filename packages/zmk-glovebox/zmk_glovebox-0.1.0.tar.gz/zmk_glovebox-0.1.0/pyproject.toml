@@ -1,0 +1,211 @@
+[project]
+name = "zmk-glovebox"
+dynamic = ["version"]
+description = "Comprehensive tool for ZMK keyboard firmware management"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "jinja2>=3.1.0",
+  "pydantic-settings>=2.9.1",
+  "pydantic>=2.11.0",
+  "PyYAML>=6.0",
+  "rich>=13.3.0",
+  "deepdiff>=8.5.0",
+  "jsonpatch>=1.33",
+  "keyring>=25.6.0",
+  "requests>=2.32.4",
+  "tomlkit>=0.13.3",
+  "psutil>=7.0.0",
+  "types-psutil>=7.0.0.20250601",
+  "pyudev>=0.24.0; sys_platform == 'linux'",
+  "WMI; sys_platform == 'win32'",
+  "diskcache>=5.6.3",
+  "colorlog>=6.9.0",
+  "typer>=0.16.0",
+  "lark>=1.2.2",
+  "httpx>=0.28.1",
+  "cryptography>=42.0.0",
+]
+
+[project.scripts]
+glovebox = "glovebox.cli:main"
+
+[build-system]
+# Using hatchling to used git tag for version 
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+# requires = ["uv"] 
+# build-backend = "uv.build" 
+
+[dependency-groups]
+dev = [
+  "flake8>=7.2.0",
+  "mypy>=1.15.0",
+  "pre-commit>=4.2.0",
+  "pyright>=1.1.401",
+  "pytest-cov>=6.1.1",
+  "pytest>=8.3.0",
+  "ruff>=0.11.0",
+  "tox>=4.26.0",
+  "types-PyYAML>=6.0.12.12",
+  "types-requests>=2.32.4.20250611",
+  "mkdocs>=1.6.1",
+  "mkdocs-material>=9.6.14",
+  "mkdocs-awesome-pages-plugin>=2.10.1",
+  "mkdocs-include-markdown-plugin>=7.1.6",
+  "mkdocstrings[python]>=0.29.1",
+  "mkdocs-gen-files>=0.5.0",
+  "mkdocs-literate-nav>=0.6.2",
+  "textual-dev>=1.7.0",
+  "pytest-profiling>=1.8.1",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "glovebox/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["glovebox"]
+include = ["glovebox/config/config.yaml"]
+
+
+[tool.coverage.run]
+include = ["glovebox", "tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # Pyflakes
+  "I",   # isort
+  "N",   # pep8-naming
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "SIM", # flake8-simplify
+  "PTH", # flake8-use-pathlib
+]
+
+ignore = [
+  "E501",   # Line too long (handled by formatter)
+  "B008",   # Do not perform function calls in argument defaults
+  "N806",   # Variable in function should be lowercase (for pandas df, etc)
+  "SIM108", # Use ternary operator (sometimes less readable)
+  "F401",   # Imported but unused
+  "F841",   # Local variable assigned but never used
+]
+
+exclude = [
+  ".git",
+  ".venv",
+  "venv",
+  "__pycache__",
+  "build",
+  "dist",
+  "*.egg-info",
+]
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.isort]
+known-first-party = ["glovebox"]
+force-single-line = false
+lines-after-imports = 2
+
+[tool.ruff.lint.per-file-ignores]
+# relax on scripts and tests
+"scripts/*" = ["T201"]       # check for print statements
+"tests/*" = ["N802", "N803"] # arg/function name should be lowercase
+
+[tool.mypy]
+python_version = "3.12"
+show_column_numbers = true
+follow_imports = "normal"
+exclude = ["docs/"]
+
+# Enable all strict mode flags
+strict = true
+# The following settings are enabled by --strict:
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_return_any = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_any_unimported = true
+warn_unreachable = true
+
+# if we need to disable certain strict checks
+# disallow_incomplete_defs = false
+# disallow_untyped_decorators = false
+
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+# ignore_errors = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_calls = false
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+  # "-ra",
+  # "--strict-markers",
+  # "--strict-config",
+  # "--disable-warnings",
+  # "--tb=short",
+  "-v",
+]
+pytest_plugins = ["pytest_profiling.plugin"]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+
+# Test markers for different test tiers
+markers = [
+  "unit: Fast unit tests that don't require external dependencies (< 1s each)",
+  "integration: Integration tests that may use Docker or external services (< 30s each)",
+  "slow: Slow tests that take significant time or resources (> 30s each)",
+  "docker: Tests that require Docker to be available",
+  "network: Tests that require network access",
+  "regression: Regression tests for specific bug fixes",
+  "smoke: Basic smoke tests for critical functionality",
+  "fast: Optimized tests using direct function calls or minimal fixtures (< 0.5s each)",
+  "benchmark: Performance benchmark tests (requires pytest-benchmark)",
+]
+
+[tool.pytest_timeout]
+timeout = 300
+timeout_method = "thread"
+
+[tool.tox]
+legacy_tox_ini = """
+  [tox]
+  envlist = py311,py312,py313
+
+  [testenv]
+  deps =
+      pytest
+      pytest-cov
+      pytest-timeout
+  commands = pytest {posargs}
+  """
