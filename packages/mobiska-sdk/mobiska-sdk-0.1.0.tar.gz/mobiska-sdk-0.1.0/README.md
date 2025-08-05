@@ -1,0 +1,241 @@
+# Mobiska Payment Gateway SDK
+
+A Django-based SDK for integrating with the Mobiska Payment Gateway.
+
+## Features
+
+- Make payment requests to the Mobiska API
+- Send SMS messages through the Mobiska API
+- Check SMS account balance
+- Track and manage payment transactions and SMS messages
+- RESTful API endpoints for client applications
+- Admin interface for monitoring transactions and SMS messages
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/kofnet002/mobiska-sdk.git
+cd mobiska-sdk
+```
+
+2. Create a virtual environment and install dependencies:
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+3. Configure your Mobiska API credentials in `core/settings.py`:
+```python
+# Mobiska API Settings
+MOBISKA_API_URL = 'https://mobiska-api.stimuluzdev.com'
+MOBISKA_API_USERNAME = 'client_key'  # Replace with actual client key
+MOBISKA_API_PASSWORD = 'secret_key'  # Replace with actual secret key
+```
+
+4. Run migrations:
+```bash
+python manage.py migrate
+```
+
+5. Create a superuser to access the admin interface:
+```bash
+python manage.py createsuperuser
+```
+
+6. Run the development server:
+```bash
+python manage.py runserver
+```
+
+## Usage
+
+### Direct SDK Usage
+
+#### Payment Processing
+
+```python
+from apps.mobiska.client import MobiskaClient
+
+# Initialize the client
+client = MobiskaClient(
+    username="YOUR_USERNAME",  # Optional, defaults to settings.MOBISKA_API_USERNAME
+    password="YOUR_PASSWORD",  # Optional, defaults to settings.MOBISKA_API_PASSWORD
+)
+
+# Make a payment request
+response = client.make_payment(
+    service_id=2,
+    reference="Payment for Product XYZ",
+    nickname="MyStore",
+    transaction_id="unique-transaction-id-123",
+    customer_number="0541840988",
+    network="MTN",  # MTN, VOD, AIR, VIS, MAS
+    amount=100.00,
+    payment_option="MOM",  # MOM, CRD, CRM
+    callback_url="https://mywebsite.com/payment-callback",
+    currency_code="GHS"
+)
+
+# Handle the response
+if response["response_code"] == "202":
+    print("Payment request successful:", response["response_message"])
+else:
+    print("Payment request failed:", response["response_message"])
+```
+
+#### SMS Messaging
+
+```python
+from apps.mobiska.client import MobiskaClient
+
+# Initialize the client
+client = MobiskaClient()
+
+# Send an SMS message
+response = client.send_sms(
+    service_id=2,
+    unique_id="unique-sms-id-123",
+    sender_id="MYCOMPANY",
+    msg_body="Your verification code is 123456",
+    recipient_number=["233541234567", "233241234567"]
+)
+
+# Handle the response
+if response["response_code"] == "000":
+    print("SMS sent successfully:", response["response_message"])
+    print("Message ID:", response["response_data"]["message_id"])
+else:
+    print("SMS sending failed:", response["response_message"])
+
+# Check SMS account balance
+balance_response = client.check_sms_account_balance(service_id=2)
+if balance_response["response_code"] == "000":
+    print(f"Account balance: {balance_response['response_data']['balance']} {balance_response['response_data']['currency']}")
+else:
+    print("Failed to retrieve balance:", balance_response["response_message"])
+```
+
+### API Usage
+
+#### Payment API
+
+Make a POST request to `/api/payment/make/` with the following payload:
+
+```json
+{
+  "service_id": 2,
+  "reference": "Payment for Product XYZ",
+  "nickname": "MyStore",
+  "transaction_id": "unique-transaction-id-123",
+  "trans_type": "CTM",
+  "customer_number": "0541840988",
+  "nw": "MTN",
+  "amount": 100.00,
+  "payment_option": "MOM",
+  "callback_url": "https://mywebsite.com/payment-callback",
+  "currency_code": "GHS",
+  "currency_val": 1,
+  "request_time": "2025-07-25T02:30:00Z"
+}
+```
+
+### Authentication
+
+The API uses token authentication. To obtain a token:
+
+```bash
+curl -X POST http://localhost:8000/api-token-auth/ -d "client_key=yourclientkey&secret_key=yoursecretkey"
+```
+
+Then include the token in your API requests:
+
+```bash
+curl -X POST http://localhost:8000/api/payment/make/ \
+  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"service_id": 2, ...}'
+```
+
+#### SMS API
+
+##### Sending SMS
+
+Make a POST request to `/api/v1/sms/send/` with the following payload:
+
+```json
+{
+  "service_id": 2,
+  "unique_id": "unique-sms-id-123",
+  "sender_id": "MYCOMPANY",
+  "msg_body": "Your verification code is 123456",
+  "recipient_number": ["233541234567", "233241234567"]
+}
+```
+
+Example using curl:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/sms/send/ \
+  -H "Authorization: Token YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"service_id": 2, "unique_id": "unique-sms-id-123", "sender_id": "MYCOMPANY", "msg_body": "Your verification code is 123456", "recipient_number": ["233541234567", "233241234567"]}'
+```
+
+##### Checking SMS Account Balance
+
+Make a GET request to `/api/v1/sms/balance/` to check your SMS account balance.
+
+```bash
+curl -X GET http://localhost:8000/api/v1/sms/balance/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+## Admin Interface
+
+Access the admin interface at `http://localhost:8000/admin/` to view and manage payment transactions and SMS messages.
+
+### Payment Transactions
+
+The admin interface allows you to monitor all payment transactions, including their status, response codes, and other details.
+
+### SMS Messages
+
+The SMS Messages section in the admin interface provides tracking and monitoring of all SMS messages sent through the Mobiska API. You can view:
+
+- Message content and recipients
+- Delivery status and response codes
+- Timestamps for message creation and sending
+- Full API response data
+
+## Network Providers
+
+- MTN: MTN Mobile Money
+- VOD: Vodafone Cash
+- AIR: AirtelTigo Money
+- VIS: Visa Card
+- MAS: Mastercard
+
+## Payment Options
+
+- MOM: Mobile Money
+- CRD: Bank Cards
+- CRM: Hosted Checkout (Mobile Money and Cards)
+
+## API Credentials
+
+To generate your API credentials, follow these steps:
+
+1. Combine your client key and secret key: `{client_key}:{secret_key}`
+2. Base64 encode the combined string
+3. Create the Authorization header: `Authorization: Basic {base64_encoded_string}`
+
+Example:
+```bash
+echo -n "mob_client_123:sk_live_abcdef123456" | base64
+```
+
+## License
+
+[MIT License](LICENSE)
