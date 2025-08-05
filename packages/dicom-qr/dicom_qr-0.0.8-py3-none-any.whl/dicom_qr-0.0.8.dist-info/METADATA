@@ -1,0 +1,115 @@
+Metadata-Version: 2.4
+Name: dicom_qr
+Version: 0.0.8
+Summary: Tool for retrieving data from a PACS
+Project-URL: homepage, https://lkeb.nl
+Project-URL: repository, https://git.lumc.nl/lkeb/lkeb_it-infra/pacs_retrieve
+Project-URL: documentation, https://lkeb.github.io/docs/pacs-retrieve/
+Author-email: Patrick de Koning <pjhdekoning@lumc.nl>
+License: MIT
+Keywords: DICOM,PACS
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Requires-Python: >=3.11
+Requires-Dist: deid>=0.4.3
+Requires-Dist: devtools
+Requires-Dist: jsonpickle
+Requires-Dist: lkeb-progress
+Requires-Dist: loguru
+Requires-Dist: pandas
+Requires-Dist: pathvalidate
+Requires-Dist: pydantic
+Requires-Dist: pynetdicom
+Requires-Dist: python-dateutil
+Requires-Dist: rich
+Requires-Dist: typer
+Requires-Dist: xmltodict
+Provides-Extra: tui
+Requires-Dist: textual; extra == 'tui'
+Requires-Dist: textual-file-viewer; extra == 'tui'
+Requires-Dist: textual-fspicker; extra == 'tui'
+Requires-Dist: textual-sortable-datatable; extra == 'tui'
+Description-Content-Type: text/markdown
+
+# PACS retrieve 
+This program allows you to query and retrieve images from a PACS.
+
+
+This needs a settings.json file with the following data:
+```json
+{
+  "server_ae_title": "SOMETHING",
+  "server_ae_ip": "SOMETHING",
+  "server_ae_port": SOMETHING,
+  "client_ae_title": "SOMETHING",
+  "client_ae_port": SOMETHING,
+  "base_folder": "dumpdir",
+  "transfer_method": "move",  // or "get"
+  "folder_template": "${PatientID}/${StudyDate}/${StudyDescription}/${Modality}/${FolderUID}_${SeriesDescription}",
+  "study_columns": [
+    {"name": "Index"},
+    {"name": "PatientID"},
+    {"name": "StudyDate"},
+    {"name": "StudyDescription", "justify": "left"}
+  ],
+  "series_columns": [
+    {"name": "Index"},
+    {"name": "SeriesInstanceUID", "justify": "left", "no_wrap":  true},
+    {"name": "Modality"},
+    {"name": "SeriesNumber"},
+    {"name": "SeriesDescription", "justify": "left"}
+  ]
+}
+```
+Search strategy for settings file:
+1. 'PACS_RETRIEVE_SETTINGS' environment value
+2. 'settings.json' in current directory
+3. ~/.config/pacs_retrieve/settings.json
+
+# Template
+Folder template can contain any of the following items:
+- PatientName
+- PatientID
+- StudyDescription
+- StudyDate
+- StudyTime
+- Modality
+- SeriesDescription
+- SeriesNumber
+- SeriesInstanceUID
+- FolderUID _(Uses the uid_mapping provided to RetrievePacs class)_
+- StudyInstanceUID
+- AccessionNumber
+
+# study columns:
+### names:
+ - StudyInstanceUID
+ - PatientID
+ - PatientName
+ - PatientSex
+ - PatientBirthDate
+ - StudyID
+ - StudyDate
+ - StudyDescription
+ - StudyTime
+ - AccessionNumber
+
+### justify
+ - default
+ - left
+ - center
+ - right
+ - full
+
+### no_wrap
+ - true
+ - false
