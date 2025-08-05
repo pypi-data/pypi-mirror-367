@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vulnscan"
+version = "0.0.1"
+authors = [
+  { name="Gokul Kannan G", email="gokulkannan.dev@gmail.com" },
+]
+description = "A vulnerability scanner"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "aiohttp==3.9.5",
+    "aiohttp-retry==2.8.3",
+    "aiosignal==1.3.1",
+    "attrs==23.2.0",
+    "beautifulsoup4==4.12.3",
+    "bs4==0.0.2",
+    "certifi==2024.2.2",
+    "cffi==1.16.0",
+    "charset-normalizer==3.3.2",
+    "frozenlist==1.4.1",
+    "idna==3.7",
+    "lxml==5.2.2",
+    "multidict==6.0.5",
+    "pycparser==2.22",
+    "requests==2.31.0",
+    "soupsieve==2.5",
+    "urllib3==2.2.1",
+    "yarl==1.9.4",
+]
+
+[project.scripts]
+# IMPORTANT: This entry still needs to be corrected. It will likely cause the next error.
+# You must point this to a real function in your code. For example, if your main
+# function is `run()` in `pdf_vulnscan.py`, change this to:
+# vulnscan = "pdf_vulnscan:run"
+vulnscan = "vulnscan.main:main"
+
+[project.urls]
+"Homepage" = "https://github.com/iamgokulkannan/vulnscan"
+"Bug Tracker" = "https://github.com/iamgokulkannan/vulnscan/issues"
+
+# This section is now correctly formatted to find your packages and modules.
+[tool.setuptools]
+py-modules = ["pdf_vulnscan", "pdf_vulnscan_updated"]
+
+[tool.setuptools.packages.find]
+where = ["."]  # Look for packages in the root directory.
+include = ["base*", "db*", "modules*", "reports*"] # Find all packages starting with these names.
