@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is Cache Middleware? &mdash; Cache Middleware 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+    <link rel="canonical" href="/cache-middleware/what-is.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Cache Middleware Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Cache Middleware
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">What is Cache Middleware?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-concepts">Key Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#middleware-pattern">Middleware Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#decorator-driven-caching">Decorator-Driven Caching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backend-architecture">Backend Architecture</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#how-it-works">How It Works</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cache-key-strategy">Cache Key Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#http-cache-control-support">HTTP Cache-Control Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#use-cases">Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#benefits">Benefits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#performance">Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scalability">Scalability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flexibility">Flexibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#developer-experience">Developer Experience</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user-guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="middleware-configuration.html">Middleware Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extending-backends.html">Extending Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cache Middleware</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">What is Cache Middleware?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/what-is.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="what-is-cache-middleware">
+<h1>What is Cache Middleware?<a class="headerlink" href="#what-is-cache-middleware" title="Link to this heading"></a></h1>
+<p>Cache Middleware is a high-performance HTTP response caching solution designed specifically for FastAPI and Starlette applications. It provides transparent, configurable caching that can significantly improve your application’s performance and reduce server load.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Cache Middleware follows the <strong>Starlette middleware pattern</strong>, integrating seamlessly into your application’s request/response cycle. It intercepts HTTP requests, checks for cached responses, and serves them when available, while automatically caching new responses according to your configuration.</p>
+</section>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h2>
+<section id="middleware-pattern">
+<h3>Middleware Pattern<a class="headerlink" href="#middleware-pattern" title="Link to this heading"></a></h3>
+<p>Cache Middleware implements the Starlette <code class="docutils literal notranslate"><span class="pre">BaseHTTPMiddleware</span></code> interface, which means:</p>
+<ul class="simple">
+<li><p><strong>Transparent Integration</strong>: Works with any FastAPI or Starlette application without code changes</p></li>
+<li><p><strong>Request Lifecycle</strong>: Intercepts requests before they reach your endpoints</p></li>
+<li><p><strong>Response Processing</strong>: Captures and caches responses automatically</p></li>
+<li><p><strong>Standard Interface</strong>: Follows established patterns familiar to Starlette/FastAPI developers</p></li>
+</ul>
+</section>
+<section id="decorator-driven-caching">
+<h3>Decorator-Driven Caching<a class="headerlink" href="#decorator-driven-caching" title="Link to this heading"></a></h3>
+<p>The caching behavior is controlled through a simple decorator pattern:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cache_middleware.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/expensive-operation&quot;</span><span class="p">)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>  <span class="c1"># Cache for 5 minutes</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">expensive_operation</span><span class="p">():</span>
+    <span class="c1"># Expensive computation here</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="s2">&quot;computed_value&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&#64;cache</span></code> decorator:</p>
+<ul class="simple">
+<li><p>Marks endpoints for caching without modifying their logic</p></li>
+<li><p>Sets cache expiration times per endpoint</p></li>
+<li><p>Allows fine-grained control over what gets cached</p></li>
+</ul>
+</section>
+<section id="backend-architecture">
+<h3>Backend Architecture<a class="headerlink" href="#backend-architecture" title="Link to this heading"></a></h3>
+<p>Cache Middleware uses a pluggable backend system:</p>
+<ul class="simple">
+<li><p><strong>Redis Backend</strong>: For distributed, persistent caching in production</p></li>
+<li><p><strong>Memory Backend</strong>: For development, testing, and single-instance deployments</p></li>
+<li><p><strong>Custom Backends</strong>: Implement your own storage solutions (Memcached, database, etc.)</p></li>
+</ul>
+<p>All backends implement the same interface, making it easy to switch between them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development setup</span>
+<span class="n">memory_backend</span> <span class="o">=</span> <span class="n">MemoryBackend</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">memory_backend</span><span class="p">)</span>
+
+<span class="c1"># Production setup</span>
+<span class="n">redis_backend</span> <span class="o">=</span> <span class="n">RedisBackend</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;redis://prod-redis:6379&quot;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">CacheMiddleware</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">redis_backend</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h2>
+<p>Cache Middleware operates through the following process:</p>
+<ol class="arabic simple">
+<li><p><strong>Request Interception</strong>: Middleware intercepts incoming HTTP requests</p></li>
+<li><p><strong>Endpoint Discovery</strong>: Finds the target endpoint function in the application routes</p></li>
+<li><p><strong>Cache Check</strong>: Verifies if the endpoint has the <code class="docutils literal notranslate"><span class="pre">&#64;cache</span></code> decorator</p></li>
+<li><p><strong>Cache Key Generation</strong>: Creates unique keys based on method, path, query parameters, and request body</p></li>
+<li><p><strong>Cache Lookup</strong>: Attempts to retrieve cached response for the key</p></li>
+<li><p><strong>Response Handling</strong>: Either serves cached response or calls the endpoint and caches the result</p></li>
+</ol>
+<section id="cache-key-strategy">
+<h3>Cache Key Strategy<a class="headerlink" href="#cache-key-strategy" title="Link to this heading"></a></h3>
+<p>Cache keys are generated using:</p>
+<ul class="simple">
+<li><p>HTTP method (GET, POST, etc.)</p></li>
+<li><p>Request path</p></li>
+<li><p>Query parameters (sorted for consistency)</p></li>
+<li><p>Request body content</p></li>
+<li><p>SHA256 hash for efficient storage</p></li>
+</ul>
+<p>This ensures that different requests are cached separately while identical requests share the same cache entry.</p>
+</section>
+<section id="http-cache-control-support">
+<h3>HTTP Cache-Control Support<a class="headerlink" href="#http-cache-control-support" title="Link to this heading"></a></h3>
+<p>Cache Middleware respects standard HTTP caching headers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cache-Control:</span> <span class="pre">no-store</span></code> - Bypasses caching entirely</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cache-Control:</span> <span class="pre">no-cache</span></code> - Forces fresh response (updates cache)</p></li>
+</ul>
+<p>This allows clients to control caching behavior when needed.</p>
+</section>
+</section>
+<section id="use-cases">
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading"></a></h2>
+<p>Cache Middleware is ideal for:</p>
+<dl class="simple">
+<dt><strong>API Responses</strong></dt><dd><p>Cache expensive database queries, API calls, or computation results</p>
+</dd>
+<dt><strong>Content Delivery</strong></dt><dd><p>Serve frequently requested content without hitting your backend</p>
+</dd>
+<dt><strong>Rate Limiting Support</strong></dt><dd><p>Reduce load on rate-limited external APIs</p>
+</dd>
+<dt><strong>Microservices</strong></dt><dd><p>Cache responses between service calls in distributed architectures</p>
+</dd>
+<dt><strong>Development Speed</strong></dt><dd><p>Speed up development by caching slow external dependencies</p>
+</dd>
+</dl>
+</section>
+<section id="benefits">
+<h2>Benefits<a class="headerlink" href="#benefits" title="Link to this heading"></a></h2>
+<section id="performance">
+<h3>Performance<a class="headerlink" href="#performance" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Reduced Latency</strong>: Serve responses from cache in microseconds</p></li>
+<li><p><strong>Lower CPU Usage</strong>: Avoid re-executing expensive operations</p></li>
+<li><p><strong>Reduced I/O</strong>: Minimize database and external API calls</p></li>
+</ul>
+</section>
+<section id="scalability">
+<h3>Scalability<a class="headerlink" href="#scalability" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Higher Throughput</strong>: Handle more requests with the same resources</p></li>
+<li><p><strong>Backend Protection</strong>: Reduce load on databases and external services</p></li>
+<li><p><strong>Horizontal Scaling</strong>: Redis backend supports distributed caching</p></li>
+</ul>
+</section>
+<section id="flexibility">
+<h3>Flexibility<a class="headerlink" href="#flexibility" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Granular Control</strong>: Cache only specific endpoints with custom timeouts</p></li>
+<li><p><strong>Multiple Backends</strong>: Choose the right storage for your needs</p></li>
+<li><p><strong>Environment Adaptation</strong>: Different configurations for dev/staging/production</p></li>
+</ul>
+</section>
+<section id="developer-experience">
+<h3>Developer Experience<a class="headerlink" href="#developer-experience" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Simple Integration</strong>: Add caching with just a decorator and middleware registration</p></li>
+<li><p><strong>Type Safety</strong>: Full type hints for better IDE support</p></li>
+<li><p><strong>Observability</strong>: Comprehensive logging for cache hits/misses and errors</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Cache Middleware Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, impalah.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
