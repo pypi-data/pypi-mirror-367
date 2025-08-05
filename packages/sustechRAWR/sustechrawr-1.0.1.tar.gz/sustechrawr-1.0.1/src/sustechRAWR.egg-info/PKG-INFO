@@ -1,0 +1,134 @@
+Metadata-Version: 2.4
+Name: sustechRAWR
+Version: 1.0.1
+Summary: sustech ra work record
+License-Expression: Apache-2.0
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: get-holiday-cn
+Requires-Dist: openpyxl
+Requires-Dist: requests
+Dynamic: license-file
+
+# SUSTech Work Record Generator (sustechRAWR)
+
+A Python tool that automatically generates work record tables for Southern University of Science and Technology (SUSTech), with intelligent holiday detection and standard Excel format output.
+
+## Features
+
+- 🎯 **Automatic Excel Generation**: Creates work record tables in standard format
+- 📅 **Smart Holiday Detection**: Automatically identifies Chinese public holidays, weekends, and compensatory work days
+- ⚡ **Concurrent Processing**: Uses multi-threading for fast holiday data retrieval
+- 🎨 **Professional Formatting**: Includes standard fonts, borders, alignment, and cell merging
+- 💻 **Command Line Interface**: Simple and easy-to-use CLI tool
+
+## Usage
+
+### Command Line Usage
+
+After installation, you can use the `sustechRAWR` command directly:
+
+```bash
+# Basic usage
+uvx sustechRAWR -n "John Doe" -w "Machine learning model training"
+
+# Specify year and month
+uvx sustechRAWR -n "Jane Smith" -w "Data visualization development" -y 2024 -m 12
+
+# Custom time and output file
+uvx sustechRAWR -n "Bob Wilson" -w "System optimization" -t "8:30-17:30" -o "work_record_2024_12.xlsx"
+```
+
+### Parameters
+
+| Parameter | Short | Required | Default | Description |
+|-----------|-------|----------|---------|-------------|
+| `--name` | `-n` | ✅ | None | Visitor name |
+| `--work` | `-w` | ✅ | None | Work content description |
+| `--year` | `-y` | ✅ | 2025 | Year |
+| `--month` | `-m` | ✅ | 7 | Month |
+| `--time` | `-t` | ❌ | 9:00-18:00 | Working hours |
+| `--output` | `-o` | ❌ | {name}_{year}_{month}.xlsx | Output filename |
+
+## Output File Format
+
+The generated Excel file contains:
+
+- **Title**: Work Record Table
+- **Headers**: Date, Visitor Name, Working Hours (Daily Sign), Work Content, Visitor Confirmation (Daily Sign), Teacher Confirmation Signature
+- **Data Rows**:
+  - Working days: Shows specific work information
+  - Holidays: Automatically filled with "/"
+- **Formatting**: Professional fonts, borders, alignment, and cell merging
+
+## Project Structure
+
+```
+sustechRAWR/
+├── src/
+│   └── sustechra_record/
+│       ├── __init__.py
+│       └── main.py          # Main program file
+├── pyproject.toml           # Project configuration
+├── uv.lock                  # Dependency lock file
+└── README.md               # Project documentation
+```
+
+## Dependencies
+
+- **get-holiday-cn** (>=1.0.7): Chinese holiday query library
+- **openpyxl** (>=3.1.5): Excel file manipulation
+- **requests** (>=2.32.4): HTTP request library
+
+## Development
+
+### Local Development Environment Setup
+
+```bash
+# Clone the project
+git clone <project-url>
+cd sustechRAWR
+
+# Install development dependencies
+uv install --dev
+
+# Run the program (development mode)
+python -m sustechra_record.main -n "Test User" -w "Test Work"
+```
+
+### Code Structure
+
+Main functional modules:
+
+- `main()`: Core business logic, handles date and holiday data
+- `draw_excel()`: Excel file generation and formatting
+- `run()`: Command line interface handling
+
+## Key Features
+
+### 1. Smart Holiday Detection
+- Automatically identifies statutory holidays
+- Recognizes weekends
+- Handles compensatory work days
+
+### 2. Concurrent Optimization
+- Uses thread pool for concurrent holiday data retrieval
+- Improves processing speed for longer months (31 days)
+
+### 3. Professional Formatting
+- Complies with official document requirements
+- Automatically adjusts column widths and row heights
+- Standard Chinese font settings
+
+## License
+
+This project uses a standard open source license.
+
+## Contributing
+
+Issues and Pull Requests are welcome to improve this project!
+
+---
+
+**Note**: This tool is specifically designed for SUSTech work record tables, and the generated table format meets the relevant requirements.
