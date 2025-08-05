@@ -1,0 +1,271 @@
+syntax = "proto3";
+
+package a2a.v1.registry;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "a2a.proto";
+
+option csharp_namespace = "A2a.V1.Registry";
+option go_package = "dev.allenday/a2a-registry/v1";
+option java_multiple_files = true;
+option java_outer_classname = "A2ARegistry";
+option java_package = "dev.allenday.a2a.v1.registry";
+
+// Trust levels for agent verification
+enum TrustLevel {
+  TRUST_LEVEL_UNSPECIFIED = 0;
+  TRUST_LEVEL_UNVERIFIED = 1;   // No verification performed
+  TRUST_LEVEL_COMMUNITY = 2;    // Basic verification passed
+  TRUST_LEVEL_VERIFIED = 3;     // Full verification including domain + signatures
+  TRUST_LEVEL_OFFICIAL = 4;     // Official agent from well-known organization
+}
+
+// Search modes for agent discovery
+enum SearchMode {
+  SEARCH_MODE_UNSPECIFIED = 0;
+  SEARCH_MODE_KEYWORD = 1;      // Use only keyword/text matching on agent fields
+  SEARCH_MODE_VECTOR = 2;       // Use only vector similarity search (requires semantic_query)
+}
+
+// Vector representation for semantic search with provenance
+message Vector {
+  repeated float values = 1;
+  
+  // Provenance information
+  string agent_id = 2;           // AgentCard.url as primary key
+  string field_path = 3;         // e.g., "skills[0].name", "extensions[1].params.core_principles"
+  string field_content = 4;      // The actual text content that was vectorized
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Struct metadata = 6; // Model info, etc.
+}
+
+// Registry-specific metadata for agent cards
+message RegistryMetadata {
+  // Registration information
+  google.protobuf.Timestamp registered_at = 1;
+  google.protobuf.Timestamp last_updated = 2;
+  
+  // Verification status (for production mode)
+  bool domain_verified = 3;
+  bool signature_verified = 4;
+  TrustLevel trust_level = 5;
+}
+
+// Enhanced agent card for registry purposes
+message RegistryAgentCard {
+  // Core A2A agent card
+  a2a.v1.AgentCard agent_card = 1;
+  
+  // Registry-specific metadata
+  RegistryMetadata registry_metadata = 2;
+  
+  // All vectors for this agent (one per searchable field)
+  repeated Vector vectors = 3;
+}
+
+// Search criteria for finding agents
+message AgentSearchCriteria {
+  // Basic filters
+  repeated string agent_ids = 1;
+  repeated string agent_names = 2;
+  repeated string required_capabilities = 3;
+  repeated string required_skills = 4;
+  
+  // Geographic and network filters
+  repeated string preferred_regions = 5;
+  bool require_discovery = 6;
+  
+  // Performance requirements
+  uint32 min_health_score = 7;
+  uint32 max_response_time_ms = 8;
+  
+  // Status filters
+  repeated string allowed_statuses = 9;
+  
+  // Trust and verification filters
+  repeated TrustLevel trust_levels = 10;
+  bool require_domain_verified = 11;
+  bool require_signature_verified = 12;
+  
+  // Vector search parameters (used when search_mode is VECTOR)
+  string semantic_query = 13;     // Natural language text to vectorize (if query_vector not provided)
+  Vector query_vector = 14;       // Pre-computed query vector (takes precedence over semantic_query)
+  float similarity_threshold = 15; // Minimum similarity score (0.0 to 1.0) for vector search results
+  SearchMode search_mode = 16;    // Determines which search methods to use
+  
+  // Pagination
+  int32 page_size = 17;
+  string page_token = 18;
+}
+
+// Extension discovery response (using A2A AgentExtension + provenance)
+message ExtensionInfo {
+  // Original A2A extension from agent
+  a2a.v1.AgentExtension extension = 1;
+  
+  // Registry provenance tracking
+  string first_declared_by_agent = 2;
+  google.protobuf.Timestamp first_declared_at = 3;
+  TrustLevel trust_level = 4; // Inherited from declaring agent
+  repeated string declaring_agents = 5; // All agents using this URI
+  int32 usage_count = 6;
+}
+
+// Service definitions for A2A Agent Registry
+service A2ARegistryService {
+  // Agent Card operations
+  rpc GetAgentCard(GetAgentCardRequest) returns (GetAgentCardResponse);
+  rpc StoreAgentCard(StoreAgentCardRequest) returns (StoreAgentCardResponse);
+  rpc SearchAgents(SearchAgentsRequest) returns (SearchAgentsResponse);
+  rpc DeleteAgentCard(DeleteAgentCardRequest) returns (google.protobuf.Empty);
+  rpc ListAllAgents(ListAllAgentsRequest) returns (ListAllAgentsResponse);
+  rpc UpdateAgentStatus(UpdateAgentStatusRequest) returns (UpdateAgentStatusResponse);
+  
+  // Extension discovery operations
+  rpc GetExtensionInfo(GetExtensionInfoRequest) returns (GetExtensionInfoResponse);
+  rpc ListExtensions(ListExtensionsRequest) returns (ListExtensionsResponse);
+  rpc GetAgentExtensions(GetAgentExtensionsRequest) returns (GetAgentExtensionsResponse);
+  
+  // Vector operations
+  rpc UpdateAgentVectors(UpdateAgentVectorsRequest) returns (UpdateAgentVectorsResponse);
+  
+  // Health check and agent discovery
+  rpc PingAgent(PingAgentRequest) returns (PingAgentResponse);
+}
+
+// Request/Response message definitions
+
+message GetAgentCardRequest {
+  string agent_id = 1;
+  bool include_registry_metadata = 2;
+  bool include_vectors = 3;
+}
+
+message GetAgentCardResponse {
+  RegistryAgentCard registry_agent_card = 1;
+  bool found = 2;
+}
+
+message StoreAgentCardRequest {
+  RegistryAgentCard registry_agent_card = 1;
+  bool upsert = 2;
+  bool update_vectors = 3; // Whether to regenerate semantic vectors
+}
+
+message StoreAgentCardResponse {
+  bool success = 1;
+  string message = 2;
+  RegistryAgentCard stored_card = 3;
+}
+
+message SearchAgentsRequest {
+  AgentSearchCriteria criteria = 1;
+}
+
+message SearchAgentsResponse {
+  repeated RegistryAgentCard agents = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+  repeated float similarity_scores = 4; // For vector search results
+}
+
+message DeleteAgentCardRequest {
+  string agent_id = 1;
+  string requester_id = 2;
+}
+
+message PingAgentRequest {
+  string agent_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message PingAgentResponse {
+  bool responsive = 1;
+  int32 response_time_ms = 2;
+  string status = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message ListAllAgentsRequest {
+  bool include_inactive = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+  bool include_vectors = 4;
+}
+
+message ListAllAgentsResponse {
+  repeated RegistryAgentCard agents = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+}
+
+message UpdateAgentStatusRequest {
+  string agent_id = 1;
+  string status = 2;
+  int32 health_score = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message UpdateAgentStatusResponse {
+  bool success = 1;
+  string message = 2;
+  RegistryAgentCard updated_card = 3;
+}
+
+// Extension discovery request/response messages
+
+message GetExtensionInfoRequest {
+  string uri = 1;
+}
+
+message GetExtensionInfoResponse {
+  ExtensionInfo extension_info = 1;
+  bool found = 2;
+}
+
+message ListExtensionsRequest {
+  // Optional filters
+  string uri_pattern = 1; // Simple pattern matching
+  repeated string declaring_agents = 2;
+  repeated TrustLevel trust_levels = 3;
+  
+  // Vector search parameters (used when search_mode is VECTOR)
+  string semantic_query = 4;     // Natural language text to vectorize (if query_vector not provided)
+  Vector query_vector = 5;       // Pre-computed query vector (takes precedence over semantic_query)
+  float similarity_threshold = 6; // Minimum similarity score (0.0 to 1.0) for vector search results
+  SearchMode search_mode = 7;    // Determines which search methods to use
+  
+  // Pagination
+  int32 page_size = 8;
+  string page_token = 9;
+}
+
+message ListExtensionsResponse {
+  repeated ExtensionInfo extensions = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+  repeated float similarity_scores = 4; // For vector search results
+}
+
+message GetAgentExtensionsRequest {
+  string agent_id = 1;
+}
+
+message GetAgentExtensionsResponse {
+  repeated ExtensionInfo extensions = 1;
+  string agent_id = 2;
+}
+
+// Vector operations request/response messages
+
+message UpdateAgentVectorsRequest {
+  string agent_id = 1;
+  repeated Vector vectors = 2;
+}
+
+message UpdateAgentVectorsResponse {
+  bool success = 1;
+  string message = 2;
+}

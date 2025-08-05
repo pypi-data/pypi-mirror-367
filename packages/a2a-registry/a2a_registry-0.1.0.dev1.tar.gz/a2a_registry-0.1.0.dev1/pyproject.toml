@@ -1,0 +1,166 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a2a-registry"
+dynamic = ["version"]
+description = "A2A Registry - Protocol buffer definitions and Python client for A2A message registry"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Allen Day", email = "allenday@users.github.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.95.0",
+    "httpx>=0.28.1",
+    "httpx-sse>=0.4.0",
+    "pydantic>=2.11.3",
+    "sse-starlette",
+    "starlette",
+    "protobuf>=5.29.5",
+    "google-api-core>=1.26.0",
+    "grpcio>=1.60",
+    "grpcio-tools>=1.60",
+    "grpcio_reflection>=1.7.0",
+    "fasta2a",
+    "uvicorn>=0.20.0",
+    "click>=8.0.0",
+    "jsonrpcserver>=5.0.0",
+    # GraphQL dependencies
+    "strawberry-graphql[fastapi]>=0.234.0",
+    "pyjwt>=2.8.0",
+    "redis>=5.0.0",
+    # Vector search dependencies
+    "sentence-transformers>=2.2.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "mypy-protobuf>=3.4.0",
+    "types-grpcio>=1.0.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "pre-commit>=3.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.0",
+    "mkdocs-section-index>=0.3.0",
+    "mkdocs-autorefs>=0.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/allenday/a2a-registry"
+Repository = "https://github.com/allenday/a2a-registry"
+Issues = "https://github.com/allenday/a2a-registry/issues"
+
+[project.scripts]
+a2a-registry = "a2a_registry.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"a2a_registry.proto.generated" = ["*.proto"]
+
+[tool.setuptools_scm]
+write_to = "src/a2a_registry/_version.py"
+version_scheme = "release-branch-semver"
+local_scheme = "no-local-version"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | third_party
+)/
+'''
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+exclude = [
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "third_party",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"src/a2a_registry/proto/generated/*" = ["ALL"]
+"src/a2a_registry/_version.py" = ["ALL"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = [
+    "build/",
+    "dist/",
+    "third_party/",
+    "src/a2a_registry/proto/generated/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"
