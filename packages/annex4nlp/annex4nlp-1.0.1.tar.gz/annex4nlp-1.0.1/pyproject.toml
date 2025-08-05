@@ -1,0 +1,33 @@
+[project]
+name = "annex4nlp"
+version = "1.0.1"
+description = "NLP-based compliance analysis for EU AI Act Annex IV documents"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]
+authors = [{name = "Aleksandr Racionalus", email = "prihodko02bk@gmail.com"}]
+keywords = ["AI Act", "compliance", "NLP", "text analysis"]
+dependencies = [
+    "typer[all]>=0.12",
+    "spacy>=3.7.5",
+    "negspacy>=1.0.4",
+    "PyPDF2>=3.0",
+    "pdfplumber>=0.10",
+    "PyMuPDF>=1.23",
+    "nltk>=3.8",
+    "spacy-lookups-data>=1.0",
+]
+
+[project.scripts]
+annex4nlp = "annex4nlp.cli:app"
+
+[build-system]
+requires = ["setuptools>=68", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+
+[tool.setuptools.packages.find]
+include = ["annex4nlp"]
