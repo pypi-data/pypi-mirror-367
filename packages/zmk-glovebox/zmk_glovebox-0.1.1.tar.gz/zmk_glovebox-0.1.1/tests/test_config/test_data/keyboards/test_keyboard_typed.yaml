@@ -1,0 +1,116 @@
+keyboard: test_keyboard
+description: Test keyboard for unit tests
+vendor: Test Vendor
+key_count: 80
+
+# Compile method configurations
+compile_methods:
+  - method_type: docker
+    image: test-zmk-build
+    repository: test/zmk
+    branch: main
+    jobs: 4
+    fallback_methods: ["local"]
+
+# Flash method configurations  
+flash_methods:
+  - method_type: usb
+    device_query: vendor=Test and removable=true
+    mount_timeout: 30
+    copy_timeout: 60
+    sync_after_copy: true
+    fallback_methods: ["dfu"]
+  - method_type: dfu
+    vid: "0x1234"
+    pid: "0x5678"
+    interface: 0
+    alt_setting: 0
+    timeout: 30
+    fallback_methods: []
+
+
+# Available firmware variants
+firmwares:
+  default:
+    version: v1.0.0
+    description: Default test firmware
+    build_options:
+      repository: test/zmk
+      branch: main
+  
+  bluetooth:
+    version: bluetooth
+    description: Bluetooth-focused test firmware
+    build_options:
+      repository: test/zmk
+      branch: bluetooth
+    kconfig:
+      CONFIG_ZMK_BLE:
+        name: CONFIG_ZMK_BLE
+        type: bool
+        default: "y"
+        description: Enable BLE support
+      CONFIG_ZMK_USB:
+        name: CONFIG_ZMK_USB
+        type: bool
+        default: "n"
+        description: Disable USB support
+
+# Keymap configuration
+keymap:
+  includes:
+    - "#include <dt-bindings/zmk/keys.h>"
+    - "#include <dt-bindings/zmk/bt.h>"
+  
+  formatting:
+    key_gap: "  "
+    base_indent: "    "
+  
+  system_behaviors:
+    - code: "&kp"
+      name: "&kp"
+      description: Key press behavior
+      expected_params: 1
+      origin: zmk
+      params: []
+    
+    - code: "&bt"
+      name: "&bt"
+      description: Bluetooth behavior
+      expected_params: 1
+      origin: zmk
+      params: []
+      includes:
+        - "#include <dt-bindings/zmk/bt.h>"
+  
+  kconfig_options:
+    CONFIG_ZMK_KEYBOARD_NAME:
+      name: CONFIG_ZMK_KEYBOARD_NAME
+      type: string
+      default: "Test Keyboard"
+      description: Keyboard name
+  
+  keymap_dtsi: |
+    #include <behaviors.dtsi>
+    #include <dt-bindings/zmk/keys.h>
+    {{ resolved_includes }}
+    
+    / {
+      keymap {
+        compatible = "zmk,keymap";
+        {{ keymap_node }}
+      };
+    };
+  
+  key_position_header: |
+    // Key positions
+    #define KEY_0 0
+    #define KEY_1 1
+    // ... more keys
+  
+  system_behaviors_dts: |
+    / {
+      behaviors {
+        // System behaviors
+      };
+    };
