@@ -1,0 +1,111 @@
+Metadata-Version: 2.3
+Name: jupyter-remote-runner
+Version: 0.1.1
+Summary: CLI interface to a persistent Jupyter kernel for code execution with timeout handling
+Author: User
+Author-email: user@example.com
+Requires-Python: >=3.8,<4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: click (>=8.0.0,<9.0.0)
+Requires-Dist: jupyter-client (>=7.0.0,<8.0.0)
+Requires-Dist: platformdirs (>=3.0.0,<4.0.0)
+Project-URL: Homepage, https://github.com/user/jupyter-remote-runner
+Project-URL: Repository, https://github.com/user/jupyter-remote-runner
+Description-Content-Type: text/markdown
+
+# Jupyter Remote Runner
+
+A CLI interface to a persistent Jupyter kernel for code execution with timeout handling and streaming output.
+
+## Installation
+
+Install using pipx (recommended):
+
+```bash
+pipx install .
+```
+
+Or using pip:
+
+```bash
+pip install .
+```
+
+## Usage
+
+### Commands
+
+- `jupyter-remote-runner --help` - Show help
+- `jupyter-remote-runner start` - Start the Jupyter kernel daemon
+- `jupyter-remote-runner stop` - Stop the daemon
+- `jupyter-remote-runner status` - Check daemon status
+- `jupyter-remote-runner run <code>` - Execute code in the persistent kernel
+
+### Run Command Options
+
+- `--timeout <seconds>` - Set execution timeout (default: 60)
+- `--is-input` - Send code as input to Python input() prompt
+
+### Examples
+
+```bash
+# Start the daemon
+jupyter-remote-runner start
+
+# Execute Python code
+jupyter-remote-runner run "print('Hello World')"
+
+# Execute shell command
+jupyter-remote-runner run "!ls -la"
+
+# Execute bash magic
+jupyter-remote-runner run "%%bash\necho 'Hello from bash'"
+
+# Continue previous command output
+jupyter-remote-runner run " "
+
+# Interrupt running command
+jupyter-remote-runner run "C-c"
+
+# Execute with custom timeout
+jupyter-remote-runner run "import time; time.sleep(10)" --timeout 15
+
+# Check status
+jupyter-remote-runner status
+
+# Stop the daemon
+jupyter-remote-runner stop
+```
+
+## Features
+
+- **Persistent Kernel**: Maintains state between commands
+- **Streaming Output**: Real-time output streaming
+- **Timeout Support**: Configurable execution timeouts
+- **Cross-Platform**: Works on Windows, macOS, and Linux
+- **Background Daemon**: Runs kernel in background process
+- **Signal Handling**: Support for interrupting long-running commands
+- **Input Support**: Handle Python input() calls
+
+## Development
+
+Run tests:
+
+```bash
+python test_cli.py
+```
+
+Run directly from source:
+
+```bash
+python -m jupyter_remote_runner --help
+```
