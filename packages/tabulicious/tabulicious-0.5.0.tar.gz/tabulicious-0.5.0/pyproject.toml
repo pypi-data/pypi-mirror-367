@@ -1,0 +1,76 @@
+[project]
+name = "tabulicious"
+description = "Simple text-based table formatting for command line and documentation use."
+readme = {file = "README.md", content-type = "text/markdown"}
+keywords = ["table", "tables", "data tables", "command line tables", "text tables", "markdown tables", "html tables", "atlassian/jira tables", "github tables"]
+authors = [{name = "Daniel Sissman"}]
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.10"
+dynamic = [
+  "version",
+  "dependencies",
+  "optional-dependencies",
+]
+
+[project.urls]
+documentation = "https://github.com/bluebinary/tabulicious/blob/main/README.md"
+changelog = "https://github.com/bluebinary/tabulicious/blob/main/CHANGELOG.md"
+repository = "https://github.com/bluebinary/tabulicious"
+issues = "https://github.com/bluebinary/tabulicious/issues"
+homepage = "https://github.com/bluebinary/tabulicious"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {file = "source/tabulicious/version.txt"}
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools.dynamic.optional-dependencies]
+development = {file = "requirements.development.txt"}
+distribution = {file = "requirements.distribution.txt"}
+
+[tool.setuptools]
+platforms = ["any"]
+zip-safe = true
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["source"]
+exclude = ["tests*", "resources*", "*#*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.xml", "*.tsv", "*.csv", "*.md", "*.txt", "*.html", "tests/data/**"]
+source = ["*.json", "*.xml", "*.tsv", "*.csv"]
+tests = ["tests/data/**", "*.csv", "*.tsv", "*.txt", "*.md", "*.html"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*#*", "#*", "@*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # The following are specific to Black, you probably don't want those.
+  | blib2to3
+  | tests/data
+  | profiling
+)/
+'''
