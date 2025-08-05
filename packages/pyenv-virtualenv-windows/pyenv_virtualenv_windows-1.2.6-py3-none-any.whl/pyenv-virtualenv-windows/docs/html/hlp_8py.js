@@ -1,0 +1,25 @@
+var hlp_8py =
+[
+    [ "hlp.fName", "namespacehlp.html#a3dfca9d68af1bfd7e7d8a27ca6deace8", null ],
+    [ "hlp.auditPlatform", "namespacehlp.html#a522fe94be8298e53fe6e0113a072384e", null ],
+    [ "hlp.auditGlobalPythonVersion", "namespacehlp.html#a3d4cad259c73b24da1ce3f6a232165a8", null ],
+    [ "hlp.auditPyEnv", "namespacehlp.html#a2b5c33ebfa2b3ee1c7a301164c771aa0", null ],
+    [ "hlp.getPyEnvVersion", "namespacehlp.html#aaea2858bea6b987dc184b235672dfdff", null ],
+    [ "hlp.getPythonVersion", "namespacehlp.html#a52d9bdd1ee1eab6158f6895941cdb2db", null ],
+    [ "hlp.scanCwdAndAncestorsForFile", "namespacehlp.html#ac1be48268f161d76d14435eba523a7cb", null ],
+    [ "hlp.getGlobalStar", "namespacehlp.html#a6d6647d6161346cbb94c4faab532cd07", null ],
+    [ "hlp.isPythonVenvVersion", "namespacehlp.html#ae1d0d96f0a75eb4e3a4bcc916a95bf9f", null ],
+    [ "hlp.selectVersionDir", "namespacehlp.html#a01469da11926c3aea5fd6f3aac27608e", null ],
+    [ "hlp.getColoredVenvCapability", "namespacehlp.html#afa2f7cf627ee2d8123c21f2729286cc4", null ],
+    [ "hlp.getPythonVersions", "namespacehlp.html#ae2f85776d5f568a0b4fb8358250ce90d", null ],
+    [ "hlp.isJunction", "namespacehlp.html#a5fa4f5b93b5b09b1e4f02f0aad1b581c", null ],
+    [ "hlp.getEnvJunctions", "namespacehlp.html#ac4e75296e9ae3f7d500254b377fda7f2", null ],
+    [ "hlp.getProjectPropertyFileStr", "namespacehlp.html#a72c721ccfaf7593d7bd2dcb8cbd2ad2d", null ],
+    [ "hlp.setProjectProperties", "namespacehlp.html#ac00976a4dbede2564a2ae74cc39a0651", null ],
+    [ "hlp.getEnvs", "namespacehlp.html#aa14693f9ca8264832fb8fbccab6305c4", null ],
+    [ "hlp.getAllEnvs", "namespacehlp.html#a8a8496a826302899278da712b2d8a0f4", null ],
+    [ "hlp.parseEnvDir", "namespacehlp.html#a836073d6ffa4cfef25b104f7e229eb3d", null ],
+    [ "hlp.unsetProjectProperties", "namespacehlp.html#aac6a9fe6c72ef12603de8612c27bd069", null ],
+    [ "hlp.listProjectProperties", "namespacehlp.html#a07658cf86d5796a6a3d22d7f3505af95", null ],
+    [ "hlp.getTreeFoldersToExclude", "namespacehlp.html#a4ff126f9a320661b4a0bcb513377bd42", null ]
+];
