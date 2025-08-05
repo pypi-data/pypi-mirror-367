@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools", "wheel", "cython", "lxml"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "siat"
+version = "3.31.5"
+description = "Securities Investment Analysis Tools (siat)"
+readme = "README.md"
+
+#requires-python = ">=3.7,<3.13" 
+requires-python = ">=3.7" 
+#为解决Python 3.13与lxml的兼容性
+#若已经出现pre-compiled lxml-x.x.x-cp312-cp313-win_amd64.whl则可取消<3.13这个限制
+
+license = { text = "Copyright (C) WANG Dehong, 2025. For educational purpose only!" }
+authors = [
+  { name = "Prof. WANG Dehong", email = "wdehong2000@163.com" }
+]
+maintainers = [
+  { name = "Prof. WANG Dehong", email = "wdehong2000@163.com" }
+]
+keywords = ["investment", "finance", "technical analysis", "siat"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "pandas_datareader",
+  "yfinance",
+  "tqdm",
+  "plotly_express",
+  "akshare",
+  "urllib3",
+  "mplfinance",
+  "statsmodels",
+  "yahoo_earnings_calendar",
+  "pypinyin",
+  "seaborn",
+  "scipy",
+  "pandas",
+  "scikit-learn",
+  "baostock",
+  "pathlib",
+  "ruamel-yaml",
+  "prettytable",
+  "graphviz",
+  "luddite",
+  "pendulum",
+  "itables",
+  "py_trans",
+  "bottleneck",
+  "translate",
+  "translators",
+  "nbconvert",
+  #"ipywidgets==8.1.6",
+  "ipywidgets",
+  #"yahooquery==2.3.7",
+  "yahooquery",
+  "alpha_vantage",
+  "tiingo[pandas]",
+  "numpy<2",
+  "playwright", 
+  #"lxml==4.9.4",
+  "pymupdf",'pypandoc','python-docx','weasyprint',
+  'pandas_market_calendars','pypdf','pdf2docx',
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/siat/"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
