@@ -1,0 +1,80 @@
+{
+  "name": "screenshot-mcp-server",
+  "displayName": "Screenshot MCP Server",
+  "description": "Windows Screenshot MCP Server - Capture all screens or primary screen with Print Screen simulation",
+  "version": "1.0.0",
+  "publisher": "metamintbtc",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "mcp",
+    "screenshot",
+    "print screen",
+    "multi-monitor",
+    "windows",
+    "copilot"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "mcpServers": {
+      "screenshot-mcp-server": {
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "./ScreenshotMcpServer.csproj"
+        ],
+        "env": {
+          "NODE_ENV": "production"
+        }
+      }
+    },
+    "configuration": {
+      "title": "Screenshot MCP Server",
+      "properties": {
+        "screenshotMcp.saveLocation": {
+          "type": "string",
+          "default": "desktop",
+          "enum": ["desktop", "workspace", "custom"],
+          "description": "Where to save screenshots"
+        },
+        "screenshotMcp.imageFormat": {
+          "type": "string",
+          "default": "png",
+          "enum": ["png", "jpg", "bmp"],
+          "description": "Screenshot image format"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "build": "dotnet build ScreenshotMcpServer.csproj -c Release",
+    "start": "dotnet run --project ScreenshotMcpServer.csproj"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.96.0",
+    "@types/node": "22.x",
+    "typescript": "^5.7.2",
+    "vsce": "^2.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metamintbtc/desktop_screenshot_mcp_server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metamintbtc/desktop_screenshot_mcp_server/issues"
+  },
+  "homepage": "https://github.com/metamintbtc/desktop_screenshot_mcp_server#readme",
+  "license": "MIT",
+  "icon": "icon.png"
+}
