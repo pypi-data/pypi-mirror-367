@@ -1,0 +1,62 @@
+name: build-and-publish
+
+on:
+  push:
+    tags: [ "v*" ]        # run only when you push a version tag like v0.1.10
+
+permissions:
+  contents: read          # checkout
+  id-token: write         # (unused now, keeps OIDC available)
+
+jobs:
+  publish:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        # macos-14 runner = Apple-Silicon (arm64)
+        os: [ubuntu-latest, macos-14, windows-latest]
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      # ── 1. checkout ────────────────────────────────────────────
+      - uses: actions/checkout@v4
+
+      # ── 2. choose Python version for this leg ─────────────────
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # ── 3. install Rust toolchain for host arch ───────────────
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      # ── 4. cache cargo & pip ──────────────────────────────────
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cache/pip
+          key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
+      # ── 5. build wheel + sdist (host arch only) ───────────────
+      - name: Build wheels & sdist
+        shell: bash         # bash works on Linux, macOS, Windows runners
+        run: |
+          python -m pip install --upgrade pip maturin
+          maturin build --release --sdist            # outputs into target/wheels/
+
+      # ── 6. upload artifacts to PyPI ───────────────────────────
+      - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python -m pip install --upgrade twine
+          twine upload --skip-existing target/wheels/*.whl
+          twine upload --skip-existing target/wheels/*.tar.gz

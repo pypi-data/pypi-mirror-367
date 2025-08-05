@@ -1,0 +1,21 @@
+[package]
+name = "rust_pyo3_timeseries"
+version = "0.1.9"
+edition = "2024"
+readme = "README.md"
+
+[lib]
+name = "rust_pyo3_timeseries"
+crate-type = ["cdylib"]
+
+[dependencies]
+numpy = "0.25.0"
+pyo3 = {version = "0.25.1", features = ["extension-module"]}
+statrs = "0.18.0"
+
+[package.metadata.maturin]
+include = [
+  "py.typed",
+  "statistical_tests.py",
+  "statistical_tests.pyi",
+]
