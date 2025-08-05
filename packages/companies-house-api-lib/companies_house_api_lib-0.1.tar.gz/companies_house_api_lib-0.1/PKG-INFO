@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: companies-house-api-lib
+Version: 0.1
+Summary: A Python client for the Companies House API
+Home-page: https://github.com/aagardezi/companies-house-api-lib
+Author: Ali Gardezi
+Author-email: aagardezi+github@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# Companies House API Library
+
+A Python client for interacting with the Companies House API.
+
+## Installation
+
+```bash
+pip install companies-house-api-lib
+```
+
+## Usage
+
+```python
+from companieshouse import CompaniesHouseClient
+
+# Make sure to set the COMPANIES_HOUSE_API_KEY environment variable
+# export COMPANIES_HOUSE_API_KEY="YOUR_API_KEY"
+
+client = CompaniesHouseClient()
+
+# Search for companies
+search_results = client.search_companies("python")
+print(search_results)
+
+# Get a company profile
+if search_results.get("items"):
+    company_number = search_results["items"][0]["company_number"]
+    company_profile = client.get_company_profile(company_number)
+    print(company_profile)
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
