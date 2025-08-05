@@ -1,0 +1,55 @@
+Metadata-Version: 2.3
+Name: open-cytomat-plus
+Version: 0.0.8
+Summary: A Demo for a open-cytomat extension with a gui interface and Databse Connetion
+Author: Thiago Meyes
+Author-email: tiagmey@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: open-cytomat (>=0.1.3,<0.2.0)
+Requires-Dist: pyserial (>=3.5,<4.0)
+Description-Content-Type: text/markdown
+
+# open-cytomat-plus
+
+## For End-User
+
+## For Contributers
+
+### Update the run_gui.exe file:
+- open bash or shell
+```bash
+#change direction to open-cytomat-plus
+#if virtual enviroment does not exists:
+	# create venv: 
+	python -m venv venv
+#activate venv: 
+venv\Scripts\activate
+#if pyinstaller is not installed:
+	pip install pyinstaller
+cd src
+#create .exe file: 
+pyinstaller run_gui.spec
+#new .exe file located in src/dist
+```
+
+### Update pip version:
+- open bash shell
+```bash
+# change direction to open-cytomat-plus
+# if virtual enviroment does not exists:
+	# create venv: 
+	python -m venv venv
+#activate venv: 
+venv\Scripts\activate
+# if twine is not installed:
+	pip install twine
+# update the version pyproject.toml file
+poetry build
+twine uplaod dist\*
+# enter api token
+```
