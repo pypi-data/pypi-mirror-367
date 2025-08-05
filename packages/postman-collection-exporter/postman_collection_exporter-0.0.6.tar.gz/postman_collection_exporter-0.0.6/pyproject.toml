@@ -1,0 +1,35 @@
+[project]
+name = "postman-collection-exporter"
+dynamic = ["version"]
+description = "Export Postman collections via CLI."
+authors = [{ name = "Sergey Vernigora", email = "volt.awp.dev@gmail.com" }]
+maintainers = [{ name = "Sergey Vernigora", email = "volt.awp.dev@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+keywords = ["postman", "json", "export", "cli", "crontab"]
+
+dependencies = ["asyncclick", "httpx", "anyio", "aiofiles"]
+
+[project.optional-dependencies]
+test = ["pytest", "trio", "pytest-asyncio"]
+schedule = ["python-crontab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+asyncio_default_fixture_loop_scope = "function"
+asyncio_mode = "auto"
+
+[project.scripts]
+export-collections = "postman_collection_exporter.cli:export"
+archive-collections = "postman_collection_exporter.cli:archive"
+set-schedule = "postman_collection_exporter.scheduling.cli:set_schedule"
+get-schedules = "postman_collection_exporter.scheduling.cli:get_schedules"
+
+[build-system]
+requires = ["hatchling >= 1.26", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
