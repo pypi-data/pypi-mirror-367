@@ -1,0 +1,23 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "mgqpy"
+authors = [{ name = "Chiawei Ong", email = "ongchiawei@gmail.com" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+[project.urls]
+Home = "https://github.com/weiliddat/mgqpy"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = ["--benchmark-disable", "--benchmark-autosave"]
+
+[tool.flit.sdist]
+include = ["mgqpy/"]
+exclude = ["tests/", "requirements-dev.txt", "compose.yml"]
