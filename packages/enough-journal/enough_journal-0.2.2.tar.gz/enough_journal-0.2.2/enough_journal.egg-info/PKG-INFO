@@ -1,0 +1,168 @@
+Metadata-Version: 2.4
+Name: enough-journal
+Version: 0.2.2
+Summary: A minimal journaling application with Nathaniel Branden sentence completion exercises
+Author-email: Sipos Istvan <sipistab@gmail.com>
+Project-URL: Homepage, https://github.com/sipistab/enough
+Project-URL: Bug Tracker, https://github.com/sipistab/enough/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Office/Business :: News/Diary
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyYAML>=6.0.0
+Dynamic: license-file
+
+
+
+# ENOUGH - The Growth Journal
+
+A command-line tool for personal development through structured journaling and reflection exercises, with a particular focus on the **Nathaniel Branden sentence completion method**.
+
+## TODO
+- [ ] Add PyPI API key to ~/.pypirc for automated publishing
+
+## What This Is
+
+ENOUGH is a minimal journaling application that guides you through a 30-week program of sentence completion exercises designed to build self-esteem and personal awareness. Based on the work of Nathaniel Branden, each exercise presents an incomplete sentence that you complete with your own thoughts and feelings.
+
+## The Method
+
+**Nathaniel Branden Sentence Completion Method:**
+- **Every morning (Monday-Friday)**: Complete ALL stems for that week
+- **Each stem**: 6-10 rapid completions (work quickly, don't pause to think)
+- **Weekend**: Reflect and compile your responses
+- **Duration**: 30 weeks of progressive exercises
+
+**Example Week 1:**
+- Monday: Complete all 4 stems (6-10 completions each)
+- Tuesday: Complete all 4 stems again (6-10 completions each)
+- Wednesday: Complete all 4 stems again (6-10 completions each)
+- Thursday: Complete all 4 stems again (6-10 completions each)
+- Friday: Complete all 4 stems again (6-10 completions each)
+- Weekend: Reflect and compile
+
+## Program Structure
+
+- **30 weeks** of progressive exercises
+- **142+ sentence stems** organized by theme
+- **Daily practice** (Monday-Friday)
+- **Weekly assessment** (Weekend reflection)
+- **Progress tracking** with automatic week/day calculation
+
+## Usage
+
+```bash
+# Install
+pip install enough-journal
+
+# Run (two ways)
+enough-journal
+# or
+python -m enough
+```
+
+### First Run
+
+On your first run, the program will:
+1. Ask if you want to start fresh or continue existing practice
+2. Set up your progress tracking
+3. Present available exercises for the day
+4. Guide you through sentence completion practice
+
+### Daily Practice
+
+- **Monday-Friday**: Complete ALL stems for your current week (6-10 completions each)
+- **Weekends**: Reflect on your week's practice and insights
+- **Progress**: Automatically tracks your week/day progression
+
+## Exercise Format
+
+Each exercise includes:
+- **Prompt**: The incomplete sentence to complete
+- **Instructions**: How to approach the exercise
+- **Frequency**: Daily (morning/evening) or weekly
+- **Type**: Sentence completion, morning check-in, evening reflection
+
+## Data Format
+
+**Progress Tracking** (`progress.json`):
+```json
+{
+  "current_week": 1,
+  "current_stem_index": 0,
+  "start_date": "2025-01-01",
+  "completed_days": [],
+  "is_new_user": true
+}
+```
+
+**Journal Entries** (`journals/YYYY_MM_DD_STEMID.yaml`):
+```yaml
+date: "2025-01-01"
+time: "08:30:00"
+week: 1
+stem_id: "ID1"
+completions:
+  - completion: "I would notice the small moments of joy"
+    completion_number: 1
+  - completion: "I would be more present in conversations"
+    completion_number: 2
+```
+
+## Frequencies
+
+- **Daily**: Morning check-in (5-11 AM), Evening reflection (6-11 PM)
+- **Weekly**: Sentence completion exercises (all day, Monday-Friday)
+- **Weekend**: Reflection and compilation exercises
+
+## Dependencies
+
+- Python 3.8+
+- PyYAML 6.0.0+
+
+## The Philosophy
+
+This tool embodies the principle that **consistent, structured self-reflection leads to personal growth**. By practicing the Nathaniel Branden sentence completion method daily, you develop:
+
+- **Self-awareness**: Understanding your thoughts and feelings
+- **Self-responsibility**: Taking ownership of your choices
+- **Self-acceptance**: Embracing your authentic self
+- **Self-esteem**: Building confidence through practice
+
+## What Makes This Different
+
+- **Minimal design**: Focus on the practice, not the interface
+- **Immediate saving**: Each completion saved instantly
+- **Progress tracking**: Automatic week/day calculation
+- **Time-based availability**: Exercises appear when appropriate
+- **First-run setup**: Smooth onboarding for new users
+- **Correct implementation**: True to Nathaniel Branden's method
+
+## Installation
+
+### From PyPI
+```bash
+pip install enough-journal
+```
+
+### From Source
+```bash
+git clone https://github.com/sipistab/enough
+cd enough
+python journaler.py
+```
+
+### From AUR (Arch Linux)
+```bash
+yay -S enough-journal
+```
+
+---
+
+**Remember**: The goal is not perfection, but consistent practice. Show up every morning, complete your stems, and trust the process. 
