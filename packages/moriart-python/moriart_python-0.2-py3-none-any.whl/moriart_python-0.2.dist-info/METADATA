@@ -1,0 +1,184 @@
+Metadata-Version: 2.4
+Name: moriart_python
+Version: 0.2
+Summary: Advanced Traffic Obfuscation and Encryption Library
+Author: Moriarty Security Team
+Author-email: contact@moriarty.net
+License: Apache 2.0
+Keywords: security encryption anonymity networking privacy
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security :: Cryptography
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+Requires-Dist: cryptography>=42.0.0
+Requires-Dist: pywin32>=306; platform_system == "Windows"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: keywords
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary
+
+# 🕵️‍♂️ Moriarty_Python - Библиотека абсолютной сетевой невидимости
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Security Level](https://img.shields.io/badge/security-paranoid-red)](https://en.wikipedia.org/wiki/Paranoia)
+
+**Moriarty_Python** - это библиотека военного уровня для обеспечения полной анонимности и защиты сетевых соединений. Реализует многоуровневую систему шифрования и обфускации трафика, делая вас "невидимым" в сети.
+```python
+from moriarty import MoriartySession, ParanoidLevel
+
+with MoriartySession(
+    level=ParanoidLevel.STEALTH_GHOST,
+    camouflage="DNS"
+) as session:
+    response = session.get("https://example.com")
+    print(response.decrypted_content)
+```
+
+- **Сокрытие IP-адреса** через динамические цепи прокси
+- **Военное шифрование трафика** (AES-256 + квантово-стойкие алгоритмы)
+- **Обфускация пакетов** для обхода систем DPI
+- **Автоматическое уничтожение цифровых следов**
+- **Защита от физического перехвата** устройств
+- **Генерация фальшивого трафика** для создания цифрового алиби
+
+## ⚙️ Установка
+```python
+pip install moriart_python
+```
+Требования:
+- **Python** 3.8+
+- **Cryptography** 42.0.0+
+
+## 🚀 Быстрый старт
+
+### Базовое использование
+```python
+from moriarty import MoriartySession
+
+with MoriartySession() as session:
+    sock = session.connect("example.com", 80)
+    session.send(b"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
+    response = session.recv(4096)
+    print(response.decode('utf-8'))
+```
+
+### Трафик
+```python
+from moriarty.traffic_morph import TrafficMorpher, CamouflageProtocol
+
+# Создание морфера для DNS трафика
+morpher = TrafficMorpher(protocol=CamouflageProtocol.DNS)
+
+# Исходные данные для отправки
+original_data = b"Top secret information"
+
+# Преобразование в DNS-подобный трафик
+morphed = morpher.morph(original_data)
+print(f"Morphed data ({len(morphed)} bytes): {morphed[:20]}...")
+
+# Обратное преобразование
+demorphed = morpher.demorph(morphed)
+print(f"Demorphed data: {demorphed.decode()}")
+```
+
+### Расширенное использование
+```python
+from moriarty import MoriartySession, ParanoidLevel
+
+# Сессия с максимальным уровнем защиты
+with MoriartySession(
+    level=ParanoidLevel.STEALTH_GHOST,
+    killswitch=True,
+    self_destruct=True,
+    camouflage="dns_tunnel"
+) as session:
+    
+    # Включение генерации фонового трафика
+    session.enable_decoy_traffic(
+        profiles=["netflix", "online_shopping"],
+        intensity="HIGH"
+    )
+    
+    # Запрос через защищенное соединение
+    response = session.secure_request(
+        "GET",
+        "https://sensitive-site.com/api/data",
+        headers={"User-Agent": "Moriarty/1.0"}
+    )
+    
+    print(response.decrypted_json)
+```
+## 🔧 Конфигурация
+
+### Параметры инициализации
+| Параметр         | По умолчанию   | Описание                              |
+|------------------|----------------|---------------------------------------|
+| `level`          | "HIGH"         | Уровень паранойи (LOW, MED, HIGH, STEALTH_GHOST) |
+| `killswitch`     | False          | Автоматический разрыв соединения при угрозе |
+| `self_destruct`  | False          | Уничтожение данных при физическом перехвате |
+| `camouflage`     | "https"        | Маскировка трафика (https, dns, smtp) |
+| `proxy_layers`   | 5              | Количество прокси в цепи              |
+| `key_rotation`   | "5m"           | Интервал ротации ключей               |
+
+### Методы сессии
+```python
+session.connect(host, port)          # Установка защищенного соединения
+session.send(data)                   # Отправка зашифрованных данных
+session.recv(buffer_size=4096)       # Прием и расшифровка данных
+session.secure_request(method, url, **kwargs) # HTTP-запрос с защитой
+session.enable_decoy_traffic(profiles) # Генерация фонового трафика
+session.emergency_terminate()        # Мгновенное уничтожение сессии
+```
+
+## 🛡️ Технологии защиты
+
+### Многоуровневая архитектура
+```mermaid
+graph TD
+    A[Ваше устройство] --> B[Шифрование AES-256]
+    B --> C[Обфускация пакетов]
+    C --> D[Прокси слой 1]
+    D --> E[Прокси слой 2]
+    E --> F[...]
+    F --> G[Прокси слой N]
+    G --> H[Целевой сервер]
+```
+
+### Компоненты системы
+1. **QuantumEncryptor** - Гибридное шифрование (AES-256 + Kyber1024)
+2. **HydraProxyNetwork** - Динамическая цепь из прокси-серверов
+3. **TrafficMorpher** - Преобразование трафика под легитимные протоколы
+4. **ZeroFootprint** - Уничтожение цифровых следов
+5. **ThreatMonitor** - ИИ-система обнаружения угроз в реальном времени
+
+## ⚠️ Ограничения и предупреждения
+
+1. **Производительность**:
+   - Режим `STEALTH_GHOST` добавляет задержку 300-500ms
+   - Рекомендуется для критических операций, а не для повседневного использования
+
+2. **Юридические ограничения**:
+   - Использование в некоторых странах может требовать специальных разрешений
+   - Запрещено использование для незаконной деятельности
+
+
+## 📜 Лицензия
+
+Распространяется под лицензией Apache 2.0. Использование в коммерческих продуктах требует согласования с авторами.
+
+> **Предупреждение: Эта библиотека разработана для исследовательских целей и защиты конфиденциальности. Авторы не несут ответственности за незаконное использование.**
+
+
+**Moriarty_Python - потому что ваша конфиденциальность не должна быть компромиссом.**
