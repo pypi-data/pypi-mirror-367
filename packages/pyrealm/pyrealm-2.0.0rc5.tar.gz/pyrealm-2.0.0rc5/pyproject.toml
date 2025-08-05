@@ -1,0 +1,173 @@
+
+[project]
+description = "Python tools for modelling plant productivity and demography."
+license = "MIT"
+name = "pyrealm"
+version = "2.0.0-rc.5"
+
+dependencies = [
+  "dacite (>1.6.0)",
+  "numpy (>=2.1)",
+  "scipy (>=1.7.3)",
+  "tabulate (>=0.8.10)",
+  "marshmallow (>=3.22.0)",
+  "marshmallow-dataclass (>=8.7.0)",
+  "pandas (>=2.2.2)",
+]
+
+requires-python = ">=3.11"
+
+authors = [
+  {name = "David Orme", email = "d.orme@imperial.ac.uk"},
+  {name = "Alienor Lavergne", email = "alienor.lavergne@springernature.com"},
+  {name = "Vivienne Groner", email = "v.groner@imperial.ac.uk"},
+  {name = "Marion Weinzierl", email = "mw925@cam.ac.uk"},
+  {name = "Tianzhang Cai", email = "tc684@cam.ac.uk"},
+  {name = "Surbhi Goel", email = "sg2147@cam.ac.uk"},
+  {name = "Alexander Smith", email = "as3402@cam.ac.uk"},
+  {name = "James Emberton", email = "je484@cam.ac.uk"},
+  {name = "Amy Pike", email = "ap766@cam.ac.uk"},
+  {name = "Arne Scheire", email = "scheirearne@gmail.com"},
+  {name = "Sally Matson", email = "sally.matson21@imperial.ac.uk"},
+  {name = "Sam Avis", email = "sa2329@cam.ac.uk"},
+]
+
+packages = [
+  {include = "pyrealm"},
+  {include = "pyrealm_build_data", format = "sdist"},
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering",
+  "Intended Audience :: Science/Research",
+  "Development Status :: 4 - Beta",
+]
+
+keywords = ["gross primary productivity", "demography", "eco-evolutionary optimality"]
+license-files = ["LICENSE"]
+maintainers = [
+  {name = "David Orme", email = "d.orme@imperial.ac.uk"},
+]
+readme = "README.md"
+
+[project.urls]
+homepage = "https://pyrealm.readthedocs.io/"
+repository = "https://github.com/ImperialCollegeLondon/pyrealm"
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+
+[tool.poetry.group.types.dependencies]
+pandas-stubs = "^2.2.0.240218"
+types-tabulate = "^0.9.0.0"
+
+[tool.poetry.group.test.dependencies]
+graphviz = "*"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-mock = "^3.8.1"
+pytest-profiling = "^1.7.0"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.17"
+jupyterlab = "^4.2.1"
+jupyterlab-myst = "^2.4.2"
+jupytext = "^1.16.2"
+matplotlib = "^3.8"
+multiprocess = "^0.70.16"
+mypy = "^1.0"
+pandas = "^2.2.0"
+pre-commit = "^3.2.0"
+ruff = "^0.5"
+
+[tool.poetry.group.docs.dependencies]
+autodocsumm = "^0.2.8"
+myst-nb = "^1.0.0"
+netcdf4 = "^1.6.3"
+pydocstyle = "^6.1.1"
+sphinx = "^7.0.0"
+sphinx-design = "^0.6"
+sphinx-external-toc = "^1.0.0"
+sphinx-hoverxref = "^1.4.1"
+sphinx-rtd-theme = "^3.0.0"
+sphinxcontrib-bibtex = "^2.6.1"
+xarray = "^2024.6.0"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.8.2"]
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+exclude = [
+  'pyrealm_build_data/splash/splash_py_version/*.py', # Legacy code used for building golden datasets
+]
+ignore_missing_imports = false
+no_implicit_optional = true
+plugins = 'numpy.typing.mypy_plugin'
+strict_optional = true
+
+[tool.mypy-setup]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+disallow_incomplete_defs = false
+disallow_untyped_calls = false
+disallow_untyped_defs = false
+module = "tests.*"
+
+[tool.pytest.ini_options]
+addopts = """
+  -v 
+  -p no:warnings
+  -m "not profiling"
+  --cov=pyrealm
+  --cov-report=html:reports/coverage
+  --doctest-modules
+  --ignore=pyrealm/__main__.py
+  --ignore=tests/pmodel/generate_test_inputs.py
+  """
+python_files = 'test_*.py'
+testpaths = ['tests', 'pyrealm']
+
+[tool.ruff]
+exclude = [
+  "pyrealm_build_data/splash/splash_py_version/*", # Legacy code used for building golden datasets
+]
+target-version = "py311"
+
+[tool.ruff.lint]
+# Enable all `pydocstyle` rules, limiting to those that adhere to the
+# Google convention via `convention = "google"`, below.
+select = [
+  # "B", # flake8-bugbear
+  # "SIM", # flake8-simplify
+  "E", # pycodestyle
+  "F", # pyflakes
+  "D", # pydocstyle
+  "I", # isort
+  "UP", # pyupgrade
+  "RUF", # RUF specific checks
+  "NPY201",
+]
+
+# On top of the Google convention, disable:
+ignore = [
+  "D202", # Blank line after docstring is ok
+  "D107", # Location of __init__ docstring in class not __init__"
+  "D105", # Magic methods do not need docstrings.
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.jupytext]
+# Stop jupytext from removing mystnb and other settings in MyST Notebook YAML headers
+notebook_metadata_filter = "settings,mystnb,language_info,-jupytext.text_representation.jupytext_version"
+# Also stop it from stripping cell metadata, except for specific ones to lose.
+cell_metadata_filter = "all,-trusted"
