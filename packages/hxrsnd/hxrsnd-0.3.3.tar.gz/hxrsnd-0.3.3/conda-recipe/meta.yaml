@@ -1,0 +1,49 @@
+{% set package_name = "hxrsnd" %}
+{% set import_name = "hxrsnd" %}
+{% set version = load_file_regex(load_file=os.path.join(import_name, "_version.py"), regex_pattern=".*version = '(\S+)'").group(1) %}
+
+package:
+  name: {{ package_name }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  build:
+  - python >=3.6
+  - setuptools_scm
+  - pip
+  run:
+  - python >=3.6
+  - ipython
+  - numpy
+  - pandas
+  - lmfit
+  - simplejson
+  - pyyaml
+  - coloredlogs
+  - super_state_machine
+  - pswalker >=1.0.5
+  - pcdsdevices >=6.1.0
+  - pyepics
+  run_constrained:
+  - pcdsutils >=0.10.0
+
+test:
+  imports:
+  - hxrsnd
+  requires:
+  - pytest
+  - pytest-timeout
+  - pytest-cov
+
+about:
+  home: https://github.com/pcdshub/hxrsnd
+  license: SLAC Open License
+  summary: XCS Split and Delay Device Classes
