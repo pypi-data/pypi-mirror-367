@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MSDB EDITOR</title>
+    <style>
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            display: flex;
+            overflow: hidden;
+            width: 100vw;
+        }
+
+        /* Container sections */
+        .sidebar,
+        .table-menu,
+        .table-data {
+            padding: 1.5rem 1.25rem;
+            background: white;
+            overflow-y: auto;
+            border-right: 1px solid #e0e4e8;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Widths as fixed % */
+        .sidebar {
+            width: 20%;
+            min-width: 200px;
+            background-color: #263447;
+            color: #f0f4f8;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 2px 0 12px rgba(38, 52, 71, 0.25);
+        }
+
+        .table-menu {
+            width: 20%;
+            min-width: 200px;
+            border-right: 1px solid #e0e4e8;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .table-data {
+            width: 60%;
+            border-right: none;
+            overflow-x: auto;
+            border-radius: 0 12px 12px 0;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Headings */
+        .sidebar h2,
+        .table-menu h2,
+        .table-data h2 {
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            font-size: 1.6rem;
+            border-bottom: 3px solid #5a7a9d;
+            padding-bottom: 0.5rem;
+            user-select: none;
+            letter-spacing: 0.02em;
+        }
+
+        .table-menu h2,
+        .table-data h2 {
+            border-color: #cdd2d6;
+            color: #2a2a2a;
+        }
+
+        .db-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .db-name {
+            margin-bottom: 5px;
+            color: white;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+
+
+
+        .db-size {
+            font-size: 0.85rem;
+            color: #c7b4bb;
+            float: right;
+        }
+
+        .db-item {
+            padding: 12px;
+            margin: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            transition: background-color 0.2s ease;
+            align-items: start;
+            display: flex;
+            gap: 4px;
+            align-items: start;
+
+        }
+
+        .db-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .db-icon-text {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+        }
+
+
+        .db-icon-text .icon {
+            font-size: 1.6rem;
+
+            margin-bottom: 4px;
+        }
+
+        .db-icon-text .name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+
+        .db-item {
+            padding: 0.85rem 1.2rem;
+            margin-bottom: 0.6rem;
+            background: #37526e;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            user-select: none;
+            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .db-item:hover,
+        .db-item.active {
+            background-color: #16a085;
+            color: white;
+            box-shadow: 0 4px 12px rgba(22, 160, 133, 0.4);
+        }
+
+        /* Table menu list */
+        .table-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .table-item {
+            padding: 0.75rem 1.2rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            user-select: none;
+            color: #444;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .table-item:hover,
+        .table-item.active {
+            background-color: #1985a1;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(25, 133, 161, 0.35);
+        }
+
+        /* Table Data styling */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin-top: 1.25rem;
+            table-layout: auto;
+            min-width: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #e1e4e8;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #f7f9fb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 700;
+            color: #4a4a4a;
+            box-shadow: inset 0 -1px 0 #d2d6dc;
+        }
+
+        td {
+            color: #555;
+        }
+
+        tr:hover td {
+            background-color: #f0f8ff;
+        }
+
+        .empty-message {
+            color: #888;
+            font-style: italic;
+            user-select: none;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        #editModal {
+            display: none;
+            /* hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal content box */
+        #editModalContent {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 800px;
+            overflow: auto;
+            max-height: 70vh;
+            max-width: 90vw;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Modal header */
+        #editModalContent h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        /* Form inputs */
+        #editFormElement label {
+            display: block;
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+
+        #editFormElement input[type="text"] {
+            width: 100%;
+            padding: 0.4rem 0.6rem;
+            margin-top: 0.25rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            margin-left: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: #565e64;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: #e74c3c;
+            /* red */
+            padding: 8px 16px;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            width: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .logout-btn:hover {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="editModal">
+        <div id="editModalContent">
+            <h3>Edit Row ID: <span id="editId"></span></h3>
+            <form id="editFormElement"></form>
+            <button id="saveBtn" class="btn">Save</button>
+            <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
+
+
+    <nav class="sidebar">
+        <h2>Databases</h2>
+        {% if databases %}
+        <ul class="db-list">
+            {% for db, size in databases.items %}
+            <li class="db-item" data-db="{{ db }}">
+                <span class="db-icon-text">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-database-icon lucide-database">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" />
+                            <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+                            <path d="M3 12A9 3 0 0 0 21 12" />
+                        </svg>
+
+                    </div>
+
+                    <span class="db-name">{{ db }}</span>
+
+                </span>
+                <i class="db-size" style="float: right;">{{ size }} MB</i>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-message">No databases found.</p>
+        {% endif %}
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+
+    </nav>
+
+
+    <section class="table-menu" id="table-menu">
+        <h2>Tables</h2>
+        <p class="empty-message">Select a database to view tables</p>
+    </section>
+    <section class="table-data" id="table-data">
+        <h2>Table Data</h2>
+        <p class="empty-message">Select a table to view data</p>
+    </section>
+
+
+    <script>
+        const dbItems = document.querySelectorAll('.db-item');
+        const tableMenu = document.getElementById('table-menu');
+        const tableData = document.getElementById('table-data');
+
+        let currentDb = null;
+        let currentTable = null;
+        let currentEditRowId = null;
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        dbItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                currentDb = item.getAttribute('data-db');
+
+                tableMenu.innerHTML = `<h2>Tables in <em>${currentDb}</em></h2><p>Loading...</p>`;
+                tableData.innerHTML = `<h2>Table Data</h2><p class="empty-message">Select a table to view data</p>`;
+
+                fetch(`/tables/${currentDb}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            tableMenu.innerHTML = `<h2>Tables in <em>${currentDb}</em></h2><p style="color:red;">Error: ${data.error}</p>`;
+                            return;
+                        }
+
+                        if (data.tables.length === 0) {
+                            tableMenu.innerHTML = `<h2>Tables in <em>${currentDb}</em></h2><p class="empty-message">No tables found.</p>`;
+                            return;
+                        }
+
+                        let html = `<h2>Tables in <em>${currentDb}</em></h2><ul class="table-list">`;
+                        data.tables.forEach(table => {
+                            html += `<li class="table-item" data-table="${table.name}">
+        ${table.name}
+        <span style="color: #666; font-size: 0.85rem; float:right">(${table.size_mb} MB)</span>
+    </li>`;
+                        });
+                        html += '</ul>';
+                        tableMenu.innerHTML = html;
+
+                        document.querySelectorAll('.table-item').forEach(ti => {
+                            ti.addEventListener('click', () => loadTableData(ti));
+                        });
+                    })
+                    .catch(err => {
+                        tableMenu.innerHTML = `<h2>Tables</h2><p style="color:red;">Request failed: ${err}</p>`;
+                    });
+            });
+        });
+
+        function loadTableData(tableItem) {
+            document.querySelectorAll('.table-item').forEach(t => t.classList.remove('active'));
+            tableItem.classList.add('active');
+
+            currentTable = tableItem.getAttribute('data-table');
+
+            tableData.innerHTML = `<h2>Table Data: <em>${currentTable}</em></h2><p>Loading...</p>`;
+
+            fetch(`/tables/${currentDb}/${currentTable}/`)
+                .then(res => res.json())
+                .then(tableDataResponse => {
+                    if (tableDataResponse.error) {
+                        tableData.innerHTML = `<h2>Table Data: <em>${currentTable}</em></h2><p style="color:red;">Error: ${tableDataResponse.error}</p>`;
+                        return;
+                    }
+
+                    let tableHtml = `
+              
+                    <table>
+                        <thead>
+                            <tr>${tableDataResponse.columns.map(col => `<th>${col}</th>`).join('')}
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                    tableDataResponse.rows.forEach(row => {
+                        const rowId = row.id ?? row[tableDataResponse.columns[0]];
+                        tableHtml += `<tr data-id="${row.id}">`;
+                        tableDataResponse.columns.forEach(col => {
+                            tableHtml += `<td class="col-${col}">${row[col]}</td>`;
+                        });
+                        tableHtml += `<td>
+        <button class="edit-btn" style="
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            padding: 6px 12px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 600;
+        ">Edit</button>
+        <button class="delete-btn" style="
+            background-color: #f44336; 
+            color: white; 
+            border: none; 
+            padding: 6px 12px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 600;
+            margin-left: 8px;
+        ">Delete</button>
+    </td></tr>`;
+                    });
+
+
+
+                    tableHtml += `
+                        <tr><td colspan="${tableDataResponse.columns.length + 1}">
+                            <button id="newRowBtnBottom" class="create-btn" style="
+                                background-color: #2196F3;
+                                color: white;
+                                border: none;
+                                padding: 6px 12px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                font-weight: 600;
+                            ">+ Add New</button>
+                        </td></tr>
+                    </tbody></table>`;
+
+                    tableData.innerHTML = tableHtml;
+
+                    // Attach events
+                    setupNewRowButton('newRowBtnTop', tableDataResponse.columns);
+                    setupNewRowButton('newRowBtnBottom', tableDataResponse.columns);
+                    document.querySelectorAll('.edit-btn').forEach(btn => setupEditButton(btn, tableDataResponse.columns));
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            const rowElement = e.target.closest('tr');
+                            const rowId = rowElement.getAttribute('data-id');
+                            if (!rowId) return alert('No ID found for this row.');
+
+                            if (!confirm('Are you sure you want to delete this row?')) return;
+
+                            try {
+                                const response = await fetch(`/tables/${currentDb}/${currentTable}/delete/${rowId}/`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        // add CSRF token if required by your setup here
+                                    },
+                                });
+
+                                const result = await response.json();
+                                if (response.ok) {
+                                    // Remove row from table UI
+                                    rowElement.remove();
+                                } else {
+                                    alert('Delete failed: ' + (result.error || 'Unknown error'));
+                                }
+                            } catch (error) {
+                                alert('Error deleting row: ' + error.message);
+                            }
+                        });
+                    });
+                })
+                .catch(err => {
+                    tableData.innerHTML = `<p style="color:red;">Failed to load data: ${err}</p>`;
+                });
+        }
+
+        function setupNewRowButton(buttonId, columns) {
+            const newRowBtn = document.getElementById(buttonId);
+            if (newRowBtn) {
+                newRowBtn.addEventListener('click', () => {
+                    currentEditRowId = null;
+                    openModalForRow(null, columns);
+                });
+            }
+        }
+
+        function setupEditButton(btn, columns) {
+            btn.addEventListener('click', (e) => {
+                const tr = e.target.closest('tr');
+                currentEditRowId = tr.getAttribute('data-id');
+                openModalForRow(tr, columns);
+            });
+        }
+
+        function openModalForRow(tr, columns) {
+            const editModal = document.getElementById('editModal');
+            const editIdSpan = document.getElementById('editId');
+            const editFormElement = document.getElementById('editFormElement');
+            const saveBtn = document.getElementById('saveBtn');
+
+            editFormElement.innerHTML = '';
+            editIdSpan.innerText = currentEditRowId ? `ID: ${currentEditRowId}` : 'New Row';
+
+            columns.forEach(col => {
+                const label = document.createElement('label');
+                label.innerText = `${col}:`;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = col;
+                input.value = tr ? tr.querySelector(`.col-${col}`)?.innerText || '' : '';
+
+                editFormElement.appendChild(label);
+                editFormElement.appendChild(input);
+            });
+
+            editModal.style.display = 'flex';
+            saveBtn.disabled = false;
+        }
+
+        document.getElementById('cancelBtn').onclick = () => {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditRowId = null;
+        };
+
+        document.getElementById('saveBtn').onclick = async () => {
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true;
+
+            const formData = {};
+            [...document.getElementById('editFormElement').elements].forEach(el => {
+                if (el.name) formData[el.name] = el.value;
+            });
+
+            try {
+                const url = currentEditRowId
+                    ? `/tables/${currentDb}/${currentTable}/update/${currentEditRowId}/`
+                    : `/tables/${currentDb}/${currentTable}/create/`;
+
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    alert(currentEditRowId ? 'Row updated successfully!' : 'Row created successfully!');
+                    document.getElementById('editModal').style.display = 'none';
+                    currentEditRowId = null;
+                    document.querySelector(`.table-item.active`).click(); // Refresh
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (err) {
+                alert('Operation failed: ' + err);
+            }
+            saveBtn.disabled = false;
+        };
+    </script>
+
+
+</body>
+
+</html>
