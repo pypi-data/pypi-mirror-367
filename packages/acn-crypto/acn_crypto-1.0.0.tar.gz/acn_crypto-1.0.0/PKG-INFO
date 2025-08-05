@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: acn-crypto
+Version: 1.0.0
+Summary: An experimental, high-performance cryptographic library using a dynamic network architecture as the key.
+Project-URL: Homepage, https://github.com/your_username/acn-project
+Project-URL: Bug Tracker, https://github.com/your_username/acn-project/issues
+Author-email: Mohammadmoein Pisoude <mmoeinp3@gmail.com>
+License: MIT License
+        
+        Copyright (c) Mohammadmoein Pisoude 2025
+        
+        Permission is hereby granted, free of charge, to a any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify,merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Security :: Cryptography
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: cupy-cuda12x
+Requires-Dist: graphviz
+Description-Content-Type: text/markdown
+
+# ACN: Artificial Cryptographic Network
+
+[![PyPI version](https://badge.fury.io/py/acn-crypto.svg)](https://badge.fury.io/py/acn-crypto)
+
+ACN is an experimental, high-performance cryptographic library that introduces a novel approach to symmetric-key encryption, inspired by the architectural principles of neural networks. Instead of using a traditional fixed-length bit string as a key, ACN utilizes the entire **architecture of a dynamic network** as the secret key itself.
+
+This library is designed for performance, leveraging GPU acceleration via CuPy for massively parallel processing, making it suitable for encrypting large volumes of data at high speeds.
+
+**Disclaimer:** This is an experimental cryptographic library. While it is built on strong cryptographic principles, it has not undergone formal, public cryptographic analysis. Use in production for critical data is not recommended until it has been peer-reviewed by security experts.
+
+## Key Concepts
+
+The security of ACN is rooted in a unique blend of modern cryptographic primitives and a dynamic, key-defined structure.
+
+### 1. Key-as-Architecture
+The core innovation of ACN is its keying mechanism. The "key" is not a simple password or a file of bits; it is a comprehensive blueprint that defines a unique cryptographic network. This blueprint specifies:
+- The size of the data blocks to be processed.
+- The internal width of the core processing function.
+- The number of processing rounds (equivalent to layers of security).
+- The unique sequence of mathematical operations within each of the network's "cryptographic neurons."
+
+This results in an astronomical key space, where the secret is the entire algorithm's structure, making brute-force attacks on the key itself practically impossible.
+
+### 2. Feistel Network Structure
+At its highest level, ACN employs a **Feistel network**, a well-established cryptographic structure used in many proven ciphers (like DES). This structure processes data in rounds, repeatedly applying a non-reversible "F-function" to parts of the data. The Feistel design guarantees that the entire process is fully reversible for decryption, even if the core function is not.
+
+### 3. The "F-Function" as a Cryptographic Network
+The heart of each Feistel round is the F-function. In ACN, this function is a **single-layer, parallel cryptographic network**. It takes a block of data and processes each part simultaneously through its "cryptographic neurons." Each neuron is a unique sequence of strong cryptographic operations, including:
+- **Non-linear Substitution:** Using a highly non-linear S-Box (from the AES standard) to create confusion.
+- **Bitwise Rotations:** To shuffle bit patterns.
+- **Modular Arithmetic:** To combine bitwise and arithmetic operations, adding complexity.
+- **XOR Operations:** For fast, secure mixing of data.
+
+### 4. Key Scheduling
+To prevent attacks that exploit repetition across rounds, ACN uses a **key scheduling algorithm**. It takes a 256-bit master key (stored in the key file) and derives unique subkeys for every operation in every neuron in every round. This ensures that the cryptographic transformation is different at each stage of the process.
+
+### 5. CTR (Counter) Mode of Operation
+To securely encrypt data of any length and enable high-speed parallel processing, ACN uses the **Counter (CTR) mode**.
+1. A random, single-use number (a "nonce") is generated.
+2. A series of "counter blocks" is created from this nonce.
+3. These counter blocks are encrypted by the Feistel network to produce a high-security **keystream**.
+4. The plaintext data is simply XORed with this keystream to produce the ciphertext.
+
+This mode is highly secure, prevents patterns in the plaintext from appearing in the ciphertext, and is perfectly suited for GPU acceleration.
+
+## Installation
+```bash
+pip install acn-crypto
+```
+*Note: This library requires an NVIDIA GPU and a working installation of the CUDA Toolkit and CuPy.*
+
+## Quickstart
+
+```python
+from acn import ACN
+
+# 1. Create a new cipher with a specific architecture
+#    Architecture: [Block_Size, F_Function_Width, Num_Rounds]
+try:
+    cipher = ACN(architecture=[32, 16, 24])
+except Exception as e:
+    print(f"Configuration Error: {e}")
+    exit()
+
+# 2. Save the generated key (the network's architecture)
+#    PROTECT THIS FILE. It's your secret key.
+cipher.save_key("my_secret.key")
+
+# 3. Encrypt data (strings or bytes)
+message = "This is a secret message."
+encrypted_data = cipher.encrypt(message)
+print(f"Encrypted (hex): {encrypted_data.hex()}")
+
+# 4. Decrypt data using a new ACN instance loaded from the key file
+decryption_cipher = ACN.from_key_file("my_secret.key")
+decrypted_message = decryption_cipher.decrypt(encrypted_data)
+print(f"Decrypted: {decrypted_message}")
+
+assert message == decrypted_message
+```
