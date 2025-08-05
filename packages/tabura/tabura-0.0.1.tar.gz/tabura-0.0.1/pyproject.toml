@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools >= 62", "wheel", "setuptools_scm[toml] >= 6.2"]
+
+[project]
+name = "tabura"
+authors = [{ name = "Bernardo Dionisi", email = "bernardo.dionisi@gmail.com" }]
+description = "Tools for data in Python"
+readme = "README.md"
+license = { text = "Apache 2.0" }
+keywords = [
+    "tools for data",
+]
+
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "polars >= 1.32.0, < 2.0.0",
+    "typing_extensions >= 4.0.0", # v4.0.0 needed for: Self (Python 3.11+) and Literal (Python 3.8+)
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "ruff == 0.1.4",
+    "pytest",
+    "pytest-cov[toml]",
+    "pytest-xdist",
+    "pytest-benchmark >= 4.0.0",
+    "requests",
+    "pdfminer.six",
+]
+
+[project.urls]
+Homepage = "https://github.com/bernardodionisi/tabura"
+Source = "https://github.com/bernardodionisi/tabura"
+Issues = "https://github.com/bernardodionisi/tabura/issues"
+Documentation = "https://bernardodionisi.github.io/tabura/latest/"
+
+[tool.setuptools_scm]
+write_to = "src/tabura/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"tabura.datasets.data" = ["*.csv", "*.parquet", "post/*.csv", "post/*.parquet"]
+
+[tool.distutils.bdist_wheel]
+universal = false
+
+[tool.ruff]
+src = ["src"]
+extend-include = ["*.ipynb"]
+extend-exclude = ["build", "dist", "docs", "src/tabura/_version.py"]
+line-length = 99
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    # "SIM",# flake8-simplify
+    "I", # isort
+]
+ignore = ["E501", "E713", "E714", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+
+[tool.pytest.ini_options]
+minversion = "6.2"
+addopts = "-s --showlocals"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "@overload",
+    "if TYPE_CHECKING:",
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "raise RuntimeError",
+]
