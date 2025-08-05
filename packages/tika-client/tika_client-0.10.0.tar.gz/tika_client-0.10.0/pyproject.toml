@@ -1,0 +1,265 @@
+#
+# Project Configuration
+#
+
+[build-system]
+build-backend = "hatchling.build"
+
+requires = [ "hatchling" ]
+
+[project]
+name = "tika-client"
+description = "A modern REST client for Apache Tika server"
+readme = "README.md"
+keywords = [ "api", "client", "html", "office", "pdf", "tika" ]
+license = "MPL-2.0"
+authors = [
+  { name = "Trenton H", email = "rda0128ou@mozmail.com" },
+]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = [ "version" ]
+
+#
+# Dependencies
+#
+
+dependencies = [
+  "anyio>=4.8",
+  "httpx>=0.27",
+  "typing-extensions; python_version<'3.11'",
+]
+
+urls.changelog = "https://github.com/stumpylog/tika-rest-client/blob/main/CHANGELOG.md"
+urls.documentation = "https://github.com/stumpylog/tika-rest-client#readme"
+urls.issues = "https://github.com/stumpylog/tika-rest-client/issues"
+#
+# Hatch Configuration
+#
+
+urls.source = "https://github.com/stumpylog/tika-rest-client"
+
+[tool.hatch.version]
+path = "src/tika_client/__about__.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  ".github",
+  ".docker",
+]
+
+[tool.hatch.envs.default]
+installer = "uv"
+
+[tool.hatch.envs.hatch-static-analysis]
+# https://hatch.pypa.io/latest/config/internal/static-analysis/
+dependencies = [ "ruff ~= 0.12" ]
+config-path = "none"
+
+[tool.hatch.envs.hatch-test]
+# https://hatch.pypa.io/latest/config/internal/testing/
+parallel = true
+randomize = true
+extra-dependencies = [
+  "pytest-sugar",
+  "pytest-httpx ~= 0.35",
+  "python-magic",
+  "pytest-docker ~= 3.2",
+  "pytest-asyncio ~= 1.1",
+]
+extra-args = [ "--maxprocesses=8", "--pythonwarnings=all" ]
+
+[tool.hatch.envs.hatch-test.scripts]
+run = [
+  "python3 --version",
+  "pytest{env:HATCH_TEST_ARGS:} {args}",
+]
+
+run-cov = [
+  "python3 --version",
+  "coverage erase",
+  "coverage run -m pytest{env:HATCH_TEST_ARGS:} {args}",
+]
+cov-combine = [ "coverage combine" ]
+cov-report = [
+  "coverage report",
+  "coverage json",
+  "coverage html",
+]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = [ "3.9", "3.10", "3.11", "3.12", "3.13", "pypy3.8", "pypy3.9", "pypy3.10" ]
+
+#
+# Custom Environments
+#
+[tool.hatch.envs.typing]
+detached = true
+dependencies = [
+  "mypy ~= 1.13",
+  "httpx",
+]
+
+[tool.hatch.envs.typing.scripts]
+run = [
+  "mypy --version",
+  "mypy --install-types --non-interactive {args:src/tika_client}",
+]
+
+[tool.hatch.envs.pre-commit]
+template = "pre-commit"
+detached = true
+dependencies = [
+  "pre-commit ~= 4.1",
+  "pre-commit-uv",
+]
+
+[tool.hatch.envs.pre-commit.scripts]
+check = [ "pre-commit run --all-files" ]
+update = [ "pre-commit autoupdate" ]
+
+#
+# Tool Configuration
+#
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+# https://docs.astral.sh/ruff/settings/
+fix = true
+output-format = "grouped"
+# https://docs.astral.sh/ruff/rules/
+lint.extend-select = [
+  "A",
+  "ARG",
+  "B",
+  "C",
+  "C4",
+  "COM",
+  "DTZ",
+  "E",
+  "EM",
+  "ERA",
+  "EXE",
+  "F",
+  "FA",
+  "FBT",
+  "FLY",
+  "I",
+  "ICN",
+  "INP",
+  "INT",
+  "ISC",
+  "N",
+  "PERF",
+  "PGH",
+  "PIE",
+  "PL",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "PT",
+  "PTH",
+  "Q",
+  "RSE",
+  "RUF",
+  "S",
+  "SIM",
+  "SLF",
+  "T",
+  "T10",
+  "T20",
+  "TCH",
+  "TD",
+  "TID",
+  "TRY",
+  "UP",
+  "W",
+  "YTT",
+]
+lint.ignore = [
+  # Allow non-abstract empty methods in abstract base classes
+  "B027",
+  # Ignore complexity
+  "C901",
+  # Allow boolean positional values in function calls, like `dict.get(... True)`
+  "FBT003",
+  "PLR0911",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915",
+  # Ignore checks for possible passwords
+  "S105",
+  "S106",
+  "S107",
+  # Ignore no author and missing issue link in TODO tags
+  "TD002",
+  "TD003",
+]
+# Tests can use magic values, assertions, and relative imports
+lint.per-file-ignores."tests/**/*" = [
+  "DTZ001",
+  "PLR2004",
+  # Allow more complex pytest.raises
+  "PT012",
+  "S101",
+  "TID252",
+]
+# No relative imports
+lint.flake8-tidy-imports.ban-relative-imports = "all"
+# One import per line
+lint.isort.force-single-line = true
+# Recognize us please
+lint.isort.known-first-party = [ "tika_client" ]
+
+[tool.pyproject-fmt]
+max_supported_python = "3.13"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = [ "tests" ]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+source_pkgs = [ "tika_client", "tests" ]
+branch = true
+parallel = true
+omit = [ "src/tika_client/__about__.py" ]
+
+[tool.coverage.paths]
+tika_client = [ "src/tika_client", "*/tika-client/src/tika_client" ]
+tests = [ "tests", "*/tika-client/tests" ]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == '__main__':",
+  "if TYPE_CHECKING:",
+]
+fail_under = 80 # adjust this as required, for libraries i prefer 100 or there about
+
+[tool.mypy]
+packages = [ "tika_client", "tests" ]
+python_version = "3.9"
+disable_error_code = 'import-untyped'
+implicit_reexport = false
+show_error_codes = true
+strict = true
