@@ -1,0 +1,1034 @@
+# 🚀 IQ Option Trading System
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+> 🇧🇷 Sistema profissional de trading para IQ Option com arquitetura orientada ao domínio (DDD)  
+> 🇺🇸 Professional IQ Option trading system with domain-driven architecture (DDD)
+
+## 📋 Índice / Table of Contents
+
+- [🌟 Características](#-características--features)
+- [🔧 Instalação](#-instalação--installation)
+- [🚀 Início Rápido](#-início-rápido--quick-start)
+- [📚 Documentação da API](#-documentação-da-api--api-documentation)
+- [💡 Exemplos de Uso](#-exemplos-de-uso--usage-examples)
+- [🏗️ Arquitetura](#️-arquitetura--architecture)
+- [⚙️ Configuração](#️-configuração--configuration)
+- [🧪 Testes](#-testes--testing)
+- [🤝 Contribuição](#-contribuição--contributing)
+- [📄 Licença](#-licença--license)
+
+## 🌟 Características / Features
+
+### 🇧🇷 Português
+- ✅ **Autenticação Segura**: Sistema de tokens com cache automático
+- ✅ **Trading Automatizado**: Suporte para Binary, Digital e Forex
+- ✅ **Análise Técnica**: Integração com TradingView e IA
+- ✅ **Gerenciamento de Risco**: Stop-loss e stop-win automáticos
+- ✅ **Streaming em Tempo Real**: Candles, humor do trader e resultados
+- ✅ **Arquitetura Limpa**: DDD com separação clara de responsabilidades
+- ✅ **Async/Await**: Performance otimizada com programação assíncrona
+- ✅ **Type Safety**: Totalmente tipado com Python 3.11+
+
+### 🇺🇸 English
+- ✅ **Secure Authentication**: Token system with automatic caching
+- ✅ **Automated Trading**: Support for Binary, Digital and Forex
+- ✅ **Technical Analysis**: TradingView and AI integration
+- ✅ **Risk Management**: Automatic stop-loss and stop-win
+- ✅ **Real-time Streaming**: Candles, trader mood and results
+- ✅ **Clean Architecture**: DDD with clear separation of concerns
+- ✅ **Async/Await**: Optimized performance with asynchronous programming
+- ✅ **Type Safety**: Fully typed with Python 3.11+
+
+## 🔧 Instalação / Installation
+
+### Requisitos / Requirements
+- Python 3.11 ou superior / Python 3.11 or higher
+- Conta IQ Option / IQ Option account
+
+### Instalação via pip
+```bash
+pip install iq-core
+```
+
+### Instalação para desenvolvimento / Development installation
+```bash
+git clone https://github.com/celiovmjr/iq-core.git
+cd iq-core
+pip install -e ".[dev]"
+```
+
+### Dependências / Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+## 🚀 Início Rápido / Quick Start
+
+### 1. Configuração Básica / Basic Setup
+
+```python
+import asyncio
+from iq_core import (
+    AuthService,
+    AccountType,
+    InstrumentService,
+    BinaryTradeService,
+    Signal,
+    SignalType,
+    Direction
+)
+
+async def main():
+    # 🇧🇷 Autenticação / 🇺🇸 Authentication
+    async with AuthService().context() as auth:
+        ws, profile = await auth.login("seu_email@email.com", "sua_senha")
+        
+        # 🇧🇷 Trocar para conta demo / 🇺🇸 Switch to practice account
+        await profile.account.switch_active_account(AccountType.PRACTICE)
+        
+        # 🇧🇷 Buscar instrumentos / 🇺🇸 Fetch instruments
+        instrument_service = InstrumentService(ws)
+        instruments = await instrument_service.fetch(limit=5, groups=["forex"])
+        
+        print(f"📊 Instrumentos disponíveis: {len(instruments)}")
+        for instrument in instruments:
+            print(f"  • {instrument.name} - {instrument.market}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+### 2. Trading Simples / Simple Trading
+
+```python
+import asyncio
+from iq_core import *
+
+async def simple_trade():
+    async with AuthService().context() as auth:
+        ws, profile = await auth.login("email", "password")
+        await profile.account.switch_active_account(AccountType.PRACTICE)
+        
+        # 🇧🇷 Configurar serviços / 🇺🇸 Setup services
+        instrument_service = InstrumentService(ws)
+        binary_service = BinaryTradeService(ws)
+        
+        # 🇧🇷 Buscar instrumento / 🇺🇸 Get instrument
+        instrument = await instrument_service.fetch("EURUSD")
+        
+        # 🇧🇷 Criar sinal / 🇺🇸 Create signal
+        signal = Signal(
+            instrument=instrument,
+            account_id=profile.balance_id,
+            direction=Direction.CALL,
+            amount=10.0,
+            expiration=60,  # 1 minuto
+            type=SignalType.BINARY
+        )
+        
+        # 🇧🇷 Abrir trade / 🇺🇸 Open trade
+        trade_id = await binary_service.open_trade(signal)
+        print(f"🎯 Trade aberto: {trade_id}")
+        
+        # 🇧🇷 Monitorar resultado / 🇺🇸 Monitor result
+        while True:
+            status, result = await binary_service.trade_status(trade_id)
+            if status and result:
+                print(f"📈 Resultado: {result.result} | Lucro: {result.profit}")
+                break
+            await asyncio.sleep(1)
+
+asyncio.run(simple_trade())
+```
+
+## 📚 Documentação da API / API Documentation
+
+### 🔐 Autenticação / Authentication
+
+#### AuthService
+```python
+from iq_core import AuthService
+
+# 🇧🇷 Inicialização / 🇺🇸 Initialization
+auth = AuthService()
+
+# 🇧🇷 Login / 🇺🇸 Login
+ws, profile = await auth.login("email", "password")
+
+# 🇧🇷 Verificar autenticação / 🇺🇸 Check authentication
+if auth.is_authenticated:
+    print("✅ Autenticado com sucesso")
+
+# 🇧🇷 Logout / 🇺🇸 Logout
+await auth.logout()
+
+# 🇧🇷 Context manager (recomendado) / 🇺🇸 Context manager (recommended)
+async with AuthService().context() as auth:
+    ws, profile = await auth.login("email", "password")
+    # Logout automático ao sair do contexto
+```
+
+### 📊 Instrumentos / Instruments
+
+#### InstrumentService
+```python
+from iq_core import InstrumentService
+
+service = InstrumentService(ws)
+
+# 🇧🇷 Buscar todos os instrumentos / 🇺🇸 Fetch all instruments
+instruments = await service.fetch()
+
+# 🇧🇷 Filtrar por grupo / 🇺🇸 Filter by group
+forex_instruments = await service.fetch(groups=["forex"])
+
+# 🇧🇷 Buscar instrumento específico / 🇺🇸 Get specific instrument
+eurusd = await service.fetch("EURUSD")
+
+# 🇧🇷 Apenas instrumentos abertos / 🇺🇸 Only open instruments
+open_instruments = await service.fetch(only_open=True)
+
+# 🇧🇷 Limitar resultados / 🇺🇸 Limit results
+limited = await service.fetch(limit=10, offset=5)
+```
+
+### 💹 Trading Services
+
+#### BinaryTradeService
+```python
+from iq_core import BinaryTradeService, Signal, SignalType, Direction
+
+service = BinaryTradeService(ws)
+
+# 🇧🇷 Criar sinal / 🇺🇸 Create signal
+signal = Signal(
+    instrument=instrument,
+    account_id=profile.balance_id,
+    direction=Direction.CALL,
+    amount=10.0,
+    expiration=60,
+    type=SignalType.BINARY
+)
+
+# 🇧🇷 Abrir trade / 🇺🇸 Open trade
+trade_id = await service.open_trade(signal)
+
+# 🇧🇷 Verificar status / 🇺🇸 Check status
+is_closed, result = await service.trade_status(trade_id)
+```
+
+#### TradingManagerService
+```python
+from iq_core import TradingManagerService
+
+# 🇧🇷 Configuração / 🇺🇸 Configuration
+manager = TradingManagerService(
+    start_balance=1000.0,
+    stop_win_percent=20,    # 20% de lucro
+    stop_loss_percent=10,   # 10% de perda
+    services={"binary": binary_service},
+    max_open_trades=5
+)
+
+# 🇧🇷 Callback para trades finalizados / 🇺🇸 Callback for finished trades
+async def on_trade_finished(result, manager):
+    print(f"Trade finalizado: {result.result}")
+    print(f"Saldo atual: {manager.balance}")
+
+manager.register(on_trade_finished)
+
+# 🇧🇷 Executar trade / 🇺🇸 Execute trade
+await manager.execute(signal)
+
+# 🇧🇷 Verificar limites / 🇺🇸 Check limits
+if manager.can_trade():
+    print("✅ Pode operar")
+else:
+    print("❌ Limite atingido")
+
+# 🇧🇷 Resumo / 🇺🇸 Summary
+print(manager.summary())
+```
+
+### 📈 Análise de Mercado / Market Analysis
+
+#### CandleService
+```python
+from iq_core import CandleService
+from datetime import datetime
+
+service = CandleService(ws)
+
+# 🇧🇷 Candles históricos / 🇺🇸 Historical candles
+candles = await service.get_candles(
+    active_id=1,        # EURUSD
+    quantity=50,        # 50 candles
+    size=300,          # 5 minutos
+    from_time=datetime.now()
+)
+
+# 🇧🇷 Stream de candles em tempo real / 🇺🇸 Real-time candle stream
+async for candle in service.stream(active_id=1, size=60):
+    print(f"📊 Novo candle: O:{candle.open} C:{candle.close}")
+```
+
+#### TraderMoodService
+```python
+from iq_core import TraderMoodService
+
+service = TraderMoodService(ws)
+
+# 🇧🇷 Stream de humor do trader / 🇺🇸 Trader mood stream
+async for mood in service.subscribe(instrument_id=1):
+    print(f"😊 Humor: {mood}%")
+    
+    if mood > 80:
+        print("🔴 Muito otimista - considere PUT")
+    elif mood < 20:
+        print("🟢 Muito pessimista - considere CALL")
+```
+
+#### PortfolioAnalysisService
+```python
+from iq_core import PortfolioAnalysisService
+
+service = PortfolioAnalysisService(
+    api_key="sua_api_key_gemini",
+    system_instruction="Analyze trading opportunities"
+)
+
+# 🇧🇷 Análise de portfólio / 🇺🇸 Portfolio analysis
+analysis = service.generate(technical_report)
+print(f"Direção recomendada: {analysis['direction']}")
+print(f"Valor sugerido: {analysis['value']}")
+```
+
+## 💡 Exemplos de Uso / Usage Examples
+
+### 🎯 Exemplo 1: Bot de Trading Automático
+
+```python
+import asyncio
+from iq_core import *
+
+class TradingBot:
+    def __init__(self, email: str, password: str):
+        self.email = email
+        self.password = password
+        self.is_running = False
+    
+    async def start(self):
+        """🇧🇷 Iniciar bot / 🇺🇸 Start bot"""
+        async with AuthService().context() as auth:
+            ws, profile = await auth.login(self.email, self.password)
+            await profile.account.switch_active_account(AccountType.PRACTICE)
+            
+            # 🇧🇷 Configurar serviços / 🇺🇸 Setup services
+            instrument_service = InstrumentService(ws)
+            binary_service = BinaryTradeService(ws)
+            mood_service = TraderMoodService(ws)
+            
+            # 🇧🇷 Configurar gerenciador / 🇺🇸 Setup manager
+            manager = TradingManagerService(
+                start_balance=profile.balance,
+                stop_win_percent=15,
+                stop_loss_percent=10,
+                services={"binary": binary_service}
+            )
+            
+            manager.register(self.on_trade_finished)
+            
+            # 🇧🇷 Buscar instrumentos / 🇺🇸 Get instruments
+            instruments = await instrument_service.fetch(
+                limit=5, 
+                groups=["forex"], 
+                only_open=True
+            )
+            
+            # 🇧🇷 Iniciar monitoramento / 🇺🇸 Start monitoring
+            self.is_running = True
+            tasks = []
+            
+            for instrument in instruments:
+                task = asyncio.create_task(
+                    self.monitor_instrument(instrument, mood_service, manager)
+                )
+                tasks.append(task)
+            
+            await asyncio.gather(*tasks)
+    
+    async def monitor_instrument(self, instrument, mood_service, manager):
+        """🇧🇷 Monitorar instrumento / 🇺🇸 Monitor instrument"""
+        async for mood in mood_service.subscribe(instrument.id):
+            if not self.is_running:
+                break
+                
+            if not manager.can_trade():
+                print("⚠️ Limite de trading atingido")
+                break
+            
+            # 🇧🇷 Lógica de trading / 🇺🇸 Trading logic
+            direction = None
+            if mood > 85:
+                direction = Direction.PUT
+            elif mood < 15:
+                direction = Direction.CALL
+            
+            if direction:
+                signal = Signal(
+                    instrument=instrument,
+                    account_id=manager._start_balance,  # Use appropriate account ID
+                    direction=direction,
+                    amount=10.0,
+                    expiration=60,
+                    type=SignalType.BINARY
+                )
+                
+                await manager.execute(signal)
+                print(f"🎯 Trade executado: {instrument.name} {direction}")
+    
+    async def on_trade_finished(self, result, manager):
+        """🇧🇷 Callback para trades finalizados / 🇺🇸 Finished trades callback"""
+        status = "✅ WIN" if result.is_win else "❌ LOSS"
+        print(f"{status} | {result.instrument.name} | Lucro: {result.profit}")
+        print(f"💰 Saldo atual: {manager.balance}")
+        
+        # 🇧🇷 Parar se atingir limites / 🇺🇸 Stop if limits reached
+        if manager.is_limit_reached():
+            print("🛑 Limite atingido - parando bot")
+            self.is_running = False
+
+# 🇧🇷 Uso / 🇺🇸 Usage
+bot = TradingBot("seu_email@email.com", "sua_senha")
+asyncio.run(bot.start())
+```
+
+### 📊 Exemplo 2: Análise de Candles
+
+```python
+import asyncio
+from datetime import datetime, timedelta
+from iq_core import *
+
+async def analyze_candles():
+    """🇧🇷 Analisar padrões de candles / 🇺🇸 Analyze candle patterns"""
+    async with AuthService().context() as auth:
+        ws, profile = await auth.login("email", "password")
+        
+        candle_service = CandleService(ws)
+        instrument_service = InstrumentService(ws)
+        
+        # 🇧🇷 Buscar EURUSD / 🇺🇸 Get EURUSD
+        eurusd = await instrument_service.fetch("EURUSD")
+        
+        # 🇧🇷 Candles históricos / 🇺🇸 Historical candles
+        candles = await candle_service.get_candles(
+            active_id=eurusd.id,
+            quantity=100,
+            size=300,  # 5 minutos
+            from_time=datetime.now() - timedelta(hours=8)
+        )
+        
+        # 🇧🇷 Análise simples / 🇺🇸 Simple analysis
+        print(f"📊 Analisando {len(candles)} candles do {eurusd.name}")
+        
+        green_candles = sum(1 for c in candles if c.close > c.open)
+        red_candles = len(candles) - green_candles
+        
+        print(f"🟢 Candles verdes: {green_candles}")
+        print(f"🔴 Candles vermelhos: {red_candles}")
+        
+        # 🇧🇷 Tendência / 🇺🇸 Trend
+        if green_candles > red_candles:
+            print("📈 Tendência de alta")
+        else:
+            print("📉 Tendência de baixa")
+        
+        # 🇧🇷 Últimos 5 candles / 🇺🇸 Last 5 candles
+        recent = candles[-5:]
+        print("\n🕐 Últimos 5 candles:")
+        for i, candle in enumerate(recent, 1):
+            trend = "🟢" if candle.close > candle.open else "🔴"
+            print(f"  {i}. {trend} O:{candle.open:.5f} C:{candle.close:.5f}")
+
+asyncio.run(analyze_candles())
+```
+
+### 🎨 Exemplo 3: Dashboard em Tempo Real
+
+```python
+import asyncio
+from datetime import datetime
+from iq_core import *
+
+class TradingDashboard:
+    def __init__(self):
+        self.instruments = {}
+        self.moods = {}
+        self.candles = {}
+    
+    async def start(self, email: str, password: str):
+        """🇧🇷 Iniciar dashboard / 🇺🇸 Start dashboard"""
+        async with AuthService().context() as auth:
+            ws, profile = await auth.login(email, password)
+            
+            # 🇧🇷 Serviços / 🇺🇸 Services
+            instrument_service = InstrumentService(ws)
+            mood_service = TraderMoodService(ws)
+            candle_service = CandleService(ws)
+            
+            # 🇧🇷 Buscar instrumentos principais / 🇺🇸 Get main instruments
+            instruments = await instrument_service.fetch(
+                groups=["forex"], 
+                limit=3, 
+                only_open=True
+            )
+            
+            print("🚀 Dashboard iniciado!")
+            print("=" * 50)
+            
+            # 🇧🇷 Iniciar streams / 🇺🇸 Start streams
+            tasks = []
+            for instrument in instruments:
+                # Mood stream
+                tasks.append(
+                    asyncio.create_task(
+                        self.stream_mood(mood_service, instrument)
+                    )
+                )
+                # Candle stream
+                tasks.append(
+                    asyncio.create_task(
+                        self.stream_candles(candle_service, instrument)
+                    )
+                )
+            
+            # 🇧🇷 Display task / 🇺🇸 Display task
+            tasks.append(asyncio.create_task(self.display_dashboard()))
+            
+            await asyncio.gather(*tasks)
+    
+    async def stream_mood(self, service, instrument):
+        """🇧🇷 Stream de humor / 🇺🇸 Mood stream"""
+        async for mood in service.subscribe(instrument.id):
+            self.moods[instrument.name] = mood
+    
+    async def stream_candles(self, service, instrument):
+        """🇧🇷 Stream de candles / 🇺🇸 Candle stream"""
+        async for candle in service.stream(instrument.id, 60):
+            self.candles[instrument.name] = candle
+    
+    async def display_dashboard(self):
+        """🇧🇷 Exibir dashboard / 🇺🇸 Display dashboard"""
+        while True:
+            # 🇧🇷 Limpar tela / 🇺🇸 Clear screen
+            print("\033[2J\033[H")
+            
+            print("📊 TRADING DASHBOARD")
+            print("=" * 60)
+            print(f"🕐 {datetime.now().strftime('%H:%M:%S')}")
+            print()
+            
+            # 🇧🇷 Exibir dados / 🇺🇸 Display data
+            for name in self.moods.keys():
+                mood = self.moods.get(name, 0)
+                candle = self.candles.get(name)
+                
+                mood_emoji = self.get_mood_emoji(mood)
+                trend_emoji = "📈" if candle and candle.close > candle.open else "📉"
+                
+                print(f"{name:10} | {mood_emoji} {mood:3d}% | {trend_emoji}")
+                
+                if candle:
+                    print(f"           | O:{candle.open:.5f} C:{candle.close:.5f}")
+                print()
+            
+            await asyncio.sleep(1)
+    
+    def get_mood_emoji(self, mood: int) -> str:
+        """🇧🇷 Emoji baseado no humor / 🇺🇸 Emoji based on mood"""
+        if mood > 80:
+            return "🔴"  # Muito otimista
+        elif mood > 60:
+            return "🟡"  # Otimista
+        elif mood > 40:
+            return "⚪"  # Neutro
+        elif mood > 20:
+            return "🟡"  # Pessimista
+        else:
+            return "🟢"  # Muito pessimista
+
+# 🇧🇷 Uso / 🇺🇸 Usage
+dashboard = TradingDashboard()
+asyncio.run(dashboard.start("seu_email@email.com", "sua_senha"))
+```
+
+## 🏗️ Arquitetura / Architecture
+
+### 📁 Estrutura do Projeto / Project Structure
+
+```
+iq-core/
+├── 📁 iq_core/                 # 🇧🇷 Pacote principal / 🇺🇸 Main package
+│   ├── 📁 entities/             # 🇧🇷 Entidades de domínio / 🇺🇸 Domain entities
+│   │   ├── account.py           # 🇧🇷 Conta do usuário / 🇺🇸 User account
+│   │   ├── instrument.py        # 🇧🇷 Instrumentos financeiros / 🇺🇸 Financial instruments
+│   │   ├── signal.py            # 🇧🇷 Sinais de trading / 🇺🇸 Trading signals
+│   │   ├── trade_result.py      # 🇧🇷 Resultados de trades / 🇺🇸 Trade results
+│   │   └── ...
+│   ├── 📁 services/             # 🇧🇷 Serviços de aplicação / 🇺🇸 Application services
+│   │   ├── auth_service.py      # 🇧🇷 Autenticação / 🇺🇸 Authentication
+│   │   ├── trading_manager_service.py  # 🇧🇷 Gerenciamento de trades / 🇺🇸 Trade management
+│   │   ├── instrument_service.py       # 🇧🇷 Serviço de instrumentos / 🇺🇸 Instrument service
+│   │   └── ...
+│   ├── 📁 exceptions/           # 🇧🇷 Exceções customizadas / 🇺🇸 Custom exceptions
+│   ├── 📁 websocket/            # 🇧🇷 Cliente WebSocket / 🇺🇸 WebSocket client
+│   └── settings.py              # 🇧🇷 Configurações / 🇺🇸 Settings
+├── 📁 tests/                    # 🇧🇷 Testes / 🇺🇸 Tests
+├── 📁 examples/                 # 🇧🇷 Exemplos / 🇺🇸 Examples
+├── requirements.txt             # 🇧🇷 Dependências / 🇺🇸 Dependencies
+└── README.md                    # 🇧🇷 Documentação / 🇺🇸 Documentation
+```
+
+### 🎯 Princípios de Design / Design Principles
+
+#### 🇧🇷 Domain-Driven Design (DDD)
+- **Entidades**: Representam conceitos de negócio (Account, Instrument, Signal)
+- **Serviços**: Encapsulam lógica de negócio complexa
+- **Repositórios**: Abstração para acesso a dados
+- **Value Objects**: Objetos imutáveis (TradeResult, Candle)
+
+#### 🇺🇸 Domain-Driven Design (DDD)
+- **Entities**: Represent business concepts (Account, Instrument, Signal)
+- **Services**: Encapsulate complex business logic
+- **Repositories**: Data access abstraction
+- **Value Objects**: Immutable objects (TradeResult, Candle)
+
+### 🔄 Fluxo de Dados / Data Flow
+
+```mermaid
+graph TD
+    A[🔐 AuthService] --> B[📡 WebSocket Client]
+    B --> C[📊 InstrumentService]
+    B --> D[💹 TradingServices]
+    B --> E[📈 MarketDataServices]
+    
+    C --> F[🎯 TradingManagerService]
+    D --> F
+    E --> F
+    
+    F --> G[📋 TradeResult]
+    G --> H[📊 Portfolio Analysis]
+```
+
+## 🛡️ Tratamento de Erros / Error Handling
+
+### 🚨 Exceções Customizadas / Custom Exceptions
+
+```python
+from iq_core.exceptions import (
+    IQOptionError,           # 🇧🇷 Erro base / 🇺🇸 Base error
+    AuthenticationError,     # 🇧🇷 Erro de autenticação / 🇺🇸 Authentication error
+    TradingError,           # 🇧🇷 Erro de trading / 🇺🇸 Trading error
+    NetworkUnavailableError, # 🇧🇷 Erro de rede / 🇺🇸 Network error
+    ValidationError         # 🇧🇷 Erro de validação / 🇺🇸 Validation error
+)
+
+try:
+    ws, profile = await auth.login("email", "password")
+except AuthenticationError as e:
+    print(f"❌ Erro de autenticação: {e}")
+except NetworkUnavailableError as e:
+    print(f"🌐 Erro de rede: {e}")
+except IQOptionError as e:
+    print(f"⚠️ Erro geral: {e}")
+```
+
+### 🔄 Retry e Reconexão / Retry and Reconnection
+
+```python
+import asyncio
+from iq_core import AuthService
+from iq_core.exceptions import NetworkUnavailableError
+
+async def robust_login(email: str, password: str, max_retries: int = 3):
+    """🇧🇷 Login com retry automático / 🇺🇸 Login with automatic retry"""
+    for attempt in range(max_retries):
+        try:
+            async with AuthService().context() as auth:
+                return await auth.login(email, password)
+        except NetworkUnavailableError as e:
+            if attempt == max_retries - 1:
+                raise
+            
+            wait_time = 2 ** attempt  # Backoff exponencial
+            print(f"🔄 Tentativa {attempt + 1} falhou. Tentando novamente em {wait_time}s...")
+            await asyncio.sleep(wait_time)
+```
+
+## 📊 Monitoramento e Logs / Monitoring and Logging
+
+### 📝 Configuração de Logs / Logging Configuration
+
+```python
+import logging
+from iq_core import IQOptionSettings
+
+# 🇧🇷 Configuração básica / 🇺🇸 Basic configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s',
+    handlers=[
+        logging.FileHandler('trading.log'),
+        logging.StreamHandler()
+    ]
+)
+
+# 🇧🇷 Logger específico / 🇺🇸 Specific logger
+logger = logging.getLogger('iq_core.trading')
+
+# 🇧🇷 Configuração avançada / 🇺🇸 Advanced configuration
+settings = IQOptionSettings(
+    log_level="DEBUG",
+    log_websocket_messages=True
+)
+```
+
+### 📈 Métricas de Performance / Performance Metrics
+
+```python
+import time
+from iq_core.anotations import measure_time
+
+@measure_time
+async def monitored_function():
+    """🇧🇷 Função com medição de tempo / 🇺🇸 Function with time measurement"""
+    # Sua lógica aqui
+    pass
+
+# 🇧🇷 Métricas customizadas / 🇺🇸 Custom metrics
+class TradingMetrics:
+    def __init__(self):
+        self.trades_count = 0
+        self.wins = 0
+        self.losses = 0
+        self.total_profit = 0.0
+    
+    def record_trade(self, result):
+        self.trades_count += 1
+        if result.is_win:
+            self.wins += 1
+        else:
+            self.losses += 1
+        self.total_profit += result.profit
+    
+    @property
+    def win_rate(self) -> float:
+        return (self.wins / self.trades_count * 100) if self.trades_count > 0 else 0.0
+    
+    def summary(self) -> str:
+        return f"""
+📊 Trading Metrics
+├── Total Trades: {self.trades_count}
+├── Wins: {self.wins} ({self.win_rate:.1f}%)
+├── Losses: {self.losses}
+└── Total Profit: ${self.total_profit:.2f}
+        """
+```
+
+## 🔒 Segurança / Security
+
+### 🛡️ Boas Práticas / Best Practices
+
+```python
+import os
+from dotenv import load_dotenv
+
+# 🇧🇷 Carregar variáveis de ambiente / 🇺🇸 Load environment variables
+load_dotenv()
+
+# ✅ 🇧🇷 CORRETO: Usar variáveis de ambiente / 🇺🇸 CORRECT: Use environment variables
+email = os.getenv("IQ_EMAIL")
+password = os.getenv("IQ_PASSWORD")
+
+# ❌ 🇧🇷 INCORRETO: Hardcoded no código / 🇺🇸 INCORRECT: Hardcoded in code
+# email = "meu_email@email.com"  # Nunca faça isso!
+# password = "minha_senha"       # Never do this!
+
+# 🇧🇷 Validação de credenciais / 🇺🇸 Credential validation
+if not email or not password:
+    raise ValueError("Email and password must be provided via environment variables")
+
+# 🇧🇷 Timeout de sessão / 🇺🇸 Session timeout
+from iq_core import IQOptionSettings
+
+settings = IQOptionSettings(
+    connection_timeout=30,      # 30 segundos
+    websocket_timeout=60,       # 1 minuto
+    max_reconnect_attempts=3    # Máximo 3 tentativas
+)
+```
+
+### 🔐 Gerenciamento de Tokens / Token Management
+
+```python
+from iq_core import TokenManager
+
+# 🇧🇷 Token manager customizado / 🇺🇸 Custom token manager
+token_manager = TokenManager()
+
+# 🇧🇷 Cache de token / 🇺🇸 Token caching
+auth = AuthService(token_manager=token_manager)
+
+# 🇧🇷 O token será automaticamente cacheado e reutilizado
+# 🇺🇸 Token will be automatically cached and reused
+ws, profile = await auth.login(email, password)
+```
+
+## 🚀 Deploy e Produção / Deploy and Production
+
+### 🐳 Docker
+
+```dockerfile
+# Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 🇧🇷 Instalar dependências / 🇺🇸 Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 🇧🇷 Copiar código / 🇺🇸 Copy code
+COPY . .
+
+# 🇧🇷 Variáveis de ambiente / 🇺🇸 Environment variables
+ENV PYTHONPATH=/app
+ENV IQ_LOG_LEVEL=INFO
+
+# 🇧🇷 Comando padrão / 🇺🇸 Default command
+CMD ["python", "main.py"]
+```
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  trading-bot:
+    build: .
+    environment:
+      - IQ_EMAIL=${IQ_EMAIL}
+      - IQ_PASSWORD=${IQ_PASSWORD}
+      - IQ_LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+```
+
+### ☁️ Deploy na Nuvem / Cloud Deploy
+
+```python
+# main.py - Aplicação para produção
+import asyncio
+import logging
+import signal
+import sys
+from iq_core import *
+
+class ProductionTradingBot:
+    def __init__(self):
+        self.is_running = False
+        self.setup_logging()
+        self.setup_signal_handlers()
+    
+    def setup_logging(self):
+        """🇧🇷 Configurar logs para produção / 🇺🇸 Setup production logging"""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s | %(name)s | %(levelname)s | %(message)s',
+            handlers=[
+                logging.FileHandler('/app/logs/trading.log'),
+                logging.StreamHandler(sys.stdout)
+            ]
+        )
+    
+    def setup_signal_handlers(self):
+        """🇧🇷 Configurar handlers de sinal / 🇺🇸 Setup signal handlers"""
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+    
+    def signal_handler(self, signum, frame):
+        """🇧🇷 Handler para parada graceful / 🇺🇸 Graceful shutdown handler"""
+        logging.info(f"Received signal {signum}. Shutting down gracefully...")
+        self.is_running = False
+    
+    async def run(self):
+        """🇧🇷 Executar bot em produção / 🇺🇸 Run bot in production"""
+        try:
+            self.is_running = True
+            # Sua lógica de trading aqui
+            while self.is_running:
+                await asyncio.sleep(1)
+        except Exception as e:
+            logging.error(f"Unexpected error: {e}")
+            raise
+        finally:
+            logging.info("Bot stopped")
+
+if __name__ == "__main__":
+    bot = ProductionTradingBot()
+    asyncio.run(bot.run())
+```
+
+## 🤝 Contribuição / Contributing
+
+### 🛠️ Configuração de Desenvolvimento / Development Setup
+
+```bash
+# 🇧🇷 Clonar repositório / 🇺🇸 Clone repository
+git clone https://github.com/celiovmjr/iq-core.git
+cd iq-core
+
+# 🇧🇷 Criar ambiente virtual / 🇺🇸 Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# 🇧🇷 Instalar dependências de desenvolvimento / 🇺🇸 Install dev dependencies
+pip install -e ".[dev]"
+
+# 🇧🇷 Configurar pre-commit hooks / 🇺🇸 Setup pre-commit hooks
+pre-commit install
+```
+
+### 📝 Padrões de Código / Code Standards
+
+```bash
+# 🇧🇷 Formatação / 🇺🇸 Formatting
+black iq_core/
+isort iq_core/
+
+# 🇧🇷 Linting / 🇺🇸 Linting
+ruff check iq_core/
+mypy iq_core/
+
+# 🇧🇷 Testes / 🇺🇸 Tests
+pytest --cov=iq_core
+```
+
+### 🔄 Fluxo de Contribuição / Contribution Flow
+
+1. 🍴 **Fork** o repositório / Fork the repository
+2. 🌿 **Criar branch** para sua feature / Create branch for your feature
+3. ✨ **Implementar** mudanças / Implement changes
+4. ✅ **Adicionar testes** / Add tests
+5. 📝 **Atualizar documentação** / Update documentation
+6. 🔍 **Executar testes** / Run tests
+7. 📤 **Criar Pull Request** / Create Pull Request
+
+## 📚 Recursos Adicionais / Additional Resources
+
+### 📖 Documentação / Documentation
+- [🇧🇷 Documentação da API IQ Option](https://iq_core.com/api)
+- [🇺🇸 IQ Option API Documentation](https://iq_core.com/api)
+- [🐍 Python AsyncIO Guide](https://docs.python.org/3/library/asyncio.html)
+- [📊 TradingView API](https://www.tradingview.com/rest-api-spec/)
+
+### 🎓 Tutoriais / Tutorials
+- [🇧🇷 Como criar um bot de trading](./docs/tutorial-bot.md)
+- [🇺🇸 How to create a trading bot](./docs/tutorial-bot-en.md)
+- [📈 Análise técnica com Python](./docs/technical-analysis.md)
+- [🤖 Integração com IA](./docs/ai-integration.md)
+
+### 🛠️ Ferramentas / Tools
+- [📊 TradingView](https://tradingview.com) - Análise técnica
+- [🤖 Google Gemini](https://ai.google.dev) - IA para análise
+- [📈 TA-Lib](https://ta-lib.org) - Indicadores técnicos
+- [📊 Pandas](https://pandas.pydata.org) - Análise de dados
+
+## ❓ FAQ - Perguntas Frequentes / Frequently Asked Questions
+
+### 🇧🇷 Português
+
+**Q: É seguro usar este sistema?**
+A: Sim, o sistema usa práticas de segurança modernas, incluindo autenticação por token e não armazena credenciais em texto plano.
+
+**Q: Posso usar em conta real?**
+A: Sim, mas recomendamos testar extensivamente em conta demo primeiro.
+
+**Q: Qual a taxa de sucesso?**
+A: A taxa de sucesso depende da sua estratégia. O sistema fornece ferramentas, mas não garante lucros.
+
+**Q: Como reportar bugs?**
+A: Abra uma issue no GitHub com detalhes do problema e logs relevantes.
+
+### 🇺🇸 English
+
+**Q: Is this system safe to use?**
+A: Yes, the system uses modern security practices, including token authentication and doesn't store credentials in plain text.
+
+**Q: Can I use it with a real account?**
+A: Yes, but we recommend extensive testing with a demo account first.
+
+**Q: What's the success rate?**
+A: Success rate depends on your strategy. The system provides tools but doesn't guarantee profits.
+
+**Q: How to report bugs?**
+A: Open a GitHub issue with problem details and relevant logs.
+
+## 📄 Licença / License
+
+```
+MIT License
+
+Copyright (c) 2024 IQ Option Trading System
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 🙏 Agradecimentos / Acknowledgments
+
+- 🏢 **IQ Option** - Pela plataforma de trading
+- 🐍 **Python Community** - Pelas excelentes bibliotecas
+- 📊 **TradingView** - Pela API de análise técnica
+- 🤖 **Google** - Pela API Gemini
+- 👥 **Contributors** - Por todas as contribuições
+
+---
+
+<div align="center">
+
+### 🚀 Pronto para começar? / Ready to start?
+
+```bash
+pip install iq-core
+```
+
+**⭐ Se este projeto foi útil, considere dar uma estrela no GitHub!**  
+**⭐ If this project was helpful, consider giving it a star on GitHub!**
+
+[📚 Documentação](./docs/) | [🐛 Issues](./issues) | [💬 Discussões](./discussions)
+
+</div>
