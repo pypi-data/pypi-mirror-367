@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "campman-observability-lib-py"
+version = "0.1.0"
+authors = [
+    {name = "Francesco Deleo", email = "fradeleo7@gmail.com"},
+]
+description = "OpenTelemetry observability library for Flask applications with Google Cloud Platform integration"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Logging",
+]
+keywords = ["opentelemetry", "observability", "tracing", "flask", "gcp", "google-cloud"]
+dependencies = [
+    "flask>=3.1.1",
+    "opentelemetry-api>=1.36.0",
+    "opentelemetry-sdk>=1.36.0",
+    "opentelemetry-instrumentation-flask>=0.57b0",
+    "opentelemetry-instrumentation-requests>=0.57b0",
+    "opentelemetry-exporter-gcp-trace>=1.9.0",
+    "opentelemetry-propagator-gcp>=1.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.910",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/campman-observability-lib-py"
+Repository = "https://github.com/yourusername/campman-observability-lib-py"
+Issues = "https://github.com/yourusername/campman-observability-lib-py/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["campman_observability*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
