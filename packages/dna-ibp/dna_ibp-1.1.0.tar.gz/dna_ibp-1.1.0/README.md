@@ -1,0 +1,72 @@
+<h1 align='center'> DNA IBP Command Line Interface </h1>
+CLI application for the DNA analyser IBP API wrapper (https://github.com/patrikkaura/dna-analyser-ibp)
+
+<h2>Installation requirements</h2>
+
+* Python v.3.10 or better
+* pip
+
+<h2>Installation guide</h2>
+
+Run the following command in your command line
+
+```command line
+pip install dna-ibp
+```
+
+<h2>Command list</h2>
+Upon entering any command prefaced by `dna-ibp`, the user is prompted to enter their DNA analyser (https://bioinformatics.ibp.cz/) credentials.
+
+```command line
+C:\Users\kryst>dna-ibp sequence show all
+Enter your email        217346@vutbr.cz
+Enter your password
+2025-07-31 13:03:51.383532 [INFO]: User 217346@vutbr.cz is trying to login ...
+2025-07-31 13:03:51.612553 [INFO]: User 217346@vutbr.cz is successfully loged in ...
+```
+This login session lasts for 60 minutes or can be disconnected prematurely by using the `--reset`/`-r` command:
+
+```command line
+C:\Users\kryst>dna-ibp --reset
+2025-07-31 13:07:26.229684 [INFO]: User 217346@vutbr.cz logged out...
+```
+
+The `--help`/`-h` command can be used after any previous command to list possible sub-commands or arguments:
+
+```command line
+C:\Users\kryst>dna-ibp sequence --help
+usage: dna-ibp sequence [-h] {create,show,data,delete,count} ...
+
+positional arguments:
+  {create,show,data,delete,count}
+    create              Parser for uploading sequences to your DNA analyser.
+    show                Load sequence(s) uploaded in your DNA analyser account.
+    delete              Delete chosen sequence(s) from your DNA analyser account.
+    count               Recount nucleotides for a given sequence.
+
+options:
+  -h, --help            show this help message and exit
+```
+
+<h3>Sequence</h3>
+<h5>Create</h5>
+Uploading sequences on your DNA analyser account is done via the `dna-ibp create` command. Possible arguments are:
+
+```command line
+--file FILE, -f FILE  Upload a sequence by providing path to a file (.txt of FASTA)
+--id ID, -i ID        Upload a sequence via NCBI ID.
+--text TEXT, -t TEXT  Upload a sequence via pasting a string.
+--circular, --no-circular
+                      Specify whether the sequence is circular or not (--circular or --no-circular). (default: True)
+--tags [TAGS ...]     (OPTIONAL) Specify tags associated with the uploaded sequence.
+--nucleic {DNA,RNA}   Specify whether the sequence nucleic type (choices: DNA, RNA, default val: DNA).
+--name NAME, -n NAME  Specify name of the uploaded sequence.
+```
+
+<h5>Show</h5>
+Listing all uploaded sequences on your DNA analyser account is done via the `dna-ibp show` command. Possible arguments are:
+
+```
+positional arguments:
+  sequence       Sequence to be processed by related methods.
+```
