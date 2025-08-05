@@ -1,0 +1,100 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling",
+]
+
+[project]
+name = "litestar-tailwind"
+description = "Provides a CLI plugin for Litestar to use Tailwind CSS via the Tailwind CLI."
+readme = "README.md"
+keywords = [
+  "litestar",
+  "tailwindcss",
+]
+license = "MIT"
+authors = [
+  { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
+]
+maintainers = [
+  { name = "Aoi", email = "aoicistus@gmail.com" },
+
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Software Development",
+  "Typing :: Typed",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "litestar[standard]",
+]
+
+urls.Documentation = "https://github.com/aoi-cistus/litestar-tailwind#readme"
+urls.Issues = "https://github.com/aoi-cistus/litestar-tailwind/issues"
+urls.Source = "https://github.com/aoi-cistus/litestar-tailwind"
+
+[tool.hatch.version]
+path = "src/litestar_tailwind_cli/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/litestar_tailwind_cli tests}"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/litestar_tailwind_cli"]
+
+[tool.ruff]
+lint.extend-ignore = [
+  "I001",
+  "I002",
+  "S310",
+]
+
+lint.extend-per-file-ignores."example/*" = [
+  "INP001",
+]
+
+[tool.coverage.run]
+source_pkgs = [
+  "litestar_tailwind_cli",
+  "tests",
+]
+branch = true
+parallel = true
+omit = [
+  "src/litestar_tailwind_cli/__about__.py",
+]
+
+[tool.coverage.paths]
+litestar_tailwind_cli = [
+  "src/litestar_tailwind_cli",
+  "*/litestar-tailwind-cli/src/litestar_tailwind_cli",
+]
+tests = [
+  "tests",
+  "*/litestar-tailwind-cli/tests",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
