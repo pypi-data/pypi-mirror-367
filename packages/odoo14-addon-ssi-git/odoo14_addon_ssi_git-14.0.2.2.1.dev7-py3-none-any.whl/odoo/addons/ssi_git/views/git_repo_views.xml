@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 OpenSynergy Indonesia
+     Copyright 2023 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+<record id="git_repo_view_search" model="ir.ui.view">
+    <field name="name">git_repo - search</field>
+    <field name="model">git_repo</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="git_repo_view_tree" model="ir.ui.view">
+    <field name="name">git_repo -tree</field>
+    <field name="model">git_repo</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="type_id" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="git_repo_view_form" model="ir.ui.view">
+    <field name="name">git_repo - form</field>
+    <field name="model">git_repo</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//header" position="inside">
+                <button
+                        string="Populate"
+                        name="action_populate"
+                        type="object"
+                        icon="fa-cogs"
+                    />
+            </xpath>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="type_id" />
+                <field name="repo_type" />
+                <field
+                        name="git_user_id"
+                        attrs="{'invisible': [('repo_type', '=', 'public')], 'required': [('repo_type', '=', 'private')]}"
+                    />
+                <field name="url" widget="url" />
+                <field name="can_cloning" widget="boolean_toggle" invisible="1" />
+                <field name="repo_path" />
+                <field name="full_path" force_save="1" />
+            </xpath>
+            <xpath expr="//page[@name='note']" position="before">
+                <page name="branches" string="Branches">
+                    <field name="branch_ids">
+                        <tree>
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="last_commit_sha" />
+                            <field name="last_commit_message" />
+                            <field name="last_commit_date" />
+                            <field name="last_commit_author" />
+                        </tree>
+                    </field>
+                </page>
+                <page
+                        name="scripts"
+                        string="Scripts"
+                        attrs="{'invisible': [('can_cloning', '!=', True)]}"
+                    >
+                    <field name="script_ids">
+                        <tree>
+                            <field name="code" />
+                            <field name="name" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="git_repo_action" model="ir.actions.act_window">
+    <field name="name">Repositories</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">git_repo</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="git_repo_menu"
+        name="Repositories"
+        parent="menu_root_git"
+        action="git_repo_action"
+        groups="git_repo_group"
+        sequence="10"
+    />
+
+</odoo>

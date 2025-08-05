@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 OpenSynergy Indonesia
+     Copyright 2025 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+<record id="git_script_view_search" model="ir.ui.view">
+    <field name="name">git_script - search</field>
+    <field name="model">git_script</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="git_script_view_tree" model="ir.ui.view">
+    <field name="name">git_script -tree</field>
+    <field name="model">git_script</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="git_script_view_form" model="ir.ui.view">
+    <field name="name">git_script - form</field>
+    <field name="model">git_script</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="repo_id" />
+                <field name="branch_id" />
+                <field name="file_path" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Parameters" name="parameters">
+                    <field name="parameter_ids" context="{'default_git_script_id': id}">
+                        <tree editable="bottom">
+                            <field name="name" />
+                            <field name="type" />
+                            <field name="default_value" />
+                            <field name="description" />
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="name" />
+                                <field name="type" />
+                                <field name="default_value" />
+                                <field name="description" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="git_script_action" model="ir.actions.act_window">
+    <field name="name">Scripts</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">git_script</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="git_script_menu"
+        name="Scripts"
+        parent="menu_root_git"
+        action="git_script_action"
+        groups="git_script_group"
+        sequence="20"
+    />
+
+</odoo>
