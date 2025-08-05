@@ -1,0 +1,148 @@
+Metadata-Version: 2.4
+Name: AutoCATE
+Version: 0.1.0
+Summary: Automated Conditional Average Treatment Effect Estimation
+Author-email: Toon Vanderschueren <toon.vanderschueren@gmail.com>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: alembic==1.13.1
+Requires-Dist: causalml==0.15.0
+Requires-Dist: cloudpickle==3.0.0
+Requires-Dist: colorama==0.4.6
+Requires-Dist: colorlog==6.8.2
+Requires-Dist: contourpy==1.2.1
+Requires-Dist: cycler==0.12.1
+Requires-Dist: Cython==0.29.34
+Requires-Dist: dill==0.3.8
+Requires-Dist: filelock==3.13.4
+Requires-Dist: fonttools==4.51.0
+Requires-Dist: forestci==0.6
+Requires-Dist: fsspec==2024.3.1
+Requires-Dist: graphviz==0.20.3
+Requires-Dist: greenlet==3.0.3
+Requires-Dist: importlib_resources==6.4.0
+Requires-Dist: Jinja2==3.1.3
+Requires-Dist: joblib==1.4.0
+Requires-Dist: kiwisolver==1.4.5
+Requires-Dist: lightgbm==4.3.0
+Requires-Dist: llvmlite==0.42.0
+Requires-Dist: Mako==1.3.3
+Requires-Dist: MarkupSafe==2.1.5
+Requires-Dist: matplotlib==3.8.4
+Requires-Dist: mpmath==1.3.0
+Requires-Dist: multiprocess==0.70.16
+Requires-Dist: networkx==3.2.1
+Requires-Dist: numba==0.59.1
+Requires-Dist: numpy==1.26.4
+Requires-Dist: opt-einsum==3.3.0
+Requires-Dist: optuna==3.6.1
+Requires-Dist: packaging==24.0
+Requires-Dist: pandas==1.3.5
+Requires-Dist: pathos==0.2.9
+Requires-Dist: patsy==0.5.6
+Requires-Dist: pillow==10.3.0
+Requires-Dist: plotly==5.21.0
+Requires-Dist: pox==0.3.4
+Requires-Dist: ppft==1.7.6.8
+Requires-Dist: progressbar2==4.4.2
+Requires-Dist: pydotplus==2.0.2
+Requires-Dist: pygam==0.9.1
+Requires-Dist: pyparsing==3.1.2
+Requires-Dist: pyro-api==0.1.2
+Requires-Dist: pyro-ppl==1.9.0
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: python-utils==3.8.2
+Requires-Dist: pytz==2024.1
+Requires-Dist: PyYAML==6.0.1
+Requires-Dist: scikit-learn==1.4.2
+Requires-Dist: scipy==1.11.4
+Requires-Dist: seaborn==0.13.2
+Requires-Dist: shap==0.45.0
+Requires-Dist: six==1.16.0
+Requires-Dist: slicer==0.0.7
+Requires-Dist: SQLAlchemy==2.0.29
+Requires-Dist: statsmodels==0.14.1
+Requires-Dist: sympy==1.12
+Requires-Dist: tenacity==8.2.3
+Requires-Dist: threadpoolctl==3.4.0
+Requires-Dist: torch==2.2.2
+Requires-Dist: tqdm==4.66.2
+Requires-Dist: typing_extensions==4.11.0
+Requires-Dist: xgboost==2.0.3
+Requires-Dist: zipp==3.18.1
+Dynamic: license-file
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2d84a0cb-2fa8-4e4d-b44b-d6537923dfa8" alt="AutoCATE Logo" width="800">
+</p>
+
+<h1 align="center">AutoCATE: End-to-End, Automated Treatment Effect Estimation</h1>
+<p align="center">
+  <i>— AutoML for causal effect estimation —</i>
+  </p>
+
+<p align="center">
+  <a href="https://github.com/AutoCATE"><img src="https://img.shields.io/github/stars/AutoCATE?color=gold"></a>
+  <a href="https://github.com/AutoCATE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+</p>
+
+**AutoCATE** is an open-source Python package for automated, end-to-end estimation of Conditional Average Treatment Effects (CATE). Designed to simplify the complexities of causal inference, AutoCATE enables practitioners and researchers to quickly build robust ML pipelines for causal effect/heterogeneous treatment effect estimation in only *four lines of code*.
+
+## ✨ Key Features
+✔️ **Automated ML Pipelines**: Automatically builds pipelines and handles preprocessing, ML algorithm selection, hyperparameter optimization, and ensembling.
+
+✔️ **Custom Evaluation Protocols**: Incorporates different risk measures (e.g., DR-risk, T-risk) and risk metrics (e.g., AUQC) tailored for causal inference.
+
+✔️ **Low-Code API**: Effortlessly predict treatment effects with minimal setup.
+
+## 📦 Installation
+
+Install directly from PyPI:
+
+```bash
+pip install autocate
+```
+
+Requires Python ≥ 3.8.
+
+## 🛠 Quick start
+
+```python
+from autocate import AutoCATE
+
+# Initialize AutoCATE
+autocate = AutoCATE()
+
+# Fit model on training data
+autocate.fit(X_train, t_train, yf_train)
+
+# Predict CATE for new data
+cate_pred = autocate.predict(X_test)
+```
+
+## ⚙️ How It Works
+AutoCATE operates in three stages:
+
+1️⃣ **Evaluation**: Optimize the ML pipelines underlying the risk measure(s) (e.g., R-risk) for robust pipeline selection.
+
+2️⃣ **Estimation**: Optimizing ML pipelines for CATE estimation, combining preprocessors, metalearners, and baselearners. 
+
+3️⃣ **Ensembling**: Combines the top-performing pipelines to create a final model. 
+
+## ❓ Why Choose AutoCATE?
+
+Estimating causal effects requires dealing with **unique challenges** 🚨 
+
+  ❌ Evaluation is a challenge due to lack of ground truth CATE and covariate shift caused by confounding variables.
+
+  ❌ Causal metalearners combine different ML algorithms and are complex to tune.
+
+  ❌ No clear, established practices for preprocessing and ensembling.
+
+AutoCATE eliminates these barriers by **automating the entire process**, making state-of-the-art CATE estimation accessible for everyone.
+
+## 📄 License
+
+This project is licensed under the MIT License.
