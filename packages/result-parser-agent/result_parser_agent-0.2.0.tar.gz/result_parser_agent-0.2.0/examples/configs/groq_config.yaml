@@ -1,0 +1,64 @@
+# GROQ Configuration for Results Parser Agent
+# GROQ provides fast, reliable LLM inference with excellent tool use capabilities
+
+agent:
+  # LLM configuration for GROQ
+  llm:
+    provider: "groq"                    # GROQ provider
+    model: "llama3.1-8b-instant"        # Fast and efficient for parsing tasks
+    # Alternative models:
+    # - llama3.1-70b-versatile (more capable, slightly slower)
+    # - llama3.1-405b-reasoning (most capable, slower)
+    # - mixtral-8x7b-32768 (good balance)
+    # - gemma2-9b-it (Google's model on GROQ)
+    api_key: null                       # Set to null to use GROQ_API_KEY environment variable
+    temperature: 0.1                    # Low temperature for consistent parsing
+    max_tokens: 4000                    # Maximum tokens for responses
+  
+  # Agent behavior
+  max_retries: 3
+  chunk_size: 2000
+  timeout: 300
+
+parsing:
+  # List of metrics to extract from result files
+  metrics:
+    - "RPS"
+    - "latency"
+    - "throughput"
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "cpu_usage"
+    - "memory_usage"
+    - "error_rate"
+  
+  # Whether pattern matching is case sensitive
+  case_sensitive: false
+  
+  # Whether to use fuzzy matching for pattern recognition
+  fuzzy_match: true
+  
+  # Minimum confidence threshold for metric extraction (0.0 to 1.0)
+  min_confidence: 0.7
+
+output:
+  # Output format: json, csv, yaml
+  format: "json"
+  
+  # Whether to pretty print the output
+  pretty_print: true
+  
+  # Whether to include metadata in the output
+  include_metadata: true
+
+logging:
+  # Logging level: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+  
+  # Log format string
+  format: "{time} | {level} | {message}"
+  
+  # Log file path (null for console only)
+  file: null 
