@@ -1,0 +1,47 @@
+# YTM Fetcher
+
+A Python-based tool for interacting with YouTube Music, allowing users to fetch, download, and play music tracks.
+
+## Features
+
+- Fetch song and playlist information from YouTube Music (YTM)
+- Save songs locally in WAV or MP3 formats
+- Playback full songs or samples
+- Models to create and modify playlists, then push them to YTM
+
+## Requirements
+
+- yt-dlp - Used for saving music locally
+- ytmusicapi - Allows interaction with YTM API
+- playsound - Allows local playback within Python
+- ffmpeg executable - For downloads and sampling
+- Cookie file and browser headers (see Authentication)
+
+## Installation
+- Either install from PyPI or place the ytm_fetcher folder in your project directory.
+- Follow the steps under Authentication to unlock most of the package's functionality.
+
+## Authentication
+- Folder
+  - Create a folder 'auth' in your project directory. 
+- Cookies
+  - Export browser cookies for YTM to 'cookies.txt' and place the file in the auth folder.
+  - If you are unsure of how to do this, search your browser webstore for extensions designed to export cookies, or search 'export browser cookies' in your engine of choice.
+- Browser Headers
+  - Export raw headers for YTM to 'headers.txt' and place the file in the auth folder.
+  - Step-by-step:
+    1. Sign in to YouTube Music on your desired account
+    2. Navigate to music.youtube.com & open developer tools (F12)
+    3. Navigate to the 'Network' tab
+    4. Reload the page to generate new requests
+    5. Find a POST request beginning with browse? and type json
+    6. Under 'Headers', find 'Request Headers'
+    7. Copy the raw headers to a file headers.txt and place this in your auth folder
+
+
+
+## Usage
+```python
+# TODO: Usage examples
+print("Hello world")
+```
