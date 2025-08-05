@@ -1,0 +1,118 @@
+Metadata-Version: 2.4
+Name: synchrotron
+Version: 0.1.0
+Summary: Graph-based live audio manipulation engine implemented in Python
+Project-URL: Homepage, https://synchrotron.thatother.dev
+Project-URL: Bug Reports, https://github.com/ThatOtherAndrew/Synchrotron/issues
+Project-URL: Source, https://github.com/ThatOtherAndrew/Synchrotron
+Author-email: ThatOtherAndrew <andrew@thatother.dev>
+Maintainer-email: ThatOtherAndrew <andrew@thatother.dev>
+License-Expression: LGPL-3.0-only
+License-File: LICENSE
+Keywords: audio-processing,dsp,live-coding,synthesiser,synthesizer
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Artistic Software
+Classifier: Topic :: Multimedia :: Sound/Audio
+Classifier: Topic :: Multimedia :: Sound/Audio :: Mixers
+Classifier: Topic :: Multimedia :: Sound/Audio :: Players
+Classifier: Topic :: Multimedia :: Sound/Audio :: Sound Synthesis
+Classifier: Topic :: Software Development :: Build Tools
+Requires-Python: >=3.11
+Requires-Dist: aiohttp>=3.12.13
+Requires-Dist: fastapi>=0.115.13
+Requires-Dist: lark>=1.2.2
+Requires-Dist: mingus>=0.6.1
+Requires-Dist: numpy>=2.3.1
+Requires-Dist: pyaudio>=0.2.14
+Requires-Dist: python-rtmidi>=1.5.8
+Requires-Dist: soundfile>=0.13.1
+Requires-Dist: textual>=3.5.0
+Requires-Dist: tinysoundfont>=0.3.7
+Requires-Dist: typer>=0.16.0
+Requires-Dist: uvicorn>=0.34.3
+Description-Content-Type: text/markdown
+
+# Synchrotron
+
+Graph-based live audio manipulation engine implemented in Python
+
+> [!NOTE]
+> For the frontend web interface to interact with Synchrotron, go to [SynchrotronUI](https://synchrotron.thatother.dev) ([GitHub](https://github.com/ThatOtherAndrew/SynchrotronUI/)).
+
+---
+
+## What is it?
+
+Synchrotron is all of the following:
+- DSP (Digital Signal Processing) engine
+- Audio router / muxer
+- Synthesiser
+- Audio effects engine
+- MIDI instrument
+- And more!
+
+It's still very much a baby project, but make no mistake, it can already be pretty powerful! Take a look for yourself:
+
+| [Hack Club Showcase - Synchrotron](https://youtu.be/wlhBz62t2zE)                                                                 |
+|----------------------------------------------------------------------------------------------------------------------------------|
+| [![Hack Club Showcase - Synchrotron](https://img.youtube.com/vi/wlhBz62t2zE/0.jpg)](https://www.youtube.com/watch?v=wlhBz62t2zE) |
+
+Synchrotron has been designed from the ground up with **maximum flexibility and interoperability in mind**, and as such, there are many ways to use Synchrotron and interact with the server.
+
+This includes (click images to enlarge):
+
+| Blender-inspired node editor UI                                         | Fancy TUI Console                                                       | REST API                                                                | Python API                                                              |
+|-------------------------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| [![](https://i.imgur.com/MXSbFcv.png)](https://i.imgur.com/MXSbFcv.png) | [![](https://i.imgur.com/t924jJd.png)](https://i.imgur.com/t924jJd.png) | [![](https://i.imgur.com/AUAx4xs.png)](https://i.imgur.com/AUAx4xs.png) | [![](https://i.imgur.com/j5xTHEa.png)](https://i.imgur.com/j5xTHEa.png) |
+
+The possibilities are endless - whether you wish to render audio to a WAV file on a remote server, or embed the Python package as a dependency for your desktop app. Use Synchrotron as a Python library, interact with its webserver's endpoints through an HTTP client, or use the elegant Synchrolang syntax to control it with just your keyboard.
+
+---
+
+## Installation
+
+Synchrotron can be installed from this repository directly via [pip](https://packaging.python.org/en/latest/tutorials/installing-packages/):
+
+```shell
+pip install git+https://github.com/ThatOtherAndrew/Synchrotron
+```
+
+Of course, [uv](https://astral.sh/blog/uv) - the faster pip alternative - is also supported:
+
+```shell
+uv pip install git+https://github.com/ThatOtherAndrew/Synchrotron
+```
+
+## Startup
+
+From the Python environment you installed Synchrotron in, you can start the server:
+
+```shell
+synchrotron-server
+```
+
+To start the console for a TUI client to interact with the server:
+
+```shell
+synchrotron-console
+```
+
+## Usage
+
+Synchrotron provides a **Python API**, **[DSL](https://www.jetbrains.com/mps/concepts/domain-specific-languages/)**, and **REST API** for interacting with the *synchrotron server* - the component of Synchrotron which handles the audio rendering and playback.
+
+For the humans, you can find a web-based user interface for Synchrotron at **[ThatOtherAndrew/SynchrotronUI](https://github.com/ThatOtherAndrew/SynchrotronUI)**.
+
+## Random YouTube Video
+
+I recorded myself at a pretty garden in Queens' College in Oxford yapping about dependency graphs: https://youtu.be/qkNqOcH2jWE
