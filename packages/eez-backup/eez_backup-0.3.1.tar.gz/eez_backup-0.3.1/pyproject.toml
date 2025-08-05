@@ -1,0 +1,45 @@
+[project]
+name = "eez-backup"
+version = "0.3.1"
+license.text = "MIT"
+authors = [{ name = "0b11001111", email = "19192307+0b11001111@users.noreply.github.com" }]
+urls.homepage = "https://github.com/0b11001111/eez-backup"
+urls.repository = "https://github.com/0b11001111/eez-backup"
+description = "Another convenience wrapper for _restic_"
+readme = "README.md"
+keywords = ["backup", "restic"]
+classifiers = [
+    "Topic :: System :: Archiving",
+    "Topic :: System :: Archiving :: Backup",
+    "Topic :: Utilities",
+    "Typing :: Typed"
+]
+scripts.backup = "eez_backup.__main__:cli"
+
+requires-python = ">=3.13"
+
+dependencies = [
+    "frozendict>=2.4.6",
+    "pydantic>=2.11.7",
+    "rich>=14.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17.1",
+    "pytest>=8.4.1",
+    "ruff>=0.12.7",
+    "secretstorage>=3.3.3",
+    "setuptools>=80.9.0",
+    "wheel>=0.45.1",
+]
+
+[tool.ruff]
+line-length = 118
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+package = true
