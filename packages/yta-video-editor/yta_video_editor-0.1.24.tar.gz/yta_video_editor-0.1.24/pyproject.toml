@@ -1,0 +1,39 @@
+[project]
+name = "yta-video-editor"
+version = "0.1.24"
+description = "Youtube Autonomous Video Editor Module"
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_validation (>=0.0.1,<1.0.0)",
+    "yta_colors (>=0.0.1,<1.0.0)",
+    # TODO: 'yta_audio_base' is only here:
+    # 'video/__init__.py', maybe optional (?)
+    "yta_audio_base (>=0.0.1,<1.0.0)",
+    "yta_image_base (>=0.0.1,<1.0.0)",
+    "yta_general_utils (>=0.0.1,<1.0.0)",
+    "yta_video_base (>=0.0.1,<1.0.0)",
+    "yta_video_moviepy (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "moviepy (>=0.0.1,<9.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "yta_video_editor", from = "src"}]
+
+# # Optional dependencies below
+# [tool.poetry.group.optional]
+# optional = true
+
+# [tool.poetry.group.optional.dependencies]
+# # Optional dependencies above
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
