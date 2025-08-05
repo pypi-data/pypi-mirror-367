@@ -1,0 +1,2 @@
+class WallboxError(Exception):
+    pass
