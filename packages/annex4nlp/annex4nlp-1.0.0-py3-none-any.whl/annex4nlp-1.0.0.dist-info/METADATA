@@ -1,0 +1,249 @@
+Metadata-Version: 2.4
+Name: annex4nlp
+Version: 1.0.0
+Summary: NLP-based compliance analysis for EU AI Act Annex IV documents
+Author-email: Aleksandr Racionalus <prihodko02bk@gmail.com>
+License-Expression: MIT
+Keywords: AI Act,compliance,NLP,text analysis
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: THIRD_PARTY_LICENSES.md
+Requires-Dist: typer[all]>=0.12
+Requires-Dist: spacy>=3.7.5
+Requires-Dist: negspacy>=1.0.4
+Requires-Dist: PyPDF2>=3.0
+Requires-Dist: pdfplumber>=0.10
+Requires-Dist: PyMuPDF>=1.23
+Requires-Dist: nltk>=3.8
+Requires-Dist: spacy-lookups-data>=1.0
+Dynamic: license-file
+
+# annex4nlp
+
+NLP-based compliance analysis for EU AI Act Annex IV documents.
+
+This package provides advanced natural language processing capabilities for analyzing technical documentation for compliance with EU AI Act Annex IV and GDPR requirements.
+
+> **⚠️ Legal Disclaimer:** This software is provided for informational and compliance assistance purposes only. It is not legal advice and should not be relied upon as such. Users are responsible for ensuring their documentation meets all applicable legal requirements and should consult with qualified legal professionals for compliance matters.
+
+> **🔒 Data Protection:** All processing occurs locally on your machine. No data leaves your system.
+
+## 🚀 Quick Start
+
+```bash
+# Install the package
+pip install annex4nlp
+
+# Analyze a single PDF file
+annex4nlp review document.pdf
+
+# Analyze multiple PDF files
+annex4nlp review doc1.pdf doc2.pdf doc3.pdf
+
+# Hide informational messages (negated terms)
+annex4nlp review document.pdf --hide-info
+```
+
+## ✨ Features
+
+- **📄 PDF Text Extraction**: Extract text from PDF documents using multiple libraries (PyPDF2, pdfplumber, PyMuPDF)
+- **🔍 Compliance Analysis**: Analyze documents for missing Annex IV sections and compliance issues
+- **⚠️ Contradiction Detection**: Detect contradictions within and across documents using NLP
+- **🔒 GDPR Compliance**: Check for GDPR compliance issues in technical documentation
+- **⚡ Batch Processing**: Efficient batch processing of multiple documents
+- **🖥️ CLI Interface**: Command-line interface for easy integration
+- **🧠 Advanced NLP**: Uses spaCy and negspaCy for intelligent analysis
+- **📊 Detailed Reporting**: Console output with error/warning/info classification
+
+## Installation
+
+```bash
+pip install annex4nlp
+```
+
+## 📖 Usage
+
+### CLI Usage
+
+```bash
+# Analyze a single PDF file
+annex4nlp review document.pdf
+
+# Analyze multiple PDF files
+annex4nlp review doc1.pdf doc2.pdf doc3.pdf
+
+# Hide informational messages (negated terms)
+annex4nlp review document.pdf --hide-info
+
+# Get help
+annex4nlp --help
+```
+
+### Python API
+
+```python
+from annex4nlp import review_documents
+from pathlib import Path
+
+# Analyze multiple PDF files
+pdf_files = [Path("doc1.pdf"), Path("doc2.pdf")]
+issues = review_documents(pdf_files)
+
+for issue in issues:
+    print(f"{issue['type']}: {issue['message']}")
+```
+
+### Single Document Analysis
+
+```python
+from annex4nlp import review_single_document
+
+issues = review_single_document(Path("document.pdf"))
+```
+
+### Text Analysis
+
+```python
+from annex4nlp import analyze_text
+
+text_content = "Your technical documentation text here..."
+issues = analyze_text(text_content, "document_name")
+```
+
+### API with Info Filtering
+
+```python
+from annex4nlp import create_review_response
+
+# Get all issues including info messages
+response = create_review_response(issues, ["document.pdf"], hide_info=False)
+
+# Filter out info messages
+response = create_review_response(issues, ["document.pdf"], hide_info=True)
+```
+
+## 🔍 Analysis Capabilities
+
+### Annex IV Compliance
+- **Section Validation**: Checks for all required Annex IV sections (1-9)
+- **High-risk Detection**: Validates high-risk system declarations
+- **Missing Elements**: Identifies missing compliance elements
+- **Content Analysis**: Analyzes section content for completeness
+
+### GDPR Compliance
+- **Personal Data**: Personal data handling analysis
+- **Legal Basis**: Legal basis verification for data processing
+- **Data Subject Rights**: Checking for data subject rights mentions
+- **Retention Periods**: Validation of data retention periods
+- **Consent Management**: Analysis of consent mechanisms
+
+### Contradiction Detection
+- **Internal Contradictions**: Finds inconsistencies within single documents
+- **Cross-document Issues**: Detects contradictions between multiple documents
+- **System Information**: Identifies conflicts in system names and versions
+- **Policy Inconsistencies**: Finds conflicting policy statements
+
+### Advanced NLP Features
+- **Negation Detection**: Uses negspaCy for intelligent negation handling
+- **Term Matching**: Advanced term matching with spaCy
+- **Semantic Analysis**: Semantic analysis of compliance terms
+- **Context Awareness**: Context-aware analysis of technical documentation
+- **Info Messages**: Informational messages about negated terms (can be filtered with `--hide-info`)
+
+### Issue Types
+
+The analysis categorizes issues into three types:
+
+- **❌ ERRORS**: Critical compliance issues that need immediate attention
+  - Missing Annex IV sections
+  - Internal contradictions within documents
+  - Cross-document contradictions
+  
+- **⚠️ WARNINGS**: Potential issues that should be reviewed
+  - GDPR compliance concerns
+  - Missing transparency elements
+  - Incomplete policy statements
+  
+- **ℹ️ INFO**: Informational messages about negated terms
+  - Terms found only with negation (e.g., "does not collect personal data")
+  - These may be intentional - use `--hide-info` to suppress
+
+## 📦 Dependencies
+
+- **typer[all]>=0.12** - CLI framework
+- **spacy>=3.7.5** - Natural language processing
+- **negspacy>=1.0.4** - Negation detection
+- **PyPDF2>=3.0** - PDF text extraction
+- **pdfplumber>=0.10** - PDF text extraction
+- **PyMuPDF>=1.23** - PDF text extraction
+- **nltk>=3.8** - Natural language toolkit
+- **spacy-lookups-data>=1.0** - spaCy language data
+
+## 📊 Example Output
+
+### Standard Output (with INFO messages)
+
+```
+============================================================
+COMPLIANCE REVIEW RESULTS
+============================================================
+
+❌ ERRORS (4):
+  1. [document.pdf] (Section 4) Missing content for Annex IV section 4 (performance metrics).
+  2. [document.pdf] (Section 6) Missing content for Annex IV section 6 (changes and versions).
+  3. [document.pdf] (Section 7) Missing content for Annex IV section 7 (standards applied).
+  4. [document.pdf] (Section 8) Missing content for Annex IV section 8 (compliance declaration).
+
+⚠️  WARNINGS (2):
+  1. [document.pdf] Personal data use without mention of consent or lawful basis (possible GDPR issue).
+  2. [document.pdf] No mention of data deletion or subject access rights (check GDPR compliance).
+
+ℹ️  INFO (3):
+  1. [document.pdf] Term 'personal data' negated on page 1.
+  2. [document.pdf] Term 'post-market monitoring' negated on page 1.
+  3. [document.pdf] Term 'authentication' negated on page 1.
+
+     Note: These informational messages indicate terms found only with negation.
+     This may be intentional - please verify if the negation is correct.
+     Use --hide-info flag to suppress these messages.
+
+Found 9 total issue(s): 4 errors, 2 warnings, 3 info
+```
+
+### Output with `--hide-info` flag
+
+```
+============================================================
+COMPLIANCE REVIEW RESULTS
+============================================================
+
+❌ ERRORS (4):
+  1. [document.pdf] (Section 4) Missing content for Annex IV section 4 (performance metrics).
+  2. [document.pdf] (Section 6) Missing content for Annex IV section 6 (changes and versions).
+  3. [document.pdf] (Section 7) Missing content for Annex IV section 7 (standards applied).
+  4. [document.pdf] (Section 8) Missing content for Annex IV section 8 (compliance declaration).
+
+⚠️  WARNINGS (2):
+  1. [document.pdf] Personal data use without mention of consent or lawful basis (possible GDPR issue).
+  2. [document.pdf] No mention of data deletion or subject access rights (check GDPR compliance).
+
+Found 6 total issue(s): 4 errors, 2 warnings
+```
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+### Third-Party Licenses
+
+This package uses several third-party libraries. See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for the complete list of licenses.
+
+Key dependencies:
+- **spaCy**: MIT License
+- **negspaCy**: MIT License  
+- **PyPDF2**: BSD 3-Clause License
+- **pdfplumber**: MIT License
+- **PyMuPDF**: GNU Affero General Public License v3.0
+- **NLTK**: Apache License 2.0
+- **Typer**: MIT License 
