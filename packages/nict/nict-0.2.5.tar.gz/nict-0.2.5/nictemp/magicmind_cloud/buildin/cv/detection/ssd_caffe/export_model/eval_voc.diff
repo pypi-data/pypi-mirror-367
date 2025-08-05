@@ -1,0 +1,18 @@
+16a17
+>     parser.add_argument('--devkit_path', dest='devkit_path', help='VOCdevkit path', type=str)
+210,211c211,212
+< def _do_python_eval(res_prefix, output_dir = 'output'):
+<     _devkit_path = '/home/tju/Data/VOC/VOCdevkit'
+---
+> def _do_python_eval(res_prefix, devkit_path, output_dir = 'output'):
+>     _devkit_path = devkit_path
+236,237c237,238
+<     # use_07_metric = True if int(_year) < 2010 else False
+<     use_07_metric = False
+---
+>     use_07_metric = True if int(_year) < 2010 else False
+>     # use_07_metric = False
+262c263
+<     _do_python_eval(args.path, output_dir = 'output')
+---
+>     _do_python_eval(args.path, args.devkit_path, output_dir = 'output')
