@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: anychange
+Version: 0.2.0
+Summary: Pure Python asynchronous file watching
+Project-URL: Source, https://github.com/davidbrochart/anychange
+Author-email: Samuel Colvin <s@muelcolvin.com>, David Brochart <david.brochart@gmail.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2017, 2018, 2019, 2020 Samuel Colvin
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Environment :: MacOS X
+Classifier: Framework :: AnyIO
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Filesystems
+Requires-Python: >=3.9
+Requires-Dist: anyio>=4.0.0
+Description-Content-Type: text/markdown
+
+[![Build Status](https://github.com/davidbrochart/anychange/workflows/test/badge.svg)](https://github.com/davidbrochart/anychange/actions)
+[![Code Coverage](https://img.shields.io/badge/coverage-100%25-green)](https://img.shields.io/badge/coverage-100%25-green)
+
+# anychange
+
+`anychange` is a fork of [watchfiles](https://github.com/samuelcolvin/watchfiles) before it switched to the Rust backend,
+i.e. when it was still called `watchgod` (at [this commit](https://github.com/samuelcolvin/watchfiles/tree/59c5eb3067761c2bfe346682784221cfca452b63)). The goal is to have it running in WASM,
+so OS builtin file change notifications are not an option. Also, `watchgod` was
+using threads which are not available in WASM, but file polling can be done without threads,
+so `anychange` doesn't use them anymore.
