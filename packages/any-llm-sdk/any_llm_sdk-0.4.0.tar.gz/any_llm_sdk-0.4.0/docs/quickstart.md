@@ -1,0 +1,90 @@
+## Quickstart
+
+### Requirements
+
+- Python 3.11 or newer
+- API_KEYS to access to whichever LLM you choose to use.
+
+### Installation
+
+In your pip install, include the [supported providers](./providers.md) that you plan on using, or use the `all` option if you want to install support for all `any-llm` supported providers.
+
+```bash
+pip install 'any-llm-sdk[mistral,ollama]'
+```
+
+Make sure you have the appropriate API key environment variable set for your provider. Alternatively,
+you could use the `api_key` parameter when making a completion call instead of setting an environment variable.
+
+```bash
+export MISTRAL_API_KEY="YOUR_KEY_HERE"  # or OPENAI_API_KEY, etc
+```
+
+### Basic Usage
+
+[`completion`][any_llm.completion] and [`acompletion`][any_llm.acompletion] use a unified interface across all providers.
+
+The provider_id key of the model should be specified according the [provider ids supported by any-llm](./providers.md).
+The `model_id` portion is passed directly to the provider internals: to understand what model ids are available for a provider,
+you will need to refer to the provider documentation.
+
+```python
+from any_llm import completion
+import os
+
+# Make sure you have the appropriate environment variable set
+assert os.environ.get('MISTRAL_API_KEY')
+
+model = "mistral/mistral-small-latest" # <provider_id>/<model_id>
+# Basic completion
+response = completion(
+    model=model,
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+print(response.choices[0].message.content)
+```
+
+In that above script,
+updating to use an ollama hosted mistral model (assuming that you have ollama installed and running)
+is as easy as updating the model to specify the ollama provider and using
+[ollama model syntax for mistral](https://ollama.com/library/mistral-small3.2)!
+
+```python
+model="ollama/mistral-small3.2:latest"
+```
+
+### Streaming
+
+For the [providers that support streaming](./providers.md), you can enable it by passing `stream=True`:
+
+```python
+output = ""
+for chunk in completion(
+    model=model,
+    messages=[{"role": "user", "content": "Hello!"}],
+    stream=True
+):
+    chunk_content = chunk.choices[0].delta.content or ""
+    print(chunk_content)
+    output += chunk_content
+```
+
+### Embeddings
+
+[`embedding`][any_llm.embedding] and [`aembedding`][any_llm.aembedding] allow you to create vector embeddings from text using the same unified interface across providers.
+
+Not all providers support embeddings - check the [providers documentation](./providers.md) to see which ones do.
+
+```python
+from any_llm import embedding
+model = "openai/text-embedding-3-small"
+result = embedding(
+    model=model,
+    inputs="Hello, world!" # can be either string or list of strings
+)
+
+# Access the embedding vector
+embedding_vector = result.data[0].embedding
+print(f"Embedding vector length: {len(embedding_vector)}")
+print(f"Tokens used: {result.usage.total_tokens}")
+```
