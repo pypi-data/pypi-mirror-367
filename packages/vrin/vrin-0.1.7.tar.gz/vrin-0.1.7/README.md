@@ -1,0 +1,281 @@
+# VRIN Hybrid RAG SDK
+
+A powerful Python SDK for interacting with the VRIN Hybrid RAG (Retrieval Augmented Generation) system. Built with NVIDIA-inspired hybrid search capabilities, combining dense vector search, sparse keyword search, and graph-based context enhancement.
+
+## 🚀 Features
+
+- **Hybrid RAG Search**: Combines dense vector and sparse keyword search for optimal results
+- **Graph-Based Context**: Enhances results with knowledge graph relationships
+- **Asynchronous Processing**: Submit documents and process them in the background
+- **Batch Operations**: Process multiple documents efficiently
+- **Real-time Queries**: Get instant search results with sub-2-second latency
+- **Type Safety**: Full type hints and data validation
+- **Error Handling**: Comprehensive error handling with custom exceptions
+
+## 📦 Installation
+
+```bash
+pip install vrin
+```
+
+## 🔑 Quick Start
+
+### 1. Get Your API Key
+
+First, you'll need to get an API key from VRIN. Contact us at support@vrin.ai to get started.
+
+### 2. Basic Usage
+
+```python
+from vrin import VRINClient
+
+# Initialize the client
+client = VRINClient(api_key="your_api_key_here")
+
+# Insert knowledge into the system
+job = client.insert(
+    content="Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions without being explicitly programmed.",
+    title="Introduction to Machine Learning",
+    tags=["AI", "ML", "technology"],
+    source="vrin-docs"
+)
+
+# Or insert plain text quickly
+job = client.insert_text("Python is a programming language created by Guido van Rossum.")
+
+# Wait for processing to complete
+client.wait_for_job(job.job_id)
+
+# Query the knowledge base
+results = client.query("What is machine learning?")
+
+# Print results
+for result in results:
+    print(f"Content: {result.content}")
+    print(f"Score: {result.score}")
+    print(f"Source: {result.title}")
+    print("---")
+```
+
+### 3. Advanced Usage
+
+```python
+from vrin import VRINClient, Document
+
+# Initialize client
+client = VRINClient(api_key="your_api_key_here")
+
+# Create multiple documents
+documents = [
+    Document(
+        content="Python is a high-level programming language known for its simplicity and readability.",
+        title="Python Programming",
+        tags=["programming", "python", "language"],
+        source="tutorial"
+    ),
+    Document(
+        content="Data science combines statistics, programming, and domain expertise to extract insights from data.",
+        title="Data Science Fundamentals",
+        tags=["data-science", "statistics", "analytics"],
+        source="course"
+    )
+]
+
+# Insert knowledge items in batch
+jobs = client.batch_insert(documents)
+
+# Wait for all jobs to complete
+completed_jobs = client.batch_wait_for_jobs([job.job_id for job in jobs])
+
+# Query with different search types
+sparse_results = client.query("programming language", search_type="sparse")
+hybrid_results = client.query("data analysis", search_type="hybrid")
+dense_results = client.query("machine learning algorithms", search_type="dense")
+
+# Get personalized results
+user_results = client.query("python programming", user_id="user123")
+```
+
+## 📚 API Reference
+
+### VRINClient
+
+The main client class for interacting with the VRIN system.
+
+#### Methods
+
+##### `insert(content, title=None, tags=None, source=None, user_id=None, document_type="text")`
+
+Insert knowledge into the system for processing and indexing.
+
+**Parameters:**
+- `content` (str): The knowledge content to insert (text, facts, information, etc.)
+- `title` (str, optional): Title for the knowledge
+- `tags` (List[str], optional): List of tags for categorization
+- `source` (str, optional): Source of the knowledge
+- `user_id` (str, optional): User ID for ownership
+- `document_type` (str): Type of content (default: "text")
+
+**Returns:** `JobStatus` object
+
+##### `query(query, user_id=None, max_results=10, search_type="hybrid")`
+
+Query the knowledge base using hybrid RAG search.
+
+**Parameters:**
+- `query` (str): The search query
+- `user_id` (str, optional): User ID for personalized results
+- `max_results` (int): Maximum number of results to return
+- `search_type` (str): Type of search ("hybrid", "sparse", "dense")
+
+**Returns:** List of `QueryResult` objects
+
+##### `wait_for_job(job_id, timeout=300, poll_interval=5)`
+
+Wait for a job to complete.
+
+**Parameters:**
+- `job_id` (str): The job ID to wait for
+- `timeout` (int): Maximum time to wait in seconds
+- `poll_interval` (int): Time between status checks in seconds
+
+**Returns:** `JobStatus` object
+
+##### `insert_and_wait(content, title=None, tags=None, source=None, user_id=None, document_type="text", timeout=300)`
+
+Insert knowledge and wait for it to complete processing.
+
+**Returns:** `JobStatus` object
+
+### Data Models
+
+#### Document
+
+Represents a document to be processed and indexed.
+
+```python
+Document(
+    content="Your document content",
+    title="Document Title",
+    tags=["tag1", "tag2"],
+    source="source-name",
+    user_id="user123",
+    document_type="text"
+)
+```
+
+#### QueryResult
+
+Represents a search result from the knowledge base.
+
+```python
+QueryResult(
+    content="Retrieved content",
+    score=0.95,
+    search_type="hybrid",
+    metadata={"title": "Document Title", "tags": ["tag1"]},
+    chunk_id="chunk_123",
+    graph_context={"related_chunks": [], "graph_score": 0.1}
+)
+```
+
+#### JobStatus
+
+Represents the status of a processing job.
+
+```python
+JobStatus(
+    job_id="job_123",
+    status="completed",
+    message="Job completed successfully",
+    progress=100,
+    timestamp=1234567890
+)
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+You can configure the SDK using environment variables:
+
+```bash
+export VRIN_API_KEY="your_api_key_here"
+export VRIN_BASE_URL="https://api.vrin.ai/v1"
+```
+
+### Custom Base URL
+
+For development or custom deployments:
+
+```python
+client = VRINClient(
+    api_key="your_api_key",
+    base_url="https://your-custom-domain.com/api"
+)
+```
+
+## 🚨 Error Handling
+
+The SDK provides comprehensive error handling:
+
+```python
+from vrin import VRINClient, VRINError, JobFailedError, TimeoutError
+
+try:
+    client = VRINClient(api_key="your_api_key")
+    results = client.query("your query")
+except VRINError as e:
+    print(f"VRIN error: {e}")
+except JobFailedError as e:
+    print(f"Job failed: {e}")
+except TimeoutError as e:
+    print(f"Operation timed out: {e}")
+```
+
+## 📊 Performance
+
+- **Query Latency**: < 2 seconds for most queries
+- **Document Processing**: Asynchronous with real-time status updates
+- **Batch Processing**: Efficient handling of multiple documents
+- **Scalability**: Built on AWS infrastructure for enterprise-scale workloads
+
+## 🔒 Security
+
+- **API Key Authentication**: Secure API key-based authentication
+- **HTTPS**: All communications are encrypted
+- **VPC Isolation**: Backend services run in isolated VPC
+- **Data Privacy**: Your data remains private and secure
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: [https://docs.vrin.ai](https://docs.vrin.ai)
+- **Email**: support@vrin.ai
+- **Issues**: [GitHub Issues](https://github.com/vrin-ai/vrin-sdk/issues)
+
+## 🏗️ Architecture
+
+The VRIN Hybrid RAG system is built on:
+
+- **AWS Lambda**: Serverless API endpoints
+- **Amazon OpenSearch**: Vector and keyword search
+- **Amazon Neptune**: Knowledge graph storage
+- **Amazon ECS**: Document processing
+- **Amazon SQS**: Job queue management
+- **Amazon DynamoDB**: Job status tracking
+
+## 🔄 Version History
+
+- **v0.1.0**: Initial release with basic functionality
+  - Document submission and processing
+  - Hybrid RAG search
+  - Job status tracking
+  - Batch operations 
