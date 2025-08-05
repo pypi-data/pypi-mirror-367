@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: pynotiq_client
+Version: 0.5.0
+Summary: Python client library for adding messages to PyNotiQ queue with local and remote support
+Home-page: https://github.com/downlevel/pynotiq_client
+Author: Your Name
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+Requires-Dist: urllib3>=1.26.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# PyNotiQ Client
+
+A simple Python library to add messages to the PyNotiQ JSON queue.
+
+## Installation
+
+```sh
+pip install pynotiq_client
+```
+
+## Usage
+
+```python
+from pynotiq_client import PyNotiQ
+
+notifier = PyNotiQ(queue_file="queue.json")
+
+# Add message with auto-generated ID
+notifier.add_message({
+    "message_field_1": "Message Field Value 1",
+    "message_field_2": "Message Field Value 2",
+})
+
+# Add message with custom ID (optional)
+notifier.add_message({
+    "message_field_1": "Another Message",
+    "message_field_2": "Another Value",
+}, item_id="custom-message-id-123")
+
+# Retrieve all messages
+messages = notifier.get_messages()
+print(messages)
+```
+
+## ✨ Features
+
+### 🔄 Queue Management
+- **Add Messages** - Easily add structured messages to the JSON queue
+- **Retrieve Messages** - Get all messages from the queue for processing
+- **Clear Queue** - Remove all messages from the queue when needed
+- **Persistent Storage** - Messages are stored in a JSON file for reliability
+
+### 🛠️ Developer Experience
+- **Simple API** - Intuitive interface for quick integration
+- **JSON Format** - Standard JSON structure for easy data handling
+- **Flexible Schema** - Support for custom message fields and structures
+- **Lightweight** - Minimal dependencies for fast installation and usage
+
+### 📊 Data Structure
+- **Unique IDs** - Each message gets a unique identifier for tracking
+- **Timestamps** - Automatic timestamp generation for message ordering
+- **Custom Fields** - Add any custom data fields to your message body
+- **Type Safety** - Structured data format ensures consistency
