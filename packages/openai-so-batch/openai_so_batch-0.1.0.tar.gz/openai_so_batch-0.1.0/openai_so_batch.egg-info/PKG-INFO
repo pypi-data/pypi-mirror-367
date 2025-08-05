@@ -1,0 +1,245 @@
+Metadata-Version: 2.4
+Name: openai-so-batch
+Version: 0.1.0
+Summary: Python library for creating and managing OpenAI batch API requests
+Home-page: https://github.com/ollieglass/openai-so-batch
+Author: Ollie Glass
+Author-email: Ollie Glass <ollie@ollieglass.com>
+Maintainer-email: Ollie Glass <ollie@ollieglass.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/ollieglass/openai-batch
+Project-URL: Repository, https://github.com/ollieglass/openai-batch
+Project-URL: Issues, https://github.com/ollieglass/openai-batch/issues
+Keywords: openai,batch,api,async
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openai>=1.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: tiktoken>=0.5.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# OpenAI Batch Processing Library
+
+Python library for creating and managing OpenAI **Structured Outputs** batch API calls.
+
+Makes it easy to extract structured data from large datasets using OpenAI's batch API.
+
+## Key Features
+
+- 🎯 **Structured Outputs Only**: Built specifically for OpenAI's Structured Outputs API in batch mode
+- 🔧 **Schema Fix**: Automatically handles the `additionalProperties: false` requirement - a common gotcha when working with Structured Outputs
+- 🚀 Simple batch creation and management
+- 💰 Built-in cost tracking and estimation
+- 📊 Progress monitoring and status checking
+- 🔄 Automatic file handling (input, output, errors)
+- 🛡️ Input validation and error handling
+- 📝 Pydantic model support for structured outputs
+
+## What is Structured Outputs?
+
+Structured Outputs is an OpenAI API feature that allows you to extract structured data from text using JSON Schema. This library makes it easy to process large amounts of text in batch mode while automatically handling the schema requirements.
+
+## Installation
+
+### From PyPI (recommended)
+
+```bash
+pip install openai-so-batch
+```
+
+### From source
+
+```bash
+git clone https://github.com/ollieglass/openai-so-batch.git
+cd openai-so-batch
+pip install -e .
+```
+
+## Quick Start
+
+### Basic Structured Outputs Usage
+
+```python
+from pydantic import BaseModel
+from openai_so_batch import Batch, Costs
+
+# Define your response model (this will be converted to JSON Schema)
+class CalendarEvent(BaseModel):
+    name: str
+    date: str
+    participants: list[str]
+
+# Create a batch
+batch = Batch(
+    input_file="batch-input.jl",
+    output_file="batch-output.jl",
+    error_file="batch-errors.jl",
+    job_name="calendar-extract",
+)
+
+# Add tasks to the batch
+examples = [
+    "Alice and Bob are going to a science fair on Friday.",
+    "Jane booked a meeting with Max and Omar next Tuesday at 2 pm.",
+]
+
+for i, sentence in enumerate(examples, 1):
+    batch.add_task(
+        id=i,
+        model="gpt-4o-mini",
+        system_prompt="Extract the event information.",
+        user_prompt=sentence,
+        response_model=CalendarEvent  # The library automatically handles schema conversion
+    )
+
+# Upload the batch
+batch.upload()
+print(f"Batch ID: {batch.batch_id}")
+
+# Check status and download results
+status = batch.get_status()
+print(f"Status: {status}")
+
+if status == "completed":
+    batch.download()
+```
+
+### Cost Tracking
+
+```python
+from openai_so_batch import Costs
+
+# Calculate costs for a model
+costs = Costs(model="gpt-4o-mini")
+
+# Estimate input costs
+input_cost = costs.input_cost("batch-input.jl")
+print(f"Input cost: ${input_cost:.4f}")
+
+# Calculate actual output costs
+output_cost = costs.output_cost("batch-output.jl")
+print(f"Output cost: ${output_cost:.4f}")
+```
+
+### Retrieving Existing Batches
+
+```python
+# Retrieve an existing batch by ID
+batch = Batch(
+    input_file=None,
+    output_file="batch-output.jl",
+    error_file="batch-errors.jl",
+    job_name="calendar-extract",
+    batch_id="batch_6890b93c276c819091452db39758b32a"
+)
+
+status = batch.get_status()
+print(f"Status: {status}")
+
+if status == "completed":
+    batch.download()
+```
+
+## API Reference
+
+### Batch Class
+
+The main class for managing Structured Outputs batch operations.
+
+#### Constructor
+
+```python
+Batch(
+    input_file: str,
+    output_file: str,
+    error_file: str,
+    job_name: str,
+    batch_id: Optional[str] = None
+)
+```
+
+**Parameters:**
+- `input_file`: Path to the input JSONL file
+- `output_file`: Path where output will be saved
+- `error_file`: Path where errors will be saved
+- `job_name`: Name identifier for the batch job
+- `batch_id`: Optional batch ID for retrieving existing batches
+
+#### Methods
+
+- `add_task(id, model, system_prompt, user_prompt, response_model)`: Add a Structured Outputs task to the batch. The `response_model` should be a Pydantic model that will be converted to JSON Schema with `additionalProperties: false` automatically applied.
+- `upload()`: Upload the batch to OpenAI
+- `get_status()`: Get the current status of the batch
+- `download()`: Download results and errors
+
+### Costs Class
+
+Utility class for cost tracking and estimation.
+
+#### Constructor
+
+```python
+Costs(model: str)
+```
+
+**Parameters:**
+- `model`: OpenAI model name (e.g., "gpt-4o-mini", "gpt-4o", "o3")
+
+#### Methods
+
+- `input_cost(filename)`: Calculate input token costs
+- `output_cost(filename)`: Calculate output token costs
+- `input_tokens(filename)`: Count input tokens
+- `output_tokens(filename)`: Count output tokens
+
+## Supported Models
+
+The library supports the following OpenAI models with cost tracking:
+
+- `gpt-4o-mini`
+- `gpt-4o`
+- `o3`
+- `o3-mini`
+- `o4-mini`
+
+## Environment Setup
+
+Make sure you have your OpenAI API key set in your environment:
+
+```bash
+export OPENAI_API_KEY="your-api-key-here"
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+If you encounter any issues or have questions, please open an issue on GitHub.
+
+## Changelog
+
+### 0.1.0
+- Initial release
+- Structured Outputs batch processing functionality
+- Automatic handling of `additionalProperties: false` schema requirement
+- Cost tracking and estimation
+- Pydantic model support for structured outputs
