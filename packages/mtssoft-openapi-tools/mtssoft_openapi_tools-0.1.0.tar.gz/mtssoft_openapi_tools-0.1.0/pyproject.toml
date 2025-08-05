@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "mtssoft-openapi-tools"
+version = "0.1.0"
+packages = [{ include = "apitools", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+openapi-pydantic = "^0.5.1"
+pydantic = "^2.11.7"
+toml = "^0.10.2"
+typer = "^0.16.0"
+httpx = "^0.28.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.12"
+pytest = "^8.4.0"
+pyright = "^1.1.402"
+twine = "^6.1.0"
+
+
+[tool.poetry.scripts]
+api-tools = "apitools.main:run"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
