@@ -1,0 +1,21 @@
+[project]
+name = "coder-search-mcp"
+version = "1.0.4"
+description = "Coder Search MCP Server"
+authors = [{ name = "Petr Grigorev", email = "grigoryev.pete@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.12.3",
+    "pydantic>=2.11.7",
+]
+
+[project.scripts]
+coder-search-mcp = "coder_search_mcp.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
