@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basalam OAuth Test - SDK Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .token-display {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .auth-url {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .error {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .sdk-info {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Basalam OAuth Authorization Test</h1>
+        <div class="subtitle">Testing AuthorizationCode class from auth.py</div>
+        
+        <div class="sdk-info">
+            <strong>🧪 This page tests the actual SDK functionality!</strong><br>
+            All OAuth operations use the real <code>AuthorizationCode</code> class from <code>auth.py</code>
+        </div>
+        
+        <div class="step">
+            <h3>Step 1: Get Authorization URL</h3>
+            <p>Click the button below to call <code>AuthorizationCode.get_authorization_url()</code> and generate the authorization URL.</p>
+            <button onclick="getAuthorizationUrl()">Call get_authorization_url()</button>
+            <div id="authUrl" class="auth-url" style="display: none;"></div>
+            <button id="openAuth" onclick="openAuthUrl()" style="display: none;">Open Authorization URL</button>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Enter Authorization Code</h3>
+            <p>After authorizing the application, you'll be redirected. Copy the 'code' parameter from the URL and paste it below:</p>
+            <input type="text" id="authCode" placeholder="Enter authorization code here..." />
+            <button onclick="exchangeCode()">Call get_token_sync()</button>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Token Information</h3>
+            <div id="tokenDisplay" class="token-display" style="display: none;"></div>
+            <div id="errorDisplay" class="error" style="display: none;"></div>
+            <div id="successDisplay" class="success" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let authUrl = "";
+        
+        async function getAuthorizationUrl() {
+            try {
+                showSuccess("Calling AuthorizationCode.get_authorization_url()...");
+                
+                const response = await fetch('/get-auth-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        state: Math.random().toString(36).substring(2, 15)
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    authUrl = result.auth_url;
+                    document.getElementById('authUrl').textContent = authUrl;
+                    document.getElementById('authUrl').style.display = 'block';
+                    document.getElementById('openAuth').style.display = 'inline-block';
+                    
+                    showSuccess(`✓ ${result.message}`);
+                } else {
+                    showError(`❌ ${result.message}`);
+                }
+                
+            } catch (error) {
+                showError(`Failed to get authorization URL: ${error.message}`);
+                console.error('Error:', error);
+            }
+        }
+        
+        function openAuthUrl() {
+            if (authUrl) {
+                window.open(authUrl, '_blank');
+                showSuccess("Authorization URL opened in new tab. Please complete the authorization and copy the code from the redirect URL.");
+            }
+        }
+        
+        async function exchangeCode() {
+            const code = document.getElementById('authCode').value.trim();
+            
+            if (!code) {
+                showError("Please enter the authorization code.");
+                return;
+            }
+            
+            try {
+                showSuccess("Calling AuthorizationCode.get_token_sync()...");
+                
+                const response = await fetch('/exchange-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayToken(result.token);
+                    showSuccess(`✓ ${result.message}`);
+                } else {
+                    showError(`❌ ${result.message}`);
+                }
+                
+            } catch (error) {
+                showError(`Failed to exchange code for token: ${error.message}`);
+                console.error('Error:', error);
+            }
+        }
+        
+        function displayToken(tokenData) {
+            const tokenDisplay = document.getElementById('tokenDisplay');
+            
+            // Create a nicely formatted display
+            const displayData = {
+                "✅ SDK Method": "AuthorizationCode.get_token_sync()",
+                "📋 Token Info": tokenData
+            };
+            
+            tokenDisplay.textContent = JSON.stringify(displayData, null, 2);
+            tokenDisplay.style.display = 'block';
+            
+            console.log('Token Data from SDK:', tokenData);
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorDisplay');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Hide success message
+            document.getElementById('successDisplay').style.display = 'none';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successDisplay');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            
+            // Hide error message
+            document.getElementById('errorDisplay').style.display = 'none';
+            
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 
