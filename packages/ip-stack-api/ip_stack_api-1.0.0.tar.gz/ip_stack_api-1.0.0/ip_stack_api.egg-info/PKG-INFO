@@ -1,0 +1,111 @@
+Metadata-Version: 2.4
+Name: ip-stack-api
+Version: 1.0.0
+Summary: IP Stack SDK is used to retrieve geolocation and network information from IP addresses.
+Author-email: Muhammad Hamza Shahzad <muhammad.hamza@apimatic.io>
+Project-URL: Documentation, https://docs.apimatic.io/
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: apimatic-core>=0.2.20,~=0.2.0
+Requires-Dist: apimatic-core-interfaces>=0.1.5,~=0.1.0
+Requires-Dist: apimatic-requests-client-adapter>=0.1.6,~=0.1.0
+Provides-Extra: testutils
+Requires-Dist: pytest>=7.2.2; extra == "testutils"
+Dynamic: license-file
+
+
+# Getting Started with IPstack API
+
+## Introduction
+
+### **Quickstart Guide**
+
+#### Step 1: Get your API Access Key
+
+1. Go to the [IP Stack](https://ipstack.com/?utm_source=Postman&utm_medium=Referral) website and choose the right subscription plan for your particular project.
+2. Get your personal API Access Key on the [Dashboard](https://ipstack.com/dashboard) to authenticate with the API. Keep it safe! You can reset it at any time in your Account Dashboard.
+
+### Step 2: Make your first API call
+
+IP Stack API contains all the three endpoint supported by IP Stack API.
+
+1. Standard IP Lookup
+2. Bulk IP Lookup
+3. Requester Lookup
+
+We recommend you to start with the Standard IP Lookup endpoint as it's primary endpoint. It is used to look up single IPv4 or IPv6 addresses. To call this endpoint, simply attach any IPv4 or IPv6 address to the API's base URL.
+
+Check out all the widely used API calls with the necessary parameters in the Standard IP Lookup section.
+
+## Install the Package
+
+The package is compatible with Python versions `3.7+`.
+Install the package from PyPi using the following pip command:
+
+```bash
+pip install ip-stack-api==1.0.0
+```
+
+You can also view the package at:
+https://pypi.python.org/pypi/ip-stack-api/1.0.0
+
+## Initialize the API Client
+
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/client.md)
+
+The following parameters are configurable for the API Client:
+
+| Parameter | Type | Description |
+|  --- | --- | --- |
+| http_client_instance | `HttpClient` | The Http Client passed from the sdk user for making requests |
+| override_http_client_configuration | `bool` | The value which determines to override properties of the passed Http Client from the sdk user |
+| http_call_back | `HttpCallBack` | The callback value that is invoked before and after an HTTP call is made to an endpoint |
+| timeout | `float` | The value to use for connection timeout. <br> **Default: 60** |
+| max_retries | `int` | The number of times to retry an endpoint call if it fails. <br> **Default: 0** |
+| backoff_factor | `float` | A backoff factor to apply between attempts after the second try. <br> **Default: 2** |
+| retry_statuses | `Array of int` | The http statuses on which retry is to be done. <br> **Default: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524]** |
+| retry_methods | `Array of string` | The http methods on which retry is to be done. <br> **Default: ['GET', 'PUT']** |
+| custom_query_authentication_credentials | [`CustomQueryAuthenticationCredentials`](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/auth/custom-query-parameter.md) | The credential object for Custom Query Parameter |
+
+The API client can be initialized as follows:
+
+```python
+from ipstackapi.configuration import Environment
+from ipstackapi.http.auth.custom_query_authentication import CustomQueryAuthenticationCredentials
+from ipstackapi.ipstackapi_client import IpstackapiClient
+
+client = IpstackapiClient(
+    custom_query_authentication_credentials=CustomQueryAuthenticationCredentials(
+        access_key='access_key'
+    ),
+    environment=Environment.PRODUCTION
+)
+```
+
+## Authorization
+
+This API uses the following authentication schemes.
+
+* [`apiKeyAuth (Custom Query Parameter)`](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/auth/custom-query-parameter.md)
+
+## List of APIs
+
+* [Standard IP Lookup](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/controllers/standard-ip-lookup.md)
+* [Bulk IP Lookup](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/controllers/bulk-ip-lookup.md)
+* [Requester IP Lookup](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/controllers/requester-ip-lookup.md)
+
+## SDK Infrastructure
+
+### HTTP
+
+* [HttpResponse](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/http-response.md)
+* [HttpRequest](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/http-request.md)
+
+### Utilities
+
+* [ApiHelper](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/api-helper.md)
+* [HttpDateTime](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/http-date-time.md)
+* [RFC3339DateTime](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/rfc3339-date-time.md)
+* [UnixDateTime](https://www.github.com/MuHamza30/ipstack-api-python-sdk/tree/1.0.0/doc/unix-date-time.md)
+
