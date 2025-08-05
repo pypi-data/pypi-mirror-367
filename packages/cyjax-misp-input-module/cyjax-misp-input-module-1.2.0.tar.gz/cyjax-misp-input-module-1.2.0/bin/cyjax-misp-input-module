@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+
+import argparse
+import logging
+
+from cyjax_misp.cli import setup_misp_module, run_misp_module, show_config, show_version
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
+log = logging.getLogger('cyjax-misp')
+console_handler = logging.StreamHandler()
+
+parser = argparse.ArgumentParser(
+    description='Pull indicators of compromise and incident reports from Cyjax Threat Intelligence platform and store them in MISP.')
+parser.add_argument('-v', '--version', help='show the input module version', action='store_true')
+parser.add_argument('-s', '--setup', help='set the input module up', action='store_true')
+parser.add_argument('-c', '--config', help='show the input module configuration', action='store_true')
+parser.add_argument('-r', '--run', help='run the input module', action='store_true')
+parser.add_argument('-d', '--debug', help='turn debug on', action='store_true')
+
+args = parser.parse_args()
+
+log.setLevel(logging.DEBUG if args.debug else logging.INFO)
+
+if 'setup' in args and args.setup:
+    # Set the module up
+    setup_misp_module()
+elif 'config' in args and args.config:
+    # Show the module configuration
+    show_config()
+elif 'version' in args and args.version:
+    # Show the module version
+    show_version()
+else:
+    # Run the module
+    run_misp_module(args.debug)
