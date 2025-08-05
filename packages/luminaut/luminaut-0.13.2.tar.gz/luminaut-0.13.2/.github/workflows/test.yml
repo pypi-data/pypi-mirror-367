@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: us-east-1
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      id: setup-uv
+      uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a
+      with:
+        enable-cache: true
+        cache-dependency-glob: |
+          **/uv.lock
+          **/requirements*.txt
+          **/pyproject.toml
+
+    - uses: actions/setup-python@v5
+      id: setup-python
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: uv sync
+
+    - name: Run tests
+      run: uv run pytest
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: 'pip'
+    - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
