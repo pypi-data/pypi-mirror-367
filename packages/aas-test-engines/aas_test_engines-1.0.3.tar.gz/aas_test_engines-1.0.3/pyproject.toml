@@ -1,0 +1,28 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aas_test_engines"
+version = "1.0.3"
+description = "Official test tooling for the Asset Administration Shell"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["asset administration shell", "aas", "test"]
+requires-python = ">=3.6"
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/admin-shell-io/aas-test-engines"
+
+[project.scripts]
+aas_test_engines = "aas_test_engines.__main__:main"
+
+[tool.setuptools.package-data]
+"*" = ["*.yml", "*.json", '*.html']
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
