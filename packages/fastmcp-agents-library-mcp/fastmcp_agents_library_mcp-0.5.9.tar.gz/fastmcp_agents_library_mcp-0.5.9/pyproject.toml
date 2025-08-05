@@ -1,0 +1,31 @@
+[project]
+name = "fastmcp-agents-library-mcp"
+version = "0.5.9"
+description = "MCP Library for FastMCP Agents"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastmcp",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.2,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "fastmcp_agents.library.mcp"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "ruff>=0.12.4",
+]
+
+
+[tool.ruff]
+extend="../../../pyproject.toml"
+
+[tool.pyright]
+extends = "../../../pyproject.toml"
+
