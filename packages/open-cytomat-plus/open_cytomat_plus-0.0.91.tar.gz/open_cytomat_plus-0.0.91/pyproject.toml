@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "open-cytomat-plus"
+version = "0.0.91"
+description = "A Demo for a open-cytomat extension with a gui interface and Databse Connetion"
+authors = ["Thiago Meyes <tiagmey@gmail.com>"]
+readme = "README.md"
+packages = [{include = "cytomat_plus", from = "src"}]
+include = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyserial = "^3.5"
+open-cytomat = "^0.1.3"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.4.1"
+pytest = "^7.4.0"
+
+
+[tool.poetry.scripts]
+post_install = "cytomat_plus.scripts.setup_cytomat:post_install"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
