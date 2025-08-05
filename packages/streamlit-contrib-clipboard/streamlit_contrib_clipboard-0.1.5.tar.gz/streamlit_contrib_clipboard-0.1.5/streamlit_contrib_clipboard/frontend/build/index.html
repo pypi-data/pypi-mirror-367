@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streamlit Clipboard Component</title>
+    <!-- Load Streamlit's component helper library from a CDN. This provides
+         the Streamlit API that we use to communicate with the Python
+         runtime. -->
+    <script type="module">
+      import { Streamlit } from 'https://cdn.jsdelivr.net/npm/streamlit-component-lib@2.0.0/dist/streamlit.js';
+      window.Streamlit = Streamlit;
+    </script>
+    <style>
+      /* Basic styling for the button. Inherit font from the parent app. */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: inherit;
+      }
+      #copy-button {
+        cursor: pointer;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+      }
+      #copy-button:active {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- The button element will be created dynamically by the script. -->
+    <div id="root"></div>
+    <!-- Our custom script implements the clipboard logic. -->
+    <script src="index.js" type="module"></script>
+  </body>
+</html>
