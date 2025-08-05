@@ -1,0 +1,11 @@
+services:
+  font-analyzer:
+    image: ghcr.io/aykut-canturk/font-analyzer
+    volumes:
+      # Mount the fonts directory from host to container
+      - ./fonts:/app/fonts
+      # Persist logs directory on the host (mount as directory, not file)
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ALLOWED_FONTS=Roboto,Open Sans,Arial
