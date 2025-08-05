@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dexodus-perps-sdk"
+version = "1.1.0"
+description = "Python SDK for Dexodus perpetual futures trading platform on Base (v1.1.0 - Simplified Configuration)"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Dexodus Team", email = "dev@dexodus.com"}
+]
+maintainers = [
+    {name = "Dexodus Team", email = "dev@dexodus.com"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed"
+]
+keywords = [
+    "dexodus", "perpetual", "futures", "trading", "defi", "base",
+    "blockchain", "ethereum", "sdk", "api", "perps", "derivatives",
+    "simplified", "gasless"
+]
+dependencies = []
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/dexodus/perps-sdk-python"
+Documentation = "https://docs.dexodus.com/sdk"
+Repository = "https://github.com/dexodus/perps-sdk-python"
+Issues = "https://github.com/dexodus/perps-sdk-python/issues"
+Discord = "https://discord.gg/dexodus"
+"JavaScript SDK" = "https://www.npmjs.com/package/dexodus-perps-sdk"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "black",
+    "isort",
+    "mypy",
+    "flake8"
+]
+
+[project.scripts]
+dexodus-perps-test = "dexodus_perps_sdk.examples.test_python_wrapper:main"
+
+[tool.setuptools]
+packages = ["dexodus_perps_sdk"]
+
+[tool.setuptools.package-data]
+dexodus_perps_sdk = ["*.js", "examples/*.py"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

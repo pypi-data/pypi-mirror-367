@@ -1,0 +1,26 @@
+# MANIFEST.in - Controls what files are included in the Python package
+
+# Include documentation
+include README.md
+include LICENSE
+
+# Include JavaScript files (needed for the Python wrapper)
+include dexodus_perps_sdk/*.js
+
+# Include examples
+recursive-include dexodus_perps_sdk/examples *.py
+
+# Include package data
+include dexodus_perps_sdk/py.typed
+
+# Exclude development files
+exclude .env
+exclude .env.*
+exclude *.log
+exclude .gitignore
+exclude .npmignore
+exclude package*.json
+exclude node_modules
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
