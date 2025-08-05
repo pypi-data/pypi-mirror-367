@@ -1,0 +1,14 @@
+QT.core_private.VERSION = 6.9.1
+QT.core_private.name = QtCore
+QT.core_private.module =
+QT.core_private.libs = $$QT_MODULE_LIB_BASE
+QT.core_private.includes = $$QT_MODULE_LIB_BASE/QtCore.framework/Versions/A/Headers/6.9.1 $$QT_MODULE_LIB_BASE/QtCore.framework/Versions/A/Headers/6.9.1/QtCore
+QT.core_private.frameworks = 
+QT.core_private.depends = core
+QT.core_private.uses = 
+QT.core_private.module_config = v2 lib_bundle internal_module
+QT.core_private.enabled_features = clock-gettime doubleconversion dladdr futimens getentropy memmem mimetype-database poll_poll posix_sem posix_shm sysv_sem sysv_shm backtrace sha3-fast hijricalendar datetimeparser pcre2 reduce_exports x86intrin sse2 sse3 ssse3 sse4_1 sse4_2 avx f16c avx2 avx512f avx512er avx512cd avx512pf avx512dq avx512bw avx512vl avx512ifma avx512vbmi avx512vbmi2 aesni vaes rdrnd rdseed shani neon localtime_r system-zlib dbus gui network printsupport sql testlib widgets xml dlopen relocatable trivial_auto_var_init_pattern stack_protector libcpp_hardening largefile precompile_header sse2 sse3 ssse3 sse4_1 sse4_2 avx f16c avx2 avx512f avx512er avx512cd avx512pf avx512dq avx512bw avx512vl avx512ifma avx512vbmi avx512vbmi2 aesni vaes rdrnd rdseed shani neon
+QT.core_private.disabled_features = system-doubleconversion broken-threadlocal-dtors getauxval glib icu inotify journald system-libb2 linkat memrchr system-pcre2 poll_ppoll poll_pollts poll_select pthread_clockjoin pthread_condattr_setclock pthread_timedjoin qqnx_pps renameat2 slog2 syslog cxx20_format cxx23_stacktrace cpp-winrt timezone_locale lttng etw ctf forkfd_pidfd poll-exit-on-error openssl-hash use_bfd_linker use_gold_linker use_lld_linker use_mold_linker android-style-assets gc_binaries developer-build private_tests doc_snippets debug elf_private_full_version no_direct_extern_access lsx lasx mips_dsp mips_dspr2 arm_crc32 arm_crypto arm_sve localtime_s posix_fallocate force-system-libs force-bundled-libs stdlib-libcpp dbus-linked libudev openssl intelcet glibc_fortify_source stack_clash_protection libstdcpp_assertions relro_now_linker
+QMAKE_LIBS_BACKTRACE = 
+QMAKE_LIBS_LIBATOMIC = 
+QMAKE_LIBS_LIBRT = 
