@@ -1,0 +1,1049 @@
+domain:  # name of the model domain
+  type: string
+  required: true
+
+start_date:
+  type: datetime
+  coerce: datetime
+  required: true
+
+end_date:
+  type:
+    - string
+    - date
+    - datetime
+  # no coercion here, this has to be handled later in case the end hour is not set
+  required: true
+
+resolution:  # spatial resolution (m)
+  type: integer
+  required: true
+
+timestep:  # temporal resolution as a pandas frequency string
+  type: string
+  coerce: timestep
+  default: h
+
+results_dir:  # directory for writing the result files
+  coerce: path
+  default: .
+
+crs:  # coordinate reference system of the input raster files
+  type: string
+  required: true
+
+timezone:  # timezone (difference of local time to UTC in hours)
+  type: integer
+  required: true
+
+simulation_timezone: # timezone of the input/output data
+  type: integer
+  nullable: true
+  default:
+
+log_level:  # python logging-compatible log level (e.g. DEBUG or INFO)
+  type: string
+  default: INFO
+
+reset_state_variables: # reset all not to be retained state variables in every timestep
+  type: boolean
+  default: false
+
+extend_roi_with_stations: # add the pixels that contain a station to the ROI
+  type: boolean
+  default: false
+
+input_data:
+  type: dict
+  default: {}
+  schema:
+    grids:
+      type: dict
+      default: {}
+      schema:
+        dir:  # directory containing the input raster files
+          type: string
+
+        format:  # input raster format
+          type: string
+          allowed:
+            - ascii
+          default: ascii
+
+    meteo:
+      type: dict
+      default: {}
+      schema:
+        dir:  # directory containing the meteorological data
+          type: string
+
+        format:  # input raster format
+          type: string
+          allowed:
+            - netcdf
+            - csv
+            - memory
+            - callback
+          default: netcdf
+
+        crs:  # coordinate reference system of the meteorological data
+          type: string
+          nullable: true
+          default:
+
+        bounds:
+          oneof:
+            - type: string
+              allowed:
+                - grid # use stations within (extended) grid boundaries
+                - global # use all available stations
+            - type: list
+              items:
+                - type: number # xmin
+                - type: number # ymin
+                - type: number # xmax
+                - type: number # ymax
+          default: grid
+
+        exclude: # list of station IDs to exclude
+          type: list
+          default: []
+          schema:
+            type: string
+
+        include: # list of station IDs to include (even if otherwise excluded via `bounds` or `exclude`)
+          type: list
+          default: []
+          schema:
+            type: string
+
+        aggregate_when_downsampling: # use instantaneous values if the time series need to be downsampled (default) or aggregate them
+          type: boolean
+          default: false
+
+        filters:
+          type: list
+          default:
+            - var: temp
+              filter: range
+              min: 200
+              max: 330
+            - var: rel_hum
+              filter: range
+              min: 1
+              max: 100
+            - var: precip
+              filter: range
+              min: 0
+            - var: wind_speed
+              filter: range
+              min: 0
+              max: 50
+            - var: sw_in
+              filter: range
+              min: 0
+              max: 1500
+          schema:
+            type: dict
+            oneof:
+              - type: dict
+                schema:
+                  var:
+                    type: string
+                    required: true
+                    allowed:
+                      - temp
+                      - rel_hum
+                      - precip
+                      - wind_speed
+                      - sw_in
+                      - cloud_fraction
+                  filter:
+                    type: string
+                    required: true
+                    allowed:
+                      - range
+                  min:
+                    type: number
+                  max:
+                    type: number
+
+# Parameters for gridded output data (fields)
+output_data:
+  type: dict
+  default: {}
+  schema:
+    # Parameters for gridded output data
+    grids:
+      type: dict
+      default: {}
+      schema:
+        format:
+          type: string
+          allowed:
+            - netcdf
+            - ascii
+            - geotiff
+            - memory
+          default: netcdf
+
+        append: # when using NetCDF output, append data instead of creating a full-size dataset beforehand
+          type: boolean
+          default: true
+
+        compress: # compress output grids
+          type: boolean
+          default: false
+
+        variables:
+          type: list
+          default: []
+          schema:
+            type: dict
+            schema:
+              var:  # variable name
+                type: string
+                required: true
+
+              name:  # output name
+                type: string
+
+              freq:  # time frequency
+                type: string
+
+              agg:  # aggregation function
+                type: string
+                allowed:
+                  - sum
+                  - mean
+
+              dates:  # write dates
+                type: list
+                schema:
+                  type: datetime
+                  coerce: datetime
+
+    # Parameters for point output data (time series)
+    timeseries:
+      type: dict
+      default: {}
+      schema:
+        format:
+          type: string
+          allowed:
+            - netcdf
+            - csv
+            - memory
+          default: netcdf
+
+        write_freq:  # how often the files should be written
+          type: string
+          default: ME
+
+        add_default_points:  # add the station positions
+          type: boolean
+          default: true
+
+        add_default_variables:  # include the default output variables
+          type: boolean
+          default: true
+
+        points:
+          type: list
+          default: []
+          schema:
+            type: dict
+            schema:
+              x:
+                type: number
+                required: true
+              y:
+                type: number
+                required: true
+              name:
+                type: string
+
+        variables:
+          type: list
+          default: []
+          schema:
+            type: dict
+            oneof:
+              - type: dict
+                schema:
+                  var:  # variable name
+                    type: string
+                    required: true
+                  name:  # output name
+                    type: string
+
+meteo:
+  type: dict
+  default: {}
+  schema:
+    # Interpolation parameters for the different meteorological variables
+    interpolation:
+      type: dict
+      default: {}
+      coerce: meteo_interpolation
+      schema:
+        temperature:
+          type: dict
+          default: {}
+          schema:
+            trend_method:
+              type: string
+              allowed:
+                - regression
+                - fixed
+              default: regression
+
+            extrapolate:
+              type: boolean
+              default: true
+
+            lapse_rate:
+              type: list
+              schema:
+                type: float
+              minlength: 12
+              maxlength: 12
+              default:
+                - -0.0026  # Jan
+                - -0.0035  # Feb
+                - -0.0047  # Mar
+                - -0.0053  # Apr
+                - -0.0052  # May
+                - -0.0053  # Jun
+                - -0.0049  # Jul
+                - -0.0047  # Aug
+                - -0.0042  # Sep
+                - -0.0033  # Oct
+                - -0.0035  # Nov
+                - -0.0031  # Dec
+
+            # Parameters for the "regression" method
+            regression_params:
+              type: dict
+              default: {}
+              schema:
+                # Maximum number of piecewise linear segments used for regression
+                max_segments:
+                  type: integer
+                  default: 1
+                  min: 1
+
+                # Minimum number of data points for each segment
+                min_points_per_segment:
+                  type: integer
+                  default: 4
+                  min: 2
+
+                # AIC difference that has to be exceeded in order to select a more complex model (i.e. more segments)
+                delta_aic_threshold:
+                  type: float
+                  default: 7.
+
+        precipitation:
+          type: dict
+          default: {}
+          schema:
+            trend_method:
+              type: string
+              allowed:
+                - regression
+                - adjustment_factor
+                - fractional
+              default: regression
+
+            extrapolate:
+              type: boolean
+              default: true
+
+            lapse_rate:
+              type: list
+              schema:
+                type: float
+              minlength: 12
+              maxlength: 12
+              default:
+                - 0.00014  # Jan
+                - 0.00014  # Feb
+                - 0.00014  # Mar
+                - 0.00013  # Apr
+                - 0.00010  # May
+                - 0.00010  # Jun
+                - 0.00010  # Jul
+                - 0.00010  # Aug
+                - 0.00010  # Sep
+                - 0.00011  # Oct
+                - 0.00013  # Nov
+                - 0.00013  # Dec
+
+        humidity:
+          type: dict
+          default: {}
+          schema:
+            trend_method:
+              type: string
+              allowed:
+                - regression
+                - fixed
+              default: regression
+
+            extrapolate:
+              type: boolean
+              default: true
+
+            lapse_rate:
+              type: list
+              schema:
+                type: float
+              minlength: 12
+              maxlength: 12
+              default:
+                - -0.0044  # Jan
+                - -0.0046  # Feb
+                - -0.0049  # Mar
+                - -0.0048  # Apr
+                - -0.0046  # May
+                - -0.0047  # Jun
+                - -0.0043  # Jul
+                - -0.0042  # Aug
+                - -0.0045  # Sep
+                - -0.0044  # Oct
+                - -0.0047  # Nov
+                - -0.0046  # Dec
+
+            # Parameters for the "regression" method
+            regression_params:
+              type: dict
+              default: {}
+              schema:
+                # Maximum number of piecewise linear segments used for regression
+                max_segments:
+                  type: integer
+                  default: 1
+                  min: 1
+
+                # Minimum number of data points for each segment
+                min_points_per_segment:
+                  type: integer
+                  default: 4
+                  min: 2
+
+                # AIC difference that has to be exceeded in order to select a more complex model (i.e. more segments)
+                delta_aic_threshold:
+                  type: float
+                  default: 7.
+
+        wind:
+          type: dict
+          default: {}
+          schema:
+            method:
+              type: string
+              allowed:
+                - idw
+                - liston # wind speed/direction distribution after Liston & Elder (2006)
+              default: idw
+
+            trend_method:
+              type: string
+              allowed:
+                - regression
+                - fixed
+              default: regression
+
+            extrapolate:
+              type: boolean
+              default: false
+
+            lapse_rate:
+              type: list
+              schema:
+                type: float
+              minlength: 12
+              maxlength: 12
+              default:
+                - .nan  # Jan
+                - .nan  # Feb
+                - .nan  # Mar
+                - .nan  # Apr
+                - .nan  # May
+                - .nan  # Jun
+                - .nan  # Jul
+                - .nan  # Aug
+                - .nan  # Sep
+                - .nan  # Oct
+                - .nan  # Nov
+                - .nan  # Dec
+
+            # Curvature length scale as in Liston et al. (2007) required for method "liston"
+            curvature_length_scale:
+              type: number
+              default: 1750. # average ridge-to-valley distance for Alpine conditions (Marke 2008)
+
+            # Slope and curvature weight as in eq. (16) of Liston & Elder (2006) required for method "liston"
+            slope_weight:
+              type: number
+              default: 0.58 # value from Liston & Elder (2006)
+            curvature_weight:
+              type: number
+              default: 0.42 # value from Liston & Elder (2006)
+
+        cloudiness:
+          type: dict
+          default: {}
+          coerce: cloudiness
+          schema:
+            method:
+              type: string
+              allowed:
+                - clear_sky_fraction
+                - humidity
+                - prescribed
+              default: clear_sky_fraction
+
+            clear_sky_fraction_night_method:
+              type: string
+              allowed:
+                - humidity
+                - constant
+              default: humidity
+
+            allow_fallback:  # allow to fall back to calculate cloud fraction using other methods if the selected method is unavailable (e.g. due to missing measurements)
+              type: boolean
+              default: true
+
+            # Parameters for the "humidity" method (Walcek (1994), Liston & Elder (2006)).
+            # Default values are from Liston & Elder (2006).
+            pressure_level: # pressure level for which the calculation should be performed (hPa (!))
+              type: number
+              default: 700
+            saturation_cloud_fraction: # cloud fraction at 100% relative humidity (0-1)
+              type: number
+              default: 0.832
+            e_folding_humidity: # "e-folding relative humidity" (%)
+              type: number
+              default: 58.4
+
+    # Parameters for precipitation phase detection
+    precipitation_phase:
+      type: dict
+      default: {}
+      schema:
+        method:
+          type: string
+          allowed:
+            - temp
+            - wet_bulb_temp
+          default: wet_bulb_temp
+
+        threshold_temp:  # temperature threshold (K)
+          type: number
+          default: 273.65
+
+        temp_range:  # temperature range for mixed precipitation (K)
+          type: number
+          default: 1.
+
+    # Settings for precipitation correction
+    precipitation_correction:
+      type: list
+      default: []
+      schema:
+        type: dict
+        schema:
+          method:
+            type: string
+            required: true
+            oneof:
+              - allowed:  # method constant_scf requires a scf
+                  - constant_scf
+                dependencies: scf
+              - allowed:  # methods wmo and kochendorfer require a gauge specification
+                  - wmo
+                  - kochendorfer
+                dependencies: gauge
+              - allowed:
+                  - srf
+          gauge:
+            type: string
+          scf:
+            type: number
+          file:
+            type: string
+
+    # Radiation related parameters
+    radiation:
+      type: dict
+      default: {}
+      schema:
+        snow_emissivity:  # emissivity of snow
+          type: number
+          default: 0.99
+        cloud_emissivity:  # emissivity of totally overcast skies (Greuell et al., 1997)
+          type: number
+          default: 0.976
+        rock_emission_factor:  # (K W-1 m2) temperature of emitting rocks during daytime is assumed to be higher than the air temperature by this factor multiplied by the incoming shortwave radiation (Greuell et al., 1997)
+          type: number
+          default: 0.01
+        ozone_layer_thickness:  # vertical ozone layer thickness (m)
+          type: number
+          default: 0.0035
+        atmospheric_visibility:  # atmospheric visibility (m)
+          type: number
+          default: 25000.
+        single_scattering_albedo:
+          type: number
+          default: 0.9
+        clear_sky_albedo:
+          type: number
+          default: 0.0685
+        num_shadow_sweeps:
+          type: integer
+          default: 1
+        shadows_downsampling_factor: # can be set to a value > 1 to speed up shadows calculation by downsampling the DEM first and upsampling the calculated shadows array afterwards
+          type: integer
+          default: 1
+          min: 1
+
+    # Measurement heights
+    measurement_height:
+      type: dict
+      default: {}
+      schema:
+        temperature:  # (m)
+          type: number
+          default: 2
+        wind:  # (m)
+          type: number
+          default: 10
+
+    stability_correction:  # adjust turbulent fluxes for atmospheric stability
+      type: boolean
+      default: false
+    stability_adjustment_parameter:  # adjustment parameter for atmospheric stability correction
+      type: number
+      default: 5.
+
+snow:
+  type: dict
+  default: {}
+  schema:
+    model:
+      type: string
+      allowed:
+        - multilayer
+        - cryolayers
+      default: multilayer
+      coerce: snowmodel
+
+    melt:
+      type: dict
+      default: {}
+      schema:
+        method:
+          type: string
+          allowed: # temperature index methods are only allowed for the cryo layer model (validated afterwards)
+            - energy_balance
+            - temperature_index
+            - enhanced_temperature_index
+          default: energy_balance
+
+        threshold_temp: # threshold temperature for the temperature index methods (K)
+          type: number
+          default: 273.15
+
+        degree_day_factor: # degree day factor (kg m-2 d-1 K-1), must be provided for methods temperature_index and enhanced_temperature_index (validated afterwards)
+          type: number
+          nullable: true
+          default:
+
+        albedo_factor: # albedo factor (m2 kg m-2 W-1 d-1), must be provided for method enhanced_temperature_index (validated afterwards)
+          type: number
+          nullable: true
+          default:
+
+    min_thickness:
+      type: list
+      schema:
+        type: number
+      default:
+        - 0.1
+        - 0.2
+        - 0.4
+
+    thermal_conductivity:  # W m-1 K-1
+      type: number
+      default: 0.24
+    roughness_length:  # roughness length of snow-covered ground (m)
+      type: number
+      default: 0.01
+    measurement_height_adjustment:  # adjust the temperature measurement height for snow depth
+      type: boolean
+      default: false
+    snow_cover_fraction_depth_scale:  # snow cover fraction depth scale (m)
+      type: number
+      default: 0.
+
+    liquid_water_content:
+      type: dict
+      default: {}
+      schema:
+        method:
+          type: string
+          allowed:
+            - pore_volume_fraction
+            - mass_fraction
+          default: pore_volume_fraction
+        max:
+          type: number
+          default: 0.03
+
+    compaction:
+      type: dict
+      default: {}
+      schema:
+        method:
+          type: string
+          allowed:
+            - anderson
+            - empirical
+          default: anderson
+
+        # Parameters for the empirical density parameterization
+        timescale:  # snow compaction timescale (h)
+          type: number
+          default: 200
+        max_cold_density:  # maximum density for cold (T < 0 °C) snow (kg m-3)
+          type: number
+          default: 300
+        max_melting_density:  # maximum density for melting snow (kg m-3)
+          type: number
+          default: 500
+
+    albedo:
+      type: dict
+      default: {}
+      schema:
+        method:
+          type: string
+          allowed:
+            - snow_age
+            - usaco # deprecated
+            - fsm # deprecated
+          default: snow_age
+
+        min:  # minimum snow albedo
+          type: number
+          min: 0
+          max: 1
+          default: 0.55
+        max:  # maximum snow albedo
+          type: number
+          min: 0
+          max: 1
+          default: 0.85
+
+        # Parameters for the "snow_age" method
+        cold_snow_decay_timescale:  # cold snow albedo decay timescale (h)
+          type: number
+          default: 480
+        melting_snow_decay_timescale:  # melting snow albedo decay timescale (h)
+          type: number
+          default: 200
+        decay_timescale_determination_temperature: # use Ts or Ta for determining whether to use cold_snow_decay_timescale or melting_snow_decay_timescale
+          type: string
+          allowed:
+            - surface
+            - air
+          default: surface
+        refresh_snowfall: # snowfall to refresh albedo (kg m-2 h-1)
+          type: number
+          default: 0.5
+        refresh_method:
+          type: string
+          allowed:
+            - binary
+            - continuous
+          default: binary
+
+        # Parameters for the "usaco" method (deprecated)
+        k_pos:  # decay factor for positive air temperatures (d-1)
+          type: number
+          default: 0.12
+        k_neg:  # decay factor for negative air temperatures (d-1)
+          type: number
+          default: 0.05
+        significant_snowfall:  # snowfall to refresh albedo (kg m-2 h-1)
+          type: number
+          default: 0.5
+
+        # Firn and ice albedo (only relevant for the cryo layer model)
+        firn:
+          type: number
+          default: 0.4
+        ice:
+          type: number
+          default: 0.2
+
+    # Parameters for the cryo layer model
+    cryolayers:
+      type: dict
+      default: {}
+      schema:
+        transition:
+          type: dict
+          default: {}
+          schema:
+            # New snow -> old snow transition (density, kg m-3)
+            old_snow:
+              type: number
+              default: 200.
+
+            # Old snow -> firn transition (start of calendar month)
+            firn:
+              type: integer
+              default: 10
+
+            # Firn -> ice transition (density, kg m-3)
+            ice:
+              type: number
+              default: 900.
+
+        surface_temperature_iteration_method:
+          type: string
+          allowed:
+            - legacy
+            - secant
+          default: secant
+
+        use_single_snow_albedo:  # use a single albedo for new snow and old snow
+          type: boolean
+          default: true
+
+        # Cold holding capacity (as a fraction of the layer SWE) and refreezing
+        # factor for the cold content approach by Braun (1984)
+        cold_holding_capacity:
+          type: number
+          min: 0
+          max: 1
+          default: 0.05
+        refreezing_factor:
+          type: number
+          min: 0
+          max: 1
+          default: 1.
+
+        # Surface heat flux for snow-covered conditions (W m-2)
+        surface_heat_flux:
+          type: number
+          default: -2
+
+land_cover:
+  type: dict
+  default: {}
+  schema:
+    classes:
+      type: dict
+      default: {}
+      valuesrules:
+        schema: openamundsen_land_cover_class
+
+soil:
+  type: dict
+  default: {}
+  schema:
+    thickness:
+      type: list
+      schema:
+        type: number
+      default:
+        - 0.1
+        - 0.2
+        - 0.4
+        - 0.8
+
+    sand_fraction:
+      type: number
+      default: 0.6
+    clay_fraction:
+      type: number
+      default: 0.3
+
+    init_moisture_content:  # initial soil moisture content (fraction of moisture content at saturation)
+      type: number
+      default: 0.5
+    init_temp:  # initial soil temperature (K)
+      type: number
+      default: 285
+
+    saturated_soil_surface_conductance: # surface conductance for saturated soil (m s-1)
+      type: number
+      default: 0.01
+    roughness_length:  # snow-free roughness length (m)
+      type: number
+      default: 0.1
+    albedo:  # snow-free albedo
+      type: number
+      default: 0.15
+
+canopy:
+  type: dict
+  default: {}
+  schema:
+    enabled:
+      type: boolean
+      default: false
+
+    # Extinction coefficient for solar radiation (theoretically vegetation-dependent, here constant)
+    extinction_coefficient:
+      type: number
+      default: 0.71
+
+    temperature_scaling_coefficient: # R_c from Strasser et al. (2011, eq. (4))
+      type: number
+      default: 0.8
+
+    canopy_flow_index_coefficient: # beta from Strasser et al. (2011, eq. (8))
+      type: number
+      default: 0.9
+
+    spherical_ice_particle_radius: # radius of a spherical ice particle (m)
+      type: number
+      default: 500.e-6
+
+    kinematic_air_viscosity: # kinematic viscosity of air (m2 s-1)
+      type: number
+      default: 1.3e-5
+
+    max_interception_storage_coefficient: # coefficient to be multiplied by LAI to derive the maximum interception storage capacity
+      type: number
+      default: 4.4
+
+    exposure_coefficient_coefficient: # dimensionless coefficient to derive the canopy exposure coefficient
+      type: number
+      default: 0.010
+
+    degree_day_factor: # degree day factor for calculating melt of canopy-intercepted snow (kg m-2 d-1 K-1)
+      type: number
+      default: 5. # value from Liston & Elder (2006)
+
+evapotranspiration:
+  type: dict
+  default: {}
+  schema:
+    enabled:
+      type: boolean
+      default: false
+
+    min_crop_coefficient: # minimum crop coefficient for dry bare soil with no ground cover
+      type: number
+      default: 0.175 # mean of the FAO range (0.15-0.20)
+
+    grass_albedo: # albedo for grassland
+      type: number
+      default: 0.23
+    grass_emissivity: # emissivity for grassland
+      type: number
+      default: 0.985
+
+    sealed_albedo: # albedo for sealed surfaces
+      type: number
+      default: 0.4
+    sealed_emissivity: # emissivity for sealed surfaces
+      type: number
+      default: 0.92
+
+    # Parameters for the climatic correction of the crop coefficient for the
+    # mid-season growth stage (eq. (70) in Allen et al. (1998)), assumed to be
+    # valid for the entire area
+    mean_wind_speed: # mean value for daily wind speed at 2 m height over grass during the mid-season growth stage (m s-1)
+      type: number
+      default: 2. # default value from Allen et al. (1998) for a sub-humid climate with moderate wind speed
+    mean_min_humidity: # mean value for daily minimum relative humidity during the mid-season growth stage (%)
+      type: number
+      default: 45. # default value from Allen et al. (1998) for a sub-humid climate with moderate wind speed
+
+   # Depth of the surface soil layer that is subject to drying by way of evaporation (m)
+   # (Z_e in eq. (73) in Allen et al. (1998))
+    surface_soil_layer_evaporation_depth:
+      type: number
+      default: 0.125 # mean of the FAO range (0.10-0.15 m)
+
+liveview:
+  type: dict
+  default: {}
+  schema:
+    enabled:
+      type: boolean
+      default: false
+
+    cols:  # number of columns
+      type: integer
+      default: 5
+
+    width:  # window width (px)
+      type: integer
+      default: 1200
+
+    height:  # window height (px)
+      type: integer
+      default: 800
+
+    cmap:  # matplotlib colormap
+      type: string
+      default: viridis
+
+    blit:  # enable blitting for performance
+      type: boolean
+      default: true
+
+    downsample:  # downsampling factor
+      type: integer
+      default: 1
+      min: 1
+
+    variables:
+      type: list
+      default: []
+      schema:
+        type: dict
+        schema:
+          var:
+            type: string
+            required: true
+
+          min:
+            type: number
+            required: true
+
+          max:
+            type: number
+            required: true
+
+glaciers:
+  type: dict
+  default: {}
+  schema:
+    enabled:
+      type: boolean
+      default: false
+
+    model:
+      type: string
+      allowed:
+        - delta_h
+      default: delta_h
+
+    delta_h:
+      type: dict
+      default: {}
+      schema:
+        mass_balance_year_start_month:
+          type: integer
+          default: 10
+          min: 1
+          max: 12
