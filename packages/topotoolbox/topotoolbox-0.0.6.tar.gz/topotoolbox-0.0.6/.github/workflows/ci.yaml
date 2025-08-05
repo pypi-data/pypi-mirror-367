@@ -1,0 +1,61 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.10', '3.11', '3.12', '3.13.5']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest build
+
+      - name: Build and install TopoToolbox
+        run: |
+          pip install .[opensimplex]
+
+      - name: Run tests
+        run: |
+          python -m pytest
+
+      - name: Downgrade numpy
+        if: ${{ matrix.python-version <= '3.11' }}
+        run: |
+          pip install matplotlib scipy rasterio "numpy==1.23.5" --upgrade --upgrade-strategy eager
+          pytest
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      - name: Install tools
+        run: pip install -r requirements.txt
+
+      - name: Run pylint
+        run: pylint --rcfile=pyproject.toml src/topotoolbox/
+
+      - name: Run type checks
+        run: mypy --ignore-missing-imports src/topotoolbox

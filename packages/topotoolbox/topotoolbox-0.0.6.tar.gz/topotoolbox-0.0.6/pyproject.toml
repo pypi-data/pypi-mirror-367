@@ -1,0 +1,62 @@
+[build-system]
+build-backend = "scikit_build_core.build"
+requires = [
+    "scikit-build-core",
+    "pybind11",
+    "numpy>=2.0.0",
+]
+
+
+[project]
+name = "topotoolbox"
+version = "0.0.6"
+authors = [
+    {name="Wolfgang Schwanghart", email="w.schwanghart@geo.uni-potsdam.de"},
+    {name="Dirk Scherler", email="scherler@fz-potsdam.de"},
+    {name="Will Kearney", email="william.kearney@uni-potsdam.de"},
+    {name="Theo Bringezu", email="theophil.bringezu@uni-potsdam.de"}
+]
+description = "Python interface to TopoToolbox."
+readme = "README.md"
+license = { file = "LICENSE" }
+dependencies = [
+    "numpy>=1.23.5",
+    "matplotlib",
+    "scipy",
+    "rasterio",
+    "geopandas",
+    "shapely",
+    "clarabel"
+]
+requires-python = ">=3.10"
+keywords = ["TopoToolbox"]
+classifiers = []
+
+[project.optional-dependencies]
+opensimplex = ["opensimplex"]
+test = [
+     "pytest",
+     "opensimplex"
+]
+
+[project.urls]
+Homepage = "https://topotoolbox.github.io"
+Repository = "https://github.com/TopoToolbox/pytopotoolbox"
+Issues = "https://github.com/TopoToolbox/pytopotoolbox/issues"
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+
+[tool.pylint]
+disable = [
+    "too-many-instance-attributes",
+    "too-many-arguments",
+    "too-many-branches",
+    "too-many-statements",
+    "too-many-locals",
+    "duplicate-code",
+    "cyclic-import",
+    "too-many-positional-arguments",
+    "too-many-lines",
+    "too-many-public-methods",
+]
