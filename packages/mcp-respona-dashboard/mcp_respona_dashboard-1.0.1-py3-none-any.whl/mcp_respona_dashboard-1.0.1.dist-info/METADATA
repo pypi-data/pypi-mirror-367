@@ -1,0 +1,267 @@
+Metadata-Version: 2.4
+Name: mcp-respona-dashboard
+Version: 1.0.1
+Summary: MCP server for Respona Dashboard API integration - enables natural language interactions with ticket management and analytics systems
+Project-URL: Homepage, https://github.com/raihan0824/mcp-respona-dashboard
+Project-URL: Repository, https://github.com/raihan0824/mcp-respona-dashboard
+Project-URL: Issues, https://github.com/raihan0824/mcp-respona-dashboard/issues
+Project-URL: Changelog, https://github.com/raihan0824/mcp-respona-dashboard/releases
+Author-email: raihan0824 <raihan0824@users.noreply.github.com>
+Maintainer-email: raihan0824 <raihan0824@users.noreply.github.com>
+License: MIT
+License-File: LICENSE
+Keywords: analytics,api,dashboard,mcp,model-context-protocol,respona,tickets
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Communications
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Systems Administration
+Requires-Python: >=3.10
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: build>=1.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.7.4; extra == 'dev'
+Requires-Dist: twine>=4.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Respona Dashboard MCP Server
+
+An MCP (Model Context Protocol) server that provides tools to interact with the Respona Dashboard backend API. This server allows users to query ticket data, analytics, and AI flags through natural language interactions.
+
+## Features
+
+This MCP server implements 13 tools corresponding to the Respona Dashboard API endpoints:
+
+### Ticket Management Tools
+- **get_tickets** - Retrieve tickets with filtering and pagination
+- **get_ticket_stats** - Get ticket statistics and metrics
+- **get_ticket_by_id** - Retrieve a specific ticket by ID
+- **get_ticket_ai_analysis** - Get AI analysis for a specific ticket
+
+### Analytics Tools
+- **get_ai_flags_distribution** - Get AI flags distribution for analytics
+- **get_similar_incidents** - Get count of similar incidents
+- **get_source_channels_distribution** - Get distribution of ticket source channels
+- **get_priority_distribution** - Get distribution of ticket priorities
+- **get_status_distribution** - Get distribution of ticket statuses
+- **get_dashboard_analytics** - Get comprehensive analytics for dashboard
+
+### AI Flags Tools
+- **get_analysis_flags** - Get all flags for a specific AI analysis
+- **get_analysis_flag_stats** - Get flag statistics for an AI analysis
+- **get_all_flags** - Get all flags with pagination (admin view)
+
+## Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd respona_mcp_server
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -e .
+   ```
+   
+   Or using uv (recommended):
+   ```bash
+   uv pip install -e .
+   ```
+
+3. **Set up configuration:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+## Configuration
+
+The server can be configured through environment variables or a `.env` file:
+
+### API Configuration
+- `RESPONA_API_BASE_URL`: Base URL for the Respona Dashboard API (default: `http://10.250.201.107:3001`)
+- `RESPONA_API_KEY`: API key for authentication (optional)
+
+### Request Configuration
+- `RESPONA_REQUEST_TIMEOUT`: Request timeout in seconds (default: 30)
+- `RESPONA_MAX_RETRIES`: Maximum number of request retries (default: 3)
+
+### Pagination Configuration
+- `RESPONA_DEFAULT_PAGE_SIZE`: Default number of items per page (default: 20)
+- `RESPONA_MAX_PAGE_SIZE`: Maximum allowed page size (default: 100)
+
+## Usage
+
+### Running the Server
+
+```bash
+# Run directly
+python -m respona_mcp_server
+
+# Or using the installed script
+respona-mcp-server
+```
+
+### MCP Client Configuration
+
+Add this server to your MCP client configuration. For example, in Claude Desktop, add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "respona-dashboard": {
+      "command": "python",
+      "args": ["-m", "respona_mcp_server"],
+      "env": {
+        "RESPONA_API_BASE_URL": "http://10.250.201.107:3001"
+      }
+    }
+  }
+}
+```
+
+Or if you have the package installed globally:
+
+```json
+{
+  "mcpServers": {
+    "respona-dashboard": {
+      "command": "respona-mcp-server",
+      "env": {
+        "RESPONA_API_BASE_URL": "http://10.250.201.107:3001"
+      }
+    }
+  }
+}
+```
+
+## Tool Usage Examples
+
+### Get All Tickets
+```
+Get me all tickets with high priority from the last week
+```
+
+### Get Ticket Statistics
+```
+Show me the current ticket statistics
+```
+
+### Get Specific Ticket
+```
+Show me details for ticket ID 12345
+```
+
+### Get Analytics
+```
+What's the distribution of ticket priorities?
+```
+
+### Filter Tickets
+```
+Show me all tickets assigned to John Doe with status "open"
+```
+
+### Get AI Analysis
+```
+Get the AI analysis for ticket 67890
+```
+
+## API Endpoints Mapping
+
+| Tool Name | API Endpoint | Description |
+|-----------|--------------|-------------|
+| get_tickets | GET /api/tickets | Retrieve tickets with filtering |
+| get_ticket_stats | GET /api/tickets/stats | Get ticket statistics |
+| get_ticket_by_id | GET /api/tickets/{id} | Get specific ticket |
+| get_ticket_ai_analysis | GET /api/tickets/{id}/ai-analysis | Get AI analysis |
+| get_ai_flags_distribution | GET /api/analytics/ai-flags | Get AI flags distribution |
+| get_similar_incidents | GET /api/analytics/similar-incidents | Get similar incidents count |
+| get_source_channels_distribution | GET /api/analytics/source-channels | Get source channels distribution |
+| get_priority_distribution | GET /api/analytics/priority-distribution | Get priority distribution |
+| get_status_distribution | GET /api/analytics/status-distribution | Get status distribution |
+| get_dashboard_analytics | GET /api/analytics/dashboard | Get all analytics |
+| get_analysis_flags | GET /api/ai-flags/analysis/{analysisId}/flags | Get analysis flags |
+| get_analysis_flag_stats | GET /api/ai-flags/analysis/{analysisId}/flags/stats | Get flag statistics |
+| get_all_flags | GET /api/ai-flags/flags | Get all flags (admin) |
+
+## Error Handling
+
+The server includes comprehensive error handling:
+
+- **Network Errors**: Automatic retries with exponential backoff
+- **API Errors**: Proper HTTP status code handling
+- **Parameter Validation**: Input validation with helpful error messages
+- **Connection Issues**: Graceful handling of API server downtime
+
+## Development
+
+### Running Tests
+```bash
+pytest
+```
+
+### Code Formatting
+```bash
+ruff format .
+ruff check .
+```
+
+### Type Checking
+```bash
+mypy respona_mcp_server/
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Connection Refused**
+   - Check if the Respona API server is running
+   - Verify the `RESPONA_API_BASE_URL` configuration
+   - Check network connectivity
+
+2. **Authentication Errors**
+   - Verify API key configuration if required
+   - Check if the API key has proper permissions
+
+3. **Timeout Errors**
+   - Increase `RESPONA_REQUEST_TIMEOUT`
+   - Check network latency to the API server
+
+### Logging
+
+The server uses Python's standard logging. Set the log level:
+
+```bash
+export PYTHONPATH=.
+python -m respona_mcp_server --log-level DEBUG
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Run the test suite
+6. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details. 
