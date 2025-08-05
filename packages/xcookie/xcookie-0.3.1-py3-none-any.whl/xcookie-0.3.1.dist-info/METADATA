@@ -1,0 +1,586 @@
+Metadata-Version: 2.4
+Name: xcookie
+Version: 0.3.1
+Summary: The xcookie cookie-cutter Module
+Home-page: https://github.com/Erotemic/xcookie
+Author: Jon Crall
+Author-email: erotemic@gmail.com
+License: Apache 2
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.7
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: xdev>=1.5.3; python_version >= "3.6"
+Requires-Dist: ubelt>=1.3.6; python_version >= "3.6"
+Requires-Dist: toml>=0.9.6; python_version >= "2.7"
+Requires-Dist: scriptconfig>=0.7.10; python_version >= "3.6"
+Requires-Dist: rich>=12.3.0
+Requires-Dist: git-python>=1.0.0; python_version >= "2.7"
+Requires-Dist: black>=22.1.0; python_version >= "3.6.2"
+Requires-Dist: packaging>=21.3
+Requires-Dist: ruamel.yaml<=0.17.32,>=0.17.22
+Requires-Dist: PyYAML>=6.0.2; python_version < "4.0" and python_version >= "3.12"
+Requires-Dist: PyYAML>=6.0; python_version < "3.12"
+Requires-Dist: argcomplete>=1.0
+Requires-Dist: pandas>=2.2.3; python_version < "4.0" and python_version >= "3.13"
+Requires-Dist: pandas>=1.5.0; python_version < "3.12" and python_version >= "3.11"
+Requires-Dist: pandas>=1.3.5; python_version < "3.11" and python_version >= "3.10"
+Requires-Dist: pandas>=1.4.0; python_version < "3.10" and python_version >= "3.9"
+Requires-Dist: pandas>=1.4.0; python_version < "3.9" and python_version >= "3.8"
+Requires-Dist: pandas>=1.2.0; python_version < "3.8" and python_version >= "3.7"
+Requires-Dist: pandas>=1.1.4; python_version < "3.7" and python_version >= "3.6"
+Requires-Dist: numpy>=2.1.2; python_version < "4.0" and python_version >= "3.13"
+Requires-Dist: numpy>=1.26.0; python_version < "3.13" and python_version >= "3.12"
+Requires-Dist: numpy>=1.23.2; python_version < "3.12" and python_version >= "3.11"
+Requires-Dist: numpy>=1.21.6; python_version < "3.11" and python_version >= "3.10"
+Requires-Dist: numpy>=1.19.3; python_version < "3.10" and python_version >= "3.9"
+Requires-Dist: numpy>=1.22.0; sys_platform == "darwin" and python_version < "3.9" and python_version >= "3.8"
+Requires-Dist: numpy>=1.20.0; sys_platform != "darwin" and python_version < "3.9" and python_version >= "3.8"
+Requires-Dist: numpy>=1.19.3; python_version < "3.8" and python_version >= "3.7"
+Requires-Dist: cmd_queue>=0.1.6
+Requires-Dist: sphinx>=5.0.1
+Requires-Dist: sphinx-autobuild>=2021.3.14
+Requires-Dist: sphinx_rtd_theme>=1.0.0
+Requires-Dist: sphinxcontrib-napoleon>=0.7
+Requires-Dist: sphinx-autoapi>=1.8.4
+Requires-Dist: Pygments>=2.12.0
+Requires-Dist: myst_parser>=0.18.0
+Requires-Dist: sphinx-reredirects>=0.0.1
+Requires-Dist: tabulate>=0.9.0
+Provides-Extra: all
+Requires-Dist: xdev>=1.5.3; python_version >= "3.6" and extra == "all"
+Requires-Dist: ubelt>=1.3.6; python_version >= "3.6" and extra == "all"
+Requires-Dist: toml>=0.9.6; python_version >= "2.7" and extra == "all"
+Requires-Dist: scriptconfig>=0.7.10; python_version >= "3.6" and extra == "all"
+Requires-Dist: rich>=12.3.0; extra == "all"
+Requires-Dist: git-python>=1.0.0; python_version >= "2.7" and extra == "all"
+Requires-Dist: black>=22.1.0; python_version >= "3.6.2" and extra == "all"
+Requires-Dist: packaging>=21.3; extra == "all"
+Requires-Dist: ruamel.yaml<=0.17.32,>=0.17.22; extra == "all"
+Requires-Dist: PyYAML>=6.0.2; (python_version < "4.0" and python_version >= "3.12") and extra == "all"
+Requires-Dist: PyYAML>=6.0; python_version < "3.12" and extra == "all"
+Requires-Dist: argcomplete>=1.0; extra == "all"
+Requires-Dist: pandas>=2.2.3; (python_version < "4.0" and python_version >= "3.13") and extra == "all"
+Requires-Dist: pandas>=1.5.0; (python_version < "3.12" and python_version >= "3.11") and extra == "all"
+Requires-Dist: pandas>=1.3.5; (python_version < "3.11" and python_version >= "3.10") and extra == "all"
+Requires-Dist: pandas>=1.4.0; (python_version < "3.10" and python_version >= "3.9") and extra == "all"
+Requires-Dist: pandas>=1.4.0; (python_version < "3.9" and python_version >= "3.8") and extra == "all"
+Requires-Dist: pandas>=1.2.0; (python_version < "3.8" and python_version >= "3.7") and extra == "all"
+Requires-Dist: pandas>=1.1.4; (python_version < "3.7" and python_version >= "3.6") and extra == "all"
+Requires-Dist: numpy>=2.1.2; (python_version < "4.0" and python_version >= "3.13") and extra == "all"
+Requires-Dist: numpy>=1.26.0; (python_version < "3.13" and python_version >= "3.12") and extra == "all"
+Requires-Dist: numpy>=1.23.2; (python_version < "3.12" and python_version >= "3.11") and extra == "all"
+Requires-Dist: numpy>=1.21.6; (python_version < "3.11" and python_version >= "3.10") and extra == "all"
+Requires-Dist: numpy>=1.19.3; (python_version < "3.10" and python_version >= "3.9") and extra == "all"
+Requires-Dist: numpy>=1.22.0; (sys_platform == "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "all"
+Requires-Dist: numpy>=1.20.0; (sys_platform != "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "all"
+Requires-Dist: numpy>=1.19.3; (python_version < "3.8" and python_version >= "3.7") and extra == "all"
+Requires-Dist: cmd_queue>=0.1.6; extra == "all"
+Requires-Dist: sphinx>=5.0.1; extra == "all"
+Requires-Dist: sphinx-autobuild>=2021.3.14; extra == "all"
+Requires-Dist: sphinx_rtd_theme>=1.0.0; extra == "all"
+Requires-Dist: sphinxcontrib-napoleon>=0.7; extra == "all"
+Requires-Dist: sphinx-autoapi>=1.8.4; extra == "all"
+Requires-Dist: Pygments>=2.12.0; extra == "all"
+Requires-Dist: myst_parser>=0.18.0; extra == "all"
+Requires-Dist: sphinx-reredirects>=0.0.1; extra == "all"
+Requires-Dist: tabulate>=0.9.0; extra == "all"
+Requires-Dist: xdoctest>=1.1.6; extra == "all"
+Requires-Dist: pytest>=6.2.5; python_version >= "3.10.0" and extra == "all"
+Requires-Dist: pytest>=6.2.5; (python_version < "3.10.0" and python_version >= "3.7.0") and extra == "all"
+Requires-Dist: pytest-cov>=3.0.0; python_version >= "3.6.0" and extra == "all"
+Requires-Dist: pytest-cov>=2.9.0; (python_version < "3.6.0" and python_version >= "3.5.0") and extra == "all"
+Requires-Dist: pytest-cov>=2.8.1; (python_version < "3.5.0" and python_version >= "3.4.0") and extra == "all"
+Requires-Dist: pytest-cov>=2.8.1; (python_version < "2.8.0" and python_version >= "2.7.0") and extra == "all"
+Requires-Dist: pytest-timeout>=1.4.2; extra == "all"
+Requires-Dist: coverage>=6.1.1; python_version >= "3.10" and extra == "all"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.10" and python_version >= "3.9") and extra == "all"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.9" and python_version >= "3.8") and extra == "all"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.8" and python_version >= "3.7") and extra == "all"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.7" and python_version >= "3.6") and extra == "all"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.6" and python_version >= "3.5") and extra == "all"
+Requires-Dist: coverage>=4.3.4; (python_version < "3.5" and python_version >= "3.4") and extra == "all"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.4" and python_version >= "2.7") and extra == "all"
+Requires-Dist: coverage>=4.5; (python_version < "2.7" and python_version >= "2.6") and extra == "all"
+Requires-Dist: python-gitlab>=3.0; extra == "all"
+Requires-Dist: psycopg2-binary>=2.9.5; (python_version < "4.0" and python_version >= "3.11") and extra == "all"
+Requires-Dist: psycopg2-binary>=2.9.1; (python_version < "3.11" and python_version >= "3.10") and extra == "all"
+Requires-Dist: psycopg2-binary>=2.8.6; (python_version < "3.10" and python_version >= "3.9") and extra == "all"
+Requires-Dist: psycopg2-binary>=2.8.4; (python_version < "3.9" and python_version >= "3.8") and extra == "all"
+Requires-Dist: psycopg2-binary>=2.7.5; (python_version < "3.8" and python_version >= "3.7") and extra == "all"
+Requires-Dist: psycopg2-binary>=2.7.3.2; (python_version < "3.7" and python_version >= "3.6") and extra == "all"
+Requires-Dist: sqlalchemy_utils>=0.40.0; extra == "all"
+Provides-Extra: runtime
+Requires-Dist: xdev>=1.5.3; python_version >= "3.6" and extra == "runtime"
+Requires-Dist: ubelt>=1.3.6; python_version >= "3.6" and extra == "runtime"
+Requires-Dist: toml>=0.9.6; python_version >= "2.7" and extra == "runtime"
+Requires-Dist: scriptconfig>=0.7.10; python_version >= "3.6" and extra == "runtime"
+Requires-Dist: rich>=12.3.0; extra == "runtime"
+Requires-Dist: git-python>=1.0.0; python_version >= "2.7" and extra == "runtime"
+Requires-Dist: black>=22.1.0; python_version >= "3.6.2" and extra == "runtime"
+Requires-Dist: packaging>=21.3; extra == "runtime"
+Requires-Dist: ruamel.yaml<=0.17.32,>=0.17.22; extra == "runtime"
+Requires-Dist: PyYAML>=6.0.2; (python_version < "4.0" and python_version >= "3.12") and extra == "runtime"
+Requires-Dist: PyYAML>=6.0; python_version < "3.12" and extra == "runtime"
+Requires-Dist: argcomplete>=1.0; extra == "runtime"
+Requires-Dist: pandas>=2.2.3; (python_version < "4.0" and python_version >= "3.13") and extra == "runtime"
+Requires-Dist: pandas>=1.5.0; (python_version < "3.12" and python_version >= "3.11") and extra == "runtime"
+Requires-Dist: pandas>=1.3.5; (python_version < "3.11" and python_version >= "3.10") and extra == "runtime"
+Requires-Dist: pandas>=1.4.0; (python_version < "3.10" and python_version >= "3.9") and extra == "runtime"
+Requires-Dist: pandas>=1.4.0; (python_version < "3.9" and python_version >= "3.8") and extra == "runtime"
+Requires-Dist: pandas>=1.2.0; (python_version < "3.8" and python_version >= "3.7") and extra == "runtime"
+Requires-Dist: pandas>=1.1.4; (python_version < "3.7" and python_version >= "3.6") and extra == "runtime"
+Requires-Dist: numpy>=2.1.2; (python_version < "4.0" and python_version >= "3.13") and extra == "runtime"
+Requires-Dist: numpy>=1.26.0; (python_version < "3.13" and python_version >= "3.12") and extra == "runtime"
+Requires-Dist: numpy>=1.23.2; (python_version < "3.12" and python_version >= "3.11") and extra == "runtime"
+Requires-Dist: numpy>=1.21.6; (python_version < "3.11" and python_version >= "3.10") and extra == "runtime"
+Requires-Dist: numpy>=1.19.3; (python_version < "3.10" and python_version >= "3.9") and extra == "runtime"
+Requires-Dist: numpy>=1.22.0; (sys_platform == "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "runtime"
+Requires-Dist: numpy>=1.20.0; (sys_platform != "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "runtime"
+Requires-Dist: numpy>=1.19.3; (python_version < "3.8" and python_version >= "3.7") and extra == "runtime"
+Requires-Dist: cmd_queue>=0.1.6; extra == "runtime"
+Requires-Dist: sphinx>=5.0.1; extra == "runtime"
+Requires-Dist: sphinx-autobuild>=2021.3.14; extra == "runtime"
+Requires-Dist: sphinx_rtd_theme>=1.0.0; extra == "runtime"
+Requires-Dist: sphinxcontrib-napoleon>=0.7; extra == "runtime"
+Requires-Dist: sphinx-autoapi>=1.8.4; extra == "runtime"
+Requires-Dist: Pygments>=2.12.0; extra == "runtime"
+Requires-Dist: myst_parser>=0.18.0; extra == "runtime"
+Requires-Dist: sphinx-reredirects>=0.0.1; extra == "runtime"
+Requires-Dist: tabulate>=0.9.0; extra == "runtime"
+Provides-Extra: tests
+Requires-Dist: xdoctest>=1.1.6; extra == "tests"
+Requires-Dist: pytest>=6.2.5; python_version >= "3.10.0" and extra == "tests"
+Requires-Dist: pytest>=6.2.5; (python_version < "3.10.0" and python_version >= "3.7.0") and extra == "tests"
+Requires-Dist: pytest-cov>=3.0.0; python_version >= "3.6.0" and extra == "tests"
+Requires-Dist: pytest-cov>=2.9.0; (python_version < "3.6.0" and python_version >= "3.5.0") and extra == "tests"
+Requires-Dist: pytest-cov>=2.8.1; (python_version < "3.5.0" and python_version >= "3.4.0") and extra == "tests"
+Requires-Dist: pytest-cov>=2.8.1; (python_version < "2.8.0" and python_version >= "2.7.0") and extra == "tests"
+Requires-Dist: pytest-timeout>=1.4.2; extra == "tests"
+Requires-Dist: coverage>=6.1.1; python_version >= "3.10" and extra == "tests"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.10" and python_version >= "3.9") and extra == "tests"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.9" and python_version >= "3.8") and extra == "tests"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.8" and python_version >= "3.7") and extra == "tests"
+Requires-Dist: coverage>=6.1.1; (python_version < "3.7" and python_version >= "3.6") and extra == "tests"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.6" and python_version >= "3.5") and extra == "tests"
+Requires-Dist: coverage>=4.3.4; (python_version < "3.5" and python_version >= "3.4") and extra == "tests"
+Requires-Dist: coverage>=5.3.1; (python_version < "3.4" and python_version >= "2.7") and extra == "tests"
+Requires-Dist: coverage>=4.5; (python_version < "2.7" and python_version >= "2.6") and extra == "tests"
+Provides-Extra: optional
+Requires-Dist: python-gitlab>=3.0; extra == "optional"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.1; extra == "docs"
+Requires-Dist: sphinx-autobuild>=2021.3.14; extra == "docs"
+Requires-Dist: sphinx_rtd_theme>=1.0.0; extra == "docs"
+Requires-Dist: sphinxcontrib-napoleon>=0.7; extra == "docs"
+Requires-Dist: sphinx-autoapi>=1.8.4; extra == "docs"
+Requires-Dist: Pygments>=2.9.0; extra == "docs"
+Requires-Dist: myst_parser>=0.18.0; extra == "docs"
+Requires-Dist: sphinx-reredirects>=0.0.1; extra == "docs"
+Requires-Dist: docutils>=0.20.1; extra == "docs"
+Provides-Extra: gdal-strict
+Requires-Dist: GDAL==3.7.2; (python_version < "4.0" and python_version >= "3.12") and extra == "gdal-strict"
+Requires-Dist: GDAL==3.5.2; (python_version < "3.12" and python_version >= "3.11") and extra == "gdal-strict"
+Requires-Dist: GDAL==3.4.1; (python_version < "3.11" and python_version >= "3.10") and extra == "gdal-strict"
+Requires-Dist: GDAL==3.4.1; python_version <= "3.9" and extra == "gdal-strict"
+Provides-Extra: gdal
+Requires-Dist: GDAL>=3.7.2; (python_version < "4.0" and python_version >= "3.12") and extra == "gdal"
+Requires-Dist: GDAL>=3.5.2; (python_version < "3.12" and python_version >= "3.11") and extra == "gdal"
+Requires-Dist: GDAL>=3.4.1; (python_version < "3.11" and python_version >= "3.10") and extra == "gdal"
+Requires-Dist: GDAL>=3.4.1; python_version <= "3.9" and extra == "gdal"
+Provides-Extra: graphics
+Requires-Dist: opencv-python>=4.5.5.64; (python_version < "4.0" and python_version >= "3.11") and extra == "graphics"
+Requires-Dist: opencv-python>=4.5.4.58; (python_version < "3.11" and python_version >= "3.10") and extra == "graphics"
+Requires-Dist: opencv-python>=3.4.15.55; (python_version < "3.10" and python_version >= "3.9") and extra == "graphics"
+Requires-Dist: opencv-python>=3.4.15.55; (python_version < "3.9" and python_version >= "3.8") and extra == "graphics"
+Requires-Dist: opencv-python>=3.4.15.55; (python_version < "3.8" and python_version >= "3.7") and extra == "graphics"
+Requires-Dist: opencv-python>=3.4.13.47; (python_version < "3.7" and python_version >= "3.6") and extra == "graphics"
+Requires-Dist: opencv-python>=3.1.0.2; (python_version < "3.6" and python_version >= "3.5") and extra == "graphics"
+Requires-Dist: opencv-python>=3.1.0.5; (python_version < "3.5" and python_version >= "3.4") and extra == "graphics"
+Requires-Dist: opencv-python>=3.1.0.0; (python_version < "3.4" and python_version >= "2.7") and extra == "graphics"
+Provides-Extra: headless
+Requires-Dist: opencv-python-headless>=4.5.5.64; (python_version < "4.0" and python_version >= "3.11") and extra == "headless"
+Requires-Dist: opencv-python-headless>=4.5.4.58; (python_version < "3.11" and python_version >= "3.10") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.15.55; (python_version < "3.10" and python_version >= "3.9") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.15.55; (python_version < "3.9" and python_version >= "3.8") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.15.55; (python_version < "3.8" and python_version >= "3.7") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.13.47; (python_version < "3.7" and python_version >= "3.6") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.2.16; (python_version < "3.6" and python_version >= "3.5") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.2.16; (python_version < "3.5" and python_version >= "3.4") and extra == "headless"
+Requires-Dist: opencv-python-headless>=3.4.2.16; (python_version < "3.4" and python_version >= "2.7") and extra == "headless"
+Provides-Extra: postgresql
+Requires-Dist: psycopg2-binary>=2.9.5; (python_version < "4.0" and python_version >= "3.11") and extra == "postgresql"
+Requires-Dist: psycopg2-binary>=2.9.1; (python_version < "3.11" and python_version >= "3.10") and extra == "postgresql"
+Requires-Dist: psycopg2-binary>=2.8.6; (python_version < "3.10" and python_version >= "3.9") and extra == "postgresql"
+Requires-Dist: psycopg2-binary>=2.8.4; (python_version < "3.9" and python_version >= "3.8") and extra == "postgresql"
+Requires-Dist: psycopg2-binary>=2.7.5; (python_version < "3.8" and python_version >= "3.7") and extra == "postgresql"
+Requires-Dist: psycopg2-binary>=2.7.3.2; (python_version < "3.7" and python_version >= "3.6") and extra == "postgresql"
+Requires-Dist: sqlalchemy_utils>=0.40.0; extra == "postgresql"
+Provides-Extra: all-strict
+Requires-Dist: xdev==1.5.3; python_version >= "3.6" and extra == "all-strict"
+Requires-Dist: ubelt==1.3.6; python_version >= "3.6" and extra == "all-strict"
+Requires-Dist: toml==0.9.6; python_version >= "2.7" and extra == "all-strict"
+Requires-Dist: scriptconfig==0.7.10; python_version >= "3.6" and extra == "all-strict"
+Requires-Dist: rich==12.3.0; extra == "all-strict"
+Requires-Dist: git-python==1.0.0; python_version >= "2.7" and extra == "all-strict"
+Requires-Dist: black==22.1.0; python_version >= "3.6.2" and extra == "all-strict"
+Requires-Dist: packaging==21.3; extra == "all-strict"
+Requires-Dist: ruamel.yaml<=0.17.32,==0.17.22; extra == "all-strict"
+Requires-Dist: PyYAML==6.0.2; (python_version < "4.0" and python_version >= "3.12") and extra == "all-strict"
+Requires-Dist: PyYAML==6.0; python_version < "3.12" and extra == "all-strict"
+Requires-Dist: argcomplete==1.0; extra == "all-strict"
+Requires-Dist: pandas==2.2.3; (python_version < "4.0" and python_version >= "3.13") and extra == "all-strict"
+Requires-Dist: pandas==1.5.0; (python_version < "3.12" and python_version >= "3.11") and extra == "all-strict"
+Requires-Dist: pandas==1.3.5; (python_version < "3.11" and python_version >= "3.10") and extra == "all-strict"
+Requires-Dist: pandas==1.4.0; (python_version < "3.10" and python_version >= "3.9") and extra == "all-strict"
+Requires-Dist: pandas==1.4.0; (python_version < "3.9" and python_version >= "3.8") and extra == "all-strict"
+Requires-Dist: pandas==1.2.0; (python_version < "3.8" and python_version >= "3.7") and extra == "all-strict"
+Requires-Dist: pandas==1.1.4; (python_version < "3.7" and python_version >= "3.6") and extra == "all-strict"
+Requires-Dist: numpy==2.1.2; (python_version < "4.0" and python_version >= "3.13") and extra == "all-strict"
+Requires-Dist: numpy==1.26.0; (python_version < "3.13" and python_version >= "3.12") and extra == "all-strict"
+Requires-Dist: numpy==1.23.2; (python_version < "3.12" and python_version >= "3.11") and extra == "all-strict"
+Requires-Dist: numpy==1.21.6; (python_version < "3.11" and python_version >= "3.10") and extra == "all-strict"
+Requires-Dist: numpy==1.19.3; (python_version < "3.10" and python_version >= "3.9") and extra == "all-strict"
+Requires-Dist: numpy==1.22.0; (sys_platform == "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "all-strict"
+Requires-Dist: numpy==1.20.0; (sys_platform != "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "all-strict"
+Requires-Dist: numpy==1.19.3; (python_version < "3.8" and python_version >= "3.7") and extra == "all-strict"
+Requires-Dist: cmd_queue==0.1.6; extra == "all-strict"
+Requires-Dist: sphinx==5.0.1; extra == "all-strict"
+Requires-Dist: sphinx-autobuild==2021.3.14; extra == "all-strict"
+Requires-Dist: sphinx_rtd_theme==1.0.0; extra == "all-strict"
+Requires-Dist: sphinxcontrib-napoleon==0.7; extra == "all-strict"
+Requires-Dist: sphinx-autoapi==1.8.4; extra == "all-strict"
+Requires-Dist: Pygments==2.12.0; extra == "all-strict"
+Requires-Dist: myst_parser==0.18.0; extra == "all-strict"
+Requires-Dist: sphinx-reredirects==0.0.1; extra == "all-strict"
+Requires-Dist: tabulate==0.9.0; extra == "all-strict"
+Requires-Dist: xdoctest==1.1.6; extra == "all-strict"
+Requires-Dist: pytest==6.2.5; python_version >= "3.10.0" and extra == "all-strict"
+Requires-Dist: pytest==6.2.5; (python_version < "3.10.0" and python_version >= "3.7.0") and extra == "all-strict"
+Requires-Dist: pytest-cov==3.0.0; python_version >= "3.6.0" and extra == "all-strict"
+Requires-Dist: pytest-cov==2.9.0; (python_version < "3.6.0" and python_version >= "3.5.0") and extra == "all-strict"
+Requires-Dist: pytest-cov==2.8.1; (python_version < "3.5.0" and python_version >= "3.4.0") and extra == "all-strict"
+Requires-Dist: pytest-cov==2.8.1; (python_version < "2.8.0" and python_version >= "2.7.0") and extra == "all-strict"
+Requires-Dist: pytest-timeout==1.4.2; extra == "all-strict"
+Requires-Dist: coverage==6.1.1; python_version >= "3.10" and extra == "all-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.10" and python_version >= "3.9") and extra == "all-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.9" and python_version >= "3.8") and extra == "all-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.8" and python_version >= "3.7") and extra == "all-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.7" and python_version >= "3.6") and extra == "all-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.6" and python_version >= "3.5") and extra == "all-strict"
+Requires-Dist: coverage==4.3.4; (python_version < "3.5" and python_version >= "3.4") and extra == "all-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.4" and python_version >= "2.7") and extra == "all-strict"
+Requires-Dist: coverage==4.5; (python_version < "2.7" and python_version >= "2.6") and extra == "all-strict"
+Requires-Dist: python-gitlab==3.0; extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.9.5; (python_version < "4.0" and python_version >= "3.11") and extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.9.1; (python_version < "3.11" and python_version >= "3.10") and extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.8.6; (python_version < "3.10" and python_version >= "3.9") and extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.8.4; (python_version < "3.9" and python_version >= "3.8") and extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.7.5; (python_version < "3.8" and python_version >= "3.7") and extra == "all-strict"
+Requires-Dist: psycopg2-binary==2.7.3.2; (python_version < "3.7" and python_version >= "3.6") and extra == "all-strict"
+Requires-Dist: sqlalchemy_utils==0.40.0; extra == "all-strict"
+Provides-Extra: runtime-strict
+Requires-Dist: xdev==1.5.3; python_version >= "3.6" and extra == "runtime-strict"
+Requires-Dist: ubelt==1.3.6; python_version >= "3.6" and extra == "runtime-strict"
+Requires-Dist: toml==0.9.6; python_version >= "2.7" and extra == "runtime-strict"
+Requires-Dist: scriptconfig==0.7.10; python_version >= "3.6" and extra == "runtime-strict"
+Requires-Dist: rich==12.3.0; extra == "runtime-strict"
+Requires-Dist: git-python==1.0.0; python_version >= "2.7" and extra == "runtime-strict"
+Requires-Dist: black==22.1.0; python_version >= "3.6.2" and extra == "runtime-strict"
+Requires-Dist: packaging==21.3; extra == "runtime-strict"
+Requires-Dist: ruamel.yaml<=0.17.32,==0.17.22; extra == "runtime-strict"
+Requires-Dist: PyYAML==6.0.2; (python_version < "4.0" and python_version >= "3.12") and extra == "runtime-strict"
+Requires-Dist: PyYAML==6.0; python_version < "3.12" and extra == "runtime-strict"
+Requires-Dist: argcomplete==1.0; extra == "runtime-strict"
+Requires-Dist: pandas==2.2.3; (python_version < "4.0" and python_version >= "3.13") and extra == "runtime-strict"
+Requires-Dist: pandas==1.5.0; (python_version < "3.12" and python_version >= "3.11") and extra == "runtime-strict"
+Requires-Dist: pandas==1.3.5; (python_version < "3.11" and python_version >= "3.10") and extra == "runtime-strict"
+Requires-Dist: pandas==1.4.0; (python_version < "3.10" and python_version >= "3.9") and extra == "runtime-strict"
+Requires-Dist: pandas==1.4.0; (python_version < "3.9" and python_version >= "3.8") and extra == "runtime-strict"
+Requires-Dist: pandas==1.2.0; (python_version < "3.8" and python_version >= "3.7") and extra == "runtime-strict"
+Requires-Dist: pandas==1.1.4; (python_version < "3.7" and python_version >= "3.6") and extra == "runtime-strict"
+Requires-Dist: numpy==2.1.2; (python_version < "4.0" and python_version >= "3.13") and extra == "runtime-strict"
+Requires-Dist: numpy==1.26.0; (python_version < "3.13" and python_version >= "3.12") and extra == "runtime-strict"
+Requires-Dist: numpy==1.23.2; (python_version < "3.12" and python_version >= "3.11") and extra == "runtime-strict"
+Requires-Dist: numpy==1.21.6; (python_version < "3.11" and python_version >= "3.10") and extra == "runtime-strict"
+Requires-Dist: numpy==1.19.3; (python_version < "3.10" and python_version >= "3.9") and extra == "runtime-strict"
+Requires-Dist: numpy==1.22.0; (sys_platform == "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "runtime-strict"
+Requires-Dist: numpy==1.20.0; (sys_platform != "darwin" and python_version < "3.9" and python_version >= "3.8") and extra == "runtime-strict"
+Requires-Dist: numpy==1.19.3; (python_version < "3.8" and python_version >= "3.7") and extra == "runtime-strict"
+Requires-Dist: cmd_queue==0.1.6; extra == "runtime-strict"
+Requires-Dist: sphinx==5.0.1; extra == "runtime-strict"
+Requires-Dist: sphinx-autobuild==2021.3.14; extra == "runtime-strict"
+Requires-Dist: sphinx_rtd_theme==1.0.0; extra == "runtime-strict"
+Requires-Dist: sphinxcontrib-napoleon==0.7; extra == "runtime-strict"
+Requires-Dist: sphinx-autoapi==1.8.4; extra == "runtime-strict"
+Requires-Dist: Pygments==2.12.0; extra == "runtime-strict"
+Requires-Dist: myst_parser==0.18.0; extra == "runtime-strict"
+Requires-Dist: sphinx-reredirects==0.0.1; extra == "runtime-strict"
+Requires-Dist: tabulate==0.9.0; extra == "runtime-strict"
+Provides-Extra: tests-strict
+Requires-Dist: xdoctest==1.1.6; extra == "tests-strict"
+Requires-Dist: pytest==6.2.5; python_version >= "3.10.0" and extra == "tests-strict"
+Requires-Dist: pytest==6.2.5; (python_version < "3.10.0" and python_version >= "3.7.0") and extra == "tests-strict"
+Requires-Dist: pytest-cov==3.0.0; python_version >= "3.6.0" and extra == "tests-strict"
+Requires-Dist: pytest-cov==2.9.0; (python_version < "3.6.0" and python_version >= "3.5.0") and extra == "tests-strict"
+Requires-Dist: pytest-cov==2.8.1; (python_version < "3.5.0" and python_version >= "3.4.0") and extra == "tests-strict"
+Requires-Dist: pytest-cov==2.8.1; (python_version < "2.8.0" and python_version >= "2.7.0") and extra == "tests-strict"
+Requires-Dist: pytest-timeout==1.4.2; extra == "tests-strict"
+Requires-Dist: coverage==6.1.1; python_version >= "3.10" and extra == "tests-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.10" and python_version >= "3.9") and extra == "tests-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.9" and python_version >= "3.8") and extra == "tests-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.8" and python_version >= "3.7") and extra == "tests-strict"
+Requires-Dist: coverage==6.1.1; (python_version < "3.7" and python_version >= "3.6") and extra == "tests-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.6" and python_version >= "3.5") and extra == "tests-strict"
+Requires-Dist: coverage==4.3.4; (python_version < "3.5" and python_version >= "3.4") and extra == "tests-strict"
+Requires-Dist: coverage==5.3.1; (python_version < "3.4" and python_version >= "2.7") and extra == "tests-strict"
+Requires-Dist: coverage==4.5; (python_version < "2.7" and python_version >= "2.6") and extra == "tests-strict"
+Provides-Extra: optional-strict
+Requires-Dist: python-gitlab==3.0; extra == "optional-strict"
+Provides-Extra: docs-strict
+Requires-Dist: sphinx==5.0.1; extra == "docs-strict"
+Requires-Dist: sphinx-autobuild==2021.3.14; extra == "docs-strict"
+Requires-Dist: sphinx_rtd_theme==1.0.0; extra == "docs-strict"
+Requires-Dist: sphinxcontrib-napoleon==0.7; extra == "docs-strict"
+Requires-Dist: sphinx-autoapi==1.8.4; extra == "docs-strict"
+Requires-Dist: Pygments==2.9.0; extra == "docs-strict"
+Requires-Dist: myst_parser==0.18.0; extra == "docs-strict"
+Requires-Dist: sphinx-reredirects==0.0.1; extra == "docs-strict"
+Requires-Dist: docutils==0.20.1; extra == "docs-strict"
+Provides-Extra: gdal-strict-strict
+Requires-Dist: GDAL==3.5.2; (python_version < "4.0" and python_version >= "3.11") and extra == "gdal-strict-strict"
+Requires-Dist: GDAL==3.4.1; (python_version < "3.11" and python_version >= "3.10") and extra == "gdal-strict-strict"
+Requires-Dist: GDAL==3.4.1; python_version <= "3.9" and extra == "gdal-strict-strict"
+Provides-Extra: graphics-strict
+Requires-Dist: opencv-python==4.5.5.64; (python_version < "4.0" and python_version >= "3.11") and extra == "graphics-strict"
+Requires-Dist: opencv-python==4.5.4.58; (python_version < "3.11" and python_version >= "3.10") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.4.15.55; (python_version < "3.10" and python_version >= "3.9") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.4.15.55; (python_version < "3.9" and python_version >= "3.8") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.4.15.55; (python_version < "3.8" and python_version >= "3.7") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.4.13.47; (python_version < "3.7" and python_version >= "3.6") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.1.0.2; (python_version < "3.6" and python_version >= "3.5") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.1.0.5; (python_version < "3.5" and python_version >= "3.4") and extra == "graphics-strict"
+Requires-Dist: opencv-python==3.1.0.0; (python_version < "3.4" and python_version >= "2.7") and extra == "graphics-strict"
+Provides-Extra: headless-strict
+Requires-Dist: opencv-python-headless==4.5.5.64; (python_version < "4.0" and python_version >= "3.11") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==4.5.4.58; (python_version < "3.11" and python_version >= "3.10") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.15.55; (python_version < "3.10" and python_version >= "3.9") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.15.55; (python_version < "3.9" and python_version >= "3.8") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.15.55; (python_version < "3.8" and python_version >= "3.7") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.13.47; (python_version < "3.7" and python_version >= "3.6") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.2.16; (python_version < "3.6" and python_version >= "3.5") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.2.16; (python_version < "3.5" and python_version >= "3.4") and extra == "headless-strict"
+Requires-Dist: opencv-python-headless==3.4.2.16; (python_version < "3.4" and python_version >= "2.7") and extra == "headless-strict"
+Provides-Extra: postgresql-strict
+Requires-Dist: psycopg2-binary==2.9.5; (python_version < "4.0" and python_version >= "3.11") and extra == "postgresql-strict"
+Requires-Dist: psycopg2-binary==2.9.1; (python_version < "3.11" and python_version >= "3.10") and extra == "postgresql-strict"
+Requires-Dist: psycopg2-binary==2.8.6; (python_version < "3.10" and python_version >= "3.9") and extra == "postgresql-strict"
+Requires-Dist: psycopg2-binary==2.8.4; (python_version < "3.9" and python_version >= "3.8") and extra == "postgresql-strict"
+Requires-Dist: psycopg2-binary==2.7.5; (python_version < "3.8" and python_version >= "3.7") and extra == "postgresql-strict"
+Requires-Dist: psycopg2-binary==2.7.3.2; (python_version < "3.7" and python_version >= "3.6") and extra == "postgresql-strict"
+Requires-Dist: sqlalchemy_utils==0.40.0; extra == "postgresql-strict"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+The xcookie Module
+==================
+
+|GithubActions| |ReadTheDocs| |Pypi| |Downloads| |Codecov|
+
+
+The ``xcookie`` module. A helper for templating python projects.
+
+
++------------------+----------------------------------------------+
+| Read the docs    | https://xcookie.readthedocs.io               |
++------------------+----------------------------------------------+
+| Github           | https://github.com/Erotemic/xcookie          |
++------------------+----------------------------------------------+
+| Pypi             | https://pypi.org/project/xcookie             |
++------------------+----------------------------------------------+
+
+The goal is to be able to setup and update Python project structures with consistent
+boilerplate for things like CI, ``setup.py``, and requirements.
+
+It handles:
+
+* Multiple version control remotes:
+
+  + Github
+
+  + Gitlab
+
+* pure python packages
+
+* python packages with scikit-build binary extensions
+
+* rotating secrets
+
+* CI scripts for github or gitlab where the general pattern is:
+
+  + Lint the project
+
+  + Build the pure python or binary wheels
+
+  + Test the wheels in the supported environments (i.e. different operating systems / versions of Python)
+
+  + Optionally sign the wheels with online GPG keys
+
+  + Upload the wheels to test pypi or live pypi.
+
+This is primarily driven by the needs of my projects and thus has some logic
+that is specific to things I'm doing. However, these are all generally behind
+checks for the "erotemic" tag. I am working on slowly making this into a proper
+CLI that is externally usable.
+
+
+The top level CLI is:
+
+
+.. code::
+
+    positional arguments:
+      repodir               path to the new or existing repo
+
+    options:
+      -h, --help            show this help message and exit
+      --repodir REPODIR     path to the new or existing repo (default: .)
+      --repo_name REPO_NAME
+                            defaults to ``repodir.name`` (default: None)
+      --mod_name MOD_NAME   The name of the importable Python module. defaults to ``repo_name`` (default: None)
+      --pkg_name PKG_NAME   The name of the installable Python package. defaults to ``mod_name`` (default: None)
+      --rel_mod_parent_dpath REL_MOD_PARENT_DPATH
+                            The location of the module directory relative to the repository root. This defaults to simply placing the module in
+                            ".", but another common pattern is to specify this as "./src". (default: .)
+      --rotate_secrets [ROTATE_SECRETS], --no-rotate_secrets
+                            If True will execute secret rotation (default: auto)
+      --refresh_docs [REFRESH_DOCS], --no-refresh_docs
+                            If True will refresh the docs (default: auto)
+      --os OS               all or any of win,osx,linux (default: all)
+      --is_new IS_NEW       If the repo is detected or specified as being new, then steps to create a project for the repo on github/gitlab and
+                            other initialization procedures will be executed. Otherwise we assume that we are updating an existing repo. (default:
+                            auto)
+      --min_python MIN_PYTHON
+      --typed TYPED         Should be None, False, True, partial or full (default: None)
+      --supported_python_versions SUPPORTED_PYTHON_VERSIONS
+                            can specify as a list of explicit major.minor versions. Auto will use everything above the min_python version (default:
+                            auto)
+      --ci_cpython_versions CI_CPYTHON_VERSIONS
+                            Specify the major.minor CPython versions to use on the CI. Will default to the supported_python_versions. E.g. ["3.7",
+                            "3.10"] (default: auto)
+      --ci_pypy_versions CI_PYPY_VERSIONS
+                            Specify the major.minor PyPy versions to use on the CI. Defaults will depend on purepy vs binpy tags. (default: auto)
+      --ci_versions_minimal_strict CI_VERSIONS_MINIMAL_STRICT
+                            todo: sus out (default: min)
+      --ci_versions_full_strict CI_VERSIONS_FULL_STRICT
+      --ci_versions_minimal_loose CI_VERSIONS_MINIMAL_LOOSE
+      --ci_versions_full_loose CI_VERSIONS_FULL_LOOSE
+      --remote_host REMOTE_HOST
+                            if unspecified, attempt to infer from tags (default: None)
+      --remote_group REMOTE_GROUP
+                            if unspecified, attempt to infer from tags (default: None)
+      --autostage AUTOSTAGE
+                            if true, automatically add changes to version control (default: False)
+      --visibility VISIBILITY
+                            or private. Does limit what we can do (default: public)
+      --version VERSION     repo metadata: url for the project (default: None)
+      --url URL             repo metadata: url for the project (default: None)
+      --author AUTHOR       repo metadata: author for the project (default: None)
+      --author_email AUTHOR_EMAIL
+                            repo metadata (default: None)
+      --description DESCRIPTION
+                            repo metadata (default: None)
+      --license LICENSE     repo metadata (default: None)
+      --dev_status DEV_STATUS
+      --enable_gpg ENABLE_GPG
+      --defaultbranch DEFAULTBRANCH
+      --xdoctest_style XDOCTEST_STYLE
+                            type of xdoctest style (default: google)
+      --ci_pypi_live_password_varname CI_PYPI_LIVE_PASSWORD_VARNAME
+                            variable of the live twine password in your secrets (default: TWINE_PASSWORD)
+      --ci_pypi_test_password_varname CI_PYPI_TEST_PASSWORD_VARNAME
+                            variable of the test twine password in your secrets (default: TEST_TWINE_PASSWORD)
+      --regen REGEN         if specified, any modified template file that matches this pattern will be considered for re-write (default: None)
+      --tags [TAGS ...]     Tags modify what parts of the template are used. Valid tags are: "binpy" - do we build binpy wheels? "erotemic" - this
+                            is an erotemic repo "kitware" - this is an kitware repo "pyutils" - this is an pyutils repo "purepy" - this is a pure
+                            python repo "gdal" - add in our gdal hack # TODO "cv2" - enable the headless hack "notypes" - disable mypy in lint
+                            checks (default: auto)
+      --interactive INTERACTIVE
+      --yes YES             Say yes to everything (default: False)
+      --linter LINTER       if true enables lint checks in CI (default: True)
+
+
+
+Invocations to create a new github repo:
+
+.. code:: bash
+
+    # Create a new python repo
+    python -m xcookie.main --repo_name=cookiecutter_purepy --repodir=$HOME/code/cookiecutter_purepy --tags="github,purepy"
+
+    # Create a new binary repo
+    python -m xcookie.main --repo_name=cookiecutter_binpy --repodir=$HOME/code/cookiecutter_binpy --tags="github,binpy,gdal"
+
+
+Given an initialized repository the general usage pattern is to edit the
+generated ``pyproject.toml`` and modify values in the ``[tool.xcookie]``
+section and then rerun ``xcookie`` in that directory. It will then present you
+with a diff of the proposed changes that you can reject, accept entirely, or
+accept selectively.
+
+For some files where the user is likely to do custom work, xcookie won't try to
+overwrite the file unless you tell it to regenerate it.  The ``setup.py`` is
+the main example of this, so if you want xcookie to update your setup.py you
+would run ``xcookie --regen setup.py``
+
+For rotating secrets, the interface is a bit weird. I haven't gotten it to work
+within an xcookie invocation due to the interactive nature of some of the
+secret tools, but if you run ``xcookie --rotate-secrets``, when it ask you
+``"Ready to rotate secrets?"``, say no, and it will list the commands that it
+would have run. So you can just copy / paste those manually. I hope to make
+this easier in the future.
+
+.. |CircleCI| image:: https://circleci.com/gh/Erotemic/xcookie.svg?style=svg
+    :target: https://circleci.com/gh/Erotemic/xcookie
+
+.. |Appveyor| image:: https://ci.appveyor.com/api/projects/status/github/Erotemic/xcookie?branch=main&svg=True
+   :target: https://ci.appveyor.com/project/Erotemic/xcookie/branch/main
+
+.. |Codecov| image:: https://codecov.io/github/Erotemic/xcookie/badge.svg?branch=main&service=github
+   :target: https://codecov.io/github/Erotemic/xcookie?branch=main
+
+.. |Pypi| image:: https://img.shields.io/pypi/v/xcookie.svg
+   :target: https://pypi.python.org/pypi/xcookie
+
+.. |Downloads| image:: https://img.shields.io/pypi/dm/xcookie.svg
+   :target: https://pypistats.org/packages/xcookie
+
+.. |ReadTheDocs| image:: https://readthedocs.org/projects/xcookie/badge/?version=latest
+    :target: http://xcookie.readthedocs.io/en/latest/
+
+.. |CodeQuality| image:: https://api.codacy.com/project/badge/Grade/4d815305fc014202ba7dea09c4676343
+    :target: https://www.codacy.com/manual/Erotemic/xcookie?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Erotemic/xcookie&amp;utm_campaign=Badge_Grade
+
+.. |GithubActions| image:: https://github.com/Erotemic/xcookie/actions/workflows/tests.yml/badge.svg?branch=main
+    :target: https://github.com/Erotemic/xcookie/actions?query=branch%3Amain
