@@ -1,0 +1,89 @@
+[project]
+name = "gordion"
+version = "1.0.1"
+description = "Multi-repository management tool for managing complex dependencies"
+keywords = ["git", "repository", "management", "dependencies", "workspace"]
+authors = [
+    {name = "Jacob Heathorn", email = "jacob.heathorn@gmail.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+]
+dependencies = [
+    "gitpython==3.1.43",
+    "PyYAML",
+    "types-PyYAML",
+]
+
+[project.urls]
+Homepage = "https://github.com/jacob-heathorn/gordion"
+
+[project.scripts]
+gordion = "gordion.app.main:main"
+gor = "gordion.app.main:main"
+
+[build-system]
+requires = ["hatchling==1.26.3"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+exclude = [
+  "/.github",
+  "/.nox",
+  "/.pycache",
+  "/dist",
+  "/build",
+  "*.egg-info",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gordion"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/test",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "noxfile.py",
+    "pyproject.toml",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "debugpy",
+    "flake8",
+    "mypy",
+    "nox",
+    "uv",
+    "build",
+    "twine>=5.0.0",
+]
+
+[tool.pytest.ini_options]
+cache_dir = ".pycache"
+
+[tool.flake8]
+ignore = ["E126"]
+exclude = [".nox", "build", ".pycache"]
+max-line-length = 100
+indent-size = 2
+
+[tool.mypy]
+mypy_path = "src"
+ignore_missing_imports = true
+check_untyped_defs = true
+cache_dir = ".pycache"
