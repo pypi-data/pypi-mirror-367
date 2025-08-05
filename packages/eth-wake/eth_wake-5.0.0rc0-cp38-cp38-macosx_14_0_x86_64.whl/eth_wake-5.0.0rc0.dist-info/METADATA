@@ -1,0 +1,240 @@
+Metadata-Version: 2.4
+Name: eth-wake
+Version: 5.0.0rc0
+Summary: Wake is a Python-based Solidity development and testing framework with built-in vulnerability detectors.
+Project-URL: Homepage, https://getwake.io
+Project-URL: Repository, https://github.com/Ackee-Blockchain/wake
+Project-URL: Documentation, https://ackee.xyz/wake/docs/latest
+Project-URL: VS Code Extension, https://marketplace.visualstudio.com/items?itemName=AckeeBlockchain.tools-for-solidity
+Author: Ackee Blockchain
+License: ISC
+License-File: LICENSE
+Keywords: audit,development,ethereum,framework,security,solidity,static analysis,testing
+Requires-Python: >=3.8
+Requires-Dist: abch-tree-sitter-solidity<2,>=1.3.0
+Requires-Dist: abch-tree-sitter<2,>=1.1.2
+Requires-Dist: aiofiles<1,>=0.8
+Requires-Dist: aiohttp<4,>=3.8; python_version < '3.12'
+Requires-Dist: aiohttp<4,>=3.9.0b1; python_version >= '3.12'
+Requires-Dist: certifi>=2024.2.2; platform_system == 'Darwin'
+Requires-Dist: click<9,>=8
+Requires-Dist: eth-utils<3,>=2.1
+Requires-Dist: graphviz<1,>=0.19
+Requires-Dist: importlib-metadata<5,>=4.13; python_version < '3.10'
+Requires-Dist: intervaltree<4,>=3.1
+Requires-Dist: ipdb<1,>=0.13.9
+Requires-Dist: jschema-to-python<2,>=1.2.3
+Requires-Dist: lazy-import<1,>=0.2.2
+Requires-Dist: networkx<3,>=2.5
+Requires-Dist: packaging>=22.0
+Requires-Dist: parsimonious<1,>=0.9
+Requires-Dist: pathvalidate<3,>=2.5
+Requires-Dist: pycryptodome>=3.19.0
+Requires-Dist: pydantic<3,>=2.7
+Requires-Dist: pytest<8,>=7
+Requires-Dist: pywin32>=302; platform_system == 'Windows'
+Requires-Dist: rich-click<2,>=1.7.1
+Requires-Dist: rich<14,>=13.3.2
+Requires-Dist: sarif-om<2,>=1.0.4
+Requires-Dist: tblib<2,>=1.7
+Requires-Dist: tomli-w<2,>=1.0.0
+Requires-Dist: tomli<3,>=2
+Requires-Dist: typing-extensions>=4.12
+Requires-Dist: watchdog<5,>=4
+Requires-Dist: websocket-client<2,>=1.4
+Provides-Extra: dev
+Requires-Dist: black<23,>=22; extra == 'dev'
+Requires-Dist: cairosvg<3,>=2.7; extra == 'dev'
+Requires-Dist: isort<6,>=5; extra == 'dev'
+Requires-Dist: mike<3,>=2.0.0; extra == 'dev'
+Requires-Dist: mkdocs-material<10,>=9.5.17; extra == 'dev'
+Requires-Dist: mkdocstrings-python<2,>=1.11; extra == 'dev'
+Requires-Dist: mkdocstrings<1,>=0.26; extra == 'dev'
+Requires-Dist: pillow<10,>=9; (python_version < '3.12') and extra == 'dev'
+Requires-Dist: pillow<11,>=10.1; (python_version >= '3.12') and extra == 'dev'
+Requires-Dist: pygments<3,>=2; extra == 'dev'
+Requires-Dist: pymdown-extensions<11,>=10; extra == 'dev'
+Provides-Extra: tests
+Requires-Dist: gitpython<4,>=3.1.20; extra == 'tests'
+Requires-Dist: pytest-asyncio<1,>=0.17; extra == 'tests'
+Description-Content-Type: text/markdown
+
+# Wake, a Python-based Solidity development and testing framework with built-in vulnerability detectors
+
+![Wake cover](https://github.com/Ackee-Blockchain/wake/blob/main/images/wake_cover.png?raw=true)
+
+Features:
+
+- testing framework based on [pytest](https://docs.pytest.org/en)
+- property-based fuzzer
+- deployments & mainnet interactions
+- vulnerability and code quality detectors
+- printers for extracting useful information from Solidity code
+- static analysis framework for implementing custom detectors and printers
+- Github actions for [setting up Wake](https://github.com/marketplace/actions/wake-setup) and [running detectors](https://github.com/marketplace/actions/wake-detect)
+- language server ([LSP](https://microsoft.github.io/language-server-protocol/))
+- VS Code extension ([Tools for Solidity](https://marketplace.visualstudio.com/items?itemName=AckeeBlockchain.tools-for-solidity))
+- solc version manager
+
+## Dependencies
+
+- Python (version 3.8 or higher)
+- Rosetta must be enabled on Apple Silicon Macs
+
+## Installation
+
+via `pip`
+
+```shell
+pip3 install eth-wake
+```
+
+## Documentation & Contribution
+
+Wake documentation can be found [here](https://ackee.xyz/wake/docs/latest).
+
+There you can also find a section on [contributing](https://ackee.xyz/wake/docs/latest/contributing/).
+
+## Discovered vulnerabilities
+
+| Vulnerability                                   | Severity | Project | Method           | Discovered by    | Resources                                                                                                                                                                                                                       |
+|-------------------------------------------------|----------|---------|------------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Profit & loss accounted twice                   | Critical | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Loan refinancing reentrancy                     | Critical | PWN     | Detector         | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf)                                                                                                                                            |
+| Incorrect optimization in loan refinancing      | Critical | PWN     | Fuzz test        | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-pwn-protocol/blob/main/tests/test_refinance_comm_transfer_missing_found_fuzz.py)   |
+| Console permanent denial of service             | High     | Brahma  | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-brahma-console-v2-report.pdf)                                                                                               |
+| Swap unwinding formula error                    | High     | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Swap unwinding fee accounted twice              | High     | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Incorrect event data                            | High     | Solady  | Integration test | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-solady-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-solady/blob/main/tests/test_erc1155.py)          |
+| `INTEREST_FROM_STRATEGY_BELOW_ZERO` reverts DoS | Medium   | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Inaccurate hypothetical interest formula        | Medium   | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Swap unwinding fee normalization error          | Medium   | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_fuzz.py)        |
+| Liquidation deposits accounted into LP balance  | Medium   | IPOR    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/Ackee-Blockchain/public-audit-reports/blob/master/2023/ackee-blockchain-ipor-protocol-report.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-ipor/blob/main/tests/test_st_eth_fuzz.py) |
+| Missing receive function                        | Medium   | Axelar  | Fuzz test        | Ackee Blockchain | [Wake tests](https://github.com/Ackee-Blockchain/tests-axelar-interchain-governance-executor/blob/main/tests/test_fuzz.py)                                                                                                      |
+| `SafeERC20` not used for `approve`              | Medium   | Lido    | Fuzz test        | Ackee Blockchain | [Wake tests](https://github.com/Ackee-Blockchain/tests-lido-stonks/blob/main/tests/test_fuzz.py)                                                                                                                                |
+| Non-optimistic vetting & unbonded keys bad accounting | Medium   | Lido    | Fuzz test        | Ackee Blockchain | [Report](https://github.com/lidofinance/audits/blob/main/Ackee%20Blockchain%20Lido%20Community%20Staking%20Module%20Report%2010-24.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-lido-csm/blob/main/tests/test_csm_fuzz.py) |
+| Chainlink common denominator bad logic          | Medium   | PWN     | Fuzz test        | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-pwn-protocol/blob/main/tests/test_fuzz.py)                                         |
+| Outdated/reverting Chainlink feed causes DoS    | Medium   | PWN     | Fuzz test        | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-pwn-protocol/blob/main/tests/test_fuzz.py)                                         |
+| Incorrect EIP-712 typehash                      | Medium   | PWN     | Detector         | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf)                                                                                                                                            |
+| Incorrect EIP-712 data encoding                 | Medium   | PWN     | Fuzz test        | Ackee Blockchain | [Report](https://github.com/PWNDAO/pwn_audits/blob/main/protocol/pwn-v1.3-ackee.pdf), [Wake tests](https://github.com/Ackee-Blockchain/tests-pwn-protocol/blob/revision-2.0/tests/test_fuzz.py)                                 |
+
+## Features
+
+### Testing framework
+
+See [examples](https://github.com/Ackee-Blockchain/wake/tree/main/examples) and [documentation](https://ackee.xyz/wake/docs/latest/testing-framework/overview) for more information.
+
+Writing tests is as simple as:
+
+```python
+from wake.testing import *
+from pytypes.contracts.Counter import Counter
+
+@chain.connect()
+def test_counter():
+    counter = Counter.deploy()
+    assert counter.count() == 0
+
+    counter.increment()
+    assert counter.count() == 1
+```
+
+### Fuzzer
+
+Fuzzer builds on top of the testing framework and allows efficient fuzz testing of Solidity smart contracts.
+
+```python
+from wake.testing import *
+from wake.testing.fuzzing import *
+from pytypes.contracts.Counter import Counter
+
+class CounterTest(FuzzTest):
+    def pre_sequence(self) -> None:
+        self.counter = Counter.deploy()
+        self.count = 0
+
+    @flow()
+    def increment(self) -> None:
+        self.counter.increment()
+        self.count += 1
+
+    @flow()
+    def decrement(self) -> None:
+        with may_revert(PanicCodeEnum.UNDERFLOW_OVERFLOW) as e:
+            self.counter.decrement()
+
+        if e.value is not None:
+            assert self.count == 0
+        else:
+            self.count -= 1
+
+    @invariant(period=10)
+    def count(self) -> None:
+        assert self.counter.count() == self.count
+
+@chain.connect()
+def test_counter():
+    CounterTest().run(sequences_count=30, flows_count=100)
+```
+
+### Detectors
+
+All vulnerability & code quality detectors can be run using:
+```shell
+wake detect all
+```
+
+A specific detector can be run using:
+```shell
+wake detect <detector-name>
+```
+
+See the [documentation](https://ackee.xyz/wake/docs/latest/static-analysis/using-detectors/) for a list of all detectors.
+
+### Printers
+
+A specific printer can be run using:
+```shell
+wake print <printer-name>
+```
+
+See the [documentation](https://ackee.xyz/wake/docs/latest/static-analysis/using-printers/) for a list of all printers.
+
+### Custom detectors & printers
+
+Refer to the [getting started](https://ackee.xyz/wake/docs/latest/static-analysis/getting-started/) guide for more information.
+Also check out [wake_detectors](https://github.com/Ackee-Blockchain/wake/tree/main/wake_detectors) and [wake_printers](https://github.com/Ackee-Blockchain/wake/tree/main/wake_printers) for the implementation of built-in detectors and printers.
+
+### LSP server
+
+Wake implements an [LSP](https://microsoft.github.io/language-server-protocol/) server for Solidity. The only currently supported communication channel is TCP.
+
+Wake LSP server can be run using:
+
+```shell
+wake lsp
+```
+
+Or with an optional --port argument (default 65432):
+
+```shell
+wake lsp --port 1234
+```
+
+All LSP server features can be found in the [documentation](https://ackee.xyz/wake/docs/latest/language-server/).
+
+## License
+
+This project is licensed under the [ISC license](https://github.com/Ackee-Blockchain/wake/blob/main/LICENSE).
+
+## Partners
+
+RockawayX             |  Coinbase
+:-------------------------:|:-------------------------:
+[![](https://github.com/Ackee-Blockchain/wake/blob/main/images/rockawayx.jpg?raw=true)](https://rockawayx.com/)  |  [![](https://github.com/Ackee-Blockchain/wake/blob/main/images/coinbase.png?raw=true)](https://www.coinbase.com/)
+
+
+
+
+
+
