@@ -1,0 +1,76 @@
+Metadata-Version: 2.3
+Name: langchain-qualcomm-inference-suite
+Version: 1.0.0
+Summary: An integration package connecting Qualcomm AI Inference Suite and LangChain
+License: BSD-3-Clause-Clear
+Keywords: qualcomm,ai,inference,generative,langchain
+Author: Qualcomm Innovation Center, Inc
+Author-email: quic.opensource@quicinc.com
+Maintainer: Sergi Pons Freixes
+Maintainer-email: sponsfre@qti.qualcomm.com
+Requires-Python: >=3.9
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: langchain-core (>=0.3.15,<0.4.0)
+Requires-Dist: python-imagine-sdk (>=0.5.0)
+Project-URL: Repository, https://github.com/qualcomm/langchain-qualcomm-inference-suite
+Description-Content-Type: text/markdown
+
+# langchain-qualcomm-inference-suite
+
+This package contains the LangChain integration with Qualcomm AI Inference Suite 
+
+## Installation
+
+```bash
+pip install -U langchain-qualcomm-inference-suite
+```
+
+And you should configure credentials by setting the following environment variables:
+
+1. You must set the environment variable `IMAGINE_API_KEY` to your
+   personal Imagine API key.
+
+2. You must set the environment variable `IMAGINE_API_ENDPOINT` pointing to the
+   endpoint you are using.
+
+## Chat Models
+
+`ChatQIS` class exposes chat models from Qualcomm AI Inference Suite.
+
+```python
+from langchain_qualcomm_inference_suite import ChatQIS
+
+llm = ChatQIS()
+llm.invoke("Sing a ballad of LangChain.")
+```
+
+## Embeddings
+
+`QISEmbeddings` class exposes embeddings from Qualcomm AI Inference Suite.
+
+```python
+from langchain_qualcomm_inference_suite import QISEmbeddings
+
+embeddings = QISEmbeddings()
+embeddings.embed_query("What is the meaning of life?")
+```
+
+## LLMs
+`QISLLM` class exposes LLMs from Qualcomm AI Inference Suite.
+
+```python
+from langchain_qualcomm_inference_suite import QISLLM
+
+llm = QISLLM()
+llm.invoke("The meaning of life is")
+```
+
+## License
+
+langchain-qualcomm-inference-suite is licensed under the [BSD-3-clause License](https://spdx.org/licenses/BSD-3-Clause.html). See [LICENSE](LICENSE) for the full license text.
