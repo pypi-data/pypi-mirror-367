@@ -1,0 +1,232 @@
+Metadata-Version: 2.4
+Name: bmad-simple-mcp
+Version: 0.2.0
+Summary: BMad Simple MCP - A lightweight MCP server for BMad Agent Documentation
+Project-URL: Homepage, https://github.com/bmad-team/bmad-simple-mcp
+Project-URL: Repository, https://github.com/bmad-team/bmad-simple-mcp
+Project-URL: Issues, https://github.com/bmad-team/bmad-simple-mcp/issues
+Author: BMad Team
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Requires-Dist: anyio>=4.0.0
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: sse-starlette>=1.6.0
+Requires-Dist: starlette>=0.27.0
+Requires-Dist: uvicorn>=0.24.0
+Provides-Extra: dev
+Requires-Dist: aiohttp>=3.8.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# BMad Simple MCP
+
+一个轻量级的Model Context Protocol (MCP)服务器，专门用于管理和提供BMad项目的agent文档。
+
+## 功能特性
+
+- 📚 **文档管理**: 自动扫描和管理document目录下的.md和.txt文件（支持3层深度）
+- 🔄 **实时通知**: 通过MCP notification主动推送index.md内容到客户端
+- 🌐 **双传输模式**: 支持STDIO和SSE两种传输方式
+- 🛡️ **安全访问**: 内置文件访问安全控制，防止目录遍历攻击
+- 🎯 **MCP兼容**: 完全符合MCP协议规范，支持资源、工具和通知功能
+- 📦 **自动初始化**: 运行时自动检测并初始化document目录
+
+## 安装
+
+使用uv安装：
+
+```bash
+uv add bmad-simple-mcp
+```
+
+或从源码安装：
+
+```bash
+git clone https://github.com/bmad-team/bmad-simple-mcp
+cd bmad-simple-mcp
+uv sync
+```
+
+## 使用方法
+
+### STDIO模式（推荐用于IDE集成）
+
+```bash
+python server.py --transport stdio
+```
+
+### SSE模式（推荐用于Web应用）
+
+```bash
+python server.py --transport sse --port 8080
+```
+
+### 命令行参数
+
+- `--transport {stdio,sse}`: 传输方式（默认：stdio）
+- `--host HOST`: SSE模式的主机地址（默认：0.0.0.0）
+- `--port PORT`: SSE模式的端口号（默认：8000）
+
+## 目录结构
+
+```
+bmad-simple-mcp/
+├── server.py              # 主服务器文件
+├── document/              # 文档目录
+│   ├── index.md          # 文档索引（自动通过notification推送）
+│   └── *.md, *.txt       # 其他文档文件
+├── README.md             # 本文件
+└── pyproject.toml        # 项目配置
+```
+
+## MCP功能
+
+### 资源 (Resources)
+
+- `document://index.md` - 文档索引页面（包含完整内容）
+- `document://<filename>` - 其他文档文件
+
+### 工具 (Tools)
+
+- `read_document` - 读取指定文档内容
+- `list_documents` - 列出所有可用文档
+
+### 通知 (Notifications)
+
+- `notifications/resources/updated` - 资源更新通知
+- `notifications/message` - 日志消息（index.md内容推送）
+
+## BMad Agent文档
+
+本服务器专门为BMad项目的agent文档设计，document目录包含：
+
+- **index.md**: 文档索引和导航
+- **agent配置文档**: 各种agent的配置说明
+- **使用指南**: 详细的使用说明和最佳实践
+- **API文档**: 相关API接口说明
+
+## 大模型集成示例
+
+### 提示词模板
+
+以下是与BMad Simple MCP集成的大模型提示词示例，可以让AI助手智能地访问和使用文档资源：
+
+```
+保持用中文与用户交流
+
+===指令表===
+指令：-> 
+用户输入 :  `->文件名` 
+执行：列出资源，加载资源中的 `文件名.md` 或者 `文件名.txt`
+
+```
+
+### 使用示例
+
+当用户输入以下指令时，AI助手会自动访问相应的文档：
+
+```
+用户: -> architect
+助手: [自动读取 agents/architect.txt 文件内容]
+
+用户: -> bmad-master  
+助手: [自动读取 agents/bmad-master.txt 文件内容]
+
+用户: ->team-fullstack
+助手: [自动读取 team-fullstack.txt 文件内容]
+
+用户: ->index
+助手: [自动读取 index.md 文件内容]
+```
+
+### 集成优势
+
+- **智能文档检索**: AI助手可以根据用户意图自动选择最合适的文档
+- **简化交互**: 用户只需使用简单的"->"指令即可访问文档
+- **安全边界**: 明确限制AI助手只能读取文档，不能执行其他操作
+- **中文友好**: 所有输出都使用中文，提供更好的用户体验
+
+### 支持的文档类型
+
+BMad Simple MCP支持以下BMad agent文档：
+
+**主要文档：**
+- `index` - 文档索引页面 (index.md)
+- `team-fullstack` - 全栈团队文档 (team-fullstack.txt)
+
+**Agent配置文档（agents/目录）：**
+- `agents/analyst` - 分析师Agent配置
+- `agents/architect` - 架构师Agent配置  
+- `agents/bmad-master` - BMad主控Agent配置
+- `agents/bmad-orchestrator` - 编排器Agent配置
+- `agents/dev` - 开发者Agent配置
+- `agents/pm` - 项目经理Agent配置
+- `agents/po` - 产品负责人Agent配置
+- `agents/qa` - 质量保证Agent配置
+- `agents/sm` - Scrum Master Agent配置
+- `agents/ux-expert` - UX专家Agent配置
+
+**使用方法：** 用户输入 `->文件路径` 即可访问对应文档，系统会自动按 `.md` → `.txt` 的顺序查找文件。
+
+## 开发
+
+### 运行测试
+
+```bash
+# 基本功能测试
+uv run python test_server.py
+
+# SSE功能测试
+uv run python test_sse.py
+
+# Notification功能测试
+uv run python test_notification.py
+
+# 完整功能测试
+uv run python final_test.py
+```
+
+### 项目结构
+
+- `server.py` - 主服务器实现
+- `document/` - 文档文件目录
+- `test_*.py` - 各种测试脚本
+
+## 技术栈
+
+- **Python 3.10+**
+- **MCP (Model Context Protocol)** - 核心协议
+- **FastAPI + Starlette** - SSE模式Web框架
+- **uvicorn** - ASGI服务器
+- **pydantic** - 数据验证
+
+## 许可证
+
+[添加许可证信息]
+
+## 贡献
+
+欢迎提交Issue和Pull Request！
+
+## 更新日志
+
+### v0.2.0
+- ✅ 修复SSE模式实现
+- ✅ 添加资源读取URI处理
+- ✅ 实现notification功能
+- ✅ 支持index.md内容自动推送
+
+### v0.1.0
+- ✅ 基本MCP服务器功能
+- ✅ 文档扫描和读取
+- ✅ STDIO模式支持
