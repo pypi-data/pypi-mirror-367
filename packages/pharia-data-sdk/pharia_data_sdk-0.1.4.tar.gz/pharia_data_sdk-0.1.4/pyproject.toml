@@ -1,0 +1,130 @@
+[project]
+name = "pharia-data-sdk"
+version = "0.1.4"
+description = ""
+authors = [{ name = "Aleph Alpha Engineering", email = "engineering@aleph-alpha.com" }]
+requires-python = ">=3.10,<3.13"
+readme = "README.md"
+dependencies = [
+    "pydantic>=2.0.0",
+    "aleph-alpha-client>=10.2.2,<11.0.0",
+    "semantic-text-splitter>=0.5.0",
+    "pharia-inference-sdk>=0.1.5",
+    "qdrant-client[fastembed]>=1.14.3",
+]
+
+[project.urls]
+repository = "https://github.com/Aleph-Alpha/pharia-data-sdk.git"
+
+[dependency-groups]
+test = [
+    "pytest>=8.3",
+    "pytest-xdist>=3.6.1",
+    "pytest-asyncio>=0.26.0",
+    "python-dotenv>=1.1.0",
+]
+dev = [
+    "ruff==0.11.13",
+    "mypy>=1.13.0,<2",
+    "pre-commit>=4.2.0",
+    "types-requests>=2.32.4.20250611",
+    "types-tqdm>=4.67.0.20250516",
+    "types-pyyaml>=6.0.12.20250516",
+    "types-pygments>=2.19.0.20250516",
+    "types-cffi>=1.17.0.20250523",
+    "types-colorama>=0.4.15.20240311",
+    "types-defusedxml>=0.7.0.20250516",
+    "types-pexpect>=4.9.0.20250516",
+    "types-protobuf>=6.30.2.20250516",
+    "types-python-dateutil>=2.9.0.20250516",
+    "types-pywin32>=310.0.0.20250516",
+    "types-simplejson>=3.20.0.20250326",
+    "types-tensorflow>=2.18.0.20250516",
+]
+docs = [
+    "sphinx>=7.0.0,<8.0.0",
+    "sphinx-rtd-theme>=3.0.2",
+    "myst-parser>=3.0.0,<4.0.0",
+    "sphinx-design>=0.6.1",
+    "sphinx-copybutton>=0.5.2",
+]
+
+[tool.uv]
+default-groups = ["test"]
+
+[tool.setuptools]
+packages = [
+    { include = "pharia_data_sdk" }
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["pharia_data_sdk"]
+
+[tool.hatch.build.targets.wheel]
+include = ["pharia_data_sdk"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+verbosity_assertions = 1
+markers = [
+    "internal: marks tests as internal (deselect with '-k \"not internal\"')",
+    "document_index: marks tests related to document indexing functionality.",
+]
+addopts = "--capture=tee-sys"
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py310"
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+# defaults: ["E4", "E7", "E9", "F"]
+# check https://docs.astral.sh/ruff/rules/ for more info
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "W",
+    # isort
+    "I",
+    # simplify
+    "SIM",
+    # pathlib, small but may be nice
+    "PTH",
+    # update to newer python versions (mostly typing)
+    "UP",
+    # ruff dependent checks
+    "RUF",
+    # bugbear
+    "B",
+    # pydocstring
+    "D",
+
+
+]
+# Did not seem so useful: PD, T20(not yet), C90(eventually), PT (too opinionated)
+ignore = [
+    # Line too long
+    "E501",
+    # X | Y for hinting over optional
+    "UP007",
+    # next() instead of [0],
+    "RUF015",
+    # unusual unicodes
+    "RUF001",
+    # warnings should be self explanatory
+    "B028",
+    # we do not docstring everything
+    "D1",
+]
+extend-safe-fixes = ["D415"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["intelligence_layer", "documentation"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
