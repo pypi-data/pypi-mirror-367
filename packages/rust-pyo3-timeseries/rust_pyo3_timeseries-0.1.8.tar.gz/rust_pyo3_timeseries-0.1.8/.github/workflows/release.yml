@@ -1,0 +1,71 @@
+name: build-and-publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  PACKAGE_NAME: rust-pyo3-timeseries 
+
+jobs:
+  publish:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: [3.11, 3.12, 3.13]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Cache cargo & pip
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.toml', '**/Cargo.lock') }}-${{ matrix.python }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Upgrade pip and install maturin
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade maturin
+
+      - name: Build with maturin
+        run: |
+          # build wheel and source distribution for PyPI
+          maturin build --release --sdist
+
+      - name: List build outputs
+        run: |
+          echo "=== target directory tree ==="
+          ls -R target | head -200
+
+      - name: Publish to PyPI
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python -m pip install --upgrade twine
+          twine upload --skip-existing target/wheels/* || true
+          if [ -d target/sdist ]; then
+            twine upload --skip-existing target/sdist/* || true
+          fi
+        shell: bash -l {0}
