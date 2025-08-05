@@ -1,0 +1,42 @@
+[project]
+name = "orbitlab"
+version = "0.1.7"
+description = "Motor extensible para ejecución segura, validación y versionado de payloads serializados (.dill)"
+authors = [
+    { name = "Jose Fabian Soltero Escobar", email = "acadyne@gmail.com" }
+]
+license = { text = "BSD-3-Clause" }
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "dill==0.4.0",
+    "filelock==3.18.0",
+    "structlog==25.4.0",
+    "bcrypt==4.3.0",
+    "cross-crypto-py==1.1.3",
+    "pydantic-settings==2.10.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "mypy", "ruff"]
+
+[project.urls]
+Homepage   = "https://github.com/acadyne/orbitlab"
+Repository = "https://github.com/acadyne/orbitlab"
+Issues     = "https://github.com/acadyne/orbitlab/issues"
+
+[build-system]
+requires    = ["setuptools>=64.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["orbitlab", "orbitlab.*"]
+
+[tool.setuptools.package-data]
+"orbitlab"         = ["*.pyi", "*.md"]
+"orbitlab.adapters"= ["*.pyi"]
+"orbitlab.core"    = ["*.pyi"]

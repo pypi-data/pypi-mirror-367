@@ -1,0 +1,23 @@
+# orbitlab/core/validator.pyi
+
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Union
+
+__all__ = ["OrbitValidator"]
+
+class OrbitValidator:
+    dill_path: Path
+    external_schema: Optional[Callable[[Dict[str, Any]], bool]]
+    errors: List[str]
+    payload: Dict[str, Any]
+
+    def __init__(
+        self,
+        dill_path: Union[str, Path],
+        external_schema: Optional[Callable[[Dict[str, Any]], bool]] = ...
+    ) -> None: ...
+    def validate_firma(self) -> bool: ...
+    def validate_estructura(self) -> bool: ...
+    def validate_externo(self) -> bool: ...
+    def run_all(self) -> bool: ...
+    def report(self) -> None: ...
