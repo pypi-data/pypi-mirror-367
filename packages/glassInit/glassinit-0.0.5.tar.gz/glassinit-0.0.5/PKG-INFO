@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: glassInit
+Version: 0.0.5
+Summary: glassInit is a way to initialize the parameters of a neural network layer @pytorch. It is suitable for shortcut connections where tensor sizes need to be adjusted. The flow of information between forward and backward propagation is maximized while adjusting the tensor size. 
+Author-email: Psyche Halo <Psyche@WinsGod.com>
+Project-URL: Homepage, https://github.com/PsycheHalo/glassInit
+Project-URL: Issues, https://github.com/PsycheHalo/glassInit/issues
+Keywords: glassInit,initialize,shortcut,PyTorch,AI,neural,NN,connections,Skip Connections,Res
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=1.7.0
+Dynamic: license-file
+
+# glassInit
+glassInit is a way to initialize the parameters of a neural network layer. It is suitable for shortcut connections where tensor sizes need to be adjusted. The flow of information between forward and backward propagation is maximized while adjusting the tensor size.  
+
+## 思路说明
+在神经网络中构建快捷连接/跳跃连接时又是需要改变形状,如果直接使用卷积层/线性层等会因为其初始化方式影响连接中的梯度传播,而如果在各维度上分别使用插值缩放会导致明显的信息也会影响梯度传播. glassInit专用于快捷连接/跳跃连接中用于调整张量尺寸的层,它构建了一个插值矩阵实现在所有维度上一起插值,最大限度的保留了信息.
+
+## Install
+```bash
+pip install glassInit
+```
+
+## Use
+```python
+from glassInit import glassInit_
+...
+linear=torch.nn.Linear(512,2048,bias=False)
+glassInit_(linear.weight,inDim=...,outDim=0,gain=None,zeroMean=True)
+```
+
+大多数时候不需要传入外部gain(默认为None)如果传入外部gain则内部gain不生效.
+
+输入元素数小于输出元素数且关闭稀疏时内部gain为1. 否则内部gain为sqrt(输出元素数/输入元素数)
+
+需根据矩阵各维度的作用填写inDim和outDim,最终加在一起的要填到inDim,输出时仍然分离的要填到outDim
+
+举例来说卷积层的inChannel维度和kernels维度要填到inDim里,outChannel维度要填到outDim里
+
+转置卷积要根据设定参数后的具体行为决定kernels维度要填到哪里,可以先写道inDim中尝试
+
+如果zeroMean为False,返回矩阵将没有小于零的值,并且是插值矩阵.否则,返回矩阵将对插值矩阵逐元素随机取反.  
+
+如果输入元素数大于输出元素数或关闭稀疏,矩阵实现线性插值,否则是插0插值.两种插值均为循环边界条件.  
+
+
+## HomePage
+<https://github.com/PsycheHalo/glassInit/>
