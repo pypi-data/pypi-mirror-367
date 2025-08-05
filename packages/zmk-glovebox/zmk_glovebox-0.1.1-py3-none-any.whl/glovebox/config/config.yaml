@@ -1,0 +1,91 @@
+# Glovebox Base Configuration
+# This file contains default configuration values that will be merged with user config
+# User configuration from glovebox.yaml/.glovebox.yml takes precedence over these defaults
+
+# Default profile (keyboard/firmware combination)
+profile: "glove80/v25.05"
+
+# Paths for user-defined keyboards and layouts
+profiles_paths: []
+
+# Version check settings
+disable_version_checks: false
+
+# Cache settings
+cache_strategy: "shared"
+
+# Cache TTL configuration (in seconds)
+cache_ttls:
+  # Compilation cache settings
+  compilation_workspace: 3600 # 1 hour - workspace cache
+  compilation_build: 3600 # 1 hour - build cache
+  compilation_dependencies: 86400 # 24 hours - dependencies cache
+  compilation_docker_image: 604800 # 7 days - docker image cache
+
+  # Layout cache settings
+  layout_diff: 1800 # 30 minutes - diff cache
+  layout_validation: 3600 # 1 hour - validation cache
+  layout_behavior_analysis: 7200 # 2 hours - behavior analysis cache
+
+  # General cache settings
+  general_metadata: 3600 # 1 hour - general metadata cache
+  general_network: 1800 # 30 minutes - network operations cache
+
+# UI settings
+icon_mode: "emoji"
+
+# Logging configuration
+logging:
+  global_level: "WARNING"
+
+  handlers:
+    - type: "console"
+      level: "WARNING"
+      format: "simple"
+      colored: true
+
+    - type: "file"
+      level: "DEBUG"
+      format: "detailed"
+      file_path: "/home/rick/.config/glovebox/logs/glovebox.log"
+      max_size_mb: 10
+      backup_count: 3
+      colored: false
+
+# Firmware configuration
+firmware:
+  flash:
+    timeout: 30
+    verify: true
+    auto_detect: true
+    wait_for_device: true
+    device_wait_timeout: 60
+
+# MoErgo service configuration
+moergo:
+  # API configuration
+  api_base_url: "https://my.glove80.com"
+
+  # Connection timeout settings (in seconds)
+  connection_timeout: 30
+  request_timeout: 60
+
+  # Credential storage configuration
+  credentials:
+    config_dir: "/home/rick/.config/glovebox"
+    credentials_file: "moergo_credentials.json"
+    tokens_file: "moergo_tokens.json"
+    default_username: null
+    prefer_keyring: true
+    keyring_service: "glovebox-moergo"
+    file_permissions: "600"
+
+  # AWS Cognito authentication configuration
+  cognito:
+    client_id: "3hvr36st4kdb6p7kasi1cdnson"
+    cognito_url: "https://cognito-idp.us-east-1.amazonaws.com/"
+    request_timeout: 30
+    user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+    origin_url: "https://my.glove80.com"
+    referer_url: "https://my.glove80.com/"
+    aws_amplify_version: "aws-amplify/5.0.4 js"
