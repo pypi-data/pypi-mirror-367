@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: rotki-sqlite
+Version: 2025.7.4
+Summary: DB-API 2.0 interface for Sqlite 3.x
+Author-email: Rotki Solutions GmbH <info@rotki.com>
+License: zlib/libpng
+Project-URL: Homepage, https://github.com/rotki/rotki-sqlite
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: zlib/libpng License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python
+Classifier: Topic :: Database :: Database Engines/Servers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: ==3.11.*
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# rsqlite3
+
+A Python SQLite3 extension module with static SQLite build support.
+
+## Building
+
+This project supports building with a statically linked SQLite library. The sqlite3.c and sqlite3.h amalgamation files are included in the repository.
+
+### Build with uv
+
+To build the wheel with static SQLite using uv:
+
+```bash
+uv build --wheel
+```
+
+### Build with setuptools directly
+
+To build with the static SQLite amalgamation:
+
+```bash
+python setup.py build_static bdist_wheel
+```
+
+This will create a wheel file in the `dist/` directory with SQLite statically compiled into the extension.
+
+## Features
+
+The static build includes the following SQLite features:
+- FTS3/FTS4/FTS5 (Full Text Search)
+- JSON1 extension
+- RTREE (R-Tree index)
+- Math functions
+- Load extension support
+- And more...
