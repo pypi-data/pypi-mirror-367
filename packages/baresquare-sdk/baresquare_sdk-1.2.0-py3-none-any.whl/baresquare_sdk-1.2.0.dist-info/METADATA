@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: baresquare-sdk
+Version: 1.2.0
+Summary: Baresquare SDK for Python - Core utilities and 3rd party integrations
+License-Expression: MIT
+License-File: LICENSE
+Requires-Python: >=3.12
+Requires-Dist: fastapi<1.0.0,>=0.115.12
+Requires-Dist: pydantic-settings<3.0.0,>=2.0.0
+Requires-Dist: pydantic<3.0.0,>=2.0.0
+Provides-Extra: aws
+Requires-Dist: boto3<2.0.0,>=1.38.21; extra == 'aws'
+Requires-Dist: pyjwt[crypto]<3.0.0,>=2.10.1; extra == 'aws'
+Requires-Dist: requests<3.0.0,>=2.32.3; extra == 'aws'
+Provides-Extra: dev
+Requires-Dist: boto3<2.0.0,>=1.38.21; extra == 'dev'
+Requires-Dist: pre-commit>=4.2.0; extra == 'dev'
+Requires-Dist: pyjwt[crypto]<3.0.0,>=2.10.1; extra == 'dev'
+Requires-Dist: pytest-asyncio==0.24.0; extra == 'dev'
+Requires-Dist: pytest==8.3.5; extra == 'dev'
+Requires-Dist: requests<3.0.0,>=2.32.3; extra == 'dev'
+Requires-Dist: ruff==0.11.9; extra == 'dev'
+Provides-Extra: linting
+Requires-Dist: ruff==0.11.9; extra == 'linting'
+Provides-Extra: pre-commit
+Requires-Dist: pre-commit>=4.2.0; extra == 'pre-commit'
+Provides-Extra: testing
+Requires-Dist: pytest-asyncio==0.24.0; extra == 'testing'
+Requires-Dist: pytest==8.3.5; extra == 'testing'
+Description-Content-Type: text/markdown
+
+# baresquare-sdk
+
+> [!CAUTION]
+> This code is published publicly in PyPI - make sure you do not include proprietary information.
+
+Python SDK providing core utilities and cloud provider integrations for Baresquare services.
+
+## Documentation
+
+- **[User Guide](docs/users.md)** - Installation and usage examples
+- **[Developer Guide](docs/devs.md)** - Setup, development, and publishing
+
+## Design Decisions
+
+- **Single-package approach**: One `pyproject.toml` with unified versioning across all modules
+- **Optional dependencies**: Users install only what they need via extras (base, AWS, development)
+- **Modular imports**: Clear separation between core utilities and cloud provider integrations
+- **PyPI publishing**: Publicly available package with automated CI/CD via GitHub Actions
+
+## License
+
+MIT License
