@@ -1,0 +1,24 @@
+name: Simple Test
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  quick-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Show Python version
+      run: python --version
+    
+    - name: List files
+      run: ls -la
+    
+    - name: Check raxodus source
+      run: |
+        echo "Checking source files..."
+        ls -la src/raxodus/
+        echo "Version:"
+        grep __version__ src/raxodus/version.py
