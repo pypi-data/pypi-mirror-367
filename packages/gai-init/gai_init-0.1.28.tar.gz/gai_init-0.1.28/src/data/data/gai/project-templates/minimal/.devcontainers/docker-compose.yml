@@ -1,0 +1,28 @@
+services:
+    devcontainer:
+        image: kakkoii1337/{{PROJECT_NAME}}:2.0.1
+        container_name: {{PROJECT_NAME}}_devcontainer
+        build:
+            context: ..
+            dockerfile: .devcontainer/Dockerfile.devcontainer
+            args:
+                VARIANT: "3.10-bullseye"
+                NODE_VERSION: "22.15.0"
+                USERNAME: "vscode"
+                PROJECT_NAME: "{{PROJECT_NAME}}"
+        environment:
+            PYTHONPATH: /workspace/.venv/lib/python3.10/site-packages
+            UV_PROJECT_ENVIRONMENT: /workspace/.venv
+            UV_LINK_MODE: symlink
+        volumes:
+            # Use anonymous volume for virtual environment
+            - /workspace/.venv
+
+            # Make sure this matches the workspaceFolder in .devcontainer/devcontainer.json
+            - ..:/workspace:cached
+
+            # ~/.gai
+            - $HOME/.gai:/home/vscode/.gai
+
+            - /var/run/docker.sock:/var/run/docker.sock
+        command: sleep infinity
