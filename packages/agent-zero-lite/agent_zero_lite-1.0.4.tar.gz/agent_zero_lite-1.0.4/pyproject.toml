@@ -1,0 +1,129 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-zero-lite"
+version = "1.0.4"
+description = "Lightweight Python AI Agent Framework with Web UI"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Agent Zero Community", email = "support@agent-zero.io"},
+]
+maintainers = [
+    {name = "Agent Zero Community", email = "support@agent-zero.io"},
+]
+keywords = ["ai", "agent", "llm", "python", "automation", "web-ui", "litellm", "openai", "anthropic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "aiofiles",
+    "anthropic",
+    "beautifulsoup4",
+    "chromadb",
+    "cryptography",
+    "fastapi",
+    "faiss-cpu",
+    "flask",
+    "flask-basicauth",
+    "google-generativeai",
+    "httpx",
+    "langchain",
+    "langchain-community", 
+    "langchain-core",
+    "langchain-openai",
+    "litellm",
+    "mcp",
+    "nest-asyncio",
+    "numpy",
+    "openai",
+    "openai-whisper",
+    "packaging",
+    "pillow",
+    "pydantic",
+    "python-dotenv",
+    "python-multipart",
+    "pyyaml",
+    "requests",
+    "sentence-transformers",
+    "tiktoken",
+    "uvicorn",
+    "watchdog",
+    "webcolors",
+    "pytz",
+    "GitPython",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/frdel/agent-zero-lite"
+Documentation = "https://github.com/frdel/agent-zero-lite#readme"
+Repository = "https://github.com/frdel/agent-zero-lite"
+"Bug Reports" = "https://github.com/frdel/agent-zero-lite/issues"
+Changelog = "https://github.com/frdel/agent-zero-lite/blob/main/CHANGELOG.md"
+
+[project.scripts]
+agent-zero-lite = "agent_zero_lite.cli:main"
+azl = "agent_zero_lite.cli:main"
+
+[tool.setuptools]
+packages = ["agent_zero_lite"]
+
+[tool.setuptools.package-data]
+agent_zero_lite = [
+    "webui/**/*",
+    "prompts/**/*", 
+    "knowledge/**/*",
+    "conf/**/*",
+    "python/**/*",
+    ".env.example",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
