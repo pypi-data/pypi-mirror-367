@@ -1,0 +1,83 @@
+# ben-memre
+
+This is a special demonstration library created by Memre Ozkan. It provides a few simple functions to show how a Python package can be built, and now includes several helper functions useful for common data processing tasks in AI and Machine Learning projects.
+
+## Installation
+
+You can install this library from PyPI using pip:
+
+```bash
+pip install ben-memre
+```
+
+## Usage
+
+After installation, you can import and use the functions in your Python code. Note that while the package name on PyPI is `ben-memre` (with a hyphen), you must use an underscore (`_`) to import it in Python.
+
+### Basic Functions
+```python
+from ben_memre import greet, add_numbers
+
+# Use the greet function
+message = greet("User")
+print(message)  # Output: Hello, User! This is a message from ben-memre.
+
+# Use the add_numbers function
+result = add_numbers(10, 5)
+print(f"The sum is: {result}")  # Output: The sum is: 15
+```
+
+### AI & Data Processing Functions
+
+These functions require `numpy`. It will be automatically installed as a dependency when you install the library.
+
+```python
+import numpy as np
+from ben_memre import normalize, one_hot_encode, calculate_accuracy
+
+# --- Normalize Data ---
+# Insight: Normalizing data to a 0-1 scale is crucial for many ML algorithms 
+# (like neural networks and SVMs) to ensure stable and efficient training.
+data = [10, 20, 30, 40, 50]
+normalized_data = normalize(data)
+print(f"Normalized Data: {normalized_data}")
+# Output: Normalized Data: [0.   0.25 0.5  0.75 1.  ]
+
+# --- One-Hot Encode Labels ---
+# Insight: Categorical labels (like 'cat', 'dog', 'bird') must be converted
+# to a numerical format for most models. One-hot encoding creates a binary
+# vector for each label, preventing the model from assuming an incorrect
+# ordinal relationship between categories.
+labels = ['cat', 'dog', 'cat', 'bird']
+encoded_labels = one_hot_encode(labels)
+print(f"One-Hot Encoded Labels:\n{encoded_labels}")
+# Output:
+# One-Hot Encoded Labels:
+# [[0. 1. 0.]
+#  [0. 0. 1.]
+#  [0. 1. 0.]
+#  [1. 0. 0.]]
+
+# --- Calculate Accuracy ---
+# Insight: Accuracy is the most straightforward metric for evaluating a
+# classification model. It measures the proportion of correct predictions.
+y_true = [1, 0, 1, 1, 0]
+y_pred = [1, 0, 1, 0, 0]
+accuracy = calculate_accuracy(y_true, y_pred)
+print(f"Accuracy: {accuracy:.2f}") # Output: Accuracy: 0.80
+```
+
+## Version History
+
+*   **0.1.4 (Current):**
+    *   **Feature Add:** Added three new functions for common AI/ML data processing tasks: `normalize`, `one_hot_encode`, and `calculate_accuracy`.
+    *   Added `numpy` as a project dependency.
+
+*   **0.1.3:**
+    *   **Major Fix:** Restructured the project to use a `src/` layout, which is the standard for modern Python packages. This resolved the persistent `ModuleNotFoundError`.
+
+*   **0.1.2:**
+    *   **Attempted Fix:** Modified `__init__.py` to explicitly import functions. This was insufficient without the correct project structure.
+
+*   **0.1.1:**
+    *   **Initial Release:** First version with a structural issue causing import errors.
