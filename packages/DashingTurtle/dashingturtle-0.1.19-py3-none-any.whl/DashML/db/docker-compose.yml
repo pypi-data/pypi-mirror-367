@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mariadb:10.11.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-dtuser_DASH}
+      MARIADB_USER: ${DB_USER:-dtuser}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-dtpass}
+      MARIADB_GENERAL_LOG: 1
+      MARIADB_GENERAL_LOG_FILE: /var/lib/mysql/general.log
+    ports:
+      - "3307:3306"
+    volumes:
+      # Persistent DB volume
+      - db_datad:/var/lib/mysql
+
+      # SQL init script, extracted at runtime or fallback to local dev copy
+      - ${INIT_SQL_PATH:-./DashML/db/init.sql}:/docker-entrypoint-initdb.d/init.sql
+
+      # MariaDB config file, extracted at runtime or fallback to local dev copy
+      - ${MY_CNF_PATH:-./DashML/db/my.cnf}:/etc/mysql/conf.d/my.cnf
+
+volumes:
+  db_datad:
