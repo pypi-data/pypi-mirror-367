@@ -1,0 +1,107 @@
+"""
+Apply diff tool for precise file modifications.
+"""
+import logging
+from typing import Dict, List, Any
+from ..core.models import DiffBlock, DiffBuilder, FileModifier
+
+logger = logging.getLogger(__name__)
+
+
+def apply_diff(file_path: str, diff_blocks: List[Dict[str, Any]], force: bool = False, validate_syntax: bool = True) -> Dict[str, Any]:
+    """
+    Apply precise file modifications using structured diff blocks.
+    
+    This tool makes surgical changes to files using fuzzy matching with line hints,
+    making it more precise and reliable than simple search-and-replace operations.
+    
+    Args:
+        path: The file path to modify
+        blocks: List of diff blocks, each containing:
+            - start_line: Starting line number (required)
+            - end_line: Ending line number (optional)
+            - search_content: Content to find and replace
+            - replace_content: New content to replace with
+    
+    Returns:
+        Dictionary with operation results and statistics
+    """
+    try:
+        # Validate inputs
+        if not file_path:
+            raise ValueError("File path is required")
+        if not diff_blocks:
+            raise ValueError("At least one diff block is required")
+        
+        # Convert dict blocks to DiffBlock objects
+        validated_blocks = []
+        for i, block_dict in enumerate(diff_blocks):
+            try:
+                diff_block = DiffBlock.validate_block_dict(block_dict)
+                validated_blocks.append(diff_block)
+            except ValueError as e:
+                raise ValueError(f"Invalid block {i+1}: {str(e)}")
+            except Exception as e:
+                raise ValueError(f"Unexpected error in block {i+1}: {str(e)}")
+    
+        
+        logger.info(f"Processing {len(validated_blocks)} diff blocks for {file_path}")
+        
+        # Apply modifications
+        modifier = FileModifier(file_path)
+        modifier.load_file()
+        
+        # Store original stats
+        original_lines = len(modifier.lines)
+        
+        # Apply all diffs
+        new_content = modifier.apply_all_diffs(validated_blocks)
+        new_lines = len(new_content.splitlines())
+        
+        # Save the file
+        modifier.save_file(new_content)
+        
+        # Build the diff string for logging/debugging purposes
+        diff_string = DiffBuilder.build_diff_string(validated_blocks)
+        logger.debug(f"Applied diff:\n{diff_string}")
+        
+        # Calcular líneas realmente modificadas (no solo la diferencia neta)
+        lines_modified = 0
+        for block in validated_blocks:
+            # Los diff_blocks son objetos DiffBlock (Pydantic models)
+            start_line = block.start_line
+            end_line = block.end_line if block.end_line else start_line
+            lines_modified += max(1, end_line - start_line + 1)
+        
+        return {
+            "success": True,
+            "message": f"Successfully applied {len(validated_blocks)} diff blocks to {file_path}",
+            "file_path": str(modifier.file_path),
+            "blocks_applied": len(validated_blocks),
+            "original_lines": original_lines,
+            "new_lines": new_lines,
+            "lines_changed": lines_modified,
+            "net_line_change": new_lines - original_lines
+        }
+        
+    except FileNotFoundError as e:
+        logger.error(f"File not found: {e}")
+        return {
+            "success": False,
+            "error": "FileNotFoundError",
+            "message": str(e)
+        }
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {
+            "success": False,
+            "error": "ValidationError", 
+            "message": str(e)
+        }
+    except Exception as e:
+        logger.error(f"Unexpected error applying diff: {e}")
+        return {
+            "success": False,
+            "error": type(e).__name__,
+            "message": str(e)
+        }
