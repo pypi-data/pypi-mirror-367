@@ -1,0 +1,145 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 79
+
+[tool.pytest.ini_options]
+python_files = "*_test.py"
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+[tool.pyright]
+include = ["vis4d"]
+typeCheckingMode = "off"
+
+[tool.coverage]
+    [tool.coverage.report]
+        exclude_lines = [
+            # Have to re-enable the standard pragma
+            'pragma: no cover',
+
+            # Don't complain if tests don't hit defensive assertion code
+            'raise NotImplementedError',
+            'raise ValueError',
+            'raise ImportError',
+            'raise AttributeError',
+            'raise FileNotFoundError',
+
+            # Don't complain about overloads
+            '@overload',
+        ]
+        omit = [
+            # Omit files related to distributed setting
+            "vis4d/common/slurm.py",
+            "vis4d/common/util.py",
+            "vis4d/common/distributed.py",
+            "vis4d/engine/run.py",
+            "vis4d/engine/experiment.py",
+            "vis4d/engine/flag.py",
+            "vis4d/pl/run.py",
+            "vis4d/pl/__main__.py",
+            "vis4d/__main__.py",
+            "vis4d/zoo/run.py",
+        ]
+
+[tool.flake8]
+# Ignore only the import related errors because isort handles them.
+ignore = "I100, I201"
+
+[tool.mypy]
+strict = true
+warn_return_any = false
+allow_untyped_calls = true
+exclude = [
+    "_test\\.py$",
+]
+
+# Disallow using Any
+disallow_any_explicit = true
+disallow_any_generics = true
+
+plugins = ["numpy.typing.mypy_plugin"]
+
+
+[[tool.mypy.overrides]]
+    module = [
+        "plyfile.*",
+        "tensorflow.*",
+        "skimage.*",
+        "PIL.*",
+        "tqdm.*",
+        "pycocotools.*",
+        "matplotlib.*",
+        "h5py.*",
+        "bdd100k.*",
+        "devtools.*",
+        "nuscenes.*",
+        "dash.*",
+        "dash_core_components.*",
+        "dash_html_components.*",
+        "plotly.*",
+        "pandas.*",
+        "cv2.*",
+        "cloudpickle.*",
+        "scalabel.*",
+        "scipy.spatial.transform",
+        "scipy.spatial.distance",
+        "appdirs.*",
+        "open3d.*",
+        "ml_collections.*",
+        "lightning.*",
+        "absl.*",
+        "terminaltables.*",
+        "timm.*",
+        "vis4d_cuda_ops.*",
+        "fvcore.*",
+    ]
+    ignore_missing_imports = true
+
+
+[[tool.mypy.overrides]]
+    module = [
+        "torch.*",
+        "torchvision.*"
+    ]
+    follow_imports = "normal"
+    follow_imports_for_stubs = true
+    ignore_missing_imports = true
+
+
+[project]
+name = "vis4d"
+version = "0.1.4"
+authors = [{name = "Vis4D Team"}]
+description = "Vis4D Python package for Visual 4D scene understanding"
+readme = "README.md"
+license = {text = "Apache 2.0"}
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements/install.txt"]}
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
+[tool.setuptools.packages.find]
+include = ["vis4d*"]
+
+[project.urls]
+"Documentation" = "https://vis4d.readthedocs.io"
+"Source" = "https://github.com/syscv/vis4d"
+"Tracker" = "https://github.com/syscv/vis4d/issues"
+
+[project.scripts]
+vis4d = "vis4d.engine.run:entrypoint"
+vis4d-zoo = "vis4d.zoo.run:entrypoint"
