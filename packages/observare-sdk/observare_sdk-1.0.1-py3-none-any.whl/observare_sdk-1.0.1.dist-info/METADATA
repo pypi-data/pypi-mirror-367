@@ -1,0 +1,146 @@
+Metadata-Version: 2.4
+Name: observare-sdk
+Version: 1.0.1
+Summary: Zero-config telemetry and safety SDK for LangChain agents with PII redaction and hallucination detection
+Author-email: Observare <support@observare.ai>
+License: Proprietary
+Project-URL: Homepage, https://observare.ai
+Project-URL: Documentation, https://docs.observare.ai
+Project-URL: Repository, https://github.com/observare-ai/observare-sdk
+Project-URL: Issues, https://github.com/observare-ai/observare-sdk/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-openai>=0.1.0
+Requires-Dist: langchain-community>=0.0.20
+Requires-Dist: requests>=2.25.0
+Requires-Dist: presidio-analyzer>=2.2.354
+Requires-Dist: presidio-anonymizer>=2.2.354
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: spacy
+Requires-Dist: spacy>=3.4.0; extra == "spacy"
+
+# Observare SDK
+
+**Zero-config telemetry and safety for LangChain agents**
+
+Add comprehensive observability, PII redaction, and hallucination detection to your LangChain applications with minimal setup.
+
+## 🚀 Quick Start
+
+### Installation
+```bash
+pip install observare-sdk
+```
+
+### Basic Telemetry
+```python
+from observare_sdk import AutoTelemetryHandler
+from langchain_openai import ChatOpenAI
+from langchain.agents import AgentExecutor
+
+# Add telemetry to any LangChain agent
+handler = AutoTelemetryHandler(api_key="your-api-key")
+executor = AgentExecutor(
+    agent=agent, 
+    tools=tools,
+    callbacks=[handler]  # One line integration!
+)
+
+# All agent activity is now tracked automatically
+result = executor.invoke({"input": "What's the weather?"})
+```
+
+### Safety Features
+```python
+from observare_sdk import ObservareChat, SafetyPolicy
+from langchain_openai import ChatOpenAI
+
+# Wrap any LLM with safety features
+safe_llm = ObservareChat(
+    llm=ChatOpenAI(model="gpt-3.5-turbo"),
+    api_key="your-api-key"
+)
+
+# Apply safety policy
+safe_llm.apply_policy(SafetyPolicy.BALANCED)
+
+# PII is automatically redacted, hallucinations detected
+response = safe_llm.invoke([HumanMessage(content="My SSN is 123-45-6789")])
+# → "My SSN is [SSN_REDACTED]"
+```
+
+## ✨ Features
+
+### 📊 **Zero-Config Telemetry**
+- **Agent lifecycle tracking** - Start, completion, errors
+- **Tool execution monitoring** - Performance and usage
+- **LLM call metrics** - Token usage, costs, latency  
+- **Automatic correlation** - Link related events together
+
+### 🛡️ **Enterprise Safety**
+- **PII Redaction** - Emails, phones, SSNs, credit cards
+- **Hallucination Detection** - Multi-method AI safety validation
+- **Configurable Policies** - STRICT, BALANCED, PERMISSIVE
+- **Real-time Monitoring** - Live safety alerts
+
+### 🔧 **Production Ready**
+- **Fail-safe operation** - Never breaks your app
+- **High performance** - Minimal latency overhead
+- **Comprehensive logging** - Full audit trails
+- **Easy integration** - Works with existing code
+
+## ⚙️ Configuration
+
+### Environment Variables
+```bash
+export OBSERVARE_API_KEY="your-api-key"
+```
+
+### Safety Policies
+```python
+# Maximum security
+safe_llm.apply_policy(SafetyPolicy.STRICT)
+
+# Balanced (default) 
+safe_llm.apply_policy(SafetyPolicy.BALANCED)
+
+# Minimal restrictions
+safe_llm.apply_policy(SafetyPolicy.PERMISSIVE)
+```
+
+### Debug Mode
+```python
+# See API errors during development
+handler = AutoTelemetryHandler(api_key="your-key", debug_mode=True)
+```
+
+## 🆘 Support
+
+- **Documentation**: [docs.observare.ai](https://docs.observare.ai)
+- **Issues**: [github.com/observare/sdk/issues](https://github.com/observare/sdk/issues)
+- **Email**: support@observare.ai
+
+## 📄 License
+
+Proprietary - See LICENSE file for details.
+
+---
+
+**Get started in 2 minutes:** Add one line to your LangChain app and gain complete visibility into your AI systems.
