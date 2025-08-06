@@ -1,0 +1,68 @@
+[build-system]
+
+requires = [
+    "setuptools>=62.1",
+    "setuptools_scm[toml]>=6.2",
+]
+
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = "talus"
+description = "A wrapper for connecting to RabbitMQ which constrains clients to a single purpose channel (producer or consumer) with healing for intermittent connectivity."
+readme = "README.rst"
+requires-python = ">=3.11"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+]
+license = { text = "MIT" }
+authors = [
+  { name = "NSO / AURA", email = "dkistdc@nso.edu" },
+]
+
+dependencies = [
+    "pika~=1.3",
+    "tenacity~=8.2",
+    "pydantic~=2.0",
+]
+dynamic = ["version"]
+
+# tox is not required to run the tests, but simplifies IDE integration
+# Pygments is solely to support README.rst rendering
+[project.optional-dependencies]
+test = [
+    "tox>=4",
+    "pytest",
+    "pytest-cov",
+]
+
+[project.urls]
+repository = "https://bitbucket.org/dkistdc/interservice-bus-adapter"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+
+[tool.setuptools.package-data]
+# include .ttf files from any directory
+"*" = ["*.ttf"]
+
+[tool.setuptools_scm]
+write_to = "talus/_version.py"
+
+[tool.pytest.ini_options]
+testpaths = [
+  "talus",
+]
+markers = [
+  "development: For tests that can only be  run while developing with a sidecar proxy (as opposed to in bitbucket pipelines)"
+]
+
+[tool.coverage.run]
+omit = [
+ "*/talus/tests/*",
+]
