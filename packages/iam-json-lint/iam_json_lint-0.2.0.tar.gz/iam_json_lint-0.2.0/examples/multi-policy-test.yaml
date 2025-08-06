@@ -1,0 +1,179 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: iam-policies-test
+  namespace: default
+  annotations:
+    # Single policy in annotation (non-array path)
+    iam.amazonaws.com/policy: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::my-bucket/*"
+          }
+        ]
+      }
+data:
+  # Multiple policies in array structure
+  policies: |
+    [
+      {
+        "name": "s3-read-policy",
+        "policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+      },
+      {
+        "name": "dangerous-admin-policy", 
+        "policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "*",
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "iam:CreateAccessKey",
+                "iam:CreateUser",
+                "iam:AttachUserPolicy"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+      }
+    ]
+  # Single policy (non-array)
+  single-policy: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "ec2:DescribeInstances",
+          "Resource": "*"
+        }
+      ]
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-policy-app
+spec:
+  template:
+    metadata:
+      annotations:
+        # Another single policy in different location
+        policy.company.com/custom: |
+          {
+            "Version": "2012-10-17", 
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "secretsmanager:GetSecretValue",
+                "Resource": "arn:aws:secretsmanager:*:*:secret:prod/*"
+              }
+            ]
+          }
+    spec:
+      containers:
+      - name: app
+        image: myapp:latest
+        env:
+        - name: IAM_POLICY_1
+          value: |
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "sqs:SendMessage",
+                  "Resource": "arn:aws:sqs:us-east-1:123456789012:my-queue"
+                }
+              ]
+            }
+        - name: IAM_POLICY_2
+          value: |
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "iam:PassRole",
+                    "lambda:CreateFunction"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+---
+apiVersion: eks.aws.com/v1beta1
+kind: ServiceAccount
+metadata:
+  name: test-service-account
+spec:
+  # Array of inline policies
+  inlinePolicies:
+  - name: logs-policy
+    policy: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "logs:CreateLogGroup",
+              "logs:CreateLogStream",
+              "logs:PutLogEvents"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+          }
+        ]
+      }
+  - name: dangerous-escalation-policy
+    policy: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "iam:CreateRole",
+              "iam:AttachRolePolicy",
+              "iam:PutRolePolicy",
+              "sts:AssumeRole"
+            ],
+            "Resource": "*"
+          }
+        ]
+      }
+  # Single policy document (non-array)
+  managedPolicy: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "cloudwatch:PutMetricData",
+          "Resource": "*"
+        }
+      ]
+    }
