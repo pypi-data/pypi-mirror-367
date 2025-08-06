@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "best_arm"                    # visible on PyPI (hyphen is fine here)
+version = "0.1.1"
+description = "A modular multi-armed bandit framework with algorithms, trackers, and stopping rules."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }            # or "BSD-3-Clause", etc.
+authors = [{ name="Sepehr Zolfaghari", email="sepehr.zolfaghari9697@gmail.com" }]
+
+dependencies = [
+  "numpy>=1.23",
+  "matplotlib>=3.7",
+  "scipy>=1.10,<1.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/sepehrzoli/Multi_Arm"
+Issues = "https://github.com/sepehrzoli/Multi_Arm/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["best_arm*"]
+
+[project.scripts]
+multi-arm = "best_arm.cli:main"
