@@ -1,0 +1,44 @@
+name: tests
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  unittests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      max-parallel: 8
+      fail-fast: False
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10" , "3.11", "3.12", "3.13"]
+        include:
+          - os: macos-latest
+            python-version: "3.13"
+          - os: windows-latest
+            python-version: "3.13"
+          - os: macos-14  # Apple silicon runner
+            python-version: '3.13'
+    name: tests on ubuntu with ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        name: Set up Python ${{ matrix.python-version }}
+
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install .[dev] cython coveralls coverage
+      - name: Test with pytest
+        run: |
+          . ci/run_tests.sh
+      - name: Build docs
+        run: |
+          . ci/testbuild_docs.sh
