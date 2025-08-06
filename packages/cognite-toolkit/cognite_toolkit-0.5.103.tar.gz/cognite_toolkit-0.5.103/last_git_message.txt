@@ -1,0 +1,38 @@
+[CDF-25393] 😅 GraphQL parser error (#1816)
+
+# Description
+
+The GraphQL parser fails for directives that looks like this
+
+```graphql
+view(
+    rawFilter: {
+      hasData: [
+        {
+          type: "container"
+          space: "onse_logfile"
+          externalId: "LogFile"
+        }
+      ]
+    }   version: "1"
+  )
+```
+due to the `version: "1"` is expected to be on a new line.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- [alpha] When deploying a GraphQL model, the Cognite Toolkit no longer
+fails for `.graphql` schema that uses directives with multiple
+components without line separation.
+
+## templates
+
+No changes.
