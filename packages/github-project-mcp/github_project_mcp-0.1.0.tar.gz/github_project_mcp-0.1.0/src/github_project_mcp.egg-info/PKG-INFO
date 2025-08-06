@@ -1,0 +1,485 @@
+Metadata-Version: 2.4
+Name: github-project-mcp
+Version: 0.1.0
+Summary: A Model Context Protocol server for managing GitHub projects and issues via GraphQL
+Home-page: https://github.com/jaqarx/github-project-mcp
+Author: Enrica Tan
+Author-email: Enrica Tan <tanenrica@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/github-project-mcp
+Project-URL: Documentation, https://github.com/yourusername/github-project-mcp#readme
+Project-URL: Repository, https://github.com/yourusername/github-project-mcp
+Project-URL: Issues, https://github.com/yourusername/github-project-mcp/issues
+Keywords: github,mcp,graphql,api,project-management
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp>=0.9.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: click>=8.1.0
+Requires-Dist: rich>=13.0.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# GitHub Project MCP Server
+
+A Model Context Protocol (MCP) server for managing GitHub projects and issues using GitHub's GraphQL API.
+
+## Features
+
+- List, create, update, and delete (close) GitHub issues
+- List GitHub projects (ProjectsV2)
+- Get project items
+- Full GraphQL API integration for efficient data fetching
+- Easy-to-use CLI with `gps` command
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install github-project-mcp
+```
+
+### From Source
+
+```bash
+git clone <your-repo-url>
+cd github-project-mcp
+pip install .
+```
+
+### For Development
+
+```bash
+pip install -e .
+```
+
+### From Wheel
+
+```bash
+# Install Python `build`
+pip install build
+
+# Build the wheel
+python -m build
+
+# Install the wheel
+pip install dist/github_project_mcp-0.1.0-py3-none-any.whl
+```
+
+## Quick Start
+
+1. **Configure your GitHub token:**
+```bash
+gps config --token YOUR_GITHUB_TOKEN
+```
+
+2. **Test the connection:**
+```bash
+gps test
+```
+
+3. **Start the server:**
+```bash
+gps start
+```
+
+## CLI Commands
+
+The `gps` command provides a comprehensive interface for managing the MCP server:
+
+### Server Management
+
+```bash
+# Start the server
+gps start
+
+# Start with specific token
+gps start --token YOUR_TOKEN
+
+# Start as daemon (background process)
+gps start --daemon
+
+# Stop the server
+Press Ctrl + C
+
+# Check server status
+gps status
+```
+
+### Configuration
+
+```bash
+# Configure GitHub token
+gps config --token YOUR_TOKEN
+
+# Show current configuration
+gps config --show
+
+# Clear configuration
+gps config --clear
+```
+
+### Utilities
+
+```bash
+# Test GitHub API connection
+gps test
+
+# List available MCP tools
+gps tools
+```
+
+## Integration with AI Coding Assistants
+
+### Claude Desktop
+
+Claude Desktop supports MCP servers natively. Configure it by editing the Claude Desktop configuration:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
+**Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+Add the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "github-project": {
+      "command": "gps",
+      "args": ["start"],
+      "env": {
+        "GITHUB_TOKEN": "your_github_token_here"
+      }
+    }
+  }
+}
+```
+
+Or if you've configured the token with `gps config`:
+
+```json
+{
+  "mcpServers": {
+    "github-project": {
+      "command": "gps",
+      "args": ["start"]
+    }
+  }
+}
+```
+
+After adding the configuration, restart Claude Desktop. You'll see the GitHub tools available in the tools menu.
+
+### Cursor.ai
+
+Cursor doesn't natively support MCP yet, but you can use the server as a local API:
+
+1. Start the server as a daemon:
+```bash
+gps start --daemon
+```
+
+2. Create a wrapper script `cursor-github-helper.py`:
+```python
+import subprocess
+import json
+
+def query_github(command, params):
+    # Use the MCP server via subprocess
+    result = subprocess.run(
+        ["gps", "query", "--json", json.dumps({"tool": command, "params": params})],
+        capture_output=True,
+        text=True
+    )
+    return json.loads(result.stdout)
+```
+
+3. Reference this in your Cursor rules or documentation for the AI to use.
+
+### Windsurf (Codeium)
+
+Windsurf supports custom tools through its API integration:
+
+1. Install the package globally:
+```bash
+pip install github-project-mcp
+```
+
+2. Add to Windsurf's `~/.windsurf/config.json`:
+```json
+{
+  "customTools": {
+    "github": {
+      "command": "gps",
+      "args": ["start"],
+      "description": "GitHub project and issue management"
+    }
+  }
+}
+```
+
+3. In Windsurf chat, you can now reference GitHub operations:
+```
+@github list issues in owner/repo
+@github create issue "Bug: Application crashes"
+```
+
+### Visual Studio Code
+
+For VS Code, you can integrate the MCP server through extensions or terminal commands:
+
+#### Option 1: VS Code Tasks
+
+Add to `.vscode/tasks.json`:
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start GitHub MCP Server",
+      "type": "shell",
+      "command": "gps start --daemon",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "List GitHub Issues",
+      "type": "shell",
+      "command": "gps",
+      "args": ["query", "list_issues", "${input:owner}", "${input:repo}"],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "owner",
+      "type": "promptString",
+      "description": "Repository owner"
+    },
+    {
+      "id": "repo",
+      "type": "promptString",
+      "description": "Repository name"
+    }
+  ]
+}
+```
+
+#### Option 2: VS Code Extension (Continue.dev)
+
+If using Continue.dev extension for AI assistance:
+
+1. Install Continue.dev extension
+2. Add to `~/.continue/config.json`:
+```json
+{
+  "tools": [
+    {
+      "name": "github",
+      "command": "gps",
+      "args": ["start"],
+      "description": "GitHub project management"
+    }
+  ]
+}
+```
+
+#### Option 3: GitHub Copilot Chat
+
+While GitHub Copilot doesn't directly support MCP, you can create command shortcuts:
+
+1. Create a `.github/copilot-instructions.md` file in your project:
+```markdown
+You have access to a GitHub MCP server. To use it:
+- Start server: Run `gps start` in terminal
+- List issues: Run `gps query list_issues OWNER REPO`
+- Create issue: Run `gps query create_issue OWNER REPO "TITLE" "BODY"`
+```
+
+2. Copilot will recognize these commands and can help you use them.
+
+### General Integration Pattern
+
+For any IDE or assistant that doesn't natively support MCP, you can:
+
+1. **Install the package**:
+```bash
+pip install github-project-mcp
+```
+
+2. **Start as a daemon**:
+```bash
+gps start --daemon
+```
+
+3. **Use the CLI programmatically**:
+```bash
+# List issues
+gps query list_issues octocat hello-world
+
+# Create an issue
+gps query create_issue octocat hello-world "Bug Report" "Description here"
+
+# Update an issue
+gps query update_issue ISSUE_ID --state CLOSED
+```
+
+4. **Or use it in Python scripts**:
+```python
+from github_project_mcp import GitHubGraphQLClient
+import os
+
+client = GitHubGraphQLClient(os.getenv("GITHUB_TOKEN"))
+issues = await client.list_issues("octocat", "hello-world")
+```
+
+## Available Tools
+
+### Issue Management
+
+- **list_issues**: List issues in a repository
+  - Parameters: `owner`, `repo`, `state` (OPEN/CLOSED)
+  
+- **create_issue**: Create a new issue
+  - Parameters: `owner`, `repo`, `title`, `body`, `labels`, `assignees`
+  
+- **update_issue**: Update an existing issue
+  - Parameters: `issue_id`, `title`, `body`, `state`, `labels`, `assignees`
+  
+- **delete_issue**: Close an issue (GitHub doesn't support deletion)
+  - Parameters: `issue_id`
+
+### Project Management
+
+- **list_projects**: List projects in a repository
+  - Parameters: `owner`, `repo`
+  
+- **get_project_items**: Get items in a project
+  - Parameters: `project_id`
+
+### Utilities
+
+- **get_repo_id**: Get repository ID for GraphQL mutations
+  - Parameters: `owner`, `repo`
+
+## Example Usage
+
+### List Open Issues
+```json
+{
+  "tool": "list_issues",
+  "arguments": {
+    "owner": "octocat",
+    "repo": "hello-world",
+    "state": "OPEN"
+  }
+}
+```
+
+### Create New Issue
+```json
+{
+  "tool": "create_issue",
+  "arguments": {
+    "owner": "octocat",
+    "repo": "hello-world",
+    "title": "Bug: Application crashes on startup",
+    "body": "The application crashes when trying to start with the --debug flag"
+  }
+}
+```
+
+### Update Issue
+```json
+{
+  "tool": "update_issue",
+  "arguments": {
+    "issue_id": "I_kwDOBFQLEs5XB1234",
+    "state": "CLOSED",
+    "body": "Fixed in PR #123"
+  }
+}
+```
+
+## GraphQL API Benefits
+
+This server uses GitHub's GraphQL API v4 instead of REST API v3, providing:
+
+- **Efficient data fetching**: Request only the fields you need
+- **Fewer API calls**: Get related data in a single request
+- **Better performance**: Reduced network overhead
+- **Type safety**: Strongly typed schema
+- **Real-time capabilities**: Support for subscriptions (future enhancement)
+
+## Requirements
+
+- Python 3.10+
+- GitHub Personal Access Token with appropriate permissions
+- Dependencies listed in `requirements.txt`
+
+## License
+
+MIT
+
+## Publishing to PyPI
+
+### Prerequisites
+
+1. **Install build tools**:
+```bash
+pip install build twine
+```
+
+2. **Create PyPI account**:
+   - Register at https://pypi.org
+   - Generate API token in account settings
+   - Optionally, create TestPyPI account at https://test.pypi.org
+
+### Publishing Steps
+
+1. **Update version** in `setup.py` or `pyproject.toml`
+
+2. **Build the package**:
+```bash
+python -m build
+```
+
+3. **Upload to TestPyPI** (optional, for testing):
+```bash
+twine upload --repository testpypi dist/*
+```
+   - Username: `__token__`
+   - Password: Your TestPyPI API token
+
+4. **Upload to PyPI**:
+```bash
+twine upload dist/*
+```
+   - Username: `__token__`
+   - Password: Your PyPI API token
+
+5. **Verify installation**:
+```bash
+pip install github-project-mcp
+```
+
+### Notes
+
+- Clean the `dist/` directory between builds: `rm -rf dist/`
+- Use semantic versioning (e.g., 0.1.0, 0.1.1, 1.0.0)
+- Ensure all tests pass before publishing
+- Consider using GitHub Actions for automated publishing
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

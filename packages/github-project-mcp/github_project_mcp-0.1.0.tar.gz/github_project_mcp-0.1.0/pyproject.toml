@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-project-mcp"
+version = "0.1.0"
+description = "A Model Context Protocol server for managing GitHub projects and issues via GraphQL"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Enrica Tan", email = "tanenrica@gmail.com"},
+]
+keywords = ["github", "mcp", "graphql", "api", "project-management"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "mcp>=0.9.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/github-project-mcp"
+Documentation = "https://github.com/yourusername/github-project-mcp#readme"
+Repository = "https://github.com/yourusername/github-project-mcp"
+Issues = "https://github.com/yourusername/github-project-mcp/issues"
+
+[project.scripts]
+gps = "github_project_mcp.cli:cli"
+github-project-server = "github_project_mcp.cli:cli"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+github_project_mcp = ["*.json"]
