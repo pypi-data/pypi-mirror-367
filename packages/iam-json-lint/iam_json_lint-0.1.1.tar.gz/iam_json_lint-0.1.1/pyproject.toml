@@ -1,0 +1,75 @@
+[project]
+name = "iam-json-lint"
+version = "0.1.1"
+description = "A tool for linting and validating AWS IAM policies using Parliament"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Richard Gilmore", email = "richard.gilmore@gmail.com" }
+]
+license = { text = "MIT" }
+keywords = ["iam", "aws", "policy", "lint", "security", "parliament", "validation", "governance"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: System :: Systems Administration",
+    "Environment :: Console",
+]
+dependencies = [
+    "click>=8.0.0",
+    "parliament>=1.6.4",
+    "pyyaml>=6.0.0",
+    "setuptools>=80.9.0",
+]
+
+[project.scripts]
+iam-json-lint = "iam_json_lint.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/gilandose/iam-json-lint"
+Repository = "https://github.com/gilandose/iam-json-lint"
+Issues = "https://github.com/gilandose/iam-json-lint/issues"
+Documentation = "https://github.com/gilandose/iam-json-lint#readme"
+Changelog = "https://github.com/gilandose/iam-json-lint/releases"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iam_json_lint"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"config_override.yaml" = "iam_json_lint/config_override.yaml"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/",
+    "config_override.yaml",
+    "examples/",
+    "tests/",
+    "README.md",
+    "LICENSE",
+    "MANIFEST.in",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "build>=1.3.0",
+    "flake8>=7.3.0",
+    "mypy>=1.17.1",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "twine>=6.1.0",
+]
