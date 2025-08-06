@@ -1,0 +1,18 @@
+services:
+  font-analyzer:
+    image: font-analyzer
+    build: .
+    container_name: font-analyzer
+    volumes:
+      # Mount the fonts directory from host to container
+      - ./fonts:/app/fonts
+      # Persist logs directory on the host (mount as directory, not file)
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+      # To pass URL as environment variable:
+      # - URL=https://www.example.com
+      # To pass font file path as environment variable:
+      # - FONT_PATH=/app/fonts/example.ttf
+      # To pass allowed fonts as environment variable:
+      - ALLOWED_FONTS=Roboto,Lato
