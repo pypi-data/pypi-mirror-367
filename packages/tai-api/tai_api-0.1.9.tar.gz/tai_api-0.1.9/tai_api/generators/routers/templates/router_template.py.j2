@@ -1,0 +1,247 @@
+{#- Template Jinja2 para generar routers de FastAPI -#}
+{#- Este template genera endpoints CRUD completos para cada tabla -#}
+{#- Confia en los manejadores globales de excepciones para el manejo de errores -#}
+{{ imports|join('\n') }}
+
+{% set router_name = model.tablename + "_router" %}
+{% set pk_path_params = "/{" + (model.columns | selectattr('args.primary_key', 'equalto', True) | map(attribute='name') | join('}/{')) + "}" %}
+{% import "macros.j2" as macros %}
+
+logger = Alphi.get_logger_by_name("tai-api")
+
+{{ router_name }} = APIRouter(
+    prefix="/{{ model.tablename | replace('_', '-') }}",
+    tags=["{{ model.name }}"]
+)
+
+@{{ router_name }}.get("", tags=["{{ model.name }}"], response_model=APIResponse[List[{{ model.name }}Read]])
+async def {{ model.tablename }}_find_many(
+    limit: Optional[int] = None,
+    offset: Optional[int] = None,
+    {{ macros.generate_query_parameters(model).rstrip('\n') | indent(4) }}
+    includes: List[str] = Query(None),
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[List[{{ model.name }}Read]]:
+    """
+    Obtiene una lista de {{ model.name }}s con filtros opcionales.
+    """
+    # Validaciones básicas de entrada
+    if limit is not None and limit < 0:
+        raise ValidationException("El límite no puede ser negativo", "limit")
+    if offset is not None and offset < 0:
+        raise ValidationException("El offset no puede ser negativo", "offset")
+    if limit is not None and limit > 1000:
+        raise ValidationException("El límite no puede ser mayor a 1000", "limit")
+        
+    result = await api.{{ model.tablename }}.find_many(
+        limit=limit,
+        offset=offset,
+        {{ macros.asing_parameters(model).rstrip('\n') | indent(8) }}
+        includes=includes
+    )
+    
+    # Obtener el total para metadatos de paginación si es necesario
+    total = None
+    if limit is not None or offset is not None:
+        try:
+            total = await api.{{ model.tablename }}.count(
+                {{ macros.asing_parameters(model).rstrip('\n') | indent(16) }}
+            )
+        except Exception as e:
+            logger.warning(f"No se pudo obtener el total de registros: {str(e)}")
+    
+    return PaginatedResponse.success_paginated(
+        data=result,
+        total=total,
+        limit=limit,
+        offset=offset,
+        message=f"{{ model.name }}s obtenidos exitosamente"
+    )
+
+{% if not model.is_view %}
+@{{ router_name }}.get("{{ pk_path_params }}", tags=["{{ model.name }}"], response_model=APIResponse[{{ model.name }}Read])
+async def {{ model.tablename }}_find(
+    {% for column in model.columns if column.args.get('primary_key', False) %}
+    {{ column.name }}: {{ column.type }},
+    {% endfor %}
+    includes: List[str] = Query(None),
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[{{ model.name }}Read]:
+    """
+    Obtiene un {{ model.name }} por su primary key.
+    """
+    # Validaciones básicas de entrada
+    {% for column in model.columns if column.args.get('primary_key', False) and column.args.get('autoincrement', False) %}
+    {% if column.type in ['int', 'BigInteger'] %}
+    if {{ column.name }} <= 0:
+        raise ValidationException("{{ column.name }} debe ser mayor a 0", "{{ column.name }}")
+    {% endif %}
+    {% endfor %}
+    
+    result = await api.{{ model.tablename }}.find(
+        {% for column in model.columns if column.args.get('primary_key', False) %}
+        {{ column.name }}={{ column.name }},
+        {% endfor %}
+        includes=includes
+    )
+    
+    if result is None:
+        raise RecordNotFoundException("{{ model.name }}")
+        
+    return APIResponse.success(
+        data=result,
+        message="{{ model.name }} obtenido exitosamente"
+    )
+
+@{{ router_name }}.get("/count", tags=["{{ model.name }}"], response_model=APIResponse[int])
+async def {{ model.tablename }}_count(
+    {{ macros.generate_query_parameters(model).rstrip('\n') | indent(4) }}
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[int]:
+    """
+    Cuenta el número de {{ model.name }}s que coinciden con los filtros.
+    """
+    result = await api.{{ model.tablename }}.count(
+        {{ macros.asing_parameters(model).rstrip('\n') | indent(8) }}
+    )
+    
+    return APIResponse.success(
+        data=result,
+        message="Conteo realizado exitosamente"
+    )
+
+@{{ router_name }}.get("/exists", tags=["{{ model.name }}"], response_model=APIResponse[bool])
+async def {{ model.tablename }}_exists(
+    {{ macros.generate_query_parameters(model).rstrip('\n') | indent(4) }}
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[bool]:
+    """
+    Verifica si existe al menos un {{ model.name }} que coincida con los filtros.
+    """
+    result = await api.{{ model.tablename }}.exists(
+        {{ macros.asing_parameters(model).rstrip('\n') | indent(8) }}
+    )
+    
+    return APIResponse.success(
+        data=result,
+        message="Verificación realizada exitosamente"
+    )
+
+@{{ router_name }}.post("", tags=["{{ model.name }}"], response_model=APIResponse[{{ model.name }}Read])
+async def {{ model.tablename }}_create(
+    {{ model.tablename }}: {{ model.name }}Create,
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[{{ model.name }}Read]:
+    """
+    Crea un nuevo {{ model.name }}.
+    """
+    result = await api.{{ model.tablename }}.create({{ model.tablename }})
+    
+    return APIResponse.success(
+        data=result,
+        message="{{ model.name }} creado exitosamente"
+    )
+
+@{{ router_name }}.patch("{{ pk_path_params }}", tags=["{{ model.name }}"], response_model=APIResponse[int])
+async def {{ model.tablename }}_update(
+    {% for column in model.columns if column.args.get('primary_key', False) %}
+    {{ column.name }}: {{ column.type }},
+    {% endfor %}
+    values: {{ model.name }}UpdateValues,
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[int]:
+    """
+    Actualiza un {{ model.name }} específico.
+    """
+    # Validaciones básicas de entrada
+    {% for column in model.columns if column.args.get('primary_key', False) %}
+    {% if column.type in ['int', 'BigInteger'] %}
+    if {{ column.name }} <= 0:
+        raise ValidationException("{{ column.name }} debe ser mayor a 0", "{{ column.name }}")
+    {% endif %}
+    {% endfor %}
+    
+    # Verificar que el registro existe antes de actualizar
+    existing = await api.{{ model.tablename }}.find(
+        {% for column in model.columns if column.args.get('primary_key', False) %}
+        {{ column.name }}={{ column.name }},
+        {% endfor %}
+    )
+    
+    if existing is None:
+        raise RecordNotFoundException("{{ model.name }}")
+    
+    result = await api.{{ model.tablename }}.update(
+        {% for column in model.columns if column.args.get('primary_key', False) %}
+        {{ column.name }}={{ column.name }},
+        {% endfor %}
+        updated_values=values
+    )
+    
+    if result == 0:
+        raise RecordNotFoundException("{{ model.name }}")
+        
+    return APIResponse.success(
+        data=result,
+        message="{{ model.name }} actualizado exitosamente"
+    )
+
+@{{ router_name }}.patch("", tags=["{{ model.name }}"], response_model=APIResponse[int])
+async def {{ model.tablename }}_update_many(
+    payload: {{ model.name }}Update,
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[int]:
+    """
+    Actualiza múltiples {{ model.name }}s.
+    """
+    result = await api.{{ model.tablename }}.update_many(payload)
+    
+    message = f"{result} {{ model.name }}s actualizados exitosamente" if result > 0 else "No se encontraron registros que coincidan con los criterios"
+    
+    return APIResponse.success(
+        data=result,
+        message=message
+    )
+
+@{{ router_name }}.delete("{{ pk_path_params }}", tags=["{{ model.name }}"], response_model=APIResponse[int])
+async def {{ model.tablename }}_delete(
+    {% for column in model.columns if column.args.get('primary_key', False) %}
+    {{ column.name }}: {{ column.type }},
+    {% endfor %}
+    api: {{ crud_class }} = Depends({{ crud_class }})
+) -> APIResponse[int]:
+    """
+    Elimina un {{ model.name }} por su primary key.
+    """
+    # Validaciones básicas de entrada
+    {% for column in model.columns if column.args.get('primary_key', False) %}
+    {% if column.type in ['int', 'BigInteger'] %}
+    if {{ column.name }} <= 0:
+        raise ValidationException("{{ column.name }} debe ser mayor a 0", "{{ column.name }}")
+    {% endif %}
+    {% endfor %}
+    
+    # Verificar que el registro existe antes de eliminar
+    existing = await api.{{ model.tablename }}.find(
+        {% for column in model.columns if column.args.get('primary_key', False) %}
+        {{ column.name }}={{ column.name }},
+        {% endfor %}
+    )
+    
+    if existing is None:
+        raise RecordNotFoundException("{{ model.name }}")
+    
+    result = await api.{{ model.tablename }}.delete(
+        {% for column in model.columns if column.args.get('primary_key', False) %}
+        {{ column.name }}={{ column.name }},
+        {% endfor %}
+    )
+    
+    if result == 0:
+        raise RecordNotFoundException("{{ model.name }}")
+        
+    return APIResponse.success(
+        data=result,
+        message="{{ model.name }} eliminado exitosamente"
+    )
+{% endif %}
