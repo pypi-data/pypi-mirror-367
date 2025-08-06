@@ -1,0 +1,97 @@
+Metadata-Version: 2.4
+Name: opendmxadapter
+Version: 1.0.2.post1
+Summary: Easy-to-use library to work with an OpenDMX controller
+Project-URL: Homepage, https://github.com/Ari24-cb24/opendmxadapter
+Project-URL: Issues, https://github.com/Ari24-cb24/opendmxadapter/issues
+Author-email: Ari van Houten <ari.publicmail@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: System :: Hardware :: Universal Serial Bus (USB)
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Requires-Dist: pyftdi>=0.56.0
+Requires-Dist: pyserial>=3.5
+Description-Content-Type: text/markdown
+
+# OpenDMXAdapter
+
+OpenDMXAdapter is an easy-to-use library to work with an OpenDMX controller. 
+Initially this library has been designed around the OpenDMX Adapter from Enttec.
+
+
+## Installing
+
+This project has not been published on pypi yet and thus can only be used by cloning the git repository into your project.  
+You may need to install a different driver for your adapter (since the Enttec OpenDMX driver only works with their dll file and not with serial).
+Take a look at [this](https://learn.adafruit.com/circuitpython-on-any-computer-with-ft232h/windows) tutorial from adafruit on how to install the correct driver (libusk).
+
+## Example Usage
+
+```python
+from opendmxadapter.adapter import OpenDMXAdapter
+from opendmxadapter.fixtures.cameo.rootpar6 import RootPar6
+
+controller = OpenDMXAdapter("ftdi://ftdi:232:BG00DND8/1")
+controller.start()
+controller.blackout()
+
+# Either manually set channel values
+controller.set_channel(10, 255)
+
+# Or add a custom fixture
+light = RootPar6(0)
+controller.add_fixture(light)
+
+light.set_amber(255)
+light.set_intensity(100)
+
+controller.close()
+```
+
+For more examples, take look into the `examples` directory.
+
+## How does it work?
+
+The main logic lies in `adapter.py` which is fairly simple and easy to understand.
+It talks via pyftdi serialtext to the controller itself and sends the data in a separate thread in a 40 Hz interval.
+
+## Writing a custom fixture
+
+Generally, taking a look at the different fixtures available such as the cameo root par 6 is a good idea to get a basic understanding of how they work.  
+Most of the methods are defined in the BaseFixture class. Your fixture class should extend from this.  
+If you need any further abstraction of functionality, such as color, moving head or strobo, you can additionally extend from either ``ColorFixture``, ``StroboFixture`` or the different classes available in `basefixture.py`. You may need to call special initialisation methods prefixed with an underscore to set the relative channels for different operations. See the example below.
+
+```python
+from fixtures.basefixture import BaseFixture, ColorFixture
+
+
+class CustomFixture(BaseFixture, ColorFixture):
+    def __init__(self, channelCount: int, rawChannel: int | None = None):
+        super().__init__(channelCount, rawChannel)
+        # R, G, B, Intensity
+        self._initializeColorChannels(0, 1, 2, 3)
+
+    def mySuperCustomMethod(self):
+        # Method provided by BaseFixture
+        self.setValue(10, 255)
+        self.adapter.blackout()  # You can also access the adapter
+        
+        # Method provided by ColorFixture
+        self.setRgb(255, 0, 0)
+        self.setIntensity(100)
+```
+
+## Showcase
+
+This is a video I took controlling the Eurolite TMH-X4 Shower Moving Head with my Dualshock Controller
+
+[![Showcase](https://b.catgirlsare.sexy/mteA91wfZvGk.webm)](https://b.catgirlsare.sexy/mteA91wfZvGk.webm)
+
+
+## Help
+
+If you're stuck in any way, have any questions or problem with the driver, feel free to ask me. I went through a lot of work to get a driver running after abandoning the driver from the Enttec Adapter. Open an issue or drop me a [Twitter](https://twitter.com/@AriOnIce24) DM.
