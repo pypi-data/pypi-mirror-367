@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: wagtail-indexnow
+Version: 0.2.0
+Summary: A Wagtail package to automatically submit published pages for search engine indexing
+Author: Jake Howard
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Framework :: Wagtail
+Classifier: Framework :: Wagtail :: 6
+Classifier: Framework :: Wagtail :: 7
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.1
+Classifier: Framework :: Django :: 5.2
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development
+Classifier: Typing :: Typed
+License-File: LICENSE
+Requires-Dist: wagtail>=6.3
+Requires-Dist: Django>=4.2
+Requires-Dist: ruff ; extra == "dev"
+Requires-Dist: black ; extra == "dev"
+Requires-Dist: requests-mock ; extra == "dev"
+Project-URL: Changelog, https://github.com/RealOrangeOne/wagtail-indexnow/releases
+Project-URL: Issues, https://github.com/RealOrangeOne/wagtail-indexnow/issues
+Project-URL: Source, https://github.com/RealOrangeOne/wagtail-indexnow
+Provides-Extra: dev
+
+# Wagtail Indexnow
+
+![CI](https://github.com/RealOrangeOne/wagtail-indexnow/workflows/CI/badge.svg)
+![PyPI](https://img.shields.io/pypi/v/wagtail-indexnow.svg)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/wagtail-indexnow.svg)
+![PyPI - License](https://img.shields.io/pypi/l/wagtail-indexnow.svg)
+
+A Wagtail package to automatically submit published pages for search engine indexing.
+
+This package implements the [IndexNow](https://www.indexnow.org/) standard (which is also used by [Cloudflare's Crawler Hints](https://blog.cloudflare.com/cloudflare-now-supports-indexnow/)).
+
+Whenever a page is published, a [ping](https://www.indexnow.org/documentation) is sent to supporting search engines to inform them of a content change. To reduce spamming, pages which have been published within the last 10 minutes are ignored.
+
+## Installation
+
+```
+pip install wagtail-indexnow
+```
+
+Then, add `wagtail_indexnow` to `INSTALLED_APPS`.
+
+Finally, register the required URLs (Note that these must be loaded without a prefix):
+
+
+```python
+urlpatterns += [path("", include("wagtail_indexnow.urls"))]
+```
+
