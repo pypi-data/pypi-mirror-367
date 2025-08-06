@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: auth_api_intra
+Version: 0.1.0
+Summary: Reusable Auth API logic component
+Home-page: https://github.com/Intra-preneur/monorepo
+Author: Sajjad
+Author-email: syedsajjadali258@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi
+Requires-Dist: python-jose[cryptography]
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# auth_api
+
+Reusable FastAPI authentication component with JWT.
+
+## Install
+
+```bash
+pip install git+https://github.com/yourusername/auth_api.git
+```
+
+## Use
+
+```python
+from fastapi import FastAPI
+from auth_api import router as auth_router
+
+app = FastAPI()
+app.include_router(auth_router, prefix="/auth")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="", port=, reload=True)
+
+```
