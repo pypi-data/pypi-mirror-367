@@ -1,0 +1,76 @@
+# -------- global config
+{
+	admin 0.0.0.0:2019
+	local_certs
+	ocsp_stapling off
+	auto_https disable_redirects
+}
+
+# -------- snippets
+(_proxy) {
+	handle_errors {
+		header Content-Type text/plain
+		header Server "ingress"
+		respond "{http.error.status_code} {http.error.status_text}"
+	}
+	log {
+		output stderr
+	}
+	reverse_proxy {args.0} {
+		trusted_proxies 10.0.0.0/8 172.16.0.0/16 192.168.0.0/16
+	}
+}
+(authelia) {
+	forward_auth authelia:9091 {
+		uri /api/verify?rd=https://auth.0-main.de
+		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+	}
+}
+(proxy) {
+	{args.0}:80 {
+		import _proxy {args.1}
+	}
+	{args.0}:443 {
+		tls internal
+		import _proxy {args.1}
+	}
+}
+(authed) {
+	{args.0}:80 {
+		import authelia {args.0}
+		import _proxy {args.1}
+	}
+	{args.0}:443 {
+		import authelia {args.0}
+		tls internal
+		import _proxy {args.1}
+	}
+}
+
+# -------- proxies
+import proxy ek.0-main.de 05bb50fe1c8a:5173
+
+import proxy flower.lm.0-main.de add16363aa2a:5566
+
+import proxy mailpit.lm.0-main.de 0507206e689a:8025
+
+import proxy grafana.puddl.x dabc85de2f7d:3000
+
+import proxy pgadmin.puddl.x cefef6f092b0:80
+
+import proxy grafana.apm.x a504055533a2:3000
+
+
+# -------- duplicates
+
+# -------- default server
+:443 {
+	tls internal {
+		on_demand
+	}
+	respond 502 {
+		body "502 Bad Gateway
+"
+		close
+	}
+}
