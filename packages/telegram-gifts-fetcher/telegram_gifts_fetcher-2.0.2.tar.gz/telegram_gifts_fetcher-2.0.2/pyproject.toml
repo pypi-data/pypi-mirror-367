@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telegram-gifts-fetcher"
+version = "2.0.2"
+authors = [
+    {name = "Th3ryks"},
+]
+description = "A Python library to fetch Telegram gifts data"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "telethon==1.40.0",
+    "python-dotenv==1.0.0",
+    "colorama==0.4.6",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Th3ryks/TelegramGiftsFetcher"
+"Bug Reports" = "https://github.com/Th3ryks/TelegramGiftsFetcher/issues"
+"Source" = "https://github.com/Th3ryks/TelegramGiftsFetcher"
+
+
+
+[tool.setuptools.packages.find]
+where = ["."]  
+include = ["telegram_gifts_fetcher*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"telegram_gifts_fetcher" = ["*.py"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "black",
+    "ruff",
+]

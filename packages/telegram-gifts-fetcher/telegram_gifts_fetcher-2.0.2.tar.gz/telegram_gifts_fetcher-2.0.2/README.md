@@ -1,0 +1,404 @@
+# 🎁 Telegram Gifts Fetcher
+
+[![PyPI version](https://badge.fury.io/py/telegram-gifts-fetcher.svg)](https://badge.fury.io/py/telegram-gifts-fetcher)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/badge/GitHub-Th3ryks-blue)](https://github.com/Th3ryks/TelegramGiftsFetcher)
+
+**A powerful Python library to fetch and analyze Telegram Star Gifts! 🌟**
+
+This library provides a comprehensive solution for programmatically fetching, analyzing, and managing Telegram Star Gifts from user profiles using the official Telegram API.
+
+## ✨ Features
+
+- 🎁 **Complete Gift Support** - Handles all Telegram gift types (StarGift, StarGiftUnique, StarGiftRegular)
+- 📊 **Advanced Analytics** - Detailed gift statistics, trends, and sender analysis
+- 🚀 **Async/Await Ready** - Built with modern Python async patterns
+- 🛡️ **Robust Error Handling** - Comprehensive error management and type safety
+- 📱 **Developer Friendly** - Simple, intuitive API design
+- 💾 **Multiple Export Formats** - JSON, CSV, and custom data exports
+- 🔍 **Smart Filtering** - Advanced gift filtering by date, type, value, and more
+- 🧮 **Statistical Tools** - Comprehensive gift statistics
+
+## 📦 Installation
+
+```bash
+pip install telegram-gifts-fetcher
+```
+
+## 🚀 Quick Start
+
+### 1. Get Telegram API Credentials
+
+1. Visit [my.telegram.org](https://my.telegram.org)
+2. Log in with your phone number
+3. Navigate to "API Development Tools"
+4. Create a new application
+5. Save your `API_ID` and `API_HASH`
+
+### 2. Environment Setup
+
+Create a `.env` file in your project root:
+
+```env
+API_ID=your_api_id_here
+API_HASH=your_api_hash_here
+```
+
+### 3. Basic Usage
+
+```python
+from telegram_gifts_fetcher import TelegramGiftsClient
+from dotenv import load_dotenv
+import asyncio
+
+# Load environment variables
+load_dotenv()
+
+async def main():
+    # Create client instance
+    client = TelegramGiftsClient()
+    
+    try:
+        # Connect to Telegram
+        if await client.connect():
+            # Fetch gifts for a user
+            result = await client.get_user_gifts('username')
+            
+            print(f"📊 Found {result.count_gifts} gifts!")
+            
+            # Display recent gifts
+            for gift in result.gifts[:5]:
+                gift_type = gift.type or 'Unknown'
+                stars = gift.transfer_stars or 0
+                print(f"🎁 {gift_type}: {stars} stars")
+    finally:
+        await client.disconnect()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## 📖 API Reference
+
+### `TelegramGiftsClient`
+
+Main class for fetching and analyzing Telegram gifts.
+
+```python
+from telegram_gifts_fetcher import TelegramGiftsClient
+
+client = TelegramGiftsClient()
+```
+
+#### `get_user_gifts(username, offset="", limit=100)`
+
+Fetches Telegram Star Gifts for a specified user.
+
+**Parameters:**
+- `username` (str): Target username (without @)
+- `offset` (str, optional): Pagination offset for large datasets
+- `limit` (int, optional): Maximum gifts to fetch (default: 100)
+
+**Returns:**
+Returns a `GiftsResponse` object with the following attributes:
+```python
+result.gifts  # List of gift objects
+result.count_gifts  # Total gifts found
+
+# Each gift object has:
+gift.received_date  # Unix timestamp
+gift.type  # Gift type classification
+gift.message  # Gift message (optional)
+gift.transfer_stars  # Gift cost in stars
+gift.user_convert_stars  # Conversion value
+gift.name_hidden  # Whether sender name is hidden
+gift.can_upgrade  # Upgrade availability
+gift.pinned_to_top  # Whether gift is pinned
+gift.name  # Gift name
+gift.slug  # Gift slug
+```
+
+## 🎯 Gift Types Supported
+
+| Type | Constructor ID | Description |
+|------|----------------|-------------|
+| `StarGift` | `0x2cc73c8` | Regular star gifts |
+| `StarGiftUnique` | `0x5c62d151` | Unique/limited gifts |
+| `StarGiftRegular` | `0x736b72c7` | Standard gifts |
+| `Unknown` | Various | Future gift types |
+
+## 🔧 Advanced Usage
+
+### Custom Gift Processing
+
+```python
+async def process_gifts(username):
+    client = TelegramGiftsClient()
+    
+    try:
+        if await client.connect():
+            result = await client.get_user_gifts(username)
+            
+            # Filter by gift type
+            unique_gifts = [g for g in result.gifts if g.type == 'StarGiftUnique']
+            
+            # Find most expensive gift
+            most_expensive = max(result.gifts, key=lambda x: x.transfer_stars or 0)
+            
+            return {
+                'unique_count': len(unique_gifts),
+                'most_expensive': most_expensive
+            }
+    finally:
+        await client.disconnect()
+```
+
+### 📊 Advanced Features
+
+#### Gift Statistics and Analysis
+
+```python
+import asyncio
+from telegram_gifts_fetcher import TelegramGiftsClient
+from collections import Counter
+
+async def analyze_gifts():
+    client = TelegramGiftsClient()
+    
+    try:
+        if await client.connect():
+            # Fetch gifts
+            result = await client.get_user_gifts('username')
+            
+            # Basic statistics
+            total_gifts = result.count_gifts
+            total_stars = sum(gift.transfer_stars for gift in result.gifts)
+            anonymous_gifts = sum(1 for gift in result.gifts if gift.name_hidden)
+            
+            print(f"📊 Total gifts: {total_gifts}")
+            print(f"⭐ Total stars: {total_stars}")
+            print(f"🎭 Anonymous gifts: {anonymous_gifts}")
+            
+            # Gift types distribution
+            gift_types = Counter(gift.type for gift in result.gifts)
+            for gift_type, count in gift_types.items():
+                print(f"🎁 {gift_type}: {count}")
+    finally:
+        await client.disconnect()
+
+asyncio.run(analyze_gifts())
+```
+
+#### Gift Filtering and Export
+
+```python
+from telegram_gifts_fetcher import TelegramGiftsClient
+from datetime import datetime, timedelta
+import json
+
+async def filter_and_export():
+    client = TelegramGiftsClient()
+    
+    try:
+        if await client.connect():
+            # Fetch gifts
+            result = await client.get_user_gifts('username')
+            gifts = result.gifts
+            
+            # Filter high-value gifts from last month
+            cutoff_date = datetime.now() - timedelta(days=30)
+            high_value_recent = [
+                gift for gift in gifts 
+                if gift.transfer_stars >= 100 and 
+                   datetime.fromtimestamp(gift.received_date) >= cutoff_date
+            ]
+            
+            # Filter by gift type
+            star_gifts = [gift for gift in gifts if gift.type == 'star_gift']
+            
+            # Filter pinned gifts
+            pinned_gifts = [gift for gift in gifts if gift.pinned_to_top]
+            
+            # Export to JSON
+            with open('high_value_gifts.json', 'w') as f:
+                json.dump([gift.to_dict() for gift in high_value_recent], f, indent=2)
+            
+            print(f"📤 Exported {len(high_value_recent)} high-value gifts")
+            print(f"📤 Found {len(star_gifts)} star gifts")
+            print(f"📌 Found {len(pinned_gifts)} pinned gifts")
+    finally:
+        await client.disconnect()
+
+asyncio.run(filter_and_export())
+```
+
+#### Trend and Sender Analysis
+
+```python
+from telegram_gifts_fetcher import TelegramGiftsClient
+from datetime import datetime, timedelta
+from collections import defaultdict
+
+async def analyze_patterns():
+    client = TelegramGiftsClient()
+    
+    try:
+        if await client.connect():
+            result = await client.get_user_gifts('username')
+            gifts = result.gifts
+            
+            # Analyze weekly trends
+            weekly_data = defaultdict(lambda: {'count': 0, 'stars': 0})
+            
+            for gift in gifts:
+                gift_date = datetime.fromtimestamp(gift.received_date)
+                week_start = gift_date - timedelta(days=gift_date.weekday())
+                week_key = week_start.strftime('%Y-%m-%d')
+                
+                weekly_data[week_key]['count'] += 1
+                weekly_data[week_key]['stars'] += gift.transfer_stars
+            
+            print("📈 Weekly Trends:")
+            for week, data in sorted(weekly_data.items())[-4:]:  # Last 4 weeks
+                print(f"  Week {week}: {data['count']} gifts, {data['stars']} stars")
+            
+            # Analyze gift patterns
+            anonymous_count = sum(1 for gift in gifts if gift.name_hidden)
+            pinned_count = sum(1 for gift in gifts if gift.pinned_to_top)
+            
+            print(f"\n📊 Gift Patterns:")
+            print(f"  Anonymous gifts: {anonymous_count}/{len(gifts)}")
+            print(f"  Pinned gifts: {pinned_count}/{len(gifts)}")
+            print(f"  Average stars per gift: {sum(g.transfer_stars for g in gifts) / len(gifts):.1f}")
+    finally:
+        await client.disconnect()
+
+asyncio.run(analyze_patterns())
+```
+
+### Dependency Error Handler 🛠️
+
+The library includes an automatic dependency error handler that detects and fixes circular dependencies:
+
+```python
+from telegram_gifts_fetcher import (
+    handle_dependency_errors,
+    check_circular_dependencies,
+    fix_circular_dependencies,
+    DependencyError
+)
+
+# Automatic error handling
+try:
+    handle_dependency_errors()
+except DependencyError as e:
+    print(f"Dependency error: {e}")
+
+# Manual checking
+if check_circular_dependencies("telegram-gifts-fetcher"):
+    print("Circular dependencies detected!")
+    fix_circular_dependencies("telegram-gifts-fetcher")
+```
+
+**Features of the dependency handler:**
+- 🔍 **Automatic Detection** - Scans setup.py, pyproject.toml, and requirements.txt
+- 🔧 **Auto-Fix** - Removes circular dependencies automatically
+- 📝 **Detailed Logging** - Comprehensive logging with loguru
+- ⚡ **Fast Processing** - Efficient file parsing and modification
+
+### 🛡️ Error Handling
+
+```python
+from telegram_gifts_fetcher import TelegramGiftsClient
+from telethon.errors import RPCError
+
+async def safe_fetch():
+    client = TelegramGiftsClient()
+    
+    try:
+        if await client.connect():
+            result = await client.get_user_gifts('username')
+            print(f"✅ Successfully fetched {result.count_gifts} gifts")
+        else:
+            print("❌ Failed to connect to Telegram")
+    except RPCError as e:
+        print(f"❌ Telegram API error: {e}")
+    except RuntimeError as e:
+        print(f"❌ Client error: {e}")
+    except Exception as e:
+        print(f"💥 Unexpected error: {e}")
+    finally:
+        await client.disconnect()
+
+asyncio.run(safe_fetch())
+```
+
+## 📊 Gift Data Structure
+
+The `get_user_gifts_extended` function returns a dictionary with the following structure:
+
+```python
+{
+    'gifts': [
+        {
+            'received_date': int,           # Unix timestamp
+            'constructor_id': str,          # Telegram constructor ID
+            'from_id': int,                 # Sender user ID (if available)
+            'message': str,                 # Gift message (if any)
+            'msg_id': int,                  # Message ID
+            'saved_id': str,                # Saved gift ID (if any)
+            'name_hidden': bool,            # Whether sender name is hidden
+            'unsaved': bool,                # Whether gift is unsaved
+            'refunded': bool,               # Whether gift was refunded
+            'can_upgrade': bool,            # Whether gift can be upgraded
+            'pinned_to_top': bool,          # Whether gift is pinned
+            'type': str,                    # Gift type classification
+            'raw_data': str,                # Raw Telegram object data
+            'transfer_stars': int,          # Stars value for transfer (if applicable)
+            'user_convert_stars': int,      # Stars value for conversion (if applicable)
+        }
+    ],
+    'count_gifts': int,                     # Total number of gifts
+    'total_cost': {
+        'stars': int                        # Total stars cost
+    }
+}
+```
+
+## 🔍 Supported Gift Types
+
+- **StarGift**: Regular star gifts
+- **StarGiftUnique**: Unique star gifts
+- **StarGiftRegular**: Regular gifts (newly supported)
+- **Unknown**: Unrecognized gift types (logged for debugging)
+
+## 🐛 Debugging
+
+The library includes comprehensive logging. To enable debug output:
+
+```python
+from loguru import logger
+logger.add("debug.log", level="DEBUG")
+```
+
+## 📝 Files
+
+- `main.py` - Main demo application
+- `gift_fetcher_extended.py` - Extended gift fetcher library
+- `d.py` - Debug and testing script
+- `requirements.txt` - Python dependencies
+- `.env.example` - Environment variables template
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Based on the original `telegram_gift_fetcher` library
+- Enhanced to support additional gift types and provide better debugging
