@@ -1,0 +1,30 @@
+#!/bin/bash
+
+course="$1"
+user="$2"
+
+users="/tmp/users-$course.csv"
+
+if test "$#" -lt 2; then
+  echo "$0 course user [group prefix]"
+  exit 1
+fi
+
+group_prefix="$3"
+if test -z "$group_prefix"; then
+  group_prefix=".*"
+fi
+
+test -e "$users" || \
+  canvaslms users -sc "$course" -G "$group_prefix" | cut -f 2- > "$users"
+
+groups="$(egrep "$group_prefix" "$users" | egrep "$user" | cut -f 1)"
+if test -z "$groups"; then
+  echo "User $user is in no group"
+  exit 1
+else
+  IFS=$'\n'
+  for group in $groups; do
+    egrep "^$group" "$users"
+  done
+fi
