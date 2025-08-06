@@ -1,0 +1,23 @@
+#!/bin/bash
+
+COURSE="$1"
+ASSIGNMENT="$2"
+
+results=$(mktemp)
+canvaslms submissions -c $COURSE -a "Test:.*$ASSIGNMENT" | cut -f 4- > $results
+
+function get_results() {
+  cat $results
+}
+
+function print_stats() {
+  total=$(get_results | wc -l)
+  echo "Total:     $total (100%)"
+  year=$(date +%Y)
+  done=$(get_results | grep $year- | wc -l)
+  echo "done:      $done ($(((100 * $done / $total)))%)"
+  nothing=$(get_results | grep "^[^a-fA-F0-9]*$" | wc -l)
+  echo "Nothing:   $nothing ($(((100 * $nothing / $total)))%)"
+}
+
+print_stats

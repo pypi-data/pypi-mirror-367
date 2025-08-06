@@ -1,0 +1,114 @@
+\documentclass{article}\usepackage{noweb}\pagestyle{noweb}\noweboptions{shift,breakcode,longchunks,longxref}\begin{document}\nwfilename{oldresults.nw}\nwbegindocs{0}\nwenddocs{}\nwbegindocs{1}\nwdocspar% ===> this file was generated automatically by noweave --- better not edit it
+
+\section{Merging results from previous years}
+
+Whenever we start a new course, there are always some of the students who have 
+participated in the course before.
+They will only do the assignments that they have not done before.
+In these cases, it would be useful to move over their results from the previous 
+year to the new course.
+
+If we do this regularly, that means that we will be continuously pushing the 
+results forward.
+This means that we only need to bring the results from the student's last 
+round.
+However, results from restlabb might find their way into any of the 
+courses---it all depends on what the student says is their course round.
+
+\subsection{A script}
+
+We want a script that will take a list of current courses.
+For each student, we want to find the results from the previous years.
+We want the newest result from those previous years copied into the current 
+course.
+\nwenddocs{}\nwbegincode{2}\sublabel{NWNm2vv-3LtItj-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-3LtItj-1}}}\moddef{oldresults.sh~{\nwtagstyle{}\subpageref{NWNm2vv-3LtItj-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+#!/bin/bash
+
+\LA{}constants~{\nwtagstyle{}\subpageref{NWNm2vv-3UrjvT-1}}\RA{}
+\LA{}helper functions~{\nwtagstyle{}\subpageref{NWNm2vv-47YflN-1}}\RA{}
+
+main() \{
+  for course in $\{current_courses\}; do
+    for student in $(canvaslms users -sc "$\{course\}" | cut -f 2); do
+      \LA{}move \code{}student\edoc{}'s old results to \code{}course\edoc{}~{\nwtagstyle{}\subpageref{NWNm2vv-3jEXlT-1}}\RA{}
+    done
+  done
+\}
+
+# run main if not sourced
+if [ "$0" = "$\{BASH_SOURCE\}" ]; then
+  main
+fi
+\nwnotused{oldresults.sh}\nwendcode{}\nwbegincode{3}\sublabel{NWNm2vv-3UrjvT-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-3UrjvT-1}}}\moddef{constants~{\nwtagstyle{}\subpageref{NWNm2vv-3UrjvT-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWNm2vv-3LtItj-1}}\nwprevnextdefs{\relax}{NWNm2vv-3UrjvT-2}\nwenddeflinemarkup
+current_courses="tilkry25"
+\nwalsodefined{\\{NWNm2vv-3UrjvT-2}}\nwused{\\{NWNm2vv-3LtItj-1}}\nwendcode{}\nwbegindocs{4}\nwdocspar
+
+
+\section{Results}
+
+We want a general function that returns all results.
+(But does it cached, so that when we call it again it doesn't refetch any 
+results.)
+We also want to use their login names, not their full names ({\Tt{}-l\nwendquote}).
+\nwenddocs{}\nwbegincode{5}\sublabel{NWNm2vv-47YflN-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-47YflN-1}}}\moddef{helper functions~{\nwtagstyle{}\subpageref{NWNm2vv-47YflN-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWNm2vv-3LtItj-1}}\nwprevnextdefs{\relax}{NWNm2vv-47YflN-2}\nwenddeflinemarkup
+results() \{
+  if [ ! -s "$\{cached_results\}" ]; then
+    canvaslms submissions -c "$\{course_prefixes\}" -l > "$\{cached_results\}"
+  fi
+  cat "$\{cached_results\}"
+\}
+\nwalsodefined{\\{NWNm2vv-47YflN-2}}\nwused{\\{NWNm2vv-3LtItj-1}}\nwendcode{}\nwbegincode{6}\sublabel{NWNm2vv-3UrjvT-2}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-3UrjvT-2}}}\moddef{constants~{\nwtagstyle{}\subpageref{NWNm2vv-3UrjvT-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWNm2vv-3LtItj-1}}\nwprevnextdefs{NWNm2vv-3UrjvT-1}{\relax}\nwenddeflinemarkup
+cached_results="/tmp/oldresults.cache"
+course_prefixes="(tilkry|prg[im]|vetcyb)"
+\nwused{\\{NWNm2vv-3LtItj-1}}\nwendcode{}\nwbegindocs{7}\nwdocspar
+
+
+\section{Find the newest grade}
+
+We want to find the newest grade for a student.
+We can use the grading dates for this.
+\nwenddocs{}\nwbegincode{8}\sublabel{NWNm2vv-47YflN-2}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-47YflN-2}}}\moddef{helper functions~{\nwtagstyle{}\subpageref{NWNm2vv-47YflN-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWNm2vv-3LtItj-1}}\nwprevnextdefs{NWNm2vv-47YflN-1}{\relax}\nwenddeflinemarkup
+newest_grade() \{
+  student=$1
+  course=$2
+  assgn=$3
+  grades=$(results \\
+           | grep "$\{course\}" \\
+           | grep "$\{student\}" \\
+           | grep "$\{assgn\}")
+  newest=$(echo "$\{grades\}" \\
+           | sort -u -k 6 \\
+           | tail -n 1)
+  echo "$\{newest\}" | cut -f 4
+\}
+\nwused{\\{NWNm2vv-3LtItj-1}}\nwendcode{}\nwbegindocs{9}\nwdocspar
+
+
+\section{The move function}
+
+\nwenddocs{}\nwbegincode{10}\sublabel{NWNm2vv-3jEXlT-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWNm2vv-3jEXlT-1}}}\moddef{move \code{}student\edoc{}'s old results to \code{}course\edoc{}~{\nwtagstyle{}\subpageref{NWNm2vv-3jEXlT-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWNm2vv-3LtItj-1}}\nwenddeflinemarkup
+grades=$(canvaslms submissions -c tilkry2[012] -u $student | cut -f 2,4 | sort 
+-u)
+IFS=$'\\n'
+if [ -z "$grades" ]; then
+    continue
+fi
+for grade in $grades; do
+    assgn=$(echo "$grade" | cut -f 1 -d $'\\t')
+    grade=$(echo "$grade" | cut -f 2 -d $'\\t')
+    if [ -z "$grade" ]; then
+        continue
+    fi
+    echo $student $assgn $grade
+    #canvaslms grade -c tilkry24 -a "$assgn" -g "$grade" -u $student -m 
+    #"Result from previous year."
+done
+\nwused{\\{NWNm2vv-3LtItj-1}}\nwendcode{}\nwbegindocs{11}\nwdocspar
+\nwenddocs{}
+
+\nwixlogsorted{c}{{constants}{NWNm2vv-3UrjvT-1}{\nwixu{NWNm2vv-3LtItj-1}\nwixd{NWNm2vv-3UrjvT-1}\nwixd{NWNm2vv-3UrjvT-2}}}%
+\nwixlogsorted{c}{{helper functions}{NWNm2vv-47YflN-1}{\nwixu{NWNm2vv-3LtItj-1}\nwixd{NWNm2vv-47YflN-1}\nwixd{NWNm2vv-47YflN-2}}}%
+\nwixlogsorted{c}{{move \code{}student\edoc{}'s old results to \code{}course\edoc{}}{NWNm2vv-3jEXlT-1}{\nwixu{NWNm2vv-3LtItj-1}\nwixd{NWNm2vv-3jEXlT-1}}}%
+\nwixlogsorted{c}{{oldresults.sh}{NWNm2vv-3LtItj-1}{\nwixd{NWNm2vv-3LtItj-1}}}%
+\end{document}
+
