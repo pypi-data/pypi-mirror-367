@@ -1,0 +1,111 @@
+[build-system]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reprolab"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "jupyterlab>=4.0.0,<5",
+    "jupyter_server>=2.0.0",
+    "notebook>=7.0.0",
+    "pandas>=2.0.0",
+    "numpy>=1.20.0",
+    "requests>=2.25.0",
+    "boto3>=1.26.0",
+    "xarray>=2023.0.0",
+    "pyarrow>=10.0.0",
+    "ipykernel>=6.0.0",
+    "ipylab>=1.0.0",
+    "nbformat>=5.0.0",
+    "pyyaml>=5.0.0",
+    "ipywidgets>=7.0.0",
+    "jupyterlab_widgets>=3.0.0"
+]
+dynamic = ["version", "description", "authors", "urls", "keywords"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0"
+]
+
+[project.entry-points."jupyter_server_extension"]
+reprolab = "reprolab.server:load_jupyter_server_extension"
+
+[project.entry-points."jupyterlab.labextension"]
+reprolab = "reprolab.labextension"
+
+[tool.hatch.version]
+source = "nodejs"
+
+[tool.hatch.metadata.hooks.nodejs]
+fields = ["description", "authors", "urls", "keywords"]
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["reprolab/labextension"]
+exclude = [".github", "binder"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"reprolab/labextension" = "share/jupyter/labextensions/reprolab"
+"install.json" = "share/jupyter/labextensions/reprolab/install.json"
+
+[tool.hatch.build.hooks.version]
+path = "reprolab/_version.py"
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.5"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "reprolab/labextension/static/style.js",
+    "reprolab/labextension/package.json",
+]
+skip-if-exists = ["reprolab/labextension/static/style.js"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "install:extension"
+npm = ["jlpm"]
+source_dir = "src"
+build_dir = "reprolab/labextension"
+
+[tool.jupyter-releaser.options]
+version_cmd = "hatch version"
+
+[tool.jupyter-releaser.hooks]
+before-build-npm = [
+    "python -m pip install 'jupyterlab>=4.0.0,<5'",
+    "jlpm",
+    "jlpm build:prod"
+]
+before-build-python = ["jlpm clean:all"]
+
+[tool.check-wheel-contents]
+ignore = ["W002"]
