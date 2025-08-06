@@ -1,0 +1,39 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "rstypes"
+version = "0.1.0"
+description = "Thread-safe async-aware types for Python written in Rust"
+readme = "README.md"
+authors = [{ name = "Brian Goo" }]
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[project.urls]
+Homepage = "https://github.com/brian-goo/rstypes"
+Source = "https://github.com/brian-goo/rstypes"
+
+[tool.maturin]
+python-source = "python"
+module-name = "rstypes._rstypes"
+features = ["pyo3/extension-module"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "function"
+asyncio_default_test_loop_scope = "function"
+
+[dependency-groups]
+test = [
+    "pytest",
+    "pytest-asyncio",
+]
