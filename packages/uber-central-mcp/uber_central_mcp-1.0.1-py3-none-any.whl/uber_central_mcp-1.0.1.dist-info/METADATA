@@ -1,0 +1,229 @@
+Metadata-Version: 2.4
+Name: uber-central-mcp
+Version: 1.0.1
+Summary: Model Context Protocol (MCP) server for Uber Central API integration
+Project-URL: Homepage, https://github.com/uber-central/uber-central-mcp
+Project-URL: Repository, https://github.com/uber-central/uber-central-mcp
+Project-URL: Issues, https://github.com/uber-central/uber-central-mcp/issues
+Author: Uber Central Team
+License: MIT License
+        
+        Copyright (c) 2024 Uber Central Team
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: fastmcp,mcp,model-context-protocol,ride-booking,uber
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Communications
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: mcp[cli]>=1.12.3
+Requires-Dist: pydantic>=2.11.7
+Description-Content-Type: text/markdown
+
+# Uber Central MCP Server
+
+This is a Model Context Protocol (MCP) server that provides access to the Uber Central API functionality. It allows LLMs like Claude to interact with the Uber Central service to manage ride bookings, get estimates, and track usage.
+
+## Features
+
+The MCP server exposes the following tools:
+
+### User Management
+- **initialize_user**: Create a new client account and get a client_id
+- **get_client_stats**: Get usage statistics for a specific client
+- **get_usage_history**: Get detailed API usage history
+- **get_ride_history**: Get complete ride booking history
+
+### Ride Operations
+- **get_estimates**: Get ride price estimates for all available vehicle types
+- **book_ride**: Book an immediate Uber ride
+- **schedule_ride**: Schedule an Uber ride for future pickup
+- **get_ride_status**: Get current ride status and driver details
+- **cancel_ride**: Cancel an existing ride
+
+### System
+- **health_check**: Check API service health and connectivity
+
+## Prerequisites
+
+- Python 3.10 or higher
+- Uber Central API key
+- `uv` package manager
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install uber-central-mcp
+```
+
+or with uv:
+```bash
+uv add uber-central-mcp
+```
+
+### From Source
+
+1. Clone or download this directory
+2. Install dependencies:
+```bash
+uv sync
+```
+
+## Configuration
+
+Set your API key:
+- Set environment variable: `export UBER_CENTRAL_API_KEY="your-api-key-here"`
+- This is **required** - the server will not start without a valid API key
+
+## Usage
+
+### Testing the Server
+
+#### Using PyPI Package
+```bash
+uber-central-mcp
+```
+
+#### Using Local Development Version
+```bash
+uv run -m uber_central_mcp
+```
+
+The server will start and wait for MCP protocol messages on stdin/stdout.
+
+### Using with Claude Desktop
+
+Add this configuration to your Claude Desktop config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+#### Using PyPI Package (Recommended)
+
+```json
+{
+  "mcpServers": {
+    "uber-central": {
+      "command": "uvx",
+      "args": [
+        "--force-reinstall",
+        "uber-central-mcp"
+      ],
+      "env": {
+        "UBER_CENTRAL_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
+```
+
+#### Using Local Development Version
+
+```json
+{
+  "mcpServers": {
+    "uber-central": {
+      "command": "uvx",
+      "args": [
+        "--force-reinstall",
+        "--directory",
+        "/ABSOLUTE/PATH/TO/uber_central/uber-central-mcp",
+        "run",
+        "-m",
+        "uber_central_mcp"
+      ],
+      "env": {
+        "UBER_CENTRAL_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
+```
+
+**Note**: For the local development version, replace `/ABSOLUTE/PATH/TO/uber_central/uber-central-mcp` with the actual absolute path.
+
+### Using with Other MCP Clients
+
+This server follows the standard MCP protocol and can be used with any compatible MCP client.
+
+## Example Usage
+
+Once connected to Claude Desktop, you can ask natural language questions like:
+
+- "Create a new user account for John Doe with email john@example.com"
+- "Get ride estimates from Union Square San Francisco to SFO Airport for 2 passengers"
+- "Book an immediate ride from 123 Market St to 456 Mission St for Sarah Johnson, phone 5551234567"
+- "Schedule a ride for tomorrow at 3 PM from my office to the airport"
+- "What's the status of ride abc-123-def?"
+- "Show me the ride history for client xyz-456-789"
+- "Check if the Uber Central API is healthy"
+
+## API Configuration
+
+The server connects to the Uber Central API endpoint configured in your deployment. This provides the following capabilities:
+- Enterprise-grade ride management
+- User tracking and analytics
+- Comprehensive audit trails
+- Real-time ride status tracking
+
+## Security
+
+- API keys are passed via environment variables or secure configuration
+- All requests use Bearer token authentication
+- The server validates all inputs and handles errors gracefully
+- No sensitive data is logged to stdout (MCP protocol requirement)
+
+## Development
+
+To modify or extend the server:
+
+1. Edit `uber_central_mcp_server.py`
+2. Add new tools using the `@mcp.tool()` decorator
+3. Follow the fastMCP pattern for type hints and docstrings
+4. Test with `uv run uber_central_mcp_server.py`
+
+## Troubleshooting
+
+### Server Not Connecting
+- Check that the absolute path in Claude Desktop config is correct
+- Verify the API key is set correctly
+- Check Claude Desktop logs: `tail -f ~/Library/Logs/Claude/mcp*.log`
+
+### API Errors
+- Verify the API key is valid and not expired
+- Check if the Uber Central API is healthy using the health_check tool
+- Ensure client_ids are valid (created with initialize_user)
+
+### Tool Failures
+- Most tools require a valid client_id from initialize_user
+- Phone numbers should be 10 digits (US format)
+- Addresses should be specific and valid locations
+- Pickup times for scheduling should be in ISO 8601 format
+
+## License
+
+This MCP server is part of the Uber Central project.
