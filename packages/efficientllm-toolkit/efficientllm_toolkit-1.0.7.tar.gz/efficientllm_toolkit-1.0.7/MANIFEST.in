@@ -1,0 +1,66 @@
+include README.md
+include LICENSE
+include requirements*.txt
+include *.py
+include *.toml
+include *.cfg
+
+# Include specific necessary files from quantization
+recursive-include quantization *.py
+recursive-include quantization *.yaml
+recursive-include quantization *.json
+recursive-include quantization *.sh
+recursive-include quantization *.md
+recursive-include quantization *.txt
+recursive-include quantization *.toml
+recursive-include quantization *.cfg
+
+# Include fine-tune directory (more selective)
+recursive-include fine-tune *.py
+recursive-include fine-tune *.yaml
+recursive-include fine-tune *.json
+recursive-include fine-tune *.sh
+recursive-include fine-tune *.md
+recursive-include fine-tune *.txt
+
+# Include pretrain directory (more selective)  
+recursive-include pretrain *.py
+recursive-include pretrain *.yaml
+recursive-include pretrain *.json
+recursive-include pretrain *.sh
+recursive-include pretrain *.md
+recursive-include pretrain *.txt
+
+# Include scripts directory
+recursive-include scripts *
+
+# Include efficientllm package
+recursive-include efficientllm *
+
+# Exclude large binary files, model files, and cached data
+global-exclude *.pkl
+global-exclude *.bin
+global-exclude *.safetensors
+global-exclude *.pt
+global-exclude *.pth
+global-exclude *.model
+global-exclude *.ckpt
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.egg-info
+global-exclude *.whl
+global-exclude *.tar.gz
+
+# Exclude specific large directories that might contain models/data
+exclude quantization/lm-evaluation-harness-main/results/*
+exclude quantization/lm-evaluation-harness-main/cache/*
+exclude quantization/lm-evaluation-harness-main/outputs/*
+exclude fine-tune/*/results/*
+exclude fine-tune/*/cache/*
+exclude fine-tune/*/outputs/*
+exclude pretrain/*/results/*
+exclude pretrain/*/cache/*
+exclude pretrain/*/outputs/*

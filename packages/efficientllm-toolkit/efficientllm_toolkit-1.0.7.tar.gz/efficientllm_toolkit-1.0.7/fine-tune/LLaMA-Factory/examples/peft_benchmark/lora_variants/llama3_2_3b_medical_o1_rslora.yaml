@@ -1,0 +1,60 @@
+# EfficientLLM PEFT基准: rslora
+# 模型: meta-llama/Llama-3.2-3B
+# 数据集: medical_o1
+
+### model
+model_name_or_path: meta-llama/Llama-3.2-3B
+quantization_bit: 4
+quantization_method: bitsandbytes
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+use_rslora: true
+lora_target: all
+lora_rank: 64
+lora_alpha: 128
+lora_dropout: 0.1
+
+### dataset
+dataset: medical_o1
+template: default
+cutoff_len: 2048
+max_samples: 1000
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: ./saves/peft_benchmark/llama3_2_3b_medical_o1_rslora
+logging_steps: 10
+save_steps: 500
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+learning_rate: 3e-5
+num_train_epochs: 3.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 7200
+
+### eval
+val_size: 0.1
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 500
+
+### EfficientLLM指标集成
+callbacks:
+  - llamafactory.train.efficientllm_callback.EfficientLLMCallback
+
+### save
+save_only_model: false
+
+### logging
+log_level: info
+run_name: efficientllm_llama3_2_3b_medical_o1_rslora
