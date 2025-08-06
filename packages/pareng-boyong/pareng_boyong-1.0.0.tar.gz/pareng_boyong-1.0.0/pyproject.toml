@@ -1,0 +1,164 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pareng-boyong"
+version = "1.0.0"
+description = "Pareng Boyong - Your Intelligent Filipino AI Agent and Coding Assistant"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "InnovateHub PH", email = "info@innovatehub.ph"},
+]
+maintainers = [
+    {name = "Pareng Boyong Development Team", email = "dev@innovatehub.ph"},
+]
+keywords = [
+    "ai", "agent", "filipino", "coding-assistant", "multimodal", 
+    "cost-optimization", "agent-zero", "pinoy-ai", "tts", "cli"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Text Processing :: Linguistic",
+    "Natural Language :: English"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+    "httpx>=0.25.0",
+    "asyncio-throttle>=1.0.0",
+    "tiktoken>=0.5.0",
+    "nest-asyncio>=1.6.0",
+    "psutil>=5.9.0",
+    "pyyaml>=6.0.0",
+    "pytz>=2023.3",
+]
+
+[project.optional-dependencies]
+# Core AI functionality
+ai = [
+    "openai>=1.3.0",
+    "anthropic>=0.3.0",
+    "litellm>=1.40.0",
+    "sentence-transformers>=2.2.0",
+    "faiss-cpu>=1.7.0",
+]
+
+# Multimedia capabilities
+multimedia = [
+    "pillow>=10.0.0",
+    "opencv-python>=4.8.0",
+    "moviepy>=1.0.3",
+    "imageio>=2.31.0",
+    "requests>=2.31.0",
+]
+
+# Filipino TTS and Audio
+filipino = [
+    "soundfile>=0.12.0",
+    "librosa>=0.10.0",
+    "phonemizer>=3.2.0",
+    "espeak-ng>=1.51",
+]
+
+# Web interface
+web = [
+    "flask>=2.3.0",
+    "flask-cors>=4.0.0",
+    "websockets>=11.0.0",
+    "jinja2>=3.1.0",
+]
+
+# Development tools
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.4.0",
+]
+
+# Full installation with all features
+full = [
+    "pareng-boyong[ai,multimedia,filipino,web]"
+]
+
+[project.urls]
+Homepage = "https://github.com/innovatehub-ph/pareng-boyong"
+Documentation = "https://pareng-boyong.readthedocs.io"
+Repository = "https://github.com/innovatehub-ph/pareng-boyong.git"
+"Bug Tracker" = "https://github.com/innovatehub-ph/pareng-boyong/issues"
+Changelog = "https://github.com/innovatehub-ph/pareng-boyong/blob/main/CHANGELOG.md"
+
+[project.scripts]
+boyong = "pareng_boyong.cli.main:app"
+pareng-boyong = "pareng_boyong.cli.main:app"
+
+[tool.setuptools]
+packages = ["pareng_boyong"]
+
+[tool.setuptools.package-data]
+pareng_boyong = [
+    "cultural/data/*.json",
+    "cultural/data/*.yaml",
+    "web/templates/*.html",
+    "web/static/css/*.css",
+    "web/static/js/*.js",
+    "cli/templates/*.txt",
+    "cli/templates/*.py",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]

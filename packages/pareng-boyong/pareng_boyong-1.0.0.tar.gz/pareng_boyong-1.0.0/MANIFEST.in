@@ -1,0 +1,59 @@
+# Include package metadata and documentation
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+include setup.py
+include requirements.txt
+
+# Include all Python files
+recursive-include pareng_boyong *.py
+recursive-include tests *.py
+recursive-include examples *.py
+
+# Include cultural data files
+recursive-include pareng_boyong/cultural/data *.json
+recursive-include pareng_boyong/cultural/data *.yaml
+recursive-include pareng_boyong/cultural/data *.yml
+
+# Include web assets
+recursive-include pareng_boyong/web/templates *.html
+recursive-include pareng_boyong/web/templates *.jinja2
+recursive-include pareng_boyong/web/static/css *.css
+recursive-include pareng_boyong/web/static/js *.js
+recursive-include pareng_boyong/web/static/img *.png
+recursive-include pareng_boyong/web/static/img *.jpg
+recursive-include pareng_boyong/web/static/img *.svg
+recursive-include pareng_boyong/web/static/img *.ico
+
+# Include CLI templates and configs
+recursive-include pareng_boyong/cli/templates *.txt
+recursive-include pareng_boyong/cli/templates *.py
+recursive-include pareng_boyong/cli/templates *.json
+recursive-include pareng_boyong/cli/templates *.yaml
+
+# Include documentation
+recursive-include docs *.md
+recursive-include docs *.rst
+recursive-include docs *.txt
+
+# Include example files
+recursive-include examples *.md
+recursive-include examples *.txt
+recursive-include examples *.json
+recursive-include examples *.env.example
+
+# Exclude development and build files
+exclude .gitignore
+exclude .pre-commit-config.yaml
+exclude tox.ini
+exclude .coverage
+exclude .pytest_cache
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * .git*
+recursive-exclude * *.egg-info
+recursive-exclude dist *
+recursive-exclude build *
