@@ -1,0 +1,215 @@
+# OChaT
+
+[![PyPI version](https://img.shields.io/pypi/v/ocht.svg)](https://pypi.org/project/ocht/) [![Build Status](https://github.com/dein-username/OChaT/actions/workflows/ci.yml/badge.svg)](https://github.com/dein-username/OChaT/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**OChaT** is a modular Python TUI application that orchestrates Large Language Models (LLMs) via LangChain. It supports both local models (Ollama) and cloud providers (ChatGPT, Claude, Grok).
+
+---
+
+## 📦 Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/dein-username/OChaT.git
+   cd OChaT
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   uv sync
+   ```
+
+3. **Install package in development mode**
+
+   ```bash
+   uv install -e .
+   ```
+
+> **Note:** By default, `uv sync` installs all dependencies from `pyproject.toml`, including:
+>
+> * `alembic>=1.15.2`
+> * `click>=8.1.8`
+> * `langchain>=0.3.26`
+> * `langchain-ollama>=0.3.3`
+> * `ollama>=0.4.8`
+> * `rich>=14.0.0`
+> * `sqlmodel>=0.0.24`
+> * `textual>=3.2.0`
+
+---
+
+## ⚡ Quick Start
+
+Launch the TUI application:
+
+```bash
+uv run ocht
+```
+
+Or use specific commands:
+
+* **`uv run ocht init <workspace>`** - Create new workspace
+* **`uv run ocht chat`** - Start interactive chat
+* **`uv run ocht list-models`** - List available models
+* **`uv run ocht sync-models`** - Sync model metadata
+* **`uv run ocht config`** - Open configuration editor
+* **`uv run ocht migrate <version>`** - Run database migrations
+
+### Available CLI Commands
+
+| Command | Description |
+|---------|-------------|
+| `init <name>` | Creates a new chat workspace with configuration file and history |
+| `chat` | Starts interactive chat session based on current workspace |
+| `config` | Opens configuration in default editor |
+| `export-config <file>` | Exports current settings as YAML or JSON file |
+| `import-config <file>` | Imports settings from YAML or JSON file |
+| `list-models` | Lists available LLM models via LangChain |
+| `sync-models` | Synchronizes model metadata from external providers |
+| `migrate <version>` | Runs Alembic migrations to specified target version |
+| `version` | Shows current CLI/package version |
+| `help [command]` | Shows detailed help for a command |
+
+<details>
+<summary>Example Usage</summary>
+
+```bash
+# Create new chat workspace
+uv run ocht init my-workspace
+
+# Start chat session
+uv run ocht chat
+
+# List available models
+uv run ocht list-models
+
+# Sync model metadata
+uv run ocht sync-models
+```
+
+</details>
+
+---
+
+## 🏗️ Architecture
+
+### Core Components
+
+**Database Layer (`core/`)**
+- `models.py` - SQLModel entities: Workspace, Message, LLMProviderConfig, Model, Setting, PromptTemplate
+- `db.py` - Database engine, session management, and initialization
+- `migration.py` - Alembic integration for schema migrations
+
+**Repository Layer (`repositories/`)**
+- CRUD operations for each entity
+- Direct database access abstraction
+- Files: `workspace.py`, `message.py`, `llm_provider_config.py`, `model.py`, `setting.py`, `prompt_template.py`
+
+**Service Layer (`services/`)**
+- Business logic and use cases
+- Orchestrates repositories and external APIs
+- Files: `workspace.py`, `chat.py`, `config.py`, `model_manager.py`, `provider_manager.py`, `prompt_manager.py`
+
+**Adapter Layer (`adapters/`)**
+- LangChain integration
+- `base.py` - Abstract LLMAdapter interface
+- `ollama.py` - Ollama-specific implementation
+
+**TUI Layer (`tui/`)**
+- Textual-based user interface
+- `app.py` - Main TUI application
+- `screens/` - UI screens for model/provider management
+- `widgets/` - Custom UI components (chat bubbles, etc.)
+- `styles/` - TCSS styling files
+
+## 🗂️ Project Structure
+
+```text
+OChaT/
+├── .gitignore
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── CLAUDE.md              # Claude Code project instructions
+├── alembic.ini            # Alembic configuration
+├── migrations/            # Database migration files
+├── docs/
+├── tests/                 # Test files
+├── src/
+│   └── ocht/
+│       ├── __init__.py
+│       ├── cli.py             # CLI entry point (Click commands)
+│       ├── core/              # Database engine, sessions & models
+│       │   ├── db.py          # Engine & session factory
+│       │   ├── migration.py   # Alembic integration
+│       │   ├── models.py      # SQLModel entities
+│       │   └── version.py     # Version management
+│       ├── repositories/      # CRUD logic per entity
+│       │   ├── workspace.py
+│       │   ├── message.py
+│       │   ├── llm_provider_config.py
+│       │   ├── model.py
+│       │   ├── setting.py
+│       │   └── prompt_template.py
+│       ├── services/          # Business logic / use cases
+│       │   ├── workspace.py
+│       │   ├── chat.py
+│       │   ├── config.py
+│       │   ├── model_manager.py
+│       │   ├── provider_manager.py
+│       │   ├── prompt_manager.py
+│       │   ├── settings_manager.py
+│       │   └── adapter_manager.py
+│       ├── adapters/          # LangChain adapters
+│       │   ├── base.py        # Abstract adapter interface
+│       │   └── ollama.py      # Ollama implementation
+│       ├── tui/               # Text-based UI components
+│       │   ├── app.py         # Main TUI application
+│       │   ├── screens/       # UI screens
+│       │   ├── widgets/       # Custom widgets
+│       │   └── styles/        # TCSS styling
+│       └── data/              # SQLite database
+└── uv.lock
+```
+
+---
+
+## 🧪 Testing
+
+Run tests using pytest:
+
+```bash
+uv run pytest
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. **Fork** the repository
+2. **Create feature branch**: 
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+3. **Commit changes**:
+   ```bash
+   git commit -m "feat: description of my feature"
+   ```
+4. **Push to fork**:
+   ```bash
+   git push origin feature/my-feature
+   ```
+5. **Open Pull Request**
+
+Please follow our coding guidelines and add tests for new features.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
