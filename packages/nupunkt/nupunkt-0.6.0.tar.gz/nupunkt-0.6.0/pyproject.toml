@@ -1,0 +1,141 @@
+[project]
+name = "nupunkt"
+version = "0.6.0"
+description = "Next-generation Punkt sentence and paragraph boundary detection with zero dependencies"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+    {name = "ALEA Institute", email = "hello@aleainstitute.ai"}
+]
+keywords = [
+    "nlp",
+    "natural language processing",
+    "tokenization",
+    "sentence boundary detection",
+    "paragraph detection",
+    "punkt",
+    "text processing",
+    "linguistics"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/alea-institute/nupunkt"
+"Source" = "https://github.com/alea-institute/nupunkt"
+"Bug Tracker" = "https://github.com/alea-institute/nupunkt/issues"
+"Changelog" = "https://github.com/alea-institute/nupunkt/blob/main/CHANGELOG.md"
+
+[project.scripts]
+nupunkt = "nupunkt.cli:main"
+
+# Development dependencies are pinned for reproducible environments.
+# Update these versions intentionally when needed.
+[project.optional-dependencies]
+dev = [
+    "tqdm==4.66.1",
+    "pytest==8.3.2",
+    "mypy==1.11.2",
+    "ruff==0.6.5",
+    "black==24.8.0",
+    "pytest-benchmark==5.1.0",
+    "pytest-cov==6.0.0",
+    "memory-profiler>=0.61.0",
+    "psutil>=7.0.0",
+]
+docs = [
+    "sphinx==7.3.7",
+    "sphinx-rtd-theme==2.0.0",
+    "myst-parser==4.0.0",
+]
+training = [
+    "tokenizers>=0.21.0",
+    "datasets>=2.19.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "nupunkt",
+    "nupunkt.core",
+    "nupunkt.evaluation",
+    "nupunkt.hybrid",
+    "nupunkt.models",
+    "nupunkt.optimization",
+    "nupunkt.tokenizers",
+    "nupunkt.trainers",
+    "nupunkt.training",
+    "nupunkt.utils",
+    "nupunkt.workflows"
+]
+
+[tool.setuptools.package-data]
+"nupunkt.models" = ["*.json.gz"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+# Enable linters in this section
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "B",    # flake8-bugbear
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "C4",   # flake8-comprehensions
+    "SIM",  # flake8-simplify
+    "PTH",  # use pathlib
+]
+
+ignore = [
+    "E501",  # line too long - already handled by formatter
+    "E741",  # ambiguous variable name 'l'
+    "E402",  # module level import not at top of file - needed for sys.path manipulation
+    "B905",  # zip without explicit strict parameter  
+    "N803",  # argument name should be lowercase
+    "N806",  # variable in function should be lowercase
+    "N815",  # variable in class scope should not be mixedCase
+    "UP006", # use tuple instead of Tuple - maintain compatibility with Python 3.8
+    "UP007", # use X | Y for type annotations - maintain compatibility with Python < 3.10
+    "UP035", # deprecated import
+    "PTH123", # use open() instead of Path.open()
+    "SIM105", # use contextlib.suppress(Exception) instead of try/except pass
+]
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Allow autofix for all enabled rules (when `--fix`) is provided
+fixable = ["ALL"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+# This is now in mypy.ini, which has more detailed configuration
+
+# Testing config
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v"
