@@ -1,0 +1,47 @@
+[project]
+name = "py-niffler"
+version = "0.0.1"
+description = "Add your description here"
+readme = "README.md"
+authors = [{ name = "AshSwing", email = "ashswing@email.cn" }]
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.2.1",
+    "httpx>=0.28.1",
+    "kaitian>=0.0.6",
+    "psycopg2-binary>=2.9.10",
+    "sqlmodel>=0.0.24",
+]
+
+[project.scripts]
+niffler = "niffler.__cli__:niffler_cli"
+
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "niffler"
+module-root = "src"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.30.0",
+    "kaitian[app,pretty]>=0.0.6",
+    "pandas>=2.3.1",
+    "psutil>=7.0.0",
+    "pytest>=8.4.1",
+]
+
+[tool.pytest.ini_options]
+python_files = "*.py"
+testpaths = ["src", "test"]
+addopts = "--doctest-modules"
+doctest_optionflags = [
+    "NORMALIZE_WHITESPACE",
+    "IGNORE_EXCEPTION_DETAIL",
+    "ELLIPSIS",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
