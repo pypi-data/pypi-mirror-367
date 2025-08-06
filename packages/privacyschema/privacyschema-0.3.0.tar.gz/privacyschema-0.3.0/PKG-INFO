@@ -1,0 +1,88 @@
+Metadata-Version: 2.1
+Name: privacyschema
+Version: 0.3.0
+Summary: Pluggable framework for personal data compliance (LGPD/GDPR)
+Home-page: https://github.com/julioamorimdev/PrivacySchema
+Author: Julio Amorim
+Author-email: julio@grupojpc.com.br
+License: MIT
+Description: [![PyPI version](https://img.shields.io/pypi/v/privacyschema.svg)](https://pypi.org/project/privacyschema/)
+        [![npm version](https://img.shields.io/npm/v/privacyschema.svg)](https://www.npmjs.com/package/privacyschema)
+        [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+        
+        # PrivacySchema
+        
+        Pluggable framework for anonymization, consent, retention, and access to personal data (LGPD/GDPR).
+        
+        ## Purpose
+        Facilitate the implementation of sensitive data compliance in different languages (Node.js, Python, JS via CDN).
+        
+        ## Features
+        - Personal data validation (CPF, email, etc.)
+        - Data masking (CPF, email, phone, RG, CNPJ, name, address)
+        - Consent management (register, update, revoke)
+        - Retention policy (mark for expiration/removal)
+        - Audit logging (operations on sensitive data)
+        
+        ## Usage examples
+        
+        ### JavaScript/Node.js
+        ```js
+        const privacy = require('privacyschema');
+        
+        // Masking examples
+        console.log(privacy.masking.mask('cpf', '12345678900')); // *********00
+        console.log(privacy.masking.mask('email', 'john.doe@example.com')); // j********e@example.com
+        console.log(privacy.masking.mask('phone', '11987654321')); // ********21
+        console.log(privacy.masking.mask('rg', '123456789')); // *******89
+        console.log(privacy.masking.mask('cnpj', '12345678000199')); // ************0199
+        console.log(privacy.masking.mask('name', 'Maria Silva')); // M***a S***a
+        console.log(privacy.masking.mask('address', 'Rua das Flores 123')); // R**a d**s F***s 123
+        ```
+        
+        ### Python
+        ```python
+        from privacyschema import mask
+        
+        # Masking examples
+        print(mask('cpf', '12345678900'))  # *********00
+        print(mask('email', 'john.doe@example.com'))  # j********e@example.com
+        print(mask('phone', '11987654321'))  # ********21
+        print(mask('rg', '123456789'))  # *******89
+        print(mask('cnpj', '12345678000199'))  # ************0199
+        print(mask('name', 'Maria Silva'))  # M***a S***a
+        print(mask('address', 'Rua das Flores 123'))  # R**a d**s F***s 123
+        ```
+        
+        ## Installation
+        
+        ### Node.js
+        ```sh
+        npm install privacyschema
+        ```
+        
+        ### Python
+        ```sh
+        pip install privacyschema
+        ```
+        
+        ### CDN
+        ```html
+        <script src="https://cdn.jsdelivr.net/npm/privacyschema"></script>
+        ```
+        
+        ## Contributing
+        See [CONTRIBUTING.md](CONTRIBUTING.md).
+        
+        ## License
+        MIT
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
