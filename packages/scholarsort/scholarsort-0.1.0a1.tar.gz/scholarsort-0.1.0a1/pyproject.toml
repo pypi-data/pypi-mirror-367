@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scholarsort"
+version = "0.1.0a1"
+description = "A Python library for scholarly research with impact factor analysis"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "ScholarSort Team", email = "team@scholarsort.org"}
+]
+maintainers = [
+    {name = "ScholarSort Team", email = "team@scholarsort.org"}
+]
+keywords = ["scholarly", "research", "impact factor", "academic", "citations"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+    "beautifulsoup4>=4.9.0",
+    "lxml>=4.6.0",
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+    "aiohttp>=3.8.0",
+    "asyncio",
+    "fake-useragent>=0.1.11"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "black",
+    "flake8",
+    "mypy",
+    "pre-commit"
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme"
+]
+
+[project.urls]
+Homepage = "https://github.com/scholarsort-team/scholarsort"
+Documentation = "https://scholarsort.readthedocs.io/"
+Repository = "https://github.com/scholarsort-team/scholarsort"
+"Bug Tracker" = "https://github.com/scholarsort-team/scholarsort/issues"
+
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scholarsort*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
