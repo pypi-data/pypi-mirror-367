@@ -1,0 +1,23 @@
+# Include important files in the distribution
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+
+# Include package data
+recursive-include uber_central_client *.py
+recursive-include uber_central_client *.typed
+
+# Exclude development and testing files
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+recursive-exclude * .gitignore
+exclude .coverage
+exclude .coveragerc
+prune tests/
+prune .pytest_cache/
+prune .mypy_cache/
+prune build/
+prune dist/
+prune *.egg-info/
