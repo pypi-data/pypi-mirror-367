@@ -1,0 +1,129 @@
+Metadata-Version: 2.4
+Name: mwsdk
+Version: 0.3.3
+Summary: maxwin 框架的sdk
+Home-page: https://bitbucket.org/maxwin-inc/mwsdk/src
+Author: cxhjet
+Author-email: 13064576@qq.com
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Description-Content-Type: text/x-rst
+License-File: LICENSE.txt
+Requires-Dist: aiohttp>=3.2.0
+Requires-Dist: mwutils>=0.1.41
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+mwsdk
+=======
+
+maxwin 团队常用的服务，包括 kong，rightmanage等,直接从 consul 中读取服务信息
+
+Kong 的使用
+-----------
+
+.. code-block:: python
+
+    from mwsdk import Kong
+    # 创建kong 服务
+    k = Kong()
+    # 向kong注册服务,需jwt认证
+    k.reg_service('monitor-srv/api/v1.0','192.168.101.88:8999',auth='jwt',kong_uris='monitor-srv/api')
+    # 向kong注册upstream和target，增加负载平衡
+    k.add_upstream_target('monitor-srv','192.168.101.88:8999',50)
+    k.add_upstream_target('monitor-srv','192.168.101.99:8888',50)
+    # 把upstream注册到kong，不需要认证
+    k.reg_service('monitor-srv/api/doc','monitor-srv',auth='',kong_uris='monitor-srv/doc')
+
+Rightmanage的使用
+----------------
+
+.. code-block:: python
+
+    from mwsdk import Rightmanage_inner
+    # Rightmanage为内网的权限服务，不需要认证
+    rm = Rightmanage_inner()
+    # 获取权限资料
+    status_code, rm_json = rm.permissions('maxwin_web','admin.id')
+
+AIORightmanage_inner 的使用
+--------------------------
+
+- 支持async，方法同 Rightmanage
+
+安装方法
+--------
+
+.. code-block:: bash
+
+    pip install mwsdk
+
+构建包命令
+---------
+
+.. code-block:: bash
+
+    python -m build
+    pip install -e .  # 本地安装包
+    python -m twine upload dist/*
+
+
+Changes
+
+0.3.2 (2025-01-10)
+- 增加unhealthyd的配置
+
+0.3.1 (2025-01-10)
+- 支持kong 3.9.x的注册
+
+0.2.13 (2020-05-20)
+- 删除consul_agent_conf变量
+
+0.2.11 (2019-06-26)
+- fix 访问 refresh-permissions错误
+
+0.2.11 (2019-06-26)
+- fix 访问 refresh-permissions错误
+
+0.2.10 (2019-06-25)
+- 增加 refresh-permissions的功能
+
+
+0.2.9 (2018-12-17)
+
+- 取 Rightmanage_inner的配置时，near=True
+
+0.2.8 (2018-12-17)
+
+- 增加创建公司管理者用户的api
+
+0.2.7 (2018-11-13)
+
+
+- 增加 api auth-key 认证
+
+0.2.4 (2018-10-25)
+
+
+- fix gbk error
+
+0.2.3 (2018-10-25)
+
+
+- 增加 kong.add_upstream_target，支持kong的upstream
+
+
+0.2.0 (2018-09-29)
+
+- 增加 AIORightmanage_inner和Rightmanage_inner 类
+
