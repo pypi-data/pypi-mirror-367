@@ -1,0 +1,136 @@
+# 🔒 Uber Central - Security & Build Exclusions
+
+# ========================
+# 🚨 SENSITIVE DATA - NEVER COMMIT
+# ========================
+
+# Authentication credentials (contains real tokens, cookies, etc.)
+authentication/complete_auth_config.json
+authentication/extracted_config.json
+
+# HAR files (contain real API requests with auth data)
+*.har
+data/*.har
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Secrets and keys
+*secret*
+*private*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# API keys and tokens (in any text file)
+*api_key*
+*access_token*
+*auth_token*
+
+# ========================
+# 🔧 DEVELOPMENT & BUILD
+# ========================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ========================
+# 🚀 DEPLOYMENT SPECIFIC
+# ========================
+
+# Modal deployment secrets (if any local ones exist)
+.modal_config
+modal_secrets.json
+
+# Docker
+.dockerignore
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints
+
+# Package management
+uv.lock
+Pipfile.lock
+poetry.lock
+
+# Package builds and distributions
+*/dist/
+*/build/
+*/*.egg-info/
+
+# ========================
+# 📁 KEEP THESE SAFE FILES
+# ========================
+# (Explicitly allow template/example files)
+!authentication/sample_config.json
+!.env.example
+!README*.md
+!*_example.*
+!*_template.*
