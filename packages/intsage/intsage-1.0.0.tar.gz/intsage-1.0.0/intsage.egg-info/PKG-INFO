@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: intsage
+Version: 1.0.0
+Summary: SAGE Framework Meta Package
+Author-email: IntelliStream Team <intellistream@outlook.com>
+License: MIT
+Project-URL: Homepage, https://github.com/intellistream/SAGE
+Project-URL: Repository, https://github.com/intellistream/SAGE.git
+Project-URL: Documentation, https://intellistream.github.io/SAGE-Pub/
+Project-URL: Issues, https://github.com/intellistream/SAGE/issues
+Keywords: framework,intellistream,ai,data,sage,ml
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: intellistream-sage-kernel>=1.0.0
+Requires-Dist: intellistream-sage-middleware>=1.0.0
+Requires-Dist: intellistream-sage-userspace>=1.0.0
+
+# SAGE Framework Meta Package
+
+SAGE Framework是一个统一的AI推理和数据流处理框架，提供完整的端到端解决方案。
+
+## 简介
+
+这是SAGE框架的元包(meta package)，它集成了以下核心组件：
+
+- **sage-kernel**: 统一内核，包含核心运行时、工具和CLI
+- **sage-middleware**: 中间件组件，包含LLM中间件服务
+- **sage-userspace**: 用户空间组件，提供高级API和应用框架
+- **sage-dev-toolkit**: 开发工具包，提供开发和调试工具
+
+## 安装
+
+```bash
+pip install intellistream-sage
+```
+
+## 快速开始
+
+```python
+import sage
+
+# 创建本地环境
+env = sage.LocalEnvironment()
+
+# 创建数据流
+stream = env.from_collection([1, 2, 3, 4, 5])
+
+# 应用转换
+result = stream.map(lambda x: x * 2).collect()
+print(result)  # [2, 4, 6, 8, 10]
+```
+
+## 文档
+
+更多详细信息请参考：
+- [官方文档](https://intellistream.github.io/SAGE-Pub/)
+- [GitHub仓库](https://github.com/intellistream/SAGE)
+
+## 许可证
+
+MIT License
