@@ -1,0 +1,26 @@
+[CDF-25390] 🐛Workflow Version retries = null causes redeployment  (#1814)
+
+# Description
+
+Toolkit deploys CDF resources from YAML using the `cdf deploy` command.
+In this process, we do a retrieve and compare to the CDF resources, and
+only do an update if the resource has changed. This PR fixes an issue
+were a workflow version that has not changed is considered changed by
+Toolkit.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- Setting `retries=null` in a `WorkflowVersion` resource, no longer
+cause Toolkit to redeploy it when the workflow version is unchanged.
+
+## templates
+
+No changes.
