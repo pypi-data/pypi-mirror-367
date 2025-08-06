@@ -1,0 +1,22 @@
+agent:
+  llm:
+    provider: "google"
+    model: "gemini-2.0-flash"
+    temperature: 0.1
+    max_tokens: 4000
+    api_key: null  # Will use environment variable
+
+parsing:
+  metrics: ["Requests/sec"]
+  case_sensitive: false
+  fuzzy_match: true
+  min_confidence: 0.7
+
+output:
+  format: "json"
+  pretty_print: true
+  include_metadata: true
+
+logging:
+  level: "INFO"
+  format: "{time} | {level} | {message}" 
