@@ -1,0 +1,199 @@
+Metadata-Version: 2.4
+Name: cbci-mcp
+Version: 1.0.0
+Summary: CBCI MCP (Model Context Protocol) - ChatBot CI with Dynamic Database Querying
+Author-email: CBCI MCP Team <rosci671233@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/your-username/cbci-mcp
+Project-URL: Repository, https://github.com/your-username/cbci-mcp
+Project-URL: Issues, https://github.com/your-username/cbci-mcp/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: Database
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: openai>=1.0.0
+Requires-Dist: pandas>=1.5.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: ibm-db>=3.1.0
+
+# CBCI MCP
+
+CBCI MCP (Model Context Protocol) - ChatBot CI with Dynamic Database Querying
+
+**이 패키지는 LLM을 활용한 동적 데이터베이스 질의응답 챗봇 시스템입니다.**
+
+## 설치
+
+```bash
+pip install cbci-mcp
+```
+
+## 사용법
+
+### 기본 사용법
+
+```python
+from cbci_mcp import CBCIMCPClient
+
+# 클라이언트 생성
+client = CBCIMCPClient()
+
+# 서버 시작
+client.start_server()
+
+# 설정 (키워드 인수 지원)
+client.setup(config="config.yaml", questions="questions.yaml", schema="schema.yaml")
+
+# 질문하기
+answer = client.ask("서울 2023년 학생수")
+print(answer)
+
+# 서버 종료
+client.stop_server()
+```
+
+### 다양한 Setup 방식
+
+```python
+from cbci_mcp import CBCIMCPClient
+
+client = CBCIMCPClient()
+client.start_server()
+
+# 방법 1: 기본 파일들 사용
+client.setup()
+
+# 방법 2: 위치 인수
+client.setup("config.yaml", "questions.yaml", "schema.yaml")
+
+# 방법 3: 키워드 인수 (권장)
+client.setup(config="my_config.yaml", questions="my_questions.yaml", schema="my_schema.yaml")
+
+client.stop_server()
+```
+
+### 설정 파일 예시
+
+#### config.yaml
+```yaml
+# OpenAI API 설정
+openai:
+  api_key: "your-api-key-here"
+  model: "gpt-4"
+  temperature: 0.3
+  max_tokens: 1000
+
+# 데이터베이스 연결
+database:
+  host: "your-db-host"
+  port: 25010
+  user: "your-username"
+  password: "your-password"
+  database: "your-database"
+  db_type: "db2"
+
+# 챗봇 설정
+chatbot:
+  name: "데이터 분석 어시스턴트"
+  show_sql: false
+  show_technical_details: false
+  max_history: 20
+```
+
+#### questions.yaml (예시)
+```yaml
+qa_pairs:
+  - id: "example_students"
+    question: "학생수"
+    keywords: ["학생수", "학생", "총", "전체"]
+    sql_template: |
+      SELECT SUM(A.STDNT_NOPE) AS TOTAL_STUDENTS 
+      FROM YOUR_TABLE A 
+      LEFT JOIN REGION_TABLE B ON A.RGN_CD = B.RGN_CD 
+      WHERE 1=1
+      {{REGION_FILTER}}
+      {{YEAR_FILTER}}
+    answer_template: "조건에 맞는 학생수는 {TOTAL_STUDENTS:,}명입니다."
+    verified: true
+
+sql_filters:
+  REGION_FILTER: "AND B.RGN_NM = '{{RGN_NM}}'"
+  YEAR_FILTER: "AND A.CRTR_YR = {{CRTR_YR}}"
+
+matching:
+  similarity_threshold: 0.3
+  fallback_message: "죄송합니다. 해당 질문에 대한 정보를 찾을 수 없습니다."
+```
+
+#### schema.yaml (예시)
+```yaml
+tables:
+  students_table:
+    description: "학생수 테이블"
+    columns:
+      RGN_CD: "지역 코드"
+      CRTR_YR: "기준 연도"
+      STDNT_NOPE: "학생수"
+
+business_rules:
+  join_patterns:
+    - "지역 조회시: [데이터테이블] LEFT JOIN REGION_TABLE ON RGN_CD"
+  data_structure:
+    - "RGN_CD: 지역별 고유코드"
+    - "CRTR_YR: 연도별 데이터"
+```
+
+## API
+
+### CBCIMCPClient
+
+#### `__init__(server_script=None)`
+- `server_script`: 서버 스크립트 경로 (기본값: 자동 감지)
+
+#### `start_server()`
+MCP 서버를 시작합니다.
+
+#### `stop_server()`
+MCP 서버를 종료합니다.
+
+#### `setup(config="config.yaml", questions="questions.yaml", schema="schema.yaml")`
+- `config`: 설정 파일명
+- `questions`: 질문 템플릿 파일명
+- `schema`: 스키마 정보 파일명
+- 반환값: 설정 결과 딕셔너리
+
+#### `ask(question)`
+- `question`: 질문 문자열
+- 반환값: 답변 문자열
+
+#### `get_questions()`
+- 반환값: 사용 가능한 질문 목록
+
+## 특징
+
+- **LLM 파라미터 추출**: 자연어 질문에서 자동으로 연도, 지역, 카테고리 등 추출
+- **동적 SQL 생성**: 템플릿 기반으로 파라미터에 맞는 SQL 자동 생성
+- **유연한 설정**: config, questions, schema 파일을 자유롭게 지정 가능
+- **키워드 인수 지원**: 직관적인 setup 방식
+- **확장 가능**: 다양한 도메인과 데이터베이스에 적용 가능
+
+## 의존성
+
+- `openai>=1.0.0`: OpenAI API 클라이언트
+- `pandas>=1.5.0`: 데이터 처리
+- `pyyaml>=6.0`: YAML 설정 파일 처리
+- `ibm-db>=3.1.0`: DB2 데이터베이스 연결
+
+## 라이선스
+
+MIT License 
