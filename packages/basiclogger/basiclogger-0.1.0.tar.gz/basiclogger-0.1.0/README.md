@@ -1,0 +1,3 @@
+# basiclogger
+
+pip install basiclogger
