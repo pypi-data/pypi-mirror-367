@@ -1,0 +1,110 @@
+# footystats
+Install with:
+
+```
+pip install footystats
+```
+
+## Description
+
+This package contains two major functions:
+
+1. **Build sources** from [www.worldfootball.net](https://www.worldfootball.net)  
+2. **Build database** from the acquired sources
+
+The available soccer leagues are listed in an `Enum` called `Leagues`.  
+This enum is used as an argument in many functions.
+
+### Supported Leagues
+
+1. **Premier League** – `Leagues.PREMIERLEAGUE`  
+2. **La Liga** – `Leagues.LALIGA`  
+3. **Ligue 1** – `Leagues.LIGUE1`  
+4. **Bundesliga** – `Leagues.BUNDESLIGA`  
+5. **Serie A** – `Leagues.SERIEA`  
+6. **Championship** – `Leagues.CHAMPIONSHIP`  
+7. **La Liga 2** – `Leagues.LALIGA2`  
+8. **Ligue 2** – `Leagues.LIGUE2`  
+9. **2. Bundesliga** – `Leagues.BUNDESLIGA2`  
+10. **Serie B** – `Leagues.SERIEB`  
+11. **Primeira Liga** – `Leagues.PRIMEIRALIGA`  
+12. **Eredivisie** – `Leagues.EREDIVISIE`  
+13. **All Leagues** – `Leagues.ALL`
+
+##	(1) BUILD SOURCES webscrapping from online sites
+
+To obtain the sources, prepare a folder to save the sources (json) and
+use this path as argument as in the example below:
+
+```
+from footystats.leagues import Leagues
+from footystats.sources import makeSources
+
+sourcesRepertory="YOUR_PATH_TO_SOURCES"
+makeSources(Leagues.LALIGA, sourcesRepertory)
+makeSources(Leagues.ALL, sourcesRepertory)
+```
+be aware than the procedure to grab data use human-like behaviour
+to circumvent anti-bot protections from cloudflare. Then, browsers
+are called to fake a real user who would click.
+
+You can load the sources using
+```
+from footystats.sources import loadSources
+sources:dict = loadSources(Leagues.LALIGA,sourcesRepertory)
+```
+
+If you want to enrich the sources with more recent data:
+```
+from footystats.sources import updateSources
+updateSources(Leagues.LALIGA,sourcesRepertory)
+```
+
+To look the produced sources, you can use a debug function
+that writes the json dict within.txt file (auto naming of the debug file)
+The debug file is exported in the current working directory
+from which the script is run.
+```
+from footystats.debug import debugDatabase
+debugDatabase(Leagues.LALIGA, sources, startYear="2015")
+```
+this will write the sources from season 2015-2016
+
+
+##	(2) BUILD DATABASE: post treatment of sources
+ If you have sources, you can proceed to build database.
+ Databases are post-treated sources (json dict).
+ You also need to establish a repertory where to save the databases
+ if you use Leagues.ALL, all database leagues will be build.
+ If debug is True, then the .txt files are also exported
+ ```
+ from footystats.database import makeDatabase
+ 
+ mySavePathForDatabase:str="PATH_TO_DATABASES"
+ makeDatabase(Leagues.LALIGA, sourcesRepertory, mySavePathForDatabase,debug=True,debugYear="2020")
+ ```
+##	(3) Load the database and enjoy for your custom projects
+```
+from footystats.database import loadDatabase
+my_database:dict = loadDatabase(Leagues.LALIGA,mySavePathForDatabase)
+```
+
+## SOFASCORE
+The part dealing with sofascore scrapping is consequent. The global aim is to
+obtain for each match in each season the team rating as well as the list of involved players.
+This is a long 2 step process:
+ # (1) MAKE REGISTERS
+First build a register (dictionnary) for each league to store the season schedules
+and most importantly the location of the match reports (key = "url")
+Since we simulate a human-behaviour web browsing, we need asynchronous functions.
+Thats why we use the asyncio lib.
+```
+import asyncio
+from footystats.sofascore import makeMatchRegister
+
+sofaroot_past   =Path(r"D:\FOOTBALL\teams\past")
+sofaroot_now    =Path(r"D:\FOOTBALL\teams\current")
+
+asyncio.run(makeMatchRegister(Leagues.ALL,path=sofaroot_past,current=False))   # False = for 5 previous seasons
+asyncio.run(makeMatchRegister(Leagues.SERIEB,path=sofaroot_now,current=True))     # True  = for current season
+```
