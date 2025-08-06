@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: unidata-blocks
+Version: 0.0.18
+Summary: A library that helps query Unicode blocks by Blocks.txt
+Project-URL: homepage, https://github.com/TakWolf/unidata-blocks
+Project-URL: source, https://github.com/TakWolf/unidata-blocks
+Project-URL: issues, https://github.com/TakWolf/unidata-blocks/issues
+Author: TakWolf
+Maintainer: TakWolf
+License: MIT License
+License-File: LICENSE
+Keywords: unicode
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: langcodes>=3.5.0
+Description-Content-Type: text/markdown
+
+# Unidata Blocks
+
+[![Python](https://img.shields.io/badge/python-3.10-brightgreen)](https://www.python.org)
+[![PyPI](https://img.shields.io/pypi/v/unidata-blocks)](https://pypi.org/project/unidata-blocks/)
+
+A library that helps query Unicode blocks by [Blocks.txt](https://www.unicode.org/Public/UNIDATA/Blocks.txt).
+
+## Installation
+
+```shell
+pip install unidata-blocks
+```
+
+## Usage
+
+```python
+import unidata_blocks
+
+block = unidata_blocks.get_block_by_chr('A')
+assert block.code_start == 0x0000
+assert block.code_end == 0x007F
+assert block.name == 'Basic Latin'
+```
+
+## Dependencies
+
+- [Langcodes](https://github.com/rspeer/langcodes)
+
+## License
+
+[MIT License](LICENSE)
