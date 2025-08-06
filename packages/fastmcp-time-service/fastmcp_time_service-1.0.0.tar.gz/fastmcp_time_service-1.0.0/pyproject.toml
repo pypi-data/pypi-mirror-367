@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastmcp-time-service"
+version = "1.0.0"
+description = "基于SSE传输的MCP时间服务器，提供多时区时间查询功能"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "pytz>=2023.3",
+    "python-dotenv>=1.0.0",
+]
+keywords = ["mcp", "time", "server", "timezone", "fastmcp"]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/mcp-time-server"
+"Bug Reports" = "https://github.com/yourusername/mcp-time-server/issues"
+"Source Code" = "https://github.com/yourusername/mcp-time-server"
+Documentation = "https://github.com/yourusername/mcp-time-server/blob/main/README.md"
+
+[project.scripts]
+mcp-time-server = "mcp_time_server.time_server:main"
+
+[tool.setuptools]
+packages = ["mcp_time_server"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.json"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
