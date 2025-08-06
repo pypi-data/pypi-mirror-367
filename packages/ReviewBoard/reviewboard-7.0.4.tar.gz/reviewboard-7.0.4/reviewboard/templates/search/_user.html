@@ -1,0 +1,12 @@
+{% load accounts avatars djblets_utils i18n %}
+
+<div class="search-result -has-icon">
+{% if siteconfig_settings.avatars_enabled %}
+ <div class="search-result-icon">
+ {% avatar result.user 24 %}
+ </div>
+{% endif %}
+ <div class="search-result-body">
+  <h2><a href="{{result.url}}">{% user_profile_display_name result.user %}</a></h2>
+ </div>
+</div>

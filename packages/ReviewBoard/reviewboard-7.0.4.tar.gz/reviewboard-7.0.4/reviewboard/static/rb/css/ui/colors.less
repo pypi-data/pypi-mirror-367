@@ -1,0 +1,227 @@
+/**
+ * Standard color definitions and reusable color schemes.
+ */
+
+@import (reference) "@beanbag/ink/lib/ink.less";
+
+
+#rb-ns-ui() {
+  .colors() {
+    @black: #000000;
+    @white: #FFFFFF;
+
+    @grey-10: #333333;
+    @grey-20: #444444;
+    @grey-30: #555555;
+    @grey-40: #777777;
+    @grey-50: #999999;
+    @grey-55: #B1AFAF;
+    @grey-60: #C0C0C0;
+    @grey-70: #D0D0D0;
+    @grey-80: #E9E9E9;
+    @grey-90: #F9F9F9;
+
+    @blue-10: #102640;
+    @blue-20: #124BBD;
+    @blue-30: #2378DB;
+    @blue-40: #4A90E2;
+    @blue-50: #88B9FF;
+    @blue-60: #B0D0FF;
+    @blue-70: #D0E6FF;
+    @blue-80: #DAEBFF;
+    @blue-90: #F2FAFF;
+
+    @brown-10: #4B320F;
+    @brown-20: #57370B;
+    @brown-30: #6B450F;
+    @brown-40: #895A40;
+    @brown-50: #A9704F;
+    @brown-60: #C88E6B;
+    @brown-70: #DCAC8E;
+    @brown-80: #F2CDB4;
+    @brown-90: #FEE7D4;
+
+    @cool-grey-10: #263240;
+    @cool-grey-20: #334355;
+    @cool-grey-30: #40546A;
+    @cool-grey-40: #597595;
+    @cool-grey-50: #8097B3;
+    @cool-grey-60: #B0BFD0;
+    @cool-grey-70: #C4CFDC;
+    @cool-grey-80: #E4E9EF;
+    @cool-grey-90: #F8F9FB;
+
+    @cyan-10: #013239;
+    @cyan-20: #004A55;
+    @cyan-30: #036F80;
+    @cyan-40: #0194AB;
+    @cyan-50: #03BCD9;
+    @cyan-60: #49E2FA;
+    @cyan-70: #8DF0FF;
+    @cyan-80: #C8F8FF;
+    @cyan-90: #F1FDFF;
+
+    @green-10: #0D570D;
+    @green-20: #226611;
+    @green-30: #357915;
+    @green-40: #479623;
+    @green-50: #49BB18;
+    @green-60: #65E62D;
+    @green-70: #93EE6F;
+    @green-80: #D1F5A9;
+    @green-90: #EDFBDD;
+
+    @mustard-10: #575022;
+    @mustard-20: #7A7012;
+    @mustard-30: #9D8B06;
+    @mustard-40: #BCA626;
+    @mustard-50: #D0BD30;
+    @mustard-60: #E0CF7B;
+    @mustard-70: #E5DA9A;
+    @mustard-80: #F1E9BE;
+    @mustard-90: #FCF9E9;
+
+    @red-10: #610A0A;
+    @red-20: #7E0D0D;
+    @red-30: #A31111;
+    @red-40: #C10E0E;
+    @red-50: #DE1717;
+    @red-60: #EA3939;
+    @red-70: #F06C6C;
+    @red-80: #F6A8A8;
+    @red-90: #FFE0E5;
+
+    @yellow-10: #AD9C00;
+    @yellow-20: #D3BE00;
+    @yellow-30: #F0D800;
+    @yellow-40: #F9E000;
+    @yellow-50: #FFEB35;
+    @yellow-60: #FFEF72;
+    @yellow-70: #FFF4B0;
+    @yellow-80: #FFF7CD;
+    @yellow-90: #FFFBE9;
+  }
+
+  .color-schemes() {
+    .admin-dashboard() {
+      @bg: #rb-ns-ui.colors[@grey-90];
+      @border: #rb-ns-ui.colors[@grey-50];
+      @hover-bg: darken(@bg, 5%);
+      @hover-border: lighten(@border, 5%);
+    }
+
+    .grey() {
+      @bg: #rb-ns-ui.colors[@grey-80];
+      @border: #rb-ns-ui.colors[@grey-60];
+      @hover-bg: darken(@bg, 5%);
+      @hover-border: lighten(@border, 5%);
+    }
+  }
+
+  /**
+   * Standard color palette design tokens.
+   *
+   * Version Added:
+   *     7.0
+   */
+  .design-tokens() {
+    #ink-ns-theme.add-css-vars(
+      @prefix: rb-p;
+      @vars: {
+        /** Background for draft elements. */
+        draft-bg:
+          var(--if-light, var(--ink-p-green-200))
+          var(--if-dark, var(--ink-p-cool-grey-400));
+
+        /** Hover background color for draft elements. */
+        draft-hover-bg:
+          var(--if-light, var(--ink-p-green-300))
+          var(--if-dark, var(--ink-p-accent-primary-bg));
+
+        draft-hover-fg:
+          var(--if-light, var(--ink-p-fg-on-light))
+          var(--if-dark, var(--ink-p-accent-primary-fg));
+
+        /** Border color for draft elements. */
+        draft-border-color:
+          var(--if-light, var(--ink-p-green-500))
+          var(--if-dark, var(--ink-p-black));
+
+        /** Label color for draft items. */
+        draft-label-fg: var(--ink-p-green-600);
+
+        /** Flag and indicator colors. */
+        flag-draft-bg: var(--ink-p-light__green-200);
+        flag-draft-hover-bg: var(--ink-p-light__green-100);
+        flag-draft-fg: var(--ink-p-light__green-900);
+        flag-draft-border-color: var(--ink-p-light__green-500);
+
+        flag-published-bg: var(--ink-p-light__blue-400);
+        flag-published-hover-bg: var(--ink-p-light__blue-300);
+        flag-published-fg: var(--ink-p-light__blue-900);
+        flag-published-border-color: var(--ink-p-dark__blue-300);
+
+        issue-bg: var(--ink-p-light__yellow-300);
+
+        issue-border-color: var(--ink-p-container-border-color);
+
+        /** Issue status text accent colors. */
+        issue-open-accent-text-color: var(--ink-p-light__yellow-300);
+        issue-dropped-accent-text-color: var(--ink-p-fg-weak-on-dark);
+        issue-resolved-accent-text-color:
+          var(--ink-p-accent-success-fg-on-container);
+
+        /** Color used for graph data representing diff insert operations. */
+        diff-insert-graph-color:
+          var(--if-light, var(--ink-p-green-500))
+          var(--if-dark, var(--ink-p-green-700));
+
+        /** Color used for graph data representing diff delete operations. */
+        diff-delete-graph-color:
+          var(--if-light, var(--ink-p-red-500))
+          var(--if-dark, var(--ink-p-red-700));
+
+        /** Color used for graph data representing diff replace operations. */
+        diff-replace-graph-color:
+          var(--if-light, var(--ink-p-yellow-800))
+          var(--if-dark, var(--ink-p-yellow-600));
+
+        /** Diff insert operation indicator background. */
+        diff-insert-op-bg:
+          var(--if-light, @default-code-theme-light-diff-insert-linenum-bg)
+          var(--if-dark, var(--ink-p-input-bg));
+
+        /** Diff insert operation indicator foreground. */
+        diff-insert-op-fg:
+          var(--if-light, var(--ink-p-fg-on-light))
+          var(--if-dark, var(--ink-p-green-700));
+
+        /** Diff delete operation indicator background. */
+        diff-delete-op-bg:
+          var(--if-light, @default-code-theme-light-diff-delete-linenum-bg)
+          var(--if-dark, var(--ink-p-input-bg));
+
+        /** Diff delete operation indicator foreground. */
+        diff-delete-op-fg:
+          var(--if-light, var(--ink-p-fg-on-light))
+          var(--if-dark, var(--ink-p-red-800));
+
+        /** Diff replace operation indicator background. */
+        diff-replace-op-bg:
+          var(--if-light, @default-code-theme-light-diff-replace-linenum-bg)
+          var(--if-dark, var(--ink-p-input-bg));
+
+        /** Diff replace operation indicator foreground. */
+        diff-replace-op-fg:
+          var(--if-light, var(--ink-p-fg-on-light))
+          var(--if-dark, var(--ink-p-yellow-800));
+
+        /** Color used for text representing an insert operation. */
+        diff-insert-text-fg: var(--ink-p-green-800);
+
+        /** Color used for text representing a delete operation. */
+        diff-delete-text-fg: var(--ink-p-red-800);
+      };
+    );
+  }
+}

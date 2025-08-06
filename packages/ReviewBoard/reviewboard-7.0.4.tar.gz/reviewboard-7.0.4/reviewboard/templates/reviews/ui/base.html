@@ -1,0 +1,84 @@
+{% extends "reviews/reviewable_base.html" %}
+{% load djblets_utils i18n reviewtags %}
+
+
+{% block title %}
+ {{review_ui.name}}{% if caption %}: {{caption}}{% endif %}
+{% endblock %}
+
+
+{% block css %}
+{{block.super}}
+{%  block review_ui_css %}{% endblock %}
+{% endblock css %}
+
+
+{% block content %}
+{%  definevar "review_ui_box_content" %}{% block review_ui_box_content %}{% endblock %}{% enddefinevar %}
+
+{%  if prev_file_attachment %}
+{%   with prev_file_attachment_name=prev_file_attachment.display_name %}
+<div class="review-ui-prev-attachment">
+{%    definevar "attachment_url" %}{% url 'file-attachment' review_request_id=review_request.display_id file_attachment_id=prev_file_attachment.pk %}{% enddefinevar %}
+ <a class="review-ui-file-attachment-nav-button-overlay"
+    href="{{attachment_url|add_view_draft_query:viewing_user_draft}}"
+    role="button"
+    aria-label="{% blocktrans %}View previous file attachment ({{prev_file_attachment_name}}){% endblocktrans %}"></a>
+ <div class="file-container" aria-hidden="true">
+  <div class="file">
+   <div class="file-thumbnail-container">
+    {{prev_file_attachment.thumbnail}}
+   </div>
+   <div class="file-caption-container">
+    <div class="file-caption">{{prev_file_attachment.display_name}}</div>
+   </div>
+  </div>
+ </div>
+ <span class="fa fa-chevron-left" aria-hidden="true"></span>
+</div>
+{%   endwith %}
+{%  endif %}
+
+{%  if next_file_attachment %}
+{%   with next_file_attachment_name=next_file_attachment.display_name %}
+<div class="review-ui-next-attachment">
+{%    definevar "attachment_url" %}{% url 'file-attachment' review_request_id=review_request.display_id file_attachment_id=next_file_attachment.pk %}{% enddefinevar %}
+ <a class="review-ui-file-attachment-nav-button-overlay"
+    href="{{attachment_url|add_view_draft_query:viewing_user_draft}}"
+    role="button"
+    aria-label="{% blocktrans %}View next file attachment ({{next_file_attachment_name}}){% endblocktrans %}"></a>
+ <span class="fa fa-chevron-right" aria-hidden="true"></span>
+ <div class="file-container" aria-hidden="true">
+  <div class="file">
+   <div class="file-thumbnail-container">
+    {{next_file_attachment.thumbnail}}
+   </div>
+   <div class="file-caption-container">
+    <div class="file-caption">{{next_file_attachment.display_name}}</div>
+   </div>
+  </div>
+ </div>
+</div>
+{%   endwith %}
+{%  endif %}
+
+<div id="review-request" class="review-ui-box{% if review_ui_box_content %} has-review-ui-box-content{% endif %}{% if prev_file_attachment %} has-prev-attachment{% endif %}{% if next_file_attachment %} has-next-attachment{% endif %}">
+{%  include "reviews/trophy_box.html" %}
+ <div id="review-request-banners"></div>
+
+ <section class="rb-c-review-request"
+          aria-label="{% trans 'Review file attachment' %}">
+{%   include "reviews/review_request_header.html" %}
+  <div class="content review-ui-box-content">{{review_ui_box_content}}</div>
+ </section>
+</div>
+
+<div class="review-ui-standalone">
+{%  block review_ui_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts-post %}
+{{block.super}}
+{%  block review_ui_scripts %}{% endblock %}
+{% endblock %}

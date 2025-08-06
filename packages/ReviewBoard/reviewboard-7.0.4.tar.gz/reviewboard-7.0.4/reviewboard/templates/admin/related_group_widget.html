@@ -1,0 +1,12 @@
+{% load djblets_js i18n %}
+
+{{input_html}}
+
+<script>
+$(function() {
+    var view = new RB.RelatedGroupSelectorView({
+        $input: $('#{{input_id|escapejs}}'),
+        {{js_view_data|json_dumps_items}}
+    }).render();
+});
+</script>

@@ -1,0 +1,17 @@
+{% autoescape off %}{% load djblets_email djblets_utils markdown_email reviewtags %}
+{% condense %}
+{% include "notifications/reply_email_content.txt" %}
+
+- {% if reply.user.first_name != "" %}{{reply.user.first_name}}{% else %}{{reply.user.username}}{% endif %}
+{% endcondense %}
+
+
+-----------------------------------------------------------
+This is an automatically generated e-mail. To reply, visit:
+{{site_url}}{{review.get_absolute_url}}
+-----------------------------------------------------------
+
+
+On {{review_request.time_emailed}}, {{review_request.submitter|user_displayname}} wrote:
+{% quoted_email "notifications/review_request_email_content.txt" %}
+{% endautoescape %}
