@@ -1,0 +1,37 @@
+[project]
+name = "vecna"
+version = "0.1.1"
+readme = "README.md"
+license = {text = "MIT"}
+description = "Vault for Encrypted Credentials, Notes, and Aliases"
+authors = [{ name = "Thomas Rapai", email = "th.rapai@hotmail.com" }]
+requires-python = ">=3.10"
+dependencies = [
+    "typer",
+    "cryptography",
+    "pyperclip"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pre-commit"
+]
+
+[project.scripts]
+vecna = "vecna.main:app"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+
+[tool.ruff]
+line-length=100
