@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: pygnss
+Version: 1.0.0
+Summary: Package with utilities and tools for GNSS data processing
+Author-email: Miquel Garcia-Fernandez <miquel@mgfernan.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: nequick>=0.2.0
+Requires-Dist: numpy
+Requires-Dist: pandas>=2.2
+Requires-Dist: pyarrow>=18.0.0
+Provides-Extra: test
+Requires-Dist: pytest>=8.3.4; extra == "test"
+Requires-Dist: pytest-env>=1.1.5; extra == "test"
+Requires-Dist: pytest-mocha>=0.4.0; extra == "test"
+Requires-Dist: flake8>=7.0.0; extra == "test"
+Provides-Extra: release
+Requires-Dist: python-semantic-release>=9.4.0; extra == "release"
+Dynamic: license-file
+
+# GNSS and Navigation modules
+
+## Installation
+
+To make sure that the extensions are installed along with the package, run
+
+`pip install pygnss`
+
+## Modules
+
+### Logger
+
+Example of how to use the logger module:
+
+```python
+>>> from pygnss import logger
+>>> logger.set_level("DEBUG")
+>>> logger.debug("Debug message")
+2020-05-05 18:23:55,688 - DEBUG    - Debug message
+>>> logger.warning("Warning message")
+2020-05-05 18:24:11,327 - WARNING  - Warning message
+>>> logger.info("Info message")
+2020-05-05 18:24:26,021 - INFO     - Info message
+>>> logger.error("Error message")
+2020-05-05 18:24:36,090 - ERROR    - Error message
+>>> logger.critical("Critical message")
+2020-05-05 18:24:43,562 - CRITICAL - Critical message
+>>> logger.exception("Exception message", ValueError("Exception message")
+2020-05-05 18:25:11,360 - CRITICAL - Exception message
+ValueError: Exception message
+Traceback (most recent call last):
+  ...
+ValueError: Exception message
+```
