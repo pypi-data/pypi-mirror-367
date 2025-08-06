@@ -1,0 +1,106 @@
+# SPDX-FileCopyrightText: 2025 Florian Obersteiner / KIT
+# SPDX-FileContributor: Florian Obersteiner <f.obersteiner@kit.edu>
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+stages:
+  - lint_and_test
+  - verify_tag
+  - publish_test
+  - publish
+
+variables:
+  UV_VERSION: 0.8
+  PYTHON_VERSION: 3.12
+  BASE_LAYER: bookworm-slim
+  # uv: GitLab CI creates a separate mountpoint for the build directory,
+  # so we need to copy instead of using hard links:
+  UV_LINK_MODE: copy
+
+lint_and_test:
+  stage: lint_and_test
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  variables:
+    UV_CACHE_DIR: .uv-cache
+  cache:
+    - key:
+        files:
+          - uv.lock
+      paths:
+        - $UV_CACHE_DIR
+  script:
+    - apt update && apt upgrade -y
+    - apt install git -y
+    - uv sync
+    - uv run ruff format .
+    - uv run ruff check
+    - uv run mypy .
+    - uv run pytest . -v --doctest-modules --cov
+    #    - uv run reuse lint
+    - uv cache prune --ci
+  coverage: /TOTAL.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/
+  rules:
+    - if: $CI_COMMIT_TAG # Run for any tag push
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH # Run on pushes to the default branch
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' # Run for merge requests
+
+check_version_consistency:
+  stage: verify_tag
+  image: python:3.12-slim
+  script:
+    - PYPROJECT_VERSION=$(python .gitlab/ci/get_project_version.py)
+    - |
+      if [ $? -ne 0 ]; then
+        echo "Error reading version from pyproject.toml."
+        exit 1
+      fi
+    - TAG_VERSION=${CI_COMMIT_TAG#v} # strip 'v'
+    - echo "tag version (matched rule, v removed) $TAG_VERSION"
+    - echo "pyproject.toml version $PYPROJECT_VERSION"
+    - |
+      if [ "$PYPROJECT_VERSION" != "$TAG_VERSION" ]; then
+        echo "ERROR: version in tag ($TAG_VERSION) does not match version in pyproject.toml ($PYPROJECT_VERSION)!"
+        exit 1
+      else
+        echo "version in pyproject.toml matches the tag ($TAG_VERSION)."
+      fi
+  rules:
+    # Only run this job if the tag EXACTLY matches the semantic version pattern vX.Y.Z or X.Y.Z
+    - if: $CI_COMMIT_TAG =~ /^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/
+
+publish_to_testpypi:
+  stage: publish_test
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  variables:
+    USERNAME: "__token__"
+    UV_PUBLISH_URL: https://test.pypi.org/legacy/
+  script:
+    - echo "Detected semantic version tag $CI_COMMIT_TAG. Preparing TEST publication using uv..."
+    - uv build
+    - uv publish --token $TEST_PYPI_API_TOKEN
+    - echo "Version $CI_COMMIT_TAG successfully published to TEST PyPI."
+    - uv cache prune --ci
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-pre$/
+
+publish_to_pypi:
+  stage: publish
+  needs: ["check_version_consistency"]
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  variables:
+    USERNAME: "__token__"
+    # UV_PUBLISH_URL: https://upload.pypi.org/legacy
+  script:
+    - echo "Detected semantic version tag $CI_COMMIT_TAG. Preparing publication using uv..."
+    - uv build
+    - uv publish --token $PYPI_API_TOKEN
+    - echo "Version $CI_COMMIT_TAG successfully published to PyPI."
+    - uv cache prune --ci
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
