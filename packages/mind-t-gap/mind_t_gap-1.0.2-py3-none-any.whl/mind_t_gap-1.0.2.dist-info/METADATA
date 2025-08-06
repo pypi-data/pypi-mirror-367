@@ -1,0 +1,48 @@
+Metadata-Version: 2.3
+Name: mind-t-gap
+Version: 1.0.2
+Summary: Mind the Gap is an algorithm for detecting gaps in building footprints datasets 
+Author: Jack Gonzales
+Author-email: gonzalesjj@ornl.gov
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: geoalchemy (>=0.7.2,<0.8.0)
+Requires-Dist: geopandas (>=1.0.1,<2.0.0)
+Requires-Dist: libpysal (>=4.12.1,<5.0.0)
+Requires-Dist: numba (>=0.60.0,<0.61.0)
+Requires-Dist: psycopg2-binary (>=2.9.10,<3.0.0)
+Requires-Dist: pylint (>=3.3.6,<4.0.0)
+Requires-Dist: pytest (>=8.3.4,<9.0.0)
+Requires-Dist: rtree (>=1.3.0,<2.0.0)
+Requires-Dist: shapely (>=2.0.6,<3.0.0)
+Requires-Dist: sphinx (>=8.1.3,<9.0.0)
+Description-Content-Type: text/markdown
+
+# Mind the Gap
+
+Mind the Gap is an algorithm for detecting gaps in building footprints datasets, with a preference for finding the rectangular-shaped gaps caused by missing imagery tiles. It works best on country-sized datasets or smaller, or larger datasets divided into smaller chunks.
+
+## Getting started
+
+A Dockerfile and requirements are included, and can help you set up a suitable container. 
+
+Alternatively, you can use poetry by running:
+`pip install poetry`
+and then
+`poetry install`
+from the root directory of the repository.
+
+The core of the algorithm is found in mind_the_gap.py, and you can use `mind_the_gap` function to directly run the algorith. For an easier start, you can use the `auto_tune` module, which will free you from having to guess and check all the parameters. This will do a decent job of tuning all the paramters, but you may still need to tweak things. The default parameters in the `Region.run` method work generally well but may need a little tweaking. `Region.run_parallel` is advantageous for large datasets as it allows for parallel processing.
+
+### Inputs
+
+Mind the Gap requires two inputs: building footprints (or just their centroids) and a boundary to the aoi. These are best handled using GeoPandas
+
+### Outputs
+
+Gaps will be stored as a GeoDataFrame of the Region object once `Region.run` has ran.
+
