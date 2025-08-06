@@ -1,0 +1,128 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cvx-package-template"
+version = "0.1.2"
+description = "CVX package template for convex optimization projects."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Author 1" }, { name = "Author 2" }]
+maintainers = [{ name = "My Name", email = "myname@place.com" }]
+requires-python = ">=3.12"
+dependencies = ["cvxpy>=1.7.1"]
+keywords = ["convex optimization", "cvxpy", "mathematical programming"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/langestefan/cvx-package-template"
+Repository = "https://github.com/langestefan/cvx-package-template.git"
+Documentation = "https://github.com/langestefan/cvx-package-template"
+"Bug Tracker" = "https://github.com/langestefan/cvx-package-template/issues"
+
+[project.optional-dependencies]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cvx_package_template"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/examples", "/README.md", "/LICENSE", "/NOTICE"]
+
+[dependency-groups]
+dev = [
+  "codespell==2.4.1",
+  "covdefaults==2.3.0",
+  "coverage[toml]==7.6.12",
+  "pre-commit==4.2.0",
+  "pre-commit-hooks==5.0.0",
+  "pylint==3.3.4",
+  "pytest==8.4.1",
+  "pytest-cov==6.2.1",
+  "ruff==0.12.7",
+  "ty==0.0.1a16",
+  "yamllint==1.35.1",
+  "ipykernel==6.30.0",
+]
+doc = [
+  "sphinx >= 8.0.0",
+  "sphinxcontrib.jquery >= 4.1.0",
+  "sphinx-inline-tabs >= 2023.4.21",
+  "sphinx-design >= 0.6.1",
+  "sphinx-immaterial >= 0.13.5",
+  "myst-parser >= 4.0.0",
+  "sphinx-autobuild>=2024.10.3",
+  "nbsphinx >= 0.9.7",
+]
+
+[tool.coverage.run]
+plugins = ["covdefaults"]
+source = ["cvx_package_template"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 50
+omit = []
+
+[tool.ty.rules]
+possibly-unresolved-reference = "warn"
+
+[tool.pylint.MASTER]
+extension-pkg-whitelist = ["orjson"]
+ignore = ["tests"]
+
+[tool.pylint.BASIC]
+good-names = ["_", "ex", "fp", "i", "id", "j", "k", "on", "Run", "T"]
+
+[tool.pylint.DESIGN]
+max-attributes = 8
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = ["duplicate-code", "format", "unsubscriptable-object"]
+
+[tool.pylint.SIMILARITIES]
+ignore-imports = true
+
+[tool.pylint.FORMAT]
+max-line-length = 88
+
+[tool.pytest.ini_options]
+addopts = "--cov-report xml:coverage.xml --cov src.cvx_package_template --cov-fail-under 0 --cov-append -m 'not integration' --cov-report term-missing"
+pythonpath = ["src"]
+log_cli = true
+log_cli_level = "DEBUG"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+testpaths = "tests"
+markers = ["integration: marks as integration test"]
+
+[tool.ruff.lint]
+ignore = [
+  "ANN401", # Opinioated warning on disallowing dynamically typed expressions
+  "COM812", # Trailing comma missing (conflicts with formatter)
+  "D203",   # incorrect-blank-line-before-class (incompatible with D211)
+  "D213",   # multi-line-summary-second-line (incompatible with D212)
+]
+select = ["ALL"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[tool.ruff.lint.isort]
+known-first-party = ["cvx_package_template"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 25
