@@ -1,0 +1,152 @@
+[project]
+name = "qciconnect"
+version = "0.4.2"
+description = "An API client to work with the DLR QCI Connect quantum computing platform."
+authors = [
+    { name = "DLR-SC", email = "qc-software@dlr.de" },
+    { name = "David da Costa", email = "david.da.costa@dlr.de" },
+    { name = "Thomas Keitzl", email = "thomas.keitzl@dlr.de" },
+    { name = "Johannes Renkl", email = "johannes.renkl@dlr.de" },
+    { name = "Thomas Stehle", email = "thomas.stehle@dlr.de" },
+]
+requires-python = ">=3.12"
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "quantum computing",
+    "API client",
+    "QCI Connect",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "httpx>=0.28.1,<0.29",
+    "pydantic>=2.10.6,<3",
+    "tabulate>=0.9.0,<0.10",
+    "python-keycloak>=5.3.1,<6",
+    "numpy",
+    "typeguard>=4.4.2,<5"
+]
+license-files = ["LICEN[CS]E*"]
+
+[tool.uv.workspace]
+members = [
+    "commons/hequate_common",
+    "commons/qciconnect_common"
+]
+exclude = [
+    "mini-orchestrator",
+    "compilers/*",
+    "examples",
+    "deployment",
+    "compilers/compiler_qseatools"
+]
+
+[tool.uv.sources]
+hequate_common = { workspace = true }
+qciconnect_common = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "ipython>=9.1.0",
+    "jupyter>=1.1.1",
+    "mypy>=1.11.2",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.12.4",
+]
+test = [
+    "ipython>=9.1.0",
+    "jupyter>=1.1.1",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "qiskit>=2.0.0,<3",
+    "qiskit-qasm3-import==0.5.0",
+    "ruff>=0.12.4",
+]
+test-nb = [
+    "ipython>=9.1.0",
+    "jupyter>=1.1.1",
+    "qiskit>=2.0.0,<3",
+    "qiskit-qasm3-import==0.5.0"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = [".", "commons/hequate_common", "commons/qciconnect_common"]
+include = ["qciconnect", "hequate_common*", "qciconnect_common*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+addopts = "-rP --cov=qciconnect --cov=mini-orchestrator/src --cov-report=term-missing -o junit_logging=all -o junit_log_passing_tests=True --junitxml=reports/junit_coverage.xml"
+testpaths = [
+    "tests/",
+]
+typeguard-packages = "qciconnect"
+typeguard-debug-instrumentation = true
+typeguard-forward-ref-policy = "ERROR"
+typeguard-collection-check-strategy = "ALL_ITEMS"
+pythonpath = [
+  ".",
+  "./commons/hequate_common",
+  "./commons/qciconnect_common"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+include = [
+    "pyproject.toml",
+    "qciconnect/**/*.py",
+]
+
+[tool.ruff.lint]
+select = [
+    "A", # flake8-buitins
+    "B", # flake8-bugbear
+    "BLE", # flake8-blind-except
+    "C4", # flak8-comprehensions
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib
+    "RSE", # flake8-raise
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "FA", # flake8-future-annotations
+    "ICN", # flake8-import-conventions
+    "N", # pep8-naming
+    "I", # isort
+    "F", # pyflakes
+    "ERA", # eradicate
+    "D", # pydocstyle
+    "E", # pycodestyle Error
+    "NPY", # numpy specific rules
+    "RUF", # Ruff-specific rules
+    "UP", # pyupgrade
+    "TID",  # tidy imports
+    "TRY",  # exception handling
+    "DTZ",  # timezone-aware datetimes
+    "ARG",  # unused arguments
+]
+ignore = [
+    "TRY003", # Avoid specifying long messages outside the exception class
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = false
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 120
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F401", "F403", "D104"]
+"tests/*" = ["D"]
