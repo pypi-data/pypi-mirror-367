@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - release
+  pull_request:
+
+jobs:
+  formatting:
+    name: Formatting and static analysis
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+      - name: Install Just
+        uses: extractions/setup-just@v3
+      - name: Install pre-commit
+        run: uv tool install pre-commit --with pre-commit-uv
+      # The first run of pre-commit may reformat files. If this happens, it returns 1 but this
+      # should not fail the job. So just run again if it fails. A second failure means that
+      # either the different formatters can't agree on a format or that static analysis failed.
+      - run: pre-commit run -a || pre-commit run -a
+      - uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: Apply automatic formatting
+
+  type-checking:
+    name: Type checking
+    needs: formatting
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          entrypoint: "3.11" # TODO remove once we drop Python 3.10
+      # TODO remove once we drop Python 3.10
+      - run: uv python pin 3.11
+      - name: Install Just
+        uses: extractions/setup-just@v3
+      - run: just mypy
+
+  tests:
+    name: Tests
+    needs: formatting
+    strategy:
+      matrix:
+        include:
+          - {python: '3.13', os: ubuntu-24.04, command: test-all}
+          - {python: '3.12', os: ubuntu-24.04, command: test-all}
+          - {python: '3.11', os: ubuntu-24.04, command: test-all}
+          - {python: '3.10', os: ubuntu-24.04, command: test-all}
+          - {python: '3.10', os: macos-14, command: test}
+          - {python: '3.10', os: windows-2022, command: test}
+    uses: ./.github/workflows/test.yml
+    with:
+      os-variant: ${{ matrix.os }}
+      python-version: ${{ matrix.python }}
+      command: ${{ matrix.command }}
+    secrets: inherit
+
+  docs:
+    needs: tests
+    permissions:
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml

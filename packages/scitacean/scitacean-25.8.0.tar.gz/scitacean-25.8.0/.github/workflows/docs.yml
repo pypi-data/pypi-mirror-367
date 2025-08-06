@@ -1,0 +1,54 @@
+name: Docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        default: false
+        description: Publish docs
+        required: false
+        type: boolean
+  workflow_call:
+    inputs:
+      publish:
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  build-docs:
+    name: Build documentation
+    runs-on: ubuntu-24.04
+    steps:
+      - run: sudo apt install --yes pandoc
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          entrypoint: "3.11" # TODO remove once we drop Python 3.10
+      - name: Install Just
+        uses: extractions/setup-just@v3
+      - name: Build and test docs
+        run: just docs
+      - uses: actions/upload-pages-artifact@v3
+        name: Upload documentation as artifact
+        with:
+          name: documentation
+          path: html/
+
+  deploy-docs:
+    name: Deploy documentation
+    needs: build-docs
+    if: ${{ inputs.publish }}
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+        with:
+          artifact_name: documentation

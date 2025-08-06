@@ -1,0 +1,38 @@
+# Docker configuration for testing Scitacean against a SciCat backend.
+# This file needs to be processed by `scitacean.testing.backend.configure`
+# before it can be used by docker compose.
+#
+# The images are based on the CI setup of the SciCat backend
+# and a released package of the version configured in pyproject.toml:
+# https://github.com/SciCatProject/scicat-backend-next/pkgs/container/backend-next/versions
+#
+# See https://scicatproject.github.io/documentation/Development/v4.x/backend/configuration.html
+# for a list of all env variables.
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  scicat:
+    image: ghcr.io/scicatproject/backend-next:v4.8.0
+    container_name: scitacean-test-scicat
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:PLACEHOLDER
+    environment:
+      DOI_PREFIX: DOI.SAMPLE.PREFIX
+      ELASTICSEARCH_ENABLED: no
+      HTTP_MAX_REDIRECTS: 1  # Scitacean should not require redirects
+      HTTP_TIMEOUT: 5000  # in ms
+      JWT_EXPIRES_IN: 3600  # in s (expiry of token)
+      JWT_SECRET: a_scicat_secret
+      LOGBOOK_ENABLED: no  # we don't test these endpoints
+      MONGODB_URI: mongodb://mongodb:27017/scicat
+
+      # Those are configured in Python
+      PID_PREFIX: PLACEHOLDER
+      SITE: PLACEHOLDER
+      PORT: PLACEHOLDER
