@@ -1,0 +1,49 @@
+name: Python Tests
+
+on: [push]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: uv pip install --system tox
+      - name: Validate formatting
+        run: uv run tox -e format
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        tox_env:
+          - py311-dj42-wt60
+          - py311-dj42-wt62
+          - py311-dj42-wt64
+        include:
+          - python-version: "3.11"
+            tox_env: py311-dj42-wt60
+          - python-version: "3.11"
+            tox_env: py311-dj42-wt62
+          - python-version: "3.11"
+            tox_env: py311-dj42-wt64
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: uv pip install --system tox tox-gh-actions
+      - name: Test with tox
+        run: uv run tox -e ${{ matrix.tox_env }} -- --index-url=https://pypi.python.org/simple/
