@@ -1,0 +1,278 @@
+# GitSpyX - Advanced GitHub Intelligence Tool
+
+```
+     ██████╗ ██╗████████╗███████╗██████╗ ██╗   ██╗██╗  ██╗
+    ██╔════╝ ██║╚══██╔══╝██╔════╝██╔══██╗╚██╗ ██╔╝╚██╗██╔╝
+    ██║  ███╗██║   ██║   ███████╗██████╔╝ ╚████╔╝  ╚███╔╝ 
+    ██║   ██║██║   ██║   ╚════██║██╔═══╝   ╚██╔╝   ██╔██╗ 
+    ╚██████╔╝██║   ██║   ███████║██║        ██║   ██╔╝ ██╗
+     ╚═════╝ ╚═╝   ╚═╝   ╚══════╝╚═╝        ╚═╝   ╚═╝  ╚═╝
+```
+
+<div align="center">
+
+**An advanced, open-source intelligence (OSINT) tool designed for GitHub reconnaissance.**
+
+[![Python](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](#compatibility)
+[![Version](https://img.shields.io/badge/version-2.2.0-brightgreen.svg)](#overview)
+[![Status](https://img.shields.io/badge/status-stable-success.svg)](#overview)
+[![Maintained](https://img.shields.io/badge/maintained-yes-green.svg)](#contributing)
+[![Stars](https://img.shields.io/github/stars/VritraSecz/GitSpyX?style=social)](https://github.com/VritraSecz/GitSpyX)
+[![Forks](https://img.shields.io/github/forks/VritraSecz/GitSpyX?style=social)](https://github.com/VritraSecz/GitSpyX)
+[![Issues](https://img.shields.io/github/issues/VritraSecz/GitSpyX)](https://github.com/VritraSecz/GitSpyX/issues)
+[![Contributors](https://img.shields.io/github/contributors/VritraSecz/GitSpyX)](https://github.com/VritraSecz/GitSpyX/graphs/contributors)
+[![Languages](https://img.shields.io/github/languages/count/VritraSecz/GitSpyX)](https://github.com/VritraSecz/GitSpyX)
+[![Code Size](https://img.shields.io/github/languages/code-size/VritraSecz/GitSpyX)](https://github.com/VritraSecz/GitSpyX)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Screenshots](#️-screenshots)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [Developer](#-developer)
+- [License](#-license)
+
+
+## 🔮 Overview
+
+**GitSpyX** is an advanced, open-source intelligence (OSINT) tool designed for GitHub reconnaissance. It allows security researchers, developers, and enthusiasts to gather detailed information about GitHub users, organizations, and repositories. From user profiles and repository details to organization memberships and contribution patterns, GitSpyX provides a comprehensive intelligence overview in a clean, user-friendly format. Whether you're conducting security assessments or just curious about GitHub projects, GitSpyX is your go-to spyglass.
+
+### Key Highlights
+
+- 🕵️ **Comprehensive Intelligence**: Gather detailed information on users, repos, and orgs.
+-  CLI Interface: Clean, and user-friendly command-line interface.
+- 💾 **JSON Output**: Save all gathered information to a JSON file for later analysis.
+- 🐍 **Python-Powered**: Built with modern Python libraries like `rich` and `requests`.
+
+## ✨ Features
+
+### Core Functionality
+- **User Profile**: Fetches and displays a GitHub user's profile.
+- **User Repositories**: Fetches and displays a user's public repositories.
+- **Repository Details**: Fetches and displays details for a specific repository.
+- **Search Users**: Searches for users on GitHub.
+- **Organization Details**: Fetches and displays details for a GitHub organization.
+- **Save Output**: Saves all the gathered data to a JSON file in the `output-gitspyx` directory.
+
+### User Experience
+- **Interactive Tables**: Displays information in a clean, easy-to-read table format.
+- **Color-coded Output**: Uses colors to highlight important information.
+- **Progress Bars**: Shows progress when fetching large amounts of data.
+- **Command-line Arguments**: Provides a rich set of command-line arguments for all features.
+
+## 📋 Requirements
+
+### System Requirements
+- **Python**: Version 3.7 or higher
+- **Operating System**: Linux
+- **Internet Connection**: Required for GitHub API access
+
+### Python Dependencies
+```bash
+rich
+requests
+```
+
+## 🚀 Installation
+
+### Method 1: PyPI (Recommended)
+```bash
+# Install from PyPI
+pip install gitspyx
+```
+
+### Method 2: Git Clone
+```bash
+# Clone the repository
+git clone https://github.com/VritraSecz/GitSpyX.git
+
+# Navigate to project directory
+cd GitSpyX
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the application
+python gitspyx.py --help
+```
+
+## 🎯 Usage
+
+GitSpyX is a command-line tool. Here are some examples of how to use it:
+
+### User Investigation
+```bash
+# Get a user's profile
+gitspyx -u <username>
+
+# Get a user's repositories
+gitspyx -u <username> -r
+
+# Investigate a specific repository
+gitspyx -u <username> -i <repo_name>
+```
+
+### Searching
+```bash
+# Search for users
+gitspyx -s "search_query"
+```
+
+### Organization
+```bash
+# Get details for an organization
+gitspyx -o <organization_name>
+```
+
+### Saving Output
+All commands will automatically save the output to a JSON file in the `output-gitspyx` directory. To suppress the detailed output in the terminal and only save the data, use the `--no-display` flag.
+
+```bash
+# Fetch all data for a user and save it without displaying it in the terminal
+gitspyx -u <username> --no-display
+```
+
+### Other
+```bash
+# Show the about section
+gitspyx --about
+
+# Show contact information
+gitspyx --connect
+
+# Show the version
+gitspyx -v
+```
+
+## 🖼️ Screenshots
+
+### Main Menu + Output Interface
+![main-menu](https://i.ibb.co/9HKnBpZD/Screenshot-From-2025-08-06-03-46-08.png)
+
+## 📁 Project Structure
+
+```
+GitSpyX/
+├── gitspyx.py          # Main script
+├── requirements.txt    # Dependencies
+├── README.md           # Documentation
+└── LICENSE             # MIT License
+```
+
+### File Descriptions
+
+
+- **`gitspyx.py`**: Main application script containing all the core functionality
+
+- **`requirements.txt`**: Lists all Python dependencies required by the project
+- **`README.md`**: Comprehensive documentation and usage guide
+- **`LICENSE`**: MIT license file
+
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+### Ways to Contribute
+- 🐛 **Bug Reports**: Submit detailed issue reports.
+- 💡 **Feature Requests**: Suggest new functionality.
+- 🔧 **Code Contributions**: Submit pull requests.
+- 📚 **Documentation**: Improve documentation and examples.
+
+### Development Setup
+```bash
+# Fork the repository on GitHub
+# Clone your fork
+git clone https://github.com/yourusername/GitSpyX.git
+
+# Create a feature branch
+git checkout -b feature/your-feature-name
+
+# Make changes and test thoroughly
+# Commit with descriptive messages
+git commit -m "Add: new feature description"
+
+# Push to your fork and create pull request
+git push origin feature/your-feature-name
+```
+
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2025 Alex Butler (Vritra Security Organization)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+
+## 👨‍💻 Developer
+
+<div align="center">
+
+### Alex Butler
+**Vritra Security Organization**
+
+[![GitHub](https://img.shields.io/badge/GitHub-VritraSecz-181717?style=for-the-badge&logo=github)](https://github.com/VritraSecz)
+[![Website](https://img.shields.io/badge/Website-vritrasec.com-FF6B6B?style=for-the-badge&logo=firefox)](https://vritrasec.com)
+[![Instagram](https://img.shields.io/badge/Instagram-haxorlex-E4405F?style=for-the-badge&logo=instagram)](https://instagram.com/haxorlex)
+[![YouTube](https://img.shields.io/badge/YouTube-Technolex-FF0000?style=for-the-badge&logo=youtube)](https://youtube.com/@Technolex)
+
+### 📱 Telegram Channels
+[![Central](https://img.shields.io/badge/Central-LinkCentralX-0088CC?style=for-the-badge&logo=telegram)](https://t.me/LinkCentralX)
+[![Main Channel](https://img.shields.io/badge/Main-VritraSec-0088CC?style=for-the-badge&logo=telegram)](https://t.me/VritraSec)
+[![Community](https://img.shields.io/badge/Community-VritraSecz-0088CC?style=for-the-badge&logo=telegram)](https://t.me/VritraSecz)
+[![Support Bot](https://img.shields.io/badge/Support-ethicxbot-0088CC?style=for-the-badge&logo=telegram)](https://t.me/ethicxbot)
+
+</div>
+
+---
+
+<div align="center">
+
+### 🌟 Support the Project
+
+If you find GitSpyX helpful, please consider:
+- ⭐ Starring the repository
+- 🍴 Forking and contributing
+- 📢 Sharing with others
+- 🐛 Reporting issues
+- 💡 Suggesting new features
+
+**Made with ❤️ by the Vritra Security Organization**
+
+</div>
+
+
+
