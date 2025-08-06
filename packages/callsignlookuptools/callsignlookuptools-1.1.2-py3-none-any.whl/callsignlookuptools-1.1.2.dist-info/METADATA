@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: callsignlookuptools
+Version: 1.1.2
+Summary: QRZ, Callook, HamQTH, and QRZCQ API interface with sync and async support
+Home-page: https://callsignlookuptools.miaow.io
+Author: classabbyamp, 0x5c
+Author-email: dev@placeviolette.net, dev@0x5c.io
+License: BSD 3-Clause
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Communications :: Ham Radio
+Classifier: Framework :: AsyncIO
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: lxml
+Requires-Dist: gridtools
+Requires-Dist: pydantic>=2.0
+Requires-Dist: requests; extra != "async"
+Provides-Extra: cli
+Requires-Dist: typer[all]; extra == "cli"
+Provides-Extra: async
+Requires-Dist: aiohttp; extra == "async"
+Provides-Extra: all
+Requires-Dist: aiohttp; extra == "all"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# callsignlookuptools
+
+A [QRZ](https://www.qrz.com), [Callook](https://callook.info), [HamQTH](https://www.hamqth.com), and [QRZCQ](https://www.qrzcq.com) API interface in Python with sync and async support.
+
+[![PyPI](https://img.shields.io/pypi/v/callsignlookuptools)](https://pypi.org/project/callsignlookuptools/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/callsignlookuptools) ![PyPI - License](https://img.shields.io/pypi/l/callsignlookuptools) [![Documentation Status](https://readthedocs.org/projects/callsignlookuptools/badge/?version=stable)](https://callsignlookuptools.readthedocs.io/en/stable/?badge=stable)
+
+## Installation
+
+`callsignlookuptools` requires Python 3.9 at minimum.
+
+```sh
+# synchronous requests only
+$ pip install callsignlookuptools
+
+# asynchronous aiohttp only
+$ pip install callsignlookuptools[async]
+
+# both sync and async
+$ pip install callsignlookuptools[all]
+
+# enable the CLI
+$ pip install callsignlookuptools[cli]
+```
+
+**Note:** If `requests`, `aiohttp`, or `typer[all]` are installed another way, you will also have access to the sync, async, or command-line interface, respectively.
+
+## Usage and Documentation
+
+Documentation is available on [ReadTheDocs](https://callsignlookuptools.miaow.io/).
+
+## API Support
+
+Some of the supported callsign lookup APIs require accounts and/or paid subscriptions to be used.
+
+| Site                             | Requirements                                                                                                   |
+|----------------------------------|----------------------------------------------------------------------------------------------------------------|
+| [QRZ](https://www.qrz.com)       | QRZ account and [XML Logbook Data or QRZ Premium subscription](https://shop.qrz.com/collections/subscriptions) |
+| [Callook](https://callook.info)  | None                                                                                                           |
+| [HamQTH](https://www.hamqth.com) | HamQTH account                                                                                                 |
+| [QRZCQ](https://www.qrzcq.com)   | QRZCQ account and [QRZCQ Premium subscription](https://www.qrzcq.com/page/premium)                             |
+
+## Copyright
+
+Copyright 2021-2023 classabbyamp, 0x5c  
+Released under the BSD 3-Clause License.  
+See [`LICENSE`](LICENSE) for the full license text.
