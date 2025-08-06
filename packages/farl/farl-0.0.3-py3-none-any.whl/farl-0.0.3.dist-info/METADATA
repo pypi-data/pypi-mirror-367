@@ -1,0 +1,276 @@
+Metadata-Version: 2.4
+Name: farl
+Version: 0.0.3
+Summary: A FastAPI rate limiting library.
+Author-email: nafnix <uwu@nafnix.com>
+Requires-Python: >=3.11
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: limits>=5.4.0
+Description-Content-Type: text/markdown
+
+# Farl
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://badge.fury.io/py/farl.svg)](https://badge.fury.io/py/farl)
+[![Coverage Status](https://coveralls.io/repos/github/nafnix/farl/badge.svg?branch=master)](https://coveralls.io/github/nafnix/farl?branch=master)
+[![Code Coverage](https://codecov.io/gh/nafnix/farl/branch/master/graph/badge.svg)](https://codecov.io/gh/nafnix/farl)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+A powerful and flexible FastAPI rate limiting library that provides comprehensive rate limiting capabilities for your FastAPI applications.
+
+## Features
+
+- **Easy Integration**: Simple setup with FastAPI applications
+- **Flexible Configuration**: Support for various rate limiting strategies
+- **Multiple Backends**: In-memory and Redis backend support
+- **Comprehensive Protection**: Request rate limiting with customizable rules
+- **Monitoring**: Built-in metrics and logging capabilities
+- **Dependency Injection**: FastAPI-style dependency injection support
+
+## Installation
+
+```bash
+pip install farl
+```
+
+### Optional Dependencies
+
+For Redis backend support:
+
+```bash
+pip install farl[redis]
+```
+
+For development:
+
+```bash
+pip install farl[dev,tests]
+```
+
+## Quick Start
+
+```python
+from fastapi import Depends, FastAPI
+
+from farl import Farl
+from farl import rate_limit as rate_limit_dep
+from farl.decorators import rate_limit
+
+
+app = FastAPI()
+
+farl = Farl()
+
+
+@app.get("/api/data")
+@rate_limit("10/minute", farl=farl)  # Allow 10 requests per minute
+@rate_limit("100/day", farl=farl)  # Allow 100 requests per day
+async def get_data():
+    return {"message": "Hello, World!"}
+
+
+@app.get(
+    "/api/limited",
+    dependencies=[
+        # Allow 1 requests per minute
+        Depends(rate_limit_dep({"amount": 1}, farl=farl)),
+    ],
+)
+async def limited_endpoint():
+    return {"message": "This endpoint is rate limited"}
+
+```
+
+## Configuration
+
+### Basic Rate Limiting
+
+```python
+from fastapi import Depends, FastAPI
+
+from farl import Farl
+from farl import rate_limit as rate_limit_dep
+from farl.decorators import rate_limit
+
+
+# Create a rate limiter instance
+farl = Farl()
+
+app = FastAPI()
+
+
+@app.get("/my_function")
+@rate_limit(
+    "100/hour",
+    farl=farl,
+)
+async def my_function():
+    pass
+
+
+# Use as dependency
+@app.get(
+    "/endpoint",
+    dependencies=[
+        Depends(
+            rate_limit_dep(
+                {"amount": 50, "time": "minute"},
+                farl=farl,
+            )
+        ),
+    ],
+)
+async def endpoint():
+    return {"status": "ok"}
+```
+
+### Advanced Configuration
+
+```python
+from fastapi import Depends, FastAPI
+from pydantic import RedisDsn
+
+from farl import AsyncFarl, rate_limit
+
+
+# Using Redis backend
+redis_uri = RedisDsn("redis://")  # or "redis://"
+farl = AsyncFarl(redis_uri=redis_uri)
+
+app = FastAPI()
+
+
+@app.get(
+    "/",
+    dependencies=[
+        Depends(
+            rate_limit(
+                {"amount": 1},
+                farl=farl,
+            ),
+        )
+    ],
+)
+async def complex_endpoint():
+    return {"message": "Multiple rate limits applied"}
+```
+
+## Middleware Usage
+
+```python
+from fastapi import Depends, FastAPI
+from pydantic import RedisDsn
+
+from farl import AsyncFarl, FarlMiddleware, rate_limit
+
+
+# Using Redis backend
+redis_uri = RedisDsn("redis://")  # or "redis://"
+farl = AsyncFarl(redis_uri=redis_uri)
+
+app = FastAPI()
+app.add_middleware(
+    FarlMiddleware,
+    farl=farl,
+)
+
+
+@app.get(
+    "/",
+    dependencies=[
+        Depends(
+            rate_limit({"amount": 1}),
+        )
+    ],
+)
+async def pre_minute_1_request():
+    return {"message": "ok"}
+
+```
+
+## Rate Limit Formats
+
+Farl supports various rate limit formats:
+
+- `"100/minute"` - 100 requests per minute
+- `"1000/hour"` - 1000 requests per hour
+- `"10000/day"` - 10000 requests per day
+- `"50/second"` - 50 requests per second
+
+## Error Handling
+
+```python
+from farl.exceptions import RateLimitExceeded
+from fastapi import Request, HTTPException
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return HTTPException(
+        status_code=429,
+        detail=f"Rate limit exceeded: {exc.detail}",
+        headers={"Retry-After": str(exc.retry_after)}
+    )
+```
+
+## Development
+
+### Running Tests
+
+```bash
+# Install development dependencies
+pip install -e .[dev,tests]
+
+# Run tests
+pytest
+
+# Run tests with coverage
+pytest --cov=farl --cov-report=html
+```
+
+### Code Quality
+
+```bash
+# Format code
+ruff format
+
+# Lint code
+ruff check
+
+```
+
+## Requirements
+
+- Python 3.11+
+- FastAPI 0.116.1+
+- limits 5.4.0+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Changelog
+
+### v0.0.2
+
+- Initial release with core rate limiting functionality
+- FastAPI integration
+- Multiple backend support
+- Comprehensive testing suite
+
+## Support
+
+If you encounter any issues or have questions, please file an issue on the [GitHub issue tracker](https://github.com/nafnix/farl/issues).
+
+## Author
+
+**nafnix** - [uwu@nafnix.com](mailto:uwu@nafnix.com)
