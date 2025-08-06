@@ -1,0 +1,21 @@
+[project]
+name = "psm-analyzer"  # ツールの名前（PyPIで使う）
+version = "0.1.0"
+description = "PSM（Van Westendorp）を計算するPythonツール"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "iwakazusuwa", email = "iwakazusuwa_psm@protonmail.com"}]
+
+[project.scripts]
+psm-cli = "psm_cli:main"  # コマンド名と、どの関数を動かすか
+
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["psm_analyzer*"]
