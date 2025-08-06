@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: qbrick-alias
+Version: 1.0.0
+Summary: Менеджер псевдонимов путей
+Author: Alexey Volkov
+Author-email: webwizardry@hotmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+# Менеджер псевдонимов путей.
+
+Псевдонимы путей предназначены для обозначения путей к файлам или uri. Псевдоним пути - строка, начинающаяся с символа '@'.
+За работу с псевдонимами путей отвечает компонент `qbrick_alias.AliasManager`. 
+
+## Подключение пакета.
+
+Пакет является фреймворко-независимым, для подключения к Вашему проекту достаточно установить его как зависимость:
+
+```shell
+poetry add qbrick-alias
+```
+
+Если Вы используете QBrick Framework, дополнительно после установки пакета нужно обновить конфигурации:
+```shell
+./qbrick reconfigure
+```
+Пакет добавит свою конфигурацию в контейнер и будет доступен для использования в других компонентах как внедряемая зависимость.
+
+## Использование.
+
+Для создания псевдонима используется метод `set()`:
+
+```python
+from qbrick_alias import AliasManager
+
+am = AliasManager()
+am.set('@alias', '/path/to/somewhere')
+```
+
+На основе уже созданного псевдонима можно создать новый:
+
+```python
+am.set('@new', '@alias/else')
+```
+
+Или получить его без создания:
+```python
+am.get('@alias/else')
+am.get('@new')
+```
+
+Оба вызова вернут `/path/to/somewhere/else`
+
