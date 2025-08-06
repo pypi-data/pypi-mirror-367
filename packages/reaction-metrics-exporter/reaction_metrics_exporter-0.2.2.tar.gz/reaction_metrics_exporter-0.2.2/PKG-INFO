@@ -1,0 +1,376 @@
+Metadata-Version: 2.3
+Name: reaction-metrics-exporter
+Version: 0.2.2
+Summary: A daemon that scans reaction outputs, and serves an HTTP OpenMetrics endpoint
+License: AGPL-3.0-or-later
+Keywords: reaction,prometheus,openmetrics
+Author: Lilou
+Author-email: lilou@chosto.me
+Requires-Python: >=3.10
+Classifier: Development Status :: 4 - Beta
+Classifier: Topic :: System :: Monitoring
+Requires-Dist: aiofiles (>=24.1.0,<25.0.0)
+Requires-Dist: aionotify (>=0.3.1,<0.4.0)
+Requires-Dist: asyncio-simple-http-server (>=0.0.8,<0.0.9)
+Requires-Dist: jinja2 (>=3.1.6,<4.0.0)
+Requires-Dist: prometheus-client (>=0.22.1,<0.23.0)
+Requires-Dist: pytest (>=8.4.1,<9.0.0)
+Requires-Dist: python-systemd (>=0.0.9,<0.0.10)
+Requires-Dist: ruamel-yaml (>=0.18.14,<0.19.0)
+Requires-Dist: schema (>=0.7.7,<0.8.0)
+Requires-Dist: structlog (>=25.4.0,<26.0.0)
+Requires-Dist: systemd-python (>=235,<236)
+Description-Content-Type: text/markdown
+
+
+<!-- TOC ignore:true -->
+# reaction-metrics-exporter
+
+> [!note] 💚 A lot of inspiration has been drawn from [`dmarc-metrics-exporter`](https://github.com/jgosmann/dmarc-metrics-exporter).
+
+Export [OpenMetrics](https://prometheus.io/docs/specs/om/open_metrics_spec/) for [reaction](https://reaction.ppom.me/). The exporter continuously monitors and parses reaction's logs and state. 
+
+The following metrics are collected and exposed through an HTTP endpoint:
+
+- `reaction_match_total`: total number of matches;
+- `reaction_action_total`: total number of actions;
+- `reaction_pending_count`: current number of pending actions.
+
+All metrics are labelled with `stream`, `filter` and matched patterns.
+Action-related metrics have an additional `action` label.
+
+For example, matches exported from [the SSH filter](https://reaction.ppom.me/filters/ssh.html) look like:
+
+```
+reaction_matches_total{stream="ssh",filter="failedlogin",ip="X.X.X.X"}: N
+```
+
+`N` being the number of matches for this unique combination of labels.
+
+> ℹ️ In the long-term, metrics will be integrated into `reaction`. Whether they will be retro-compatible depends on long-term relevance and performance.
+
+> ⚠️ In the long-term and for high number of matches and actions, your TSDB may grow too much. Read [further](#the-patterns-dilemma) if you have a doubt.
+
+<!-- TOC ignore:true -->
+## Table of contents
+
+<!-- TOC -->
+
+- [Quick start](#quick-start)
+- [Real-world setups](#real-world-setups)
+- [Usage details](#usage-details)
+- [The patterns dilemma](#the-patterns-dilemma)
+- [Visualising data](#visualising-data)
+- [Development setup](#development-setup)
+
+<!-- /TOC -->
+
+# Quick start
+
+> [!caution] ⚠️ Do not use in production as-is; see [real-world setup](#real-world-setup).
+
+## Prerequisites
+
+- `python>=3.10` and `pip`;
+- `reaction==2` (tested up to `v2.1.2`);
+- [`libsystemd`](https://www.freedesktop.org/software/systemd/man/latest/libsystemd.html);
+- [`pkg-config`](https://www.freedesktop.org/wiki/Software/pkg-config/).
+
+## Install
+
+```bash
+python3 -m pip install reaction-metrics-exporter
+```
+
+## Configure
+
+Create a configuration file, *e.g.* `config.yml`:
+
+```yaml
+reaction:
+  # as you would pass to `reaction test-config`
+  config: /etc/reaction
+  logs:
+    # monitor logs for `reaction.service`
+    systemd:
+```
+
+>>> [!tip] Using a log file ?
+```yaml
+reaction:
+  # ...
+  logs:
+    # replace with your log path
+    file: /var/log/reaction.log
+```
+>>>
+
+## Run
+
+```bash
+python3 -m reaction_metrics_exporter -c /etc/reaction-metrics-exporter/config.yml start
+```
+
+Metrics are exposed at http://localhost:8080/metrics.
+
+# Real-world setups
+
+## Create an unprivileged user
+
+For security reasons, the exporter should run as an unprivileged, system user. This is a prerequisite for what's next.
+
+This user should be able to read [journald](https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html) logs and to communicate with `reaction`'s socket.
+
+To do so, first create a user and a group, then add the user to the `systemd-journal` group.
+
+```bash
+# creates group automatically
+/sbin/adduser reaction --no-create-home --system
+usermod -aG systemd-journal reaction
+```
+
+Then, open an editor to override some settings of `reaction` :
+
+```bash
+systemctl edit reaction.service
+```
+
+Paste the following and save:
+
+```systemd
+[Service]
+# Reaction will run as this group
+Group=reaction
+# Files will be created with rwxrwxr_x
+UMask=0002
+```
+
+Restart reaction:
+
+```bash
+systemctl daemon-reload
+systemctl restart reaction
+```
+
+>>> [!tip] Check that it worked
+```bash
+sudo su reaction
+reaction show
+journalctl -feu reaction
+```
+>>>
+
+## Running with systemd
+
+It is recommended to install the exporter in a [virtualenv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/).
+
+Save the [service file](./reaction-metrics-exporter.service) to `/etc/systemd/systemd`.
+Adjust the `venv` path and the configuration path (and hopefully the Python path of your `venv`) in the `ExecStart=` directive. 
+
+Enable and start the exporter:
+
+```bash
+systemctl daemon-reload
+systemctl enable --now reaction-metrics-exporter.service
+```
+
+Follow the logs with:
+
+```bash
+journalctl -feu reaction-metrics-exporter.service
+```
+
+## Running with Docker
+
+Start inside the [docker](./docker) directory. 
+
+Create a `.env` file:
+
+```ini
+UID=
+GID=
+JOURNAL_GID=
+```
+
+Values can be found out of command `id exporter-reaction`.
+
+You may need to adjust the default mounts in [`compose.yml`](./docker/compose.yml). Expectations are:
+- `reaction`'s configuration mounted on `/etc/reaction`;
+- `reaction`'s socket mounted on `/run/reaction/reaction.sock`;
+- `journald` file mounted on `/var/log/journal`.
+
+Use the [sample configuration file](./docker/config.yml) and tweak it to your needs and run the exporter:
+
+```bash
+docker compose up -d rme && docker compose logs -f
+```
+
+The exporter is mapped to the host's `8080` port by default.
+
+>>> [!tip] Optionally, you can build the image yourself:
+```bash
+docker compose build
+```
+>>>
+
+# Usage details
+
+## Configuration
+
+You can either provide a YAML file or a JSON file. Albeit not recommended, you can run the exporter without a configuration file.
+
+The default configuration is as follows:
+
+```json5
+{
+    // only stdout is supported atm
+    "loglevel": "INFO",
+    "listen": {
+        "port": 8080,
+        "address": "127.0.0.1"
+    },
+    // all metrics with labels are exported by default
+    "metrics": {
+        "all": {},
+        "export": {
+            "actions": {
+                "extra": true
+            },
+            "matches": {
+                "extra": true
+            },
+            "pending": {
+                "extra": true
+            }
+        },
+        "for": {}
+    },,
+    "reaction": {
+        "config": "/etc/reaction",
+        "logs": {
+            "systemd": "reaction.service"
+        },
+        // same default as reaction
+        "socket": "/run/reaction/reaction.sock"
+    },
+}
+```
+
+## Commands
+
+```
+usage: python -m reaction_metrics_exporter [-h] [-c CONFIG] {start,defaults,test-config}
+
+positional arguments:
+  {start,defaults,test-config}
+                        mode of operation; see below
+
+options:
+  -h, --help            show this help message and exit
+  -c, --config CONFIG   path to the configuration file (JSON or YAML)
+
+command:
+    start: continuously read logs, compute metrics and serve HTTP endpoint
+    defaults: print the default configuration in json
+    test-config: validate and output configuration in json
+```
+
+## Pre-treating matches
+
+In some cases, you may want to transform matches prior to exporting, instead of relabelling. You can do so with [Jinja2](https://jinja.palletsprojects.com/en/stable/) expressions.
+
+For example, for an `email` pattern, you could to keep only the domain part in metrics. This can be achieved with:
+
+```yaml
+metrics:
+  all:
+    email: "{{ email.split('@') | last }}
+```
+
+You can also differentiate by stream and filter:
+
+```yaml
+metrics:
+  for:
+    ssh:
+      failedlogin:
+        ip: TEMPLATE_A
+    traefik:
+      aiBots:
+        ip: TEMPLATE_B
+```
+
+## Enabling internals metrics
+
+The Prometheus client library has some defauts metrics about Python, Garbage Collector and so on, that I found useless. You can nevertheless enable them:
+
+```yaml
+metrics:
+  export:
+    internals:
+```
+
+# The patterns dilemma
+
+`reaction` matches often contains valuable information, such as IP addresses.
+
+## How matches could become a problem
+
+Quoting the [Prometheus docs](https://prometheus.io/docs/practices/naming/):
+
+> CAUTION: Remember that every unique combination of key-value label pairs represents a new time series, which can dramatically increase the amount of data stored. Do not use labels to store dimensions with high cardinality (many different label values), such as user IDs, email addresses, or other unbounded sets of values.
+
+In other words, each new IP address will therefore **create a new time serie** in the TSDB. For large instances, this may result in storage and performance issues.
+
+However, TSBDs can handle our metrics for most cases. Prometheus used to claim being able of handling [millions of time series](https://prometheus.io/docs/prometheus/1.8/storage/), and VictoriaMetrics claims being able of handling [100 million active time series](https://docs.victoriametrics.com/victoriametrics/faq/#what-are-scalability-limits-of-victoriametrics). Besides, our time series usually have very few data points. We use OpenMetrics in a kind of hackish way, so that recommandations tailored for active and dense time series do not apply.
+
+You should just test and check after a few months. In most cases, the retention period will kick before you run into troubles. 
+
+You can still disable the export of some metrics or patterns, but this will break the Grafana dashboard.
+
+## Disable metrics
+
+```yaml
+metrics:
+  export:
+    actions: false
+    matches: false
+    pending: false
+```
+
+## Disable patterns
+
+For example, to remove `ip` from export for the `failedlogin` filter from the `openssh` stream:
+
+```yaml
+metrics:
+  for:
+    ssh:
+      failedlogin:
+        ip: false
+```
+
+If you use the pattern `ip` in multiple streams, you can avoid repetition by removing it globally:
+
+```yaml
+metrics:
+  all:
+    ip: false
+```
+
+# Visualising data
+
+🚧 WIP !
+
+# Development setup
+
+In addition of the prerequisites, you need [Poetry](https://python-poetry.org/).
+
+```bash
+# inside the cloned repository
+poetry install
+# run app
+poetry run python -m reaction_metrics_exporter [...]
+# run tests
+poetry run pytest
+```
