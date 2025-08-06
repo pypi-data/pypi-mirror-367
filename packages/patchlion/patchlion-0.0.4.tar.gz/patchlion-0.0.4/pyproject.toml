@@ -1,0 +1,151 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "patchlion"
+dynamic = ["version"]
+description = "自用的 Python 工具集合，提供常用的开发工具和实用函数"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+    {name = "PatchLion", email = "your-email@example.com"}
+]
+maintainers = [
+    {name = "PatchLion", email = "your-email@example.com"}
+]
+keywords = [
+    "tools", 
+    "utilities", 
+    "git", 
+    "command-line", 
+    "development"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities"
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "isort",
+    "mypy"
+]
+test = [
+    "pytest>=6.0",
+    "pytest-cov"
+]
+
+[project.urls]
+Homepage = "https://github.com/PatchLion/pltools"
+Repository = "https://github.com/PatchLion/pltools"
+"Bug Tracker" = "https://github.com/PatchLion/pltools/issues"
+Documentation = "https://github.com/PatchLion/pltools#readme"
+
+[project.scripts]
+patchlion = "pltools.__main__:main"
+pltools = "pltools.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["pltools*", "pycommon*"]
+exclude = ["tests*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pltools.__version__"}
+
+[tool.setuptools.package-data]
+pltools = ["py.typed"]
+
+# Black 代码格式化配置
+[tool.black]
+line-length = 88
+target-version = ['py36']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # 排除的目录
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort 导入排序配置
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["pltools"]
+skip_glob = []
+
+# pytest 测试配置
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py"
+]
+
+# Coverage 配置
+[tool.coverage.run]
+source = ["pltools"]
+omit = [
+    "*/tests/*",
+    "*/test_*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+# MyPy 类型检查配置
+[tool.mypy]
+python_version = "3.6"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = [
+    "build/",
+    "dist/"
+]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true

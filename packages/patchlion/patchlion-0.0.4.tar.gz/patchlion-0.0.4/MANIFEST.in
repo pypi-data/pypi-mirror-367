@@ -1,0 +1,28 @@
+# 包含额外的文件到分发包中
+include README.md
+include LICENSE
+include pyproject.toml
+include MANIFEST.in
+
+# 包含文档
+recursive-include docs *.md *.rst *.txt
+recursive-include docs *.py
+
+# 包含 pycommon 子模块
+recursive-include pycommon *.py
+recursive-include pycommon *.md
+recursive-include pycommon *.txt
+
+# 排除不需要的文件
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * .git*
+
+# 排除测试和开发文件
+recursive-exclude tests *
+exclude .gitignore
+exclude .gitmodules
+exclude *.cfg
+exclude tox.ini
