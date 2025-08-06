@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "rbool"
+version = "0.0.4"
+description = "1D boolean operations"
+authors = ["Carlos Adir <carlos.adir.leite@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "rbool", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+black = "*"
+isort = "*"
+flake8 = "*"
+pylint = "*"
+coverage = "^7"
+pytest-cov = "^4.1"
+pytest-order = "^1.0"
+pytest-timeout = "^1.0"
+pytest-dependency = "^0.6"
+
+[tool.poetry.group.dev.dependencies]
+scriv = {extras = ["toml"], version = "^1.3.1"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.scriv]
+version = "literal: src/rbool/__init__.py: __version__"
+
+[tool.black]
+line-length = 79
