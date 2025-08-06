@@ -1,0 +1,195 @@
+[project]
+name = "qoqo-tket"
+license = { file = "LICENSE" }
+authors = [
+    { name = "HQS Quantum Simulation GmbH", email = "info@quantumsimulations.de" },
+]
+maintainers = [
+    { name = "HQS Quantum Simulations GmbH", email = "info@quantumsimulations.de" },
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "pydantic",
+    "qoqo>=1.19",
+    "qoqo_qasm>=0.14.0",
+    "pytket >= 2.4, < 3.0",
+    "pytket-qiskit >= 0.5",
+    "qiskit >= 1.0, < 1.3",
+    "qiskit-algorithms >= 0.3.0, < 0.4",
+    "qiskit-ibm-runtime >= 0.35.0, < 0.36",
+    "qiskit-aer >= 0.16",
+    "numpy >= 2.0",
+]
+
+[project.optional-dependencies]
+tests = ["coverage", "pytest", "pytket-projectq"]
+dev = [
+    "bandit",
+    "black",
+    "mypy",
+    "ruff",
+    "sphinx",
+    "sphinx_rtd_theme",
+    "nbsphinx",
+]
+docs = [
+    "sphinx >= 2.1",
+    "nbsphinx",
+    "pygments",
+    "recommonmark",
+    "myst_parser",
+    "sphinx_rtd_theme",
+    "tomli",
+]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "python-simplified-semver"
+# write_to = "src/qoqo_tket/__version__.py"
+# NOTE: If you need to access the version of a package when using dynamic versioning, please uncomment the `version_file` line.
+# This could be useful for instance when running sphinx, which can then access the version with the following snippet:
+# ```
+# from hqs_python_template.__version__ import version_tuple
+# main_version = f"{version_tuple[0]}.{version_tuple[1]}"
+# ```
+# Also, if you use this functionality, you should uncomment the corresponding lines in the .gitignore
+# version_file = "src/hqs_python_template/__version__.py"  # line to uncomment
+#
+# NOTE: in case the pyproject.toml is **not** located at the root folder of the repository,
+# the 'root' option should provide the **relative** path from the pyproject.toml to the
+# root folder of the repository.
+# NOTE: the example below **assumes** that the pyproject.toml is in a direct sub-folder
+# of the repositorie's root folder, e.g., as done in several QC stack repositories.
+# root = "../"  # default behavior is root = "./"
+
+[tool.mypy]
+ignore_missing_imports = true
+pretty = true
+follow_imports = "silent"
+
+[tool.bandit]
+# empty ?! ... I guess this implies "use bandit"
+
+[tool.black]
+line-length = 99
+target-version = ["py39", "py310", "py311"]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*", "*test*.py"]
+source = ["qoqo_tket"]
+
+[tool.coverage.paths]
+source = ["src", "**/site-packages"]
+
+[tool.ruff]
+line-length = 99        # same as black
+target-version = "py39"
+show-fixes = true
+output-format = "full"
+# activate the following checks
+[tool.ruff.lint]
+select = [
+    "A",   # builtins
+    "ANN", # annotations
+    "ARG", # unused arguments
+    "B",   # bugbear
+    "C",   # comprehensions
+    "C90", # mccabe complexity
+    "D",   # pydocstyle
+    "E",   # pycodestyle
+    "ERA", # remove commented out code
+    "F",   # pyflakes
+    "ISC", # implicit string concatenation
+    "NPY", # numpy
+    "PL",  # pylint
+    "RUF", # ruff
+    "S",   # bandit
+    "TCH", # type checking
+    "W",   # Warnings
+]
+# ignore specific violations
+ignore = [
+    "D202",   # No blank lines allowed after function docstring
+    "D203",   # 1 blank line required before class docstring
+    "ANN002",
+    "ANN003",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "PLR",
+    "S301",
+    # "S403",  # not implemented in ruff (yet?!)
+    # "S404",  # not implemented in ruff (yet?!)
+]
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "I",
+    "N",
+    "Q",
+    "S",
+    "T",
+    "W",
+    "ANN",
+    "ARG",
+    "BLE",
+    "COM",
+    "DJ",
+    "DTZ",
+    "EM",
+    "ERA",
+    "EXE",
+    "FBT",
+    "ICN",
+    "INP",
+    "ISC",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "YTT",
+]
+unfixable = []
+# exclude the following patterns from linting
+exclude = [
+    ".git",
+    "__pycache__",
+    "doc/conf.py",
+    "old",
+    "build",
+    "dist",
+    "test_*",
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 20 # 5 higher than sonarqube (... but sonarqube uses different measure anyways...)
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
