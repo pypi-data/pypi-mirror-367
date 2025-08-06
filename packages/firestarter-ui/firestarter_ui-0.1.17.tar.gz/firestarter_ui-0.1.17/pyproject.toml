@@ -1,0 +1,171 @@
+[build-system]
+requires = ["setuptools>=45",  "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[project]
+name = "firestarter-ui"
+authors = [
+  { name="Henrik Olsson", email="henols@gmail.com" },
+]
+description = "UI for the Firestarter EPROM programmer library."
+readme = { file = "README.md", content-type = "text/markdown" }
+dynamic = ["version"]
+
+requires-python = ">=3.9"
+keywords = [
+    "firestarter",
+    "eprom",
+    "rom",
+    "eeprom",
+    "flash",
+    "programmer",
+    "arduino",
+    "electronics",
+    "retro computing",
+    "retro game console",
+    "commodore",
+    "atari",
+    "apple",
+    "c64",
+    "nes",
+]
+
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Embedded Systems",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+]
+
+dependencies = [
+    "firestarter>=2.0.2","pillow>=6.2.2"
+]
+urls = { "Homepage" = "https://github.com/henols/firestarter_ui" }
+
+[project.gui-scripts]
+firestarter-ui = "firestarter_ui.main_app:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "firestarter_ui.__version__"}
+
+[tool.setuptools.package-data]
+"firestarter_ui" = ["icons/logo_icon.png","icons/read.png","icons/write.png","icons/erase.png","icons/verify.png","icons/erase.png","icons/check_id.png"]
+
+
+# content below this line added by briefcase convert
+# This project was generated with 0.3.24 using template: https://github.com/beeware/briefcase-template @ v0.3.24
+[tool.briefcase]
+project_name = "Firestarter"
+bundle = "se.aceone"
+version = "0.0.1"
+url = "https://github.com/henols/firestarter_ui"
+license.file = "LICENSE"
+author = "Henrik Olsson"
+author_email = "henols@gmail.com"
+
+[tool.briefcase.app.firestarter-ui]
+formal_name = "Firestarter"
+description = "UI for the Firestarter EPROM programmer library."
+long_description = """More details about the app should go here.
+"""
+sources = [
+    "firestarter_ui",
+]
+test_sources = [
+    "tests",
+]
+
+requires = [
+    # Add your cross-platform app requirements here
+]
+test_requires = [
+    # Add your cross-platform test requirements here
+]
+
+[tool.briefcase.app.firestarter-ui.macOS]
+universal_build = true
+requires = [
+    # Add your macOS-specific app requirements here
+]
+
+[tool.briefcase.app.firestarter-ui.linux]
+requires = [
+    # Add your Linux-specific app requirements here
+]
+
+[tool.briefcase.app.firestarter-ui.linux.system.debian]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Use flexible Python version requirement
+    "python3 (>= 3.9)",
+    "python3-tk",
+]
+
+[tool.briefcase.app.firestarter-ui.linux.system.rhel]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.firestarter-ui.linux.system.suse]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.firestarter-ui.linux.system.arch]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.firestarter-ui.linux.flatpak]
+flatpak_runtime = "org.freedesktop.Platform"
+flatpak_runtime_version = "24.08"
+flatpak_sdk = "org.freedesktop.Sdk"
+
+[tool.briefcase.app.firestarter-ui.windows]
+requires = [
+    # Add your Windows-specific app requirements here
+]
+
+# Mobile deployments
+[tool.briefcase.app.firestarter-ui.iOS]
+requires = [
+    # Add your iOS-specific app requirements here
+]
+
+[tool.briefcase.app.firestarter-ui.android]
+requires = [
+    # Add your Android-specific app requirements here
+]
+
+# Web deployments
+[tool.briefcase.app.firestarter-ui.web]
+requires = [
+    # Add your web-specific app requirements here
+]
+
