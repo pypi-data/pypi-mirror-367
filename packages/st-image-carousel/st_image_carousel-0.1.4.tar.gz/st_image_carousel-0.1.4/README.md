@@ -1,0 +1,259 @@
+# 🎠 Streamlit Image Carousel
+
+Un composant Streamlit personnalisé pour créer des carrousels d'images interactifs et modernes avec navigation infinie et personnalisation complète.
+
+## ✨ Fonctionnalités
+
+- 🎠 **Carrousel infini** avec navigation fluide
+- 🖱️ **Navigation intuitive** par clic sur les images ou flèches
+- 🔄 **Double orientation** (horizontale et verticale)
+- 🎨 **Personnalisation complète** des couleurs et styles
+- 📱 **Design responsive** adapté à tous les écrans
+- 🔍 **Compatible avec URLs et Base64** pour les images
+- ⚡ **Performance optimisée** avec lazy loading
+- 🎯 **Interface moderne** avec effets de lueur et transitions
+
+## 🚀 Installationon basique
+
+```python
+result = image_carousel(
+    images=images,
+    key="basic_carousel"
+)
+```
+
+### Carrousel avec 7 images visibles
+
+```python
+result = image_carousel(
+    images=images,
+    max_visible=7,
+    key="large_carousel"
+)
+```
+
+### Orientation verticale
+
+```python
+result = image_carousel(
+    images=images,
+    orientation="vertical",
+    max_visible=5,
+    key="vertical_carousel"
+)
+```
+
+### Thème sombre personnalisé
+
+```python
+result = image_carousel(
+    images=images,
+    max_visible=5,
+    background_color="#0f0f23",
+    active_border_color="#00ff88",
+    active_glow_color="rgba(0, 255, 136, 0.6)",
+    fallback_background="#1a1a2e",
+    fallback_gradient_end="#0a0a1a",
+    text_color="#ffffff",
+    arrow_color="#00ff88",
+    key="dark_theme"
+)
+```
+
+### Thème clair moderne
+
+```python
+result = image_carousel(
+    images=images,
+    max_visible=5,
+    background_color="#f8fafc",
+    active_border_color="#3b82f6",
+    active_glow_color="rgba(59, 130, 246, 0.5)",
+    fallback_background="#e2e8f0",
+    fallback_gradient_end="#cbd5e1",
+    text_color="#1e293b",
+    arrow_color="#3b82f6",
+    key="light_theme"
+)
+```
+
+### Avec image présélectionnée
+
+```python
+result = image_carousel(
+    images=images,
+    selected_image="Lionel Messi",  # Image centrée au démarrage
+    background_color="#1e3a8a",
+    active_border_color="#fbbf24",
+    active_glow_color="rgba(251, 191, 36, 0.7)",
+    text_color="#ffffff",
+    key="preselected"
+)
+```
+
+## 🔧 API de référence
+
+### Paramètres
+
+| Paramètre | Type | Défaut | Description |
+|-----------|------|---------|-------------|
+| `images` | `list` | **Requis** | Liste des images `[{"name": "nom", "url": "url"}, ...]` |
+| `selected_image` | `str` | `None` | Nom de l'image à centrer au démarrage |
+| `max_visible` | `int` | `5` | Nombre d'images visibles simultanément |
+| `orientation` | `str` | `"horizontal"` | Orientation : `"horizontal"` ou `"vertical"` |
+| `background_color` | `str` | `"#1a1a2e"` | Couleur de fond du composant |
+| `active_border_color` | `str` | `"#ffffff"` | Couleur de bordure de l'image active |
+| `active_glow_color` | `str` | `"rgba(255, 255, 255, 0.5)"` | Couleur de l'effet de lueur |
+| `fallback_background` | `str` | `"#2a2a3e"` | Couleur de fond des images en chargement |
+| `fallback_gradient_end` | `str` | `"rgb(0, 0, 0)"` | Couleur de fin du gradient de fallback |
+| `text_color` | `str` | `"#ffffff"` | Couleur du texte des noms |
+| `arrow_color` | `str` | `"#ffffff"` | Couleur des flèches de navigation |
+| `key` | `str` | `None` | Clé unique pour Streamlit |
+
+### Format des images
+
+```python
+images = [
+    {
+        "name": "Nom affiché",           # Requis : texte sous l'image
+        "url": "https://example.com/..."  # Requis : URL ou Base64
+    },
+    # ... autres images
+]
+```
+
+### Valeur de retour
+
+Le composant retourne un dictionnaire :
+
+```python
+{
+    "selected_image": "Nom de l'image",    # Nom de l'image sélectionnée
+    "selected_url": "URL de l'image",      # URL de l'image sélectionnée
+    "current_index": 2                     # Index de l'image (0-based)
+}
+```
+
+## 🎯 Utilisation avancée
+
+### Intégration avec recherche
+
+```python
+import streamlit as st
+from st_image_carousel import image_carousel
+
+# Images de joueurs
+players = [
+    {"name": "Lionel Messi", "url": "https://example.com/messi.jpg"},
+    {"name": "Cristiano Ronaldo", "url": "https://example.com/ronaldo.jpg"},
+    # ... autres joueurs
+]
+
+# Barre de recherche
+search = st.text_input("🔍 Rechercher un joueur")
+
+# Filtrer les résultats
+if search:
+    filtered_players = [p for p in players if search.lower() in p["name"].lower()]
+    if filtered_players:
+        st.success(f"✅ {len(filtered_players)} joueur(s) trouvé(s)")
+    else:
+        st.warning("❌ Aucun joueur trouvé")
+        filtered_players = players
+else:
+    filtered_players = players
+
+# Carrousel avec résultats
+result = image_carousel(
+    images=filtered_players,
+    max_visible=5,
+    key="search_carousel"
+)
+
+# Afficher les informations
+if result:
+    st.success(f"Joueur sélectionné : {result['selected_image']}")
+    st.image(result['selected_url'], width=200)
+```
+
+### Images en Base64
+
+```python
+import base64
+
+def image_to_base64(image_path):
+    with open(image_path, "rb") as file:
+        return f"data:image/jpeg;base64,{base64.b64encode(file.read()).decode()}"
+
+images = [
+    {
+        "name": "Image locale",
+        "url": image_to_base64("path/to/image.jpg")
+    }
+]
+```
+
+### Comparaison d'orientations
+
+```python
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("📏 Horizontal")
+    result_h = image_carousel(
+        images=images,
+        orientation="horizontal",
+        max_visible=5,
+        key="horizontal"
+    )
+
+with col2:
+    st.subheader("📐 Vertical")
+    result_v = image_carousel(
+        images=images,
+        orientation="vertical",
+        max_visible=5,
+        key="vertical"
+    )
+```
+
+## 🎨 Thèmes prédéfinis
+
+### Thème Gaming (Sombre)
+```python
+gaming_theme = {
+    "background_color": "#0f0f23",
+    "active_border_color": "#00ff88",
+    "active_glow_color": "rgba(0, 255, 136, 0.6)",
+    "fallback_background": "#1a1a2e",
+    "fallback_gradient_end": "#0a0a1a",
+    "text_color": "#ffffff",
+    "arrow_color": "#00ff88"
+}
+```
+
+### Thème Business (Clair)
+```python
+business_theme = {
+    "background_color": "#f8fafc",
+    "active_border_color": "#3b82f6",
+    "active_glow_color": "rgba(59, 130, 246, 0.5)",
+    "fallback_background": "#e2e8f0",
+    "fallback_gradient_end": "#cbd5e1",
+    "text_color": "#1e293b",
+    "arrow_color": "#3b82f6"
+}
+```
+
+### Thème Sport (Bleu/Or)
+```python
+sport_theme = {
+    "background_color": "#1e3a8a",
+    "active_border_color": "#fbbf24",
+    "active_glow_color": "rgba(251, 191, 36, 0.7)",
+    "fallback_background": "#3b82f6",
+    "fallback_gradient_end": "#1e40af",
+    "text_color": "#ffffff",
+    "arrow_color": "#fbbf24"
+}
+```
