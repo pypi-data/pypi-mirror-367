@@ -1,0 +1,29 @@
+[project]
+name = "saad-data-pipeline"
+version = "0.1.0"
+description = "A data pipeline and analytics toolkit"
+readme = "README.md"
+authors = [{ name = "Saad Khalmadani", email = "saad.khalmadani@gmail.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.12"
+
+dependencies = [
+    "dotenv>=0.9.9",
+    "hypothesis>=6.136.8",
+    "pandas>=2.3.1",
+    "pandera>=0.25.0",
+    "pycountry>=24.6.1",
+    "ydata-profiling>=4.16.1",
+]
+
+[project.scripts]
+project1-cli = "saad_data_pipeline.main:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+pythonpath = ["."]
