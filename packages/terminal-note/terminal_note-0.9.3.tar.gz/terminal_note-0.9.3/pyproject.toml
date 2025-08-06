@@ -1,0 +1,38 @@
+[project]
+name = "terminal-note"
+version = "0.9.3"
+description = "Простая консольная утилита для управления файлами заметок."
+authors = [{name="Belousov Sergey", email="belousovsergej56@gmail.com"},]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "frogmouth>=0.9.2",
+    "iterfzf>=1.8.0.62.0",
+]
+license = {text="MIT"}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/belousovsergey56/terminal-note"
+Issues = "https://github.com/belousovsergey56/terminal-note/issues"
+
+[build-system]
+requires = ["setuptools>=74.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+backend = ["config.toml"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[tool.uv]
+package = true
+
+[project.scripts]
+tn = "backend.services:main"
