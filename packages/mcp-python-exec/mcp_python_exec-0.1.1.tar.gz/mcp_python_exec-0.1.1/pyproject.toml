@@ -1,0 +1,27 @@
+[project]
+name = "mcp-python-exec"
+version = "0.1.1"
+description = "MCP server to execute Python code in separate chroot environments"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    #"pychroot @ git+https://github.com/Henri-J-Norden/pychroot.git@master",
+    "snakeoil", # For embedded pychroot
+
+    "mcp",
+    "pillow",
+    "trio",
+    "anycorn",
+    "uvloop",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+mcp-python-exec = "mcp_python_exec.server:main_stdio"
+mcp-python-exec-http = "mcp_python_exec.server:main_http"
