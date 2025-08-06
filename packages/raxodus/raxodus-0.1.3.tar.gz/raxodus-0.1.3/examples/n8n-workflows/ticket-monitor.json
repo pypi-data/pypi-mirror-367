@@ -1,0 +1,129 @@
+{
+  "name": "Rackspace Ticket Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "value": 15
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 15 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "uvx raxodus tickets list --status open --format json --debug",
+        "env": {
+          "RACKSPACE_USERNAME": "={{ $credentials.rackspace.username }}",
+          "RACKSPACE_API_KEY": "={{ $credentials.rackspace.apiKey }}",
+          "RACKSPACE_ACCOUNT": "={{ $credentials.rackspace.account }}"
+        }
+      },
+      "id": "get-tickets",
+      "name": "Get Open Tickets",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the JSON output\nconst output = JSON.parse($input.item.json.stdout);\n\n// Check for slow API response\nif (output.elapsed_seconds > 30) {\n  console.warn(`Slow API response: ${output.elapsed_seconds}s`);\n}\n\n// Filter for urgent tickets\nconst urgentTickets = output.tickets.filter(ticket => \n  ticket.severity === 'urgent' || \n  ticket.severity === 'emergency'\n);\n\n// Format for output\nreturn urgentTickets.map(ticket => ({\n  json: {\n    ticketId: ticket.ticketId,\n    subject: ticket.subject,\n    status: ticket.status,\n    severity: ticket.severity,\n    created: ticket.created,\n    modified: ticket.modified,\n    alert_message: `🚨 Urgent ticket: ${ticket.ticketId} - ${ticket.subject}`\n  }\n}));"
+      },
+      "id": "process-tickets",
+      "name": "Process Urgent Tickets",
+      "type": "n8n-nodes-base.code",
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.severity }}",
+              "operation": "notEmpty"
+            }
+          ]
+        }
+      },
+      "id": "check-urgent",
+      "name": "Has Urgent Tickets?",
+      "type": "n8n-nodes-base.if",
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#support-alerts"
+        },
+        "text": "={{ $json.alert_message }}",
+        "otherOptions": {}
+      },
+      "id": "slack-alert",
+      "name": "Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "position": [1050, 200],
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "1",
+          "name": "Slack OAuth2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "schedule-trigger": {
+      "main": [
+        [
+          {
+            "node": "get-tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get-tickets": {
+      "main": [
+        [
+          {
+            "node": "process-tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "process-tickets": {
+      "main": [
+        [
+          {
+            "node": "check-urgent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check-urgent": {
+      "main": [
+        [
+          {
+            "node": "slack-alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  }
+}

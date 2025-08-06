@@ -1,0 +1,121 @@
+{
+  "name": "Daily Rackspace Ticket Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "daily-trigger",
+      "name": "Daily at 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "uvx raxodus tickets list --days 1 --format json --debug",
+        "env": {
+          "RACKSPACE_USERNAME": "={{ $credentials.rackspace.username }}",
+          "RACKSPACE_API_KEY": "={{ $credentials.rackspace.apiKey }}",
+          "RACKSPACE_ACCOUNT": "={{ $credentials.rackspace.account }}"
+        }
+      },
+      "id": "get-yesterday-tickets",
+      "name": "Get Yesterday's Tickets",
+      "type": "n8n-nodes-base.executeCommand",
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the JSON output\nconst output = JSON.parse($input.item.json.stdout);\nconst tickets = output.tickets || [];\n\n// Calculate statistics\nconst stats = {\n  total_tickets: tickets.length,\n  open_tickets: tickets.filter(t => t.status === 'open').length,\n  closed_tickets: tickets.filter(t => t.status === 'closed').length,\n  pending_tickets: tickets.filter(t => t.status === 'pending').length,\n  api_response_time: output.elapsed_seconds,\n  from_cache: output.from_cache\n};\n\n// Group by severity\nconst bySeverity = {};\ntickets.forEach(ticket => {\n  const severity = ticket.severity || 'unspecified';\n  bySeverity[severity] = (bySeverity[severity] || 0) + 1;\n});\n\n// Create report\nconst report = {\n  date: new Date().toISOString().split('T')[0],\n  statistics: stats,\n  by_severity: bySeverity,\n  tickets: tickets.map(t => ({\n    id: t.ticketId,\n    subject: t.subject,\n    status: t.status,\n    severity: t.severity,\n    created: t.created,\n    modified: t.modified\n  }))\n};\n\nreturn [{ json: report }];"
+      },
+      "id": "generate-report",
+      "name": "Generate Report",
+      "type": "n8n-nodes-base.code",
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "operation": "formatValue",
+        "value": "={{ JSON.stringify($json, null, 2) }}",
+        "format": "markdown",
+        "markdown": "# Daily Rackspace Ticket Report\n**Date:** {{ $json.date }}\n\n## Statistics\n- **Total Tickets:** {{ $json.statistics.total_tickets }}\n- **Open:** {{ $json.statistics.open_tickets }}\n- **Closed:** {{ $json.statistics.closed_tickets }}\n- **Pending:** {{ $json.statistics.pending_tickets }}\n\n## By Severity\n{{ Object.entries($json.by_severity).map(([k, v]) => `- **${k}:** ${v}`).join('\\n') }}\n\n## API Performance\n- **Response Time:** {{ $json.statistics.api_response_time }}s\n- **From Cache:** {{ $json.statistics.from_cache ? 'Yes' : 'No' }}\n\n## Ticket Details\n{{ $json.tickets.map(t => `### ${t.id}: ${t.subject}\\n- Status: ${t.status}\\n- Severity: ${t.severity}`).join('\\n\\n') }}"
+      },
+      "id": "format-markdown",
+      "name": "Format as Markdown",
+      "type": "n8n-nodes-base.markdown",
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "n8n@company.com",
+        "toEmail": "support-team@company.com",
+        "subject": "Daily Rackspace Ticket Report - {{ $json.date }}",
+        "emailType": "html",
+        "message": "={{ $json.html }}"
+      },
+      "id": "send-email",
+      "name": "Send Email Report",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [1050, 300],
+      "credentials": {
+        "smtp": {
+          "id": "2",
+          "name": "SMTP"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "daily-trigger": {
+      "main": [
+        [
+          {
+            "node": "get-yesterday-tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get-yesterday-tickets": {
+      "main": [
+        [
+          {
+            "node": "generate-report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate-report": {
+      "main": [
+        [
+          {
+            "node": "format-markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format-markdown": {
+      "main": [
+        [
+          {
+            "node": "send-email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
