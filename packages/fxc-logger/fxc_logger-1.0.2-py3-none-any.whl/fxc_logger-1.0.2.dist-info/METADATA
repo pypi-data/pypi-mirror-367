@@ -1,0 +1,136 @@
+Metadata-Version: 2.4
+Name: fxc_logger
+Version: 1.0.2
+Summary: Python library for logging with colors and http status code.
+Home-page: https://github.com/frexco-digital/fxc-logger.git
+Keywords: logs logging logger
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: summary
+
+# **fxc-logger**
+
+## Install
+
+___
+
+```bash
+pip install fxc-logger
+```
+
+## Configure
+
+___
+
+```python
+# main.py
+from fxc_logger import PyLogger
+
+logger = PyLogger(appname="my_app")
+logger.http(message="Uma mensagem http qualquer", status_code=200, data={"name": "Um nome qualquer", "age": 22})
+```
+
+> 2022-09-02 14:05:59 | [HTTP] | | 9fd8â€¦ | Uma mensagem http qualquer | [STATUSCODE 200] | {"name": "Um nome qualquer", "age": 22}
+
+## Correlation ID (Contexto)
+
+Cada requisiÃ§Ã£o ou mensagem pode ter um identificador Ãºnico para facilitar filtros de log.
+A biblioteca gera um UUID v4 automaticamente no primeiro log, mas vocÃª pode controlar
+isso manualmente.
+
+```python
+from fxc_logger import PyLogger, correlation_scope, with_new_correlation_id
+
+logger = PyLogger(appname="consumer")
+
+# 1) Definindo manualmente
+auto_id = correlation_scope()      # context-manager
+with correlation_scope():          # gera novo UUID
+    logger.info("log dentro do bloco")
+
+# 2) Decorando callback do RabbitMQ / Kafka
+@with_new_correlation_id
+def callback(ch, method, props, body):
+    logger.info("mensagem recebida", data=body)
+```
+
+*Todos* os logs emitidos dentro do bloco ou funÃ§Ã£o decorada carregam o mesmo
+Correlation ID, permitindo rastrear todo o fluxo.
+
+## Log Types
+
+___
+
+| Tipo      | Description                                                        |
+|-----------|--------------------------------------------------------------------|
+| `error`   | Informar sobre exceptions tratadas                                 |
+| `warning` | Informar eventos ou estados potencialmente prejudicias ao programa |
+| `debug`   | Acompanhar eventos ou estados do programa                          |
+| `info`    | Descrever infos detalhadas sobre o estado do programa              |
+| `http`    | Informar dados de requests e responses feitas via http             |
+
+## Middlewares
+
+___
+
+### django
+
+```python
+# httpLogger.py
+from fxc_logger import PyLogger
+from django.utils.deprecation import MiddlewareMixin
+
+class HTTPLoggerMiddleware(MiddlewareMixin):
+    def process_response(self, request, response):
+        logger = PyLogger(appname="my_django_app")
+        logger.http(message=f"{request.META.get('REMOTE_ADDR')} {request.method} {request.META.get('PATH_INFO')}",
+                    status_code=response.status_code)
+        return response
+```
+
+settings.py:
+```python
+MIDDLEWARE = [
+    ...,
+    'app.utils.httpLogger.HTTPLoggerMiddleware'
+]
+```
+
+### Flask
+
+```python
+from flask import Flask, request, Response
+from fxc_logger import PyLogger
+
+app = Flask(__name__)
+logger = PyLogger(appname="my_flask_app")
+
+@app.after_request
+def log_response(response: Response):
+    logger.http(message=f"{request.remote_addr} {request.method} {request.path}",
+                status_code=response.status_code)
+    return response
+```
+
+## Alert
+
+```python
+from fxc_logger import PyLogger
+
+logger = PyLogger(appname="my_app", group="warehouse")
+
+# envia alerta (ENV=PRD)
+logger.error("Falhou o checkout", status_code=500, data={"order_id": 123})
+
+# nÃ£o envia alerta
+logger.error("Falhou o checkout de novo", status_code=500, alert=False)
+```
