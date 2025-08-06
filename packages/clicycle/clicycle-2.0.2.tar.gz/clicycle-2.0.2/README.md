@@ -1,0 +1,239 @@
+# Clicycle
+
+[![CI](https://github.com/Living-Content/clicycle/actions/workflows/ci.yml/badge.svg)](https://github.com/Living-Content/clicycle/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Living-Content/clicycle/graph/badge.svg?token=YOUR_TOKEN)](https://codecov.io/gh/Living-Content/clicycle)
+[![PyPI version](https://img.shields.io/pypi/v/clicycle)](https://pypi.org/project/clicycle/)
+[![Python Versions](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)](https://pypi.org/project/clicycle/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> Component-based CLI rendering with automatic spacing and Rich styling
+
+**Clicycle** makes beautiful CLIs easy by treating terminal output as composable components.
+
+## Installation
+
+```bash
+pip install clicycle
+```
+
+## Quick Start
+
+```python
+import clicycle as cc
+import time
+
+# Display header
+cc.header("My App", "v2.0.0")
+
+# Show messages
+cc.info("Starting process...")
+
+# Use a spinner
+with cc.spinner("Processing..."):
+    time.sleep(2)
+
+cc.success("Complete!")
+```
+
+## API Reference
+
+### Display Functions
+
+```python
+# Text messages
+cc.info("Information message")
+cc.success("Operation successful")
+cc.error("Something went wrong") 
+cc.warning("Be careful")
+cc.debug("Debug info")  # Only shown in verbose mode
+cc.list_item("Bullet point")
+
+# Structure
+cc.header("Title", "Subtitle", "App Name")
+cc.section("Section Name")
+
+# Data display
+cc.table([{"Name": "Alice", "Age": 30}], title="Users")
+cc.code("print('hello')", language="python", title="Example")
+cc.json({"key": "value"}, title="Config")
+cc.summary([{"label": "Total", "value": 100}])
+
+# Progress indicators (context managers)
+with cc.spinner("Loading..."):
+    # Your code here
+    pass
+
+with cc.progress("Processing") as prog:
+    for i in range(100):
+        prog.update(i)
+
+# Interactive components (with automatic fallback)
+selected = cc.select("Choose an option", ["Option 1", "Option 2", "Option 3"])
+selected_many = cc.multi_select("Select features", ["Auth", "API", "Cache", "Queue"])
+```
+
+### Configuration
+
+```python
+# Configure the default instance
+cc.configure(
+    width=100,
+    theme=cc.Theme(
+        disappearing_spinners=True,  # Spinners vanish when done
+        spinner_type="dots2"         # Rich spinner style
+    ),
+    app_name="MyApp"
+)
+
+# Direct access
+cc.console.print("Rich console access")
+cc.theme.icons.success = "✅"
+cc.clear()  # Clear screen
+```
+
+## Themes
+
+Create custom themes to control appearance:
+
+```python
+from clicycle import Theme, Icons, Typography
+
+theme = Theme(
+    # Custom icons
+    icons=Icons(
+        success="✅",
+        error="❌",
+        warning="⚠️",
+        info="ℹ️",
+    ),
+    
+    # Custom styles (Rich format)
+    typography=Typography(
+        header_style="bold cyan",
+        success_style="bold green",
+        error_style="bold red",
+    ),
+    
+    # Spinner configuration
+    disappearing_spinners=True,
+    spinner_type="dots2"  # dots, line, star, etc.
+)
+
+cc.configure(theme=theme)
+```
+
+## Component Architecture
+
+For advanced use cases, work directly with components:
+
+```python
+from clicycle import Clicycle
+from clicycle.components.header import Header
+from clicycle.components.spinner import Spinner
+
+# Create instance
+cli = Clicycle()
+
+# Render components
+cli.stream.render(Header(cli.theme, "Title"))
+
+# Components manage their own spacing
+spinner = Spinner(cli.theme, "Loading...", cli.console)
+cli.stream.render(spinner)
+with spinner:
+    # Your code
+    pass
+```
+
+## Key Features
+
+- **Automatic Spacing**: Components intelligently manage spacing based on context
+- **Disappearing Spinners**: Spinners that completely vanish after completion
+- **Interactive Components**: Arrow-key navigation with automatic fallback
+- **Rich Integration**: Full support for Rich styling and formatting  
+- **Component Discovery**: Convenience API automatically discovers all components
+- **Type Safe**: Full type hints for IDE support
+
+## Interactive Components
+
+Clicycle provides smooth, responsive interactive components with vertical arrow-key navigation:
+
+### Select Menu
+```python
+# Simple selection
+choice = cc.select("Choose a framework:", ["React", "Vue", "Angular"])
+
+# With descriptions and values
+options = [
+    {"label": "React", "value": "react", "description": "A JavaScript library"},
+    {"label": "Vue", "value": "vue", "description": "The Progressive JavaScript Framework"},
+    {"label": "Angular", "value": "angular", "description": "Platform for building mobile and desktop apps"}
+]
+choice = cc.select("Choose a framework:", options)
+```
+
+### Multi-Select Menu
+```python
+# Multiple selections with constraints
+choices = cc.multi_select(
+    "Select features to enable:", 
+    ["Authentication", "Database", "Caching", "Queue", "Monitoring"],
+    min_selection=1,
+    max_selection=3
+)
+```
+
+**Navigation:**
+- ↑/↓: Navigate options
+- Enter: Select/Submit
+- Space: Toggle (multi-select only)
+- q/Ctrl+C: Cancel
+
+**Features:**
+- Clean vertical navigation without screen clearing
+- Automatic fallback to numbered input on non-interactive terminals
+- Real-time visual feedback
+- Proper cleanup - no leftover display artifacts
+
+## Examples
+
+Run the interactive example menu:
+
+```bash
+python examples/menu.py
+```
+
+Or explore individual examples:
+
+**Basics**
+- `basics/hello_world.py` - Simple introduction
+- `basics/all_components.py` - Tour of all components
+
+**Features**
+- `features/interactive.py` - Arrow-key selection and checkboxes
+- `features/spinners.py` - Disappearing spinner functionality
+- `features/themes.py` - Custom themes (emoji, minimal, matrix)
+
+**Advanced**
+- `advanced/full_app.py` - Complete application showcase
+
+### Quick Example
+
+```python
+import clicycle as cc
+import time
+
+# Build a simple CLI
+cc.header("My App", "v1.0.0")
+cc.info("Processing data...")
+
+with cc.spinner("Loading..."):
+    time.sleep(2)
+    
+cc.success("Complete!")
+cc.table([{"Name": "Alice", "Score": 95}, {"Name": "Bob", "Score": 87}])
+```
+
+## License
+
+MIT License - see LICENSE file for details.
