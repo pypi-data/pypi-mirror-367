@@ -1,0 +1,116 @@
+# 🧪 mcmicroprep 🚀
+
+A **command-line tool** for preparing multiplexed imaging datasets (🦠 Olympus, 🩸 RareCyte) for the MCMICRO Nextflow pipeline.
+
+
+## 🛠️ Installation
+
+1. **Prerequisites**
+
+   - Conda or Miniconda installed 🐍
+   - Python **3.10+** environment 🌟
+   - SLURM & Nextflow (`labsyspharm/mcmicro`) on your `$PATH`
+
+2. **Create Conda env**
+
+   ```bash
+   conda create -n mcmicroprep python=3.12
+   conda activate mcmicroprep
+   ```
+
+3. **Install package**
+
+   ```bash
+   pip install mcmicroprep
+   ```
+
+## 📁 Expected Dataset Structure
+
+Your dataset root should contain one subdirectory per slide. Structures vary by vendor:
+
+### 🦠 Olympus
+
+Each *slide directory* must contain at least one `*_frames/` folder —-- this is the minimum required structure. Additional files or folders may be present and do not need to be removed.
+
+```
+.DATASET FOLDER
+├── slide1/
+│   ├── image1_frames/
+│   ├── image2_frames/
+├── slide2/
+└── slideN/
+```
+
+After running for **Olympus**: each slide/image folder would be as follows
+
+```
+slide1/
+├── raw/                   # image1_frames/, image2_frames/
+├── misc_files/            # JSON, logs
+├── batch_submission.sh    # pipeline wrapper
+├── mcmicro_template.sh    # Nextflow template
+├── base.config
+├── markers.csv
+└── params.yml            
+```
+
+### 🩸 RareCyte
+
+Slide dirs may contain `*.rcpnl` at any depth: —-- this is the minimum required structure. Additional files or folders may be present and do not need to be removed.
+
+```
+/path/to/dataset/
+├── slide1/
+│   ├── img001.rcpnl
+│   ├── subA/img002.rcpnl
+│   └── other files
+└── slideN/
+```
+
+After running for **RareCyte**:
+
+```
+slide1/
+├── raw/                   # all .rcpnl files
+│   ├── img001.rcpnl
+│   └── img002.rcpnl
+├── misc_files/            # CSV, text
+├── batch_submission.sh
+├── mcmicro_template.sh
+├── base.config
+├── markers.csv
+└── params.yml             
+```
+
+## 🚀 Usage
+
+> **Note**: Configured for the HMS O2 cluster (SLURM). Generalize by editing SLURM directives in `templates/common/`.
+
+### 🦠 Olympus
+
+```bash
+preparemcmicro \
+  --microscope olympus \
+  --image-root /path/to/dataset
+```
+
+### 🩸 RareCyte
+
+```bash
+preparemcmicro \
+  --microscope rarecyte \
+  --image-root /path/to/dataset
+```
+
+## 🛠️ Next Steps for Users
+
+1. ✏️ **Edit **`` in each slide directory to include your experiment-specific cycle-to-marker mappings.
+2. 📤 **Upload** the entire processed dataset folder to the O2 cluster if you ran this locally.
+3. 🚀 **Start the job** on O2:
+   ```bash
+   cd /n/scratch/users/USERNAME/<DATASET FOLDER>
+   bash batch_submission.sh --dataset_path /n/scratch/users/USERNAME/<DATASET FOLDER>
+   ```
+
+Happy processing! 🔬
+
