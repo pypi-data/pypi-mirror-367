@@ -1,0 +1,160 @@
+# vaulter
+
+機密情報（APIキー、パスワード、トークン等）を扱う変数を自動的に暗号化し、メモリ上でも平文を保持しないPythonライブラリです。
+
+## 特徴
+
+- **自動暗号化／自動復号**（アクセス時のみ一時復号）
+- **メモリ上での平文保持を最小化**
+- **AES-GCMによる強固な暗号化**
+- **シリアライズ対応**（ファイル保存・DB保存時も暗号化状態維持）
+- **Zeroization**（破棄時にメモリクリア）
+
+## インストール
+
+```bash
+pip install vaulter
+```
+
+## 使用例
+
+### 基本例
+
+```python
+from vaulter import Vault
+
+# 暗号化されたVaultオブジェクトを作成
+secret = Vault("API_KEY", value="sk_live_abc123")
+
+# 文字列として取得（復号は内部で一時的に行われる）
+print(secret.get())  # "sk_live_abc123"
+
+# 値を更新
+secret.set("new_api_key_456")
+
+# JSONシリアライズ時も暗号化状態を維持
+encrypted_data = secret.to_json()
+
+# 復元
+restored = Vault.from_json(encrypted_data)
+print(restored.get())  # "new_api_key_456"
+```
+
+### グローバルキーの使用
+
+```python
+from vaulter import Vault, generate_key
+
+# プロセス全体で共有するキーを設定
+global_key = generate_key()
+Vault.set_global_key(global_key)
+
+# すべてのVaultインスタンスが同じキーを使用
+vault1 = Vault("SECRET1", value="value1")
+vault2 = Vault("SECRET2", value="value2")
+
+# グローバルキーをクリア
+Vault.clear_global_key()
+```
+
+### カスタムキーの使用
+
+```python
+from vaulter import Vault, generate_key
+
+# 独自のキーを生成
+custom_key = generate_key()
+
+# カスタムキーでVaultを作成
+vault = Vault("CUSTOM_SECRET", value="secret_value", key=custom_key)
+```
+
+## API仕様
+
+### クラス: Vault
+
+#### コンストラクタ
+
+```python
+Vault(name: str, value: Optional[str] = None, key: Optional[bytes] = None)
+```
+
+**引数**
+- `name`: 識別名（例: "API_KEY"）
+- `value`: 初期値（任意）
+- `key`: AESキー（指定しない場合は内部で自動生成）
+
+**動作**
+- `value` が指定されていれば即時暗号化して保持
+- 暗号鍵はメモリ上で安全に管理
+
+#### メソッド
+
+##### `set(value: str) -> None`
+平文の値を暗号化して保存
+- 保存後、平文を即座にメモリから破棄
+
+##### `get() -> str`
+一時的に復号して返す
+- 呼び出し終了後、平文データを即座にゼロ化
+
+##### `to_json() -> str`
+暗号化データとメタ情報をJSON文字列で出力
+
+例：
+```json
+{
+  "name": "API_KEY",
+  "ciphertext": "b64encodeddata",
+  "nonce": "b64nonce",
+  "tag": "b64tag"
+}
+```
+
+##### `from_json(json_str: str) -> Vault`
+JSONから復元してVaultインスタンスを生成
+
+##### `wipe() -> None`
+内部メモリを完全クリア（鍵・データ）
+
+#### クラスメソッド
+
+##### `Vault.generate_key() -> bytes`
+安全なランダムAESキーを生成
+
+##### `Vault.set_global_key(key: bytes)`
+全Vaultインスタンスで共有するグローバルキーを設定
+
+##### `Vault.clear_global_key()`
+グローバルキーをクリア
+
+## 内部仕様
+
+### 暗号方式
+- **AES-256-GCM**
+- 鍵長：256bit
+- IV（Nonce）：96bitランダム
+- 認証タグ付与による改ざん検出
+
+### メモリ保護
+- 復号後は即座に `bytearray` をゼロ化
+- Python GCに任せず明示的クリアを実行
+
+### シリアライズ
+- 暗号化データ・Nonce・タグをBase64でエンコード
+- JSON・Pickleなどに対応
+
+### エラーハンドリング
+- 復号失敗時は `VaultDecryptionError` を送出
+- 不正フォーマット時は `VaultFormatError` を送出
+- キー関連エラー時は `VaultKeyError` を送出
+
+## セキュリティ注意事項
+
+1. **平文は `.get()` 呼び出し時のみメモリ上に存在**
+2. **`.get()` の結果を別変数に保持すると安全性が損なわれるため、使用後即破棄すること**
+3. **長期保管する場合は外部KMSまたは安全なストレージと併用すること**
+
+## ライセンス
+
+MIT
