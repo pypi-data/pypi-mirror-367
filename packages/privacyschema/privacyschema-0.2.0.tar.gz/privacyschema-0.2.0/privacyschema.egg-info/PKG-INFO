@@ -1,0 +1,123 @@
+Metadata-Version: 2.1
+Name: privacyschema
+Version: 0.2.0
+Summary: Pluggable framework for personal data compliance (LGPD/GDPR)
+Home-page: https://github.com/julioamorimdev/PrivacySchema
+Author: Júlio César de Amorim
+Author-email: julio@grupojpc.com.br
+License: MIT
+Description: [![PyPI version](https://img.shields.io/pypi/v/privacyschema.svg)](https://pypi.org/project/privacyschema/)
+        [![npm version](https://img.shields.io/npm/v/privacyschema.svg)](https://www.npmjs.com/package/privacyschema)
+        [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+        
+        # PrivacySchema
+        
+        Pluggable framework for anonymization, consent, retention, and access to personal data (LGPD/GDPR).
+        
+        ## Purpose
+        Facilitate the implementation of sensitive data compliance in different languages (Node.js, Python, JS via CDN).
+        
+        ## Features
+        - Personal data validation (CPF, email, etc.)
+        - Data masking (CPF, email, etc.)
+        - Consent management (register, update, revoke)
+        - Retention policy (mark for expiration/removal)
+        - Audit logging (operations on sensitive data)
+        
+        ## Usage examples
+        
+        ### JavaScript/Node.js
+        ```js
+        const privacy = require('privacyschema');
+        
+        // Validation
+        const validationResult = privacy.validation.validate({ cpf: '12345678909', email: 'test@example.com' });
+        console.log(validationResult); // { cpf: true, email: true }
+        
+        // Masking
+        console.log(privacy.masking.mask('cpf', '12345678900')); // *********00
+        console.log(privacy.masking.mask('email', 'john.doe@example.com')); // j********e@example.com
+        
+        // Consent
+        privacy.consent.registerConsent('user1', { purpose: 'marketing' });
+        console.log(privacy.consent.isConsentActive('user1')); // true
+        privacy.consent.revokeConsent('user1');
+        console.log(privacy.consent.isConsentActive('user1')); // false
+        
+        // Retention
+        const now = new Date();
+        const past = new Date(now.getTime() - 10000);
+        privacy.retention.markForExpiration('user2', past);
+        console.log(privacy.retention.isExpired('user2')); // true
+        
+        // Audit
+        privacy.audit.logOperation('user3', 'access', { field: 'cpf' });
+        console.log(privacy.audit.getAuditLogs());
+        ```
+        
+        ### Python
+        ```python
+        from privacyschema import (
+            validate, is_valid_cpf, is_valid_email, mask,
+            register_consent, update_consent, revoke_consent, is_consent_active,
+            mark_for_expiration, is_expired,
+            log_operation, get_audit_logs
+        )
+        from datetime import datetime, timedelta
+        
+        # Validation
+        result = validate({'cpf': '12345678909', 'email': 'test@example.com'})
+        print(result)  # {'cpf': True, 'email': True}
+        
+        # Masking
+        print(mask('cpf', '12345678900'))  # *********00
+        print(mask('email', 'john.doe@example.com'))  # j********e@example.com
+        
+        # Consent
+        register_consent('user1', {'purpose': 'marketing'})
+        print(is_consent_active('user1'))  # True
+        revoke_consent('user1')
+        print(is_consent_active('user1'))  # False
+        
+        # Retention
+        past = datetime.now() - timedelta(seconds=10)
+        mark_for_expiration('user2', past)
+        print(is_expired('user2'))  # True
+        
+        # Audit
+        log_operation('user3', 'access', {'field': 'cpf'})
+        print(get_audit_logs())
+        ```
+        
+        ## Installation
+        
+        ### Node.js
+        ```sh
+        npm install privacyschema
+        ```
+        
+        ### Python
+        ```sh
+        pip install privacyschema
+        ```
+        
+        ### CDN
+        ```html
+        <script src="https://cdn.jsdelivr.net/npm/privacyschema"></script>
+        ```
+        
+        ## Contributing
+        See [CONTRIBUTING.md](CONTRIBUTING.md).
+        
+        ## License
+        MIT
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
