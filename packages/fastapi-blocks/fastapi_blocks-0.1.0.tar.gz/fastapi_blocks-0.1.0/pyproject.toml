@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastapi-blocks"
+version = "0.1.0"
+description = "A library for creating modular FastAPI applications."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{ name = "r3sbarra (Richard)", email= "richardmark.pi@gmail.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Framework :: FastAPI",
+]
+dependencies = [
+    "fastapi",
+    "pydantic",
+    "pydantic-settings",
+    "toml",
+    "mako"
+]
+
+[project.scripts]
+fastapi-blocks = "fastapi_blocks.cli:main"
+
+[project.entry-points."fastapi_blocks"]
+"__main__" = "fastapi_blocks.cli:main"
