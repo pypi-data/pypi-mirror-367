@@ -1,0 +1,21 @@
+# act configuration for local GitHub Actions testing
+# Using ARM64 images for Apple Silicon
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+-P ubuntu-22.04=catthehacker/ubuntu:act-22.04
+-P ubuntu-20.04=catthehacker/ubuntu:act-20.04
+
+# Apple Silicon M-series compatibility
+--container-architecture linux/amd64
+
+# Reuse containers for faster runs
+--reuse
+
+# Don't force pull images every time (dev can manually pull when needed)
+# To update images: docker pull catthehacker/ubuntu:act-latest
+--pull=false
+
+# Use local .env for secrets (optional)
+# --env-file .env.act
+
+# Colima Docker socket (uncomment if using Colima)
+# --container-daemon-socket /Users/bdmorin/.colima/default/docker.sock

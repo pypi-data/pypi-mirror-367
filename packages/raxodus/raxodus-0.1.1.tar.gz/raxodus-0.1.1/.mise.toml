@@ -1,0 +1,175 @@
+# mise configuration for raxodus development
+# https://mise.jdx.dev/
+
+[env]
+# Default test credentials - override in .mise.local.toml
+RACKSPACE_USERNAME = "test-user"
+RACKSPACE_API_KEY = "test-key"
+RACKSPACE_ACCOUNT = "123456"
+
+# Set these in .mise.local.toml for real usage
+# See .mise.local.toml.example for template
+
+[tools]
+python = "3.11"
+uv = "latest"
+
+
+[tasks.clean]
+description = "Clean all build artifacts and caches"
+run = """
+rm -rf dist build *.egg-info src/*.egg-info
+find . -type d -name __pycache__ -exec rm -rf {} +
+find . -type f -name "*.pyc" -delete
+uv cache clean
+echo "✅ Cleaned all build artifacts"
+"""
+
+[tasks.build]
+description = "Build the package"
+depends = ["clean"]
+run = """
+uv build .
+echo "✅ Built package version $(grep __version__ src/raxodus/version.py | cut -d'"' -f2)"
+"""
+
+[tasks.install-local]
+description = "Install package locally for development"
+depends = ["build"]
+run = """
+echo "📦 Installing local wheel with uvx..."
+# Force reinstall from local wheel
+uvx uninstall raxodus 2>/dev/null || true
+uvx install ./dist/raxodus-*.whl
+echo "✅ Installed raxodus locally via uvx"
+"""
+
+[tasks.install-wheel]
+description = "Install from built wheel (for testing distribution)"
+depends = ["build"]
+run = """
+uv pip install --force-reinstall dist/*.whl
+echo "✅ Installed from wheel"
+"""
+
+[tasks.test-cli]
+description = "Test CLI commands"
+depends = ["build"]
+run = """
+echo "🧪 Testing CLI..."
+uvx --from ./dist/raxodus-*.whl raxodus --version
+uvx --from ./dist/raxodus-*.whl raxodus --help | head -20
+uvx --from ./dist/raxodus-*.whl raxodus tickets list --help | grep -q debug && echo "✅ Debug flag found" || echo "❌ Debug flag missing"
+"""
+
+[tasks.test-debug]
+description = "Test debug output (will fail auth with test creds)"
+depends = ["build"]
+run = """
+echo "🧪 Testing debug output..."
+uvx --from ./dist/raxodus-*.whl raxodus tickets list --debug --format json 2>&1 | head -20
+"""
+
+[tasks.dev]
+description = "Setup development environment"
+run = """
+uv venv
+uv pip install -e ".[dev]"
+echo "✅ Development environment ready"
+"""
+
+[tasks.release-check]
+description = "Pre-release checks"
+run = """
+echo "📋 Release Checklist:"
+echo "  Version: $(grep __version__ src/raxodus/version.py | cut -d'"' -f2)"
+if [ $(git status --porcelain | wc -l) -eq 0 ]; then
+    echo "  Git status: ✅ Clean"
+else
+    echo "  Git status: ❌ Uncommitted changes"
+fi
+if mise run test-cli > /dev/null 2>&1; then
+    echo "  Tests: ✅ Pass"
+else
+    echo "  Tests: ❌ Fail"
+fi
+if mise run build > /dev/null 2>&1; then
+    echo "  Build: ✅ Success"
+else
+    echo "  Build: ❌ Failed"
+fi
+"""
+
+[tasks.publish-test]
+description = "Publish to Test PyPI"
+depends = ["build"]
+run = """
+uv pip install twine
+twine upload --repository testpypi dist/*
+"""
+
+[tasks.publish]
+description = "Publish to PyPI"
+depends = ["release-check", "build"]
+run = """
+uv pip install twine
+echo "📦 Publishing to PyPI..."
+twine upload dist/*
+"""
+
+[tasks.act-test]
+description = "Test GitHub Actions locally with act"
+run = """
+if ! command -v act &> /dev/null; then
+    echo "❌ act not installed. Run: brew install act"
+    exit 1
+fi
+echo "🎬 Testing GitHub Actions..."
+echo "Note: Using Python image for compatibility"
+DOCKER_HOST=unix:///$HOME/.colima/default/docker.sock act \
+    -W .github/workflows \
+    --container-architecture linux/amd64 \
+    -P ubuntu-latest=catthehacker/ubuntu:act-latest \
+    -j test \
+    --matrix python-version:3.11
+"""
+
+[tasks.refresh-act-images]
+description = "Pull latest act Docker images"
+run = """
+echo "🐳 Pulling latest act Docker images..."
+docker pull catthehacker/ubuntu:act-latest
+docker pull catthehacker/ubuntu:act-22.04
+docker pull catthehacker/ubuntu:act-20.04
+echo "✅ Act images updated"
+"""
+
+[tasks.watch]
+description = "Watch for changes and rebuild"
+run = """
+if ! command -v watchexec &> /dev/null; then
+    echo "Installing watchexec..."
+    brew install watchexec
+fi
+watchexec -e py -w src -- mise run build
+"""
+
+# Compound tasks
+[tasks.up]
+description = "Full development setup"
+depends = ["clean", "build", "test-cli"]
+
+[tasks.test]
+description = "Run all tests"
+depends = ["test-cli", "test-debug"]
+
+[tasks.test-local]
+description = "Quick test with local wheel"
+depends = ["build"]
+run = """
+uvx --from ./dist/raxodus-*.whl raxodus --version
+"""
+
+[tasks.ship]
+description = "Ship a new release"
+depends = ["release-check", "build", "publish"]
