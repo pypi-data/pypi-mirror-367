@@ -1,0 +1,34 @@
+[project]
+name = "foxtrotpy"
+
+#manual coding versions for now, sort it out properly later 
+description = "Client for Foxtrot RPC hardware server"
+authors = [ { name="Dan Weatherill", email="daniel.weatherill@physics.ox.ac.uk" }]
+packages = [ {include  = "pyfoxtrot", from="python"}
+	   ]
+
+dynamic = ["version"]
+
+#specify protobuf version directly,
+#we use grpcio-tools in build deps,
+#so needs to match to avoid warning`
+
+dependencies = ["protobuf ~= 6.0",
+	     "grpcio>=1.73.0"]
+requires-python=">=3.9"
+
+[tool.hatch.build]
+packages=["python/pyfoxtrot"]
+
+
+[build-system]
+requires = ["hatchling", "grpcio-tools", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.hooks.custom]
+path="python/hatch_build.py"
+proto_source_dir="core/proto"
+proto_output_dir="python/pyfoxtrot/protos"
+
+[tool.hatch.version]
+source = "vcs"

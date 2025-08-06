@@ -1,0 +1,38 @@
+syntax = "proto3";
+package foxtrot;
+option java_package = "io.foxtrot";
+
+import "ft_error.proto";
+import "ft_types.proto";
+import "google/protobuf/timestamp.proto";
+
+message broadcast_notification
+{
+    errstatus err = 1;
+    uint32 msgid = 2;
+    bool use_default_title = 3;
+    string title = 4;
+    string body = 5;
+    bool use_default_channel = 6;
+    string channel_target = 7;
+}
+
+
+message server_info
+{
+    errstatus err = 1;
+    uint32 server_version = 2;
+    uint32 rpc_version = 3;
+    string name = 4;
+    string comment = 5;
+    google.protobuf.Timestamp started = 6;
+    uint32 option_flags = 7;
+    bytes unique_runid = 8;
+}
+
+service exptserve
+{
+    rpc BroadcastNotification (broadcast_notification) returns (broadcast_notification);
+    rpc GetServerInfo (empty) returns (server_info);
+    rpc Disconnect (empty) returns (errstatus);
+}
