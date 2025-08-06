@@ -1,0 +1,134 @@
+[project]
+name = "brainglobe-atlasapi"
+description = "A lightweight python module to interact with and generate atlases for systems neuroscience."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Luigi Petrucco, Federico Claudi, Adam Tyson", email = "code@adamltyson.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "brainglobe-space >= 1.0.0",
+    "click",
+    "meshio",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "requests",
+    "rich >= 9.0.0",
+    "tifffile>=2018.11.6",
+    "treelib",
+]
+dynamic = ["version"]
+
+[project.urls]
+"Homepage" = "https://brainglobe.info/documentation/brainglobe-atlasapi/index.html"
+"Source Code" = "https://github.com/brainglobe/brainglobe-atlasapi"
+"Bug Tracker" = "https://github.com/brainglobe/brainglobe-atlasapi/issues"
+"Documentation" = "https://brainglobe.info/documentation/brainglobe-atlasapi/index.html"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "check-manifest",
+    "coverage",
+    "mypy",
+    "pre-commit",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest",
+    "ruff",
+    "setuptools_scm",
+    "tox",
+]
+allenmouse = ["allensdk"]
+allenmouse_barrels = [
+    "allensdk",
+    "voxcell"]
+perens_stereotaxic_mri_mouse = ["py7zr"]
+kocher_bumblebee = ["vtk"]
+
+atlasgen = [
+    "loguru",
+    "PyMCubes",
+    "SimpleITK",
+    "tqdm>=4.46.1",
+    "vedo",
+    "xmltodict",
+    "brainglobe-utils",
+    "pooch"
+]
+
+[project.scripts]
+brainglobe = "brainglobe_atlasapi.cli:bg_cli"
+
+[build-system]
+requires = ["setuptools>=64", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["brainglobe_atlasapi*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=brainglobe_atlasapi"
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    # note the use of single quote below to denote "raw" strings in TOML
+    'ignore: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior',
+]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
+
+[tool.black]
+target-version = ['py311', 'py312', 'py313']
+skip-string-normalization = false
+line-length = 79
+
+[tool.setuptools_scm]
+
+[tool.ruff]
+line-length = 79
+exclude = ["__init__.py", "build", ".eggs"]
+fix = true
+
+[tool.ruff.lint]
+select = ["I", "E", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["E501"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py{311,312,313}
+
+[gh-actions]
+python =
+    3.11: py311
+    3.12: py312
+    3.13: py313
+
+[testenv]
+extras =
+    dev
+    atlasgen
+passenv =
+    CI
+    GITHUB_ACTIONS
+commands = pytest -v --color=yes --cov=brainglobe_atlasapi --cov-report=xml
+"""
