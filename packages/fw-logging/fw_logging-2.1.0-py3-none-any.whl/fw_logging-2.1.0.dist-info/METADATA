@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: fw-logging
+Version: 2.1.0
+Summary: Logging helper library.
+Project-URL: Repository, https://gitlab.com/flywheel-io/tools/lib/fw-logging
+Author-email: Flywheel <support@flywheel.io>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: Flywheel,helper,logging
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Requires-Dist: devtools<1,>=0
+Requires-Dist: pydantic-settings<3,>=2.0.2
+Requires-Dist: pydantic<3,>=2.1.1
+Requires-Dist: pygments<3,>=2.13.0
+Requires-Dist: python-dateutil<3,>=2.8.2
+Requires-Dist: striprtf<1,>=0
+Description-Content-Type: text/markdown
+
+# fw-logging
+
+Logging helper library for standard `logging` configuration, JSON formatting,
+and for tailing (non-)structured logs re-formatted and colorized for humans.
+
+## Installation
+
+```bash
+pip install fw-logging
+```
+
+## Usage
+
+### logformat
+
+Use the CLI utility `logformat` to re-format (Flywheel) logs for humans:
+
+```bash
+# pipe json and/or text logs directly
+kubectl logs my-pod | logformat
+# OR pass a filename containing the same
+kubectl logs my-pod > my-pod.log
+logformat my-pod.log
+# OR pass a rich text file (.rtf) of logs
+logformat my-pod-log.rtf
+```
+
+### Library
+
+Use the `fw_logging` module to set up python `logging` in 2 lines:
+
+```python
+import fw_logging
+fw_logging.setup_logging()
+```
+
+The default configuration sets up logging at level `INFO` to `stdout`, formatted
+as `text` with colorized levels and caller information.
+
+To emit structured JSON logs in production just override the formatter using an
+environment variable: `FW_LOG_FORMATTER=json`.
+
+Table of main config options and the corresponding envvars:
+
+| Envvar             | Default  | Alternative / Example   |
+|:-------------------|:---------|:------------------------|
+| `FW_LOG_LEVEL`     | `INFO`   | `DEBUG`                 |
+| `FW_LOG_HANDLER`   | `stdout` | `stderr`                |
+| `FW_LOG_FORMATTER` | `text`   | `json`                  |
+| `FW_LOG_LOGGERS`   |          | `{"pika":"ERROR"}`      |
+| `FW_LOG_FILTERS`   |          | `{"lgr":{"msg":"rgx"}}` |
+
+## License
+
+[![MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
