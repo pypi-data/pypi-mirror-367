@@ -1,0 +1,76 @@
+[project]
+
+name = "pyloric-network-simulator"
+
+description = "Pure-Python, JAX-accelerate implementation of the pyloric circuit model described by Prinz et al (Nat. Neurosci., 2004)"
+
+readme = "README.md"
+
+requires-python = ">=3.7"
+    # Actually tested with 3.9 & 3.11
+    # Should work with 3.7, but anything below 3.9 will get an outdated JAX
+    # Might work with lower even versions, but probably only with no JAX at all
+
+license = {text = "MPL 2.0"}
+
+keywords = ["simulation", "computational-neuroscience", "jax", "pyloric-network"]
+
+dynamic = ["version"]
+
+authors = [
+  {name = "Alexandre René"}
+]
+
+maintainers = [
+  {name = "Alexandre René"}
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+
+  "Framework :: Jupyter :: JupyterLab",
+  "Framework :: Jupyter :: JupyterLab :: 3",
+  "Framework :: Jupyter :: JupyterLab :: 4",
+
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+
+  "Topic :: Scientific/Engineering"
+]
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "jax[cpu]",
+    "flufl.lock",
+    "addict",
+    "pandas",
+    "holoviews",
+    "scityping",
+]
+
+[project.optional-dependencies]
+docs = ["jupyter-book", "jupytext",
+        "matplotlib", "pint", "watermark",
+        "ghp-import"]
+test = ["pint", "holoviews"]
+
+[project.urls]
+"Source" = "https://github.com/alcrene/pyloric-network-simulator"
+
+[tool.setuptools.package-data]
+"*" = ["*.cfg"]
+
+[tool.setuptools_scm]
+write_to = "src/pyloric_network_simulator/_version.py"
+
+
+[build-system]
+# setuptools version required for project configured entirely with pyproject.toml
+requires = ["setuptools>=61.0.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
