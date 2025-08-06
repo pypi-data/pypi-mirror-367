@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "markus_exam_matcher"
+version = "0.2.0"
+description = "A package for matching students to test papers in MarkUs"
+readme = "README.md"
+authors = [
+  { name="Hannah Li", email="hannah.li97@gmail.com"},
+  { name="Anis Singh", email="anisnylesingh@gmail.com" },
+]
+maintainers = [
+    { name = "David Liu", email="david@cs.toronto.edu" }
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=2.0.0,<2.3",  # Same as scipy dependency for numpy
+    "opencv-python-headless==4.12.0.88",
+    "pdf2image==1.17.0",
+    "Pillow==11.3.0",
+    "scipy==1.14.1",
+    "torch==2.7.1",
+    "torchvision==0.22.1",
+    "zxing-cpp==2.3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/MarkUsProject/markus-exam-matcher"
+"Bug Tracker" = "https://github.com/MarkUsProject/markus-exam-matcher/issues"
+
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/examples",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/markus_exam_matcher"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
