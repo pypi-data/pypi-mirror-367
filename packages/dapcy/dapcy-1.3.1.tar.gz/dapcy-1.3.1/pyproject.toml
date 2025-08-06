@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dapcy"
+version = "1.3.1"
+description = "An sklearn implementation of discriminant analysis of principal components (DAPC) for population genetics"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Alejandro Correa Rojo", email = "alejandro.correarojo@uhasselt.be" },
+    { name = "Pieter Moris", email = "pmoris@itg.be " },
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.6"
+dependencies = [
+    "bed-reader",
+    "bio2zarr[vcf]>=0.1.6", # implies cyvcf2
+    "joblib",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "scipy",
+    "seaborn",
+    "sgkit",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "mkdocs>=1.6.1",
+    "mkdocstrings[python]>=0.27.0",
+    "mkdocs-jupyter==0.25.1",
+    "twine",
+]
+
+[tool.setuptools]
+packages = ["dapcy"]
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["F401"]
+"__init__.py" = ["F401"]
+
+[project.urls]
+Homepage = "https://gitlab.com/uhasselt-bioinfo/dapcy"
+Documentation = "https://uhasselt-bioinfo.gitlab.io/dapcy/"
+Repository = "https://gitlab.com/uhasselt-bioinfo/dapcy.git"
+Changelog = "https://gitlab.com/uhasselt-bioinfo/dapcy/-/blob/main/CHANGELOG.md"
