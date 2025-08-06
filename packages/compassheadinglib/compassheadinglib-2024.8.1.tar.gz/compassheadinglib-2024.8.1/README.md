@@ -1,0 +1,189 @@
+<span style="font-variant: small-caps">CompassHeadingLib</span> is a small, dependency-free, pure python library for working with compass headings in terms of comparison and transformation between decimal degree and natural language space. While it originally only suported English, it supports multiple languages.
+
+<span style="font-variant: small-caps">CompassHeadingLib</span> follows the [worse is better](https://en.wikipedia.org/wiki/Worse_is_better) design philosophy; it's better to have a slower less featureful implementation then no implementation at all. Optimizations will be executed when we have to.
+
+### License
+
+<span style="font-variant: small-caps">CompassHeadingLib</span> is licensed under the MIT License and offered as is without warranty of any kind, express or implied. 
+
+### Installation
+
+#### From PyPi
+`pip install -u compassheadinglib`
+
+#### From Git
+`pip install pip@git+https://github.com/Peter-E-Lenz/compassheadinglib/`
+
+#### Useage
+
+### Language support
+
+To use a specific language import the library as import compassheadinglib.<language-two-letter-code>, i.e. to have Korean language support use `from
+compassheadinglib.kr import Compass` or to use Portugese use `from
+compassheadinglib.kr import Compass`. Because the library was originally available with only English language support `from compassheadinglib import Compass` is equivalent to `from  compassheadinglib.en import Compass`.
+
+| Language | Two letter code |
+| ---- | ------- |
+| ar | Arabic |
+| cn | Chinese |
+| de | German |
+| en | English |
+| es | Spanish |
+| fr | French |
+| hi | Hindi |
+| jp | Japanese |
+| kr | Korean |
+| pt | Portugese |
+
+Unfortunately the developer of this library in an English monoglot. Translations were achieved via machine. The developer apologizes for any mistakes in those translations - corrections are graciously accepted.
+
+## Example
+
+### Dependencies
+
+<span style="font-variant: small-caps">CompassHeadingLib</span> has only dependencies from the python's standard library.
+It was originally written to run on Python 2.7 but is now only tested on Python 3.7+. 
+
+## Compass Object
+###### Compass(Float *heading*, Int *order* = 3)
+###### Compass.findHeading(Float *heading*, Int *order* = 3)
+
+| Type | Returns |
+| ---- | ------- |
+| Object(based on Dict)| Heading |
+
+These functions take a heading between two points as a float (i.e. in decimal degrees) and returns the best matching heading with `order` degree of specificity. `Order` is a 1-indexed description of how specific the natural language The higher the order the more specific the heading. At an `order` of 1 the decimal degree heading of 80.0 will return a heading object of 'East' while at an `order` of 4 it would return 'East by North' heading object. 
+
+Internally, calling the Compass object directly will silently call it's `findHeading` method.
+
+## Heading Object
+Heading objects are returned by Compass objects and are not intended to be created by end users.
+
+| Type | Returns |
+| ---- | ------- |
+| Object| N/A|
+
+Heading objects are containers for information about headings that are designed to be comparable to each other (and other python objects) using built-in methods. There are four pieces of information for each heading, each a method of the object: `name`, `abbr`, `azimuth`, and `order`. The various built-in comparisons look to different methods (and thus different pieces of the information) as appropriate. For the most part you can safely ignore all this background stuff.
+
+###### Heading.name
+
+| Type | Returns |
+| ---- | ------- |
+| string| string|
+
+The full name of this heading, along the lines of 'North' or 'South by East'.
+Note: despite what the festival has told you there is no such heading as 'South by Southwest'.
+
+###### Heading.abbr
+
+| Type | Returns |
+| ---- | ------- |
+| string| string|
+
+The abbreviated name of this heading, along the lines of 'N' or 'SbE'
+
+###### Heading.azimuth
+
+| Type | Returns |
+| ---- | ------- |
+| float| float|
+
+The decimal degree value of this heading. For example; 'West' is 270.0 while 'North-Northeast' is 22.5
+
+###### Heading.order
+
+| Type | Returns |
+| ---- | ------- |
+| integer| integer|
+
+Order defines how specific the heading is. The cardinal directions ('North', 'East', 'South' & 'West') are of order 1 while 'South by East' is order 4. The Compass Headings Reference chart at the end of this document will be more illustrative of this difference.
+Put another way: order 1 headings are 90° apart, order 2 headings are 45° apart, order 3 headings are 22.5° apart, and order 4 headings are 11.25° apart. By default this library uses order 3 where ever that value can be specified. Each order includes the headings of that order and all headings of any lower valued orders. Hence order 2 includes all headings labeled order 2 and order 1.
+
+When treated as a string the Heading object returns the value for the `name` method
+When treated as a numeric(regardless of int or float) it will return the values for the `azimuth` method.
+
+###### Heading.translate(String *lang*)
+
+| Type | Returns |
+| ---- | ------- |
+| Heading| Heading object|
+
+Returns a new Heading object with the name and abbreviation translated to the specified language. The language parameter should be the two-letter language code (e.g., 'EN', 'FR', 'DE'). The azimuth, order, and other properties remain unchanged. This method allows you to get the same compass heading in different languages while maintaining all the mathematical properties.
+
+Example: `north_heading.translate('FR')` would return a Heading object with French names for the same compass direction.
+
+###### Heading.rotate(Float *degrees*)
+
+| Type | Returns |
+| ---- | ------- |
+| Heading| Heading object|
+
+Rotates the current heading by the specified number of degrees and returns a new Heading object for the resulting direction. Positive degrees rotate clockwise, negative degrees rotate counter-clockwise. This method calls the parent Compass object to find the appropriate heading for the new azimuth.
+
+Example: `north_heading.rotate(45)` would return a Northeast heading.
+
+###### Heading.starboard(Float *degrees*)
+###### Heading.right(Float *degrees*)
+
+| Type | Returns |
+| ---- | ------- |
+| Heading| Heading object|
+
+Rotates the current heading to starboard (right/clockwise) by the specified number of degrees. The degrees parameter must be non-negative (>= 0). Returns a new Heading object for the resulting direction. `right()` is an alias for `starboard()` for those more familiar with land-based terminology.
+
+Example: `north_heading.starboard(90)` would return an East heading.
+
+###### Heading.port(Float *degrees*)
+###### Heading.left(Float *degrees*)
+
+| Type | Returns |
+| ---- | ------- |
+| Heading| Heading object|
+
+Rotates the current heading to port (left/counter-clockwise) by the specified number of degrees. The degrees parameter must be non-negative (>= 0). Returns a new Heading object for the resulting direction. `left()` is an alias for `port()` for those more familiar with land-based terminology.
+
+Example: `east_heading.port(45)` would return a Northeast heading.
+
+###### Heading.asDict()
+
+| Type | Returns |
+| ---- | ------- |
+| dict| dictionary|
+
+Returns a dictionary representation of the Heading object containing the core properties (name, abbr, azimuth, order) but excluding the langs and parent references. This is useful for serialization or when you need a simple data structure representation of the heading.
+
+## English Language Compass Headings Reference
+| Heading            | Abbreviation | Azimuth| Order |
+|--------------------|-----------|---------|-------|
+| North              | N         | 0       | 1     |
+| North by East      | NbE       | 11.25   | 4     |
+| North-Northeast    | NNE       | 22.5    | 3     |
+| Northeast by North | NEbN      | 33.75   | 4     |
+| Northeast          | NE        | 45      | 2     |
+| Northeast by East  | NEbE      | 56.25   | 4     |
+| East-Northeast     | ENE       | 67.5    | 3     |
+| East by North      | EbN       | 78.75   | 4     |
+| East               | E         | 90      | 1     |
+| East by South      | EbS       | 101.25  | 4     |
+| East-Southeast     | ESE       | 112.5   | 3     |
+| Southeast by East  | SEbE      | 123.75  | 4     |
+| Southeast          | SE        | 135     | 2     |
+| Southeast by South | SEbS      | 146.25  | 4     |
+| South-Southeast    | SSE       | 157.5   | 3     |
+| South by East      | SbE       | 168.75  | 4     |
+| South              | S         | 180     | 1     |
+| South by West      | SbW       | 191.25  | 4     |
+| South-Southwest    | SSW       | 202.5   | 3     |
+| Southwest by South | SWbS      | 213.75  | 4     |
+| Southwest          | SW        | 225     | 2     |
+| Southwest by West  | SWbW      | 236.25  | 4     |
+| West-Southwest     | WSW       | 247.5   | 3     |
+| West by South      | WbS       | 258.75  | 4     |
+| West               | W         | 270     | 1     |
+| West by North      | WbN       | 281.25  | 4     |
+| West-Northwest     | WNW       | 292.5   | 3     |
+| Northwest by West  | NWbW      | 303.75  | 4     |
+| Northwest          | NW        | 315     | 2     |
+| Northwest by North | NWbN      | 326.25  | 4     |
+| North-Northwest    | NNW       | 337.5   | 3     |
+| North by West      | NbW       | 348.75  | 4     |
