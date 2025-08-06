@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyextractit"
+version = "0.1.0"
+description = "A utility to extract recursively from single zip/tar/tar.gz file till matching the target file name patter (regexp). then rename the file or files with specified prefix. This is quite useful when your data hides in the deep"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "loguru>=0.7.0",
+    "pydantic>=2.0.0",
+    "tqdm>=4.65.0",
+    "typer>=0.9.0",
+    "tenacity>=8.0.0",
+]
+
+[project.scripts]
+pyextractit = "pyextractit.__main__:app"
+
+[project.urls]
+Homepage = "https://github.com/fxyzbtc/pyextractit"
+Repository = "https://github.com/fxyzbtc/pyextractit"
+Documentation = "https://deepwiki.com/fxyzbtc/pyextractit"
+Issues = "https://github.com/fxyzbtc/pyextractit/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "ruff>=0.1.0",
+    "coverage>=7.0.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=pyextractit --cov-report=term-missing --cov-report=html"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["pyextractit"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.uv.sources]
+pyextractit = { path = "pyextractit", editable = true }
+
+[tool.setuptools]
+package-dir = {"" = "pyextractit"}
