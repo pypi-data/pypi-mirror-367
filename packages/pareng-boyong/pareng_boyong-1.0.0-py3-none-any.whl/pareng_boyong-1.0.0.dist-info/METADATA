@@ -1,0 +1,731 @@
+Metadata-Version: 2.4
+Name: pareng-boyong
+Version: 1.0.0
+Summary: Pareng Boyong - Your Intelligent Filipino AI Agent and Coding Assistant
+Home-page: https://github.com/innovatehub-ph/pareng-boyong
+Author: InnovateHub PH
+Author-email: InnovateHub PH <info@innovatehub.ph>
+Maintainer-email: Pareng Boyong Development Team <dev@innovatehub.ph>
+License: MIT
+Project-URL: Homepage, https://github.com/innovatehub-ph/pareng-boyong
+Project-URL: Documentation, https://pareng-boyong.readthedocs.io
+Project-URL: Repository, https://github.com/innovatehub-ph/pareng-boyong.git
+Project-URL: Bug Tracker, https://github.com/innovatehub-ph/pareng-boyong/issues
+Project-URL: Changelog, https://github.com/innovatehub-ph/pareng-boyong/blob/main/CHANGELOG.md
+Keywords: ai,agent,filipino,coding-assistant,multimodal,cost-optimization,agent-zero,pinoy-ai,tts,cli
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Natural Language :: English
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: typer>=0.9.0
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: asyncio-throttle>=1.0.0
+Requires-Dist: tiktoken>=0.5.0
+Requires-Dist: nest-asyncio>=1.6.0
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: pyyaml>=6.0.0
+Requires-Dist: pytz>=2023.3
+Provides-Extra: ai
+Requires-Dist: openai>=1.3.0; extra == "ai"
+Requires-Dist: anthropic>=0.3.0; extra == "ai"
+Requires-Dist: litellm>=1.40.0; extra == "ai"
+Requires-Dist: sentence-transformers>=2.2.0; extra == "ai"
+Requires-Dist: faiss-cpu>=1.7.0; extra == "ai"
+Provides-Extra: multimedia
+Requires-Dist: pillow>=10.0.0; extra == "multimedia"
+Requires-Dist: opencv-python>=4.8.0; extra == "multimedia"
+Requires-Dist: moviepy>=1.0.3; extra == "multimedia"
+Requires-Dist: imageio>=2.31.0; extra == "multimedia"
+Requires-Dist: requests>=2.31.0; extra == "multimedia"
+Provides-Extra: filipino
+Requires-Dist: soundfile>=0.12.0; extra == "filipino"
+Requires-Dist: librosa>=0.10.0; extra == "filipino"
+Requires-Dist: phonemizer>=3.2.0; extra == "filipino"
+Requires-Dist: espeak-ng>=1.51; extra == "filipino"
+Provides-Extra: web
+Requires-Dist: flask>=2.3.0; extra == "web"
+Requires-Dist: flask-cors>=4.0.0; extra == "web"
+Requires-Dist: websockets>=11.0.0; extra == "web"
+Requires-Dist: jinja2>=3.1.0; extra == "web"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.5.0; extra == "dev"
+Requires-Dist: pre-commit>=3.4.0; extra == "dev"
+Provides-Extra: full
+Requires-Dist: pareng-boyong[ai,filipino,multimedia,web]; extra == "full"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# 🇵🇭 Pareng Boyong - Your Intelligent Filipino AI Agent
+
+[![PyPI version](https://badge.fury.io/py/pareng-boyong.svg)](https://badge.fury.io/py/pareng-boyong)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Filipino AI](https://img.shields.io/badge/Filipino-AI-red.svg)](https://github.com/innovatehub-ph/pareng-boyong)
+
+**Kumusta!** Meet **Pareng Boyong**, your intelligent Filipino AI agent and coding assistant with cost optimization, cultural awareness, and multimodal capabilities.
+
+> *"Bayanihan spirit meets AI excellence"* - Built with Filipino values, world-class technology
+
+## ✨ What Makes Pareng Boyong Special
+
+🇵🇭 **Filipino Cultural Integration**
+- Natural Filipino/Tagalog communication
+- Cultural values: Bayanihan, Kapamilya, Utang na loob
+- Respectful communication patterns (po/opo)
+- Philippine time zone and local context awareness
+
+💰 **Cost-Optimized Excellence** 
+- **FREE-first approach** - prioritizes free services before paid alternatives
+- 90-95% of requests use FREE services
+- Intelligent cost tracking and budget management
+- Average cost per video: < $0.005, per image: < $0.003
+
+🤖 **44+ Specialized AI Tools**
+- Multimodal generation (text, images, video, audio)
+- Code execution across multiple environments
+- System monitoring and self-healing
+- Multi-agent architecture
+
+🌐 **Complete Solution**
+- Command-line interface (`boyong` command)
+- Web interface with real-time chat
+- Python API for integration
+- Extensive documentation
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Basic installation
+pip install pareng-boyong
+
+# Full installation with all features
+pip install pareng-boyong[full]
+
+# Specific feature sets
+pip install pareng-boyong[ai,multimedia,filipino]
+```
+
+### Setup
+
+```bash
+# Run the setup wizard
+boyong setup
+
+# Start chatting
+boyong chat
+
+# Launch web interface
+boyong web
+```
+
+### Python API
+
+```python
+from pareng_boyong import setup_pareng_boyong
+
+# Quick setup
+agent = setup_pareng_boyong(
+    api_keys={"openai": "sk-xxx", "google": "xxx"},
+    cultural_mode=True
+)
+
+# Start chatting
+response = agent.chat("Kumusta! Create a video of Manila sunset")
+print(response)
+```
+
+## 🎯 Key Features
+
+### 🔧 Cost-Optimized Tool Ecosystem
+
+**Primary Tools (Always Try First):**
+- `cost_optimized_video_generator` - FREE → $0.01 video generation
+- `imagen4_generator` - Google Imagen 4 Fast for images  
+- `multimodal_coordinator` - Intelligent request routing
+- `system_self_awareness` - Health monitoring and risk assessment
+
+**Decision Tree Example:**
+```
+Video Request → cost_optimized (FREE ComfyUI) → trending (CogVideoX-2B) → advanced (premium)
+Image Request → imagen4 (Google Fast) → multimedia (ComfyUI) → SVG fallback
+```
+
+### 🇵🇭 Cultural Intelligence
+
+```python
+# Automatic cultural context
+agent.chat("Hello")
+# Response: "🇵🇭 Magandang araw po! I'm Pareng Boyong, your kaibigan na AI assistant!"
+
+# Cost-conscious recommendations
+agent.chat("Create a professional video")  
+# Response: "I can generate this video for you! 
+#          🆓 FREE Option: ComfyUI (5-10 min)
+#          💸 Paid Option: Replicate ($0.008, premium quality)
+#          Which would you prefer? I always recommend trying FREE first!"
+```
+
+### 🎨 Multimodal Generation
+
+**Video Generation:**
+- **FREE**: ComfyUI AnimateDiff, HuggingFace Spaces
+- **Paid**: CogVideoX-2B, Stable Video Diffusion, Open-Sora
+
+**Image Generation:**
+- **Primary**: Google Imagen 4 Fast (2K resolution)
+- **Fallback**: ComfyUI FLUX.1, SVG placeholders
+
+**Audio Generation:**
+- **Filipino TTS**: Toucan TTS for Filipino/Tagalog
+- **Music**: Bark, AudioCraft with cost optimization
+- **Voiceovers**: Multiple languages with quality tiers
+
+## 📦 Installation Options
+
+### Basic Installation
+```bash
+pip install pareng-boyong
+```
+**Includes:** Core agent, CLI, basic tools
+
+### Feature-Specific Installations
+```bash
+# AI and LLM features
+pip install pareng-boyong[ai]
+
+# Multimedia generation
+pip install pareng-boyong[multimedia]
+
+# Filipino TTS and cultural features  
+pip install pareng-boyong[filipino]
+
+# Web interface
+pip install pareng-boyong[web]
+
+# Development tools
+pip install pareng-boyong[dev]
+
+# Everything included
+pip install pareng-boyong[full]
+```
+
+## 🖥️ Command Line Interface
+
+### Setup and Configuration
+```bash
+# Initial setup wizard
+boyong setup
+
+# Minimal setup (essential features only)
+boyong setup --minimal
+
+# Force reconfiguration
+boyong setup --force
+```
+
+### Interactive Chat
+```bash
+# Basic chat mode
+boyong chat
+
+# Chat with specific model
+boyong chat --model "openai/gpt-4"
+
+# Disable cultural mode
+boyong chat --no-cultural
+
+# Debug mode
+boyong chat --debug
+```
+
+### Web Interface
+```bash
+# Start web server (default: http://localhost:8080)
+boyong web
+
+# Custom host and port
+boyong web --host 0.0.0.0 --port 3000
+
+# Development mode
+boyong web --debug
+```
+
+### Tool Management
+```bash
+# List all tools
+boyong tools --list
+
+# Show enabled tools only
+boyong tools --enabled
+
+# Filter by category
+boyong tools --category multimodal
+
+# Enable/disable tools
+boyong tools --enable imagen4_generator
+boyong tools --disable advanced_video_generator
+```
+
+### Configuration Management
+```bash
+# Show current config
+boyong config --show
+
+# Edit configuration interactively
+boyong config --edit
+
+# Set specific values
+boyong config --key cultural_mode --value true
+boyong config --key max_daily_cost --value 10.0
+
+# Reset to defaults
+boyong config --reset
+```
+
+### System Status
+```bash
+# Check system health and status
+boyong status
+```
+
+## 🐍 Python API
+
+### Quick Setup
+```python
+from pareng_boyong import ParengBoyong, ParengBoyongConfig
+
+# Using default configuration
+agent = ParengBoyong()
+
+# Custom configuration
+config = ParengBoyongConfig(
+    api_keys={
+        "openai": "sk-xxx",
+        "google": "xxx", 
+        "replicate": "r8-xxx"
+    },
+    cultural_mode=True,
+    cost_optimization=True,
+    max_daily_cost=5.0
+)
+agent = ParengBoyong(config)
+```
+
+### Basic Usage
+```python
+# Simple chat
+response = agent.chat("Create an image of Mayon Volcano")
+print(response)
+
+# Streaming chat
+for chunk in agent.chat("Tell me about Filipino culture", stream=True):
+    print(chunk, end='')
+
+# With additional context
+response = agent.chat(
+    "Generate a professional presentation video",
+    context={"quality": "high", "budget": 0.05}
+)
+```
+
+### Advanced Features
+```python
+# Create subordinate agents for complex tasks
+subordinate = agent.create_subordinate(
+    task="Handle video generation subtasks",
+    context={"specialization": "multimedia"}
+)
+
+# Get capabilities and status
+capabilities = agent.get_capabilities()
+print(f"Available tools: {len(capabilities['tools'])}")
+print(f"Cultural features: {capabilities['cultural_features']}")
+
+# Reset session
+agent.reset_session()
+```
+
+### Error Handling
+```python
+from pareng_boyong import ParengBoyongError, ConfigurationError, CostLimitError
+
+try:
+    response = agent.chat("Create expensive content")
+except CostLimitError as e:
+    print(f"Cost limit reached: {e.get_filipino_message()}")
+    # "Pasensya na po, naabot na natin ang cost limit..."
+    
+except ConfigurationError as e:
+    print(f"Config issue: {e.get_filipino_message()}")
+    # "Pasensya na po, kulang pa ang API keys..."
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+```bash
+# API Keys
+export OPENAI_API_KEY="sk-xxx"
+export GOOGLE_API_KEY="xxx"
+export REPLICATE_API_TOKEN="r8-xxx"
+export ELEVENLABS_API_KEY="xxx"
+
+# Pareng Boyong Settings
+export PARENG_BOYONG_CULTURAL_MODE="true"
+export PARENG_BOYONG_MAX_DAILY_COST="5.0"
+export PARENG_BOYONG_DEBUG="false"
+```
+
+### Configuration File
+Config is automatically saved to `~/.pareng-boyong/config.yaml`:
+
+```yaml
+# Core settings
+cultural_mode: true
+cost_optimization: true
+max_daily_cost: 5.0
+max_history_size: 100
+
+# Model settings
+default_llm: "openai/gpt-4"
+temperature: 0.7
+max_tokens: 4000
+
+# Tool preferences
+enabled_tools:
+  - cost_optimized_video_generator
+  - imagen4_generator
+  - multimodal_coordinator
+  - system_self_awareness
+
+# Cultural settings
+primary_language: "mixed"  # english, filipino, mixed
+cultural_context_level: "moderate"  # minimal, moderate, full
+use_filipino_greetings: true
+use_po_opo: true
+
+# Cost optimization
+prefer_free_services: true
+cost_warning_threshold: 1.0
+auto_escalate_quality: false
+```
+
+## 🎨 Usage Examples
+
+### Multimedia Generation
+```python
+# Cost-optimized video (tries FREE first)
+response = agent.chat("Create a 5-second video of Philippine flag waving")
+# Uses FREE ComfyUI or HuggingFace before paid services
+
+# High-quality image with Google Imagen 4
+response = agent.chat("Professional photo of Banaue Rice Terraces, golden hour")
+# Uses Google Imagen 4 Fast for best quality/cost ratio
+
+# Filipino TTS
+response = agent.chat("Convert this to Filipino speech: 'Magandang umaga sa lahat'")
+# Uses Toucan TTS for authentic Filipino pronunciation
+```
+
+### Code and Development
+```python
+# Code execution with cultural context
+response = agent.chat("""
+Create a Python script that greets users in Filipino,
+then deploy it to a web server
+""")
+
+# System analysis
+response = agent.chat("Check system health and recommend optimizations")
+# Uses system_self_awareness tool for comprehensive analysis
+```
+
+### Cultural Integration
+```python
+# Cultural responses automatically
+agent.chat("Hello!")
+# "🇵🇭 Magandang araw po! I'm Pareng Boyong..."
+
+agent.chat("Can you help me?")  
+# "Oo naman! Walang problema! What do you need help with?"
+
+# Cost consciousness
+agent.chat("I need a video but I'm on a tight budget")
+# "No worries! Let's use FREE services muna. ComfyUI is perfect for this!"
+```
+
+## 🔧 Tool Categories
+
+### Multimodal Generation (11 tools)
+- **Video**: cost_optimized, trending, advanced, simple generators
+- **Image**: imagen4, multimedia generators
+- **Audio**: studio, voiceover, music, cost-optimized generators
+- **Coordination**: multimodal_coordinator for intelligent routing
+
+### Development & Code (7 tools)
+- **Execution**: enhanced_code_execution (RFC HTTP→Daytona→SSH→Local)
+- **Version Control**: github_tool with full API integration
+- **Deployment**: automatic_deployment_tool, context7_tool
+- **Configuration**: enhanced_model_configuration, model_discovery
+
+### Intelligence & Memory (7 tools)
+- **Memory**: save, load, forget, delete operations
+- **Search**: engine, searxng, document_query capabilities
+
+### System Management (11 tools)
+- **Monitoring**: system_self_awareness, comprehensive_system_test
+- **Recovery**: self_healing_tool, error_analysis_tool
+- **UI**: enhanced_ui_renderer with React-style components
+- **Infrastructure**: env_loader, browser, email, MCP tools
+
+### Utility (8 tools)
+- Input handling, vision processing, legacy support tools
+
+## 📊 Cost Optimization Features
+
+### Intelligent Cost Management
+```python
+# Automatic cost tracking
+daily_usage = agent.cost_optimizer.get_daily_usage()
+monthly_usage = agent.cost_optimizer.get_monthly_usage()
+
+# Cost report with Filipino context
+report = agent.cost_optimizer.get_cost_report()
+print(f"Today's usage: ${report['daily_usage']:.3f}")
+print(f"Estimated monthly savings: ${report['estimated_savings']:.2f}")
+
+# Budget checking
+if agent.cost_optimizer.can_afford(0.05):
+    print("✅ Within budget!")
+else:
+    print("⚠️ Budget limit reached - try FREE alternatives!")
+```
+
+### Cost Optimization Strategies
+1. **FREE-First Approach**: Always try free services before paid
+2. **Budget Monitoring**: Track daily/monthly spending with alerts
+3. **Quality vs Cost**: Auto-select appropriate quality tier
+4. **Alternative Suggestions**: Recommend cheaper options when budget is tight
+5. **Cultural Cost Messaging**: Filipino-friendly budget notifications
+
+## 🌐 Web Interface
+
+Launch the web interface for a complete graphical experience:
+
+```bash
+boyong web
+```
+
+Features:
+- **Interactive Chat**: Real-time conversation with Pareng Boyong
+- **Tool Dashboard**: Visual tool management and status
+- **Cost Monitor**: Live cost tracking and optimization insights
+- **Cultural Settings**: Adjust Filipino integration preferences
+- **Multimedia Gallery**: View generated images, videos, and audio
+- **System Health**: Monitor performance and resource usage
+
+## 🤝 Multi-Agent Architecture
+
+```python
+# Create specialized subordinate agents
+video_agent = agent.create_subordinate(
+    task="Handle all video generation requests",
+    context={"specialization": "video", "budget": 0.02}
+)
+
+code_agent = agent.create_subordinate(
+    task="Execute code and development tasks", 
+    context={"specialization": "development"}
+)
+
+# Agents collaborate automatically
+response = agent.chat("""
+Create a video showcasing a Python web app,
+then deploy the app to production
+""")
+# Automatically delegates to video_agent and code_agent
+```
+
+## 🛡️ System Self-Awareness
+
+Pareng Boyong includes intelligent system monitoring:
+
+```python
+# Health check before major operations
+health = agent.system_monitor.health_check()
+if not health['healthy']:
+    print(f"⚠️ System issues: {health['issues']}")
+
+# Risk assessment for operations
+risk = agent.system_monitor.assess_risk("generate_large_video")
+if risk['high_risk']:
+    print(f"🚨 High risk operation: {risk['warnings']}")
+
+# Automatic self-healing
+agent.system_monitor.enable_self_healing()
+```
+
+## 🔒 Security and Privacy
+
+- **API Key Management**: Secure storage and validation
+- **Container Isolation**: Sandboxed execution environments
+- **Cost Protection**: Automatic budget limits and alerts
+- **Cultural Sensitivity**: Respectful AI behavior with Filipino values
+- **Data Privacy**: Local storage with optional cloud integration
+
+## 🚗 Migration from Agent Zero
+
+If you're coming from Agent Zero, Pareng Boyong provides:
+
+- **Enhanced Cost Optimization**: FREE-first approach vs default paid services
+- **Filipino Cultural Integration**: Natural cultural context and language
+- **Improved Tool Selection**: Intelligent routing based on cost and quality
+- **Better Error Handling**: Culturally-sensitive error messages
+- **Comprehensive CLI**: Full command-line interface with setup wizard
+
+```python
+# Agent Zero style (still works)
+from pareng_boyong import ParengBoyong
+agent = ParengBoyong()
+response = agent.chat("Create content")
+
+# Enhanced Pareng Boyong style
+from pareng_boyong import setup_pareng_boyong
+agent = setup_pareng_boyong(cultural_mode=True, cost_optimization=True)
+response = agent.chat("Gumawa ng content para sa presentation")
+```
+
+## 🤝 Contributing
+
+We welcome contributions with **bayanihan spirit**! Here's how to help:
+
+### Development Setup
+```bash
+# Clone repository
+git clone https://github.com/innovatehub-ph/pareng-boyong.git
+cd pareng-boyong
+
+# Install development dependencies
+pip install -e .[dev]
+
+# Install pre-commit hooks
+pre-commit install
+
+# Run tests
+pytest
+
+# Code formatting
+black pareng_boyong/
+flake8 pareng_boyong/
+```
+
+### Ways to Contribute
+- 🐛 **Bug Reports**: Help us improve reliability
+- ✨ **Features**: Suggest new tools and capabilities  
+- 🇵🇭 **Cultural Enhancement**: Improve Filipino integration
+- 📚 **Documentation**: Help others understand and use Pareng Boyong
+- 🌐 **Translations**: Support more Filipino languages and dialects
+- 🔧 **Tools**: Develop new specialized AI tools
+
+### Community Guidelines
+- **Respectful**: Maintain Filipino values of respect and courtesy
+- **Collaborative**: Embrace bayanihan spirit in all interactions
+- **Inclusive**: Welcome all backgrounds and skill levels
+- **Cost-Conscious**: Consider cost optimization in all features
+
+## 📚 Documentation
+
+- **[Installation Guide](docs/installation.md)**: Detailed setup instructions
+- **[API Reference](docs/api.md)**: Complete Python API documentation
+- **[CLI Guide](docs/cli.md)**: Command-line interface reference
+- **[Cultural Features](docs/cultural.md)**: Filipino integration details
+- **[Tool Development](docs/tools.md)**: Creating custom tools
+- **[Cost Optimization](docs/costs.md)**: Understanding cost management
+- **[Troubleshooting](docs/troubleshooting.md)**: Common issues and solutions
+
+## 🆘 Support
+
+Need help? We're here with **malasakit**!
+
+- **📖 Documentation**: [https://pareng-boyong.readthedocs.io](https://pareng-boyong.readthedocs.io)
+- **🐛 Issues**: [GitHub Issues](https://github.com/innovatehub-ph/pareng-boyong/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/innovatehub-ph/pareng-boyong/discussions)  
+- **🇵🇭 Community**: [Filipino AI Discord](https://discord.gg/filipino-ai)
+- **📧 Email**: support@innovatehub.ph
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+**Salamat** to these amazing projects and communities:
+
+- **[Agent Zero](https://github.com/agent0ai/agent-zero)**: Foundation AI agent framework
+- **Filipino AI Community**: Cultural guidance and feedback
+- **Open Source Contributors**: Tools, libraries, and inspiration
+- **InnovateHub PH**: Development and maintenance
+
+## 🎯 Roadmap
+
+### Short Term (Q1 2025)
+- ✅ PyPI package release
+- ✅ Comprehensive CLI interface
+- ✅ Cost optimization system
+- 🔄 Enhanced web interface
+- 🔄 More Filipino TTS voices
+
+### Medium Term (Q2-Q3 2025)
+- 📱 Mobile app integration
+- 🌐 Multi-language support (Cebuano, Ilocano, etc.)
+- 🤖 Advanced multi-agent workflows
+- ☁️ Cloud deployment options
+- 📊 Enhanced analytics and reporting
+
+### Long Term (Q4 2025+)
+- 🧠 Fine-tuned Filipino language models
+- 🏢 Enterprise features and support
+- 🌏 Southeast Asian cultural expansion
+- 🔬 Research collaborations
+- 🎓 Educational partnerships
+
+---
+
+<div align="center">
+
+**🇵🇭 Built with Filipino pride, powered by AI excellence**
+
+*Pareng Boyong - Your kaibigan in the age of artificial intelligence*
+
+[![Made in Philippines](https://img.shields.io/badge/Made%20in-Philippines-red.svg)](https://github.com/innovatehub-ph)
+[![Powered by AI](https://img.shields.io/badge/Powered%20by-AI-blue.svg)](https://pareng-boyong.ai)
+[![Bayanihan Spirit](https://img.shields.io/badge/Bayanihan-Spirit-yellow.svg)](https://github.com/innovatehub-ph/pareng-boyong)
+
+</div>
