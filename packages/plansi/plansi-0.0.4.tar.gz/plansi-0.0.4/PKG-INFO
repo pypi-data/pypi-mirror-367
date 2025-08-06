@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: plansi
+Version: 0.0.4
+Summary: plays videos as ansi
+Author-email: Gareth Davidson <gaz@bitplane.net>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: bittty==0.0.6
+Requires-Dist: chafa.py~=1.2
+Requires-Dist: av~=15.0
+Requires-Dist: Pillow~=11.3
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: coverage ; extra == "dev"
+Requires-Dist: pytest-cov ; extra == "dev"
+Requires-Dist: build ; extra == "dev"
+Requires-Dist: twine ; extra == "dev"
+Requires-Dist: ruff ; extra == "dev"
+Requires-Dist: pydoc-markdown ; extra == "dev"
+Provides-Extra: dev
+
+# 👾 plansi
+
+Plays videos as ANSI, trying to keep the output as small and as castable
+as possible.
+
+## ▶ Usage
+
+```bash
+# play to terminal
+uvx plansi video.mp4
+
+# write to asciinema file
+uvx plansi video.mp4 video.cast
+
+# with options
+uvx plansi video.mp4 --fps=15 --threshold=10 --debug
+uvx plansi video.mp4 --cache-position --no-cache-style
+```
+
+## TODO - Version 0.1.0
+
+### 🌐 Streaming & Input Sources
+- **yt-dlp integration**: Auto-detect `http://`/`https://` URLs and use yt-dlp API to get direct streaming URLs
+- **Fallback strategy**: Try ffmpeg first, fall back to yt-dlp if that fails
+- **Webcam support**: Add `--camera` flag to treat input as webcam device
+  - Linux: `/dev/video0` with v4l2
+  - Windows: DirectShow device enumeration
+  - macOS: AVFoundation device support
+
+### 📺 Terminal & Display
+- **SIGWINCH handling**: Resize video on terminal window resize during live playback
+- **Cast file quantization**: Quantize existing .cast files
+
+### 🔧 API Improvements
+- **File-like object support**: Allow writing to BytesIO, StringIO for textual-asciinema
+
