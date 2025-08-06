@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cgnize"
+dynamic = ["version"]
+authors = [
+  { name="Jonathan Motta", email="jonathan.motta@safesolutions.com.br" },
+]
+description = "A Python toolkit for parsing, reading, and organizing cgns data files into analysis-ready format."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "numba",
+    "h5py",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Safe-Solutions-Engenharia/cgnize"
+"Bug Tracker" = "https://github.com/Safe-Solutions-Engenharia/cgnize/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "_version.__version__"}
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["cgnize"]
