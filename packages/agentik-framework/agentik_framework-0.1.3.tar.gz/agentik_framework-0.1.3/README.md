@@ -1,0 +1,244 @@
+Agentik – Modular Agentic AI Framework for Python
+=================================================
+
+A lightweight, modern, and pluggable Python framework to build AI agents with reasoning, memory, tool-use, and LLM backend support — designed to be minimal, extensible, and developer-friendly.
+
+What is Agentik?
+----------------
+
+**Agentik** is a Python framework to create intelligent agents that can reason, plan, act, and reflect using LLMs such as OpenAI, Claude, Mistral, (via OpenRouter) or your own local model.
+
+Agentik abstracts complexity while remaining highly modular and configurable.
+
+Key Highlights:
+
+- LLM plugin support (OpenAI, Claude, Mistral, etc.)
+- Multiple memory types (in-memory dict, JSON, vector-based)
+- Tool integration (web search, calculator, file reader, etc.)
+- Configuration via YAML or Python
+- Command-line interface (CLI) for launching/debugging
+- API-key agnostic: the user supplies their own keys
+
+Features
+--------
+
+- Define agents in Python or YAML
+- Core reasoning loop: `plan → act → reflect → iterate`
+- Extendable tool and memory systems
+- Streaming, retry logic, and debug logging supported
+- Built-in CLI powered by `Typer`
+- Lightweight, extensible, and transparent by design
+
+Folder Structure
+----------------
+
+::
+
+    agentik/
+    ├── agent.py         # Core agent class and reasoning loop
+    ├── llms.py          # LLM backend interfaces (OpenAI, Claude, etc.)
+    ├── tools/           # Built-in and custom tools
+    │   ├── calculator.py
+    │   ├── websearch.py
+    │   ├── filereader.py
+    ├── memory.py        # Memory backends (Dict, JSON, FAISS, etc.)
+    ├── config.py        # YAML/JSON config parser (uses pydantic)
+    ├── cli.py           # CLI interface using Typer
+    ├── utils.py         # Logger, token counter, and helpers
+    ├── examples/        # Sample agents and use-cases
+    ├── tests/           # Unit and integration tests
+    ├── configs/         # YAML-based agent configuration files
+
+Agent Workflow
+--------------
+
+::
+
+    [User Prompt] 
+        ↓
+    [Agent.run(prompt)]
+        ↓
+    [Plan Step] → Uses LLM to decide next action/tool
+        ↓
+    [Act Step] → Executes selected tool or memory
+        ↓
+    [Reflect Step] → Evaluates and stores output in memory
+        ↓
+    [Repeat or Finish]
+
+Installation
+------------
+
+Requires **Python 3.10+**
+
+Install via pip:
+
+::
+
+    pip install agentik-framework
+
+Usage
+-----
+
+Create an Agent in Python:
+
+::
+
+    from agentik import Agent
+    from agentik.tools import WebSearchTool, CalculatorTool
+    from agentik.llms import OpenAIModel
+    from agentik.memory import JSONMemoryStore
+
+    agent = Agent(
+        name="AIAssistant",
+        goal="Find and summarize the latest AI trends.",
+        tools=[WebSearchTool(), CalculatorTool()],
+        llm=OpenAIModel(api_key="your-api-key", model="gpt-4"),
+        memory=JSONMemoryStore("memory.json")
+    )
+
+    agent.run("What's the latest in AI agent frameworks?")
+
+Or define the same agent in YAML (`configs/agent.yaml`):
+
+::
+
+    name: "ResearchBot"
+    goal: "Summarize recent advancements in generative AI"
+    llm:
+      type: openai
+      model: gpt-4
+      api_key: "YOUR_API_KEY"
+    tools:
+      - web_search
+      - file_reader
+    memory:
+      type: json
+      path: "memory.json"
+
+Entrypoints
+-----------
+
+You can run agents via Python or CLI:
+
+1. **Python**
+
+::
+
+    from agentik.config import load_agent_config
+    agent = load_agent_config("configs/my_agent.yaml")
+    agent.run("What are LLM agents?")
+
+2. **Command Line**
+
+::
+
+    agentik run configs/my_agent.yaml --verbose
+
+Supported LLMs
+--------------
+
+Agentik currently supports:
+
+- OpenAI (via OpenRouter)
+- Mistral (via OpenRouter)
+- Claude (via OpenRouter)
+- DeepSeek (via OpenRouter)
+- Local LLMs (via REST API)
+
+All LLMs are configured via `llms.py`, and keys are user-supplied.
+
+Built-in Tools
+--------------
+
+=================  ================================================
+Tool Name           Description
+-----------------  ------------------------------------------------
+CalculatorTool      Evaluate mathematical expressions
+WebSearchTool       Search the web via DuckDuckGo or SerpAPI
+FileReaderTool      Read `.txt` or `.md` files
+JsonTool            Navigate and query structured JSON files
+=================  ================================================
+
+To build custom tools, subclass `Tool` and implement the `run(input)` method.
+
+Code Organization
+-----------------
+
+======================  =============================================
+File                    Purpose
+----------------------  ---------------------------------------------
+`agent.py`              Core agent logic (plan-act-reflect loop)
+`llms.py`               Add your own LLM classes if needed
+`memory.py`             Extend memory backends
+`tools/`                Define custom tools here
+`config.py`             YAML/JSON config validation (pydantic-based)
+`cli.py`                CLI logic via `typer`
+`examples/`             Place demo or prototype agents
+`configs/`              Store agent configuration files
+======================  =============================================
+
+Testing
+-------
+
+Run all tests using `pytest`:
+
+::
+
+    pytest tests/
+
+You may mock LLM responses and test memory and tool functions.
+
+CLI Commands
+------------
+
+::
+
+    agentik run configs/my_agent.yaml
+    agentik list-tools
+    agentik create-agent
+    agentik explain memory
+
+Flags:
+
+- `--verbose` : Show step-by-step logs
+- `--dry-run` : Run agent logic without real API calls
+
+Documentation
+-------------
+
+- Documentation is located in the `docs/` folder (optional)
+- Can be hosted on GitHub Pages or similar
+- Includes: Getting Started, API Reference, Tool Developer Guide
+
+Contributing
+------------
+
+We welcome contributions of tools, backends, and examples!
+
+1. Fork the repository
+2. Create your new tool or memory backend
+3. Add tests to `tests/`
+4. Submit a pull request with a clear explanation
+
+Packaging for PyPI
+------------------
+
+::
+
+    python -m build
+    twine upload dist/*
+
+License
+-------
+
+MIT License © 2025 (Avinash Raghuvanshi, Vinay Joshi)
+
+Philosophy
+----------
+
+Agentik provides the scaffolding — you bring the logic.
+
+It doesn’t aim to be monolithic. Instead, Agentik helps you build modular, intelligent workflows tailored to your own agent needs.
+
+Build smart. Stay lightweight. Go modular.
