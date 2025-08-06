@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/emdcmp/_version.py"
+
+[project.urls]
+"Documentation" = "https://alcrene.github.io/emdcmp/"
+"Bug Tracker" = "https://github.com/alcrene/emdcmp/issues"
+"Source" = "https://github.com/alcrene/emdcmp"
+
+[project]
+name        = "emdcmp"
+authors = [
+    {name = "Alexandre René", email="a.rene@physik.rwth-aachen.de"},
+]
+description = "Original implementation of the EMD (empirical model discrepancy) model comparison criterion"
+readme      = "README.md"
+requires-python = ">=3.7"
+
+license = {text = "MPL 2.0"}
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+keywords = [
+    "empirical model discrepancy",
+    "bayes factor",
+    "inference",
+    "model comparison",
+    "bayesian",
+]
+
+dependencies = [
+    "more-itertools",
+    "numpy",
+    "scipy>=1.7",  # integrate.simpson changed name (used to be 'simps')
+    "pydantic>=1.8.2",
+    "tqdm",
+    "joblib",
+        # joblib is used for on-disk caching of calculations used in calibration plots    
+    "scityping",
+    "valconfig>=0.1.2",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+
+## Development dependencies
+test = ["pytest"]
+
+## Dependencies of the `viz` utilities module ##
+viz = ["pandas", "matplotlib", "seaborn", "holoviews"]
+
+
+## Executing notebooks and building “code browser” pages ##
+doc = [
+    # Everything from viz
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "holoviews",
+    "addict",
+
+    "jupyter-book>=0.14",
+    "sphinx-proof",
+    "jupytext",
+    "ipykernel",
+    "holoviews",
+    "bokeh",
+    "jupyter_bokeh",
+
+    # For bokeh export to png (also used by holoviews)
+    "selenium",
+    "phantomjs",
+    "pillow",
+
+    ## Needed only for `tasks` notebook (which is not executable as a notebook)
+    #"smttask>=0.2.0-rc3",
+
+    # For pushing Jupyter book to Github Pages
+    "ghp-import",
+]
