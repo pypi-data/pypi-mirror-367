@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: bncpy
+Version: 0.1.0
+Summary: Benjamin and Charlotte game
+Author: Jae W. Choi
+License: MIT
+Project-URL: Homepage, https://github.com/jwc20/bnc
+Project-URL: Repository, https://github.com/jwc20/bnc.git
+Project-URL: Issues, https://github.com/jwc20/bnc/issues
+Keywords: game,bulls-and-cows,bulls,cows,mastermind
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: black>=25.1.0; extra == "dev"
+Requires-Dist: pytest>=8.4.1; extra == "dev"
+Requires-Dist: ruff>=0.12.7; extra == "dev"
+Requires-Dist: setuptools>=80.9.0; extra == "dev"
+Requires-Dist: wheel>=0.45.1; extra == "dev"
+Requires-Dist: build>=1.3.0; extra == "dev"
+Requires-Dist: twine>=6.1.0; extra == "dev"
+Dynamic: license-file
+
+# Benjamin and Charlotte Game
+
+## Installation
+
+```bash
+pip install bnc
+```
+
+## Usage
+
+```bash
+from bnc import Board, Game, Player
+
+# Create a board with custom settings
+board = Board(code_length=4, num_of_colors=6, num_of_guesses=10)
+
+# Create players
+player1 = Player("Jae", board)
+
+# Create and start a game
+game = Game([player1], secret_code="1234")
+
+# Make a guess
+game.submit_guess(player1, "1234")
+```
