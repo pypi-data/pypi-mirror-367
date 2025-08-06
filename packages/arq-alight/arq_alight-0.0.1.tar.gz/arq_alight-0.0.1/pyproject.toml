@@ -1,0 +1,53 @@
+[project]
+name = "arq-alight"
+version = "0.0.1"
+description = "Python library and CLI for restoring Arq backups on macOS"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    { name = "Anthony Wu", email = "pls-file-gh-issue@users.noreply.github.com" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.40,<2.0",
+    "cryptography>=45.0,<46.0",
+    "lz4>=4.4,<5.0",
+    "rich>=14.1,<15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4,<8.0",
+    "pytest-asyncio>=0.21,<1.0",
+    "pytest-mock>=3.12,<4.0",
+    "ruff>=0.8,<1.0",
+]
+
+[project.scripts]
+arq-alight = "arq_alight.cli:main"
+alight = "arq_alight.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.8.4,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
