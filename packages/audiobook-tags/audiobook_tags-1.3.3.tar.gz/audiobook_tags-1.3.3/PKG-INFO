@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: audiobook-tags
+Version: 1.3.3
+Summary: Fix mp3 tags to use in iTunes/iPhone audiobooks.
+Project-URL: Homepage, https://andgineer.github.io/audiobook-tags/
+Project-URL: Documentation, https://andgineer.github.io/audiobook-tags/
+Author-email: Andrey Sorokin <andrey@sorokin.engineer>
+License: Copyright (c) 2024 Andrey Sorokin <andrey@sorokin.engineer>
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of
+        this software and associated documentation files (the “Software”), to deal in
+        the Software without restriction, including without limitation the rights to use,
+        copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+        Software, and to permit persons to whom the Software is furnished to do so,
+        subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+        EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+        OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+        HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+        WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+        OTHER DEALINGS IN THE SOFTWARE.
+License-File: LICENSE.txt
+Keywords: audiobook,iphone,itunes,mp3,tags
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: eyed3
+Description-Content-Type: text/markdown
+
+﻿[![Build Status](https://github.com/andgineer/itunes-audiobook-from-mp3/workflows/ci/badge.svg)](https://github.com/andgineer/itunes-audiobook-from-mp3/actions)
+[![Coverage](https://raw.githubusercontent.com/andgineer/itunes-audiobook-from-mp3/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/andgineer/itunes-audiobook-from-mp3/blob/python-coverage-comment-action-data/htmlcov/index.html)
+# Audiobooks from mp3 with broken tags
+
+Fix mp3 files tags to convert them into iTunes/iPhone audiobooks.
+
+- Fixes sort order.
+- Supports messed encoding like cyrillic Win1251.
+
+Details in [my blog's article](https://sorokin.engineer/posts/en/itunes_audiobook_from_mp3.html).
+
+## Installation
+Install using [`pipx`](https://pypa.github.io/pipx/) for isolated environments, which prevents interference
+with your system's Python packages.
+
+Once `pipx` is set up:
+
+```bash
+pipx install audiobook-tags
+```
+
+## Command Line Interface
+
+## Usage
+    audiobook-tags [-h] [--encoding ENCODING] [--extension EXTENSION] [--set-tag [SET_TAG ...]] [--track-num TRACK_NUM] [--title-prefix TITLE_PREFIX] [--dry] [folder]
+
+    Fixes mp3 tags for iOS audiobooks.
+
+    positional arguments:
+      folder                Folder to process. By default current folder.
+
+    options:
+      -h, --help            show this help message and exit
+      --suffix SUFFIX, -s SUFFIX
+                            Files suffix. By default mp3
+      --encoding ENCODING, -e ENCODING
+                            mp3 tags encoding. "none" if you do not need mp3 tags encoding fix. By default "cp1251".
+      --tag [SET_TAG ...], -t [SET_TAG ...]
+                            Change mp3 tag to specified string. Format "tag-name/tag-value".
+      --num TRACK_NUM, -n TRACK_NUM
+                            Sort files and set mp3 tag `track_num`:
+                              --num="name" - sort by names;
+                              --num="tag-<TAG>" - sort by mp3 tag with name <TAG>.
+                                For example to sort by title tag use --num="tag-title".
+      --prefix TITLE_PREFIX, -p TITLE_PREFIX
+                            Add prefix to title tags. By default `{track:04} - ` if `--num` and no prefix if not.
+      --dry, -d             Dry run without changing files.
+      --version, -v         Print verbose output including list of processed files.
+
+## Example:
+
+    audiobook-tags --tag="album_artist/Юрий Заборовский (Ардис)" --num="name" --prefix=""
+
+- converts all `mp3` files in current folder and subfolders
+- fix encoding supposing that original encoding was `Windows 1251`
+- change tag album artist.
+- set `track_num` mp3 tag to file number as ordered by file name.
+  But do not add the track number to the title (`--prefix="""`).
+
+# Development
+
+### OS Dependencies
+
+#### MacOS
+
+  brew update
+  brew install libmagic
+
+### Python dependencies
+
+Note the dot before `./activate.sh`:
+
+  . ./activate.sh
+
+We use [eyeD3](https://eyed3.readthedocs.io/en/latest/) to work with mp3 tags.
+
+## Coverage report
+* [Codecov](https://app.codecov.io/gh/andgineer/itunes-audiobook-from-mp3/tree/master/src%2Faudiobook_tags)
+
+> Created with cookiecutter using [template](https://github.com/andgineer/cookiecutter-python-package)
