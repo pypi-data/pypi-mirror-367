@@ -1,0 +1,126 @@
+Metadata-Version: 2.4
+Name: waon
+Version: 0.1.1
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Multimedia :: Sound/Audio :: Analysis
+Classifier: Topic :: Multimedia :: Sound/Audio :: Conversion
+Requires-Dist: numpy>=1.20
+Requires-Dist: pytest>=7.0 ; extra == 'dev'
+Requires-Dist: pytest-cov ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: mypy ; extra == 'dev'
+Requires-Dist: ruff ; extra == 'dev'
+Provides-Extra: dev
+Summary: Python bindings for WaoN - Wave-to-Notes transcriber
+Author: WaoN-rs Development Team
+License: GPL-2.0-or-later
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Source Code, https://github.com/waon-rs/waon-rs
+
+# WaoN Python Bindings
+
+Python bindings for WaoN - Wave-to-Notes transcriber.
+
+## Installation
+
+### From source
+
+```bash
+pip install maturin
+maturin develop --release
+```
+
+### From wheel
+
+```bash
+pip install waon
+```
+
+## Usage
+
+### Basic transcription
+
+```python
+import waon
+import numpy as np
+
+# Transcribe an audio file
+midi_bytes = waon.transcribe_file("audio.wav")
+with open("output.mid", "wb") as f:
+    f.write(midi_bytes)
+
+# Transcribe audio data
+audio_data = np.array([...], dtype=np.float32)
+midi_bytes = waon.transcribe(audio_data, sample_rate=44100)
+```
+
+### Advanced usage with options
+
+```python
+import waon
+
+# Create custom options
+options = waon.WaonOptions()
+options.fft_size = 4096
+options.hop_size = 2048
+options.window_type = "hamming"
+options.note_bottom = 36  # C2
+options.note_top = 96     # C7
+options.velocity_threshold = 0.005
+options.use_phase_vocoder = True
+
+# Create context with options
+context = waon.WaonContext(
+    fft_size=4096,
+    hop_size=2048,
+    window_type="hamming"
+)
+
+# Transcribe
+midi_bytes = context.transcribe_file("audio.wav")
+
+# Analyze a single frame
+audio_frame = np.array([...], dtype=np.float32)
+note_intensities = context.analyze(audio_frame)  # Returns 128-element array
+```
+
+## API Reference
+
+### Functions
+
+- `transcribe(audio, sample_rate=44100, options=None)` - Transcribe audio array to MIDI
+- `transcribe_file(path, options=None)` - Transcribe audio file to MIDI
+- `get_version()` - Get library version
+
+### Classes
+
+- `WaonContext` - Transcription context for stateful processing
+- `WaonOptions` - Configuration options for transcription
+
+### Window Types
+
+- `hanning` (default)
+- `hamming`
+- `blackman`
+- `nuttall`
+- `blackman2`, `blackman3`, `blackman4`
+- `exponentialsine`
+- `parzen`
+- `welch`
+- `steeper30`, `steeper60`
+
+## License
+
+GPL-2.0-or-later
