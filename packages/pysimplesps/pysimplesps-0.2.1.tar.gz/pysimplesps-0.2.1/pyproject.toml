@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pysimplesps"
+version = "0.2.1"
+description = "A comprehensive Python library to parse SPS MML configurations and generate JSON/topology data"
+readme = "README.md"
+requires-python = ">=3.12"
+
+keywords = ["sps", "mml", "telecom", "diameter", "topology", "signaling"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Utilities",
+    "Topic :: System :: Networking",
+    "Topic :: Communications :: Telephony",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "loguru>=0.7.3",
+    "pydantic>=2.0.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.6.0",
+    "mypy>=1.8.0",
+]
+
+[project.scripts]
+pysimplesps = "pysimplesps.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/fxyzbtc/pysimplesps"
+Repository = "https://github.com/fxyzbtc/pysimplesps"
+Documentation = "https://deepwiki.com/fxyzbtc/pysimplesps"
+Issues = "https://github.com/fxyzbtc/pysimplesps/issues"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "T20"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=pysimplesps --cov-report=term-missing --cov-report=html"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.2.1",
+]
