@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: c3sign
+Version: 1.1.4
+Summary: Compact Crypto Certs (C3) is a mini-PKI signer/verifier with full chain functionality and compact binary and friendly text cert formats
+Home-page: https://github.com/oddy/c3
+Author: Beau Butler
+Author-email: beau.butler@gmail.com
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 5 - Production/Stable
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+License-File: AUTHORS
+Requires-Dist: b3buf
+Requires-Dist: ecdsa
+Requires-Dist: PyNaCl
+
+
+# C3 = Compact Crypto Certs
+
+Compact Crypto Certs (C3) is a mini-PKI signer/verifier with full chain functionality and compact binary and friendly text cert formats
+
+(Note: a libsodium DLL/so/dylib is needed for the private key password encryption)
+
+## Command line tool
+
+```
+Usage:
+    c3 make        --name=root1  --expiry="24 oct 2024"
+    c3 signcert    --name=root1  --using=self  --link=[name|append]
+    c3 make        --name=inter1 --expiry="24 oct 2024"
+    c3 signcert    --name=inter1 --using=root1
+    c3 signpayload --payload=payload.txt --using=inter1
+    c3 verify      --name=payload.txt    --trusted=root1  --trusted=inter1
+    make options   --type=rootcert --parts=split/combine --nopassword=y
+    Note: if multiple --trusted specified for verify, ensure root is first.
+```
+
+
+
