@@ -1,0 +1,148 @@
+Metadata-Version: 2.4
+Name: mcp-fuzzer
+Version: 0.1.2
+Summary: MCP server fuzzer client and utilities
+Author-email: Your Name <your.email@example.com>
+License: MIT License
+        
+        Copyright (c) 2025 Prince Roshan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/agent-hellboy/mcp-server-fuzzer
+Project-URL: Repository, https://github.com/agent-hellboy/mcp-server-fuzzer
+Project-URL: Issues, https://github.com/agent-hellboy/mcp-server-fuzzer/issues
+Keywords: mcp,fuzzing,testing,json-rpc
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: httpx
+Requires-Dist: hypothesis
+Requires-Dist: rich
+Requires-Dist: websockets
+Dynamic: license-file
+
+# MCP Fuzzer
+
+A CLI tool for fuzzing MCP server tools using multiple transport protocols, with pretty output using [rich](https://github.com/Textualize/rich).
+
+[![CI](https://github.com/Agent-Hellboy/mcp-server-fuzzer/actions/workflows/lint.yml/badge.svg)](https://github.com/Agent-Hellboy/mcp-server-fuzzer/actions/workflows/lint.yml)
+[![PyPI - Version](https://img.shields.io/pypi/v/mcp-fuzzer.svg)](https://pypi.org/project/mcp-fuzzer/)
+[![PyPI Downloads](https://static.pepy.tech/badge/mcp-fuzzer)](https://pepy.tech/projects/mcp-fuzzer)
+
+
+## Features
+- **Multi-Protocol Support**: HTTP, SSE, Stdio, and WebSocket transports
+- **Tool Discovery**: Automatically discovers available tools from MCP servers
+- **Intelligent Fuzzing**: Uses Hypothesis to generate random/edge-case arguments
+- **Rich Reporting**: Beautiful terminal tables with detailed statistics
+- **Protocol Flexibility**: Easy to add new transport protocols
+
+## Architecture
+
+The MCP Fuzzer uses a transport abstraction layer to support multiple protocols. Here's how it works:
+
+![mcp_fuzzer_arch](./images/mcp_fuzzer_arch.png)
+
+## Installation
+
+```bash
+pip install mcp-fuzzer
+```
+
+## Usage
+
+You can run the fuzzer in several ways:
+
+### As a CLI tool (recommended)
+```bash
+mcp-fuzzer --protocol http --endpoint http://localhost:8000/mcp/ --runs 10
+```
+
+### As a Python module
+```bash
+python -m mcp_fuzzer --protocol http --endpoint http://localhost:8000/mcp/ --runs 10
+```
+
+### As a Python script
+```bash
+python -m mcp_fuzzer.client --protocol http --endpoint http://localhost:8000/mcp/ --runs 10
+```
+
+## Supported Protocols
+
+### HTTP Transport
+```bash
+mcp-fuzzer --protocol http --endpoint http://localhost:8080/rpc --runs 20
+```
+
+### SSE Transport
+```bash
+mcp-fuzzer --protocol sse --endpoint http://localhost:8080/sse --runs 15
+```
+
+### Stdio Transport
+```bash
+# Binary executables
+mcp-fuzzer --protocol stdio --endpoint "./bin/mcp-shell" --runs 10
+
+# Python scripts
+mcp-fuzzer --protocol stdio --endpoint "python3 ./my-mcp-server.py" --runs 10
+
+# Python scripts with spaces in path
+mcp-fuzzer --protocol stdio --endpoint '"./My Server/mcp-server.py"' --runs 10
+```
+
+### WebSocket Transport
+```bash
+mcp-fuzzer --protocol websocket --endpoint ws://localhost:8080/ws --runs 25
+```
+
+### Arguments
+- `--protocol`: Transport protocol to use (http, sse, stdio, websocket)
+- `--endpoint`: Server endpoint (URL for http/sse/websocket, command for stdio)
+- `--runs`: Number of fuzzing runs per tool (default: 10)
+- `--timeout`: Request timeout in seconds (default: 30.0)
+- `--verbose`: Enable verbose logging
+
+## Output
+
+Results are shown in a colorized table with detailed statistics:
+- **Success Rate**: Percentage of successful tool calls
+- **Exception Count**: Number of exceptions during fuzzing
+- **Example Exceptions**: Sample error messages for debugging
+- **Overall Statistics**: Summary across all tools and protocols
+
+---
+
+**Project dependencies are managed via `pyproject.toml`.**
+
+Test result of  fuzz testing of https://github.com/modelcontextprotocol/python-sdk/tree/main/examples/servers/simple-streamablehttp-stateless
+
+![fuzzer](./images/fuzzer.png)
