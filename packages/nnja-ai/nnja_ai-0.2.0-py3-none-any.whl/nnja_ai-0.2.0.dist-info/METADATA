@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: nnja-ai
+Version: 0.2.0
+Summary: Find and load data from the Brightband AI-ready mirror of the NOAA NASA Joint Archive (NNJA) of Observations for Earth System Reanalysis
+License: MIT License
+        
+        Copyright (c) 2025 Brightband
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Documentation, https://nnja-ai.readthedocs.io/
+Project-URL: Repository, https://github.com/brightbandtech/nnja-ai
+Keywords: NNJA,artificial intelligence,earth system reanalysis,data catalog,dataset,earth observation
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Atmospheric Science
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fsspec>=2024.10.0
+Requires-Dist: gcsfs>=2024.10.0
+Requires-Dist: google-auth>=2.36.0
+Requires-Dist: jsonschema>=4.23.0
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: parquet>=1.3.1
+Requires-Dist: pyarrow>=18.1.0
+Provides-Extra: docs
+Requires-Dist: mkdocs>=1.6.1; extra == "docs"
+Requires-Dist: mkdocstrings[python]>=0.29.1; extra == "docs"
+Requires-Dist: mkdocs-autoapi[python]>=0.4.1; extra == "docs"
+Requires-Dist: mkdocs-material>=9.6.14; extra == "docs"
+Provides-Extra: interactive
+Requires-Dist: ipykernel; extra == "interactive"
+Requires-Dist: jupyterlab; extra == "interactive"
+Requires-Dist: matplotlib; extra == "interactive"
+Provides-Extra: dask
+Requires-Dist: dask[dataframe]>=2024.12.0; extra == "dask"
+Provides-Extra: polars
+Requires-Dist: polars>=1.17.1; extra == "polars"
+Provides-Extra: complete
+Requires-Dist: nnja-ai[dask,interactive,polars]; extra == "complete"
+Dynamic: license-file
+
+# nnja-ai
+This is the companion Python SDK to the [Brightband](https://www.brightband.com/) AI-ready reprocessing of the [NOAA NASA Joint Archive](https://psl.noaa.gov/data/nnja_obs/) (NNJA).
+It is meant to serve as a helpful interface between a user and the underlying NNJA datasets (which currently consist of parquet files on [GCS](https://console.cloud.google.com/storage/browser/nnja-ai)).
+
+The V1 release of the NNJA-AI dataset and SDK represents a major increment in availability of NNJA data, with ~50 TiB of observations made available in parquet form along with a data catalog and code examples in this SDK.
+
+## Background
+The NNJA archive project is a curated archive of Earth system data from 1979 to present.
+This data represents a rich trove of observational data for use in AI weather modelling, however the archival format in which the data is originally available (BUFR) is cumbersome to work with.
+In [partnership with NOAA](https://techpartnerships.noaa.gov/tpo_partnership/making-observation-data-ai-ready/), Brightband is processing that data to make it more accessible to the community.
+
+## Data
+NNJA datasets are organized by sensor/source (e.g. all-sky radiances from the GOES ABI).
+The list of all NNJA datasets can be found on the [NNJA project page](https://psl.noaa.gov/data/nnja_obs/#data-sources), while the subset that is currently found in the NNJA-AI archive can be found [here](docs/datasets.md) or by exploring the data catalog (this will be be expanding rapidly).
+
+
+
+## Getting Started
+
+To install this package directly from the GitHub repository, you can use the following `pip` command:
+
+```sh
+pip install git+https://github.com/brightbandtech/nnja-ai.git
+```
+You can find an example notebook [here](example_notebooks/basic_dataset_example.ipynb) showing the basics of opening the data catalog, finding a dataset, subsetting, and finally loading the data to pandas.
+Though to get started, you can open the data catalog like so:
+
+```python
+from nnja_ai import DataCatalog
+catalog = DataCatalog()
+print("datasets in catalog:", catalog.list_datasets())
+```
+
+```
+datasets in catalog:
+
+['amsua-1bamua-NC021023',
+ 'atms-atms-NC021203',
+ 'mhs-1bmhs-NC021027',
+ 'cris-crisf4-NC021206',
+ ...]
+```
+
+## How to Cite
+If you use this library or the Brightband reprocessed NNJA data, please cite it using the following DOI:
+
+[![DOI](https://zenodo.org/badge/899259654.svg)](https://doi.org/10.5281/zenodo.14633508)
+
+
+Additionally, please follow the citation guidance on the [NNJA project page](https://psl.noaa.gov/data/nnja_obs/#cite
+).
+
+The NNJA-AI data is distributed with the same license as the original NNJA data, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en).
