@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "carlson-leaf-area-index"
+version = "1.1.0"
+description = "Leaf Area Index (LAI) Remote Sensing Method from Carlson et al 1997 Python Package"
+readme = "README.md"
+authors = [
+    { name = "Gregory Halverson", email = "gregory.h.halverson@jpl.nasa.gov" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "ECOv002-calval-tables",
+    "numpy",
+    "pandas",
+    "rasters",
+    "seaborn"
+]
+
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pytest>=6.0",
+    "pytest-cov",
+    "jupyter",
+    "pytest",
+    "twine"
+]
+
+[tool.setuptools.package-data]
+PTJPLSM = ["*.csv"]
+
+[tool.setuptools.packages.find]
+exclude = ["notebooks*"]
+
+[project.urls]
+"Homepage" = "https://github.com/JPL-Evapotranspiration-Algorithms/carlson-leaf-area-index"
