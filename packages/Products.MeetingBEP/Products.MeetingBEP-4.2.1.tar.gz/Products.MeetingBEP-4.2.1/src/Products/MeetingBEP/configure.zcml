@@ -1,0 +1,33 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="MeetingBEP">
+
+  <!-- registerTranslations before including package Products.PloneMeeting
+       so Products.MeetingBEP can overrides Products.PloneMeeting translations -->
+  <i18n:registerTranslations directory="locales" />
+
+  <include package="Products.CMFPlacefulWorkflow"/>
+  <include package="Products.MeetingCommunes"/>
+  <include package="Products.PloneMeeting"/>
+
+  <include file="profiles.zcml" />
+
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.MeetingBEP.adapters.MeetingItemBEPWorkflowActions"
+           provides="Products.MeetingBEP.interfaces.IMeetingItemBEPWorkflowActions"/>
+
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.MeetingBEP.adapters.MeetingItemBEPWorkflowConditions"
+           provides="Products.MeetingBEP.interfaces.IMeetingItemBEPWorkflowConditions"/>
+
+  <adapter for="Products.PloneMeeting.content.meeting.IMeeting"
+           factory="Products.MeetingBEP.adapters.MeetingBEPWorkflowActions"
+           provides="Products.MeetingBEP.interfaces.IMeetingBEPWorkflowActions"/>
+
+  <adapter for="Products.PloneMeeting.content.meeting.IMeeting"
+           factory="Products.MeetingBEP.adapters.MeetingBEPWorkflowConditions"
+           provides="Products.MeetingBEP.interfaces.IMeetingBEPWorkflowConditions"/>
+
+</configure>
