@@ -1,0 +1,52 @@
+[project]
+dependencies = []
+name = "weighted_fair_allocation"
+requires-python = ">= 3.11"
+version = "1.0.0"
+authors = [
+  { name="Ties Tienhoven", email="ttienhoven+WFA@outlook.com" },
+]
+description = "A realization of the weighted fair allocation problem, with implementations of common allocation algorithms. Created for experimentation purposes."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["win-64"]
+preview = ["pixi-build"]
+
+[tool.pixi.pypi-dependencies]
+weighted_fair_allocation = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+build = "python -m build"
+publish = "python -m twine upload dist/* --verbose"
+
+[tool.pixi.dependencies]
+python = ">=3.13.5,<3.14"
+numpy = ">=2.3.2,<3"
+python-graphviz = ">=0.21,<0.22"
+pip = ">=25.2,<26"
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+test = { features = ["test"], solve-group = "default" }
+
+[tool.pixi.feature.test.tasks]
+test = "pytest"
+
+[dependency-groups]
+test = ["pytest"]
+
+# added myself
+[tool.pixi.package]
+name = "weighted_fair_allocation"
+version = "0.1.0"
+
+[tool.pixi.package.build] 
+backend = { name = "pixi-build-python", version = "*" }
