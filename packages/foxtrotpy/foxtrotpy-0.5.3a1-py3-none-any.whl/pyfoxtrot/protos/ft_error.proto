@@ -1,0 +1,29 @@
+syntax="proto3";
+package foxtrot;
+
+enum error_types
+{
+    ft_Error = 0;
+    ft_DeviceError = 1;
+    ft_ProtocolError = 2;
+    out_of_range = 3;
+    unknown_error = 4;
+    contention_timeout = 5;
+    ft_ServerError = 6;
+    ft_AuthError = 7;
+}
+
+enum warning_types
+{
+  ft_DeprecationWarning = 0;
+  
+}
+
+message errstatus
+{
+    optional error_types tp =1;
+    optional string msg = 2;
+  optional warning_types warntp = 4;
+  optional string warnstring = 5;
+
+}
