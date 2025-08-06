@@ -1,0 +1,33 @@
+from agent_zero_lite.python.helpers.api import ApiHandler, Input, Output, Request, Response
+from agent_zero_lite.agent import AgentContext
+from agent_zero_lite.python.helpers import persist_chat
+# from agent_zero_lite.python.helpers.task_scheduler import TaskScheduler
+
+
+class RemoveChat(ApiHandler):
+    
+    @classmethod
+    def requires_auth(cls) -> bool:
+        return False
+        
+    async def process(self, input: Input, request: Request) -> Output:
+        ctxid = input.get("context", "")
+
+        context = AgentContext.get(ctxid)
+        if context:
+            # stop processing any tasks
+            context.reset()
+
+        AgentContext.remove(ctxid)
+        persist_chat.remove_chat(ctxid)
+
+        # scheduler = TaskScheduler.get()
+        # await scheduler.reload()
+
+        # tasks = scheduler.get_tasks_by_context_id(ctxid)
+        # for task in tasks:
+        #     await scheduler.remove_task_by_uuid(task.uuid)
+
+        return {
+            "message": "Context removed.",
+        }
