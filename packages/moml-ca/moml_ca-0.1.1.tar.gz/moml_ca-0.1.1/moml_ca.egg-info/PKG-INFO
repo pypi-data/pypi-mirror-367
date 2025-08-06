@@ -1,0 +1,206 @@
+Metadata-Version: 2.4
+Name: moml-ca
+Version: 0.1.1
+Summary: Molecular Machine Learning for Chemical Applications - A comprehensive Python package for molecular representation learning and property prediction using Graph Neural Networks
+Author-email: SAKETH11111 <sakethbaddam10@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/SAKETH11111/MoML-CA
+Project-URL: Repository, https://github.com/SAKETH11111/MoML-CA
+Project-URL: Issues, https://github.com/SAKETH11111/MoML-CA/issues
+Keywords: molecular,machine learning,graph neural networks,chemistry,PFAS
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: torch>=1.12.0
+Requires-Dist: torch-geometric>=2.0.0
+Requires-Dist: torch-scatter>=2.1.0
+Requires-Dist: rdkit>=2022.03.1
+Requires-Dist: openmm>=7.5.0
+Requires-Dist: mdtraj>=1.9.5
+Requires-Dist: MDAnalysis>=2.4.0
+Requires-Dist: pdbfixer-wheel>=1.11.0
+Requires-Dist: dask>=2022.2.0
+Requires-Dist: distributed>=2022.2.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: python-json-logger>=2.0.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: seaborn>=0.11.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: networkx>=2.6.0
+Requires-Dist: plotly>=5.3.0
+Requires-Dist: h5py>=3.6.0
+Requires-Dist: luigi>=3.0.0
+Requires-Dist: mlflow>=2.0.0
+Requires-Dist: tqdm>=4.62.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=3.0.0; extra == "dev"
+Requires-Dist: black>=21.12b0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: isort>=5.10.0; extra == "dev"
+Provides-Extra: ff
+Requires-Dist: openff-toolkit>=0.11.0; extra == "ff"
+Dynamic: license-file
+
+# MoML-CA: Molecular Machine Learning for Chemical Applications
+
+MoML-CA is a Python package for molecular representation learning and property prediction using Graph Neural Networks. The package provides a comprehensive set of tools for converting molecular structures to graph representations, training GNN models, and predicting molecular properties.
+
+## Features
+
+- **Molecular Graph Creation**: Convert SMILES and RDKit molecules to graph representations with extensive feature extraction
+- **Hierarchical Graph Representations**: Create multi-level graph representations for improved model performance
+- **Modular Model Architecture**: Flexible and extensible GNN architectures with easy configuration
+- **Training Utilities**: Comprehensive training pipelines with callbacks and monitoring
+- **Evaluation Tools**: Metrics calculation and visualization of predictions
+- **Example Scripts**: Ready-to-use examples for common molecular machine learning tasks
+- **Command-Line Tools**: Easy-to-use CLI for model training and prediction
+- **Data Processing**: Efficient batch processing of molecular datasets
+- **Visualization**: Tools for visualizing molecular graphs and model predictions
+
+## Large Files Handling
+
+Large data files (>100MB) like training datasets and models are not stored in the Git repository. These files are ignored by Git via the `.gitignore` file and should be shared via alternative methods (cloud storage, direct transfer, etc.).
+
+Large files in the `data/qm9/processed/` directory (particularly `*.pt` files) are automatically excluded from Git.
+
+## Installation
+
+```bash
+# Clone the repository (choose HTTPS or SSH)
+git clone https://github.com/SAKETH11111/MoML-CA.git
+# or, if you have SSH keys configured:
+# git clone git@github.com:SAKETH11111/MoML-CA.git
+cd MoML-CA
+
+# Create a conda environment
+conda env create -f environment.yml
+
+# Activate the environment
+conda activate moml-ca
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install the package in development mode
+pip install -e .
+```
+
+## Quick Start
+
+```python
+import torch
+from rdkit import Chem
+from moml.core import create_graph_processor
+from moml.models.mgnn.training import initialize_model, MGNNConfig, create_trainer
+from moml.models.mgnn.evaluation.predictor import create_predictor
+
+# Create molecular graph
+processor = create_graph_processor({'use_partial_charges': True})
+smiles = "C(C(F)(F)F)(C(F)(F)F)(F)F"  # Perfluorobutane
+graph = processor.smiles_to_graph(smiles)
+
+# Initialize model with configuration
+config = MGNNConfig({
+    'model_type': 'multi_task_djmgnn',
+    'hidden_dim': 64,
+    'n_blocks': 3
+})
+model = initialize_model(config, graph.x.shape[1], graph.edge_attr.shape[1])
+
+# Train model with dataloaders
+trainer = create_trainer(config=config, train_loader=train_loader, val_loader=val_loader)
+# Note: train_loader and val_loader should be PyTorch DataLoader objects containing your training and validation datasets.
+# See the examples directory (examples/training_examples or examples/quickstart_examples) for how to create these dataloaders.
+# Example:
+# from torch.utils.data import DataLoader
+# train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+# val_loader = DataLoader(val_dataset, batch_size=32)
+history = trainer.train(epochs=50)
+
+# Make predictions
+predictor = create_predictor(model_path="path/to/saved_model.pt")  # Or pass model directly
+predictions = predictor.predict_from_dataloader(val_loader)  # Or predictor.predict([graph])
+```
+
+See the [examples directory](examples) for more comprehensive examples.
+
+### Generating force field labels
+
+After running ORCA calculations you can generate a JSON file containing atom
+types, partial charges and other force field parameters for each PFAS molecule:
+
+```bash
+python scripts/generate_force_field_labels.py
+```
+
+The output `force_field_labels.json` will be placed in
+`orca_results_b3lyp_sto3g/`.
+
+## Project Structure
+
+```
+MoML-CA/
+├── moml/                        # Main package directory
+│   ├── core/                    # Core functionality
+│   │   ├── graph_coarsening.py      # Graph coarsening algorithms
+│   │   └── molecular_graph.py       # Molecular graph representation
+│   ├── models/                  # Model implementations
+│   │   ├── mgnn/                    # MGNN models
+│   │   │   ├── djmgnn.py               # DJMGNN implementation
+│   │   │   ├── training/               # Training utilities
+│   │   │   └── evaluation/             # Evaluation utilities
+│   │   └── lstm/                    # LSTM models
+│   ├── data/                    # Data handling utilities
+│   │   ├── dataset.py               # Dataset implementations
+│   │   └── processors.py            # Data processors
+│   ├── utils/                   # Utility functions
+│   │   ├── visualization/           # Visualization tools
+│   │   ├── molecular/               # Molecular utilities
+│   │   └── graph/                   # Graph utilities
+│   ├── pipeline/                # Pipeline orchestration
+│   ├── simulation/              # Simulation utilities
+│   └── __init__.py              # Package initialization
+├── examples/                    # Example scripts
+│   ├── quickstart/              # Quickstart examples
+│   ├── training/                # Training examples
+│   ├── prediction/              # Prediction examples
+│   ├── molecular_graph/         # Molecular graph examples
+│   └── preprocess/              # Preprocessing examples
+└── tests/                       # Test directory
+```
+
+## Recent Improvements
+
+- **Enhanced Model Architecture**: Improved hierarchical graph representations and attention mechanisms
+- **Streamlined API**: Simplified interface with factory functions and better error handling
+- **Advanced Training Features**: Added support for mixed precision training and gradient accumulation
+- **Improved Data Processing**: Enhanced batch processing and memory efficiency
+- **Better Visualization**: New tools for visualizing molecular graphs and model attention
+- **Command-Line Interface**: Added CLI tools for common tasks
+- **Documentation**: Comprehensive documentation with examples and tutorials
+
+## Documentation
+
+See the [docs](docs/) directory for comprehensive documentation.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For guidelines on contributing, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the terms of the MIT license.
