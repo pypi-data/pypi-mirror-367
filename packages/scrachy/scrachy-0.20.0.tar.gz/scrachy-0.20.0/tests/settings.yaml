@@ -1,0 +1,69 @@
+defaults: !SettingsConfig
+  # Defaults
+  settings: {}
+settings_2: !SettingsConfig
+  # Non defaults
+  settings:
+    REQUEST_FINGERPRINTER_CLASS: 'scrachy.utils.request.DynamicHashRequestFingerprinter'
+    SCRACHY_REQUEST_FINGERPRINTER_HASHER_CLASS: 'hashlib.md5'
+    HTTPCACHE_EXPIRATION_SECS: 30
+    SCRACHY_CACHE_ACTIVATION_SECS: 10
+    SCRACHY_CACHE_ACTIVATION_SECS_PATTERNS:
+      - ['^.*www.example\.com.*', !!int "1"]
+      - ['^.*\.edu$', !!int "20"]
+    SCRACHY_CACHE_EXPIRATION_SECS_PATTERNS:
+      - ['^.*www\.example\.com.*', !!int "50"]
+      - ['^.*test\.com', !!int "20"]
+    SCRACHY_CACHE_RESPONSE_RETRIEVAL_METHOD: 'full'
+    SCRACHY_DB_DIALECT: 'postgresql'
+    SCRACHY_DB_HOST: 'localhost'
+    SCRACHY_DB_PORT: 1234
+    SCRACHY_DB_DATABASE: 'test_database'
+    SCRACHY_DB_SCHEMA: 'httpcache'
+    SCRACHY_DB_USERNAME: 'username'
+    SCRACHY_DB_PASSWORD: 'password'
+    SCRACHY_DB_CONNECT_ARGS:
+      arg1: 'value1'
+      arg2: 'value2'
+    SCRACHY_CONTENT_EXTRACTOR: 'scrachy.content.bs4.BeautifulSoupExtractor'
+    SCRACHY_CONTENT_BS4_PARSER: 'lxml'
+    SCRACHY_BOILERPY_EXTRACTOR: 'boilerpy3.extractors.ArticleExtractor'
+    SCRACHY_CACHE_SAVE_HISTORY: true
+defaults_with_expiration_secs: !SettingsConfig
+  settings:
+    HTTPCACHE_EXPIRATION_SECS: 100
+defaults_with_activation_secs: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_ACTIVATION_SECS: 100
+defaults_with_activation_pat: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_ACTIVATION_SECS_PATTERNS:
+      - ['http://www\.example\.com.*', !!int "100"]
+      - ['https://www\.example\.com.*', !!int "100"]
+defaults_with_expiration_pat: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_EXPIRATION_SECS_PATTERNS:
+      - ['http://www\.example\.com.*', !!int "100"]
+      - ['https://www\.example\.com.*', !!int "100"]
+defaults_with_expiration_schedule: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_EXPIRATION_SCHEDULE: '0 12 * * *'
+defaults_with_expiration_schedule_pat: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_EXPIRATION_SCHEDULE_PATTERNS:
+      - [ 'http://www\.example\.com.*', '0 12 * * *' ]
+      - [ 'https://www\.example\.com.*', '0 12 * * *' ]
+all_expiration_values: !SettingsConfig
+  settings:
+    SCRACHY_CACHE_ACTIVATION_SECS: 10
+    HTTPCACHE_EXPIRATION_SECS: 1000
+    SCRACHY_CACHE_EXPIRATION_SCHEDULE: '0 0 30 * *'
+    SCRACHY_CACHE_ACTIVATION_SECS_PATTERNS:
+      - ['http://www\.example\.com.*', !!int "100"]
+      - ['https://www\.example\.com.*', !!int "500"]
+    SCRACHY_CACHE_EXPIRATION_SECS_PATTERNS:
+      - ['http://www\.example\.com.*', !!int "500"]
+      - ['https://www\.example\.com.*', !!int "5000"]
+    SCRACHY_CACHE_EXPIRATION_SCHEDULE_PATTERNS:
+      - ['http://www\.example\.com.*', '0 12 * * * ']
+      - ['ftp://www\.example\.com.*', '0 12 * * *' ]
