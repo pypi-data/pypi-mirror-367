@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vietcombank-captcha"
+version = "0.1.0"
+description = "Lightweight CAPTCHA predictor for Vietcombank using ONNX"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "bangprovn", email = "me@bangprovn.com"},
+]
+keywords = ["captcha", "vietcombank", "onnx", "ocr", "machine-learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "numpy>=1.20.0,<2.0.0",
+    "Pillow>=9.0.0",
+    "onnxruntime>=1.16.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+vietcombank-captcha = "vietcombank_captcha.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/bangprovn/vietcombank-captcha"
+Issues = "https://github.com/bangprovn/vietcombank-captcha/issues"
+
+[tool.hatch.build]
+include = [
+    "src/vietcombank_captcha/*.py",
+    "src/vietcombank_captcha/models/*.onnx",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vietcombank_captcha"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 100
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
