@@ -1,0 +1,105 @@
+[project]
+name = "sdss-cherno"
+version = "1.2.1"
+description = "SDSS guider actor"
+authors = [
+    { name = "José Sánchez-Gallego", email = "gallegoj@uw.edu" }
+]
+license = "BSD-3-Clause"
+readme = "README.md"
+
+requires-python = ">=3.10"
+
+dependencies =[
+    "sdsstools>=1.5.5",
+    "sdss-clu>=1.8.0",
+    "click>=8.0.0,<8.2.0",
+    "astropy>=6.0.0",
+    "click-default-group>=1.2.2",
+    "sdss-coordio>=1.11.2",
+    "pandas>=2.0.0",
+    "tables",
+    "simple-pid>=1.0.1",
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.5",
+    "numpy>1,<2.0.0",
+
+    # Required because they are built using Numpy>=2.3.0 which
+    # needs GCC>=9.3 which is not available on CentOS 7.
+    "numexpr<2.11.0",
+    "contourpy<=1.3.2",
+    "pyarrow<=20.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/sdss/cherno"
+Repository = "https://github.com/sdss/cherno"
+Documentation = "https://sdss-cherno.readthedocs.org"
+
+[project.scripts]
+cherno = "cherno.__main__:cherno"
+
+[dependency-groups]
+dev = [
+    "ipython>=8.0.0",
+    "doc8>=0.8.0",
+    "pytest>=5.2.2",
+    "pytest-asyncio>=0.10.0",
+    "pytest-cov>=2.8.1",
+    "pytest-mock>=1.13.0",
+    "pytest-sugar>=0.9.2",
+    "coverage[toml]>=5.0",
+    "ipdb>=0.12.3",
+    "Sphinx>=3.0.0",
+    "sphinx-click>=2.6.0",
+    "sphinx-jsonschema>=1.16.7",
+    "myst-parser>=0.14.0",
+    "pandas-stubs>=1.5.0",
+    "ruff>=0.1.6",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = 'py312'
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+unfixable = ["F841"]
+exclude = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403", "E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["jaeger"]
+lines-after-imports = 2
+section-order = ["future", "standard-library", "typing", "third-party", "sdss", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+typing = ["typing"]
+sdss = ["clu", "sdsstools", "coordio", "fps_calibrations"]
+
+[tool.pytest.ini_options]
+addopts = "--cov cherno --cov-report xml --cov-report html --cov-report term"
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+branch = true
+include = ["cherno/*"]
+omit = [
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["cherno"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cherno"]
