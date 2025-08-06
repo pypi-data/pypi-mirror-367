@@ -1,0 +1,695 @@
+Metadata-Version: 2.4
+Name: rank-llm
+Version: 0.25.4
+Summary: A Package for reranking with LLMs (pointwise, pairwise, and listwise)
+Author-email: Sahel Sharifymoghaddam <sahel.sharifymoghaddam@uwaterloo.ca>, Ronak Pradeep <rpradeep@uwaterloo.ca>, Jimmy Lin <jimmylin@uwaterloo.ca>
+License: 
+                                         Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity authorized by
+              the copyright owner that is granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (an example is provided in the Appendix below).
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based on (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and Derivative Works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control systems,
+              and issue tracking systems that are managed by, or on behalf of, the
+              Licensor for the purpose of discussing and improving the Work, but
+              excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution."
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to reproduce, prepare Derivative Works of,
+              publicly display, publicly perform, sublicense, and distribute the
+              Work and such Derivative Works in Source or Object form.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, patent, trademark, and
+                  attribution notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright statement to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Additional Liability. While redistributing
+              the Work or Derivative Works thereof, You may choose to offer,
+              and charge a fee for, acceptance of support, warranty, indemnity,
+              or other liability obligations and/or rights consistent with this
+              License. However, in accepting such obligations, You may act only
+              on Your own behalf and on Your sole responsibility, not on behalf
+              of any other Contributor, and only if You agree to indemnify,
+              defend, and hold each Contributor harmless for any liability
+              incurred by, or claims asserted against, such Contributor by reason
+              of your accepting any such warranty or additional liability.
+        
+           END OF TERMS AND CONDITIONS
+        
+           Copyright 2019-2021 Pyserini authors
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License.
+Project-URL: Homepage, https://github.com/castorini/rank_llm
+Keywords: prompt-decoder,RankVicuna,RankZephyr,RankLLM,information retrieval,neural ranking,LLM,listwise,pointwise,FirstMistral
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: tqdm>=4.66.2
+Requires-Dist: openai>=1.23.6
+Requires-Dist: tiktoken>=0.6.0
+Requires-Dist: transformers>=4.40.1
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: faiss-cpu>=1.8.0
+Requires-Dist: ftfy>=6.2.0
+Requires-Dist: dacite>=1.8.1
+Requires-Dist: vllm>=0.4.0
+Requires-Dist: pandas>=1.4.0
+Provides-Extra: sglang
+Requires-Dist: sglang[all]~=0.4.0; extra == "sglang"
+Provides-Extra: tensorrt-llm
+Requires-Dist: tensorrt-llm[all]>=0.14.0; extra == "tensorrt-llm"
+Provides-Extra: genai
+Requires-Dist: google-generativeai>=0.8.2; extra == "genai"
+Provides-Extra: pyserini
+Requires-Dist: pyserini==1.2.0; extra == "pyserini"
+Provides-Extra: training
+Requires-Dist: accelerate>=0.34.2; extra == "training"
+Requires-Dist: bitsandbytes>=0.44.1; extra == "training"
+Requires-Dist: datasets>=3.0.1; extra == "training"
+Requires-Dist: deepspeed>=0.15.1; extra == "training"
+Requires-Dist: six>=1.16.0; extra == "training"
+Requires-Dist: torch>=2.4.0; extra == "training"
+Requires-Dist: numpy>=1.26.4; extra == "training"
+Provides-Extra: all
+Requires-Dist: rank-llm[genai]; extra == "all"
+Requires-Dist: rank-llm[pyserini]; extra == "all"
+Dynamic: license-file
+
+# RankLLM
+
+[![PyPI](https://img.shields.io/pypi/v/rank-llm?color=brightgreen)](https://pypi.org/project/rank-llm/)
+[![Downloads](https://static.pepy.tech/personalized-badge/rank-llm?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=downloads)](https://pepy.tech/project/rank-llm)
+[![Downloads](https://static.pepy.tech/personalized-badge/rank-llm?period=week&units=international_system&left_color=grey&right_color=brightgreen&left_text=downloads/week)](https://pepy.tech/project/rank-llm)
+[![Generic badge](https://img.shields.io/badge/arXiv-2309.15088-red.svg)](https://arxiv.org/abs/2309.15088)
+[![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+
+## News
+- **[0.25.4]** Our [RankLLM](https://dl.acm.org/doi/pdf/10.1145/3726302.3730331) resource paper is accepted to SIGIR 2025! 🎉🎉🎉
+
+## Overview
+We offer a suite of rerankers - pointwise models like MonoT5, pairwise models like DuoT5 and listwise models with a focus on open source LLMs compatible with [vLLM](https://https://github.com/vllm-project/vllm), [SGLang](https://github.com/sgl-project/sglang), or [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM). We also support RankGPT and RankGemini variants, which are proprietary listwise rerankers. Addtionally, we support reranking with the first-token logits only to improve inference efficiency.  Some of the code in this repository is borrowed from [RankGPT](https://github.com/sunnweiwei/RankGPT), [PyGaggle](https://github.com/castorini/pygaggle), and [LiT5](https://github.com/castorini/LiT5)!
+
+<p align="center">
+<img src="docs/images/rankllm_overview.png" alt="RankLLM Overview" style="width:95%;">
+</p>
+
+## Releases
+current_version = 0.25.4
+
+## Content
+1. [Installation](#installation)
+2. [Quick Start](#quick-start)
+3. [End-to-end Run and 2CR](#end-to-end-run-and-2cr)
+4. [Model Zoo](#model-zoo)
+5. [Training](#training)
+6. [Community Contribution](#community-contribution)
+7. [References and Citations](#references)
+8. [Acknowledgments](#acknowledgments)
+
+<a id="installation"></a>
+# 📟 Installation
+
+> **⚠️ RankLLM is not compatible with macOS**, regardless of whether you are using an Intel-based Mac or Apple Silicon (M-series). We recommend using Linux or Windows instead.
+
+## ❗ JDK 21 Warning
+
+As rank_llm relies on [Anserini](https://github.com/castorini/anserini), it is required that you have JDK 21 installed.
+Please note that using JDK 11 is not supported and may lead to errors.
+
+## Create Conda Environment
+
+```bash
+conda create -n rankllm python=3.11
+conda activate rankllm
+```
+
+## Install Pytorch with CUDA (Windows/Linux)
+```bash
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+```
+
+## Install OpenJDK with Maven if you want to use the retriever
+```bash
+conda install -c conda-forge openjdk=21 maven -y
+```
+
+### Install retriever dependencies if you want to use the retriever
+```bash
+pip install "rank-llm[pyserini]"
+```
+
+## Install [all] Dependencies
+```bash
+pip install -e .[all]      # local installation for development
+pip install rank-llm[all]  # or pip installation
+```
+
+## Install SGLang, or TensorRT-LLM (Optional)
+
+### Install SGLang (Optional)
+
+```bash
+pip install -e .[sglang]      # local installation for development
+pip install rank-llm[sglang]  # or pip installation
+```
+
+Remember to install flashinfer to use `SGLang` backend.
+
+```bash
+pip install flashinfer -i https://flashinfer.ai/whl/cu121/torch2.4/
+```
+
+### TensorRT-LLM
+
+```bash
+pip install -e .[tensorrt-llm]      # local installation for development
+pip install rank-llm[tensorrt-llm]  # or pip installation
+```
+
+## Install Training (Optional)
+
+```bash
+pip install -e .[training]      # local installation for development
+pip install rank-llm[training]  # or pip installation
+```
+
+Remember to also install flash-attn to use as optimized implementation of attention mechanism used in Transformer models.
+
+```bash
+pip install flash-attn --no-build-isolation
+```
+
+<a id="quick-start"></a>
+# ⏳ Quick Start
+The following code snippet is a minimal walk through of retrieval, reranking, evalaution, and invocations analysis of top 100 retrieved documents for queries from `DL19`. In this example `BM25` is used as the retriever and `RankZephyr` as the reranker. Additional sample snippets are available to run under the `src/rank_llm/demo` directory.
+```python
+from pathlib import Path
+
+from rank_llm.analysis.response_analysis import ResponseAnalyzer
+from rank_llm.data import DataWriter
+from rank_llm.evaluation.trec_eval import EvalFunction
+from rank_llm.rerank import Reranker, get_openai_api_key
+from rank_llm.rerank.listwise import (
+    SafeOpenai,
+    VicunaReranker,
+    ZephyrReranker,
+)
+from rank_llm.retrieve.retriever import RetrievalMethod, Retriever
+from rank_llm.retrieve.topics_dict import TOPICS
+
+# -------- Retrieval --------
+
+# By default BM25 is used for retrieval of top 100 candidates.
+dataset_name = "dl19"
+retrieved_results = Retriever.from_dataset_with_prebuilt_index(dataset_name)
+
+# Users can specify other retrieval methods and number of retrieved candidates.
+# retrieved_results = Retriever.from_dataset_with_prebuilt_index(
+#     dataset_name, RetrievalMethod.SPLADE_P_P_ENSEMBLE_DISTIL, k=50
+# )
+# ---------------------------
+
+# --------- Rerank ----------
+
+# Rank Zephyr model
+reranker = ZephyrReranker()
+
+# Rank Vicuna model
+# reranker = VicunaReranker()
+
+# RankGPT
+# model_coordinator = SafeOpenai("gpt-4o-mini", 4096, keys=get_openai_api_key())
+# reranker = Reranker(model_coordinator)
+
+kwargs = {"populate_invocations_history": True}
+rerank_results = reranker.rerank_batch(requests=retrieved_results, **kwargs)
+# ---------------------------
+
+# ------- Evaluation --------
+
+# Evaluate retrieved results.
+topics = TOPICS[dataset_name]
+ndcg_10_retrieved = EvalFunction.from_results(retrieved_results, topics)
+print(ndcg_10_retrieved)
+
+# Evaluate rerank results.
+ndcg_10_rerank = EvalFunction.from_results(rerank_results, topics)
+print(ndcg_10_rerank)
+
+# By default ndcg@10 is the eval metric, other value can be specified:
+# eval_args = ["-c", "-m", "map_cut.100", "-l2"]
+# map_100_rerank = EvalFunction.from_results(rerank_results, topics, eval_args)
+# print(map_100_rerank)
+
+# eval_args = ["-c", "-m", "recall.20"]
+# recall_20_rerank = EvalFunction.from_results(rerank_results, topics, eval_args)
+# print(recall_20_rerank)
+
+# ---------------------------
+
+# --- Analyze invocations ---
+analyzer = ResponseAnalyzer.from_inline_results(rerank_results)
+error_counts = analyzer.count_errors(verbose=True)
+print(error_counts)
+# ---------------------------
+
+# ------ Save results -------
+writer = DataWriter(rerank_results)
+Path(f"demo_outputs/").mkdir(parents=True, exist_ok=True)
+writer.write_in_jsonl_format(f"demo_outputs/rerank_results.jsonl")
+writer.write_in_trec_eval_format(f"demo_outputs/rerank_results.txt")
+writer.write_inference_invocations_history(
+    f"demo_outputs/inference_invocations_history.json"
+)
+# ---------------------------
+```
+
+# End-to-end Run and 2CR
+If you are interested in running retrieval and reranking end-to-end or reproducing the results from the [reference papers](#✨-references), `run_rank_llm.py` is a convinent wrapper script that combines these two steps.
+
+The comperehensive list of our two-click reproduction commands are available on [MS MARCO V1](https://castorini.github.io/rank_llm/src/rank_llm/2cr/msmarco-v1-passage.html) and [MS MARCO V2](https://castorini.github.io/rank_llm/src/rank_llm/2cr/msmarco-v2-passage.html) webpages for DL19 and DL20 and DL21-23 datasets, respectively. Moving forward, we plan to cover more datasets and retrievers in our 2CR pages. The rest of this session provides some sample e2e runs. 
+## RankZephyr
+
+We can run the RankZephyr model with the following command:
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=castorini/rank_zephyr_7b_v1_full --top_k_candidates=100 --dataset=dl20 \
+--retrieval_method=SPLADE++_EnsembleDistil_ONNX --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_zephyr_template.yaml  --context_size=4096 --variable_passages
+```
+
+Including the `--sglang_batched` flag will allow you to run the model in batched mode using the `SGLang` library.
+
+Including the `--tensorrt_batched` flag will allow you to run the model in batched mode using the `TensorRT-LLM` library.
+
+If you want to run multiple passes of the model, you can use the `--num_passes` flag.
+
+## RankGPT4-o
+
+We can run the RankGPT4-o model with the following command:
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=gpt-4o --top_k_candidates=100 --dataset=dl20 \
+  --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_gpt_apeer_template.yaml  --context_size=4096 --use_azure_openai
+```
+Note that the `--prompt_template_path` is set to `rank_gpt_apeer` to use the LLM refined prompt from [APEER](https://arxiv.org/abs/2406.14449).
+This can be changed to `rank_GPT` to use the original prompt.
+
+## LiT5
+
+We can run the LiT5-Distill V2 model (which could rerank 100 documents in a single pass) with the following command:
+
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=castorini/LiT5-Distill-large-v2 --top_k_candidates=100 --dataset=dl19 \
+        --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_fid_template.yaml  --context_size=150 --batch_size=4 \
+    --variable_passages --window_size=100
+```
+
+We can run the LiT5-Distill original model (which works with a window size of 20) with the following command:
+
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=castorini/LiT5-Distill-large --top_k_candidates=100 --dataset=dl19 \
+    --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_fid_template.yaml  --context_size=150 --batch_size=32 \
+    --variable_passages
+```
+
+We can run the LiT5-Score model with the following command:
+
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=castorini/LiT5-Score-large --top_k_candidates=100 --dataset=dl19 \
+    --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_fid_score_template.yaml --context_size=150 --batch_size=8 \
+    --window_size=100 --variable_passages
+```
+
+## MonoT5
+
+The following runs the 3B variant of MonoT5 trained for 10K steps:
+
+```bash
+python src/rank_llm/scripts/run_rank_llm.py --model_path=castorini/monot5-3b-msmarco-10k --top_k_candidates=1000 --dataset=dl19 \
+    --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/monot5_template.yaml --context_size=512
+```
+
+Note that we usually rerank 1K candidates with MonoT5.
+
+## DuoT5
+The following runs the #B variant of DuoT5 trained for 10K steps:
+```bash
+python src/rank_llm/scripts/run_rank_llm.py --model_path=castorini/duot5-3b-msmarco-10k --top_k_candidates=50 --dataset=dl19 \
+    --retrieval_method=bm25 --prompt_template_path=src/rank_llm/rerank/prompt_templates/duot5_template.yaml
+```
+
+Since Duo's pairwise comparison has $O(n^2) runtime complexity, we recommend reranking top 50 candidates using DuoT5 models.
+
+## FirstMistral
+
+We can run the FirstMistral model, reranking using the first-token logits only with the following command:
+
+```
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=castorini/first_mistral --top_k_candidates=100 --dataset=dl20 --retrieval_method=SPLADE++_EnsembleDistil_ONNX --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_zephyr_template.yaml  --context_size=4096 --variable_passages --use_logits --use_alpha --num_gpus 1
+```
+
+Omit `--use_logits` if you wish to perform traditional listwise reranking.
+
+## Gemini Flash 2.0
+
+First install genai:
+
+```bash
+pip install -e .[genai]      # local installation for development
+pip install rank-llm[genai]  # or pip installation
+```
+
+Then run the following command:
+
+```bash
+python src/rank_llm/scripts/run_rank_llm.py  --model_path=gemini-2.0-flash-001 --top_k_candidates=100 --dataset=dl20 \
+    --retrieval_method=SPLADE++_EnsembleDistil_ONNX --prompt_template_path=src/rank_llm/rerank/prompt_templates/rank_gpt_apeer_template.yaml  --context_size=4096
+```
+
+<a id="model-zoo"></a>
+# 🦙🐧 Model Zoo
+
+The following is a table of the listwise models our repository was primarily built to handle (with the models hosted on HuggingFace):
+
+`vLLM`, `SGLang`, and `TensorRT-LLM` backends are only supported for `RankZephyr` and `RankVicuna` models.
+
+| Model Name        | Hugging Face Identifier/Link                            |
+|-------------------|---------------------------------------------|
+| RankZephyr 7B V1 - Full - BF16      | [castorini/rank_zephyr_7b_v1_full](https://huggingface.co/castorini/rank_zephyr_7b_v1_full)               |
+| RankVicuna 7B - V1      | [castorini/rank_vicuna_7b_v1](https://huggingface.co/castorini/rank_vicuna_7b_v1)               |
+| RankVicuna 7B - V1 - No Data Augmentation    | [castorini/rank_vicuna_7b_v1_noda](https://huggingface.co/castorini/rank_vicuna_7b_v1_noda)               |
+| RankVicuna 7B - V1 - FP16      | [castorini/rank_vicuna_7b_v1_fp16](https://huggingface.co/castorini/rank_vicuna_7b_v1_fp16)               |
+| RankVicuna 7B - V1 - No Data Augmentation - FP16   | [castorini/rank_vicuna_7b_v1_noda_fp16](https://huggingface.co/castorini/rank_vicuna_7b_v1_noda_fp16)               |
+
+We also officially support the following rerankers built by our group:
+
+## LiT5 Suite
+
+The following is a table specifically for our LiT5 suite of models hosted on HuggingFace:
+
+| Model Name            | 🤗 Hugging Face Identifier/Link                            |
+|-----------------------|---------------------------------------------|
+| LiT5 Distill base     | [castorini/LiT5-Distill-base](https://huggingface.co/castorini/LiT5-Distill-base)          |
+| LiT5 Distill large    | [castorini/LiT5-Distill-large](https://huggingface.co/castorini/LiT5-Distill-large)        |
+| LiT5 Distill xl       | [castorini/LiT5-Distill-xl](https://huggingface.co/castorini/LiT5-Distill-xl)              |
+| LiT5 Distill base v2  | [castorini/LiT5-Distill-base-v2](https://huggingface.co/castorini/LiT5-Distill-base-v2)    |
+| LiT5 Distill large v2 | [castorini/LiT5-Distill-large-v2](https://huggingface.co/castorini/LiT5-Distill-large-v2)  |
+| LiT5 Distill xl v2    | [castorini/LiT5-Distill-xl-v2](https://huggingface.co/castorini/LiT5-Distill-xl-v2)        |
+| LiT5 Score base       | [castorini/LiT5-Score-base](https://huggingface.co/castorini/LiT5-Score-base)              |
+| LiT5 Score large      | [castorini/LiT5-Score-large](https://huggingface.co/castorini/LiT5-Score-large)            |
+| LiT5 Score xl         | [castorini/LiT5-Score-xl](https://huggingface.co/castorini/LiT5-Score-xl)                  |
+
+Now you can run top-100 reranking with the v2 model in a single pass while maintaining efficiency!
+
+## MonoT5 Suite - Pointwise Rerankers
+
+The following is a table specifically for our monoT5 suite of models hosted on HuggingFace:
+
+| Model Name                        | 🤗 Hugging Face Identifier/Link                            |
+|-----------------------------------|--------------------------------------------------------|
+| monoT5 Small MSMARCO 10K          | [castorini/monot5-small-msmarco-10k](https://huggingface.co/castorini/monot5-small-msmarco-10k)       |
+| monoT5 Small MSMARCO 100K         | [castorini/monot5-small-msmarco-100k](https://huggingface.co/castorini/monot5-small-msmarco-100k)     |
+| monoT5 Base MSMARCO               | [castorini/monot5-base-msmarco](https://huggingface.co/castorini/monot5-base-msmarco)                 |
+| monoT5 Base MSMARCO 10K           | [castorini/monot5-base-msmarco-10k](https://huggingface.co/castorini/monot5-base-msmarco-10k)         |
+| monoT5 Large MSMARCO 10K          | [castorini/monot5-large-msmarco-10k](https://huggingface.co/castorini/monot5-large-msmarco-10k)       |
+| monoT5 Large MSMARCO              | [castorini/monot5-large-msmarco](https://huggingface.co/castorini/monot5-large-msmarco)               |
+| monoT5 3B MSMARCO 10K             | [castorini/monot5-3b-msmarco-10k](https://huggingface.co/castorini/monot5-3b-msmarco-10k)             |
+| monoT5 3B MSMARCO                 | [castorini/monot5-3b-msmarco](https://huggingface.co/castorini/monot5-3b-msmarco)                     |
+| monoT5 Base Med MSMARCO           | [castorini/monot5-base-med-msmarco](https://huggingface.co/castorini/monot5-base-med-msmarco)         |
+| monoT5 3B Med MSMARCO             | [castorini/monot5-3b-med-msmarco](https://huggingface.co/castorini/monot5-3b-med-msmarco)             |
+
+We recommend the Med models for biomedical retrieval. We also provide both 10K (generally better OOD effectiveness) and 100K checkpoints (better in-domain).
+# Training
+Please check the `training` directory for finetuning open-source listwise rerankers.
+# External Integrations
+RankLLM is implemented in many popular toolkits such as LlamaIndex, rerankers, and LangChain. For usage of RankLLM in those toolkits and examples, please check this external integrations [README](docs/external-integrations.md)
+# Community Contribution
+If you would like to contribute to the project, please refer to the [contribution guidelines](CONTRIBUTING.md).
+
+## 📜️ Release History
+
++ v0.25.4: July 23, 2025 [[Release Notes](docs/release-notes/release-notes-v0.25.0.md)]
+
+<a id=references></a>
+# ✨ References
+
+If you use RankLLM, please cite the following relevant papers:
+
+[[2505.19284] RankLLM: A Python Package for Reranking with LLMs](https://dl.acm.org/doi/10.1145/3726302.3730331)
+
+<!-- {% raw %} -->
+```
+@inproceedings{sharifymoghaddam2025rankllm,
+author = {Sharifymoghaddam, Sahel and Pradeep, Ronak and Slavescu, Andre and Nguyen, Ryan and Xu, Andrew and Chen, Zijian and Zhang, Yilin and Chen, Yidi and Xian, Jasper and Lin, Jimmy},
+title = {{RankLLM}: A Python Package for Reranking with LLMs},
+year = {2025},
+isbn = {9798400715921},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+booktitle = {Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {3681–3690},
+numpages = {10},
+keywords = {information retrieval, large language models, python, reranking},
+location = {Padua, Italy},
+series = {SIGIR '25}
+}
+```
+<!-- {% endraw %} -->
+
+[[2309.15088] RankVicuna: Zero-Shot Listwise Document Reranking with Open-Source Large Language Models](https://arxiv.org/abs/2309.15088)
+
+<!-- {% raw %} -->
+```
+@ARTICLE{pradeep2023rankvicuna,
+  title   = {{RankVicuna}: Zero-Shot Listwise Document Reranking with Open-Source Large Language Models},
+  author  = {Ronak Pradeep and Sahel Sharifymoghaddam and Jimmy Lin},
+  year    = {2023},
+  journal = {arXiv:2309.15088}
+}
+```
+<!-- {% endraw %} -->
+
+
+[[2312.02724] RankZephyr: Effective and Robust Zero-Shot Listwise Reranking is a Breeze!](https://arxiv.org/abs/2312.02724)
+
+<!-- {% raw %} -->
+```
+@ARTICLE{pradeep2023rankzephyr,
+  title   = {{RankZephyr}: Effective and Robust Zero-Shot Listwise Reranking is a Breeze!},
+  author  = {Ronak Pradeep and Sahel Sharifymoghaddam and Jimmy Lin},
+  year    = {2023},
+  journal = {arXiv:2312.02724}
+}
+```
+<!-- {% endraw %} -->
+
+If you use one of the LiT5 models please cite the following relevant paper:
+
+[[2312.16098] Scaling Down, LiTting Up: Efficient Zero-Shot Listwise Reranking with Seq2seq Encoder-Decoder Models](https://arxiv.org/abs/2312.16098)
+
+```
+@ARTICLE{tamber2023scaling,
+  title   = {Scaling Down, LiTting Up: Efficient Zero-Shot Listwise Reranking with Seq2seq Encoder-Decoder Models},
+  author  = {Manveer Singh Tamber and Ronak Pradeep and Jimmy Lin},
+  year    = {2023},
+  journal = {arXiv:2312.16098}
+}
+```
+
+If you use one of the monoT5 models please cite the following relevant paper:
+
+[[2101.05667] The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models](https://arxiv.org/abs/2101.05667)
+
+```
+@ARTICLE{pradeep2021emd,
+  title = {The Expando-Mono-Duo Design Pattern for Text Ranking with Pretrained Sequence-to-Sequence Models},
+  author = {Ronak Pradeep and Rodrigo Nogueira and Jimmy Lin},
+  year = {2021},
+  journal = {arXiv:2101.05667},
+}
+```
+
+If you use the FirstMistral model, please consider citing:
+
+[[2411.05508] An Early FIRST Reproduction and Improvements to Single-Token Decoding for Fast Listwise Reranking](https://arxiv.org/abs/2411.05508)
+
+```
+@ARTICLE{chen2024firstrepro,
+  title   = title={An Early FIRST Reproduction and Improvements to Single-Token Decoding for Fast Listwise Reranking},
+  author  = {Zijian Chen and Ronak Pradeep and Jimmy Lin},
+  year    = {2024},
+  journal = {arXiv:2411.05508}
+}
+```
+
+If you would like to cite the FIRST methodology, please consider citing:
+
+[[2406.15657] FIRST: Faster Improved Listwise Reranking with Single Token Decoding](https://arxiv.org/abs/2406.15657)
+
+```
+@ARTICLE{reddy2024first,
+  title   = {FIRST: Faster Improved Listwise Reranking with Single Token Decoding},
+  author  = {Reddy, Revanth Gangi and Doo, JaeHyeok and Xu, Yifei and Sultan, Md Arafat and Swain, Deevya and Sil, Avirup and Ji, Heng},
+  year    = {2024}
+  journal = {arXiv:2406.15657},
+}
+```
+<a id=acknowledgments></a>
+# 🙏 Acknowledgments
+
+This research is supported in part by the Natural Sciences and Engineering Research Council (NSERC) of Canada.
