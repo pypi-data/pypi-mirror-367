@@ -1,0 +1,158 @@
+Metadata-Version: 2.4
+Name: odin-protocol
+Version: 1.0.0
+Summary: Revolutionary AI Communication Protocol with Self-Healing Capabilities
+Home-page: https://github.com/odin-protocol/python-sdk
+Author: ODIN Protocol Team
+Author-email: sdk@odin-protocol.com
+License: Commercial
+Project-URL: Homepage, https://odin-protocol.com
+Project-URL: Documentation, https://docs.odin-protocol.com
+Project-URL: Repository, https://github.com/odin-protocol/python-sdk
+Project-URL: Bug Tracker, https://github.com/odin-protocol/python-sdk/issues
+Project-URL: Enterprise, https://odin-protocol.com/enterprise
+Keywords: ai,artificial-intelligence,communication,protocol,messaging,agents,rule-engine,self-healing,enterprise,sdk,api,microservices
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: System :: Distributed Computing
+Classifier: Topic :: Communications
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: protobuf>=4.0.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: asyncio
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: isort>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Provides-Extra: enterprise
+Requires-Dist: redis>=4.0.0; extra == "enterprise"
+Requires-Dist: pydantic>=2.0.0; extra == "enterprise"
+Requires-Dist: fastapi>=0.100.0; extra == "enterprise"
+Requires-Dist: uvicorn>=0.23.0; extra == "enterprise"
+Provides-Extra: analytics
+Requires-Dist: pandas>=1.5.0; extra == "analytics"
+Requires-Dist: numpy>=1.21.0; extra == "analytics"
+Requires-Dist: matplotlib>=3.5.0; extra == "analytics"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# ODIN Protocol Python SDK
+
+The definitive Python SDK for the ODIN Protocol - the world's first standardized AI-to-AI communication protocol with self-healing capabilities.
+
+## Features
+
+🚀 **Revolutionary AI Communication**
+- Standardized protocol for AI-to-AI messaging
+- Self-healing capabilities with automatic error correction
+- Real-time analytics and monitoring
+
+🎯 **Advanced Rule Engine** 
+- 100+ built-in operators and conditions
+- Custom rule creation and management
+- Policy enforcement and compliance checking
+
+🔌 **Extensible Plugin System**
+- Easy plugin development framework
+- Marketplace integration for community plugins
+- Enterprise-grade customization options
+
+🏢 **Enterprise Ready**
+- Production-tested reliability
+- Comprehensive security features
+- Scalable architecture
+
+## Quick Start
+
+```python
+from odin_sdk import OdinClient, OdinMessage
+
+# Initialize client
+client = OdinClient(api_key="your-api-key")
+
+# Create and send message
+message = client.create_message()\
+    .set_ids("trace-1", "session-1", "agent-1", "agent-2")\
+    .set_role("assistant")\
+    .set_content("Hello from AI Agent!")\
+    .build()
+
+# Send with automatic rule evaluation
+response = client.send_message(message)
+print(f"Action: {response.action_taken}")
+```
+
+## Plugin Development
+
+```python
+from odin_sdk.plugins import BasePlugin
+
+class MyPlugin(BasePlugin):
+    @property
+    def name(self) -> str:
+        return "my-plugin"
+    
+    async def process_message(self, message, context):
+        # Custom processing logic
+        return message
+```
+
+## Enterprise Features
+
+- **Multi-tenancy support**
+- **Advanced analytics dashboard** 
+- **Custom rule development**
+- **24/7 enterprise support**
+- **SLA guarantees**
+- **On-premise deployment options**
+
+## Use Cases
+
+- **AI Agent Orchestration**: Coordinate multiple AI agents
+- **Quality Assurance**: Automatic message validation and healing
+- **Compliance Monitoring**: Ensure AI communications meet regulations
+- **Performance Optimization**: Real-time monitoring and optimization
+- **Enterprise Integration**: Connect AI systems across organizations
+
+## Pricing
+
+- **Developer**: Free for up to 10K messages/month
+- **Professional**: $199/month - 100K messages, advanced features
+- **Enterprise**: Custom pricing - Unlimited messages, dedicated support
+
+## Support
+
+- 📚 [Documentation](https://docs.odin-protocol.com)
+- 💬 [Community Discord](https://discord.gg/odin-protocol)
+- 🎫 [Enterprise Support](https://odin-protocol.com/support)
+- 🌟 [GitHub](https://github.com/odin-protocol/python-sdk)
+
+Transform your AI systems with the ODIN Protocol today!
