@@ -1,0 +1,9 @@
+import logging
+
+
+LEVEL_VERBOSE = 5
+LEVEL_DEBUG = logging.DEBUG
+LEVEL_INFO = logging.INFO
+LEVEL_WARNING = logging.WARNING
+LEVEL_ERROR = logging.ERROR
+LEVEL_FATAL = 60
