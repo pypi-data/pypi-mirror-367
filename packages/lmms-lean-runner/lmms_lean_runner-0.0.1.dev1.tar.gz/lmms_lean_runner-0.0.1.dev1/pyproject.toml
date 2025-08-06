@@ -1,0 +1,40 @@
+[project]
+name = "lmms-lean-runner"
+version = "0.0.1.dev1"
+description = "Lean Server Workspace"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["packages.*"]
+exclude = ["playground*", "demo*"]
+
+[tool.uv.workspace]
+members = [
+    "packages/client",
+    "packages/server"
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[tool.ruff]
+# Rule selection:
+# E: pycodestyle (style errors)
+# F: Pyflakes (logical errors)
+# I: isort (import sorting)
+# B: flake8-bugbear (bug detection)
+# UP: pyupgrade (syntax modernization)
+# A: flake8-builtins (built-in shadowing)
+# C4: flake8-comprehensions (comprehension best practices)
+lint.select = ["E", "F", "I", "B", "UP", "A", "C4"]
