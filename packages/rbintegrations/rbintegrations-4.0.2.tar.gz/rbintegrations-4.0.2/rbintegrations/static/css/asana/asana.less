@@ -1,0 +1,111 @@
+@import (reference) "@{STATIC_ROOT}rb/css/defs.less";
+
+
+@asana-checkbox-color: var(--ink-p-grey-600);
+@asana-checkbox-color-completed:
+    var(--if-light, var(--ink-p-green-700))
+    var(--if-dark, var(--ink-p-green-400));
+
+
+#field_rbintegrations_asana {
+  font-size: @textarea-font-size;
+
+  ul {
+    background-color: var(--ink-p-input-bg);
+    border: var(--ink-g-border-input);
+    color: var(--ink-p-input-fg);
+    margin: @textarea-editor-margin;
+    padding: 0;
+
+    &:empty {
+      border: 0;
+    }
+  }
+}
+
+.asana-field.selectize-control {
+  .selectize-input {
+    align-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+
+  &.loading .selectize-input:before {
+    animation: fa-spin 1s infinite steps(8);
+    content: '\f110';
+    display: block;
+    font: normal normal normal 14px/1 FontAwesome;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    transform: translate(0, 0);
+    z-index: 2;
+  }
+}
+
+.asana-field.selectize-dropdown {
+  z-index: @z-index-menu;
+}
+
+.asana-task-option {
+  margin-left: 2px;
+}
+
+.asana-task {
+  border-bottom: var(--ink-u-border-thin) var(--ink-p-grey-200) solid;
+  list-style: none;
+  padding: var(--ink-u-spacing-xs) var(--ink-u-spacing-s);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .asana-task-checkbox {
+    border: 1px solid @asana-checkbox-color;
+    border-radius: 50%;
+    display: inline-block;
+    fill: @asana-checkbox-color;
+    height: 16px;
+    line-height: 20px;
+    margin: 3px 0;
+    text-align: center;
+    width: 16px;
+  }
+
+  a {
+    align-items: center;
+    display: flex;
+    gap: var(--ink-u-spacing-s);
+    text-decoration: none;
+  }
+
+  a,
+  a:active,
+  a:visited {
+    color: var(--ink-p-input-fg);
+    height: 100%;
+  }
+
+  &.completed {
+    .asana-task-checkbox {
+      background: @asana-checkbox-color-completed;
+      border-color: @asana-checkbox-color-completed;
+      fill: #ffffff;
+    }
+
+    a,
+    a:active,
+    a:visited {
+      color: var(--ink-p-grey-500);
+    }
+  }
+
+  svg {
+    height: 12px;
+    width: 12px;
+  }
+}
