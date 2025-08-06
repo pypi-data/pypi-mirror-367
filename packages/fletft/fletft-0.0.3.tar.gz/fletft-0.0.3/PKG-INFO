@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: fletft
+Version: 0.0.3
+Summary: Flet add .ft and screen menager
+Author-email: Przemek <email@example.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: flet
+Requires-Dist: PyYAML
+
+# fletft – Extensions for Flet
+
+**fletft** is an extension for the [Flet](https://flet.dev) library, introducing new possibilities for designing user interfaces.
+It allows you to define GUI structures in separate `.ft` (YAML) files, which simplifies code management and improves readability.
+Additionally, the library offers a simple scene manager (**ScreenManager**) for easy switching between different application views.
+
+---
+
+## ✨ Features
+
+* **GUI Design in `.ft` Files**
+  Create user interfaces using YAML syntax, separating logic from presentation.
+
+* **Screen Manager (ScreenManager)**
+  Easily manage and navigate between different application screens.
+
+* **Component Loading**
+  Load components from `.ft` files directly into your Flet application.
+
+* **Access Components by ID**
+  Quickly access specific components using their identifiers.
+
+---
+
+## 📦 Installation
+
+```bash
+pip install fletft
+```
+
+---
+
+## 💡 Usage Examples
+
+### 1. GUI Design with `.ft` File
+
+This example demonstrates how to define your GUI layout in a `ui.ft` file and load it into your main Flet application.
+
+**`main.py`**
+
+```python
+import flet
+from flet_ft import load_ui, get_by_id
+
+# Main Flet function
+def main(page: flet.Page):
+    # Load YAML as a string
+    with open("ui.ft", "r", encoding="utf-8") as f:
+        yaml_data = f.read()
+
+    # Pass `globals()` so the parser can access functions from this file
+    controls = load_ui(yaml_data, context_globals=globals())
+
+    # Add components to the page
+    page.controls.extend(controls)
+
+    # Access component by ID and update its text
+    get_by_id("test").text = 'ok'
+    page.update()
+
+# Function to handle button clicks
+def handle_click(e):
+    print("Button was clicked!")
+    e.page.update()
+
+# Start the application
+flet.app(target=main)
+```
+
+**`ui.ft`**
+
+```yaml
+page:
+  controls:
+    - Column:
+        spacing: 20
+        controls:
+          - Text:
+              value: "hello fletft"
+              size: 32
+
+          - ElevatedButton:
+              text: "test"
+              id: "test"
+              on_click: handle_click
+```
+
+---
+
+### 2. Screen Manager (ScreenManager)
+
+This example demonstrates using `ScreenManager` to easily switch between different application screens.
+
+**`app_with_screens.py`**
+
+```python
+import flet as ft
+from flet_ft import ScreenManager
+
+def main(page: ft.Page):
+    page.title = "Screen Manager Example"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+
+    sm = ScreenManager(page)
+
+    # Home screen
+    home_view = ft.Column(
+        [
+            ft.Text("🏠 Home Screen", size=30, weight=ft.FontWeight.BOLD),
+            ft.ElevatedButton("Go to About", on_click=lambda e: sm.set_current("about")),
+        ],
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    )
+
+    # About screen
+    about_view = ft.Column(
+        [
+            ft.Text("ℹ️ About Screen", size=30, weight=ft.FontWeight.BOLD),
+            ft.ElevatedButton("Back to Home", on_click=lambda e: sm.set_current("home")),
+        ],
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    )
+
+    # Add screens to the manager
+    sm.add_screen("home", home_view)
+    sm.add_screen("about", about_view)
+
+    # Set the initial screen
+    sm.set_current("home")
+
+ft.app(target=main)
+```
+
+---
+
+## 🔗 Links
+
+* Original Flet project: [https://flet.dev](https://flet.dev)
