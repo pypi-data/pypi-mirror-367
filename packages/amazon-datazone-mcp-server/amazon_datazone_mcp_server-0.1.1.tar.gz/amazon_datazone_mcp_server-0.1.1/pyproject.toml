@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amazon-datazone-mcp-server"
+dynamic = ["version"]
+description = "MCP server for AWS DataZone service - enables LLMs to interact with DataZone for data governance, cataloging, and management"
+authors = [
+    {name = "AWS Labs", email = "aws-labs@amazon.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+keywords = ["aws", "datazone", "mcp", "model-context-protocol", "data-governance", "data-catalog"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Database",
+    "Topic :: Software Development :: Code Generators",
+    "Environment :: Console",
+]
+dependencies = [
+    "boto3>=1.26.0",
+    "mcp>=1.9.2",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=1.1.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "flake8>=6.0.0",
+    "pre-commit>=3.0.0",
+    "pyright>=1.1.350",
+    "ruff>=0.4.4",
+]
+
+[project.scripts]
+amazon-datazone-mcp-server = "amazon_datazone_mcp_server.server:main"
+
+[project.urls]
+"Homepage" = "https://github.com/awslabs/amazon-datazone-mcp-server"
+"Documentation" = "https://github.com/awslabs/amazon-datazone-mcp-server/blob/main/docs/"
+"Repository" = "https://github.com/awslabs/amazon-datazone-mcp-server"
+"Issues" = "https://github.com/awslabs/amazon-datazone-mcp-server/issues"
+"Changelog" = "https://github.com/awslabs/amazon-datazone-mcp-server/blob/main/CHANGELOG.md"
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["amazon_datazone_mcp_server*"]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+known_first_party = ["amazon_datazone_mcp_server"]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+check_untyped_defs = true
+show_error_codes = true
+pretty = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests requiring AWS credentials",
+    "asyncio: marks tests as async tests using asyncio",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv"]
+skips = ["B101"]
