@@ -1,0 +1,106 @@
+Metadata-Version: 2.3
+Name: preserve
+Version: 1.0.0
+Summary: A simple key/value store with multiple backends.
+License: MIT
+Author: Grégoire Burel
+Author-email: evhart@users.noreply.github.com
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Database
+Classifier: Topic :: Database :: Database Engines/Servers
+Classifier: Topic :: Utilities
+Provides-Extra: mongodb
+Requires-Dist: halo (>=0.0.30,<0.0.31)
+Requires-Dist: pydantic (>=2.0.0,<3.0.0)
+Requires-Dist: pymongo (>=4.5.0,<5.0.0) ; extra == "mongodb"
+Requires-Dist: setuptools (>=75.8.0,<76.0.0)
+Requires-Dist: tabulate (>=0.8.7,<0.9.0)
+Requires-Dist: toml (>=0.10.1,<0.11.0)
+Requires-Dist: typer (>=0.4.0,<0.5.0)
+Requires-Dist: usingversion (>=0.1.2,<0.2.0)
+Project-URL: Homepage, https://github.com/evhart/preserve/
+Project-URL: Repository, https://github.com/evhart/preserve/
+Description-Content-Type: text/markdown
+
+# 🥫 Preserve - A simple Python Key/Value database with multiple backends.
+
+> ⚠️ Preserve is alpha software and currently in development (i.e., no tests).
+
+Preserve is a simple (simplistic) key/value store for storing JSON-like data in different backends. Its API is based on the standard Python dictionary API.
+
+
+## ℹ️ Installation and Usage
+Preserve can be installed using pip:
+```
+pip install preserve
+```
+
+Preserve can be also installed from Github directly using the following command:
+```
+pip install git+https://github.com/evhart/preserve#egg=preserve
+```
+
+### 📒 Requirements
+Preserve needs the following libraries installed and Python 3.6+ (tested on Python 3.8):
+* [halo](https://github.com/manrajgrover/halo)
+* [pydantic](https://pydantic-docs.helpmanual.io/)
+* [pymongo](https://pymongo.readthedocs.io/)
+* [tabulate](https://github.com/astanin/python-tabulate)
+* [typer](https://typer.tiangolo.com/)
+
+### 🐍 Python API
+
+If you know how to use Python dictionaries, you already know how to use preserve. Simply use the backend connector that corresponds to your database and you are ready to go.
+
+You can either create a new database from a standarised database URI or using the driver parameters:
+
+```python
+import preserve
+
+# Using parameters:
+jam_db1 = preserve.open('shelf', filename="preserve.dbm")
+jam_db1['strawberry'] = {'name': 'Strawbery Jam', 'ingredients': ['strawberry', 'sugar']}
+
+
+# Using URI:
+jam_db2 = preserve.from_uri("mongodb://127.0.0.1:27017/preserves?collection=jam")
+jam_db2['currant'] = {'name': 'Currant Jam', 'ingredients': ['currant', 'sugar']}
+
+```
+
+### 🖥️ Command Line Interface (CLI)
+Preserve has a simple CLI utility that can be access using the ```preserve``` command. Preserve support migrating/exporting data from one database ot another database and showing the firs rows from databases.
+
+```
+Usage: preserve [OPTIONS] COMMAND [ARGS]...
+
+  🥫 Preserve - A simple Key/Value database with multiple backends.
+
+Options:
+  --install-completion [bash|zsh|fish|powershell|pwsh]
+                                  Install completion for the specified shell.
+  --show-completion [bash|zsh|fish|powershell|pwsh]
+                                  Show completion for the specified shell, to
+                                  copy it or customize the installation.
+
+  --help                          Show this message and exit.
+
+Commands:
+  connectors  List available connectors.
+  export      Export a database to a different output.
+  header      Get header of a given database table.
+```
+
