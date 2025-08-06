@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: cognita-toolkit
+Version: 1.0.0
+Summary: A symbolic reasoning toolkit for building logic-driven agents and AGI research.
+Author: Aditya Kharat
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+# Cognita 🧠
+
+**Cognita** is a lightweight symbolic reasoning toolkit for building logic-based intelligent agents.
+
+> 🛠️ Built by [Aditya Kharat](https://pypi.org/user/adityakharat)
+
+### 🔍 What It Does
+- Store facts
+- Define IF–THEN logic rules
+- Solve logical goals using reasoning
+
+### 🚀 Example Use
+```python
+from cognita.factbase import FactBase
+from cognita.rule_engine import RuleEngine
+from cognita.goal_solver import GoalSolver
+
+facts = FactBase()
+rules = RuleEngine()
+
+facts.add_fact("user(frustrated)")
+facts.add_fact("issue(open)")
+
+rules.add_rule(["user(frustrated)", "issue(open)"], "should(escalate)")
+
+goal = "should(escalate)"
+solver = GoalSolver(facts, rules)
+
+if solver.solve(goal):
+    print("🚨 Escalate!")
+else:
+    print("😌 No escalation needed.")
+```
