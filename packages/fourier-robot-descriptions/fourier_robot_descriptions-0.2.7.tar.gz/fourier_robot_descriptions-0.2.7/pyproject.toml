@@ -1,0 +1,82 @@
+[project]
+name = "fourier-robot-descriptions"
+dynamic = ["version"]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "gitpython>=3.1.44",
+    "numpy>=1.26.4",
+    "pin>3.4.0",
+    "rich>=14.0.0",
+    "tqdm>=4.67.1",
+]
+
+[project.optional-dependencies]
+yourdfpy = ["yourdfpy>=0.0.57"]
+examples = ["yourdfpy>=0.0.57", "meshcat>=0.3.2", "meshcat-shapes>=0.3.0"]
+
+[build-system]
+requires = ["hatchling", "hatchling[dev]", "hatch-vcs", "uv>=0.2.0"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+
+[tool.hatch.version]
+source = "vcs"
+# fallback-version = "0.1.0"
+
+[tool.hatch.version.raw-options]
+local_scheme = "no-local-version"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
+
+[tool.ruff]
+include = ["**/*.py", "**/*.pyi", "**/pyproject.toml"]
+exclude = [".venv", "build", "dist"]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "A",   # flake8-builtins
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "E",   # pycodestyle - Error
+    "W",   # pycodestyle - Warning
+    "F",   # Pyflakes
+    'PLC',
+    'PLE',
+    'PLW', # Pylint
+    "I",   # isort
+    "UP",  # pyupgrade
+    "NPY", # numpy
+]
+ignore = [
+    "E501", # line-too-long
+    "F401", # unused import
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+
+[tool.pyright]
+include = ["src/**/*.py"]
+pythonVersion = "3.11"
+pythonPlatform = "Linux"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pyright>=1.1.401",
+    "pytest-benchmark>=5.1.0",
+    "ruff>=0.11.13",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
