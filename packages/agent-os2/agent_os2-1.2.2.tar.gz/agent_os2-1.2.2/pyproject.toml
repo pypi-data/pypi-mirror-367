@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{ name = "AgentOS Team" }]
+name = "agent_os2"
+version = "1.2.2"
+description = "A lightweight and composable graph-structured workflow engine for LLM automation"
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+dependencies = [
+    "aiohttp>=3.11.14",
+    "requests>=2.32.3",
+    "google-genai>=1.27.0",
+    "pillow>=11.1.0",
+    "PyYAML>=6.0",
+    "tiktoken>=0.9.0"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agent_os2*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "**/*.json", "**/*.yaml", "**/*.md"]
