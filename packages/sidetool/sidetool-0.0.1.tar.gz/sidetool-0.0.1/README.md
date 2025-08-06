@@ -1,0 +1,1 @@
+echo "# sidetool\n\nReserved package name." > README.md
