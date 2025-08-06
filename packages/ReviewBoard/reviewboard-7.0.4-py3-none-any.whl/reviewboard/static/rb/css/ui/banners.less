@@ -1,0 +1,456 @@
+@import (reference) "@beanbag/ink/lib/ink.less";
+
+@import (reference) "rb/css/defs.less";
+
+
+@banner-padding: var(--ink-u-spacing-m);
+@banner-padding-horizontal: var(--ink-u-spacing-m);
+
+
+.banner {
+  background: var(--rb-p-draft-bg);
+  border-width: 1px;
+  border-color: var(--rb-p-draft-border-color);
+  border-style: solid;
+  margin-bottom: 10px;
+  padding: @banner-padding;
+  z-index: @z-index-banner;
+
+  &>h1, &>p {
+    display: inline;
+    margin-right: 0.2em;
+    padding: 0;
+  }
+
+  .on-mobile-medium-screen-720({
+    p {
+      display: block;
+      margin: 1em 0;
+    }
+  });
+
+  .banner-actions {
+    display: inline-flex;
+    margin-left: 1em;
+
+    .on-mobile-medium-screen-720({
+      display: block;
+      margin-left: 0;
+      margin-top: 1em;
+    });
+  }
+}
+
+
+/**
+ * The unified banner.
+ *
+ * This banner replaces a number of previous banners -- banners for the review
+ * request draft, review draft, and review reply drafts. It's split into two
+ * major parts:
+ *
+ * 1. The review area. This deals with reviews and drafts. It contains the main
+ *    "Review" menu, publish button, mode switcher (for choosing different
+ *    active drafts), and the change description field (when there's a review
+ *    request update draft).
+ *
+ * 2. The dock area. This is currently unused, but we have plans to use this
+ *    for an expandable file display on the diffviewer, as well as allow
+ *    extensions to drop in their own content.
+ *
+ * Modifiers:
+ *     -has-draft:
+ *         Whether there are any drafts present.
+ *
+ *     -has-multiple:
+ *         Whether there are multiple drafts present.
+ *
+ * Structure:
+ *     <div class="rb-c-unified-banner">
+ *      <div class="rb-c-unified-banner__review">...</div>
+ *      <div class="rb-c-unified-banner__dock">...</div>
+ *     </div>
+ */
+.rb-c-unified-banner {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none;
+  margin: -@page-container-padding -@page-container-padding
+          @page-container-padding -@page-container-padding;
+  z-index: @z-index-banner;
+
+  &.-has-multiple {
+    box-shadow: none;
+
+    &::after {
+      background: var(--rb-p-draft-bg);
+      border-color: var(--rb-p-draft-border-color);
+      border-style: solid;
+      border-width: 0 1px 1px 1px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+      content: ' ';
+      display: block;
+      height: 2px;
+      margin: 0 0.3em;
+    }
+  }
+
+  .rb-c-actions a,
+  a[role="button"] {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /**
+   * The main section of the review banner relating to reviews and drafts.
+   *
+   * Modifiers:
+   *     -has-draft:
+   *         Whether there's any draft objects present.
+   *
+   * Structure:
+   *     <div class="rb-c-unified-banner__review">
+   *      <div class="rb-c-unified-banner__controls">
+   *      </div>
+   *      <div class="rb-c-unified-banner__changedesc">...</div>
+   *     </div>
+   */
+  &__review {
+    background: var(--rb-c-review-request-bg-color);
+    border-bottom: var(--rb-c-review-request-border);
+    display: flex;
+    flex-direction: column;
+    gap: @banner-padding;
+    padding: 0 @banner-padding;
+    position: relative;
+
+    .-has-draft & {
+      background: var(--rb-p-draft-bg);
+      border-bottom: 1px var(--rb-p-draft-border-color) solid;
+    }
+  }
+
+  /**
+   * The change description field.
+   *
+   * Structure:
+   *     <div class="rb-c-unified-banner__changedesc">
+   *      <p>
+   *       <label for="field_change_description">
+   *        Describe your changes (optional):
+   *       </label>
+   *      </p>
+   *      <pre id="field_change_description" class="field field-text-area"
+   *           data-field-id="field_change_description"></pre>
+   *     </div>
+   */
+  &__changedesc {
+    padding-bottom: @banner-padding;
+
+    > label {
+      // Match to the height of rb-icon-edit to prevent jumps.
+      line-height: @rb-icon-edit-height;
+    }
+
+    > p {
+      margin: 0 0 @banner-padding;
+    }
+
+    .rb-c-text-editor {
+      margin-top: 0;
+    }
+  }
+
+  /**
+   * The block of controls relating to reviews and drafts.
+   *
+   * Structure:
+   *     <div class="rb-c-unified-banner__controls">
+   *      <div class="rb-c-unified-banner__mode-selector">
+   *       ...
+   *      </div>
+   *      <div class="rb-c-unified-banner__draft-actions">
+   *       <input type="button" id="btn-review-request-discard"
+   *              value="Discard">
+   *      </div>
+   *      <menu class="rb-c-unified-banner__review-actions rb-c-actions"
+   *            role="menu">
+   *       ...
+   *      </menu>
+   *     </div>
+   */
+  &__controls {
+    align-items: center;
+    display: flex;
+    gap: @banner-padding;
+
+    > div:not(:empty) {
+      margin-right: 1em;
+    }
+  }
+
+  /**
+   * The label shown for a menu.
+   *
+   * Structure:
+   *     <label class="rb-c-unified-banner__menu-label">
+   *      ...
+   *     </label>
+   */
+  &__menu-label {
+    display: flex;
+    gap: var(--ink-u-spacing-s);
+  }
+
+  /**
+   * The draft mode selector.
+   *
+   * Structure:
+   *     <div class="rb-c-unified-banner__mode-selector">
+   *      <div class="rb-c-unified-banner__menu">
+   *       <a class="rb-c-unified-banner__mode">
+   *        <span class="rb-c-unified-banner__menu-label">...<?span>
+   *       </a>
+   *       <div class="ink-c-menu">...</div>
+   *      </div>
+   *     </div>
+   */
+  &__mode-selector {
+    /*
+     * We'd normally put this in @vars below in customize-component(), but
+     * we need these same variables to be usable by the menu dropdown action
+     * element.
+     */
+    &, .ink-c-menu {
+      --ink-c-menu-bg: var(--rb-p-draft-bg);
+      --ink-c-menu-border: 1px var(--rb-p-draft-border-color) solid;
+      --ink-c-menu-item-selected-bg: var(--rb-p-draft-hover-bg);
+      --ink-c-menu-item-selected-fg: var(--rb-p-draft-hover-fg);
+
+      #rb-ns-pages.base.on-shell-mobile-mode({
+        /* Make sure the menu items appear over the Review menu on mobile. */
+        z-index: @z-index-menu + 2;
+      });
+    }
+
+    margin-left: calc(-1 * @banner-padding);
+
+    #ink-ns-ui.base.customize-component(
+      @name: ink-c-menu;
+      @schema: #ink-ns-schema[@menu];
+      @schema-rules: {
+        @__default__: {
+          border-left: 0;
+          min-width: 30em;
+        };
+        @item-label: {
+          font-size: var(--ink-u-font-sm);
+          font-weight: bold;
+        };
+      };
+    );
+  }
+
+  /**
+   * The menu within the draft mode selector.
+   *
+   * Modifiers:
+   *     -is-open:
+   *         The menu is open.
+   */
+  &__menu {}
+
+  /**
+   * The mode label.
+   */
+  &__mode {}
+
+  /**
+   * The publish/discard buttons.
+   */
+  &__draft-actions {
+    #rb-ns-pages.base.on-shell-mobile-mode({
+      /**
+       * On mobile the buttons might be squished up against the left side
+       * of the screen. Add a margin to make it look better
+       */
+      margin-left: @banner-padding;
+    });
+  }
+
+  /**
+   * The "Review" menu and other actions.
+   */
+  &__review-actions {
+    margin: 0;
+    padding: 0;
+  }
+
+  .rb-c-actions {
+    list-style: none;
+
+    &__action a {
+      display: flex;
+      gap: var(--ink-u-spacing-s);
+    }
+  }
+
+  /**
+   * The notice about the existence of an unpublished draft.
+   *
+   * When viewing a review request as a privileged user (admin or the "can
+   * edit review request" privilege), the user can see drafts which have
+   * not yet been published. We add a notice to the dock area of the banner
+   * that indicates this, and allows them to switch between viewing the
+   * draft data and viewing as if they were a regular user.
+   */
+  &__unpublished-draft {
+    background: var(--ink-p-accent-info-bg);
+    color: var(--ink-p-accent-info-fg);
+    padding: var(--ink-u-spacing-m);
+
+    &:not(:last-child) {
+      border-bottom: var(--rb-c-review-request-border);
+    }
+
+    a {
+      color: var(--ink-p-link-fg-on-light);
+    }
+
+    a:hover {
+      color: var(--ink-p-link-hover-fg-on-light);
+    }
+  }
+
+  /*
+   * This makes sure that items in the review menu are clickable across
+   * their entire breadth.
+   */
+  #action-review-menu {
+    position: relative;
+
+    #ink-ns-ui.base.customize-component(
+      @name: ink-c-menu;
+      @schema: #ink-ns-schema[@menu];
+      @schema-rules: {
+        @item-inner: {
+          padding: 0;
+        };
+        @item-label: {
+          > a {
+            display: inline-block;
+            padding: var(--ink-c-menu-item-padding);
+          }
+        };
+      };
+    );
+  }
+
+  /*
+   * Handle styling for the embedded menus for the draft mode and Reviews
+   * menu.
+   *
+   * NOTE: Ideally, a lot of this would be common, and be based on action
+   *       styling. However, we don't have styling specific to menu actions
+   *       as of this writing (April 15, 2024), and the draft mode and review
+   *       menus have different layouts. For now, we're just handling each
+   *       specially.
+   */
+
+  /*
+   * Move the menu up one so that the top-level menu item's border will
+   * overlap, making it appear seamless.
+   */
+  #action-review-menu,
+  &__mode-selector {
+    #ink-ns-ui.base.customize-component(
+      @name: ink-c-menu;
+      @schema: #ink-ns-schema[@menu];
+      @schema-rules: {
+        @__default__: {
+          margin-top: -1px;
+        };
+      };
+    );
+  }
+
+  /* Set up layout for the top-level menu item. */
+  #action-review-menu > a,
+  &__mode-selector &__menu &__mode {
+    border-right: 1px transparent solid;
+    box-sizing: border-box;
+    display: flex;
+    font-weight: bold;
+    padding: @banner-padding;
+    position: relative;
+    z-index: @z-index-menu + 1;
+  }
+
+  /* Increase the top level menu item's font size to be more header-sized. */
+  #action-review-menu .rb-c-unified-banner__menu-label,
+  &__mode-selector .rb-c-actions__action-label {
+    font-size: var(--ink-u-font-sm);
+  }
+
+  /* Ensure the labels have menu background/border styling when open. */
+  #action-review-menu.-is-menu-open > a,
+  &__mode-selector &__menu.-is-menu-open &__mode {
+    background: var(--ink-c-menu-bg);
+    border-right: var(--ink-c-menu-border);
+  }
+
+  /* Give the review menu a left border to match the right. */
+  #action-review-menu > a {
+    border-left: 1px transparent solid;
+  }
+
+  #action-review-menu.-is-menu-open > a {
+    border-left: var(--ink-c-menu-border);
+  }
+
+  /**
+   * The link to the interdiff, if present.
+   *
+   * Structure:
+   *     <div class="rb-c-unified-banner__interdiff-link">
+   *      This draft adds a new diff.
+   *      <a href="...">Show changes</a>
+   *     </div>
+   */
+  &__interdiff-link {
+    margin-top: 1em;
+
+    a {
+      color: var(--ink-p-link-fg);
+    }
+  }
+
+  /**
+   * The "dock" portion of the unified banner.
+   */
+  &__dock:not(:empty) {
+    background: var(--rb-c-review-request-bg-color);
+    border-bottom: var(--rb-c-review-request-border);
+  }
+}
+
+.on-mobile-medium-screen-720({
+  .rb-c-unified-banner {
+    &__changedesc {
+      padding: 0 @banner-padding @banner-padding @banner-padding;
+    }
+
+    &__controls {
+      flex-wrap: wrap;
+    }
+
+    &__mode-selector {
+      margin-left: 0;
+    }
+
+    &__review {
+      padding: 0;
+      z-index: @z-index-menu;
+    }
+  }
+});

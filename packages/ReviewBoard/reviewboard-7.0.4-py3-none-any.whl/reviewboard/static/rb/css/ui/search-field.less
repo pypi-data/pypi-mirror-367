@@ -1,0 +1,72 @@
+/** A standardized search field with an icon. */
+
+@import (reference) "rb/css/ui/colors.less";
+
+
+#rb-ns-ui() {
+  .search-field() {
+    @_color-vars: #rb-ns-ui.colors();
+
+    @icon-color: @_color-vars[@grey-50];
+    @icon-size: 14px;
+
+    /*
+     * Deprecated:
+     *     7.0
+     */
+    @border-color: @_color-vars[@grey-50];
+    @border-radius: 6px;
+    @border-size: 1px;
+    @padding-horiz: 4px;
+    @padding-vert: 2px;
+  }
+}
+
+
+/**
+ * A field for searching or filtering content.
+ *
+ * Structure:
+ *     <div class="rb-c-search-field">
+ *      <span class="fa fa-search"></span>
+ *      <input class="rb-c-search-field__input" type="search">
+ *     </div>
+ */
+.rb-c-search-field {
+  @_search-field-vars: #rb-ns-ui.search-field();
+  @_border-size: @_search-field-vars[@border-size];
+  @_padding-vert: var(--ink-u-spacing-s);
+  @_padding-horiz: var(--ink-u-spacing-s);
+  @_icon-size: @_search-field-vars[@icon-size];
+
+  display: flex;
+  position: relative;
+
+  .fa {
+    color: inherit;
+    font-size: var(--ink-u-font-s);
+    position: absolute;
+    margin: var(--ink-u-spacing-s);
+  }
+
+  /**
+   * The text input field.
+   *
+   * Structure:
+   *     <input class="rb-c-search-field__input">
+   */
+  &__input {
+    /* Avoid input[type=...] taking precedence. */
+    &,
+    &[type=search],
+    &[type=text],
+    .djblets-c-config-forms-page__content &[type=search],
+    .djblets-c-config-forms-page__content &[type=text] {
+      border: var(--ink-g-border-input);
+      border-radius: var(--ink-u-border-radius-input);
+      box-sizing: border-box;
+      padding-left: calc(var(--ink-u-font-s) + var(--ink-u-spacing-sm));
+      width: 100%;
+    }
+  }
+}

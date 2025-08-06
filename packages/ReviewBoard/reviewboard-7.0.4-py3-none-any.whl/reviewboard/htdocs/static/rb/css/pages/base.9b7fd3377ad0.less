@@ -1,0 +1,475 @@
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/mixins/theme.less";
+@import (reference) "rb/css/ui/colors.less";
+@import (reference) "rb/css/ui/ink-overrides.less";
+@import (reference) "rb/css/ui/responsive.less";
+
+
+#rb-ns-pages() {
+  .base() {
+    /** The max screen width allowed for mobile mode. */
+    @mobile-mode-max-screen-width: 800px;
+
+    /**
+     * Apply rules when the UI shell is in desktop mode.
+     *
+     * This should not be used exclusively for responsive UIs. Rather, it
+     * should be used to apply styles related to the mode of the UI shell
+     * (the top bar, navigation, sidebar, etc.).
+     *
+     * What constitutes desktop mode may change in time.
+     *
+     * Args:
+     *     @rules (ruleset):
+     *         The rules to apply when the shell is in desktop mode.
+     *
+     *     @else (ruleset, optional):
+     *         Optional rules to apply when the shell is not in desktop mode.
+     */
+    .on-shell-desktop-mode(@rules, @else: null) {
+      @_mobile-mode-width: #rb-ns-pages.base[@mobile-mode-max-screen-width];
+
+      #rb-ns-ui.screen.on-width-gt(@_mobile-mode-width, @rules, @else);
+    }
+
+    /**
+     * Apply rules when the UI shell is in mobile mode.
+     *
+     * This should not be used exclusively for responsive UIs. Rather, it
+     * should be used to apply styles related to the mode of the UI shell
+     * (the top bar, navigation, sidebar, etc.).
+     *
+     * What constitutes mobile mode may change in time.
+     *
+     * Args:
+     *     @rules (ruleset):
+     *         The rules to apply when the shell is in mobile mode.
+     *
+     *     @else (ruleset, optional):
+     *         Optional rules to apply when the shell is not in mobile mode.
+     */
+    .on-shell-mobile-mode(@rules, @else: null) {
+      @_mobile-mode-width: #rb-ns-pages.base[@mobile-mode-max-screen-width];
+
+      #rb-ns-ui.screen.on-width-lte(@_mobile-mode-width, @rules, @else);
+    }
+
+    /**
+     * Apply rules for when the UI shell is displaying full-page content.
+     *
+     * Full-page content mode is when the content area is positioned so that
+     * it's always fully on-screen, taking up the full height of the viewport,
+     * generally with its own content area handling scrolling. Callers can
+     * use this to add new rules that apply in this mode.
+     *
+     * Args:
+     *     @rules (ruleset):
+     *         The rules to apply when in full-page content mode.
+     */
+    .on-full-page-content-mode(@rules) {
+      body {
+        &.full-page-content,  /* Deprecated */
+        &.-is-content-full-page {
+          @rules();
+        }
+      }
+    }
+
+    /**
+     * Set the content are to be flush with the edges of the UI shell.
+     *
+     * This will remove the padding on the page container and the margin
+     * between the top bar and the container.
+     */
+    .set-content-flush() {
+      #page-container {
+        padding: 0;
+      }
+
+      #topbar {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+/**
+ * The main body element for the page.
+ *
+ * Modifiers:
+ *     -has-sidebar:
+ *         Whether the page has a sidebar shown.
+ *
+ *     -is-content-flush:
+ *         Removes any margins and padding between the page content and the
+ *         UI shell.
+ *
+ *     -is-content-flush-on-desktop:
+ *         Removes any margins and padding between the page content and the
+ *         UI shell when in desktop mode.
+ *
+ *     -is-content-flush-on-mobile:
+ *         Removes any margins and padding between the page content and the
+ *         UI shell when in mobile mode.
+ *
+ *     -is-content-full-page:
+ *         Whether the content area should take up the full visual width
+ *         and height of the page container. This keeps the content within
+ *         the viewport, and allows the content to take care of its own
+ *         scrolling.
+ */
+body {
+  @_page-sidebar-mobile-menu-vars: #rb-ns-ui.page-sidebar.mobile-menu();
+
+  margin: 0;
+  padding: 0;
+
+  &.-is-content-flush {
+    #rb-ns-pages.base.set-content-flush();
+  }
+
+  #rb-ns-pages.base.on-shell-mobile-mode({
+    &.js-mobile-menu-open {
+      /*
+       * When opening the mobile sidebar menu, lock the viewport so the user
+       * can't scroll, and shift everything on the page over by the menu's
+       * width. This will animate them, using the transitions set on the
+       * elements.
+       */
+      .no-page-scroll();
+
+      #container {
+        transform: translate(@_page-sidebar-mobile-menu-vars[@width], 0);
+        height: 100%;
+      }
+    }
+
+    /*
+     * If the page indicates it's showing a sidebar, and the UI shell is in
+     * mobile mode, override the content placement so it's not offset by the
+     * size of the sidebar.
+     */
+    &.-has-sidebar {
+      #content {
+        margin-left: 0;
+      }
+    }
+
+    &.-is-content-flush-on-mobile {
+      #rb-ns-pages.base.set-content-flush();
+    }
+  }, @else: {
+    &.-has-sidebar {
+      .rb-c-page-sidebar {
+        display: block;
+      }
+
+      #page-container {
+        padding-left: 0;
+      }
+    }
+
+    &.js-rb-c-drawer-is-shown {
+      #page-sidebar-main-pane {
+        opacity: 0;
+      }
+    }
+
+    &.-is-content-flush-on-desktop {
+      #rb-ns-pages.base.set-content-flush();
+    }
+
+    .rb-c-page-sidebar {
+      display: none;
+    }
+  });
+}
+
+:root,
+[data-ink-color-scheme] {
+  #rb-ns-ui.design-tokens();
+  #rb-ns-ui.ink-overrides();
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+
+#rb-ns-pages.base.on-full-page-content-mode({
+  /*
+   * Set the page to not scroll and have all content take up the maximum
+   * height.
+   */
+  .no-page-scroll();
+
+  /*
+   * Set the content to take up the full height of #page-container. It's
+   * expected that RB.PageView will size #page-container appropriately for
+   * the page.
+   */
+  #container,
+  #content_container,
+  #content {
+    height: 100%;
+    margin-bottom: 0;
+    vertical-align: top;
+  }
+
+  #rb-ns-pages.base.on-shell-desktop-mode({
+    /*
+     * Set the page sidebar's panes container and all panes to allocate
+     * the full height of #page-sidebar, so that #page-sidebar's scrolling
+     * will be allowed to kick in. It's expected that RB.PageView will size
+     * #page-sidebar appropriately for the page.
+     */
+    #page-sidebar-panes,
+    .rb-c-page-sidebar__pane {
+      height: 100%;
+    }
+  });
+
+  /*
+   * Hide the page sidebar panes, so we can display them initially at the
+   * correct height.
+   */
+  #page-sidebar-main-pane {
+    visibility: hidden;
+  }
+
+  &.-is-loaded #page-sidebar-main-pane {
+    /*
+     * On full-size pages, we hide the content and sidebar initially
+     * (via CSS), so that we can properly position them before they're
+     * first shown. Now that we've done that, make them visible.
+    */
+    visibility: visible;
+  }
+});
+
+
+/*
+ * Set the mobile widths on some components.
+ */
+@_mobile-mode-max-width: #rb-ns-pages.base[@mobile-mode-max-screen-width];
+
+.rb-c-page-content-box {
+  #rb-ns-ui.page-content-box.set-mobile-mode-max-width(
+    @_mobile-mode-max-width);
+}
+
+.rb-c-content-header {
+  #rb-ns-ui.content-header.set-mobile-mode-max-width(@_mobile-mode-max-width);
+}
+
+
+a:link, a:visited {
+  color: var(--ink-p-link-fg);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--ink-p-link-hover-fg);
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 10pt;
+}
+
+h3 {
+  margin-top: 2em;
+}
+
+img {
+  border: 0;
+}
+
+pre, textarea, .CodeMirror, .editable.field-text-area {
+  font-size: @textarea-font-size;
+  font-family: @textarea-font-family;
+  line-height: @textarea-line-height;
+}
+
+.editable.field-text-area {
+  /*
+   * Always show the text cursor when hovering over an editable text field
+   * placeholder, so the entire thing feels like a text field.
+   */
+  cursor: text;
+}
+
+textarea {
+  resize: none;
+}
+
+
+/*
+ * The "Loading..." indicator shown during AJAX operations.
+ */
+#activity-indicator {
+  display: flex;
+  gap: var(--ink-u-spacing-sm);
+  position: fixed;
+  top: var(--ink-u-spacing-m);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-weight: bold;
+  background: var(--ink-p-light__yellow-400);
+  color: var(--ink-p-fg-on-light);
+  border: 1px rgba(0, 0, 0, 0.4) solid;
+  border-radius: var(--ink-u-border-radius-xl);
+  box-shadow: var(--ink-g-shadow-std);
+  padding: var(--ink-u-spacing-s) var(--ink-u-spacing-m);
+  z-index: @z-index-spinner;
+
+  span {
+    vertical-align: middle;
+    line-height: 16px;
+  }
+
+  &.error {
+    background-color: var(--ink-p-light__red-100);
+
+    a {
+      margin-left: 1em;
+      color: var(--ink-p-link-fg-on-light);
+      text-decoration: none;
+    }
+  }
+}
+
+#container {
+  #rb-ns-pages.base.on-shell-mobile-mode({
+    position: relative;
+    transition: #rb-ns-ui.sidebars.mobile[@animation];
+  });
+}
+
+#content_container {
+  position: relative;
+}
+
+/*
+ * The error information shown when an AJAX operation fails.
+ */
+#error {
+  div {
+    background: #ffcd9c;
+    border: 1px #9a4306 solid;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+  }
+
+  h1 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+
+  input[type='submit'] {
+    margin-left: 10px;
+  }
+}
+
+
+/*
+ * An event mask overlaying the content of the page. It's shown only when
+ * the mobile menu is shown. There is nothing visible, allowing the page
+ * content to fully show through.
+ */
+#mobile_menu_mask {
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: @z-index-nav-menu-mask;
+}
+
+/*
+ * The main container for the page's content.
+ */
+#page-container {
+  padding: 0 @page-container-padding @page-container-padding
+           @page-container-padding;
+  visibility: hidden;
+
+  body.-is-loaded & {
+    visibility: visible;
+  }
+
+  #rb-ns-pages.base.on-shell-mobile-mode({
+    position: relative;
+    transition: #rb-ns-ui.sidebars.mobile[@animation];
+  });
+}
+
+#read-only-banner {
+  background: @read-only-banner-bg;
+  border-bottom: @read-only-banner-border-bottom;
+  font-size: 110%;
+  padding: @headerbar-padding;
+  padding-left: @read-only-banner-padding-left;
+  vertical-align: middle;
+}
+
+#read-only-banner-header {
+  display: inline;
+  font-size: 100%;
+  padding-right: @read-only-banner-header-padding-right;
+}
+
+#read-only-banner-message {
+  vertical-align: middle;
+}
+
+/*
+ * The box containing information on an AJAX error.
+ */
+.server-error-box .response-data {
+  margin-top: 2em;
+}
+
+
+/****************************************************************************
+ * Page themes
+ ****************************************************************************/
+
+/*
+ * Default color scheme, used for the dashboard, My Account page, and others
+ * featuring largely blue-ish colors.
+ */
+.page-colors(@topbar-bg: #rb-ns-ui.colors[@blue-80],
+             @topbar-border-color: #rb-ns-ui.colors[@cool-grey-70]);
+
+/* Reviewable pages (review request, diff, file attachment, etc.) are brown. */
+.reviewable-page {
+  --ink-p-header-bg:
+    var(--if-light, @review-request-action-bg)
+    var(--if-dark, var(--ink-p-cool-grey-100));
+  --ink-p-header-fg: var(--ink-p-fg);
+
+  .page-colors(@topbar-bg: @review-request-action-bg;
+               @topbar-border-color: @review-request-action-border-color);
+
+  &.-has-next-attachment {
+    #page-container {
+      padding-right: (@page-container-padding * 2);
+    }
+  }
+
+  &.-has-prev-attachment {
+    #page-container {
+      padding-left: (@page-container-padding * 2);
+    }
+  }
+}

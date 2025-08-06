@@ -1,0 +1,187 @@
+@import (reference) "@beanbag/ink/lib/ink.less";
+
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/assets/paths.less";
+@import (reference) "rb/css/ui/colors.less";
+@import (reference) "rb/css/ui/responsive.less";
+
+
+#rb-ns-ui() {
+  .boxes() {
+    @bg: #FEFEFE;
+    @border-color: #AAAEA1;
+    @border-radius: 6px;
+    @inner-border-radius: @border-radius - 1px;
+
+    @shadow-radius: 4px;
+    @shadow-offset-x: 0px;
+    @shadow-offset-y: 2px;
+    @shadow-color: rgba(0, 0, 0, 0.1);
+    @shadow: @shadow-offset-x @shadow-offset-y @shadow-radius @shadow-color;
+
+    @padding: 1em;
+    @main-padding: 1em;
+
+    @title-bg: #rb-ns-ui.colors[@blue-70];
+    @title-border-color: #A5B9D0;
+    @title-padding: 0.4em 0.6em;
+
+    .important() {
+      @bg: #FDF2A0;
+      @bg-image: "@{rb-images-root}/gold_box_top_bg.png";
+      @border-color: #B7A93E;
+    }
+
+    .tip() {
+      @bg: #FDF2A0;
+      @bg-image: "@{rb-images-root}/gold_box_top_bg.png";
+      @border-color: #B7A93E;
+    }
+
+    /**
+     * Turn an element into a box display.
+     *
+     * This adds a standard background, border, shadow, and padding to an
+     * element. This is useful for cases where simply adding ``.box`` isn't
+     * an option.
+     *
+     * Args:
+     *     @include-padding (bool):
+     *         Whether to include standard padding in the box. This can be
+     *         disabled when child elements are going to handle the padding.
+     */
+    .make-box(@include-padding: true) {
+      @_boxes-vars: #rb-ns-ui.boxes();
+
+      background: var(--ink-p-container-bg);
+      border: var(--ink-g-border-container);
+      border-radius: var(--ink-u-border-radius-std);
+      box-shadow: var(--ink-g-shadow-std);
+      box-sizing: border-box;
+
+      & when (@include-padding = true) {
+        padding: var(--ink-u-spacing-std);
+      }
+    }
+
+    /**
+     * Turn an element into a box display at certain screen widths.
+     *
+     * This uses ``#rb-ns-ui.boxes.make-box()`` at certain screen widths. It's
+     * useful for having an element appear as a box on larger screens but not
+     * on smaller screens.
+     *
+     * Args:
+     *     @min-width (units):
+     *         The minimum viewport width required for the element to appear
+     *         as a box.
+     */
+    .make-box-at-screen-gte(@min-width) {
+      #rb-ns-ui.screen.on-width-gte(@min-width, {
+        #rb-ns-ui.boxes.make-box();
+      });
+    }
+
+    /**
+     * Remove the box display from an element.
+     *
+     * This is used to disable box styling for an element, in cases where
+     * a particular UI is inheriting a box style it doesn't want.
+     */
+    .unmake-box() {
+      background: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+  }
+}
+
+
+.box, .modalbox {
+  #rb-ns-ui.boxes.make-box(@include-padding: false);
+
+  background-position: top left;
+  background-repeat: repeat-x;
+}
+
+.box {
+  @_important-vars: #rb-ns-ui.boxes.important();
+  @_tip-vars: #rb-ns-ui.boxes.important();
+
+  &.important {
+    background-color: @_important-vars[@bg];
+    background-image: url(@_important-vars[@bg-image]);
+    color: var(--ink-p-fg-on-light);
+    display: flex;
+    border: 1px @_important-vars[@border-color] solid;
+    padding: 0 10px;
+
+    &:before {
+      display: inline-block;
+
+      #ink-ns-ui.icons.svg-icon(@icon: var(--ink-c-alert-warning-icon);
+                                @size: var(--ink-u-icon-l));
+      margin: 10px 10px 0 0;
+    }
+
+    a {
+      color: var(--ink-p-link-fg-on-light);
+
+      &:hover {
+        color: var(--ink-p-link-hover-fg-on-light);
+      }
+    }
+  }
+}
+
+.box-head,
+.modalbox-title {
+  @_boxes-vars: #rb-ns-ui.boxes();
+
+  background: var(--ink-p-header-bg);
+  border-bottom: var(--ink-g-border-header);
+  margin: 0;
+  padding: var(--ink-u-spacing-s) var(--ink-u-spacing-sm);
+  border-radius: var(--ink-u-border-radius-std)
+                 var(--ink-u-border-radius-std)
+                 0 0;
+}
+
+.box-title,
+.modalbox-title {
+  font-size: 120%;
+}
+
+.box-title {
+  margin: 0;
+  padding: 0;
+}
+
+.box-main {
+  padding: #rb-ns-ui.boxes[@main-padding];
+}
+
+.box-container {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.box-inner,
+.modalbox-inner {
+  border-radius: var(--ink-u-border-radius-std);
+}
+
+.box-inner form {
+  margin: 0;
+}
+
+.box-inner .rb-c-form__actions {
+  margin: 0;
+  padding: 1em 0 1em 1em;
+}
+
+.modalbox, .modalbox-bg {
+  z-index: @z-index-dialog;
+}

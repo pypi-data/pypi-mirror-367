@@ -1,0 +1,1565 @@
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/ui/colors.less";
+
+
+@linenum-padding-right: 4px;
+@linenum-padding-left: 2px;
+
+
+:root,
+.sidebyside {
+  --rb-g-diff-box-header-bg:
+    var(--if-light,
+        #E9E9E9
+        linear-gradient(
+          to bottom,
+          #FFFFFF,
+          var(--ink-p-grey-200) 70%,
+          var(--ink-p-grey-200)))
+    var(--if-dark, var(--ink-p-cool-grey-300));
+  --rb-g-diff-box-header-fg: var(--ink-p-container-fg);
+  --rb-g-diff-box-header-border:
+      var(--ink-u-border-thin)
+      var(--if-light, var(--ink-p-container-border-color))
+      var(--if-dark, transparent)
+      solid;
+
+  --rb-g-diff-header-bg:
+    var(--if-light, @diff-header-color)
+    var(--if-dark, var(--ink-p-cool-grey-400));
+  --rb-g-diff-header-fg: var(--ink-p-fg);
+  --rb-g-diff-header-border:
+    var(--ink-u-border-thin)
+    var(--if-light, darken(@diff-header-color, 10%))
+    var(--if-dark, transparent)
+    solid;
+
+  --rb-g-diff-chunk-border: 1px rgba(0, 0, 0, 0.12) solid;
+
+  --rb-g-diff-highlight-text-bg:
+    var(--if-light, #ffdd61)
+    var(--if-dark, goldenrod);
+  --rb-g-diff-highlight-text-fg: black;
+}
+
+
+.sidebyside {
+  @diff-cell-padding: 1px;
+
+  /*
+   * Most of the moved range border sits on the line number cell as a
+   * border-right, and part sits on the content cell as a border-left. This
+   * gives us a full 4px, which is nicely visible, while allowing us to keep
+   * a reasonable padding in both types of cells, without also needing to
+   * press any text right up against the border.
+   */
+  @moved-border-right-width: 3px;
+  @moved-border-left-width: 1px;
+
+  background: transparent;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--ink-p-fg-on-light);
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+
+  // This fixes an annoying 1px bright line between the bottom of the
+  // side-by-side diff view and the bottom border of the roundrect it's
+  // contained within.
+  margin-bottom: -1px;
+
+  &.diff-error {
+    td {
+      background: var(--ink-p-accent-warning-bg);
+      color: var(--ink-p-accent-warning-fg);
+      padding: 1em;
+
+      a:not(.btn) {
+        color: var(--ink-p-link-fg-on-light);
+        font-weight: bold;
+      }
+
+      h2 {
+        font-size: 10pt;
+        margin: 0em 0 2em 0;
+        padding: 0;
+
+        .rb-icon {
+          vertical-align: text-bottom;
+        }
+      }
+    }
+
+    .error-details {
+      display: none;
+
+      pre {
+        background: white;
+        border: 1px #999 solid;
+        padding: 1em;
+      }
+
+      td {
+        padding-top: 0;
+      }
+    }
+
+    .revision-row th {
+      padding-left: 4em;
+    }
+  }
+
+  &.newfile {
+    col {
+      &.left {
+        width: 0%;
+      }
+
+      &.right {
+        width: 100%;
+      }
+    }
+  }
+
+  &.diff-binary {
+    /*
+     * When an image is larger than the diff container, this prevents the
+     * controls in the header from being clipped and allows the container to
+     * have a horizontal scrollbar if needed.
+     */
+    table-layout: fixed;
+  }
+
+  &.deleted,
+  &.newfile {
+    /*
+     * NOTE: This only applies to expanded regions in diff fragments in
+     *       reviews.
+     */
+    .rb-c-diff-collapse-button {
+      /*
+       * This will position it dead-center. The `right: 50%` will align the
+       * right edge with the middle, and then we shift over by half the
+       * button width.
+       */
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+
+  &.selecting-col-1:not(.newfile) {
+    td.r {
+      &, * {
+        .unselectable();
+      }
+    }
+  }
+
+  &.selecting-col-3 {
+    td.l {
+      &, * {
+        .unselectable();
+      }
+    }
+  }
+
+  &.-hide-ducs {
+    .rb-o-duc {
+      &::before {
+        display: none;
+      }
+
+      &::after {
+        content: attr(data-char);
+      }
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  col {
+    &.left {
+      width: 50%;
+    }
+
+    &.right {
+      width: 50%;
+    }
+
+    &.line {
+      width: 1%; /* Make sure this doesn't stretch if the header stretches. */
+    }
+  }
+
+  img.header-file-icon {
+    vertical-align: middle;
+  }
+
+  pre {
+    font-size: inherit;
+    line-height: 140%;
+    margin: 0;
+    padding-left: @linenum-padding-left;
+
+    /*
+     * We ideally want break-spaces, which behaves like pre-wrap but will break
+     * in the middle of whitespace. Not all browsers support this, so we have
+     * to fall back.
+     */
+    white-space: pre-wrap;
+    white-space: break-spaces;
+
+    /*
+     * overflow-wrap is the modern name, but some browsers need word-break
+     * to work right. Edge, IE, and Safari, for instance, do not support this or
+     * treat it correctly at the time of this writing (April 11, 2017). Guides
+     * suggest specifying both, so we're specifying both.
+     */
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    .tb {
+      /*
+       * Firefox (at least up through 131.02) overflows rather than breaking
+       * when we have tabs and `word-break: break-all;`. We could use
+       * `break-word` above, but that'd affect normal text. Fortunately we can
+       * just do that here and work around Firefox's bug.
+       */
+      word-break: break-word;
+    }
+  }
+
+  .fa-warning {
+    color: var(--ink-p-red-700);
+  }
+
+  .indent {
+    color: var(--rb-theme-diff-indent-fg);
+  }
+
+  .unindent {
+    color: var(--rb-theme-diff-unindent-fg);
+  }
+
+  .moved-row-start {
+    pre {
+      margin-top: 4px;
+    }
+  }
+
+  .moved-row {
+    td {
+      &.moved-from,
+      &.moved-to {
+        pre {
+          padding-right: @linenum-padding-right - @moved-border-left-width;
+        }
+      }
+
+      &.moved-from {
+        border-left:
+          @moved-border-left-width
+          var(--rb-theme-diff-move-from-flag-bg)
+          solid;
+      }
+
+      &.moved-to {
+        border-left:
+          @moved-border-left-width
+          var(--rb-theme-diff-move-to-flag-bg)
+          solid;
+      }
+    }
+
+    th {
+      &.moved-from,
+      &.moved-to {
+        padding-right: @linenum-padding-right - @moved-border-right-width;
+      }
+
+      &.moved-from {
+        border-right:
+          @moved-border-right-width
+          var(--rb-theme-diff-move-from-flag-bg)
+          solid;
+      }
+
+      &.moved-to {
+        border-right:
+          @moved-border-right-width
+          var(--rb-theme-diff-move-to-flag-bg)
+          solid;
+      }
+    }
+  }
+
+  .moved-to .moved-flag {
+    background: var(--rb-theme-diff-move-to-flag-bg);
+    color: var(--rb-theme-diff-move-to-flag-fg);
+  }
+
+  .moved-from .moved-flag {
+    background: var(--rb-theme-diff-move-from-flag-bg);
+    color: var(--rb-theme-diff-move-from-flag-fg);
+  }
+
+  .moved-flag {
+    display: inline-block;
+    font-size: 7pt;
+    padding: 0;
+    text-decoration: none;
+
+    /*
+     * We need to compensate for some spacing in the cells. The TD for the
+     * cell is @diff-cell-padding around the sides, which is simple.
+     *
+     * We need to offset a bit more on the left to compensate for the border.
+     * Parent cells have different border colors and widths above and to the
+     * side, which creates a diagonal. This means there's what appears to be
+     * a gap between the moved range line and the flag. We cover that up by
+     * moving the flag over the left a bit.
+     */
+    margin: -@diff-cell-padding -@diff-cell-padding @diff-cell-padding
+            -(@diff-cell-padding + @moved-border-right-width);
+  }
+
+  .moved-to-start, .moved-from-start {
+    padding-top: 0;
+
+    .moved-flag {
+      border-radius: 0
+                     var(--ink-u-border-radius-std)
+                     var(--ink-u-border-radius-std)
+                     0;
+      padding: 3px 1em 3px 0.5em;
+    }
+  }
+
+  > tbody {
+    --_rb-diff-bg: var(--rb-theme-diff-equals-bg);
+    --_rb-diff-fg: var(--rb-theme-diff-equals-fg);
+    --_rb-diff-linenum-bg: var(--rb-theme-diff-equals-linenum-bg);
+    --_rb-diff-linenum-fg: var(--rb-theme-diff-equals-linenum-fg);
+    --_rb-diff-highlight-bg: var(--rb-theme-diff-equals-highlight-bg);
+
+    background: var(--_rb-diff-bg);
+    color: var(--_rb-diff-fg);
+
+    > tr {
+      &.selected {
+        > td,
+        > th {
+          background: var(--_rb-diff-highlight-bg);
+        }
+      }
+
+      /*
+       * The first line in a range shown in a diff comment fragment on a
+       * review.
+       */
+      &.first {
+        td, th {
+          border-top:
+            1px
+            var(--if-light, rgba(0, 0, 0, 0.12))
+            var(--if-dark, transparent)
+            solid;
+        }
+      }
+
+      &.highlight-anchor {
+        td, th {
+          background:
+            var(--if-dark, var(--ink-p-blue-200))
+            var(--if-light, @diff-highlight-color);
+        }
+      }
+
+      > td {
+        background: inherit;
+        color: inherit;
+        padding: @diff-cell-padding;
+        vertical-align: top;
+
+        a {
+          color: var(--ink-p-link-fg);
+          text-decoration: underline;
+        }
+
+        .collapse-floater {
+          position: relative;
+        }
+
+        .rb-c-diff-collapse-button {
+          /*
+           * This positions it fairly center over the middle line numbers.
+           * We'd normally shift over 50% of the element width, but the 70%
+           * nicely covers the left and middle * line numbers.
+           */
+          position: absolute;
+          right: 0;
+          transform: translateX(70%);
+        }
+      }
+
+      > th {
+        font-weight: normal;
+        background: var(--_rb-diff-linenum-bg);
+        color: var(--_rb-diff-linenum-fg);
+        cursor: pointer;
+        padding-left: 1em;
+        padding-right: @linenum-padding-right;
+        text-align: right;
+        vertical-align: top;
+        white-space: nowrap;
+
+        /*
+         * The minimum width is calculated so that the th is always as wide as
+         * the expand by 20 lines button, which is 28px wide.
+         */
+        min-width: calc(28px - 1em - @linenum-padding-right);
+
+        .unselectable();
+
+        .fa-warning {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
+    &.binary {
+      .inline-actions-header {
+        background: @inline-actions-bg;
+        border-bottom: 1px @diff-file-border-color solid;
+
+        td {
+          padding: 0;
+
+          &:first-child {
+            border-right: 1px @diff-line-border-color solid;
+          }
+        }
+      }
+
+      .inline-actions-right, .inline-actions-left {
+        li {
+          border-radius: 0;
+
+          &:hover {
+            background-color: @inline-actions-hover-bg;
+          }
+        }
+      }
+
+      .inline-actions-right {
+        float: right;
+
+        a {
+          border-left: 1px @diff-file-border-color solid;
+        }
+      }
+
+      .inline-actions-left {
+        float: left;
+
+        a {
+          border-right: 1px @diff-file-border-color solid;
+          border-left: 0px;
+        }
+      }
+
+      .inline-files-container {
+        td.diff-review-ui {
+          padding: 0;
+        }
+      }
+
+      .file-thumbnail-container {
+        margin: 0;
+        overflow: hidden;
+        padding: 1em;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      p {
+        margin: 0;
+        padding: 4px;
+      }
+
+      td {
+        padding: 1em;
+      }
+    }
+
+    &.delete {
+      --_rb-diff-bg: var(--rb-theme-diff-delete-bg);
+      --_rb-diff-fg: var(--rb-theme-diff-delete-fg);
+      --_rb-diff-linenum-bg: var(--rb-theme-diff-delete-linenum-bg);
+      --_rb-diff-linenum-fg: var(--rb-theme-diff-delete-linenum-fg);
+      --_rb-diff-highlight-bg: var(--rb-theme-diff-delete-highlight-bg);
+    }
+
+    &.equal {
+      /*
+       * Don't include a border for adjacent equals chunks. This will happen
+       * when expanding diffs, and is specific to equals.
+       */
+      + tbody.equal tr.first {
+        td, th {
+          border-top: 0;
+        }
+      }
+    }
+
+    &.insert {
+      --_rb-diff-bg: var(--rb-theme-diff-insert-bg);
+      --_rb-diff-fg: var(--rb-theme-diff-insert-fg);
+      --_rb-diff-linenum-bg: var(--rb-theme-diff-insert-linenum-bg);
+      --_rb-diff-linenum-fg: var(--rb-theme-diff-insert-linenum-fg);
+      --_rb-diff-highlight-bg: var(--rb-theme-diff-insert-highlight-bg);
+    }
+
+    &.replace {
+      --_rb-diff-bg: var(--rb-theme-diff-replace-bg);
+      --_rb-diff-fg: var(--rb-theme-diff-replace-fg);
+      --_rb-diff-linenum-bg: var(--rb-theme-diff-replace-linenum-bg);
+      --_rb-diff-linenum-fg: var(--rb-theme-diff-replace-linenum-fg);
+      --_rb-diff-highlight-bg: var(--rb-theme-diff-replace-highlight-bg);
+    }
+
+    &.replace {
+      &.dimmed {
+        background: #FFFFFF;
+
+        .hl { background: #FFFFFF; }
+        th { background: #F0F0F0; }
+      }
+
+      .hl {
+        background: var(--rb-g-diff-highlight-text-bg);
+        color: var(--rb-g-diff-highlight-text-fg);
+      }
+    }
+
+    &.diff-header {
+      background: var(--rb-g-diff-header-bg);
+      color: var(--rb-g-diff-header-fg);
+
+      + tbody {
+        td, th {
+          border-top: 0;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      code {
+        margin: 0 2px;
+        font-size: inherit;
+        word-break: break-all;
+        word-wrap: break-word;
+        vertical-align: middle;
+      }
+
+      img {
+        vertical-align: middle;
+        padding: 1px;
+      }
+
+      td, th {
+        background: inherit;
+        text-align: center;
+        padding: 0.5em;
+      }
+
+      tr {
+        &:first-child {
+          td, th {
+            border-top: var(--rb-g-diff-header-border);
+          }
+        }
+
+        &:last-child {
+          td, th {
+            border-bottom: var(--rb-g-diff-header-border);
+          }
+        }
+      }
+    }
+  }
+
+  thead {
+    background: var(--rb-g-diff-box-header-bg);
+    color: var(--rb-g-diff-box-header-fg);
+
+    /*
+     * Remove the top border on the diff header or chunk following the file
+     * header, so that the file header's border takes precedence.
+     */
+    + tbody {
+      tr.first, tr:first-child {
+        td, th {
+          /*
+           * Ideally we wouldn't use !important, but we otherwise need to
+           * have this rule for each type of tbody, which we don't want.
+           */
+          border-top: 0 !important;
+        }
+      }
+    }
+
+    th {
+      font-size: 120%;
+      font-weight: bold;
+      text-align: left;
+      text-overflow: ellipsis;
+    }
+
+    .filename-row th {
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .revision-row th {
+      border-bottom: var(--rb-g-diff-box-header-border);
+      font-size: 100%;
+      font-weight: normal;
+      padding: 8px 0;
+
+      &.revision-col {
+        overflow: hidden;
+      }
+
+      .rb-icon {
+        vertical-align: text-top;
+      }
+    }
+  }
+
+  thead th.controls,
+  th.controls {
+    font-size: 100%;
+    font-weight: normal;
+    padding: 2px 0 2px 2px;
+    vertical-align: top;
+  }
+
+  /*
+   * On mobile, we'll be making a few major changes to layout:
+   *
+   * 1. Rather than table layout, this will use grid layout, allowing us to
+   *    have control over where lines begin.
+   *
+   *    We use subgrid if available to make column sizes consistent across the
+   *    diff, but fall back to reasonably-minimum-enforced sizes on browsers
+   *    lacking subgrid support.
+   *
+   * 2. There are three columns: The original file line number, the modified
+   *    file line number, and the content. Only one side is represented per
+   *    row.
+   *
+   * 3. The <tbody> and <thead> tags will be styled with borders, rather than
+   *    the <td> and <th> tags. When using table layout, styling must go on
+   *    the cells, rather than the tbody/thead, but this is not the case with
+   *    grid.
+   *
+   * 4. The "replace" chunks now display as pairs of deletes and inserts,
+   *    helping users see what changes are made.
+   */
+  &:not(.newfile, .deleted) {
+    .on-mobile-medium-screen-720({
+      display: grid;
+      grid-template-columns: 5em 5em 1fr;
+
+      /* With table layout removed, this becomes a standard element. Hide it. */
+      colgroup {
+        display: none;
+      }
+
+      /*
+       * The diff file header will continue to show two columns, one for the
+       * original file and one for the modified file.
+       *
+       * If we only show one filename, the original filename will take the full
+       * width. Its revision will also take as much of the column space as
+       * possible, leaving "New Change" to take a minimum amount.
+       *
+       * If we show both, they'll each get as much of the column space as is
+       * necessary (likely 50%).
+       */
+      thead {
+        display: grid;
+        grid-column: 1 / 4;
+        grid-template-columns: auto auto;
+
+        /* Override any JavaScript-set widths. */
+        th {
+          min-width: revert !important;
+          max-width: revert !important;
+        }
+
+        .filename-row {
+          display: grid;
+          grid-column: 1 / 3;
+          grid-template-columns: inherit;
+
+          /*
+           * Style the original filename column to take the full width by
+           * default.
+           */
+          > :nth-child(1) {
+            grid-column: 1 / 3;
+
+            &:has(+ th) {
+              /* If we have a modified filename, make it only take half. */
+              grid-column: 1 / 2;
+            }
+          }
+
+          /* Style the modified filename to take half, if present. */
+          > :nth-child(2) {
+            grid-column: 2 / 3;
+          }
+        }
+
+        .revision-row {
+          display: grid;
+          grid-column: 1 / 3;
+          grid-template-columns: inherit;
+
+          /* Hide the empty spacing cells before each revision. */
+          > :nth-child(1),
+          > :nth-child(3) {
+            display: none;
+          }
+
+          /* Style the original and modified revisions to take half the space. */
+          > :nth-child(2) {
+            grid-column: 1 / 2;
+          }
+
+          > :nth-child(4) {
+            grid-column: 2 / 3;
+          }
+
+          th {
+            padding: 8px;
+          }
+        }
+      }
+
+      tbody {
+        display: grid;
+        grid-column: 1 / 4;
+        grid-template-columns: inherit;
+
+        /* Hide the very first and last <tbody> borders in the diff. */
+        &:first-of-type {
+          border-top: 0 !important;
+        }
+
+        &:last-child {
+          border-bottom: 0 !important;
+        }
+
+        /*
+         * The following changes are made to the diff collapse header:
+         *
+         * 1. The button for expanding the original side will be placed in the
+         *    first column of the first row.
+         *
+         * 2. The button for expanding the modified side will be placed in the
+         *    second column of the first row.
+         *
+         * 3. Only one side's function/class header is shown. If the modified
+         *    file's header is present, then that is shown. Otherwise, the
+         *    original file's header is shown. This keeps it clean and
+         *    prioritizes looking at the modified file. We don't allow expanding
+         *    to the original file header if both are present anyway.
+         *
+         *    This takes all remaining columns.
+         */
+        &.diff-header {
+          border-top:
+            1px
+            var(--if-light, var(--ink-p-container-border-color))
+            var(--if-dark, transparent)
+            solid;
+          border-bottom: $border-top;
+
+          > tr {
+            &:first-child,
+            &:last-child {
+              td, th {
+                border: 0;
+              }
+            }
+
+            /*
+             * The row containing the "Expand above" and "Expand all lines"
+             * buttons.
+             */
+            &:nth-child(1) {
+              /* The "Expand above" button. */
+              > :nth-child(1) {
+                grid-column: 1 / 2;
+              }
+
+              /* The "Expand all lines" button. */
+              > :nth-child(2) {
+                grid-column: 2 / 4;
+              }
+            }
+
+            /* The row containing the "Expand below" and header buttons. */
+            &:nth-child(2) {
+              /* The "Expand below" button. */
+              > :nth-child(1) {
+                align-self: end;
+                grid-column: 1 / 2;
+              }
+
+              /*
+               * The original header.
+               *
+               * This will be the header for the original file if it differs
+               * from the modified file, in which case it's hidden.
+               */
+              > :nth-child(2) {
+                grid-column: 2 / 4;
+
+                &:has(+ td) {
+                  display: none;
+                }
+              }
+
+              /* The modified header will take the remaining space. */
+              > :nth-child(3) {
+                grid-column: 2 / 4;
+              }
+            }
+          }
+        }
+
+        &.rb-c-diff-file-notice {
+          /* Make sure this doesn't disturb the layout. Fit it best we can. */
+          grid-template-columns: auto;
+        }
+
+        &.delete,
+        &.insert,
+        &.replace {
+          border-top: var(--rb-g-diff-chunk-border);
+          border-bottom: var(--rb-g-diff-chunk-border);
+        }
+
+        /*
+         * The following changes are made to the deleted chunks <tbody>:
+         *
+         * 1. The empty modified content area is hidden.
+         *
+         * 2. The original file line number is shown in the first line number
+         *    column. The empty modified line number is shown in the second
+         *    line number column.
+         *
+         * 3. Border management logic is applied to the <tbody>, mirroring the
+         *    logic normally applied for the desktop version of the diff viewer
+         *    to <td> and <tr>.
+         */
+        &.delete {
+          background: var(--rb-theme-diff-delete-bg);
+
+          /*
+           * If there's a replace chunk right below, hide the border to make it
+           * appear as one set of deletes.
+           */
+          &:has(+ tbody.replace) {
+            border-bottom: 0;
+          }
+
+          > tr {
+            &.moved-row {
+              > :nth-child(1) {
+                padding-right: calc(50% + @linenum-padding-right -
+                                    @moved-border-right-width);
+              }
+            }
+
+            /* Place the original line number in the first column. */
+            > :nth-child(1) {
+              grid-column: 1 / 3;
+              padding-right: calc(50% + @linenum-padding-right);
+            }
+
+            /* Place the deleted line content in the third column. */
+            > :nth-child(2) {
+              grid-column: 3 / 4;
+            }
+
+            /* Place the empty modified line number in the second column. */
+            > :nth-child(3) {
+              display: none;
+            }
+
+            /* Hide the modified line content. */
+            > :nth-child(4) {
+              display: none;
+            }
+          }
+        }
+
+        /*
+         * The following changes are made to the equal chunks <tbody>:
+         *
+         * 1. The empty original content area is hidden.
+         *
+         * 2. The empty original file line number is shown in the first line
+         *    number column. The modified line number is shown in the second
+         *    line number column.
+         *
+         * 3. Border management logic is applied to the <tbody>, mirroring the
+         *    logic normally applied for the desktop version of the diff viewer
+         *    to <td> and <tr>.
+         */
+        &.equal {
+          /* Don't show any borders between equals chunks. */
+          + tbody.equal {
+            border-top: 0;
+          }
+
+          > tr {
+            /* Place the empty original line number in the first column. */
+            > :nth-child(1) {
+              grid-column: 1 / 2;
+            }
+
+            /* Hide the original line content. */
+            > :nth-child(4) {
+              display: none;
+            }
+
+            /* Place the modified line number in the second column. */
+            > :nth-child(3) {
+              grid-column: 2 / 3;
+              grid-row: 1 / 2;
+            }
+
+            /* Place the modified line content in the third column. */
+            > :nth-child(2) {
+              grid-column: 3 / 4;
+              grid-row: 1 / 2;
+            }
+          }
+        }
+
+        /*
+         * The following changes are made to the inserted chunks <tbody>:
+         *
+         * 1. The empty original content area is hidden.
+         *
+         * 2. The empty original file line number is shown in the first line
+         *    number column. The modified line number is shown in the second
+         *    line number column.
+         *
+         * 3. Border management logic is applied to the <tbody>, mirroring the
+         *    logic normally applied for the desktop version of the diff viewer
+         *    to <td> and <tr>.
+         */
+        &.insert {
+          /*
+           * Prioritize the insert chunk's border over an equal, and hide it
+           * outright if there's a replace below (which will show as an insert).
+           */
+          + tbody.equal tr.first,
+          + tbody.replace tr.first {
+            border-top: 0;
+          }
+
+          > tr {
+            /* Place the empty original line number in the first column. */
+            > :nth-child(1) {
+              grid-column: 1 / 2;
+            }
+
+            /* Hide the deleted line content. */
+            > :nth-child(2) {
+              display: none;
+            }
+
+            /* Place the modified line number in the second column. */
+            > :nth-child(3) {
+              grid-column: 2 / 3;
+            }
+
+            /* Place the modified line content in the third column. */
+            > :nth-child(4) {
+              grid-column: 3 / 4;
+            }
+          }
+        }
+
+        /*
+         * The following changes are made to the replaced chunks <tbody>:
+         *
+         * 1. Replaced lines are shown as pairs of deletes and inserts. Their
+         *    styles merge with any adjacent deletes or inserts, respectively.
+         *
+         * 2. The original file line number is shown in the first line number
+         *    column. The modified line number is shown in the second line
+         *    number column.
+         *
+         * 3. Border management logic is applied to the <tbody>, mirroring the
+         *    logic normally applied for the desktop version of the diff viewer
+         *    to <td> and <tr>.
+         */
+        &.replace {
+          /*
+           * If there's an insert chunk right below, hide the border to make it
+           * appear as one set of deletes.
+           */
+          &:has(+ tbody.insert) {
+            border-bottom: 0;
+          }
+
+          /*
+           * Prioritize the delete chunk's border over any other, as it provides
+           * a stronger contrast. This is the same as with ``.delete``.
+           */
+          + tbody.equal,
+          + tbody.delete,
+          + tbody.insert,
+          + tbody.replace {
+            border-top: 0;
+          }
+
+          > tr {
+            /*
+             * The original file line number spans the first two columns on the
+             * first row, offset as best as possible by half the column area,
+             * and styled as a delete.
+             */
+            > :nth-child(1) {
+              background: var(--rb-theme-diff-delete-linenum-bg);
+              grid-column: 1 / 3;
+              padding-right: calc(50% + @linenum-padding-right);
+            }
+
+            /*
+             * The original file content is placed in the third column on the
+             * first row and is styled as a delete.
+             */
+            > :nth-child(2) {
+              background: var(--rb-theme-diff-delete-bg);
+              grid-column: 3 / 4;
+            }
+
+            /*
+             * The modified file line number spans the first two columns on the
+             * second row, aligned with the other inserted line numbers, and is
+             * styled as an insert.
+             */
+            > :nth-child(3) {
+              background: var(--rb-theme-diff-insert-linenum-bg);
+              grid-column: 1 / 3;
+            }
+
+            /*
+             * The modified file content is placed in the third column on the
+             * second row and is styled as a delete.
+             */
+            > :nth-child(4) {
+              background: var(--rb-theme-diff-insert-bg);
+              grid-column: 3 / 4;
+            }
+          }
+        }
+
+        /*
+         * Ensure each row inherits layout from its parent, and takes up the
+         * full available width.
+         *
+         * We also need to clear borders on cells so we can manage them on
+         * <tbody>.
+         */
+        > tr {
+          display: grid;
+          grid-column: 1 / 4;
+          grid-template-columns: inherit;
+
+          &.first {
+            td, th {
+              border-top: 0;
+            }
+          }
+
+          td .rb-c-diff-collapse-button {
+            right: 50%;
+            transform: none;
+          }
+
+          th {
+            /* Clip the left side of the text if it goes out of bounds. */
+            direction: rtl;
+            overflow: hidden;
+            text-overflow: clip;
+          }
+        }
+      }
+
+      /*
+       * If CSS subgrid is supported by the browser, apply this to select parts
+       * of the diff. This will help ensure columns line up correctly. Note that
+       * children may inherit this via `grid-template-columns: inherit` above.
+       *
+       * If not available, then default minimum widths will be used to try to
+       * keep columns aligned.
+       */
+      @supports (grid-template-columns: subgrid) {
+        grid-template-columns: max-content max-content 1fr;
+
+        tbody,
+        thead .filename-row,
+        thead .revision-row {
+          grid-template-columns: subgrid;
+        }
+      }
+    });
+  }
+}
+
+.commentflag {
+  border-radius: @comment-flag-border-radius;
+  display: none;
+  left: -0.7em;
+  margin-top: -0.3em;
+  position: absolute;
+  width: 1.6em;
+
+  .commentflag-shadow {
+    border-radius: @comment-flag-border-radius;
+    opacity: 0.1;
+    background-color: black;
+    border: 1px solid black;
+    bottom: 0;
+    left: 0.2em;
+    position: absolute;
+    right: 0;
+    top: 0.2em;
+    width: 100%;
+  }
+
+  .commentflag-inner {
+    border-radius: @comment-flag-border-radius;
+    background-color: var(--rb-p-flag-published-bg);
+    border: 1px solid var(--rb-p-flag-published-border-color);
+    bottom: 0.2em;
+    color: var(--rb-p-flag-published-fg);
+    cursor: pointer;
+    font-size: 90%;
+    font-weight: normal;
+    left: 0;
+    line-height: 1.7em;
+    position: absolute;
+    right: 0.2em;
+    text-align: center;
+    top: 0;
+    vertical-align: top;
+    width: 100%;
+    z-index: @z-index-deco;
+
+    span {
+      background: transparent !important;
+      .unselectable();
+    }
+  }
+}
+
+.selected .commentflag .commentflag-inner {
+  background-color: var(--rb-p-flag-published-bg);
+}
+
+.selected .commentflag .commentflag-inner,
+.commentflag .commentflag-inner:hover {
+  background-color: var(--rb-p-flag-published-hover-bg);
+}
+
+.commentflag.draft .commentflag-inner {
+  background-color: var(--rb-p-flag-draft-bg);
+  border-color: var(--rb-p-flag-draft-border-color);
+}
+
+.selected .commentflag.draft .commentflag-inner,
+.commentflag.draft .commentflag-inner:hover {
+  background-color: var(--rb-p-flag-draft-hover-bg);
+}
+
+.ghost-commentflag {
+  cursor: pointer;
+  position: absolute;
+  left: 0.1em;
+  margin-top: -0.1em;
+  height: 21px;
+
+  .commentflag-inner {
+    background-color: @comment-flag-ghost-color;
+    border-color: @comment-flag-ghost-border-color;
+  }
+}
+
+#diffs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  /* Allows highlight chunks to be absolute relative to this. */
+  position: relative;
+
+  div.index ol {
+    margin-bottom: 20px;
+    padding-left: 30px;
+  }
+
+  .diff-container {
+    margin-bottom: (@page-container-padding * 2);
+    position: relative;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .diff-box {
+    border: var(--ink-g-border-container);
+    border-radius: @box-border-radius;
+    box-shadow: var(--ink-g-shadow-std);
+    overflow: hidden;
+  }
+
+  .diff-highlight {
+    background-color: rgba(16, 179, 255, 54%);
+    display: block;
+    font-size: 0; /* Prevents the 13px minimum height in IE6 */
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/**
+ * The diff file index table.
+ *
+ * This can appear either within the review request box, or as a docked item
+ * within the unified review banner.
+ */
+table.rb-c-diff-file-index {
+  @icon-size: 20px;
+  @icon-offset: 2px;
+
+  border-collapse: collapse;
+  border: var(--ink-c-data-table-border);
+  padding: 0;
+  width: 100%;
+
+  tr {
+    &:first-child td {
+      border-top: 0;
+    }
+  }
+
+  td {
+    background: var(--ink-c-data-table-body-bg);
+    padding: 0.6em;
+    margin: 0;
+    border-top: var(--ink-c-data-table-row-border);
+    vertical-align: top;
+
+    &.diff-chunks-cell {
+      color: var(--ink-p-fg-weak);
+      text-align: right;
+      width: 70%;
+    }
+
+    &.diff-file-icon {
+      padding: @icon-offset 0 0 @icon-offset;
+      vertical-align: middle;
+
+      .rb-icon {
+        width: @icon-size;
+        height: @icon-size;
+      }
+
+      .djblets-o-spinner {
+        font-size: @icon-size - 6px;
+        margin: 3px;
+      }
+    }
+
+    &.diff-file-info {
+      padding-left: 0.3em;
+      white-space: nowrap;
+      vertical-align: middle;
+      width: 30%;
+
+      .diff-file-rename {
+        color: var(--ink-p-fg-weak);
+        display: block;
+        font-size: 90%;
+        font-style: italic;
+        padding: 1em 0 0 0;
+      }
+    }
+
+    a {
+      color: var(--ink-p-link-fg);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.dimmed {
+        color: #ABABAB;
+      }
+    }
+
+    .diff-chunks {
+      max-height: 2.5em;
+      overflow: hidden;
+      text-align: right;
+
+      a {
+        border-radius: 50%;
+        display: inline-block;
+        margin: 3px 2px 0 2px;
+        width: 8px;
+        height: 8px;
+
+        &.insert {
+          background-color: var(--rb-p-diff-insert-graph-color);
+        }
+
+        &.delete {
+          background-color: var(--rb-p-diff-delete-graph-color);
+        }
+
+        &.replace {
+          background-color: var(--rb-p-diff-replace-graph-color);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * The diff file index when docked into the unified banner.
+ *
+ * Structure:
+ *     <div class="rb-c-diff-file-index-dock">
+ *      <div class="rb-c-diff-file-index-dock__table">
+ *       <table class="rb-c-diff-file-index">...</table>
+ *       <a href="#" class="rb-c-diff-file-index-dock__disclosure">
+ *        <span class="fa fa-bars"></span>
+ *       </a>
+ *      </div>
+ *     </div>
+ */
+.rb-c-diff-file-index-dock {
+  display: flex;
+  padding: var(--ink-u-spacing-m);
+
+  /**
+   * The disclosure icon for when the table is collapsed.
+   */
+  &__disclosure {
+    font-size: 120%;
+    padding: 4px 0 4px 8px;
+  }
+
+  &__table {
+    border: var(--ink-c-data-table-border);
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  table.rb-c-diff-file-index, tr, td {
+    border: none;
+  }
+
+  &.-is-expanded {
+    .rb-c-diff-file-index-dock__table {
+      transition: max-height 0.3s;
+    }
+
+    table {
+      transform: inherit !important;
+      transition: transform 0.3s;
+    }
+  }
+}
+
+
+/****************************************************************************
+ * Diff information
+ ****************************************************************************/
+#diff-details {
+  border-spacing: 8px;
+
+  &.loading {
+    .commit-list-container,
+    .diff-index-container {
+      background-color: #FFFFFF;
+      border: @review-request-field-border;
+      font-size: 16px;
+      height: 16px;
+      padding: @box-padding;
+    }
+  }
+
+  #diff_revision_label h1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .main {
+    padding: 1em;
+
+    h1, p {
+      margin: 1em 0;
+      padding: 0;
+    }
+  }
+
+  /*
+   * XXX This should be replaced by rb-c-review-request-fieldset usage, or
+   *     similar.
+   */
+  #diff_revision_label h1,
+  .section-header-label {
+    color: var(--rb-p-review-request-field-label-color);
+    font-size: @review-request-section-label-font-size;
+    font-weight: bold;
+  }
+
+  .section-header-label {
+    margin: 1em 0;
+    padding: 1em 0 0 0;
+  }
+}
+
+.revision-selector-grabbed,
+.revision-selector-grabbed * {
+  cursor: grabbing !important;
+}
+
+.revision-selector {
+  @_colors-vars: #rb-ns-ui.colors();
+
+  margin: 3em 1.5em 1.5em 1.5em;
+  position: relative;
+
+  .revision-selector-trough {
+    border-bottom: 1px solid black;
+  }
+
+  .revision-selector-tick {
+    position: absolute;
+    top: -8px;
+    height: 16px;
+    border-left: 1px solid black;
+  }
+
+  .revision-selector-label {
+    position: absolute;
+    top: -26px;
+
+    .user-select(none);
+
+    &.revision-selector-label-active {
+      cursor: pointer;
+    }
+  }
+
+  .revision-selector-handle {
+    position: absolute;
+    top: -9px;
+    z-index: 2;
+    cursor: grab;
+  }
+
+  .revision-selector-range {
+    position: absolute;
+    background-color: multiply(@_colors-vars[@blue-60],
+                               @_colors-vars[@grey-50]);
+    top: -1px;
+    height: 4px;
+    z-index: 1;
+  }
+}
+
+
+/****************************************************************************
+ * Comments hint
+ ****************************************************************************/
+#diff_comments_hint {
+  .-is-current {
+    font-weight: bold;
+  }
+}
+
+
+/****************************************************************************
+ * Pagination
+ ****************************************************************************/
+.paginate-link,
+.paginate-current {
+  padding: 2px 4px;
+  border: 1px solid @paginate-border-color;
+}
+
+.paginate-current {
+  background: @paginate-bg-color;
+  color: @paginate-text-color;
+  font-weight: bold;
+}
+
+#pagination2 {
+  margin-top: 1em;
+}
+
+
+/**
+ * Displayed Unicode Character.
+ *
+ * This is used to show information on a possibly otherwise-invisible or
+ * misleading Unicode character.
+ *
+ * Structure:
+ *     <span class="rb-o-duc" data-codepoint="..." data-char="..."
+ *           title="..."></span>
+ */
+.rb-o-duc {
+  &::before {
+    background:
+      var(--if-dark, var(--ink-p-red-100))
+      var(--if-light, white);
+    border-radius: 2px;
+    color:
+      var(--if-dark, white)
+      var(--if-light, red);
+    font-weight: normal;
+    font-style: normal;
+    padding: 0 0.5ch;
+
+    /* Use outline instead of border to avoid affecting layout. */
+    outline: 1px var(--ink-p-red-300) solid;
+    content: "U+" attr(data-codepoint);
+  }
+}

@@ -1,0 +1,702 @@
+@import (reference) "djblets/css/mixins/markdown.less";
+
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/ui/colors.less";
+@import (reference) "rb/css/ui/menus.less";
+
+
+/*
+ * Any changes to this need to be reflected in _resizeLayout in
+ * reviewRequestEditorView.js
+ */
+
+@details-width: 32em;
+
+
+:root,
+.rb-c-review-request {
+  @_review-request-gradient-top-bg: #FFFDF3;
+
+  /* Review request variables. */
+  --rb-c-review-request-bg-color:
+    var(--if-light, @review-request-bg)
+    var(--if-dark, var(--ink-p-cool-grey-200));
+
+  --rb-c-review-request-bg:
+    var(--if-light,
+      linear-gradient(
+        to bottom,
+        @_review-request-gradient-top-bg,
+        #FEFADF
+      )
+    )
+    var(--if-dark, var(--rb-c-review-request-bg-color));
+
+  --rb-c-review-request-border-color:
+    var(--if-light, @review-request-action-border-color)
+    var(--if-dark, var(--ink-p-cool-grey-300));
+
+  --rb-c-review-request-border-radius: var(--ink-u-border-radius-std);
+
+  --rb-c-review-request-border: 1px var(--rb-c-review-request-border-color)
+                                solid;
+
+  /* Review request action bar variables. */
+  --rb-c-review-request-actions-bg: var(--ink-p-header-bg);
+  --rb-c-review-request-actions-active-bg:
+    var(--if-light, @_review-request-gradient-top-bg)
+    var(--if-dark, var(--rb-c-review-request-bg-color));
+  --rb-c-review-request-actions-hover-bg:
+    var(--if-light, @review-request-action-hover-bg)
+    var(--if-dark, rgba(0, 0, 0, 0.2));
+  --rb-c-review-request-actions-border: var(--rb-c-review-request-border);
+  --rb-c-review-request-actions-text-color: var(--ink-p-header-fg);
+}
+
+
+/****************************************************************************
+ * Review request box
+ ****************************************************************************/
+
+/**
+ * Information and fields for a review request.
+ *
+ * This manages the structure of the review request box, used on the review
+ * request page, diff viewer, and review UI pages.
+ *
+ * This may also be mixed into ``review-ui-box``, providing additional elements.
+ *
+ * Version Added:
+ *     6.0
+ *
+ * DOM Attributes:
+ *     aria-label (string):
+ *         A string describing that this is the review request information.
+ *
+ * Structure:
+ *     <section class="rb-c-review-request">
+ *      <div class="rb-c-review-request__header">...</div>
+ *      <div class="rb-c-review-request__fields">...</div>
+ *     </section>
+ */
+.rb-c-review-request {
+  background: none;
+  border-radius: var(--rb-c-review-request-border-radius);
+  box-shadow: @box-shadow;
+
+  /**
+   * The details pane of the review request.
+   *
+   * This contains fields and information on the review request, positioned
+   * along the side of the main review request fields.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__details">
+   *      <div class="rb-c-review-request-fieldset">...</div>
+   *      ...
+   *     </div>
+   */
+  &__details {
+    box-sizing: border-box;
+    grid-area: details;
+    padding: @box-padding;
+  }
+
+  /**
+   * Information on a diff in the diff viewer.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__diff">
+   *      ...
+   *     </div>
+   */
+  &__diff {
+    grid-area: diff;
+    padding: @box-padding;
+  }
+
+  /**
+   * Extra fields for a review request.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__extra">
+   *      ...
+   *     </div>
+   */
+  &__extra {
+    grid-area: extra;
+    padding: @box-padding;
+  }
+
+  /**
+   * Fields on a review request.
+   *
+   * This is grouped into the following sections:
+   *
+   * * Summary
+   * * Warning banner
+   * * Details fields
+   * * Main fields
+   * * Extra fields (optional)
+   * * Diff information (optional)
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__fields">
+   *      <div class="rb-c-review-request__summary">...</div>
+   *      <div class="rb-c-review-request__warning">...</div>
+   *      <div class="rb-c-review-request__details">...</div>
+   *      <div class="rb-c-review-request__main">...</div>
+   *      <div class="rb-c-review-request__extra">...</div>
+   *      <div class="rb-c-review-request__diff">...</div>
+   *     </div>
+   */
+  &__fields {
+    background: var(--rb-c-review-request-bg);
+
+    border: var(--rb-c-review-request-border);
+    border-top: 0;
+    border-radius: 0 0
+                   var(--rb-c-review-request-border-radius)
+                   var(--rb-c-review-request-border-radius);
+    clear: both;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-areas:
+      "summary summary"
+      "warning warning"
+      "main    details"
+      "extra   extra"
+      "diff    diff";
+    grid-template-columns: 1fr @details-width;
+    gap: 0 @box-padding;
+  }
+
+  /**
+   * The header for a review request box.
+   *
+   * This contains the actions and tabs for the review request.
+   *
+   * Structure:
+   *     <header class="rb-c-review-request__header">
+   *      <menu class="rb-c-review-request-tabs">...</menu>
+   *      <div class="rb-c-actions">...</div>
+   *     </header>
+   */
+  &__header {
+    border-bottom: var(--rb-c-review-request-border);
+    display: flex;
+    gap: var(--ink-u-spacing-xxl);
+
+    #rb-ns-pages.base.on-shell-mobile-mode({
+      text-align: center;
+    });
+
+    #rb-ns-ui.screen.on-width-lte(350px, {
+      gap: var(--ink-u-spacing-s);
+    });
+  }
+
+  /**
+   * The main fields for a review request.
+   *
+   * This contains the Description and Testing Done by default.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__main">
+   *      ...
+   *     </div>
+   */
+  &__main {
+    display: flex;
+    flex-direction: column;
+    grid-area: main;
+    padding: @box-padding;
+
+    /*
+     * Allow this column to resize in favor of the details pane. This overrides
+     * a grid cell's default value of 'auto'.
+     */
+    min-width: 0;
+
+    > .rb-c-review-request-fieldset {
+      flex-grow: 1;
+    }
+
+    .rb-c-review-request-field:last-child {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+
+      .editable,
+      .rb-c-inline-editor {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  /**
+   * The summary information for a review request.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__summary">
+   *      ...
+   *     </div>
+   */
+  &__summary {
+    grid-area: summary;
+    padding: 0 @box-padding @box-padding @box-padding;
+
+    p {
+      margin: @box-padding 0 0 0;
+    }
+
+    #field_summary {
+      font-size: inherit;
+      margin: 0;
+      padding: 0;
+
+      a {
+        color: black;
+        text-decoration: none;
+      }
+    }
+
+    .rb-c-review-request-field {
+      font-size: @review-request-summary-font-size;
+    }
+
+    .on-mobile-medium-screen-720({
+      .rb-c-review-request-fieldset.-has-inline-fields {
+        .rb-c-review-request-field {
+          /*
+           * There's no longer a baseline to work with, so center this
+           * instead.
+           */
+          align-items: center;
+
+          &__label {
+            /* Hide the "Summary:" label on mobile. */
+            display: none;
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * A warning banner for a review request.
+   *
+   * This will show information when there are validation errors with fields.
+   *
+   * Structure:
+   *     <div class="rb-c-review-request__warning">
+   *      ...
+   *     </div>
+   */
+  &__warning {
+    background-color: var(--ink-p-accent-error-bg);
+    border: 1px var(--ink-p-accent-error-border-color) solid;
+    color: var(--ink-p-accent-error-fg);
+    display: none;
+    font-weight: bold;
+    grid-area: warning;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .on-mobile-medium-screen-720({
+    &__fields {
+      /* Simplify layout, creating a vertical list of block elements. */
+      display: block;
+    }
+  });
+}
+
+
+.required-flag {
+  color: @required-flag-color;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 0 2px;
+}
+
+.banner pre.field,
+.rb-c-unified-banner pre.field,
+.rb-c-review-request-field pre.field,
+.rb-c-review-request-changed-fields__value .changedesc-text {
+  @_form-field-vars: #rb-ns-ui.form-field();
+
+  background-color: var(--ink-p-input-bg);
+  border: var(--ink-u-border-thin) var(--ink-p-input-border-color) solid;
+  color: var(--ink-p-input-fg);
+  margin: @_form-field-vars[@textarea-editor-margin];
+  padding: @_form-field-vars[@textarea-editor-padding];
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  .codehilite {
+    .flush-codehilite();
+
+    @codehilite-margin-horiz: (@code-block-border-size +
+                               @code-block-padding-horiz -
+                               @textarea-border-size);
+    @codehilite-margin-vert: @code-block-padding-vert;
+    margin: -@codehilite-margin-vert -@codehilite-margin-horiz;
+    padding: @codehilite-margin-vert @codehilite-margin-horiz;
+  }
+}
+
+.editable,
+.rb-c-inline-editor-edit-icon {
+  line-height: 14px;
+}
+
+#field_commit_list {
+  .review-request-main-fieldset();
+}
+
+
+/*
+ * Legacy fields for defining sections and labels.
+ *
+ * Deprecated:
+ *     6.0
+ */
+.review-request-section {
+  padding: @box-padding;
+  position: relative;
+}
+
+.review-request-section-label {
+  color: var(--rb-p-review-request-field-label-color);
+  font-size: @review-request-section-label-font-size;
+  font-weight: bold;
+}
+
+.review-request-main-fieldset {
+  display: block;
+  position: relative;
+
+  .on-mobile-medium-screen-720({
+    margin-right: 0;
+  });
+}
+
+
+/****************************************************************************
+ * Review request actions
+ ****************************************************************************/
+
+/**
+ * Review request actions.
+ *
+ * Actions are grouped into two sections, which are left- and right-aligned.
+ * The left-aligned group includes the star and archive actions, and is always
+ * visible. The right-aligned group contains all of the editing actions, and
+ * will be hidden behind a disclosure when on mobile devices.
+ *
+ * Structure:
+ *     <div class="rb-c-actions" role="presentation">
+ *      <menu class="rb-c-actions__content -is-left" role="menu">...</menu>
+ *      <menu class="rb-c-actions__content -is-right" role="menu">
+ *       <li class="rb-c-actions__action rb-o-mobile-menu-label"
+ *           role="presentation">
+ *        <a href="#" aria-controls="mobile-actions-menu-content"
+ *           aria-expanded="false" aria-haspopup="true">
+ *         <span class="fa fa-bars fa-lg" aria-hidden="true"></span>
+ *        </a>
+ *       </li>
+ *       <div id="mobile-actions-menu-content" class="rb-o-mobile-menu">
+ *        ...
+ *       </div>
+ *      </menu>
+ *     </div>
+ */
+.rb-c-review-request .rb-c-actions {
+  background: var(--rb-c-review-request-actions-bg);
+  border: var(--rb-c-review-request-actions-border);
+  border-radius: var(--rb-c-review-request-border-radius)
+                 var(--rb-c-review-request-border-radius)
+                 0 0;
+  border-bottom-width: 0;
+  box-sizing: border-box;
+  color: var(--rb-c-review-request-actions-text-color);
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  min-height: (@review-request-action-line-height +
+               2 * @review-request-action-padding-vert +
+               1);
+  overflow: hidden;
+
+  #ink-ns-ui.base.customize-component(
+    @name: ink-c-menu;
+    @schema: #ink-ns-schema[@menu];
+    @vars: {
+      --ink-c-menu-bg: var(--rb-c-review-request-actions-bg);
+      --ink-c-menu-border: var(--rb-c-review-request-actions-border);
+    });
+
+  .review-ui-box:not(.has-review-ui-box-content) & {
+    border-radius: var(--rb-c-review-request-border-radius);
+  }
+
+  /**
+   * A group of review request actions.
+   *
+   * Modifiers:
+   *     -is-left:
+   *         The menu should be floated to the left.
+   *
+   *     -is-right:
+   *         The menu should be floated to the right.
+   */
+  &__content {
+    /*
+     * NOTE: It's important we use a standard block here and not a flexbox
+     *       of any kind. We depend on the mobile menu being able to
+     *       absolutely-position itself relative to its initial layout
+     *       coordinates, and it can't do that in a flexbox. It'll end up
+     *       overlapping the whole action bar.
+     */
+    box-sizing: border-box;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  /**
+   * A review request action.
+   *
+   * Modifiers:
+   *     -is-icon:
+   *         The action only uses an icon without any additional text.
+   *
+   * Structure:
+   *     <li class="rb-c-actions__action" role="presentation">
+   *      <a href="#" role="menuitem">...</a>
+   *     </li>
+   */
+  &__action {
+    /*
+     * NOTE: It's important we use a standard inline-block here and not a
+     *       flexbox of any kind. We depend on any inner menu components being
+     *       able to absolutely-position themselves relative to their initial
+     *       layout coordinates, and they can't do that in a flexbox. They'll
+     *       end up overlapping the menu controller.
+     */
+    display: inline-block;
+
+    &:active,
+    &:hover {
+      background: var(--rb-c-review-request-actions-hover-bg);
+    }
+
+    a {
+      color: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.2em;
+      margin: 0;
+      line-height: @review-request-action-line-height;
+      text-decoration: none;
+      padding: @review-request-action-padding-vert
+               @review-request-action-padding-horiz-text;
+    }
+
+    &.-is-icon > a {
+      line-height: 0;
+      padding: @review-request-action-padding-vert
+               @review-request-action-padding-horiz-icon;
+    }
+
+    &.rb-o-mobile-menu-label {
+      display: none;
+    }
+  }
+}
+
+.on-mobile-medium-screen-720({
+  #review-request .rb-c-actions {
+    &__action {
+      &.rb-o-mobile-menu-label {
+        display: inline-block;
+      }
+
+      a, &.-is-icon a {
+        /* Give some extra room for tapping. */
+        padding: @review-request-action-mobile-padding;
+      }
+    }
+
+    .rb-o-mobile-menu {
+      .rb-c-menu();
+
+      background: var(--rb-c-review-request-actions-bg);
+      border: var(--rb-c-review-request-actions-border);
+      box-sizing: border-box;
+      left: 0;
+      width: 100%;
+
+      &.-is-visible {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .rb-c-actions__action {
+        display: block;
+        text-align: left;
+
+        /* This is for submenus. Just display them inline. */
+        .rb-c-menu {
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+          opacity: 1;
+          padding-left: 1em;
+          position: inherit;
+          visibility: visible;
+        }
+      }
+    }
+  }
+});
+
+
+/****************************************************************************
+ * Review request tabs
+ ****************************************************************************/
+
+/**
+ * Review request tabs.
+ *
+ * Structure:
+ *     <menu class="rb-c-review-request-tabs" role="menu">
+ *      ...
+ *     </menu>
+ */
+.rb-c-review-request-tabs {
+  background-color: var(--rb-c-review-request-actions-bg);
+  border: var(--rb-c-review-request-actions-border);
+  border-radius: var(--rb-c-review-request-border-radius)
+                 var(--rb-c-review-request-border-radius)
+                 0 0;
+  border-bottom-width: 0;
+  display: flex;
+  list-style: none;
+  margin: 0 0 -1px 1.5rem;
+  overflow: hidden;
+  padding: 0;
+
+  /* TODO: dedupe with .review-request-action */
+  /**
+   * A review request tab.
+   *
+   * Modifiers:
+   *     -is-active:
+   *         Designates the active tab element.
+   *
+   * Structure:
+   *     <li class="rb-c-review-request-tabs__tab -is-active"
+   *         role="presentation">
+   *      <a href="..." role="menuitem" aria-current="page">...</a>
+   *     </li>
+   *     <li class="rb-c-review-request-tabs__tab" role="presentation">
+   *      <a href="..." role="menuitem">...</a>
+   *     </li>
+   */
+  &__tab {
+    border-bottom: var(--rb-c-review-request-actions-border);
+    border-left: var(--rb-c-review-request-actions-border);
+    min-width: 4rem;
+    text-align: center;
+
+    &:first-child {
+      border-left: 0;
+    }
+
+    &.-is-active {
+      background: var(--rb-c-review-request-actions-active-bg);
+      border-bottom-color: transparent;
+      border-width: 0 1px 1px 1px;
+    }
+
+    &:not(.-is-active) {
+      &:active,
+      &:hover {
+        a {
+          background: var(--rb-c-review-request-actions-hover-bg);
+        }
+      }
+    }
+
+    a {
+      color: inherit;
+      cursor: pointer;
+      display: block;
+      margin: 0;
+      line-height: @review-request-action-line-height;
+      text-decoration: none;
+      padding: @review-request-action-padding-vert
+               @review-request-action-padding-horiz-text;
+
+      .on-mobile-medium-screen-720({
+        /* Give some extra room for tapping. */
+        padding: @review-request-action-mobile-padding
+                 @review-request-action-padding-horiz-text;
+      });
+    }
+  }
+}
+
+
+/****************************************************************************
+ * Banners
+ ****************************************************************************/
+#discard-banner,
+#submitted-banner {
+  background:
+    var(--if-dark, var(--ink-p-grey-200))
+    var(--if-light, #E0E0E0);
+  border:
+    1px
+    var(--if-dark, var(--ink-p-grey-300))
+    var(--if-light, #808080)
+    solid;
+}
+
+#draft-banner,
+#discard-banner,
+#submitted-banner {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  box-shadow: @box-shadow;
+  margin-top: -@page-container-padding;
+  margin-left: -@page-container-padding;
+  margin-right: -@page-container-padding;
+  margin-bottom: @page-container-padding;
+  padding: @page-container-padding;
+
+  .on-mobile-medium-screen-720({
+    .banner-actions {
+      margin-bottom: 2em;
+    }
+  });
+
+  p label {
+    .inline-editor-label();
+    padding-top: 1em
+  }
+
+  &>p {
+    margin: 1em 0 0 0;
+  }
+}
+
+#draft-banner .interdiff-link {
+  margin-top: 1em;
+}

@@ -1,0 +1,24 @@
+{% load djblets_js %}
+
+<div id="change-entry-file-attachment-{{uuid}}"></div>
+
+<script charset="utf-8">
+$(document).ready(function() {
+    RB.PageManager.ready(function(page) {
+        const pageModel = page.model;
+
+        const thumbnail = new RB.FileAttachmentThumbnailView({
+            canEdit: false,
+            comments: [],
+            model: new RB.FileAttachment({{model_attrs|json_dumps}}),
+            renderThumbnail: true,
+            reviewRequest: pageModel.get('reviewRequest'),
+            reviewRequestEditor: pageModel.reviewRequestEditor,
+            reviewRequestEditorView: page.reviewRequestEditorView,
+        });
+
+        thumbnail.render().$el
+            .appendTo($('#change-entry-file-attachment-{{uuid}}'));
+    });
+});
+</script>

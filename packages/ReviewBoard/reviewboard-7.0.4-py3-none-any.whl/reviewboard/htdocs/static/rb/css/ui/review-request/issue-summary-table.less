@@ -1,0 +1,229 @@
+@import (reference) "fields/tabular.less";
+
+
+#rb-ns-ui() {
+  .issue-summary-table() {
+    @avatar-size: 24px;
+    @avatar-margin-right: 4px;
+    @status-icon-margin-right: 6px;
+    @status-icon-size: 16px;
+    @avatar-margin-vert-offset:
+      #rb-ns-review-requests.fields.tabular.data[@cell-padding] -
+      ((@avatar-size - @status-icon-size) / 2);
+
+    .mobile() {
+      @_icons-full-width: #rb-ns-ui.issue-summary-table[@avatar-size];
+      @_icons-margin-right: 4px;
+      @_status-icon-margin-horiz:
+        (@_icons-full-width -
+         (#rb-ns-ui.issue-summary-table[@status-icon-size]) / 2);
+
+      @status-icon-margin-left: @_status-icon-margin-horiz;
+      @status-icon-margin-right: @_status-icon-margin-horiz +
+                                 @_icons-margin-right;
+      @text-only-margin-left: @_icons-full-width + @_icons-margin-right;
+    }
+  }
+}
+
+
+/**
+ * The Issue Summary Table, used to filter and view issues on a review request.
+ *
+ * This is meant to be used along with ``.rb-c-review-request-tabular``, and
+ * builds upon that to provide styling for the different issue states.
+ */
+.rb-c-issue-summary-table {
+  @_color-scheme-vars: #rb-ns-ui.color-schemes.grey();
+  @_data-vars: #rb-ns-review-requests.fields.tabular.data();
+  @_common-vars: #rb-ns-ui.issue-summary-table();
+  @_mobile-vars: #rb-ns-ui.issue-summary-table.mobile();
+  @_row-border-color: @_color-scheme-vars[@border];
+
+  /**
+   * An issue counter on a tab.
+   */
+  &__counter {
+    vertical-align: middle;
+  }
+
+  /**
+   * A special row indicating that no issues exist matching the filter.
+   */
+  & .rb-c-review-request-field-tabular__data tr&__no-issues {
+    --_rb-c-issue-summary-table-row-text-color-dark: var(--ink-p-fg);
+
+    td,
+    td:hover {
+      background:
+        var(--if-dark, none)
+        var(--if-light, white);
+    }
+  }
+
+  /**
+   * The main table containing the list of issues.
+   */
+  .rb-c-review-request-field-tabular__data {
+    tr {
+      --_rb-c-issue-summary-table-row-bg-light: var(--rb-p-issue-bg);
+      --_rb-c-issue-summary-table-row-hover-bg-light: @issue-opened-hover-bg;
+      --_rb-c-issue-summary-table-row-text-color-dark:
+        var(--rb-p-issue-open-accent-text-color);
+
+      &[data-issue-id] {
+        cursor: pointer;
+      }
+
+      /* Add borders separating groups of different types of statuses. */
+      &:not(.-is-hidden) {
+        &.-is-open + .rb-c-issue-summary-table__issue:not(.-is-open),
+        &.-is-dropped + .rb-c-issue-summary-table__issue:not(.-is-dropped),
+        &.-is-resolved + .rb-c-issue-summary-table__issue:not(.-is-resolved) {
+          td {
+            border-top-color: @_row-border-color;
+
+            .on-mobile-medium-screen-720({
+              border-top-color: transparent;
+            });
+          }
+        }
+      }
+
+      &.-is-dropped {
+        --_rb-c-issue-summary-table-row-bg-light: @issue-discarded-bg;
+        --_rb-c-issue-summary-table-row-hover-bg-light:
+          @issue-discarded-hover-bg;
+        --_rb-c-issue-summary-table-row-text-color-dark:
+          var(--rb-p-issue-dropped-accent-text-color);
+      }
+
+      &.-is-resolved {
+        --_rb-c-issue-summary-table-row-bg-light: @issue-resolved-bg;
+        --_rb-c-issue-summary-table-row-hover-bg-light:
+          @issue-resolved-hover-bg;
+        --_rb-c-issue-summary-table-row-text-color-dark:
+          var(--rb-p-issue-resolved-accent-text-color);
+      }
+
+      &.-is-verifying-dropped,
+      &.-is-verifying-resolved {
+        --_rb-c-issue-summary-table-row-bg-light: @issue-verifying-bg;
+        --_rb-c-issue-summary-table-row-hover-bg-light:
+          @issue-verifying-hover-bg;
+      }
+
+      td {
+        background:
+          var(--if-dark, none)
+          var(--if-light, var(--_rb-c-issue-summary-table-row-bg-light));
+        color:
+          var(--if-dark, var(--_rb-c-issue-summary-table-row-text-color-dark))
+          var(--if-light, var(--ink-p-fg-on-light));
+
+        /*
+         * All text should be vertically centered in relation to the issue
+         * status icon, meaning we need to give them all the line height of
+         * the icon. From there, we'll make further adjustments below.
+         */
+        line-height: @_common-vars[@status-icon-size];
+
+        &:hover {
+          background:
+            var(--if-dark, var(--ink-p-container-hover-bg))
+            var(--if-light,
+                var(--_rb-c-issue-summary-table-row-hover-bg-light));
+        }
+
+        /* Description column */
+        &:nth-child(1) {
+          width: 100%;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        p {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+
+        time {
+          white-space: nowrap;
+        }
+
+        .avatar {
+          @_offset: @_common-vars[@avatar-margin-vert-offset];
+
+          /*
+           * We're aiming to keep all text aligned across the row, and
+           * because of this we can't vertically align the avatar and the
+           * text exactly. We also can't let the avatar take up too much
+           * vertical space on the row.
+           *
+           * So, we're offsetting the vertical margins a bit to reduce the
+           * space required (offsetting into the cell's padding a bit
+           * instead) and attempting to align the resulting avatar with the
+           * top of the text. This creates a mostly-vertically-centered look
+           * while keeping the text aligned.
+           */
+          margin: -@_offset @_common-vars[@avatar-margin-right]
+                  -@_offset 0;
+          vertical-align: text-top;
+        }
+
+        .rb-icon {
+          float: left;
+          margin-right: @_common-vars[@status-icon-margin-right];
+        }
+
+        .user {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  .on-mobile-medium-screen-720({
+    .rb-c-review-request-field-tabular__data {
+      tbody {
+        display: block;
+      }
+
+      thead {
+        /*
+         * Ensure this doesn't get set on mobile when transitioning between
+         * tabs. JavaScript will try to manage the display.
+         */
+        display: none !important;
+      }
+
+      tr {
+        display: flex;
+      }
+
+      td {
+        &:nth-child(1) {
+          flex-grow: 1;
+          max-width: 75%;
+
+          .rb-icon {
+            margin-left: 0;
+          }
+        }
+
+        &:nth-child(2) {
+          max-width: 25%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    }
+  });
+}

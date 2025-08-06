@@ -1,0 +1,97 @@
+@import (reference) "djblets/css/mixins/markdown.less";
+
+@import (reference) "rb/css/defs.less";
+
+
+/****************************************************************************
+ * Rich text
+ ****************************************************************************/
+
+:root,
+.rich-text {
+  --rb-p-code-block-border: var(--ink-g-border-input);
+}
+
+.rich-text {
+  margin: 0;
+  padding: 0;
+
+  .markdown-wysiwyg();
+
+  /*
+   * NOTE: See .cm-rb-markdown-code in pages/reviews.less for details on
+   *       how we're approaching displaying borders.
+   *
+   *       Much of this should eventually be moved back into Djblets.
+   */
+  .codehilite {
+    background: var(--rb-theme-rich-text-code-bg);
+    border: 0;
+    border-radius: 0;
+    color: var(--rb-theme-rich-text-code-fg);
+    position: relative;
+    margin: 0;
+    padding: 0;
+
+    &:before {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border: var(--rb-p-code-block-border);
+      border-radius: @code-block-border-radius;
+      top: -@code-block-border-size;
+      left: -@code-block-padding-horiz;
+      right: -@code-block-padding-horiz;
+      bottom: -@code-block-border-size;
+    }
+
+    code {
+      /* Undo the default `code` border rules below. */
+      padding: 0;
+
+      &:after,
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  code {
+    white-space: pre-wrap;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    padding-left: 1ch;
+    padding-right: 1ch;
+    position: relative;
+
+    &:after {
+      content: "";
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: -@inline-code-border-size;
+      left: -@inline-code-border-size;
+      right: -@inline-code-border-size;
+      bottom: -@inline-code-border-size;
+      border: @inline-code-border-size var(--ink-p-code-literal-border-color)
+              solid;
+      border-radius: @inline-code-border-radius;
+      pointer-events: none;
+      visibility: visible;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .emoji {
+    width: auto;
+    height: 1rem;
+    vertical-align: text-top;
+  }
+}

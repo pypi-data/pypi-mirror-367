@@ -1,0 +1,99 @@
+@import (reference) "rb/css/defs.less";
+
+
+/****************************************************************************
+ * General text-based review styles
+ ****************************************************************************/
+.review-ui-box .text-review-ui {
+  @header-padding: 8px;
+
+  border-radius: @box-border-radius;
+
+  .review-ui-header {
+    /*
+     * We set this instead of turning off the border to keep the gradient from
+     * stopping too soon on Chrome and Firefox.
+     */
+    border-bottom-color: transparent;
+    min-height: 0;
+
+    .text-review-ui-views {
+      .rb-c-tabs {
+        padding: 1em 0 0 5em;
+      }
+    }
+  }
+
+  .text-review-ui-text-table,
+  .text-review-ui-rendered-table {
+    border-radius: 0 0 @box-inner-border-radius @box-inner-border-radius;
+
+    .revision-row th {
+      font-weight: bold;
+    }
+
+    tbody:last-child tr:last-child {
+      td:last-child {
+        border-radius: 0 0 @box-inner-border-radius 0;
+      }
+
+      th:first-child {
+        border-radius: 0 0 0 @box-inner-border-radius;
+      }
+    }
+
+    tbody td > {
+      h1, h2, h3, h4, h5, h6, p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .review-ui-error {
+    text-align: center;
+    padding: 2em;
+  }
+
+  .sidebyside {
+    border-top: var(--rb-g-diff-box-header-border);
+    margin: 0;
+  }
+}
+
+.text-review-ui-comment-thumbnail {
+  background: inherit;
+}
+
+#attachment_revision_selector, #revision_label {
+  padding-top: 4px;
+  padding-left: 12px;
+}
+
+
+/****************************************************************************
+ * Markdown-specific styles
+ ****************************************************************************/
+.markdown-review-ui {
+  td {
+    padding-left: 2px;
+
+    tbody * {
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    ul, ol {
+      padding-left: 2em;
+    }
+  }
+}

@@ -1,0 +1,369 @@
+/** Styles for the New Review Request page. */
+
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/mixins/upload-diff.less";
+
+
+/**
+ * Component for the New Review Request page.
+ *
+ * Structure:
+ *     <div class="rb-c-new-review-request">
+ *      <div class="rb-c-sidebar">...</div>
+ *      <div class="rb-c-new-review-request__repo-pane">
+ *       ...
+ *      </div>
+ *     </div>
+ */
+.rb-c-new-review-request {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  #rb-ns-pages.base.on-shell-desktop-mode({
+    .rb-c-new-review-request__main,
+    .rb-c-new-review-request__hint {
+      border-radius: var(--ink-u-border-radius-std);
+    }
+  }, @else: {
+    /*
+     * On mobile, the two panes (repository list and detail) are placed
+     * side-by-side using a translateX(). Switching between them animates
+     * through a sliding transition.
+     */
+    &.js-repository-selected {
+      .rb-c-sidebar {
+        transform: translateX(-100%);
+      }
+
+      .rb-c-new-review-request__repo-pane {
+        transform: translateX(0);
+      }
+    }
+
+    &__repo-pane,
+    .rb-c-sidebar {
+      transition: 0.3s transform linear;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    .rb-c-sidebar {
+      transform: translateX(0);
+    }
+
+    .rb-c-new-review-request__repo-pane {
+      transform: translateX(100%);
+    }
+  });
+
+  /**
+   * A hint to the user on what action to take.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__hint">...</div>
+   */
+  &__hint {
+    position: relative;
+    top: 50%;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  /**
+   * The main content area for a repository.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__main">
+   *      <div class="rb-c-new-review-request__hint">...</div>
+   *      <div class="pre-commit">...</div>
+   *      <div class="post-commit">...</div>
+   *     </div>
+   */
+  &__main {
+    box-sizing: border-box;
+    height: 100%;
+    .scrollable-y();
+
+    // Fix overflow on rounded corners with webkit-based browsers.
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+
+  /**
+   * The container for a repository's details container.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__repo-detail">
+   *      <div class="rb-c-new-review-request__main">...</div>
+   *     </div>
+   */
+  &__repo-detail {
+    background: var(--ink-p-container-bg);
+    box-sizing: border-box;
+    color: var(--ink-p-container-fg);
+    overflow: hidden;
+
+    #rb-ns-pages.base.on-shell-desktop-mode({
+      border: var(--ink-g-border-container);
+      border-radius: var(--ink-u-border-radius-std);
+      box-shadow: var(--ink-g-shadow-std);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }, @else: {
+      border-top: var(--ink-g-border-container);
+    });
+  }
+
+  /**
+   * The pane containing details on a selected repository.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__repo-pane">
+   *      <a href="#" class="rb-c-new-review-request__show-repositories">
+   *       ...
+   *      </a>
+   *      <div class="rb-c-new-review-request__repo-detail">...</div>
+   *     </div>
+   */
+  &__repo-pane {
+    height: 100%;
+
+    #rb-ns-pages.base.on-shell-mobile-mode({
+      display: flex;
+      flex-direction: column;
+    });
+  }
+
+  /**
+   * A link for going back to the list of repositories on mobile.
+   *
+   * Structure:
+   *     <a href="#" class="rb-c-new-review-request__show-repositories">
+   *      ...
+   *     </a>
+   */
+  &__show-repositories {
+    color: @mobile-back-forward-link-color;
+    display: block;
+    padding: 1em;
+    font-size: 120%;
+    text-decoration: none;
+
+    .mobile-only();
+  }
+
+  .pre-commit {
+    .upload-diff-ui();
+
+    .tip {
+      margin: 2em 2em 1em 2em;
+      text-align: center;
+
+      a {
+        color: var(--ink-p-link-fg);
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
+
+    #prompt-for-parent-diff {
+      line-height: 6em;
+
+      form {
+        margin-top: 4em;
+      }
+    }
+
+    #error-contents,
+    #parent-diff-error-contents {
+      margin: 0 10em;
+    }
+
+    .input {
+      height: 14em;
+      line-height: 14em;
+      margin: 2em;
+      border: var(--ink-u-border-medium) var(--ink-p-grey-400) dashed;
+
+      .on-mobile-medium-screen-720({
+        height: 6em;
+        line-height: 6em;
+      });
+    }
+  }
+
+  /**
+   * The in-page sidebar containing repositories in mobile mode.
+   *
+   * This is only shown when in mobile mode. In desktop mode, the sidebar
+   * is embedded in the main page sidebar.
+   *
+   * Structure:
+   *     <div class="rb-c-sidebar">...</div>
+   */
+  .rb-c-sidebar {
+    height: 100%;
+    padding: @page-container-padding;
+    .scrollable-y();
+  }
+
+  .section-header {
+    background-color: var(--ink-p-header-bg);
+    border-bottom: var(--ink-g-border-header);
+    padding: 0.5em;
+    font-size: 120%;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .branches {
+    border-top: var(--ink-g-border-header);
+    padding: 0;
+
+    span, select {
+      display: inline-block;
+      margin: 0.5em;
+      vertical-align: middle;
+    }
+  }
+
+  .commit {
+    border-bottom: var(--ink-c-data-table-row-border);
+    position: relative;
+    padding: 1em;
+    cursor: pointer;
+
+    &.disabled {
+      color: #888;
+      cursor: default;
+    }
+
+    &.has-review-request {
+      .summary {
+        color: var(--ink-p-fg-weak);
+      }
+    }
+
+    .commit-info {
+      color: var(--ink-p-fg-weak);
+
+      .author, .revision {
+        margin-right: 1em;
+      }
+
+      .author, .revision, .time {
+        display: inline-block;
+        margin-top: 0.5em;
+        white-space: nowrap;
+
+        .on-mobile-medium-screen-720({
+          display: block;
+          float: none;
+          margin-top: 0.8em;
+        });
+      }
+
+      .revision {
+        font-family: var(--ink-ff-monospace);
+      }
+
+      .time {
+        float: right;
+
+        .on-mobile-medium-screen-720({
+          float: none;
+        });
+      }
+    }
+
+    .fa {
+      color: var(--ink-p-fg-weak);
+      font-size: 1.2em;
+
+      &.fa-code-fork {
+        margin-left: 0;
+      }
+    }
+
+    .summary {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 0.6em;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+
+    .jump-to-commit {
+      color: var(--ink-p-accent-primary-bg);
+      margin: 0;
+      float: right;
+      font-size: 1.5em;
+    }
+
+    .progress {
+      display: none;
+      position: absolute;
+      width: 16px;
+      right: 1em;
+      height: 100%;
+      font-size: 16px;
+    }
+
+    &:nth-child(even) {
+      background: var(--ink-c-data-table-row-alt-bg);
+    }
+
+    &:nth-child(odd) {
+      background: var(--ink-c-data-table-row-bg);
+    }
+  }
+
+  .commits {
+    background: var(--ink-c-data-table-body-bg);
+    color: var(--ink-c-data-table-body-fg);
+  }
+
+  .post-commit {
+    .ink-c-alert {
+      border-left: 0;
+      border-top: 0;
+      border-right: 0;
+      border-radius: 0;
+    }
+
+    .error-text {
+      color: #CC0000;
+      white-space: pre-wrap;
+    }
+  }
+
+  .files-only {
+    text-align: center;
+
+    #rb-ns-pages.base.on-shell-desktop-mode({
+      margin: 14em;
+    });
+
+    input {
+      margin-top: 2em;
+    }
+  }
+}
+
+
+/**
+ * A class identifying a review request page.
+ *
+ * Structure:
+ *     <body class="new-review-request-page">...</body>
+ */
+.new-review-request-page {
+  #rb-ns-ui.page-sidebar.set-width(24em);
+}

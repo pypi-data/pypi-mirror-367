@@ -1,0 +1,392 @@
+/** Styles for the New Review Request page. */
+@media only screen and (min-width: 801px) {
+  /*
+         * This may be called as a top-level rule, or as part of a CSS class
+         * on ``<body>``. Support both.
+         */
+}
+/**
+ * Component for the New Review Request page.
+ *
+ * Structure:
+ *     <div class="rb-c-new-review-request">
+ *      <div class="rb-c-sidebar">...</div>
+ *      <div class="rb-c-new-review-request__repo-pane">
+ *       ...
+ *      </div>
+ *     </div>
+ */
+.rb-c-new-review-request {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  /**
+   * A hint to the user on what action to take.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__hint">...</div>
+   */
+  /**
+   * The main content area for a repository.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__main">
+   *      <div class="rb-c-new-review-request__hint">...</div>
+   *      <div class="pre-commit">...</div>
+   *      <div class="post-commit">...</div>
+   *     </div>
+   */
+  /**
+   * The container for a repository's details container.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__repo-detail">
+   *      <div class="rb-c-new-review-request__main">...</div>
+   *     </div>
+   */
+  /**
+   * The pane containing details on a selected repository.
+   *
+   * Structure:
+   *     <div class="rb-c-new-review-request__repo-pane">
+   *      <a href="#" class="rb-c-new-review-request__show-repositories">
+   *       ...
+   *      </a>
+   *      <div class="rb-c-new-review-request__repo-detail">...</div>
+   *     </div>
+   */
+  /**
+   * A link for going back to the list of repositories on mobile.
+   *
+   * Structure:
+   *     <a href="#" class="rb-c-new-review-request__show-repositories">
+   *      ...
+   *     </a>
+   */
+  /**
+   * The in-page sidebar containing repositories in mobile mode.
+   *
+   * This is only shown when in mobile mode. In desktop mode, the sidebar
+   * is embedded in the main page sidebar.
+   *
+   * Structure:
+   *     <div class="rb-c-sidebar">...</div>
+   */
+}
+@media only screen and (min-width: 801px) {
+  .rb-c-new-review-request .rb-c-new-review-request__main,
+  .rb-c-new-review-request .rb-c-new-review-request__hint {
+    border-radius: var(--ink-u-border-radius-std);
+  }
+}
+@media only screen and (max-width: 800px) {
+  .rb-c-new-review-request {
+    /*
+     * On mobile, the two panes (repository list and detail) are placed
+     * side-by-side using a translateX(). Switching between them animates
+     * through a sliding transition.
+     */
+  }
+  .rb-c-new-review-request.js-repository-selected .rb-c-sidebar {
+    transform: translateX(-100%);
+  }
+  .rb-c-new-review-request.js-repository-selected .rb-c-new-review-request__repo-pane {
+    transform: translateX(0);
+  }
+  .rb-c-new-review-request__repo-pane,
+  .rb-c-new-review-request .rb-c-sidebar {
+    transition: 0.3s transform linear;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  .rb-c-new-review-request .rb-c-sidebar {
+    transform: translateX(0);
+  }
+  .rb-c-new-review-request .rb-c-new-review-request__repo-pane {
+    transform: translateX(100%);
+  }
+}
+.rb-c-new-review-request__hint {
+  position: relative;
+  top: 50%;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+}
+.rb-c-new-review-request__main {
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+.rb-c-new-review-request__repo-detail {
+  background: var(--ink-p-container-bg);
+  box-sizing: border-box;
+  color: var(--ink-p-container-fg);
+  overflow: hidden;
+}
+@media only screen and (min-width: 801px) {
+  .rb-c-new-review-request__repo-detail {
+    border: var(--ink-g-border-container);
+    border-radius: var(--ink-u-border-radius-std);
+    box-shadow: var(--ink-g-shadow-std);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .rb-c-new-review-request__repo-detail {
+    border-top: var(--ink-g-border-container);
+  }
+}
+.rb-c-new-review-request__repo-pane {
+  height: 100%;
+}
+@media only screen and (max-width: 800px) {
+  .rb-c-new-review-request__repo-pane {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.rb-c-new-review-request__show-repositories {
+  color: #444;
+  display: block;
+  padding: 1em;
+  font-size: 120%;
+  text-decoration: none;
+  display: none;
+}
+@media screen and (max-width: 720px), screen and (max-device-width: 720px) and (orientation: landscape) {
+  .rb-c-new-review-request__show-repositories {
+    display: block;
+  }
+}
+.rb-c-new-review-request .pre-commit #processing-diff .spinner,
+.rb-c-new-review-request .pre-commit #uploading-diffs .spinner {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  margin: auto;
+}
+.rb-c-new-review-request .pre-commit #error-contents,
+.rb-c-new-review-request .pre-commit #parent-diff-error-contents {
+  line-height: 12pt;
+  margin-bottom: 1em;
+  position: relative;
+}
+.rb-c-new-review-request .pre-commit #error-contents img,
+.rb-c-new-review-request .pre-commit #parent-diff-error-contents img {
+  margin-right: 5px;
+  vertical-align: sub;
+}
+.rb-c-new-review-request .pre-commit .input {
+  border-radius: 6px;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+}
+.rb-c-new-review-request .pre-commit .input > form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1ch;
+}
+.rb-c-new-review-request .pre-commit .input .startover {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  line-height: 14pt;
+}
+.rb-c-new-review-request .pre-commit .drag-hover {
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.rb-c-new-review-request .pre-commit .tip {
+  margin: 2em 2em 1em 2em;
+  text-align: center;
+}
+.rb-c-new-review-request .pre-commit .tip a {
+  color: var(--ink-p-link-fg);
+  font-weight: bold;
+  text-decoration: none;
+}
+.rb-c-new-review-request .pre-commit #prompt-for-parent-diff {
+  line-height: 6em;
+}
+.rb-c-new-review-request .pre-commit #prompt-for-parent-diff form {
+  margin-top: 4em;
+}
+.rb-c-new-review-request .pre-commit #error-contents,
+.rb-c-new-review-request .pre-commit #parent-diff-error-contents {
+  margin: 0 10em;
+}
+.rb-c-new-review-request .pre-commit .input {
+  height: 14em;
+  line-height: 14em;
+  margin: 2em;
+  border: var(--ink-u-border-medium) var(--ink-p-grey-400) dashed;
+}
+@media screen and (max-width: 720px), screen and (max-device-width: 720px) and (orientation: landscape) {
+  .rb-c-new-review-request .pre-commit .input {
+    height: 6em;
+    line-height: 6em;
+  }
+}
+.rb-c-new-review-request .rb-c-sidebar {
+  height: 100%;
+  padding: 1.5em;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.rb-c-new-review-request .section-header {
+  background-color: var(--ink-p-header-bg);
+  border-bottom: var(--ink-g-border-header);
+  padding: 0.5em;
+  font-size: 120%;
+  font-weight: bold;
+  text-align: center;
+}
+.rb-c-new-review-request .branches {
+  border-top: var(--ink-g-border-header);
+  padding: 0;
+}
+.rb-c-new-review-request .branches span,
+.rb-c-new-review-request .branches select {
+  display: inline-block;
+  margin: 0.5em;
+  vertical-align: middle;
+}
+.rb-c-new-review-request .commit {
+  border-bottom: var(--ink-c-data-table-row-border);
+  position: relative;
+  padding: 1em;
+  cursor: pointer;
+}
+.rb-c-new-review-request .commit.disabled {
+  color: #888;
+  cursor: default;
+}
+.rb-c-new-review-request .commit.has-review-request .summary {
+  color: var(--ink-p-fg-weak);
+}
+.rb-c-new-review-request .commit .commit-info {
+  color: var(--ink-p-fg-weak);
+}
+.rb-c-new-review-request .commit .commit-info .author,
+.rb-c-new-review-request .commit .commit-info .revision {
+  margin-right: 1em;
+}
+.rb-c-new-review-request .commit .commit-info .author,
+.rb-c-new-review-request .commit .commit-info .revision,
+.rb-c-new-review-request .commit .commit-info .time {
+  display: inline-block;
+  margin-top: 0.5em;
+  white-space: nowrap;
+}
+@media screen and (max-width: 720px), screen and (max-device-width: 720px) and (orientation: landscape) {
+  .rb-c-new-review-request .commit .commit-info .author,
+  .rb-c-new-review-request .commit .commit-info .revision,
+  .rb-c-new-review-request .commit .commit-info .time {
+    display: block;
+    float: none;
+    margin-top: 0.8em;
+  }
+}
+.rb-c-new-review-request .commit .commit-info .revision {
+  font-family: var(--ink-ff-monospace);
+}
+.rb-c-new-review-request .commit .commit-info .time {
+  float: right;
+}
+@media screen and (max-width: 720px), screen and (max-device-width: 720px) and (orientation: landscape) {
+  .rb-c-new-review-request .commit .commit-info .time {
+    float: none;
+  }
+}
+.rb-c-new-review-request .commit .fa {
+  color: var(--ink-p-fg-weak);
+  font-size: 1.2em;
+}
+.rb-c-new-review-request .commit .fa.fa-code-fork {
+  margin-left: 0;
+}
+.rb-c-new-review-request .commit .summary {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 0.6em;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.rb-c-new-review-request .commit .jump-to-commit {
+  color: var(--ink-p-accent-primary-bg);
+  margin: 0;
+  float: right;
+  font-size: 1.5em;
+}
+.rb-c-new-review-request .commit .progress {
+  display: none;
+  position: absolute;
+  width: 16px;
+  right: 1em;
+  height: 100%;
+  font-size: 16px;
+}
+.rb-c-new-review-request .commit:nth-child(even) {
+  background: var(--ink-c-data-table-row-alt-bg);
+}
+.rb-c-new-review-request .commit:nth-child(odd) {
+  background: var(--ink-c-data-table-row-bg);
+}
+.rb-c-new-review-request .commits {
+  background: var(--ink-c-data-table-body-bg);
+  color: var(--ink-c-data-table-body-fg);
+}
+.rb-c-new-review-request .post-commit .ink-c-alert {
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  border-radius: 0;
+}
+.rb-c-new-review-request .post-commit .error-text {
+  color: #CC0000;
+  white-space: pre-wrap;
+}
+.rb-c-new-review-request .files-only {
+  text-align: center;
+}
+@media only screen and (min-width: 801px) {
+  .rb-c-new-review-request .files-only {
+    margin: 14em;
+  }
+}
+.rb-c-new-review-request .files-only input {
+  margin-top: 2em;
+}
+/**
+ * A class identifying a review request page.
+ *
+ * Structure:
+ *     <body class="new-review-request-page">...</body>
+ */
+@media only screen and (min-width: 801px) {
+  .new-review-request-page {
+    /*
+         * This may be called as a top-level rule, or as part of a CSS class
+         * on ``<body>``. Support both.
+         */
+  }
+  .new-review-request-page.-has-sidebar #content,
+  .new-review-request-page body.-has-sidebar #content {
+    margin-left: 24em;
+  }
+  .new-review-request-page .rb-c-page-sidebar {
+    width: 24em;
+  }
+}
+/*# sourceMappingURL=newReviewRequest.css.map */

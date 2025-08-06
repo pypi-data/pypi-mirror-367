@@ -1,0 +1,523 @@
+@import (reference) "djblets/css/datagrid.less";
+
+@import (reference) "rb/css/defs.less";
+@import (reference) "rb/css/ui/boxes.less";
+@import (reference) "rb/css/ui/content-header.less";
+
+
+#rb-ns-ui() {
+  .datagrids() {
+    @_boxes-vars: #rb-ns-ui.boxes();
+
+    @bg: @_boxes-vars[@bg];
+    @border-color: @_boxes-vars[@border-color];
+    @border-radius: @_boxes-vars[@border-radius];
+    @box-shadow: @_boxes-vars[@shadow];
+
+    .actions() {
+      @_boxes-vars: #rb-ns-ui.boxes();
+
+      @bg: #EEEEEE;
+      @border-radius: @_boxes-vars[@inner-border-radius];
+      @box-shadow: @_boxes-vars[@shadow];
+      @text-color: #555555;
+
+      @padding: 0.75em;
+      @offset-left: 1em;
+      @offset-top: 4em;
+      @offset-bottom: 3.8em;
+    }
+
+    .cells() {
+      /* Subclass the Djblets definitions. */
+      #djblets-ns-ui.datagrids.cells();
+
+      @padding: 0.75em;
+
+      @even-bg: #FBFBFB;
+      @row-divider-color: #F0F0F0;
+    }
+
+    .header() {
+      /* Subclass the Djblets definitions. */
+      #djblets-ns-ui.datagrids.header();
+
+      @bg: #rb-ns-ui.colors[@blue-70];
+      @padding: 0.5em 0.75em;
+    }
+
+    .filter-menu() {
+      @_boxes-vars: #rb-ns-ui.boxes();
+
+      @bg: #FFFFE0;
+      @border-color: darken(@bg, 65%);
+      @border-radius: @_boxes-vars[@border-radius];
+      @spacing: 1em;
+    }
+
+    .paginator() {
+      /* Subclass the Djblets definitions. */
+      #djblets-ns-ui.datagrids.paginator();
+
+      @bg: #EEEEEE;
+      @border-color: #BBBBBB;
+      @item-padding: 0.75em;
+    }
+
+    .ship-it-indicator() {
+      @_colors: #rb-ns-ui.colors();
+
+      @border-color: @shipit-border-color;
+      @text-color: @shipit-text-color;
+      @bg-color-1: @shipit-bg;
+      @bg-color-2: darken(@shipit-bg, 8%);
+
+      @stale-border-color: @_colors[@grey-40];
+      @stale-text-color: @_colors[@black];
+      @stale-bg-color-1: @_colors[@grey-70];
+      @stale-bg-color-2: darken(@stale-bg-color-1, 8%);
+    }
+  }
+}
+
+
+/*
+ * Applies to the body tag, and prepares the page for a datagrid that can
+ * fit the contents of the page.
+ */
+body.datagrid-page {
+  @_datagrid-vars: #rb-ns-ui.datagrids();
+
+  #page-container {
+    #content {
+      table:after {
+        clear: both;
+      }
+
+      .datagrid-body-container {
+        overflow-y: auto;
+      }
+
+      .datagrid-wrapper {
+        height: 100%;
+      }
+
+      .main {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.datagrid-header {
+  .rb-icon-datagrid-column-shipits-issues {
+    margin-left: 4px;
+  }
+}
+
+.datagrid-main {
+  z-index: @z-index-base;
+}
+
+.datagrid-title-tabs {
+  @_datagrid-vars: #rb-ns-ui.datagrids();
+  @_header-vars: #rb-ns-ui.datagrids.header();
+
+  display: inline-block;
+  list-style: none;
+
+  /*
+   * Position the tabs immediately above the header, so that the active
+   * tab can sit directly on top of the border.
+   */
+  margin: 0 0 0 4em;
+  padding: 0;
+  position: relative;
+  vertical-align: middle;
+  z-index: @z-index-deco;
+
+  .datagrid-showclosed, .datagrid-showarchived {
+    padding: 2px 0 0 10px;
+  }
+}
+
+.datagrid-top-filters {
+  @_content-header-vars: #rb-ns-ui.content-header();
+  @_filter-menu-vars: #rb-ns-ui.datagrids.filter-menu();
+
+  display: inline-block;
+  top: -@_content-header-vars[@spacing];
+  right: 0;
+
+  a {
+    color: var(--ink-p-link-fg);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .datagrid-filters {
+    list-style: none;
+    margin: 0 0 0 0;
+    padding: 0;
+
+    > li {
+      display: inline-block;
+      margin: 0 0 0 @_filter-menu-vars[@spacing];
+      padding: 0;
+    }
+  }
+
+  .datagrid-filters-menu {
+    .mobile-only();
+
+    border: 1px transparent solid;
+    border-bottom: 0;
+    position: relative;
+    text-align: center;
+    padding: @_content-header-vars[@spacing];
+
+    .fa {
+      color: #333;
+      font-size: 1.5em;
+    }
+  }
+
+  .on-mobile-medium-screen-720({
+    &:hover {
+      .datagrid-filters {
+        opacity: 1;
+        visibility: visible;
+
+
+        /* Overlap the border of the action. */
+        margin-top: -1px;
+      }
+
+      .datagrid-filters-menu {
+        background: @_filter-menu-vars[@bg];
+        border-color: @_filter-menu-vars[@border-color];
+        border-radius: @_filter-menu-vars[@border-radius]
+                       @_filter-menu-vars[@border-radius]
+                       0 0;
+        transition: 0.1s border-color linear, 0.1s background linear;
+        z-index: (@z-index-menu + 1);
+      }
+    }
+
+    .datagrid-filters {
+      background: @_filter-menu-vars[@bg];
+      border: 1px @_filter-menu-vars[@border-color] solid;
+      border-radius: @_filter-menu-vars[@border-radius]
+                     0
+                     @_filter-menu-vars[@border-radius]
+                     @_filter-menu-vars[@border-radius];
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      transition: 0.1s opacity linear;
+      visibility: hidden;
+      z-index: @z-index-menu;
+
+      li {
+        white-space: nowrap;
+
+        a {
+          color: black;
+          display: block;
+          padding: 1em;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  });
+}
+
+.datagrid-header-drag.datagrid-header {
+  z-index: @z-index-deco;
+}
+
+
+/****************************************************************************
+ * Formal datagrid components
+ ****************************************************************************/
+
+/**
+ * Page header for a datagrid.
+ *
+ * This builds upon the ``.rb-c-content-header`` component to offer support
+ * for tabs.
+ *
+ * Tab support currently requires use of the ``.datagrid-title-tabs`` class,
+ * which does not meet our current component styles.
+ *
+ * Modifiers:
+ *     -has-tabs:
+ *         The header has tabs. This will remove the padding at the bottom
+ *         of the header, allowing tabs to be flush.
+ *
+ * Structure:
+ *     <header class="rb-c-datagrid-header rb-c-content-header -is-main">
+ *      <h1 class="rb-c-content-header__title">...</h1>
+ *      <div class="rb-c-content-header__actions">...</div>
+ *     </header>
+ *
+ *     <header class="rb-c-datagrid-header rb-c-content-header -is-main
+ *                    -has-tabs">
+ *      <ul class="datagrid-title-tabs">...</ul>
+ *      <div class="rb-c-content-header__actions">...</div>
+ *     </header>
+ */
+.rb-c-datagrid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.-has-tabs {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+
+/****************************************************************************
+ * Column-specific styles
+ ****************************************************************************/
+#page-container .datagrid {
+  .age1,
+  .age2,
+  .age3,
+  .age4,
+  .age5 {
+    color: var(--ink-p-fg);
+    white-space: nowrap;
+  }
+
+  .age1 {
+    background:
+      var(--if-dark, #0a5507)
+      var(--if-light, #beedbc);
+  }
+
+  .age2 {
+    background:
+      var(--if-dark, #304001)
+      var(--if-light, #ddfa8e);
+  }
+
+  .age3 {
+    background:
+      var(--if-dark, #4c4501)
+      var(--if-light, #fdf18c);
+  }
+
+  .age4 {
+    background:
+      var(--if-dark, #4f2700)
+      var(--if-light, #fed3a9);
+  }
+
+  .age5 {
+    background:
+      var(--if-dark, #3e0505)
+      var(--if-light, #fbc4c4);
+  }
+
+  td.bugs {
+    cursor: text;
+
+    a.bug {
+      text-decoration: underline;
+      color: var(--ink-p-link-fg);
+    }
+
+    .bug {
+      white-space: nowrap;
+    }
+  }
+
+  .diff-size-column {
+    font-size: 90%;
+
+    &.delete {
+      color: var(--rb-p-diff-delete-text-fg);
+    }
+
+    &.insert {
+      color: var(--rb-p-diff-insert-text-fg);
+    }
+  }
+
+  .month {
+    background-color: #E9E9E9;
+  }
+
+  .issue-count-container,
+  .shipit-count-container {
+    border-radius: 10px;
+    display: inline-block;
+    font-weight: bold;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  .issue-count,
+  .issue-verifying-count,
+  .shipit-count {
+    display: inline-block;
+    padding: 0.05em 0.8em;
+    vertical-align: bottom;
+  }
+
+  .issue-count + .issue-verifying-count {
+    padding-left: 0;
+  }
+
+  .issue-count-container {
+    border: 1px darken(@issue-opened-bg, 50%) solid;
+    color: #205003;
+    #gradient > .vertical-three-colors(@issue-opened-bg, @issue-opened-bg, 25%,
+                                       darken(@issue-opened-bg, 30%));
+
+    .rb-icon-datagrid-open-issues {
+      margin: 2px 3px 2px 0;
+    }
+
+    .rb-icon-datagrid-issue-verifying {
+      margin: 0 3px 0 0;
+    }
+  }
+
+  .shipit-count-container {
+    @_indicator-colors: #rb-ns-ui.datagrids.ship-it-indicator();
+
+    border: 1px @_indicator-colors[@border-color] solid;
+    color: @_indicator-colors[@text-color];
+    #gradient > .vertical-three-colors(
+      @_indicator-colors[@bg-color-1],
+      @_indicator-colors[@bg-color-1],
+      25%,
+      @_indicator-colors[@bg-color-2]);
+
+    &.-is-stale {
+      border-color: @_indicator-colors[@stale-border-color];
+      #gradient > .vertical-three-colors(
+        @_indicator-colors[@stale-bg-color-1],
+        @_indicator-colors[@stale-bg-color-1],
+        25%,
+        @_indicator-colors[@stale-bg-color-2]);
+    }
+
+    .rb-icon-datagrid-shipit {
+      margin: 1px 4px 1px 0;
+    }
+  }
+
+  .repository-column,
+  .submitter-column {
+    white-space: nowrap;
+  }
+
+  .submitter-column {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .summary {
+    cursor: pointer;
+    position: relative;
+
+    .no-summary {
+      color: var(--ink-p-fg-weak);
+      font-style: italic;
+    }
+
+    label {
+      border-radius: 4px;
+      display: inline;
+      float: left;
+      margin-right: 0.6em;
+      padding: 0 4px;
+      line-height: 1.4;
+
+      &.label-draft {
+        background: var(--rb-p-flag-draft-bg);
+        border: var(--ink-u-border-thin) var(--rb-p-flag-draft-border-color) solid;
+        color: var(--rb-p-flag-draft-fg);
+      }
+
+      &.label-submitted {
+        background: @summary-label-submitted-bg;
+        border: 1px @summary-label-submitted-border-color solid;
+        color: @summary-label-submitted-text-color;
+      }
+
+      &.label-discarded {
+        background: @summary-label-discarded-bg;
+        border: 1px @summary-label-discarded-border-color solid;
+        color: @summary-label-discarded-text-color;
+      }
+
+      &.label-archived {
+        background: @summary-label-archived-bg;
+        border: 1px @summary-label-archived-border-color solid;
+        color: @summary-label-archived-text-color;
+      }
+
+      &.label-muted {
+        background: @summary-label-muted-bg;
+        border: 1px @summary-label-muted-border-color solid;
+        color: @summary-label-muted-text-color;
+      }
+    }
+
+    /*
+     * The summary text.
+     *
+     * We're forcing this to be a block, and then setting overflow: hidden,
+     * which, along with the float: left in the label above, will cause the
+     * text to stay together and wrap as a cohesive block, without part of
+     * the text wrapping below the label.
+     *
+     * Yes, CSS is weird.
+     */
+    span {
+      display: block;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+  }
+}
+
+
+/****************************************************************************
+ * Styles for the User page
+ ****************************************************************************/
+.datagrid-page #user_page_profile {
+  margin-bottom: 1em;
+  text-align: center;
+
+  .nickname {
+    font-size: 1.4em;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .email, .group {
+    color: var(--ink-p-link-fg);
+  }
+
+  .fn, .email {
+    font-size: 1.2em;
+  }
+
+  .logged-in {
+    margin-top: 1.5em;
+  }
+}
