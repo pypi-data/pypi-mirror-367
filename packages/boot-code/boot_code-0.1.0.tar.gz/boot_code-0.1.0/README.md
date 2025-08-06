@@ -1,0 +1,169 @@
+
+![Logo](docs/boot_logo.png)
+
+👋 **Welcome to Boot\!**
+
+**Your AI-powered code generator.**
+**Write a 5-line spec. Get a working code base that passes tests and builds.**
+
+Boot uses AI to generate production-ready **PySpark**, **Python**, and **SQL** pipelines from simple specifications. No more boilerplate. No more setup hassle. Just describe what you want.
+
+-----
+
+### **Install (30 seconds)**
+
+#### Step 1: Prerequisites
+
+First, ensure you have the required tools installed on your system:
+
+Python: You'll need Python 3.11 or newer. You can check your version with python --version.
+
+Poetry: This project uses Poetry for dependency management. If you don't have it, install it using the officially recommended method:
+
+# This command downloads and runs the official installer
+```bash
+pip install poetry
+```
+
+After installation, close and reopen your terminal, or run `source "$HOME/.poetry/env"` to ensure the poetry command is available in your PATH. You can find more details at the official Poetry documentation.
+
+#### Step 2: Project Setup
+
+Once the prerequisites are met, you can set up the project:
+
+First, ensure you have an **API key** from [OpenAI](https://openai.com/api/) and/or [Google Gemini](https://ai.google.dev/gemini-api/docs).
+
+Next, set up your environment:
+
+```bash
+# 1. Clone the repository
+git clone git@github.com:renbytes/boot-code.git
+cd boot-code
+
+# 2. Install project dependencies
+poetry install
+
+# 3. Start a virtual environment
+poetry env activate
+
+# 3. Set up your API keys
+cp .env.example .env
+
+# 4. Edit the .env file to add your keys
+# OPENAI_API_KEY="sk-..."
+# GEMINI_API_KEY="AI..."
+```
+
+-----
+
+### **Use (2 minutes)**
+
+Run the main CLI module and follow the prompts:
+
+```bash
+# Activate the environment
+poetry shell
+
+# View available commands
+boot --help
+
+# Example: Validate a specification file
+boot validate path/to/your/spec.toml
+
+# Example: Generate a new pipeline
+boot generate path/to/your/spec.toml
+```
+
+That's it. Answer a few questions, and watch your pipeline appear.
+
+-----
+
+### **What You Get**
+
+  * **Complete project structure** with all the files you need.
+  * **Working code** that's ready to run on your data.
+  * **Unit tests** to ensure quality and reliability.
+  * **Visualizations** to help you see your results.
+  * **Documentation** so your team understands the pipeline.
+
+-----
+
+## **Why Boot?**
+
+Instead of spending **hours writing boilerplate**, Boot generates:
+
+✅ **Production-ready code** following best practices  
+✅ **Complete test suites** with 90%+ coverage  
+✅ **Interactive visualizations** for immediate insights  
+✅ **Professional documentation** your team will love  
+✅ **Modern tooling** (Streamlit, Black, pytest)
+
+### **Performance Comparison**
+
+| Metric | Manual Coding | With Boot |
+|--------|---------------|-----------|
+| Time to MVP | 4-8 hours | 2 minutes |
+| Lines of code | 200-500 | Generated |
+| Test coverage | ~60% | 90%+ |
+| Documentation | Minimal | Complete |
+
+-----
+
+#### Advanced Usage
+
+Below is an example of more advanced usage, using all available flags:
+
+```bash
+boot generate examples/consumer_tech/spec.toml \
+--provider gemini \ 
+--model gemini-2.5-pro \
+--api-key "AIzaSy..." \
+--two-pass \
+--temperature 0.1 \
+--timeout 180 \
+--output-dir Desktop/ecommerce_gemini_pro
+```
+
+poetry run boot generate examples/rust/my_rust_spec.toml --build-pass
+
+Where:
+* `--provider`: Explicitly selects the LLM provider, overriding any default or `.env` setting.
+* `--model`: Specifies a particular model to use for the generation, rather than the default.
+* `--api-key`: Provides the API key directly on the command line, which takes precedence over any key in an `.env` file or other environment settings.
+* `--two-pass`: Enables the secondary review pass, where the initial code is sent back to the LLM for refinement and improvement
+* `--temperature`: Sets the generation temperature to a very low value, making the output more deterministic and less random.
+* `--timeout`: Sets the API request timeout, which is useful for complex specifications that may take the model longer to process.
+* `--output-dir`: Specifies a custom directory for the generated project files, overriding the default `generated_jobs` location.
+
+### **Examples**
+
+Explore real-world use cases in the `examples/` directory:
+
+  * **[E-commerce](https://www.google.com/search?q=examples/ecommerce/)** - Top selling products analysis (SQL)
+  * **[Healthcare](https://www.google.com/search?q=examples/healthcare/)** - Patient length of stay analysis (SQL)
+  * **[Finance](https://www.google.com/search?q=examples/finance/)** - Stock volatility calculation (Python)
+  * **[Energy](https://www.google.com/search?q=examples/energy/)** - Renewable energy production analysis (Python)
+  * **[Consumer Tech](https://www.google.com/search?q=examples/consumer_tech/)** - Ad attribution pipeline (PySpark)
+
+-----
+
+### **Supported Languages**
+
+| Language  | Framework | Use Case                        |
+| :-------- | :-------- | :------------------------------ |
+| **Python** | pandas    | Data analysis, reporting        |
+| **PySpark** | Spark     | Big data, distributed computing |
+| **SQL** | dbt-style | Data warehousing, analytics     |
+
+-----
+
+### **Development**
+
+See the [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
+
+-----
+
+### **Support**
+
+  * 📖 **Documentation:** Check the `docs/` directory.
+  * 🐛 **Issues:** Report bugs on [GitHub Issues](https://github.com/renbytes/boot-code/issues).
