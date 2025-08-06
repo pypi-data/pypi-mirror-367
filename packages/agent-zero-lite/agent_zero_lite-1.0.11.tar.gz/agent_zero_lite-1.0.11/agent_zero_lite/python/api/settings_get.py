@@ -1,0 +1,13 @@
+from agent_zero_lite.python.helpers.api import ApiHandler, Request, Response
+
+from agent_zero_lite.python.helpers import settings
+
+class GetSettings(ApiHandler):
+    
+    @classmethod
+    def requires_auth(cls) -> bool:
+        return False
+        
+    async def process(self, input: dict, request: Request) -> dict | Response:
+        set = settings.convert_out(settings.get_settings())
+        return {"settings": set}
