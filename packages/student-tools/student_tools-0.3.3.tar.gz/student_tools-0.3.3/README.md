@@ -1,0 +1,43 @@
+A collection of *English*, *Math*, and *Utility* tools, made for students.
+
+---
+
+**IMPORTANT NOTE**
+
+Upon first installing **or updating** `student-tools`, the first function(s) you run will tell you that your current installed version does not match any of the available listed versions on PyPI! Do not be afraid, this is only because **it takes time for it to scan for new versions on PyPI**! This is why that message will pop-up! (Or it might not happen because chances are it's just because when I tested it, I had *just* released the new version and so it didn't know the version existed yet...)
+
+---
+
+Recommended to be used with **Python 3.12**.
+
+For some reason it refuses to work with 3.13 even though all the modules it uses say they have support for 3.13! Because of this I have decided to limit the module to not be able to be installed with 3.13 because you won't be able to use it anyway!
+
+---
+
+**Requires** `sympy`, `pyfiglet`, `requests`, and `packaging`
+
+`cmd` > `pip install sympy pyfiglet requests packaging`
+
+---
+
+**Package name:** student_tools
+
+**Install with:** `pip install student-tools`
+
+**Update with:** `pip install --upgrade student-tools`
+
+**Use with:** `import st`
+
+---
+
+For a list of commands, use `st.cmds()`. I recommend using `st.info()` instead. For credits, use `st.credits()`.
+
+To check your current version, use `st.version()`. This will also tell you if you 1. need to update, 2. are using a yanked version, or 3. using an unknown or fake version.
+
+All functions will now secretly check the version, in case you need to change versions.
+
+To view the license, please use `st.license()`.
+
+---
+
+**Created by:** Error Dev **|** [https://devicals.github.io/](https://devicals.github.io/)
