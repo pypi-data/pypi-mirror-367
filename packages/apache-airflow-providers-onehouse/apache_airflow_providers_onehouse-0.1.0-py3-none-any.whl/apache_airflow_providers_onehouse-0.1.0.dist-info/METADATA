@@ -1,0 +1,202 @@
+Metadata-Version: 2.1
+Name: apache-airflow-providers-onehouse
+Version: 0.1.0
+Summary: Apache Airflow Provider for OneHouse
+Author: OneHouse
+Author-email: 
+License: Apache License 2.0
+Project-URL: Bug Tracker, https://github.com/onehouseinc/airflow-providers-onehouse/issues
+Project-URL: Source Code, https://github.com/onehouseinc/airflow-providers-onehouse
+Keywords: airflow,onehouse,provider
+Classifier: Framework :: Apache Airflow
+Classifier: Framework :: Apache Airflow :: Provider
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: apache-airflow >=2.9.2
+
+# Apache Airflow Provider for Onehouse
+
+This is the Apache Airflow provider for Onehouse. It provides operators and sensors for managing Onehouse resources through Apache Airflow.
+
+## Requirements
+
+- Apache Airflow >= 2.9.2
+- Python >= 3.10
+
+## Installation
+
+You can install this provider package via pip:
+
+```bash
+pip install apache-airflow-providers-onehouse
+```
+
+## Configuration
+
+1. Set up an Airflow connection with the following details:
+
+   - Connection Id: `onehouse_default` (or your custom connection id)
+   - Connection Type: `Generic`
+   - Host: `https://api.onehouse.ai`
+   - Extra: Configure the following JSON:
+     ```json
+     {
+       "project_uid": "your-project-uid",
+       "user_id": "your-user-id",
+       "api_key": "your-api-key",
+       "api_secret": "your-api-secret",
+       "link_uid": "your-link-uid",
+       "region": "your-region"
+     }
+     ```
+
+## Usage
+
+### Basic Example DAG
+
+```python
+from datetime import datetime, timedelta
+from airflow import DAG
+from airflow_providers_onehouse.operators.jobs import (
+    OnehouseCreateJobOperator,
+    OnehouseRunJobOperator,
+    OnehouseDeleteJobOperator,
+)
+from airflow_providers_onehouse.sensors.onehouse import OnehouseJobRunSensor
+
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=1),
+}
+
+cluster_name = "cluster_1"
+job_name = "job_1"
+
+with DAG(
+        dag_id="example_dag",
+        default_args=default_args,
+        description="Example DAG",
+        schedule_interval=None,
+        start_date=datetime(2025, 4, 28),
+        catchup=False,
+        tags=["onehouse", "example", "dag"],
+) as dag:
+
+    create_onehouse_job = OnehouseCreateJobOperator(
+        task_id="create_onehouse_job",
+        job_name=job_name,
+        job_type="PYTHON",
+        parameters=[
+            "--conf", "spark.archives=s3a://lakehouse-albert-load-us-west-2/python/venv.tar.gz#environment",
+            "--conf", "spark.pyspark.python=./environment/bin/python",
+            "s3a://lakehouse-albert-load-us-west-2/python/hello_world_job.py",
+        ],
+        cluster_name="{{ ti.xcom_pull(task_ids='create_onehouse_cluster') }}",
+        conn_id="onehouse_default",
+    )
+
+    run_onehouse_job = OnehouseRunJobOperator(
+        task_id="run_onehouse_job",
+        job_name="{{ ti.xcom_pull(task_ids='create_onehouse_job') }}",
+        conn_id="onehouse_default",
+    )
+
+    wait_for_job = OnehouseJobRunSensor(
+        task_id="wait_for_job_completion",
+        job_name="{{ ti.xcom_pull(task_ids='create_onehouse_job') }}",
+        job_run_id="{{ ti.xcom_pull(task_ids='run_onehouse_job') }}",
+        conn_id="onehouse_default",
+        poke_interval=30,
+        timeout=60 * 60,
+    )
+
+    delete_onehouse_job = OnehouseDeleteJobOperator(
+        task_id="delete_onehouse_job",
+        job_name="{{ ti.xcom_pull(task_ids='create_onehouse_job') }}",
+        conn_id="onehouse_default",
+    )
+
+    (
+            create_onehouse_job
+            >> run_onehouse_job
+            >> wait_for_job
+            >> delete_onehouse_job
+    ) 
+```
+
+## Development
+### Setting up Development Environment
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/onehouseinc/airflow-providers-onehouse.git
+   cd airflow-providers-onehouse
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+   ```
+
+3. Install development dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+4. If you are creating new components like Operators, Sensors or a Hook, you need to 
+    * Add the classes to the appropriate module (e.g., `operators/jobs.py`)
+    * Update the module's `__init__.py` (e.g. `operators/__init__.py`) to export the class
+    * Add the operator to the main `__init__.py`  (e.g. `./__init__.py`)in two places:
+        * In the `operator-class-names` list in `get_provider_info()`
+        * In the `__all__` list
+
+### Running Tests
+#### Unit Tests
+```bash
+pytest tests/unit
+```
+#### Integration Tests
+**Setup the environment variables**
+```
+export AIRFLOW_CONN_ONEHOUSE_DEFAULT='{"conn_type": "Generic", "host": "https://api.onehouse.ai", "extra": {"project_uid": "abcd", "user_id": "efgh", "api_key": "jklm", "api_secret": "opqr", "link_uid": "stuv", "region": "qxyz"}}'
+```
+**Install requirements**
+```bash
+pip install -r requirments.txt
+```
+**Run all tests**
+```bash
+cd  tests/integration && pytest test_integration.py -v
+```
+**Run select test**
+```bash
+cd  tests/integration && pytest test_integration.py::TestOnehouseIntegration::test_open_engines_clusters -v
+```
+
+
+### Local Testing with Docker
+#### Pre-requisite:
+* Install Docker
+
+#### Steps
+1. Start the Airflow environment:
+   ```bash
+   cd tests/integration
+   docker-compose up -d
+   ```
+
+2. Access the Airflow UI at http://localhost:8080
+
+3. Use below credentials to login
+    * Username: `admin`
+    * Password: `admin`
+
+4. Stop the Airflow environment:
+   ```bash
+   docker-compose down -v
+   ```
