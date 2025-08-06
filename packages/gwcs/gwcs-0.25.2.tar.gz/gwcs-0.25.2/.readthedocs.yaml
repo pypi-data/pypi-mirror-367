@@ -1,0 +1,34 @@
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+version: 2
+
+sphinx:
+  builder: html
+  configuration: docs/conf.py
+  fail_on_warning: true
+
+build:
+  os: ubuntu-22.04
+  tools:
+    python: mambaforge-4.10
+  jobs:
+    post_checkout:
+      - git fetch --unshallow || true
+      - git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' || true
+      - git fetch --all --tags || true
+    pre_install:
+      - git update-index --assume-unchanged docs/rtd_environment.yaml docs/conf.py
+
+conda:
+  environment: docs/rtd_environment.yaml
+
+# Set the version of Python and requirements required to build your docs
+python:
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
+
+# Don't build any extra formats
+formats: []
