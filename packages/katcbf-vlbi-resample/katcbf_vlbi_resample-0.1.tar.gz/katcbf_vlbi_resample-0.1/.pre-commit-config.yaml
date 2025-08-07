@@ -1,0 +1,44 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-executables-have-shebangs
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: no-commit-to-branch # without arguments, master/main will be protected.
+      - id: trailing-whitespace
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.7
+    hooks:
+      - id: ruff-format
+      - id: ruff-check
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.17.0
+    hooks:
+      - id: mypy
+        # Passing filenames to mypy can do odd things.
+        # pyproject.toml determines the set of files that will actually be checked.
+        pass_filenames: false
+        # The pre-commit hook passes some options, but we set options in pyproject.toml.
+        args: []
+        additional_dependencies:
+          - astropy==7.1.0
+          - baseband==4.3.0
+          - h5py==3.14.0
+          - numpy==2.3.2
+          - scipy==1.16.1
+          - xarray==2025.7.1
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.8.3
+    hooks:
+      - id: pip-compile
+        args:
+          - "--output-file=requirements.txt"
+          - "--extra=dev"
+          - "--extra=doc"
+          - "--python-version=3.12"
+          - "pyproject.toml"
+        files: '^(pyproject\.toml|requirements\.txt)$'
