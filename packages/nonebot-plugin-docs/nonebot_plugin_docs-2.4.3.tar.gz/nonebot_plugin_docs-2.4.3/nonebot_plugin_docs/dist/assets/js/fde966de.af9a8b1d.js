@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunknonebot=self.webpackChunknonebot||[]).push([["1059"],{58574:function(n,t,e){e.r(t),e.d(t,{default:function(){return r}});var u=e(24246);e(27378);var o=e(3620);function r(){return(0,u.jsx)(o.l_,{to:"/store/plugins"})}}}]);
