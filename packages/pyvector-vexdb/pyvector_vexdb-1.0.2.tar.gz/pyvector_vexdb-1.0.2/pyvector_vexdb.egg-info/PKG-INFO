@@ -1,0 +1,172 @@
+Metadata-Version: 2.4
+Name: pyvector-vexdb
+Version: 1.0.2
+Summary: pyvector support for vexdb
+Author-email: vexdb <contact@vexdb.io>
+License: MIT
+Project-URL: Homepage, http://vexdb.siftdb.com/
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+
+# pyvector-vexdb
+
+pyvector support for vexdb
+
+Supports [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy),[Psycopg 2](https://github.com/psycopg/psycopg2)
+
+Run:
+
+```shell
+pip install pyvector-vexdb
+```
+
+And follow the instructions for your database library:
+
+- [pyvector-vexdb](#pyvector-vexdb)
+  - [SQLAlchemy](#sqlalchemy)
+  - [Psycopg 2](#psycopg-2)
+
+
+## SQLAlchemy
+
+映射向量列
+
+```python
+from vexdb.sqlalchemy import FloatVector
+
+class Item(Base):
+    embedding = mapped_column(FloatVector(3))
+```
+
+插入向量
+
+```python
+item = Item(embedding=[1, 2, 3])
+session.add(item)
+session.commit()
+```
+
+查询近似向量 使用欧几里得距离操作符 `l2_distance(<->)`
+
+```python
+session.scalar(select(Item).order_by(Item.embedding.l2_distance([3, 1, 2])).limit(5))
+```
+
+还支持以下操作符
+- `negative_inner_product(<#>)`
+- `consine_distance(<=>`
+- `add(+)`
+- `sub(-)`
+
+查询向量的欧几里得距离
+
+```python
+session.scalar(select(Item.embedding.l2_distance([3, 1, 2])))
+```
+
+查询近似向量（使用欧几里得距离）
+
+```python
+session.scalar(select(Item).filter(Item.embedding.l2_distance([3, 1, 2]) < 5))
+```
+
+函数调用
+```python
+session.scalar(session.query(floatvector_combine([1.0,2.0,3.0], [4,5,6])))
+```
+
+还支持以下函数（函数说明请参考使用手册）
+- `floatvector_accum`
+- `floatvector_cmp`
+- `floatvector_gt`
+- `floatvector_ge`
+- `floatvector_ne`
+- `floatvector_eq`
+- `floatvector_le`
+- `floatvector_lt`
+- `floatvector_spherical_distance`
+- `floatvector_negative_inner_product`
+- `floatvector_l2_squared_distance`
+- `floatvector_avg`
+- `floatvector_sub`
+- `floatvector_add`
+- `floatvector_norm`
+- `floatvector_dims`
+- `l2_distance`
+- `inner_product`
+- `cosine_distance`
+
+近似最近邻索引
+
+```python
+index = Index(
+    'my_index',
+    Item.embedding,
+    postgresql_using='hnsw',
+    postgresql_with={'m': 16, 'ef_construction': 64},
+    postgresql_ops={'embedding': 'floatvector_l2_ops'}
+)
+# or
+index = Index(
+    'my_index',
+    Item.embedding,
+    postgresql_using='ivfflat',
+    postgresql_with={'ivf_nlist': 100},
+    postgresql_ops={'embedding': 'floatvector_l2_ops'}
+)
+```
+
+索引构建还支持以下操作符
+- `floatvector_l2_ops` 计算向量的欧几里得距离
+- `floatvector_ip_ops` 计算向量的内积
+- `floatvector_consine_ops` 计算向量的余弦距离
+
+## Psycopg 2
+
+注册向量类型到连接或者游标
+
+```python
+from vexdb.psycopg2 import register_vector
+
+register_vector(conn)
+```
+
+创建带有向量类型的表
+
+```python
+cur.execute('CREATE TABLE items (id bigint PRIMARY KEY, embedding floatvector(3))')
+```
+
+插入向量字段
+
+```python
+embedding = np.array([1, 2, 3])
+cur.execute('INSERT INTO items (embedding) VALUES (%s)', (embedding,))
+```
+
+获取最近邻向量
+
+```python
+cur.execute('SELECT * FROM items ORDER BY embedding <-> %s LIMIT 5', (embedding,))
+cur.fetchall()
+```
+
+floatvector_combine
+```python
+cur.execute('select flaotvector_combine(%s,%s)', (embedding1, embeeding2,))
+cur.fetch()
+```
+
+创建向量索引
+
+```python
+cur.execute('CREATE INDEX ON items USING hnsw (embedding floatvector_l2_ops)')
+# or
+cur.execute('CREATE INDEX ON items USING ivfflat (embedding floatvector_l2_ops) WITH (ivf_nlist = 100)')
+```
+
+索引构建还支持以下操作符
+- `floatvector_l2_ops` 计算向量的欧几里得距离
+- `floatvector_ip_ops` 计算向量的内积
+- `floatvector_consine_ops` 计算向量的余弦距离
