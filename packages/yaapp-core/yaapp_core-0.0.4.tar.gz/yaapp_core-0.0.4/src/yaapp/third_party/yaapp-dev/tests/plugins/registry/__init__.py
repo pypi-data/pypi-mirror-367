@@ -1,0 +1,1 @@
+# Registry plugin tests
