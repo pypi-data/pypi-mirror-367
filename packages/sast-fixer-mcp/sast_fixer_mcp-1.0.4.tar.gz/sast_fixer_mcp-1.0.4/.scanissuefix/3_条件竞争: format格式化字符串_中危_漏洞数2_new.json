@@ -1,0 +1,20 @@
+{
+  "issue_title": "条件竞争: format格式化字符串【中危】(漏洞数：2)",
+  "issue_level": "Medium",
+  "issue_count": "2",
+  "issue_desc": "在Java应用程序中，当多个线程并发访问和修改具有格式化字符串操作的共享资源时，可能会引发条件竞争漏洞。这种类型的漏洞发生在代码未能正确同步访问共享资源，导致数据竞争，进而可能导致程序行为异常、数据损坏或安全漏洞。public class RaceConditionExample {\n    private static String lastUser;\n    public void setUser(String user) {\n        lastUser = user; // 存在条件竞争，多个线程可能同时修改lastUser\n        System.out.printf(\"%s has logged in.\", lastUser);\n    }\n}",
+  "fix_advice": "为了修复这种类型的条件竞争漏洞，应当确保对共享资源的访问在同一时间只能由一个线程进行。这可以通过使用同步机制，如synchronized关键字或显式锁（如ReentrantLock），来实现。",
+  "code_sample": "public class RaceConditionExampleFixed {\n    private static String lastUser;\n    public static synchronized void setUser(String user) {\n        lastUser = user; // 通过synchronized关键字修复条件竞争\n        System.out.printf(\"%s has logged in.\", lastUser);\n    }\n}",
+  "code_list": [
+    {
+      "code_location": "acepilot-api-server/src/main/java/com/chinamobile/cmss/acepilot/api/server/utils/EcloudSignature.java",
+      "code_line_num": "54",
+      "code_details": "query.put(TIME_STAMP, sdf.format(new Date()));"
+    },
+    {
+      "code_location": "acepilot-server-data-processor/acepilot-server-data-consumer/src/main/java/com/chinamobile/cmss/acepilot/server/data/utils/DateTimeUtils.java",
+      "code_line_num": "66",
+      "code_details": "return simpleDateFormat.parse(dateString);"
+    }
+  ]
+}
