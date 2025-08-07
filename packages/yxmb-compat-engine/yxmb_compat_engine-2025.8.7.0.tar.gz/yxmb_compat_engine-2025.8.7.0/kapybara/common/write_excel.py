@@ -1,0 +1,1 @@
+from yxmb_compatlib.comment.write_excle import excel_append  # noqa: F401

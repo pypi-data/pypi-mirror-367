@@ -1,0 +1,75 @@
+[project]
+name = "yxmb-compat-engine"
+version = "2025.8.7.0"
+description = "宇信慢病兼容版引擎"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dask>=2025.7.0",
+    "ddddocr>=1.5.6",
+    "ocr-hooks>=2025.8.4.1",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.1",
+    "pydantic>=2.11.7",
+    "pyinstaller>=6.15.0",
+    "selenium>=4.34.2",
+    "tqdm>=4.67.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+ignore-vcs = true
+packages = [
+    "yxmb_compat_engine",
+    "phis_login",
+    "phis_logging",
+    "phis_config",
+    "phis_build",
+    "phis_doctor_advice",
+    "phis_lifestyle_advice",
+    "phis_introducing_med",
+    "yxmb_compatlib",
+    "kapybara",
+]
+exclude = ["__pycache__", "*.pyc", "*.exe", "*.exe~", "*.syso"]
+
+[tool.hatch.build.targets.wheel]
+ignore-vcs = true
+packages = [
+    "yxmb_compat_engine",
+    "phis_login",
+    "phis_logging",
+    "phis_config",
+    "phis_build",
+    "phis_doctor_advice",
+    "phis_lifestyle_advice",
+    "phis_introducing_med",
+    "yxmb_compatlib",
+    "kapybara",
+]
+exclude = ["__pycache__", "*.pyc", "*.exe~", "*.syso"]
+
+[tool.ruff.lint]
+ignore = [
+    "E722", # 不要使用裸 except（except:），应指定异常类型
+    "F541", # f-string 中未使用的表达式
+    "F841", # 局部变量被赋值但未使用
+    # "F401", # 导入但未使用的模块
+    "F811", # 变量或函数重复定义
+    "E731", # 不要把 lambda 表达式赋值给变量，建议用 def
+    "E402", # import 语句不在文件顶部
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[project.entry-points."pyinstaller40"]
+hook-dirs = "yxmb_compatlib._pyinstaller:get_hook_dirs"
+
+[project.scripts]
+phis_build = "phis_build.main:main"
+phis-build = "phis_build.main:main"
+new_follow_up = "yxmb_compat_engine.compat.compat_main:main"
