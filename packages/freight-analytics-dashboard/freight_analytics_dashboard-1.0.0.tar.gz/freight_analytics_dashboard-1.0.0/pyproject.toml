@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "freight-analytics-dashboard"
+version = "1.0.0"
+description = "Advanced US Freight Analytics Dashboard with Interactive Visualizations"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Megh KC", email = "kc.megh2048@gmail.com"},
+]
+keywords = ["freight", "analytics", "dashboard", "visualization", "streamlit", "logistics"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "streamlit>=1.28.0",
+    "pandas>=1.5.0",
+    "plotly>=5.0.0",
+    "matplotlib>=3.5.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black>=21.0",
+    "flake8>=3.8",
+]
+
+[project.scripts]
+freight-dashboard = "freight_analytics.cli:main"
+freight-analytics = "freight_analytics.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/meghkc/DashBoard"
+Repository = "https://github.com/meghkc/DashBoard"
+Issues = "https://github.com/meghkc/DashBoard/issues"
+Documentation = "https://github.com/meghkc/DashBoard/blob/main/README.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["freight_analytics*"]
+
+[tool.setuptools.package-data]
+freight_analytics = ["data/*.csv", "data/*.json"]
