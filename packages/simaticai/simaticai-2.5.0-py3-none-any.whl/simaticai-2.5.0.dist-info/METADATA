@@ -1,0 +1,131 @@
+Metadata-Version: 2.3
+Name: simaticai
+Version: 2.5.0
+Summary: AI Software Development Kit
+License: MIT
+Author: Siemens AG
+Requires-Python: >=3.10.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: MarkupPy (>=1.14,<2.0)
+Requires-Dist: Parsley (==1.3)
+Requires-Dist: PyYAML (>=6.0.1,<7.0.0)
+Requires-Dist: idna (>=3.7)
+Requires-Dist: joblib (>=1.2.0)
+Requires-Dist: jsonschema (>=4.0.1,<5.0.0)
+Requires-Dist: onnx (>=1.17,<2.0)
+Requires-Dist: onnxruntime (>=1.17,<2.0)
+Requires-Dist: opencv-python-headless (>=4.9.0.80)
+Requires-Dist: pip (>23.2.1)
+Requires-Dist: protobuf (>=5.29.4,<6.0.0)
+Requires-Dist: requests (>=2.32.3)
+Requires-Dist: tomli (>=2.2.1)
+Requires-Dist: wheel (>=0.43.0)
+Project-URL: Changelog, https://github.com/industrial-edge/ai-sdk/blob/main/CHANGELOG.md
+Project-URL: Documentation, https://github.com/industrial-edge/ai-sdk-tutorials
+Project-URL: Homepage, https://github.com/industrial-edge/ai-sdk
+Project-URL: Issues, https://github.com/industrial-edge/ai-sdk/issues
+Project-URL: Repository, https://github.com/industrial-edge/ai-sdk.git
+Description-Content-Type: text/markdown
+
+# AI Software Development Kit (Industrial AI Suite) 
+## Streamline Industrial AI Development and Deployment
+ 
+The AI Software Development Kit (the `simaticai` Python Package) is a comprehensive Python library designed to simplify the creation, packaging, and testing of AI inference pipelines for the `Industrial AI Suite`. Part of Siemens' Industrial Edge ecosystem, this SDK accelerates the integration of AI solutions into manufacturing environments.
+
+## Key Features 
++ **Complete ML Pipeline Support**: Create and package AI inference pipelines with ease
++ **Notebook-Based Tutorials**: Ready-to-use [End to End Tutorials](https://github.com/industrial-edge/ai-sdk-tutorials/) for model training and deployment
++ **Industrial Edge Integration**: Seamless connectivity with SIMATIC and Industrial Edge infrastructure
++ **Cloud Compatibility**: Native integration with leading cloud-based ML environments (such as [Microsoft Azure](https://github.com/industrial-edge/reference-architecture-for-industrial-ai-on-azure)) <br> 
++ **GPU Acceleration**: Optimized for NVIDIA GPU-powered Industrial PCs 
++ **Production-Ready**: Built for industrial-grade reliability and performance
+ 
+## Quick Links
+### Documentation & Resources
++ [Industrial AI Suite Overview](https://www.siemens.com/global/en/products/automation/topic-areas/industrial-ai/industrial-ai-suite.html) <br>
++ [Developer Documentation](https://docs.industrial-operations-x.siemens.cloud/r/en-us/2.4.0/ai-sdk-operation-manual) <br>
++ [AI SDK Tutorials](https://code.siemens.com/siemens-ai-launcher-sail/ai-designer/ai-sdk-tutorials) <br>
++ [Microsoft Azure Reference Architecture](https://github.com/industrial-edge/reference-architecture-for-industrial-ai-on-azure)
+
+### Support
++ Enterprise-grade Siemens support <br>
++ Industrial Edge ecosystem backing <br>
++ Regular updates and security patches <br>
++ Technical consultation available <br>
++ Website: https://support.industry.siemens.com/
+
+## Quick Start
+The code examples only represent the main steps to create an AI Inference Pipeline using Package simaticai, to enjoy the full experience, please study the [public tutorials](https://github.com/industrial-edge/ai-sdk-tutorials/) or discover the [code repository](https://github.com/industrial-edge/ai-sdk) on Github.
+
+### Create an AI inference pipeline
+```python
+from simaticai.deployment import PythonComponent, Pipeline
+# creating a Pipeline Step for classification
+classification = PythonComponent(name="classification")  
+
+# [..] additional steps to add resources and defining the environment
+
+# creating of the Pipeline
+pipeline = Pipeline("Image Classification")  
+# adding the classification step
+pipeline.add_component(classification)  
+
+# [..] final steps to define the Pipeline properties and behavior
+```
+
+### Package for deployment
+```python
+# saving the Pipeline for deployment
+package_path = pipeline.export("./deploy")
+```
+
+## Prerequisites
++ Python >=3.10
++ pip >= 21.3.1 (automatically upgraded during installation)
++ Compatible with Industrial Edge devices
++ NVIDIA GPU support (recommended)
+
+## Why choose AI SDK? 
+🏭 Bridge the gap between AI development and shop floor deployment <br>
+🚀 Accelerate time-to-value for industrial AI solutions <br>
+🔄 Streamline ML operations across multiple locations <br>
+🛠️ User-friendly tools for automation engineers <br>
+🔌 Native integration with SIMATIC and Industrial Edge ecosystem <br>
+☁️ Cloud-ready architecture
+
+## Part of Industrial AI Suite
+This SDK is a core component of the Industrial AI Suite, which provides:
++ Seamless cloud integration <br>
++ Complete MLOps infrastructure <br>
++ Multi-location model scaling <br>
++ Industrial Edge ecosystem integration <br>
++ User-friendly deployment tools <br>
++ Production monitoring capabilities <br>
+
+
+## Benefits
+### For Data Scientists
++ Focus on model development while we handle deployment <br>
++ Familiar notebook-based workflows <br>
++ Seamless integration with existing ML tools <br>
++ Support for most used frameworks and multiple libraries <br>
+
+### For Automation Engineers
++ No prior data science experience required <br>
++ User-friendly deployment interfaces <br>
++ Integrated monitoring solutions <br>
+
+### For Operations
++ Scale AI solutions across locations <br>
++ Reliable industrial-grade performance <br>
++ Fast return on investment <br>
+
+# License
+MIT license - Contact Siemens for licensing options
+
