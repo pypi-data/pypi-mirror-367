@@ -1,0 +1,20 @@
+{
+  "issue_title": "不安全的JSON反序列化【高危】(漏洞数：7)",
+  "issue_level": "High",
+  "issue_count": "7",
+  "issue_desc": "不安全的JSON反序列化漏洞发生在应用程序将接收到的JSON字符串反序列化为Java对象时，没有适当地验证或清理数据，导致攻击者能够提交恶意JSON数据，执行未授权的代码或操作。这可能导致各种攻击，包括但不限于远程代码执行、拒绝服务攻击等。public class UnsafeDeserialization {\n    public void deserialize(String jsonStr) {\n        ObjectMapper mapper = new ObjectMapper();\n        mapper.enableDefaultTyping(); // 不安全的配置\n        Object obj = mapper.readValue(jsonStr, Object.class); // 反序列化操作\n        // 使用obj进行后续操作\n    }\n}",
+  "fix_advice": "避免使用默认类型激活或不安全的反序列化功能。确保对输入数据进行严格的验证，并使用安全的反序列化方法。可以考虑使用自定义的白名单或使用具有安全默认配置的库。",
+  "code_sample": "public class SafeDeserialization {\n    public void deserialize(String jsonStr) {\n        ObjectMapper mapper = new ObjectMapper();\n        // 禁用默认类型激活，增加安全性\n        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);\n        SimpleModule module = new SimpleModule();\n        module.addDeserializer(Object.class, new SafeDeserializer()); // 使用自定义的安全反序列化器\n        mapper.registerModule(module);\n        Object obj = mapper.readValue(jsonStr, Object.class); // 安全反序列化操作\n        // 使用obj进行后续操作\n    }\n}\n\nclass SafeDeserializer extends StdDeserializer {\n    public SafeDeserializer() {\n        super(Object.class);\n    }\n\n    @Override\n    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {\n        // 实现安全的反序列化逻辑\n        throw new UnsupportedOperationException(\"直接反序列化为Object类是不安全的操作\");\n    }\n}",
+  "code_list": [
+    {
+      "code_location": "acepilot-server-common/src/main/java/com/chinamobile/cmss/acepilot/server/common/utils/JSONUtils.java",
+      "code_line_num": "160",
+      "code_details": "objectMapper.readValue(json, listType)"
+    },
+    {
+      "code_location": "acepilot-server-common/src/main/java/com/chinamobile/cmss/acepilot/server/common/utils/JSONUtils.java",
+      "code_line_num": "122",
+      "code_details": "objectMapper.readValue(json, clazz)"
+    }
+  ]
+}

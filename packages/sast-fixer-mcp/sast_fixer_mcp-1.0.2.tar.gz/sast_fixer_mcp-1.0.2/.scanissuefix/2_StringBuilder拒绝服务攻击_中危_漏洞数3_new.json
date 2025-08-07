@@ -1,0 +1,25 @@
+{
+  "issue_title": "StringBuilder拒绝服务攻击【中危】(漏洞数：3)",
+  "issue_level": "Medium",
+  "issue_count": "3",
+  "issue_desc": "此漏洞发生在当应用程序使用StringBuilder或类似API在处理用户控制的输入时，未对输入的大小进行限制，导致攻击者可以通过提交大量数据造成内存消耗，从而引发拒绝服务（DoS）攻击。public String buildString(int count, String content) {\n    StringBuilder builder = new StringBuilder();\n    for (int i = 0; i < count; i++) {\n        builder.append(content);\n    }\n    return builder.toString();\n}",
+  "fix_advice": "对用户控制的输入进行大小限制，避免处理过大的输入数据。可以通过预先定义输入的最大长度，或者在处理输入之前验证其大小，来防止拒绝服务攻击。",
+  "code_sample": "public String buildString(int count, String content) {\n    final int MAX_COUNT = 1000; // 定义最大迭代次数\n    StringBuilder builder = new StringBuilder();\n    count = Math.min(count, MAX_COUNT); // 限制count的大小\n    for (int i = 0; i < count; i++) {\n        builder.append(content);\n    }\n    return builder.toString();\n}",
+  "code_list": [
+    {
+      "code_location": "acepilot-api-server/src/main/java/com/chinamobile/cmss/acepilot/api/server/utils/EcloudSignature.java",
+      "code_line_num": "207",
+      "code_details": "sbf.append(scanner.nextLine());"
+    },
+    {
+      "code_location": "acepilot-api-server/src/main/java/com/chinamobile/cmss/acepilot/api/server/utils/EcloudSignature.java",
+      "code_line_num": "207",
+      "code_details": "sbf.append(scanner.nextLine());"
+    },
+    {
+      "code_location": "acepilot-server-client/computer-feign-client/src/main/java/com/chinamobile/cmss/computer/client/config/EventStreamDecoder.java",
+      "code_line_num": "30",
+      "code_details": "sb.append(line.substring(5)).append(\"\\n\");"
+    }
+  ]
+}
