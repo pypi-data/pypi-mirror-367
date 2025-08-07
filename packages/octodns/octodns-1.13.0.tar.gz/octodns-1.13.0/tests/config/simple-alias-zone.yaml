@@ -1,0 +1,22 @@
+manager:
+  max_workers: 2
+providers:
+  in:
+    class: octodns.provider.yaml.YamlProvider
+    directory: tests/config
+    strict_supports: False
+  dump:
+    class: octodns.provider.yaml.YamlProvider
+    directory: env/YAML_TMP_DIR
+    supports_root_ns: False
+    strict_supports: False
+zones:
+  unit.tests.:
+    sources:
+      - in
+    targets:
+      - dump
+  
+  alias.tests.:
+    alias: unit.tests.
+

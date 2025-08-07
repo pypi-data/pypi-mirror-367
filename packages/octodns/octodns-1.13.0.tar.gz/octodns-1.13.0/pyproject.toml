@@ -1,0 +1,19 @@
+[tool.black]
+line-length=80
+skip-string-normalization=true
+skip-magic-trailing-comma=true
+
+[tool.coverage.run]
+omit=["octodns/cmds/*"]
+
+[tool.isort]
+profile = "black"
+known_first_party="octodns"
+line_length=80
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    'error',
+    'ignore:.*DEPRECATED.*2.0',
+]
+pythonpath = "."
