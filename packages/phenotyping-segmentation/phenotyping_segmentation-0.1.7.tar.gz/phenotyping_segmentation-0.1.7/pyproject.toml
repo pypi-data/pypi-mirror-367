@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phenotyping-segmentation"
+version = "0.1.7"
+description = "A segmentation pipeline for phenotyping"
+authors = [
+    { name="Lin Wang", email="wanglin9926@gmail.com" }
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "opencv-python-headless",  # Use headless version to avoid GUI issues on servers
+    "torch==1.11.0",  # Match PyTorch version
+    "scikit-learn",
+    "segmentation-models-pytorch",
+    "albumentations",
+    "matplotlib",
+    "seaborn",
+    "ipywidgets",
+    "rich",
+    "jupyter",
+    "scikit-image",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+# ✅ isort configuration
+[tool.isort]
+profile = "black"
+lines_between_types = 1  # Optional: 1 line between stdlib, third-party, and local imports
+line_length = 88  # Match with black if used
+
+# [tool.pytest.ini_options]
+# testpaths = ["tests", "phenotyping_segmentation"]
+# python_files = "test_*.py"
+# addopts = "--disable-warnings"
