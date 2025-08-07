@@ -1,0 +1,155 @@
+Metadata-Version: 2.4
+Name: sidetool
+Version: 0.0.3
+Summary: Reserved name for future project
+Author-email: Alan Lilly <panofish@gmail.com>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# 🛠️ sidetool
+
+**sidetool** is a command-line utility and helper module that simplifies building [PySide6](https://doc.qt.io/qtforpython/) (and other GUI-based) Python 3.11+ applications into standalone executables using **PyInstaller 5.8.0**.
+
+It’s especially useful for GUI projects that include embedded resources (like `.ui` and `.qrc` files) and aim to produce portable `.exe` builds with minimal configuration.
+
+---
+
+## 🧰 Core Commands
+
+`sidetool` provides four main commands:
+
+### 1. `build`
+
+Recursively compiles `.ui` and `.qrc` files in the current directory and subdirectories using:
+
+- `pyside6-uic.exe`
+- `pyside6-rcc.exe`
+
+---
+
+### 2. `clean`
+
+Removes temporary files and build artifacts, including:
+
+- `__pycache__` folders  
+- `*_ui.py`, `*_rc.py`, `*.pyc`, `*.pyo`  
+- PyInstaller `build/` and `dist/` folders  
+- `.spec` files in the current directory
+
+---
+
+### 3. `compile`
+
+Builds your app into an executable using PyInstaller.
+
+This command:
+
+- Compiles `.ui` and `.qrc` components  
+- Generates a PyInstaller `.spec` file  
+- Runs PyInstaller with the provided options
+
+#### 🔧 Usage
+
+```bash
+sidetool.compile.py --file FILE --type {onefile,onedir,console} [--icon ICON] [--embed EMBED]
+```
+
+#### 📘 Parameters
+
+```text
+  -h, --help                Show this help message and exit
+  --file FILE               Python file to compile into .exe
+  --type {onefile,onedir,console}
+                            Type of executable to build
+  --icon ICON               Optional .ico file for app icon
+  --embed EMBED             Comma-delimited list of files to embed
+```
+
+---
+
+### 4. `run`
+
+Runs your GUI app after auto-compiling any `.ui` or `.qrc` components.
+
+This command:
+
+- Calls the internal `build` logic to ensure UI resources are compiled
+- Executes the main Python script using `pythonw.exe`
+
+---
+
+## 🚀 Example Workflow
+
+A typical `sidetool` project organizes all `.py`, `.ui`, and `.qrc` files in a single folder. Automate your workflow using batch scripts:
+
+### `.run.bat`
+
+Build UI components and run your Python GUI:
+
+```bat
+PythonRun.py myprogram.py
+```
+
+### `.compile.bat`
+
+Build and compile to a standalone executable:
+
+```bat
+PythonCompile.py --file="myprogram.py" --type="onefile" --icon="myicon.ico" --embed="sqlite3.dll"
+```
+
+### `.clean.bat`
+
+Clean up build artifacts and temporary files:
+
+```bat
+PythonClean.py
+```
+
+---
+
+## 🔧 Features
+
+- One-command compilation using PyInstaller  
+- Auto-compiles `.ui` and `.qrc` files  
+- Script-friendly CLI for `.bat` or `.sh` workflows  
+- Supports:
+  - `onefile`, `onedir`, and `console` modes  
+  - Custom `.ico` icons  
+  - Optional resource embedding
+
+---
+
+## 📦 Requirements
+
+- Python **3.11+**  
+- PySide6  
+- PyInstaller **5.8.0**
+
+---
+
+## 📥 Installation
+
+Install via pip:
+
+```bash
+pip install sidetool
+```
+
+---
+
+## ❤️ Why Use sidetool?
+
+If you build desktop apps using PySide6 or PyQt, `sidetool` helps by:
+
+- Rapidly compiling your UI files
+- Packaging your application with minimal commands
+- Automating repetitive tasks like building and cleanup
+- Integrating easily with `.bat` scripts or shell commands
+
+---
+
+## 📄 License
+
+MIT License
