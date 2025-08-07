@@ -1,0 +1,252 @@
+# 🔐 RightsToSecure Hybrid Crypto Wrapper
+
+> **Practical Hybrid Post-Quantum Cryptography Implementation**  
+> Developed by **RightsToSecure**  
+> Founder: **Praveen Naidu**
+
+---
+
+## 🛡️ Overview
+
+The **RightsToSecure Hybrid Crypto Wrapper** is a production-ready Python library that implements hybrid cryptography by combining classical algorithms (RSA/ECDSA) with post-quantum cryptography (Kyber/Dilithium). This approach provides **quantum resistance** while maintaining **backward compatibility** with existing cryptographic infrastructure.
+
+### 🎯 **Key Benefits**
+- **Quantum-Resistant**: Protects against future quantum attacks
+- **Backward Compatible**: Works with existing RSA/ECC systems
+- **Production Ready**: Includes comprehensive testing and error handling
+- **Easy Integration**: Simple Python API with mock OQS support for development
+- **Crypto-Agile**: Designed for easy algorithm updates and migrations
+
+---
+
+## ✅ Core Features
+
+### 🔐 **Hybrid Key Encapsulation (KEM)**
+- **RSA + Kyber**: Combines RSA-2048/4096 with Kyber-512/768/1024
+- **ECC + Kyber**: Combines ECDSA (P-256/P-384/P-521) with Kyber
+- **Session Key Derivation**: Uses SHAKE256 for secure key generation
+- **Multiple Security Levels**: Choose from different Kyber security levels
+
+### ✍️ **Hybrid Digital Signatures**
+- **ECDSA + Dilithium**: Dual signature scheme for maximum security
+- **Compact & Structured Formats**: Flexible signature representation
+- **Tamper Detection**: Built-in verification for message integrity
+- **Multiple Curves**: Support for secp256r1, secp384r1, secp521r1
+
+### 🛠️ **Developer-Friendly Features**
+- **Mock OQS Implementation**: Test without installing liboqs-python
+- **Comprehensive Documentation**: Detailed examples and API reference
+- **Docker Support**: Containerized deployment ready
+- **REST API**: FastAPI-based web service included
+- **Console Scripts**: Easy command-line demonstrations
+
+---
+
+## 🚀 Quick Start
+
+### Installation
+```bash
+pip install rights-to-secure-hybrid-crypto
+```
+
+### Basic Usage
+```python
+from src import hybrid_kem, hybrid_signature, utils
+
+# Generate hybrid keys
+rsa_pub, rsa_priv = utils.generate_rsa_keys(2048)
+kyber_pub, kyber_priv = utils.generate_kyber_keys("Kyber512")
+
+# Perform hybrid key exchange
+session_key, ciphertext = hybrid_kem.perform_key_exchange(
+    "RSA", rsa_pub, "Kyber512", kyber_pub
+)
+
+# Create hybrid signature
+message = b"Hello, Quantum World!"
+ecdsa_pub, ecdsa_priv = utils.generate_ecdsa_keys("secp256r1")
+dilithium_pub, dilithium_priv = utils.generate_dilithium_keys("Dilithium2")
+
+signature = hybrid_signature.create_hybrid_signature(
+    message, ecdsa_priv, dilithium_priv
+)
+```
+
+---
+
+## 📁 Project Structure
+
+```
+rights_to_secure_hybrid_crypto/
+├── src/
+│   ├── hybrid_kem.py         # Hybrid Key Exchange implementation
+│   ├── hybrid_signature.py   # Hybrid Digital Signatures
+│   ├── utils.py              # Key generation, hashing, KDF
+│   └── mock_oqs.py           # Mock OQS for testing
+├── examples/
+│   ├── demo_key_exchange.py  # KEM demonstration
+│   ├── demo_signing.py       # Signature demonstration
+│   └── api_example.py        # FastAPI REST service
+├── tests/
+│   ├── test_hybrid_kem.py    # KEM unit tests
+│   └── test_hybrid_signature.py # Signature unit tests
+├── Dockerfile                # Container configuration
+├── docker-compose.yml        # Multi-service orchestration
+└── USAGE.md                  # Comprehensive usage guide
+```
+
+---
+
+## 🔧 Technical Implementation
+
+### Hybrid Key Exchange Process
+1. **Classical Encryption**: Encrypt random secret with RSA/ECC
+2. **PQC Encapsulation**: Use Kyber to encapsulate PQC secret
+3. **Secret Combination**: Concatenate both secrets
+4. **Key Derivation**: Apply SHAKE256 to generate final session key
+
+### Hybrid Signature Process
+1. **Dual Signing**: Sign message with both ECDSA and Dilithium
+2. **Signature Combination**: Concatenate both signatures
+3. **Verification**: Independently verify both signature components
+
+### Security Considerations
+- **Cryptographically Secure Random**: Uses `secrets` module
+- **Secure Key Derivation**: SHAKE256 and HKDF implementation
+- **Private Key Protection**: No hardcoded keys or weak defaults
+- **Algorithm Agility**: Easy to update cryptographic algorithms
+
+---
+
+## 🧰 Requirements
+
+### Core Dependencies
+```bash
+cryptography>=41.0.0    # Classical cryptography (RSA, ECC, ECDSA)
+liboqs-python>=0.7.2    # Post-quantum cryptography (Kyber, Dilithium)
+pytest>=7.0.0          # Testing framework
+```
+
+### Optional Dependencies
+```bash
+# For API functionality
+pip install rights-to-secure-hybrid-crypto[api]
+
+# For web framework support
+pip install rights-to-secure-hybrid-crypto[web]
+
+# For development tools
+pip install rights-to-secure-hybrid-crypto[dev]
+```
+
+---
+
+## 🐳 Docker Deployment
+
+### Quick Start with Docker
+```bash
+# Build and run the API service
+docker-compose up api
+
+# Run with all services
+docker-compose --profile full up
+```
+
+### Available Services
+- **API Service**: FastAPI REST interface
+- **Development**: Hot-reload development environment
+- **Testing**: Automated test suite
+- **Demo**: Interactive demonstrations
+
+---
+
+## 📊 Performance & Security Levels
+
+### Supported Algorithms
+
+| Classical | Post-Quantum | Security Level | Use Case |
+|-----------|--------------|----------------|----------|
+| RSA-2048  | Kyber512     | 128-bit        | Development |
+| RSA-3072  | Kyber768     | 192-bit        | Production |
+| RSA-4096  | Kyber1024    | 256-bit        | High Security |
+| ECDSA-P256| Dilithium2   | 128-bit        | Standard |
+| ECDSA-P384| Dilithium3   | 192-bit        | Enhanced |
+| ECDSA-P521| Dilithium5   | 256-bit        | Maximum |
+
+---
+
+## 🔍 Testing & Validation
+
+### Test Coverage
+- ✅ **Unit Tests**: All core functions tested
+- ✅ **Integration Tests**: End-to-end workflows
+- ✅ **Mock Testing**: OQS-free testing environment
+- ✅ **Performance Tests**: Algorithm benchmarking
+- ✅ **Security Tests**: Cryptographic validation
+
+### Run Tests
+```bash
+# Run all tests
+python -m pytest tests/
+
+# Run with coverage
+python -m pytest --cov=src tests/
+
+# Run specific test suites
+python test_simple.py      # Basic functionality
+python test_core.py        # Core components
+python test_comprehensive.py # Full feature set
+```
+
+---
+
+## 🚀 Production Deployment
+
+### Best Practices
+1. **Use Real OQS**: Install `liboqs-python` for production
+2. **Secure Key Storage**: Implement proper key management
+3. **Regular Updates**: Keep dependencies updated
+4. **Monitoring**: Monitor for security advisories
+5. **Backup Strategy**: Implement key backup and recovery
+
+### Integration Examples
+- **TLS/SSL**: Hybrid certificate generation
+- **API Security**: Request/response signing
+- **File Encryption**: Secure file storage
+- **Message Security**: End-to-end encryption
+- **Blockchain**: Quantum-resistant signatures
+
+---
+
+## 📞 Support & Community
+
+### Documentation
+- **API Reference**: Comprehensive function documentation
+- **Examples**: Real-world usage scenarios
+- **Tutorials**: Step-by-step implementation guides
+- **Best Practices**: Security and deployment recommendations
+
+### Getting Help
+- **GitHub Issues**: Bug reports and feature requests
+- **Documentation**: https://academy.rightstosecure.com
+- **Email Support**: contact@arkaenterprises.com
+- **Community**: Join our developer community
+
+---
+
+## 📄 License
+
+**MIT License** - See [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- **Website**: https://rightstosecure.com
+- **Documentation**: https://academy.rightstosecure.com
+- **GitHub**: https://github.com/rightstosecure/hybrid-crypto
+- **PyPI**: https://pypi.org/project/rights-to-secure-hybrid-crypto/
+
+---
+
+**Made with ❤️ by RightsToSecure Team** 
