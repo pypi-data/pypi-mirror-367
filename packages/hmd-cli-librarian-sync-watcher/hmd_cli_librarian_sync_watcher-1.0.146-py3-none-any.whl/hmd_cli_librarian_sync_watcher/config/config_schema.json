@@ -1,0 +1,429 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "librarian-sync",
+  "description": "Librarian Sync configuration defines the a set of librarians and sources and how to sync files between them.",
+  "type": "object",
+  "definitions": {
+    "search_filter": {
+      "title": "Search Filter",
+      "description": "Defines a search filter for querying Librarian content",
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "attribute": {
+              "type": "string",
+              "description": "The attribute name to filter on"
+            },
+            "operator": {
+              "type": "string",
+              "description": "The comparison operator",
+              "enum": ["=", "!=", "<", ">", "<=", ">="]
+            },
+            "value": {
+              "description": "The value to compare against"
+            }
+          },
+          "required": ["attribute", "operator", "value"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "and": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/search_filter"
+              },
+              "minItems": 1
+            }
+          },
+          "required": ["and"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "or": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/search_filter"
+              },
+              "minItems": 1
+            }
+          },
+          "required": ["or"]
+        }
+      ]
+    },
+    "librarian": {
+      "title": "Librarian",
+      "$$target": "#/definitions/librarian",
+      "description": "Defines a librarian and how to connect to it.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "api_key": {
+          "description": "The API Key to use to authenticate to the librarian.",
+          "type": "string"
+        },
+        "auth_token": {
+          "description": "The token to use to authenticate to the librarian (post introduction of identities)."
+        },
+        "url": {
+          "description": "The URL to use to connect to the librarian.",
+          "type": "string"
+        }
+      },
+      "required": ["url"]
+    },
+    "source": {
+      "description": "Defines a sync source and how to handle it.",
+      "title": "Source",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Turns the source on or off during execution.",
+          "type": "boolean",
+          "default": true
+        },
+        "delete_when_successful": {
+          "description": "Deletes files after successfully uploading.",
+          "type": "boolean",
+          "default": false
+        },
+        "direction": {
+          "description": "The direction of the sync.",
+          "enum": ["push", "pull"],
+          "default": "push"
+        },
+        "librarian": {
+          "description": "The name of the :ref:`#/definitions/librarian` to target.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Root path to use for resolving all other paths in this source",
+          "type": "string"
+        },
+        "enable_checksum": {
+          "description": "Turns on sending checksums to the Librarian for validation",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": ["librarian", "path"],
+      "allOf": [
+        {
+          "if": {
+            "required": ["upload_path"],
+            "properties": {
+              "type": {"const": "librarian-sync"}
+            }
+          },
+          "then": {
+            "allOf": [{"$ref": "#/definitions/source_push_librarian_sync"}]
+          }
+        },
+        {
+          "if": {
+            "required": ["upload_path"],
+            "not": {
+              "properties": {
+                "type": {"const": "librarian-sync"}
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/definitions/source_push"
+          }
+        },
+        {
+          "if": {
+            "required": ["out_path"]
+          },
+          "then": {
+            "$ref": "#/definitions/source_pull"
+          }
+        }
+      ]
+    },
+    "source_push": {
+      "title": "Source: push",
+      "description": "Defines a source that pushes its files to a librarian",
+      "properties": {
+        "archive_root": {
+          "description": "Root path where files are archived after successful upload",
+          "type": "string",
+          "default": ""
+        },
+        "type": {
+          "type": "string",
+          "enum": ["default", "manifest", "librarian-sync"]
+        },
+        "upload_path": {
+          "description": "The path in the librarian to place the files",
+          "$$description": [
+            ":Example:",
+            ".. code-block:: json",
+            "",
+            "    \"upload_path\": \"devrun:/{meta_run_day}/{meta_sernum}/{source_path[5]}/images/{relative_path}\"",
+            "",
+            "A dictionary is used to format the string provided.",
+            "",
+            "The dictionary is populated with the following items:",
+            "",
+            ":meta_*: All key/values returned from `meta_script` prefixed with ``meta_``",
+            ":source_path: A list containing segments of the path to the current file",
+            ":relative_path: A string containing the relative path of the current file to the `path`",
+            ":short_file_name: A string containing the name of the current file without the path",
+            ":filetimestamp: The timestamp of the current file",
+            ":now(): The timestamp of the moment of execution",
+            ":manifest_base_path: the content path for the manifest that triggered a Transform (sans devrun root and filename)",
+            "",
+            "NOTE: ``filetimestamp`` and ``now()`` are both timestamps and can be suffixed with a date format string:",
+            "",
+            ".. code-block:: json",
+            "",
+            "    \"upload_path\": \"devrun:/{filetimestamp:%Y-%m-%d}/{meta_sernum}/{now():%H:%M:%S}/images/{short_file_name}\"        ",
+            "    \"upload_path\": \"output:{manifest_base_path}/{relative_path}\"     "
+          ],
+          "type": "string"
+        },
+        "max_part_size": {
+          "description": "The size of the file chunks to use for uploading",
+          "type": "integer",
+          "default": 1000000
+        },
+        "meta_script": {
+          "title": "meta_script",
+          "$$target": "#meta_script",
+          "description": "Name of a python file without the extension which can be found in ${HMD_HOME}/.config/plugins",
+          "$$description": [
+            "This script is expected to define a method with the following signature:",
+            "",
+            ".. code-block:: python",
+            "",
+            "    def get_metadata(path: str) -> dict:",
+            "",
+            "The path to the trigger file is passed to the method.",
+            "Each key in the returned dictionary is prefixed with ``meta_`` and added to the dictionary used for building the `upload_path`."
+          ],
+          "type": "string"
+        },
+        "number_of_threads": {
+          "description": "The maximum number of parallel threads to use for uplaoding files in this source",
+          "type": "integer",
+          "default": 3
+        }
+      },
+      "required": ["upload_path", "type"],
+      "oneOf": [
+        {
+          "properties": {
+            "type": {"const": "default"}
+          },
+          "allOf": [{"$ref": "#/definitions/source_push_default"}]
+        },
+        {
+          "properties": {
+            "type": {"const": "manifest"}
+          },
+          "allOf": [{"$ref": "#/definitions/source_push_manifest"}]
+        }
+      ]
+    },
+    "source_push_default": {
+      "title": "Source: push - default",
+      "description": "This source type pushes files based on the `content_globs` and uploads them to the librarian",
+      "properties": {
+        "meta_script": {
+          "$ref": "#/definitions/source_push/properties/meta_script"
+        },
+        "content_globs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/content_glob"
+          }
+        }
+      },
+      "required": ["content_globs"]
+    },
+    "source_push_librarian_sync": {
+      "title": "Source: push - librarian-sync",
+      "description": "This source type syncs content between librarians based on search filters",
+      "properties": {
+        "meta_script": {
+          "$ref": "#/definitions/source_push/properties/meta_script"
+        },
+        "direction": {"const": "push"},
+        "type": {"const": "librarian-sync"},
+        "upload_path": {"type": "string"},
+        "path": {
+          "description": "Root path to use for resolving all other paths in this source",
+          "type": "string"
+        },
+        "max_part_size": {
+          "description": "The size of the file chunks to use for uploading",
+          "type": "integer",
+          "default": 1000000
+        },
+        "number_of_threads": {
+          "description": "The maximum number of parallel threads to use for uploading files in this source",
+          "type": "integer",
+          "default": 3
+        },
+        "search_filters": {
+          "type": "array",
+          "description": "List of filters with content types to sync",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "filter": {
+                "$ref": "#/definitions/search_filter",
+                "description": "The search filter to identify content"
+              },
+              "content_item_type": {
+                "type": "string",
+                "description": "Content item type to assign to matching items"
+              },
+              "priority": {
+                "description": "upload priority weight",
+                "type": "integer",
+                "default": 0
+              },
+              "enable_checksum": {
+                "description": "Turns on sending checksums to the Librarian for validation",
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "required": ["filter", "content_item_type"]
+          }
+        },
+        "source": {
+          "description": "The librarian to search for new items",
+          "type": "string"
+        },
+        "target": {
+          "description": "The librarian to upload new items to",
+          "type": "string"
+        }
+      },
+      "required": ["search_filters", "source", "target"]
+    },
+    "source_push_manifest": {
+      "title": "Source: push - manifest",
+      "description": "This source type pushes files based on the `manifest_content_globs` and generates a manifest and pushes that after all other files have been pushed",
+      "properties": {
+        "meta_script": {
+          "$ref": "#/definitions/source_push/properties/meta_script"
+        },
+        "content_globs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/content_glob"
+          }
+        },
+        "manifest_content_item_type": {
+          "description": "The content item type that should be used for the generated manifest file",
+          "type": "string",
+          "default": "hmd-manifest"
+        },
+        "manifest_content_globs": {
+          "description": "A list of glob patterns to use for finding relevant files and associating them to a content item type",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/content_glob"
+          }
+        },
+        "manifest_file_name": {
+          "description": "The file name to use when generating the manifest file.  NOTE: this is always a json file",
+          "type": "string",
+          "default": "hmd-librarian-manifest.json"
+        }
+      },
+      "required": [
+        "content_globs",
+        "manifest_content_globs",
+        "manifest_content_item_type"
+      ]
+    },
+    "content_glob": {
+      "title": "Content Glob",
+      "description": "Defines a list of glob patterns and a content item type it should be mapped to.  NOTE: The last matching glob pattern for a given file wins.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "globs": {
+          "description": "List of glob patterns to identify files.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content_item_type": {
+          "description": "Name of content item type to assign to matching files.",
+          "type": "string"
+        },
+        "priority": {
+          "description": "upload priority weight",
+          "type": "integer"
+        },
+        "enable_checksum": {
+          "description": "Turns on sending checksums to the Librarian for validation",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": ["globs", "content_item_type"]
+    },
+    "source_pull": {
+      "title": "Source: pull",
+      "description": "Defines a source that pulls its files from a librarian",
+      "properties": {
+        "out_path": {
+          "description": "The location on disk to place all pulled files",
+          "type": "string"
+        },
+        "manifest_file_name": {
+          "description": "The name of the file to find in the `path` that contains the list of files to pull.",
+          "type": "string",
+          "default": "hmd-librarian-manifest.json"
+        }
+      },
+      "required": ["out_path"]
+    }
+  },
+  "properties": {
+    "librarians": {
+      "description": "Defines named librarians to connect to.  Each librarian is named using the key, and is configured with the value.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "description": "Named Librarian",
+          "$ref": "#/definitions/librarian"
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "description": "Defines a sync source and how to handle it.  Each source is named using the key, and is configured with the value.",
+      "patternProperties": {
+        ".*": {
+          "description": "Named Source",
+          "$ref": "#/definitions/source"
+        }
+      }
+    },
+    "timestamp_sort": {
+      "description": "direction to sort files based on timestamp, this is the default sort.",
+      "enum": ["asc", "desc"],
+      "default": "asc"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["librarians", "sources"]
+}
