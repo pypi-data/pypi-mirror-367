@@ -1,0 +1,234 @@
+{
+    "schema_url": "http://jhnnsrs-lab/kraph/graphql",
+    "documents": "graphql/kraph/*/**.graphql",
+    "extensions": {
+        "turms": {
+            "pydantic_version": "v2",
+            "domain": null,
+            "out_dir": "kraph/api",
+            "dump_configuration": true,
+            "configuration_name": "project.json",
+            "dump_schema": true,
+            "schema_name": "schema.graphql",
+            "generated_name": "schema.py",
+            "documents": "graphql/kraph/*/**.graphql",
+            "verbose": false,
+            "exit_on_error": true,
+            "allow_introspection": true,
+            "object_bases": [
+                "pydantic.BaseModel"
+            ],
+            "interface_bases": null,
+            "always_resolve_interfaces": true,
+            "exclude_typenames": true,
+            "scalar_definitions": {
+                "StructureString": "kraph.scalars.StructureString",
+                "StructureIdentifier": "kraph.scalars.StructureIdentifier",
+                "UntypedPlateChild": "typing.Any",
+                "Cypher": "kraph.scalars.Cypher",
+                "Any": "typing.Any",
+                "NodeID": "kraph.scalars.NodeID",
+                "ArrayLike": "kraph.scalars.ArrayLike",
+                "ParquetLike": "kraph.scalars.ParquetLike",
+                "FileLike": "kraph.scalars.FileLike",
+                "Vector": "kraph.scalars.Vector",
+                "TwoDVector": "kraph.scalars.TwoDVector",
+                "ThreeDVector": "kraph.scalars.ThreeDVector",
+                "FourDVector": "kraph.scalars.FourDVector",
+                "FiveDVector": "kraph.scalars.FiveDVector",
+                "Matrix": "kraph.scalars.Matrix",
+                "Metric": "typing.Any",
+                "Milliseconds": "kraph.scalars.Milliseconds",
+                "Micrometers": "kraph.scalars.Micrometers",
+                "MikroStore": "kraph.scalars.MikroStore",
+                "Micrograms": "kraph.scalars.Micrograms",
+                "Microliters": "kraph.scalars.Microliters",
+                "FourByFourMatrix": "kraph.scalars.FourByFourMatrix",
+                "ID": "rath.scalars.ID",
+                "RGBAColor": "kraph.scalars.RGBAColor",
+                "RemoteUpload": "kraph.scalars.RemoteUpload"
+            },
+            "freeze": {
+                "enabled": true,
+                "types": [
+                    "input",
+                    "fragment",
+                    "object"
+                ],
+                "exclude": null,
+                "include": null,
+                "exclude_fields": [],
+                "include_fields": [],
+                "convert_list_to_tuple": true
+            },
+            "create_catchall": true,
+            "options": {
+                "enabled": true,
+                "extra": "forbid",
+                "allow_mutation": null,
+                "allow_population_by_field_name": true,
+                "orm_mode": null,
+                "use_enum_values": true,
+                "validate_assignment": null,
+                "types": [
+                    "input"
+                ],
+                "exclude": null,
+                "include": null
+            },
+            "skip_forwards": false,
+            "additional_bases": {
+                "Ontology": [
+                    "kraph.traits.OntologyTrait"
+                ],
+                "Graph": [
+                    "kraph.traits.GraphTrait"
+                ],
+                "Node": [
+                    "kraph.traits.NodeTrait"
+                ],
+                "NodeCategory": [
+                    "kraph.traits.NodeCategoryTrait"
+                ],
+                "StructureCategory": [
+                    "kraph.traits.StructureCategoryTrait"
+                ],
+                "EntityCategory": [
+                    "kraph.traits.EntityCategoryTrait"
+                ],
+                "MetricCategory": [
+                    "kraph.traits.MetricCategoryTrait"
+                ],
+                "MeasurementCategory": [
+                    "kraph.traits.MeasurementCategoryTrait"
+                ],
+                "ProtocolEventCategory": [
+                    "kraph.traits.ProtocolEventCategoryTrait"
+                ],
+                "NaturalEventCategory": [
+                    "kraph.traits.NaturalEventCategoryTrait"
+                ],
+                "ReagentCategory": [
+                    "kraph.traits.ReagentCategoryTrait"
+                ],
+                "RelationCategory": [
+                    "kraph.traits.RelationCategoryTrait"
+                ],
+                "StructureRelationCategory": [
+                    "kraph.traits.StructureRelationCategoryTrait"
+                ],
+                "EntityRoleDefinitionInput": [
+                    "kraph.traits.EntityRoleDefinitionInputTrait"
+                ],
+                "ReagentRoleDefinitionInput": [
+                    "kraph.traits.ReagentRoleDefinitionInputTrait"
+                ],
+                "Entity": [
+                    "kraph.traits.EntityTrait"
+                ],
+                "Structure": [
+                    "kraph.traits.StructureTrait"
+                ],
+                "Metric": [
+                    "kraph.traits.MetricTrait"
+                ],
+                "EntityRelation": [
+                    "kraph.traits.EntityRelationTrait"
+                ],
+                "MediaStore": [
+                    "kraph.traits.HasPresignedDownloadAccessor"
+                ],
+                "RelationCategoryInput": [
+                    "kraph.traits.RelationCategoryInputTrait"
+                ],
+                "StructureRelationCategoryInput": [
+                    "kraph.traits.StructureRelationCategoryInputTrait"
+                ],
+                "MeasurementCategoryInput": [
+                    "kraph.traits.MeasurementCategoryInputTrait"
+                ],
+                "MetricCategoryInput": [
+                    "kraph.traits.MetricCategoryInputTrait"
+                ]
+            },
+            "additional_config": {},
+            "force_plugin_order": true,
+            "parsers": [],
+            "plugins": [
+                {
+                    "type": "turms.plugins.enums.EnumsPlugin"
+                },
+                {
+                    "type": "turms.plugins.inputs.InputsPlugin"
+                },
+                {
+                    "type": "turms.plugins.fragments.FragmentsPlugin"
+                },
+                {
+                    "type": "turms.plugins.operations.OperationsPlugin"
+                },
+                {
+                    "type": "turms.plugins.funcs.FuncsPlugin",
+                    "coercible_scalars": {
+                        "ID": "rath.scalars.IDCoercible",
+                        "Cypher": "kraph.scalars.CypherCoercible",
+                        "StructureIdentifier": "kraph.scalars.StructureIdentifierCoercible"
+                    },
+                    "expand_input_types": [
+                        "input"
+                    ],
+                    "global_kwargs": [
+                        {
+                            "type": "kraph.rath.KraphRath",
+                            "key": "rath",
+                            "description": "The mikro rath client"
+                        }
+                    ],
+                    "definitions": [
+                        {
+                            "type": "subscription",
+                            "is_async": true,
+                            "use": "kraph.funcs.asubscribe"
+                        },
+                        {
+                            "type": "query",
+                            "is_async": true,
+                            "use": "kraph.funcs.aexecute"
+                        },
+                        {
+                            "type": "mutation",
+                            "is_async": true,
+                            "use": "kraph.funcs.aexecute"
+                        },
+                        {
+                            "type": "subscription",
+                            "use": "kraph.funcs.subscribe"
+                        },
+                        {
+                            "type": "query",
+                            "use": "kraph.funcs.execute"
+                        },
+                        {
+                            "type": "mutation",
+                            "use": "kraph.funcs.execute"
+                        }
+                    ]
+                }
+            ],
+            "processors": [
+                {
+                    "type": "turms.processors.black.BlackProcessor"
+                }
+            ],
+            "stylers": [
+                {
+                    "type": "turms.stylers.default.DefaultStyler"
+                },
+                {
+                    "type": "turms.stylers.appender.AppenderStyler",
+                    "append_fragment": ""
+                }
+            ]
+        }
+    }
+}
