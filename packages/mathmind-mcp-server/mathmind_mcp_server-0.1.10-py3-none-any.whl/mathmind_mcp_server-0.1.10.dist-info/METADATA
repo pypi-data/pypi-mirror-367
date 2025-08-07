@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: mathmind-mcp-server
+Version: 0.1.10
+Summary: MCP Server for interacting with Mathmind
+Requires-Python: >=3.11
+Requires-Dist: fastmcp>=2.3.4
+Requires-Dist: requests>=2.32.3
+Description-Content-Type: text/markdown
+
+# MCP 文档
+
+# 部署
+
+目录：/opt/mathmind-mcp-server
+
+部署命令：
+
+```jsx
+git pull
+docker rm -f mathmind-mcp-server
+docker build -t mathmind-mcp-server .
+docker run -d --name mathmind-mcp-server --restart=always -p 8000:8000 mathmind-mcp-server
+```
+
+后边可以改成自动化部署，比如通过 github-action
+
+# 域名
+
+https://mcp.mathmind.cn
+
+nginx 配置：/etc/nginx/conf.d/mcp.mathmind.cn.conf
+
+
+# Run
+```shell
+docker build -t mathmind-mcp-server .
+docker rm -f mathmind-mcp-server
+docker run -d \
+  --name mathmind-mcp-server \
+  --restart=always \
+  -p 8000:8000 mathmind-mcp-server
+```
