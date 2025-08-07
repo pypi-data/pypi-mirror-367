@@ -1,0 +1,31 @@
+name: healthchecks-keepalive
+
+on:
+  workflow_run:
+    workflows: ["buildwheels"]
+    types:
+      - completed
+
+jobs:
+  keepalive-job:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Keepalive Workflow
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: sh
+        run: gh api -X PUT "repos/wvangeit/duk/actions/workflows/buildwheels.yml/enable"
+  ping-success:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event.workflow_run.conclusion == 'success' && needs.keepalive-job.result == 'success'
+    needs: keepalive-job
+    steps:
+      - run: curl -m 10 --retry 5 ${{ secrets.HEALTHCHECKS_PING_URL }}
+  ping-failure:
+    runs-on: ubuntu-latest
+    needs: keepalive-job
+    if: github.ref == 'refs/heads/master' && (github.event.workflow_run.conclusion == 'failure' || needs.keepalive-job.result == 'failure')
+    steps:
+      - run: curl -m 10 --retry 5 ${{ secrets.HEALTHCHECKS_PING_URL }}/fail
