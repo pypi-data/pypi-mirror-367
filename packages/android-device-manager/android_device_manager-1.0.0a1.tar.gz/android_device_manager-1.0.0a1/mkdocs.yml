@@ -1,0 +1,73 @@
+site_name: Android Device Manager
+site_author: Jérémy Woirhaye
+
+repo_name: jwoirhaye/android-device-manager-python
+repo_url: https://github.com/jwoirhaye/android-device-manager-python
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            show_category_heading: true
+            members_order: source
+            show_object_full_path: true
+
+
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Quickstart: getting-started/quickstart.md
+      - Installation: getting-started/installation.md
+  - API Reference:
+      - Overview: api/index.md
+      - AndroidDevice: api/android_device.md
+      - ADB: api/adb.md
+      - AVD: api/avd.md
+      - Emulator: api/emulator.md
+      - Constants: api/constants.md
+  - Examples:
+      - Basic usage: examples/basic-usage.md
+      - APK management: examples/apk-management.md
+      - Device info & properties: examples/device-info.md
+      - File operations: examples/file-operations.md
+      - Automation: examples/automation.md
+      - Advanced:
+          - Overview: examples/advanced/index.md
+          - Using AdbClient: examples/advanced/adbclient.md
+          - Using AVDManager: examples/advanced/avdmanager.md
+          - Using EmulatorManager: examples/advanced/emulatormanager.md
+  - Troubleshooting: troubleshooting.md
+
