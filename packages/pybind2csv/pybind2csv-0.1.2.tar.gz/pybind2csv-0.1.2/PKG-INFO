@@ -1,0 +1,260 @@
+Metadata-Version: 2.4
+Name: pybind2csv
+Version: 0.1.2
+Summary: A utility to parse DNS BIND zone and view files and convert them to CSV format.
+Author-email: Your Name <your.email@example.com>
+Project-URL: Homepage, https://github.com/fxyzbtc/pybind2csv
+Project-URL: Repository, https://github.com/fxyzbtc/pybind2csv
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Internet :: Name Service (DNS)
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: Utilities
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: dnspython>=2.7.0
+Requires-Dist: loguru>=0.7.3
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: typer>=0.12.5
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.5; extra == "dev"
+Requires-Dist: pytest-cov>=6.2.1; extra == "dev"
+
+# 🌐 DNS BIND Zone & View Parser
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-66%25-orange.svg)](coverage/)
+[![uv](https://img.shields.io/badge/managed-uv-purple.svg)](https://docs.astral.sh/uv/)
+
+> 🚀 **Transform DNS BIND zone and view files into structured CSV data with ease**
+
+A powerful Python CLI tool that parses DNS BIND zone files and view configurations, extracting all DNS records into clean, structured CSV format. Built with modern Python tooling and comprehensive error handling.
+
+## ✨ Features
+
+- 🎯 **Comprehensive DNS Support**: Handles all standard DNS record types (A, AAAA, CNAME, MX, TXT, NS, SOA, PTR, etc.)
+- 🔄 **Smart Fallback Parsing**: Gracefully handles unknown record types and malformed entries
+- 📊 **CSV Export**: Clean, structured output with standardized columns
+- 🖥️ **CLI Interface**: Intuitive command-line interface with auto-completion
+- 🔍 **Zone & View Parsing**: Supports both zone files and view configurations
+- ⚡ **Fast & Reliable**: Built on dnspython with optimized parsing algorithms
+- 🧪 **Well Tested**: Comprehensive test suite with 66% coverage
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/pybind2csv.git
+cd pybind2csv
+
+# Install with uv (recommended)
+uv sync
+
+# Or install with pip
+pip install .
+```
+
+### Basic Usage
+
+```bash
+# Parse a single zone file
+uv run pybind2csv parse-single example.zone --zone-name example.com
+
+# Parse zone and view files together
+uv run pybind2csv parse-zone example.zone example.vroaming --output dns_records.csv
+
+# Get help
+uv run pybind2csv --help
+```
+
+## 📋 Requirements
+
+- **Python**: 3.12 or higher
+- **Dependencies**: Managed automatically via `uv` or `pip`
+- **OS**: Windows, macOS, Linux compatible
+
+## 🛠️ Usage Guide
+
+### CLI Commands
+
+#### `parse-single` - Parse Individual Files
+```bash
+uv run pybind2csv parse-single [OPTIONS] FILE
+
+Options:
+  --zone-name TEXT    DNS zone name (e.g., example.com)
+  --view-name TEXT    DNS view name (e.g., internal, external)
+  --output PATH       Output CSV file path
+  --verbose          Enable verbose logging
+```
+
+#### `parse-zone` - Parse Zone & View Files
+```bash
+uv run pybind2csv parse-zone [OPTIONS] ZONE_FILE VIEW_FILE
+
+Options:
+  --output PATH       Output CSV file path [default: output.csv]
+  --verbose          Enable verbose logging
+```
+
+### Examples
+
+#### Example 1: Basic Zone Parsing
+```bash
+# Parse a zone file with auto-detected zone name
+uv run pybind2csv parse-single tests/example.vlocal --zone-name example.com --view-name local
+```
+
+#### Example 2: Production Zone & View
+```bash
+# Parse production zone and view files
+uv run pybind2csv parse-zone production.zone production.vroaming --output production_dns.csv
+```
+
+#### Example 3: Verbose Mode
+```bash
+# Get detailed parsing information
+uv run pybind2csv parse-single example.zone --zone-name example.com --verbose
+```
+
+## 📊 Output Format
+
+The parser generates CSV files with the following standardized columns:
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| `zone` | DNS zone name | `example.com` |
+| `view` | DNS view name | `local` |
+| `name` | Record name | `www` |
+| `type` | DNS record type | `A`, `AAAA`, `CNAME`, etc. |
+| `ttl` | Time to live | `300` |
+| `data` | Record data | `192.0.2.1` |
+
+### Sample Output
+```csv
+zone,view,name,type,ttl,data
+example.com,local,example.com,SOA,300,ns1.example.com. admin.example.com. 2024010101 3600 1800 604800 86400
+example.com,local,example.com,NS,300,ns1.example.com.
+example.com,local,www,A,300,192.0.2.1
+example.com,local,mail,MX,300,10 mail.example.com.
+```
+
+## 🧪 Development
+
+### Setup Development Environment
+
+```bash
+# Clone and setup
+git clone https://github.com/your-username/pybind2csv.git
+cd pybind2csv
+
+# Install with dev dependencies
+uv sync --dev
+
+# Run tests
+uv run pytest -v --cov=pybind2csv
+
+# Run linting
+uv run ruff check .
+uv run ruff format .
+```
+
+### Project Structure
+
+```
+pybind2csv/
+├── pybind2csv/
+│   ├── __init__.py      # Package initialization
+│   ├── __main__.py      # CLI entry point
+│   ├── main.py          # CLI commands and interface
+│   └── parser.py        # Core DNS parsing logic
+├── tests/
+│   ├── test_parser.py   # Comprehensive test suite
+│   ├── example.vlocal   # Sample zone file
+│   └── example.vroaming # Sample view file
+├── pyproject.toml       # Project configuration
+└── README.md           # This file
+```
+
+### Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=pybind2csv --cov-report=html
+
+# Run specific test
+uv run pytest tests/test_parser.py::test_parse_zone_file_valid -v
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### Unknown Record Types
+The parser includes a fallback mechanism for unknown record types. Warnings will be displayed but parsing will continue.
+
+```bash
+# Example warning
+WARNING: Unknown rdatatype 'DSYNC' - using fallback parsing
+```
+
+#### Large Zone Files
+For very large zone files, use verbose mode to monitor progress:
+
+```bash
+uv run pybind2csv parse-large large.zone --zone-name example.com --verbose
+```
+
+### Debug Mode
+Enable debug logging for detailed parsing information:
+
+```bash
+export LOGURU_LEVEL=DEBUG
+uv run pybind2csv parse-single example.zone --zone-name example.com
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Quick Contribution Steps
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and add tests
+4. Run tests: `uv run pytest`
+5. Commit your changes: `git commit -m 'Add amazing feature'`
+6. Push to the branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **[dnspython](https://www.dnspython.org/)** - The excellent DNS toolkit powering our parsing
+- **[typer](https://typer.tiangolo.com/)** - For the beautiful CLI interface
+- **[uv](https://docs.astral.sh/uv/)** - For lightning-fast Python package management
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-username/pybind2csv/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/pybind2csv/discussions)
+- **Email**: support@example.com
+
+---
+
+<div align="center">
+  <p><strong>Made with ❤️ by the DNS Community</strong></p>
+  <p><em>Transform your DNS data with confidence and precision</em></p>
+</div>

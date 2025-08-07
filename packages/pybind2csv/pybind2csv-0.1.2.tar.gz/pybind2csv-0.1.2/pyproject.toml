@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pybind2csv"
+version = "0.1.2"
+description = "A utility to parse DNS BIND zone and view files and convert them to CSV format."
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: Name Service (DNS)",
+    "Topic :: System :: Networking",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "dnspython>=2.7.0",
+    "loguru>=0.7.3",
+    "tqdm>=4.67.1",
+    "typer>=0.12.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.2.1",
+]
+
+[project.scripts]
+pybind2csv = "pybind2csv.main:app"
+
+[project.urls]
+Homepage = "https://github.com/fxyzbtc/pybind2csv"
+Repository = "https://github.com/fxyzbtc/pybind2csv"
+
+[tool.setuptools]
+packages = ["pybind2csv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--tb=short",
+    "--strict-markers",
+    "--cov=pybind2csv",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    "--cov-fail-under=70",
+]
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+]
