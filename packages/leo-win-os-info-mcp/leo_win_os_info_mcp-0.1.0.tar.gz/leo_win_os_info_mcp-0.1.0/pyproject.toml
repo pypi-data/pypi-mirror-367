@@ -1,0 +1,39 @@
+# pyproject.toml
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# 重要：这个名字在 PyPI 上必须是唯一的！
+# 建议格式: <your_username>-<project_name>
+name = "leo-win-os-info-mcp"
+version = "0.1.0"
+authors = [
+    # 修改成您自己的信息
+    { name="LeoChen", email="315531813@qq.com" },
+]
+description = "一个通过MCP协议提供Windows操作系统信息的服务"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Framework :: FastAPI",
+]
+
+# 项目的依赖项，uvx 会自动安装它们
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]", # [standard] 提供了性能更好的依赖
+    "pydantic",
+]
+
+# 关键：定义 uvx 的入口点
+[project.scripts]
+# "win-os-info-mcp" 是最终的命令行命令
+# "win_os_info_mcp.server:main" 指向 server.py 文件里的 main 函数
+win-os-info-mcp = "win_os_info_mcp.server:main"
+[tool.hatch.build.targets.wheel]
+packages = ["src/win_os_info_mcp"]

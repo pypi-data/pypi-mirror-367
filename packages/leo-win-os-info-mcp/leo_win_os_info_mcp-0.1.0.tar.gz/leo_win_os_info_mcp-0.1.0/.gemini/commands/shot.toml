@@ -1,0 +1,27 @@
+# 这是 "shot.toml" 文件的正确内容
+# 注意：这里没有 [custom-commands.shot] 标题！
+
+# 执行我们的代理脚本
+exec = "python"
+# ✨ 请务必使用您自己电脑上 mcp_command_proxy.py 的绝对路径 ✨
+args = ["F:\\1\\cli-mcp\\gemini\\mcp_command_proxy.py"] 
+
+# 这是给大模型看的 "核心功能描述"，是必需字段
+prompt = """
+这是一个用于操作本地截图服务的快捷方式。
+它可以快速生成指令来调用 `screenshotService` MCP 服务中的工具，
+如 `take_screenshot` 和 `delete_screenshots`。
+"""
+
+# 这是给大模型看的 "参数说明"
+args_prompt = """
+- `full`: 用于全屏截图。
+- `region`: 用于区域截图 (如果省略参数，则默认为此项)。
+- `delete`: 用于删除截图。
+"""
+
+# 解释这个命令的输出是什么
+output_prompt = """
+这个命令的输出不是最终结果，而是一个需要你理解并执行的新指令。
+请将这个输出作为你的下一步操作指南，去调用相应的 MCP 工具。
+"""
