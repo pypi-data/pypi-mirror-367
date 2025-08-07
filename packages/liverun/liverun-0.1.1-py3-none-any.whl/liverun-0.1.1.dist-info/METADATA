@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: liverun
+Version: 0.1.1
+Summary: A simple CLI tool to run commands on file changes.
+Author: Julynx
+License-Expression: GPL-2.0-only
+Project-URL: Homepage, https://github.com/Julynx/liverun
+Project-URL: Repository, https://github.com/Julynx/liverun
+Keywords: file watcher,cli,devtools,livereload,python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Utilities
+Classifier: Topic :: Software Development :: Build Tools
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# liverun
+
+*A simple CLI tool to run commands on file changes.*
+
+## Installation
+
+```bash
+pip install liverun
+```
+
+## Usage
+
+```text
+usage: liverun [-h] -f FILES [FILES ...] (-c COMMAND | -x EXEC_ARGV [EXEC_ARGV ...]) [-p POLL_INTERVAL] [--no-initial-run] [-v]
+
+A simple CLI tool to run commands on file changes.
+
+options:
+  -h, --help            show this help message and exit
+  -f FILES [FILES ...], --files FILES [FILES ...]
+                        One or more file paths to watch for changes.
+  -c COMMAND, --command COMMAND
+                        Shell command to execute when a change is detected (runs in the platform shell).
+  -x EXEC_ARGV [EXEC_ARGV ...], --exec EXEC_ARGV [EXEC_ARGV ...]
+                        Execute the given program/args directly (no shell). Example: --exec python -m pytest -q
+  -p POLL_INTERVAL, --poll-interval POLL_INTERVAL
+                        Polling interval in seconds (default: 1.0).
+  --no-initial-run      Do not run the action immediately at startup (default is to run once).
+  -v, --verbose         Enable info-level logging output.
+```
+
+### Example
+
+```bash
+liverun -f deck.json deck.csv -c "decksmith build" -p 1.0 -v
+```
+
+Run the `decksmith build` shell command whenever any of the two files changes, check every second, be verbose.
