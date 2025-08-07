@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pynostr"]
+
+[project]
+name = "pynostr"
+authors = [
+  { name="Holger Nahrstaedt", email="nahrstaedt@gmail.com" },
+]
+description = "Python Library for nostr."
+keywords = ["nostr"]
+urls = { Homepage = "https://github.com/holgern/pynostr" }
+readme = "README.md"
+requires-python = ">3.7.0"
+dependencies = [
+    "coincurve>=1.8.0",
+    "cryptography>=37.0.4",
+    "tlv8",
+    "typer",
+    "tornado",
+    "rich",
+    "requests"
+]
+license = {file = "LICENSE"}
+classifiers=[
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Topic :: Software Development :: Libraries',
+]
+
+dynamic=["version"]
+
+[project.optional-dependencies]
+websocket-client = ["websocket-client>=1.3.3"]
+
+[tool.setuptools_scm]
+write_to = "pynostr/_version.py"
+
+[project.scripts]
+pynostr = "pynostr.cli:app"
+
+[tool.tox]
+legacy_tox_ini = """
+
+[testenv]
+deps =
+    pytest
+    pytest-cov[all]
+commands =
+    pytest
+"""
