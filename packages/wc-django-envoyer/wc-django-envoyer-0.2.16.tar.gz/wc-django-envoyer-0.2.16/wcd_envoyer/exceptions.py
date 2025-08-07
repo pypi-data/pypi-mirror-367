@@ -1,0 +1,2 @@
+class EnvoyerError(Exception):
+    pass
