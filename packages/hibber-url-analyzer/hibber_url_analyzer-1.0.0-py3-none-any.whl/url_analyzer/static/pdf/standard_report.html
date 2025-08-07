@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @top-center {
+                content: "URL Analysis Report";
+                font-family: 'Inter', sans-serif;
+                font-size: 10pt;
+                color: #666;
+            }
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: 'Inter', sans-serif;
+                font-size: 10pt;
+                color: #666;
+            }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #333;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            color: #1a73e8;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        h1 {
+            font-size: 24pt;
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h2 {
+            font-size: 18pt;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            font-size: 14pt;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .report-header {
+            margin-bottom: 2em;
+        }
+        
+        .report-metadata {
+            font-size: 10pt;
+            color: #666;
+            margin-bottom: 1em;
+        }
+        
+        .report-metadata p {
+            margin: 0.2em 0;
+        }
+        
+        .summary-box {
+            background-color: #f5f7fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 1em 0;
+        }
+        
+        .summary-stat {
+            display: inline-block;
+            width: 30%;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .summary-stat-value {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        
+        .summary-stat-label {
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .chart-container {
+            page-break-inside: avoid;
+            margin: 1.5em 0;
+        }
+        
+        .chart-title {
+            font-size: 14pt;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5em;
+        }
+        
+        .chart-image {
+            width: 100%;
+            max-height: 300px;
+        }
+        
+        .category-table {
+            width: 100%;
+            margin-top: 1em;
+        }
+        
+        .category-name {
+            font-weight: bold;
+        }
+        
+        .category-count {
+            text-align: right;
+        }
+        
+        .category-percentage {
+            text-align: right;
+        }
+        
+        .footer {
+            margin-top: 2em;
+            padding-top: 1em;
+            border-top: 1px solid #ddd;
+            font-size: 9pt;
+            color: #666;
+            text-align: center;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-header">
+        <h1>{{ title }}</h1>
+        
+        <div class="report-metadata">
+            <p><strong>Report ID:</strong> {{ report_id }}</p>
+            <p><strong>Generated:</strong> {{ generated_at|format_date('%Y-%m-%d %H:%M') }}</p>
+            {% if author %}
+            <p><strong>Author:</strong> {{ author }}</p>
+            {% endif %}
+            {% if description %}
+            <p><strong>Description:</strong> {{ description }}</p>
+            {% endif %}
+            {% if tags and tags|length > 0 %}
+            <p><strong>Tags:</strong> {{ tags|join(', ') }}</p>
+            {% endif %}
+        </div>
+        
+        {% if stats.summary_stats %}
+        <div class="summary-box">
+            <div class="summary-stat">
+                <div class="summary-stat-value">{{ stats.summary_stats.total_urls }}</div>
+                <div class="summary-stat-label">Total URLs</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-stat-value">{{ stats.summary_stats.unique_domains }}</div>
+                <div class="summary-stat-label">Unique Domains</div>
+            </div>
+            {% if stats.summary_stats.categories|length > 0 %}
+            <div class="summary-stat">
+                <div class="summary-stat-value">{{ stats.summary_stats.categories|length }}</div>
+                <div class="summary-stat-label">Categories</div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if charts.category_chart %}
+    <div class="chart-container">
+        <h2>Category Distribution</h2>
+        <div class="chart-title">{{ charts.category_chart.title }}</div>
+        
+        {% if charts.category_chart.image_data %}
+        <img class="chart-image" src="data:image/png;base64,{{ charts.category_chart.image_data }}" alt="Category Distribution">
+        {% endif %}
+        
+        {% if stats.summary_stats and stats.summary_stats.categories %}
+        <table class="category-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Count</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category, data in stats.summary_stats.categories.items() %}
+                <tr>
+                    <td class="category-name">{{ category }}</td>
+                    <td class="category-count">{{ data.count }}</td>
+                    <td class="category-percentage">{{ data.percentage }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% if charts.domain_chart %}
+    <div class="chart-container">
+        <h2>Top Domains</h2>
+        <div class="chart-title">{{ charts.domain_chart.title }}</div>
+        
+        {% if charts.domain_chart.image_data %}
+        <img class="chart-image" src="data:image/png;base64,{{ charts.domain_chart.image_data }}" alt="Top Domains">
+        {% endif %}
+        
+        <table class="category-table">
+            <thead>
+                <tr>
+                    <th>Domain</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(charts.domain_chart.labels|length) %}
+                <tr>
+                    <td class="category-name">{{ charts.domain_chart.labels[i] }}</td>
+                    <td class="category-count">{{ charts.domain_chart.data[i] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <div class="page-break"></div>
+    
+    <h2>Detailed URL Data</h2>
+    
+    {% if df_html %}
+    <div class="table-container">
+        {{ df_html|safe }}
+    </div>
+    {% else %}
+    <p>No detailed URL data available.</p>
+    {% endif %}
+    
+    <div class="footer">
+        <p>Generated by URL Analyzer on {{ generated_at|format_date('%Y-%m-%d %H:%M') }}</p>
+        <p>&copy; 2025 URL Analyzer. All rights reserved.</p>
+    </div>
+</body>
+</html>

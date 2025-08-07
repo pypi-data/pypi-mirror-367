@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3">URL Analysis</h1>
+        <p class="lead">
+            Analyze URLs to categorize them, identify patterns, and gain insights into your web traffic.
+        </p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-light">
+                <h2 class="h5 mb-0">Analyze Single URL</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Enter a URL to analyze its category, safety, and other attributes.
+                </p>
+                <form action="{{ url_for('analysis.analyze_url') }}" method="post">
+                    {{ csrf_token() }}
+                    <div class="mb-3">
+                        <label for="url" class="form-label">URL</label>
+                        <input type="url" class="form-control" id="url" name="url" 
+                               placeholder="https://example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="fetch_content" name="fetch_content" value="1">
+                            <label class="form-check-label" for="fetch_content">
+                                Fetch page content for deeper analysis
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Analyze URL
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-light">
+                <h2 class="h5 mb-0">Batch Analysis</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Upload a CSV or Excel file containing URLs for batch analysis.
+                </p>
+                <form action="{{ url_for('analysis.analyze_file') }}" method="post" enctype="multipart/form-data">
+                    {{ csrf_token() }}
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File</label>
+                        <input type="file" class="form-control" id="file" name="file" 
+                               accept=".csv,.xlsx,.xls" required>
+                        <div class="form-text">
+                            File must contain a column named "Domain_name" or "URL"
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="max_urls" class="form-label">Maximum URLs to process</label>
+                        <input type="number" class="form-control" id="max_urls" name="max_urls" 
+                               value="1000" min="1" max="10000">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload me-2"></i>Upload and Analyze
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">Recent Analyses</h2>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary" id="refreshAnalyses">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if analyses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="analysesTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>URLs Analyzed</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for analysis in analyses %}
+                                    <tr>
+                                        <td>{{ analysis.created_at|format_date('%Y-%m-%d %H:%M') }}</td>
+                                        <td>{{ analysis.type }}</td>
+                                        <td>{{ analysis.url_count }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ analysis.status_color }}">
+                                                {{ analysis.status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('analysis.view', analysis_id=analysis.id) }}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye me-1"></i>View
+                                            </a>
+                                            <a href="{{ url_for('reports.generate_from_analysis', analysis_id=analysis.id) }}" 
+                                               class="btn btn-sm btn-outline-success">
+                                                <i class="fas fa-chart-bar me-1"></i>Report
+                                            </a>
+                                            <button class="btn btn-sm btn-outline-danger delete-analysis" 
+                                                    data-analysis-id="{{ analysis.id }}">
+                                                <i class="fas fa-trash-alt me-1"></i>Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>No analyses have been performed yet.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Analysis Modal -->
+<div class="modal fade" id="deleteAnalysisModal" tabindex="-1" aria-labelledby="deleteAnalysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAnalysisModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this analysis? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteAnalysisForm" action="{{ url_for('analysis.delete') }}" method="post">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="analysis_id" id="deleteAnalysisId">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize DataTable for analyses
+        if (document.getElementById('analysesTable')) {
+            $('#analysesTable').DataTable({
+                order: [[0, 'desc']], // Sort by date descending
+                pageLength: 10,
+                language: {
+                    search: "Filter:",
+                    lengthMenu: "Show _MENU_ analyses per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ analyses",
+                    infoEmpty: "No analyses available",
+                    infoFiltered: "(filtered from _MAX_ total analyses)"
+                }
+            });
+        }
+        
+        // Handle delete analysis button clicks
+        document.querySelectorAll('.delete-analysis').forEach(button => {
+            button.addEventListener('click', function() {
+                const analysisId = this.getAttribute('data-analysis-id');
+                document.getElementById('deleteAnalysisId').value = analysisId;
+                const modal = new bootstrap.Modal(document.getElementById('deleteAnalysisModal'));
+                modal.show();
+            });
+        });
+        
+        // Handle refresh button
+        document.getElementById('refreshAnalyses')?.addEventListener('click', function() {
+            window.location.reload();
+        });
+    });
+</script>
+{% endblock %}

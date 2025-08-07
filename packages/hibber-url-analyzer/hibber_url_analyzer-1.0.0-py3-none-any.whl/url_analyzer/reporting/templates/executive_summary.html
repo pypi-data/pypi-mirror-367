@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Analysis - Executive Summary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --heading-color: #1a365d;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --primary-color: #3182ce;
+            --secondary-color: #718096;
+            --success-color: #38a169;
+            --warning-color: #e53e3e;
+            --accent-color: #805ad5;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --text-color: #e2e8f0;
+            --heading-color: #90cdf4;
+            --border-color: #4a5568;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --primary-color: #63b3ed;
+            --secondary-color: #a0aec0;
+            --success-color: #68d391;
+            --warning-color: #fc8181;
+            --accent-color: #b794f4;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            margin: 0;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .summary-box {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-box p {
+            margin: 0 0 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .summary-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-box {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-box h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .stat-box p {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .chart-container {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            height: 300px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .key-insights {
+            margin-top: 2rem;
+        }
+        
+        .insight-card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .insight-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .insight-card p {
+            margin: 0.5rem 0 0;
+        }
+        
+        .insight-card.warning {
+            border-left-color: var(--warning-color);
+        }
+        
+        .insight-card.warning h3 {
+            color: var(--warning-color);
+        }
+        
+        .insight-card.success {
+            border-left-color: var(--success-color);
+        }
+        
+        .insight-card.success h3 {
+            color: var(--success-color);
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+        
+        .theme-switch input {
+            display: none;
+        }
+        
+        .slider {
+            background-color: var(--secondary-color);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .footer p {
+            margin: 0.5rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    <div class="container">
+        <div class="header">
+            <h1>URL Analysis Executive Summary</h1>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider"></div>
+                </label>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <p>This executive summary provides a high-level overview of the URL analysis results. The analysis examined <strong id="totalUrls">--</strong> URLs, categorizing them based on content type and security considerations.</p>
+            <p>The report highlights key metrics, trends, and potential areas of concern to help inform decision-making and policy development.</p>
+        </div>
+        
+        <div class="stats-grid">
+            {{ stats_boxes_html|safe }}
+        </div>
+        
+        <div class="grid-2">
+            <div class="chart-container">
+                <h3>URL Categories</h3>
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Top 10 Domains</h3>
+                <canvas id="topDomainsChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>Key Insights</h2>
+        <div class="key-insights">
+            <div class="insight-card" id="sensitiveInsight">
+                <h3>Sensitive Content</h3>
+                <p>Sensitive URLs make up <span id="sensitivePercentage">--</span>% of total traffic. These may contain personal or confidential information and should be reviewed.</p>
+            </div>
+            
+            <div class="insight-card" id="domainInsight">
+                <h3>Domain Concentration</h3>
+                <p>The top domain (<span id="topDomain">--</span>) accounts for <span id="topDomainPercentage">--</span>% of all traffic, indicating a significant concentration of activity.</p>
+            </div>
+            
+            <div class="insight-card" id="uncategorizedInsight">
+                <h3>Uncategorized Content</h3>
+                <p><span id="uncategorizedPercentage">--</span>% of URLs could not be categorized and may require manual review.</p>
+            </div>
+        </div>
+        
+        <h2>Recommendations</h2>
+        <div class="insight-card success">
+            <h3>Next Steps</h3>
+            <p>Based on this analysis, consider the following actions:</p>
+            <ul id="recommendationsList">
+                <li>Review the detailed report for comprehensive insights</li>
+                <li>Examine sensitive URLs to ensure compliance with privacy policies</li>
+                <li>Consider implementing URL filtering for potentially problematic categories</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Generated on <span id="reportDate">{{ report_date }}</span></p>
+            <p>For detailed analysis, please refer to the full report.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Theme toggle
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        if (localStorage.getItem('theme') === 'dark') toggleSwitch.checked = true;
+        toggleSwitch.addEventListener('change', e => {
+            const theme = e.target.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Set current date
+        document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        {{ chart_data_js|safe }}
+        
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category chart
+            new Chart(document.getElementById('categoryChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: [
+                            '#3182ce', '#38a169', '#e53e3e', '#805ad5', 
+                            '#d69e2e', '#dd6b20', '#718096', '#4299e1'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color')
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Top domains chart
+            const topDomainsChart = new Chart(document.getElementById('topDomainsChart'), {
+                type: 'bar',
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color')
+                            },
+                            grid: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--border-color')
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text-color')
+                            },
+                            grid: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--border-color')
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Update top domains chart with data
+            const chartData = topNByClientData['All'];
+            topDomainsChart.data.labels = chartData.labels;
+            topDomainsChart.data.datasets = [{
+                label: 'Visits',
+                data: chartData.data,
+                backgroundColor: '#3182ce'
+            }];
+            topDomainsChart.update();
+            
+            // Calculate and display insights
+            try {
+                // Get total URLs
+                const totalUrls = chartData.reduce((sum, value) => sum + value, 0);
+                document.getElementById('totalUrls').textContent = totalUrls.toLocaleString();
+                
+                // Calculate sensitive percentage
+                const sensitiveIndex = chartLabels.indexOf('Sensitive');
+                if (sensitiveIndex !== -1) {
+                    const sensitivePercentage = ((chartData[sensitiveIndex] / totalUrls) * 100).toFixed(1);
+                    document.getElementById('sensitivePercentage').textContent = sensitivePercentage;
+                    
+                    // Update insight card class based on percentage
+                    const sensitiveInsight = document.getElementById('sensitiveInsight');
+                    if (parseFloat(sensitivePercentage) > 10) {
+                        sensitiveInsight.className = 'insight-card warning';
+                    }
+                }
+                
+                // Calculate uncategorized percentage
+                const uncategorizedIndex = chartLabels.indexOf('Uncategorized');
+                if (uncategorizedIndex !== -1) {
+                    const uncategorizedPercentage = ((chartData[uncategorizedIndex] / totalUrls) * 100).toFixed(1);
+                    document.getElementById('uncategorizedPercentage').textContent = uncategorizedPercentage;
+                }
+                
+                // Get top domain info
+                if (chartData.labels && chartData.labels.length > 0) {
+                    const topDomainIndex = chartData.data.indexOf(Math.max(...chartData.data));
+                    const topDomain = chartData.labels[topDomainIndex];
+                    const topDomainPercentage = ((chartData.data[topDomainIndex] / totalUrls) * 100).toFixed(1);
+                    
+                    document.getElementById('topDomain').textContent = topDomain;
+                    document.getElementById('topDomainPercentage').textContent = topDomainPercentage;
+                    
+                    // Update domain insight card class based on percentage
+                    const domainInsight = document.getElementById('domainInsight');
+                    if (parseFloat(topDomainPercentage) > 30) {
+                        domainInsight.className = 'insight-card warning';
+                    }
+                }
+                
+                // Generate dynamic recommendations
+                const recommendationsList = document.getElementById('recommendationsList');
+                const recommendations = [];
+                
+                // Add conditional recommendations
+                if (sensitiveIndex !== -1 && (chartData[sensitiveIndex] / totalUrls) > 0.05) {
+                    recommendations.push('Conduct a detailed review of sensitive URLs to identify potential privacy concerns');
+                }
+                
+                if (uncategorizedIndex !== -1 && (chartData[uncategorizedIndex] / totalUrls) > 0.1) {
+                    recommendations.push('Implement additional URL classification rules to reduce the number of uncategorized URLs');
+                }
+                
+                // Add recommendations to the list
+                recommendations.forEach(recommendation => {
+                    const li = document.createElement('li');
+                    li.textContent = recommendation;
+                    recommendationsList.appendChild(li);
+                });
+                
+            } catch (e) {
+                console.error('Error calculating insights:', e);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Analysis Report - Data Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --heading-color: #343a40;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --table-header-bg: #e9ecef;
+            --chart-bg: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #212529;
+            --card-bg: #343a40;
+            --text-color: #f8f9fa;
+            --heading-color: #f8f9fa;
+            --border-color: #495057;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --table-header-bg: #495057;
+            --chart-bg: #343a40;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 500;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        h4 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-box {
+            background-color: var(--card-bg);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-box h3 {
+            margin: 0 0 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary-color);
+        }
+        
+        .stat-box p {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .chart-container {
+            background-color: var(--chart-bg);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            height: 400px;
+        }
+        
+        .chart-container-lg {
+            height: 500px;
+        }
+        
+        .chart-container-sm {
+            height: 300px;
+        }
+        
+        .data-table-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th {
+            background-color: var(--table-header-bg);
+            text-align: left;
+            padding: 0.75rem;
+            font-weight: 500;
+        }
+        
+        table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+        
+        .theme-switch input {
+            display: none;
+        }
+        
+        .slider {
+            background-color: var(--secondary-color);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-secondary {
+            color: #fff;
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            opacity: 0.9;
+        }
+        
+        .export-buttons {
+            margin-bottom: 1rem;
+        }
+        
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .filter-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-box label {
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+        
+        .data-insights {
+            margin-top: 2rem;
+        }
+        
+        .insight-card {
+            background-color: var(--card-bg);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .insight-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .insight-card p {
+            margin-bottom: 0;
+        }
+        
+        .data-metric {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .data-metric-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .data-metric-value {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .data-metric-bar {
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            margin-top: 0.25rem;
+            overflow: hidden;
+        }
+        
+        .data-metric-bar-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_processing,
+        .dataTables_wrapper .dataTables_paginate {
+            color: var(--text-color) !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: var(--text-color) !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        @media (max-width: 992px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    <div class="container">
+        <div class="header">
+            <h1>URL Analysis Report - Data Analytics</h1>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider"></div>
+                </label>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            {{ stats_boxes_html|safe }}
+        </div>
+        
+        <h2>URL Category Distribution</h2>
+        <div class="grid grid-2">
+            <div class="chart-container">
+                <h3>Category Breakdown</h3>
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Top 10 Visited Domains</h3>
+                <canvas id="topDomainsChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>Traffic Flow Analysis</h2>
+        <div class="chart-container chart-container-lg">
+            <h3>Client → Category → Domain Flow</h3>
+            {{ sankey_html|safe }}
+        </div>
+        
+        <h2>Temporal Analysis</h2>
+        <div class="chart-container">
+            <h3>Activity Patterns Over Time</h3>
+            {{ time_charts_html|safe }}
+        </div>
+        
+        <h2>Data Insights</h2>
+        <div class="grid grid-3 data-insights">
+            <div class="insight-card">
+                <h4>Category Distribution</h4>
+                <div id="categoryMetrics">
+                    <!-- Dynamically populated by JavaScript -->
+                </div>
+            </div>
+            <div class="insight-card">
+                <h4>Domain Concentration</h4>
+                <p>The top 10 domains account for <span id="topDomainPercentage">--</span>% of all traffic.</p>
+                <p>Most visited domain: <span id="mostVisitedDomain">--</span></p>
+            </div>
+            <div class="insight-card">
+                <h4>Security Overview</h4>
+                <p>Sensitive URLs: <span id="sensitivePercentage">--</span>% of total</p>
+                <p>Uncategorized URLs: <span id="uncategorizedPercentage">--</span>% of total</p>
+            </div>
+        </div>
+        
+        <h2>Detailed URL Data</h2>
+        <div class="card">
+            <div class="filters-container">
+                <div class="export-buttons">
+                    <button id="exportCsv" class="btn btn-primary">Export CSV</button>
+                    <button id="exportJson" class="btn btn-secondary">Export JSON</button>
+                </div>
+                {{ filters_html|safe }}
+            </div>
+            
+            <div class="data-table-container">
+                {{ table_html|safe }}
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+        {{ chart_data_js|safe }}
+        
+        // Theme toggle
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        if (localStorage.getItem('theme') === 'dark') toggleSwitch.checked = true;
+        toggleSwitch.addEventListener('change', e => {
+            const theme = e.target.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
+        
+        {{ charts_js|safe }}
+        
+        {{ datatable_js|safe }}
+        
+        // Additional data analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculate and display additional metrics
+            try {
+                // Get data from charts
+                const categoryChart = Chart.getChart('categoryChart');
+                const topDomainsChart = Chart.getChart('topDomainsChart');
+                
+                if (categoryChart && categoryChart.data) {
+                    // Category metrics
+                    const categoryData = categoryChart.data;
+                    const categoryLabels = categoryData.labels;
+                    const categoryValues = categoryData.datasets[0].data;
+                    const totalUrls = categoryValues.reduce((a, b) => a + b, 0);
+                    
+                    // Create category metrics HTML
+                    const categoryMetricsEl = document.getElementById('categoryMetrics');
+                    if (categoryMetricsEl) {
+                        let categoryMetricsHtml = '';
+                        for (let i = 0; i < categoryLabels.length; i++) {
+                            const percentage = ((categoryValues[i] / totalUrls) * 100).toFixed(1);
+                            categoryMetricsHtml += `
+                                <div class="data-metric">
+                                    <div class="data-metric-label">${categoryLabels[i]}</div>
+                                    <div class="data-metric-value">${percentage}%</div>
+                                </div>
+                                <div class="data-metric-bar">
+                                    <div class="data-metric-bar-fill" style="width: ${percentage}%"></div>
+                                </div>
+                            `;
+                        }
+                        categoryMetricsEl.innerHTML = categoryMetricsHtml;
+                    }
+                    
+                    // Security metrics
+                    const sensitiveIndex = categoryLabels.indexOf('Sensitive');
+                    const uncategorizedIndex = categoryLabels.indexOf('Uncategorized');
+                    
+                    if (sensitiveIndex !== -1) {
+                        const sensitivePercentage = ((categoryValues[sensitiveIndex] / totalUrls) * 100).toFixed(1);
+                        document.getElementById('sensitivePercentage').textContent = sensitivePercentage;
+                    }
+                    
+                    if (uncategorizedIndex !== -1) {
+                        const uncategorizedPercentage = ((categoryValues[uncategorizedIndex] / totalUrls) * 100).toFixed(1);
+                        document.getElementById('uncategorizedPercentage').textContent = uncategorizedPercentage;
+                    }
+                }
+                
+                if (topDomainsChart && topDomainsChart.data) {
+                    // Domain metrics
+                    const domainData = topDomainsChart.data;
+                    const domainLabels = domainData.labels;
+                    const domainValues = domainData.datasets[0].data;
+                    const totalDomainVisits = domainValues.reduce((a, b) => a + b, 0);
+                    
+                    // Most visited domain
+                    const maxIndex = domainValues.indexOf(Math.max(...domainValues));
+                    if (maxIndex !== -1 && domainLabels[maxIndex]) {
+                        document.getElementById('mostVisitedDomain').textContent = domainLabels[maxIndex];
+                    }
+                    
+                    // Top domain percentage
+                    const topDomainPercentage = ((totalDomainVisits / totalUrls) * 100).toFixed(1);
+                    document.getElementById('topDomainPercentage').textContent = topDomainPercentage;
+                }
+            } catch (e) {
+                console.error('Error calculating additional metrics:', e);
+            }
+        });
+    </script>
+</body>
+</html>
