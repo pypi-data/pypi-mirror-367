@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apache-airflow-providers-onehouse"
+dynamic = ["version"]
+description = "Apache Airflow Provider for OneHouse"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    {name = "OneHouse"},
+]
+keywords = ["airflow", "onehouse", "provider"]
+classifiers = [
+    "Framework :: Apache Airflow",
+    "Framework :: Apache Airflow :: Provider",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "apache-airflow>=2.9.2",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/onehouseinc/airflow-providers-onehouse/issues"
+"Source Code" = "https://github.com/onehouseinc/airflow-providers-onehouse"
+
+[project.entry-points."apache_airflow_provider"]
+provider_info = "airflow_providers_onehouse:get_provider_info"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "airflow_providers_onehouse._version.__version__"}
