@@ -1,0 +1,50 @@
+# titleblock.yaml – Define unscaled titleblock structure
+
+# Here you can create your own custom unscaled title block pattern
+# See github wiki for an illustrated example under Sheet Subsystem
+
+# No Metamodel elements are assigned here and the x,y coordinates of each rectangle
+# in the pattern are not defined here
+# This is just a scalable specification of the rectangular subdivisions, text styling
+# and relative proportions in the Title Block Patterns
+
+# The idea being that you can use the same pattern with a wide variety of Sheet sizes
+# and have it scale automatically with the same internal proportions
+
+# Systems Engineer Simple
+- SE Simple: # Name of a title block pattern
+
+    scale: # Scaled total size and margins for each Sheet Size Group defined in sheet.yaml
+      large: {width: 600, height: 110, margin h: 8, margin v: 2}
+      medium: {width: 400, height: 90, margin h: 8, margin v: 2}
+      small: {width: 80, height: 20, margin h: 6, margin v: 2}
+
+    compartment boxes: # A container box that is divided horizontally or vertically
+        # Example:
+        # Box 1 is split horizontally with a divider 25% of its height moving up the y axis
+        # This creates upper Box 2 and lower Box 3
+        1: {orientation: H, distance: 0.25, up: 2, down: 3}
+        2: {orientation: V, distance: 0.59, right: 4, left: 5}
+        4: {orientation: H, distance: 0.5, up: 6, down: 7}
+
+    data boxes: # Box that is not subdivided with metadata assignable in one or more regions
+        # Example:
+          # Box 3 named 'Bottom' (created by splitting Box 1, above) is defined with:
+          # Text left and center aligned using the specified text style
+          # A single region spans the interior so only one Metadata item may be assigned
+        3 : {name: bottom, h align: LEFT, v align: CENTER, style: block body, regions: 1}
+        5 : {name: main, h align: LEFT, v align: CENTER, style: block title, regions: 1}
+        6 : {name: rtop, h align: LEFT, v align: CENTER, style: block body, regions: 2}
+        7 : {name: rbottom, h align: LEFT, v align: CENTER, style: block body, regions: 2}
+
+      # Name of title block pattern is a user supplied alphanumeric string with spaces or underscores permitted
+      # ID is a unique integer >= one
+      # Orientation is H / V
+      # Distance is a rational number > 0 and < 1
+      # Up, Down, Left, Right specifies ID of a new Partitioned Box
+      # Name describes location or purpose of a Data Box (easier to remember than a number)
+      # Alignment options are H: LEFT / RIGHT and V: TOP / CENTER / BOTTOM
+      # Regions must be an integer >= one
+      # Available style names are defined in the mi_tablet folder in your config directory
+
+# Add custom title blocks below (or modify above at your own risk!)
