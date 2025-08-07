@@ -1,0 +1,212 @@
+[build-system]
+requires = ["poetry-core>=2.0.0", ]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "singleton-decorator1"
+description = "Singleton decorator which is: thread-safe, copy safe, mypy compliant, not wrapped class"
+authors = [{name = "Doug Sojourner", email = "<doug@sojournings.org>"}, {name = "Editor 82 of wiki.python.org"}, ]
+readme = "README.md"
+requires-python = ">=3.7,<4.0"
+license = { text = "GNU General Public License v3 (GPLv3)" }
+version = "1.0.0"
+
+dependencies = []
+
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+]
+
+keywords = ["decorators", "singleton", "threadsafe", "testable", "mypy clean", "copy safe", "verified", ]
+
+[dependency-groups]
+all = [
+	"poethepoet[poetry-plugin]",
+	"poetry>=2.0; python_version >= '3.8'",
+	"poetry>=1.5.8; python_version < '3.8'",
+	"virtualenv",
+	]
+self = ["singleton-decorator1==0.5.6"]
+test = [
+	"mypy>=0.942",
+	"isort>=5.12.0; python_version >= '3.8'",
+	"isort; python_version < '3.8'",
+	"pytest>=7.4.4",
+	"black>=24.4.0; python_version >= '3.8'",
+	"black; python_version < '3.8'",
+	]
+build = [
+	  "poetry-core>=2.0; python_version >= '3.8'",
+	  "poetry-core; python_version < '3.8'",
+	  ]
+local-source = ["simple503", "simpleindex", ]
+
+[project.urls]
+repository = "https://codeberg.org/Sojournings/singleton-decorator.git"
+
+[tool.poetry]
+include = [
+    { path = "tests/test_singleton.py", format = "sdist" },
+    { path = "tests/file_to_read", format = "sdist" },
+    { path = "tests/.python-version", format = "sdist" },
+    { path = "tests/pyproject.toml", format = "sdist" },
+    { path = "singleton_decorator1", format = ["sdist", "wheel"] },
+]
+
+[tool.poetry.requires-plugins]
+poethepoet = { version = ">=0.10.0", extras = ["poetry_plugin"]}
+
+[project.entry-points."poetry.plugin"]
+#poetry-git-version-plugin = "poetry_git_version_plugin.plugins:PoetryGitVersionPlugin"
+
+[project.entry-points."poetry.application.plugin"]
+#poetry-git-version-plugin = "poetry_git_version_plugin.plugins:PoetryGitVersionApplicationPlugin"
+
+[tool.poetry.dependencies]
+#importlib-metadata = {version = "^1.0", python = "<3.8"}
+
+[tool.poetry.group.dev.dependencies]
+#mypy  = ">=0.942"  
+#isort = ">=5.12.0"
+#pytest = ">=7.4.4" # included for audit issues
+#black = ">=24.4.0" # included for audit issues
+#poetry-githooks = ">=3.0.1,<4.0.0"
+
+[[tool.poetry.source]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+priority = "primary"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+ignore_missing_imports = false
+check_untyped_defs = true
+
+# siginificantly speed up pytest
+[tool.pytest.ini_options]
+testpaths = [ "tests"]
+
+[tool.poe]
+shell_interpreter = "bash"
+
+[tool.poe.poetry_hooks]
+#pre_build  = "test_seq_1"
+#         Set version, propogate to module
+#post_build = "test_seq_2"
+#pre_publish = "test_seq_3"
+#         push
+
+[tool.poe.tasks]
+test_seq_1 = ["clean", "black", "mypy" ]
+test_seq_2 = ["local_source", "pytest", "local_source_stop"]
+test_seq_3 = ["local_source", "pytest", "mypy", "local_source_stop"]
+
+[tool.poe.tasks.local_source]
+shell = """
+   PID_SIMPLEINDEX=$(pgrep simpleindex)
+   if [[ "${PID_SIMPLEINDEX-}" != "" ]] ; then
+      kill ${PID_SIMPLEINDEX}
+   fi
+   simple503 -B ${PWD}/tests/simple -e -s  -c ${PWD}/dist ${PWD}/tests/simple
+   nohup simpleindex ${PWD}/tests/simple/configuration.toml &
+"""
+
+[tool.poe.tasks.local_source_stop]
+shell = """
+   PID_SIMPLEINDEX=$(pgrep simpleindex)
+   if [[ "${PID_SIMPLEINDEX-}" != "" ]] ; then
+      kill ${PID_SIMPLEINDEX}
+   fi
+"""
+
+[tool.poe.tasks.black]
+# For black, just run once for format
+shell = """
+   black .
+"""
+
+[tool.poe.tasks.pytest]
+shell = """
+    export PYENV_ROOT=~/.pyenv
+  
+    [[ -d $PYENV_ROOT ]] || export PYENV_ROOT=$($(find "${HOME}" -path '*/.local/share/containers/*' -prune -o -executable -name  pyenv -path  '*/bin/*'  -print) root)
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    if command -v pyenv 1>/dev/null 2>&1; then
+       eval "$(pyenv init - bash)"
+    fi
+    if pyenv virtualenvs 1>/dev/null 2>&1  ; then
+       eval "$(pyenv virtualenv-init -)"
+    fi
+    for py in 3.7 3.10 3.13; do
+	   	pyenv activate test-${py}
+		pytest -v 
+	done
+"""
+
+[tool.poe.tasks.fix-version]
+shell = """
+    version=$(grep -P "^version\\s*=\\s*\"([0-9.a-z]+)\"" pyproject.toml)
+	project=$(grep -P "^name\\s*=\\s*(\"[0-9.a-z_-]+\")" pyproject.toml)
+	mv pyproject.toml pyproject.toml~
+	sed -e "/^self *= *[\"${project}/ s/==\\[0-9.a-z\\]\\+/==${version}/" <pyproject.toml~ >pyproject.toml
+"""
+
+[tool.poe.tasks.venvs]
+shell = """
+    export PYENV_ROOT=~/.pyenv
+  
+    [[ -d $PYENV_ROOT ]] || export PYENV_ROOT=$($(find "${HOME}" -path '*/.local/share/containers/*' -prune -o -executable -name  pyenv -path  '*/bin/*'  -print) root)
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    if command -v pyenv 1>/dev/null 2>&1; then
+       eval "$(pyenv init - bash)"
+    fi
+    if pyenv virtualenvs 1>/dev/null 2>&1  ; then
+       eval "$(pyenv virtualenv-init -)"
+    fi
+    for py in 3.7 3.10 3.13; do
+	   	pyenv virtualenv ${py} test-${py} --clear --download --no-setuptools
+		pyenv depends test-${py} test self
+	   	pyenv virtualenv ${py} build-${py} --clear --download --no-setuptools
+		pyenv depends build-${py} build
+	done
+"""	
+
+[tool.poe.tasks.mypy]
+shell = """
+   export PYENV_ROOT=~/.pyenv
+
+   [[ -d $PYENV_ROOT ]] || export PYENV_ROOT=$($(find "${HOME}" -path '*/.local/share/containers/*' -prune -o -executable -name  pyenv -path  '*/bin/*'  -print) root)
+   [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+   if command -v pyenv 1>/dev/null 2>&1; then
+      eval "$(pyenv init - bash)"
+   fi
+   if pyenv virtualenvs 1>/dev/null 2>&1  ; then
+      eval "$(pyenv virtualenv-init -)"
+   fi
+   for os in linux linux2 win32 darwin; do
+	  pyenv activate test-3.7
+      echo "Verify for python 3.7 on ${os}"
+      mypy --platform ${os} singleton_decorator1 tests
+	  pyenv activate test-3.13
+      for py in 3.9 3.11 3.13; do # < 3.9 not supported by mypy
+         echo "Verify for python ${py} on ${os}"
+	     mypy --python-version ${py} --platform ${os} singleton_decorator1 tests
+	  done
+   done
+"""
+
+[tool.poe.tasks.clean]
+shell = """
+   find . -type f -name '*~' -execdir rm {} \\;
+"""
