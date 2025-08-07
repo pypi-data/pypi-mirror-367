@@ -1,0 +1,271 @@
+# Robin Logistics Environment
+
+A comprehensive multi-depot vehicle routing problem (MDVRP) simulation environment for optimization challenges and hackathons.
+
+[![PyPI version](https://badge.fury.io/py/robin-logistics-env.svg)](https://badge.fury.io/py/robin-logistics-env)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+pip install robin-logistics-env
+```
+
+### Basic Usage
+
+```python
+from robin_logistics import LogisticsEnvironment
+
+def my_solver(env):
+    """Your optimization algorithm here"""
+    routes = {}
+    
+    # Example: Simple nearest neighbor
+    for vehicle_spec in env.vehicle_specs:
+        vehicle_id = vehicle_spec['vehicle_id']
+        home_warehouse = env.get_vehicle_home_warehouse(vehicle_id)
+        
+        # Find nearest unassigned order
+        route = [home_warehouse]
+        for order in env.order_requirements:
+            if env.can_vehicle_serve_orders(vehicle_id, [order['order_id']]):
+                route.append(order['destination_node'])
+                break
+        route.append(home_warehouse)
+        
+        if len(route) > 2:
+            routes[vehicle_id] = route
+    
+    return {"routes": routes}
+
+# Run optimization
+env = LogisticsEnvironment()
+results = env.run_optimization(my_solver)
+print(f"Valid: {results['is_valid']}, Cost: ${results['cost']:.2f}")
+
+# Launch interactive dashboard
+env.launch_dashboard(my_solver)
+```
+
+### Command Line Interface
+
+```bash
+# Run with dashboard
+robin-logistics --solver my_solver.py --dashboard
+
+# Save solution to file
+robin-logistics --solver my_solver.py --output solution.json
+
+# Export problem data for analysis
+robin-logistics --export-problem problem_data.json
+```
+
+## 📊 Problem Description
+
+### Multi-Depot Vehicle Routing Problem (MDVRP)
+
+- **2 Warehouses** with different inventory levels
+- **60 Vehicles** with capacity and distance constraints  
+- **15 Customer Orders** requiring multiple SKUs
+- **7,571 Real Road Network Nodes** with actual distances
+- **Multiple Constraints**: Weight, volume, distance, inventory availability
+
+### Objective
+
+Minimize total operational cost while satisfying all constraints:
+- All orders must be fulfilled exactly once
+- Vehicles must start and end at their home warehouse
+- Respect capacity limits (weight and volume)
+- Stay within vehicle distance limits
+- Ensure SKU availability at pickup warehouses
+
+## 🛠️ API Reference
+
+### Environment Properties
+
+```python
+env = LogisticsEnvironment()
+
+# Problem scale
+env.num_warehouses      # 2
+env.num_vehicles        # 60  
+env.num_orders          # 15
+env.num_nodes           # 7,571
+
+# Location data
+env.warehouse_locations # [(id, lat, lon), ...]
+env.customer_locations  # [(order_id, lat, lon), ...]
+
+# Detailed specifications
+env.vehicle_specs       # Vehicle capacity, costs, constraints
+env.order_requirements  # Order SKUs, weights, volumes, destinations
+```
+
+### Utility Methods
+
+```python
+# Distance and routing
+distance = env.get_distance(node1, node2)           # km
+path = env.get_shortest_path(node1, node2)          # [node_ids]
+
+# Capacity and feasibility
+can_serve = env.can_vehicle_serve_orders(vehicle_id, [order_ids])
+home_warehouse = env.get_vehicle_home_warehouse(vehicle_id)
+order_location = env.get_order_location(order_id)
+
+# Solution validation and cost estimation
+is_valid, message = env.validate_route(vehicle_id, route)
+estimated_cost = env.estimate_route_cost(vehicle_id, route)
+
+# Available vehicles
+vehicle_list = env.get_available_vehicles()
+```
+
+### Solution Format
+
+```python
+solution = {
+    "routes": {
+        "vehicle_1": [warehouse_node, customer_node1, customer_node2, warehouse_node],
+        "vehicle_2": [warehouse_node, customer_node3, warehouse_node],
+        # ... more routes
+    }
+}
+```
+
+### Results
+
+```python
+results = env.run_optimization(my_solver)
+# Returns:
+{
+    'is_valid': True,
+    'cost': 1250.75,
+    'vehicles_used': 8,
+    'orders_fulfilled': 15,
+    'message': 'All routes valid and all orders delivered.',
+    'solution': {...},
+    'simulation_logs': {...}
+}
+```
+
+## 🗺️ Advanced Usage
+
+### Access Full Road Network Data
+
+```python
+import robin_logistics
+import os
+import pandas as pd
+
+# Access raw map data for advanced algorithms
+data_dir = os.path.join(os.path.dirname(robin_logistics.__file__), 'data')
+nodes_df = pd.read_csv(os.path.join(data_dir, 'nodes.csv'))  # 7,571 nodes
+edges_df = pd.read_csv(os.path.join(data_dir, 'edges.csv'))  # 16,411 edges
+
+# Use for spatial clustering, network analysis, custom heuristics
+```
+
+### Problem Data Export
+
+```python
+# Export complete problem instance for external analysis
+env.export_problem_data('problem_instance.json')
+
+# Save and load solutions
+env.save_solution(solution, 'best_solution.json')
+loaded_solution = env.load_solution('best_solution.json')
+```
+
+### Interactive Dashboard Features
+
+- **Real-time route visualization** on actual road maps
+- **Vehicle utilization metrics** and capacity analysis
+- **Step-by-step simulation logs** with inventory tracking
+- **Cost breakdown** and performance analytics
+- **Problem instance details** and constraint verification
+
+## 🎯 Algorithm Strategies
+
+### Beginner Approaches
+- **Nearest Neighbor**: Assign closest orders to vehicles
+- **Greedy Construction**: Build routes incrementally
+- **Random Assignment**: Baseline for comparison
+
+### Advanced Techniques
+- **Savings Algorithm**: Classical VRP optimization
+- **Genetic Algorithms**: Population-based search
+- **Simulated Annealing**: Local search metaheuristics
+- **Spatial Clustering**: Geographic order grouping
+- **Mixed Integer Programming**: Exact optimization
+
+### Machine Learning
+- **Route Prediction**: Learn from optimal solutions
+- **Demand Forecasting**: Predict order patterns
+- **Network Embeddings**: Learn road network structure
+
+## 📝 Constraints Reference
+
+### Vehicle Constraints
+- **Capacity**: Weight (kg) and volume (m³) limits
+- **Distance**: Maximum travel distance per route
+- **Home Base**: Must start and end at assigned warehouse
+- **Fleet Assignment**: Each vehicle belongs to specific warehouse
+
+### Order Constraints
+- **Fulfillment**: Each order must be delivered exactly once
+- **SKU Requirements**: Multiple items with specific quantities
+- **Inventory**: Items must be available at pickup warehouse
+- **Location**: Fixed delivery destination
+
+### Operational Constraints
+- **Cost Structure**: Fixed cost + distance-based cost per vehicle
+- **Route Validity**: Must follow actual road network
+- **Capacity Utilization**: No overloading allowed
+
+## 🏆 Example Solutions
+
+See the `contestant_example/` directory for:
+- **Basic solver** (`my_solver.py`) - Simple nearest neighbor approach
+- **Advanced solver** (`advanced_solver.py`) - Savings algorithm implementation
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Import Error**
+```bash
+pip install --upgrade robin-logistics-env
+```
+
+**Solution Invalid**
+- Check route format: `{"routes": {"vehicle_id": [node_list]}}`
+- Ensure routes start/end at home warehouse
+- Verify capacity constraints with `can_vehicle_serve_orders()`
+- Validate individual routes with `validate_route()`
+
+**Performance Issues**
+- Use `get_distance()` caching for repeated calculations
+- Consider spatial clustering for large problems
+- Implement early termination in optimization loops
+
+## 📚 Additional Resources
+
+- **Algorithm Tutorials**: Classical VRP solution methods
+- **NetworkX Documentation**: For custom graph algorithms  
+- **Optimization Libraries**: OR-Tools, Gurobi, CPLEX integration examples
+- **Visualization Tools**: Folium, Plotly for custom mapping
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+## 🤝 Contributing
+
+This package is designed for educational and competitive programming purposes. For issues or feature requests, please contact the development team.
+
+---
+
+**Happy Optimizing! 🚛📈**
