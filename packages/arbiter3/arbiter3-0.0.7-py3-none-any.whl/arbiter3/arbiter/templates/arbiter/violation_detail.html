@@ -1,0 +1,72 @@
+{% extends "arbiter/base.html" %}
+{% load static %}
+{% block extrastyle %}
+    {{block.super}}
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="{% static 'js/plotly.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/change-form.css' %}">
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" method="post">
+    <div class="form-row">
+        <label>Violator:</label> 
+        <div class= "field-value">
+            <a href="{% url 'arbiter:user-breakdown' violation.target.username%}">{{violation.target.username}}</a>@{{violation.target.host}}
+        </div>
+    </div>
+    <div class="form-row">
+        <label>Name:</label> <div class= "field-value">{{ realname }}</div>
+    </div>
+    <div class="form-row">
+        <label>Policy:</label> 
+        <div class= "field-value">
+        {% if violation.policy.is_base_policy %}
+            <a href="{% url 'arbiter:change-base-policy' violation.policy.id%}">{{violation.policy.name}}</a>
+        {% else %}    
+            <a href="{% url 'arbiter:change-usage-policy' violation.policy_id%}">{{violation.policy.name}}</a>
+        {% endif %}
+        </div>
+    </div>
+    <div class="form-row">
+        <label>Expiration:</label> <div class= "field-value">{{ violation.expiration }}</div>
+    </div>
+    <div class="form-row">
+        <label>Timestamp:</label> <div class= "field-value">{{ violation.timestamp }}</div>
+    </div>
+    <div class="form-row">
+        <label>Offense Count:</label> <div class= "field-value">{{ violation.offense_count}}</div>
+    </div>
+    <div class="form-row">
+        <label>Is Base Status:</label> <div class= "field-value">{{ violation.is_base_status}}</div>
+    </div>
+
+    {% if not violation.policy.is_base_policy %}
+        <div class="form-row">
+            <label>CPU Usage:</label> 
+            <div class= "field-value">
+                <div hx-get="{% url 'arbiter:violation-proc-cpu-graph' violation.id%}" hx-trigger="load" hx-target="this" hx-swap="innerHTML" ></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <label>Memory Usage:</label> 
+            <div class= "field-value">
+                <div hx-get="{% url 'arbiter:violation-proc-memory-graph' violation.id%}" hx-trigger="load" hx-target="this" hx-swap="innerHTML" ></div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if can_change %}
+
+        {% csrf_token %}
+
+        {% if not violation.expired and violation.expiration%}
+            <input type="submit" name="expire" value="expire"/>
+        {% endif %}
+        <input type="submit" name="delete" value="delete"/>
+    
+    {% endif %}
+</form>
+{% endblock content %}
+
+
