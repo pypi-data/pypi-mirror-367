@@ -1,0 +1,40 @@
+[project]
+name = "hh-creator"
+dynamic = ["version"]
+description = "A poker hand history creator/replayer"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "deuces>=0.2.1",
+    "poker>=0.30.0",
+    "pyqt5",
+    "pyqt5-qt5==5.15.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/truenicoco/hh-creator/"
+Repository = "https://github.com/truenicoco/hh-creator/"
+Issues = "https://github.com/truenicoco/hh-creator/issues"
+
+[project.gui-scripts]
+hh-creator = "hh_creator.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["hh_creator"]
+
+[dependency-groups]
+dev = [
+    "pyproject-pre-commit[ruff]>=0.3.6",
+    "pytest>=8.3.4",
+]
+
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.setuptools]
+# FIXME: remove this when the setuptools upstream bug is fixed
+# https://github.com/astral-sh/uv/issues/9513#issuecomment-2519527822
+license-files = []
