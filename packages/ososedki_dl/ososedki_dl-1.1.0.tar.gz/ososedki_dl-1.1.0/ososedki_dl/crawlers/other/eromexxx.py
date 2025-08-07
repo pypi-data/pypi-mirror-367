@@ -1,0 +1,195 @@
+"""Downloader for https://eromexxx.com"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+import tldextract
+from bs4 import NavigableString
+from rich import print
+from typing_extensions import override
+
+from ...download import download_and_save_media
+from ...utils import get_final_path
+from ..base_crawler import BaseCrawler
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from bs4 import BeautifulSoup
+    from bs4.element import Tag
+
+
+class EromeXXXCrawler(BaseCrawler):
+    site_url = "https://eromexxx.com"
+
+    @override
+    async def download(self, url: str) -> list[dict[str, str]]:
+        """
+        Download all media from a given EromeXXX profile URL.
+
+        Fetches the profile page, determines the total number of albums,
+        retrieves all album URLs across paginated pages, and downloads media
+        from each album. Returns a list of dictionaries containing the results
+        of each media download. Returns an empty list if the profile page or
+        required elements are missing, or if no albums are found.
+
+        Args:
+            url (str): The URL of the EromeXXX profile to download media from.
+
+        Returns:
+            list[dict[str, str]]: A list of dictionaries with information about
+            each downloaded media item.
+        """
+        profile_url: str = url
+        if profile_url.endswith("/"):
+            profile_url = profile_url[:-1]
+
+        profile: str = profile_url.split("/")[-1]
+
+        soup: BeautifulSoup | None = await self.fetch_soup(profile_url)
+        if not soup:
+            return []
+
+        # Get the total number of albums
+        header: Tag | NavigableString | None = soup.find("div", class_="header-title")
+        if not header:
+            return []
+        span: Tag | NavigableString | None | int = header.find("span")
+        if not span or isinstance(span, int):
+            return []
+        total_albums = int(span.text.strip())
+        print(f"Total_albums: {total_albums}")
+
+        # Get all album URLs from pagination
+        albums: list[str] = await self.find_albums_with_pagination(
+            soup, profile_url, profile
+        )
+        if not albums:
+            print("No albums found.")
+            return []
+
+        # Determine the highest album offset
+        highest_offset: int = max(
+            int(album.split("-")[-1].split("/")[0]) for album in albums
+        )
+        print(f"Highest_offset: {highest_offset}")
+        base_url: str = "".join(profile_url.split("/model"))
+
+        results: list[dict[str, str]] = []
+        for i in range(1, highest_offset + 1):
+            results += await self.download_album(f"{base_url}-{i}", profile)
+
+        return results
+
+    async def find_albums_with_pagination(
+        self, soup: BeautifulSoup, profile_url: str, profile: str
+    ) -> list[str]:
+        # Get pagination items
+        pagination: Tag | NavigableString | None = soup.find("ul", class_="pagination")
+        if not pagination or isinstance(pagination, NavigableString):
+            return []
+
+        # Get the last page number
+        try:
+            last_page = int(pagination.find_all("li")[-2].text)
+        except AttributeError:
+            # Only one page, return the current page
+            last_page = 1
+
+        albums: list[str] = []
+        for page in range(1, last_page + 1):
+            page_url: str = f"{profile_url}/page/{page}"
+            page_soup: BeautifulSoup | None = await self.fetch_soup(page_url)
+            if not page_soup:
+                break
+            page_albums: list[str] = self.find_albums_in_soup(page_soup, profile)
+            albums.extend(page_albums)
+
+        albums = list(set(albums))  # Remove duplicates
+        return albums
+
+    def find_albums_in_soup(self, soup: BeautifulSoup, profile: str) -> list[str]:
+        """
+        Extract album URLs from the provided BeautifulSoup object that belong
+        to the specified profile.
+
+        Args:
+            soup (BeautifulSoup): Parsed HTML content of a profile or album
+                listing page.
+            profile (str): Profile identifier used to filter relevant album
+                URLs.
+
+        Returns:
+            list[str]: List of album URLs associated with the given profile.
+        """
+        albums: list[str] = []
+        for album in soup.find_all("a", class_="athumb thumb-link"):
+            if profile in album["href"]:
+                albums.append(album["href"])
+        return albums
+
+    async def download_album(self, album_url: str, title: str) -> list[dict[str, str]]:
+        """
+        Download all media files from a specified album URL and return the
+        results.
+
+        Fetches the album page, extracts all video and image URLs, downloads
+        each media file to a local directory named after the album title, and
+        returns a list of dictionaries describing the download results. Returns
+        an empty list if the album page cannot be fetched or contains no media.
+
+        Args:
+            album_url (str): The URL of the album to download.
+            title (str): The title used to name the local download directory.
+
+        Returns:
+            list[dict[str, str]]: A list of dictionaries with information about
+            each downloaded media file.
+        """
+        try:
+            soup: BeautifulSoup | None = await self.fetch_soup(album_url)
+        except ValueError:
+            return []
+
+        if not soup:
+            return []
+
+        videos: list[str] = [
+            video_source["src"] for video_source in soup.find_all("source")
+        ]
+        images: list[str] = [
+            image["data-src"]
+            for image in soup.find_all("img", class_="img-back lazyload")
+        ]
+        urls: list[str] = list(set(images + videos))
+
+        album_path: Path = get_final_path(self.context.download_path, title)
+
+        results: list[dict[str, str]] = []
+        for url in urls:
+            result: dict[str, str] = await self.download_media(
+                url, album_path, album_url
+            )
+            results.append(result)
+            self.context.progress.advance(self.context.task)
+
+        return results
+
+    async def download_media(
+        self, url: str, download_path: Path, album: str = ""
+    ) -> dict[str, str]:
+        hostname: str = tldextract.extract(url).fqdn
+
+        headers: dict[str, str] = {
+            "Referer": album or f"https://{hostname}",
+            "Origin": f"https://{hostname}",
+            "User-Agent": "Mozilla/5.0",
+        }
+
+        return await download_and_save_media(
+            self.context.session,
+            url,
+            download_path,
+            headers,
+        )
