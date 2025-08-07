@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+
+{% load i18n static %}
+
+{% block extrahead %}
+    <script src="{% static 'passkeys/passkeys.js' %}"></script>
+{% endblock %}
+
+{% block userlinks %}
+    <a href="" onclick="registerPasskey('{% url 'passkey-register' %}', '{% url 'admin:index' %}'); return false;">{% translate 'Register Passkey' %}</a> /
+    {{ block.super }}
+{% endblock %}
