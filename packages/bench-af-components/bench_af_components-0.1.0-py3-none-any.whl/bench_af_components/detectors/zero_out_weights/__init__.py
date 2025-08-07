@@ -1,0 +1,1 @@
+"""Zero out weights detector."""
