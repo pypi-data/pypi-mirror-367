@@ -1,0 +1,56 @@
+#include "petscsys.h"
+#include "petscfix.h"
+#include "petsc/private/fortranimpl.h"
+/* partmatpart.c */
+/* Fortran interface file */
+
+/*
+* This file was generated automatically by bfort from the C source
+* file.  
+ */
+
+#ifdef PETSC_USE_POINTER_CONVERSION
+#if defined(__cplusplus)
+extern "C" { 
+#endif 
+extern void *PetscToPointer(void*);
+extern int PetscFromPointer(void *);
+extern void PetscRmPointer(void*);
+#if defined(__cplusplus)
+} 
+#endif 
+
+#else
+
+#define PetscToPointer(a) (a ? *(PetscFortranAddr *)(a) : 0)
+#define PetscFromPointer(a) (PetscFortranAddr)(a)
+#define PetscRmPointer(a)
+#endif
+
+#include "petscpartitioner.h"
+#ifdef PETSC_HAVE_FORTRAN_CAPS
+#define petscpartitionermatpartitioninggetmatpartitioning_ PETSCPARTITIONERMATPARTITIONINGGETMATPARTITIONING
+#elif !defined(PETSC_HAVE_FORTRAN_UNDERSCORE) && !defined(FORTRANDOUBLEUNDERSCORE)
+#define petscpartitionermatpartitioninggetmatpartitioning_ petscpartitionermatpartitioninggetmatpartitioning
+#endif
+/* Provide declarations for malloc/free if needed for strings */
+#include <stdlib.h>
+
+
+/* Definitions of Fortran Wrapper routines */
+#if defined(__cplusplus)
+extern "C" {
+#endif
+PETSC_EXTERN void  petscpartitionermatpartitioninggetmatpartitioning_(PetscPartitioner part,MatPartitioning *mp, int *ierr)
+{
+CHKFORTRANNULLOBJECT(part);
+PetscBool mp_null = !*(void**) mp ? PETSC_TRUE : PETSC_FALSE;
+CHKFORTRANNULLOBJECT(mp);
+*ierr = PetscPartitionerMatPartitioningGetMatPartitioning(
+	(PetscPartitioner)PetscToPointer((part) ),mp);
+// if C routine nullifed the object, we must set to to -2 to indicate null set in Fortran
+if (! mp_null && !*(void**) mp) * (void **) mp = (void *)-2;
+}
+#if defined(__cplusplus)
+}
+#endif

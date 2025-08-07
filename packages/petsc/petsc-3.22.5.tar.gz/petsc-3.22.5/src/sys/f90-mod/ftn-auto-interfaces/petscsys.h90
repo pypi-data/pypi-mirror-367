@@ -1,0 +1,1477 @@
+      subroutine PetscLogFlops(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscLogFlops
+      subroutine PetscLogGpuFlops(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscLogGpuFlops
+      subroutine PetscTime(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscTime
+      subroutine PetscTimeSubtract(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscTimeSubtract
+      subroutine PetscTimeAdd(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscTimeAdd
+      subroutine PetscCitationsRegister(a,b,z)
+       character(*) a (*) ! char
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscCitationsRegister
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSAWsTakeAccess(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSAWsTakeAccess
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSAWsGrantAccess(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSAWsGrantAccess
+#endif
+      subroutine PetscSAWsBlock(z)
+       PetscErrorCode z
+       end subroutine PetscSAWsBlock
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSAWsBlock(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSAWsBlock
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSAWsSetBlock(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscObjectSAWsSetBlock
+#endif
+      subroutine PetscBagDestroy(a,z)
+       PetscBag a ! PetscBag
+       PetscErrorCode z
+       end subroutine PetscBagDestroy
+      subroutine PetscBagSetFromOptions(a,z)
+       PetscBag a ! PetscBag
+       PetscErrorCode z
+       end subroutine PetscBagSetFromOptions
+      subroutine PetscBagView(a,b,z)
+       import tPetscViewer
+       PetscBag a ! PetscBag
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscBagView
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscBagViewFromOptions(a,b,c,z)
+       import tPetscObject
+       PetscBag a ! PetscBag
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscBagViewFromOptions
+#endif
+      subroutine PetscBagLoad(a,b,z)
+       import tPetscViewer
+       PetscViewer a ! PetscViewer
+       PetscBag b ! PetscBag
+       PetscErrorCode z
+       end subroutine PetscBagLoad
+      subroutine PetscBagSetName(a,b,c,z)
+       PetscBag a ! PetscBag
+       character(*) b ! char
+       character(*) c ! char
+       PetscErrorCode z
+       end subroutine PetscBagSetName
+      subroutine PetscBagSetOptionsPrefix(a,b,z)
+       PetscBag a ! PetscBag
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscBagSetOptionsPrefix
+      subroutine PetscBenchReset(a,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchReset
+      subroutine PetscBenchDestroy(a,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchDestroy
+      subroutine PetscBenchSetUp(a,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchSetUp
+      subroutine PetscBenchRun(a,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchRun
+      subroutine PetscBenchSetFromOptions(a,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchSetFromOptions
+      subroutine PetscBenchView(a,b,z)
+       import tPetscBench,tPetscViewer
+       PetscBench a ! PetscBench
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscBenchView
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscBenchViewFromOptions(a,b,c,z)
+       import tPetscBench,tPetscObject
+       PetscBench a ! PetscBench
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscBenchViewFromOptions
+#endif
+      subroutine PetscBenchCreate(a,b,z)
+       import tPetscBench
+       MPI_Comm a ! MPI_Comm
+       PetscBench b ! PetscBench
+       PetscErrorCode z
+       end subroutine PetscBenchCreate
+      subroutine PetscBenchSetOptionsPrefix(a,b,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscBenchSetOptionsPrefix
+      subroutine PetscBenchSetSize(a,b,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscBenchSetSize
+      subroutine PetscBenchGetSize(a,b,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscBenchGetSize
+      subroutine PetscBenchSetType(a,b,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       character(*) b ! PetscBenchType
+       PetscErrorCode z
+       end subroutine PetscBenchSetType
+      subroutine PetscBenchGetType(a,b,z)
+       import tPetscBench
+       PetscBench a ! PetscBench
+       character(*) b ! PetscBenchType
+       PetscErrorCode z
+       end subroutine PetscBenchGetType
+      subroutine PetscMatlabEngineCreate(a,b,c,z)
+       import tPetscMatlabEngine
+       MPI_Comm a ! MPI_Comm
+       character(*) b (*) ! char
+       PetscMatlabEngine c ! PetscMatlabEngine
+       PetscErrorCode z
+       end subroutine PetscMatlabEngineCreate
+      subroutine PetscMatlabEngineDestroy(a,z)
+       import tPetscMatlabEngine
+       PetscMatlabEngine a ! PetscMatlabEngine
+       PetscErrorCode z
+       end subroutine PetscMatlabEngineDestroy
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscMatlabEnginePut(a,b,z)
+       import tPetscMatlabEngine,tPetscObject
+       PetscMatlabEngine a ! PetscMatlabEngine
+       type(*) b ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscMatlabEnginePut
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscMatlabEngineGet(a,b,z)
+       import tPetscMatlabEngine,tPetscObject
+       PetscMatlabEngine a ! PetscMatlabEngine
+       type(*) b ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscMatlabEngineGet
+#endif
+      subroutine PetscMatlabEnginePutArray(a,b,c,d,e,z)
+       import tPetscMatlabEngine
+       PetscMatlabEngine a ! PetscMatlabEngine
+       integer b ! int
+       integer c ! int
+       PetscScalar d (*) ! PetscScalar
+       character(*) e (*) ! char
+       PetscErrorCode z
+       end subroutine PetscMatlabEnginePutArray
+      subroutine PetscMatlabEngineGetArray(a,b,c,d,e,z)
+       import tPetscMatlabEngine
+       PetscMatlabEngine a ! PetscMatlabEngine
+       integer b ! int
+       integer c ! int
+       PetscScalar d (*) ! PetscScalar
+       character(*) e (*) ! char
+       PetscErrorCode z
+       end subroutine PetscMatlabEngineGetArray
+      subroutine PetscRandomGetValue(a,b,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscScalar b ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscRandomGetValue
+      subroutine PetscRandomGetValueReal(a,b,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscRandomGetValueReal
+      subroutine PetscRandomGetValues(a,b,c,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscInt b ! PetscInt
+       PetscScalar c ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscRandomGetValues
+      subroutine PetscRandomGetValuesReal(a,b,c,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscInt b ! PetscInt
+       PetscReal c ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscRandomGetValuesReal
+      subroutine PetscRandomGetInterval(a,b,c,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscScalar b ! PetscScalar
+       PetscScalar c ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscRandomGetInterval
+      subroutine PetscRandomSetInterval(a,b,c,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscScalar b ! PetscScalar
+       PetscScalar c ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscRandomSetInterval
+      subroutine PetscRandomDestroy(a,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscErrorCode z
+       end subroutine PetscRandomDestroy
+      subroutine PetscRandomSetFromOptions(a,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscErrorCode z
+       end subroutine PetscRandomSetFromOptions
+      subroutine PetscRandomSetOptionsPrefix(a,b,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscRandomSetOptionsPrefix
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscRandomViewFromOptions(a,b,c,z)
+       import tPetscRandom,tPetscObject
+       PetscRandom a ! PetscRandom
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscRandomViewFromOptions
+#endif
+      subroutine PetscRandomView(a,b,z)
+       import tPetscRandom,tPetscViewer
+       PetscRandom a ! PetscRandom
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscRandomView
+      subroutine PetscRandomCreate(a,b,z)
+       import tPetscRandom
+       MPI_Comm a ! MPI_Comm
+       PetscRandom b ! PetscRandom
+       PetscErrorCode z
+       end subroutine PetscRandomCreate
+      subroutine PetscRandomSeed(a,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       PetscErrorCode z
+       end subroutine PetscRandomSeed
+      subroutine PetscRandomSetType(a,b,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       character(*) b ! PetscRandomType
+       PetscErrorCode z
+       end subroutine PetscRandomSetType
+      subroutine PetscRandomGetType(a,b,z)
+       import tPetscRandom
+       PetscRandom a ! PetscRandom
+       character(*) b ! PetscRandomType
+       PetscErrorCode z
+       end subroutine PetscRandomGetType
+      subroutine PetscSetDebugTerminal(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscSetDebugTerminal
+      subroutine PetscSetDebugger(a,b,z)
+       character(*) a (*) ! char
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSetDebugger
+      subroutine PetscSetDefaultDebugger(z)
+       PetscErrorCode z
+       end subroutine PetscSetDefaultDebugger
+      subroutine PetscSetDebuggerFromString(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscSetDebuggerFromString
+      subroutine PetscWaitOnError(z)
+       PetscErrorCode z
+       end subroutine PetscWaitOnError
+      subroutine PetscAttachDebugger(z)
+       PetscErrorCode z
+       end subroutine PetscAttachDebugger
+      subroutine PetscStopForDebugger(z)
+       PetscErrorCode z
+       end subroutine PetscStopForDebugger
+      subroutine PetscCheckPointerSetIntensity(a,z)
+       PetscInt a ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscCheckPointerSetIntensity
+      subroutine PetscPopErrorHandler(z)
+       PetscErrorCode z
+       end subroutine PetscPopErrorHandler
+      subroutine PetscIntView(a,b,c,z)
+       import tPetscViewer
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscViewer c ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscIntView
+      subroutine PetscRealView(a,b,c,z)
+       import tPetscViewer
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscViewer c ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscRealView
+      subroutine PetscScalarView(a,b,c,z)
+       import tPetscViewer
+       PetscInt a ! PetscInt
+       PetscScalar b (*) ! PetscScalar
+       PetscViewer c ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscScalarView
+      subroutine PetscFPTrapPush(a,z)
+       PetscFPTrap a ! PetscFPTrap
+       PetscErrorCode z
+       end subroutine PetscFPTrapPush
+      subroutine PetscFPTrapPop(z)
+       PetscErrorCode z
+       end subroutine PetscFPTrapPop
+      subroutine PetscSetFPTrap(a,z)
+       PetscFPTrap a ! PetscFPTrap
+       PetscErrorCode z
+       end subroutine PetscSetFPTrap
+      subroutine PetscDetermineInitialFPTrap(z)
+       PetscErrorCode z
+       end subroutine PetscDetermineInitialFPTrap
+      subroutine PetscPopSignalHandler(z)
+       PetscErrorCode z
+       end subroutine PetscPopSignalHandler
+      subroutine PetscStackSAWsGrantAccess(z)
+       PetscErrorCode z
+       end subroutine PetscStackSAWsGrantAccess
+      subroutine PetscStackSAWsTakeAccess(z)
+       PetscErrorCode z
+       end subroutine PetscStackSAWsTakeAccess
+      subroutine PetscMkdir(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscMkdir
+      subroutine PetscMkdtemp(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscMkdtemp
+      subroutine PetscRMTree(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscRMTree
+      subroutine PetscSharedTmp(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSharedTmp
+      subroutine PetscSharedWorkingDirectory(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSharedWorkingDirectory
+      subroutine PetscTestFile(a,b,c,z)
+       character(*) a (*) ! char
+       character(*) b ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscTestFile
+      subroutine PetscTestDirectory(a,b,c,z)
+       character(*) a (*) ! char
+       character(*) b ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscTestDirectory
+      subroutine PetscBinaryOpen(a,b,c,z)
+       character(*) a (*) ! char
+       PetscFileMode b ! PetscFileMode
+       integer c ! int
+       PetscErrorCode z
+       end subroutine PetscBinaryOpen
+      subroutine PetscBinaryClose(a,z)
+       integer a ! int
+       PetscErrorCode z
+       end subroutine PetscBinaryClose
+      subroutine PetscPOpenSetMachine(a,z)
+       character(*) a (*) ! char
+       PetscErrorCode z
+       end subroutine PetscPOpenSetMachine
+      subroutine PetscMemoryGetCurrentUsage(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMemoryGetCurrentUsage
+      subroutine PetscMemoryGetMaximumUsage(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMemoryGetMaximumUsage
+      subroutine PetscMemorySetGetMaximumUsage(z)
+       PetscErrorCode z
+       end subroutine PetscMemorySetGetMaximumUsage
+      subroutine PetscMallocGetCurrentUsage(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMallocGetCurrentUsage
+      subroutine PetscMallocGetMaximumUsage(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMallocGetMaximumUsage
+      subroutine PetscMallocPushMaximumUsage(a,z)
+       integer a ! int
+       PetscErrorCode z
+       end subroutine PetscMallocPushMaximumUsage
+      subroutine PetscMallocPopMaximumUsage(a,b,z)
+       integer a ! int
+       PetscLogDouble b ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMallocPopMaximumUsage
+      subroutine PetscMallocViewSet(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMallocViewSet
+      subroutine PetscMallocViewGet(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocViewGet
+      subroutine PetscMallocTraceSet(a,b,c,z)
+       import tPetscViewer
+       PetscViewer a ! PetscViewer
+       PetscBool b ! PetscBool
+       PetscLogDouble c ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscMallocTraceSet
+      subroutine PetscMallocTraceGet(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocTraceGet
+      subroutine PetscMallocSetDebug(a,b,z)
+       PetscBool a ! PetscBool
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocSetDebug
+      subroutine PetscMallocGetDebug(a,b,c,z)
+       PetscBool a ! PetscBool
+       PetscBool b ! PetscBool
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocGetDebug
+      subroutine PetscMallocLogRequestedSizeSet(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocLogRequestedSizeSet
+      subroutine PetscMallocLogRequestedSizeGet(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocLogRequestedSizeGet
+      subroutine PetscMallocClear(z)
+       PetscErrorCode z
+       end subroutine PetscMallocClear
+      subroutine PetscMallocSetDRAM(z)
+       PetscErrorCode z
+       end subroutine PetscMallocSetDRAM
+      subroutine PetscMallocResetDRAM(z)
+       PetscErrorCode z
+       end subroutine PetscMallocResetDRAM
+      subroutine PetscMallocSetCoalesce(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscMallocSetCoalesce
+      subroutine PetscMallocSetCUDAHost(z)
+       PetscErrorCode z
+       end subroutine PetscMallocSetCUDAHost
+      subroutine PetscMallocResetCUDAHost(z)
+       PetscErrorCode z
+       end subroutine PetscMallocResetCUDAHost
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectDestroy(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectDestroy
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectView(a,b,z)
+       import tPetscObject,tPetscViewer
+       type(*) a ! PetscObject
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscObjectView
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectViewFromOptions(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectViewFromOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectTypeCompare(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscObjectTypeCompare
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectObjectTypeCompare(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       type(*) b ! PetscObject
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscObjectObjectTypeCompare
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectBaseTypeCompare(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscObjectBaseTypeCompare
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectRegisterDestroy(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectRegisterDestroy
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetTabLevel(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscObjectGetTabLevel
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetTabLevel(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscObjectSetTabLevel
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectIncrementTabLevel(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       type(*) b ! PetscObject
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscObjectIncrementTabLevel
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetClassId(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscClassId b ! PetscClassId
+       PetscErrorCode z
+       end subroutine PetscObjectGetClassId
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetClassName(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectGetClassName
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetType(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectGetType
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectCopyFortranFunctionPointers(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       type(*) b ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectCopyFortranFunctionPointers
+#endif
+      subroutine PetscObjectsView(a,z)
+       import tPetscObject,tPetscViewer
+       PetscViewer a ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscObjectsView
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectsGetObject(a,b,c,z)
+       import tPetscObject
+       character(*) a (*) ! char
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectsGetObject
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetPrintedOptions(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSetPrintedOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectInheritPrintedOptions(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       type(*) b ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectInheritPrintedOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectDestroyOptionsHandlers(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectDestroyOptionsHandlers
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectReference(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectReference
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetReference(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscObjectGetReference
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectDereference(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectDereference
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectCompose(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       type(*) c ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectCompose
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectQuery(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       type(*) c ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectQuery
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetFromOptions(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSetFromOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetUp(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectSetUp
+#endif
+      subroutine PetscEnd(z)
+       PetscErrorCode z
+       end subroutine PetscEnd
+      subroutine PetscOptionsInsertStringYAML(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsInsertStringYAML
+      subroutine PetscOptionsInsertFileYAML(a,b,c,d,z)
+       import tPetscOptions
+       MPI_Comm a ! MPI_Comm
+       PetscOptions b ! PetscOptions
+       character(*) c (*) ! char
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsInsertFileYAML
+      subroutine PetscHasExternalPackage(a,b,z)
+       character(*) a (*) ! char
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscHasExternalPackage
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetName(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectGetName
+#endif
+      subroutine PetscInitialized(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscInitialized
+      subroutine PetscFinalized(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscFinalized
+      subroutine PetscMaxSum(a,b,c,d,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b (*) ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscMaxSum
+      subroutine PetscFinalize(z)
+       PetscErrorCode z
+       end subroutine PetscFinalize
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetName(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectSetName
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectPrintClassNamePrefixType(a,b,z)
+       import tPetscObject,tPetscViewer
+       type(*) a ! PetscObject
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscObjectPrintClassNamePrefixType
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectName(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscObjectName
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetOptions(a,b,z)
+       import tPetscOptions,tPetscObject
+       type(*) a ! PetscObject
+       PetscOptions b ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscObjectGetOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetOptions(a,b,z)
+       import tPetscOptions,tPetscObject
+       type(*) a ! PetscObject
+       PetscOptions b ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscObjectSetOptions
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectSetOptionsPrefix(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectSetOptionsPrefix
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectAppendOptionsPrefix(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectAppendOptionsPrefix
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetOptionsPrefix(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectGetOptionsPrefix
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectPrependOptionsPrefix(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscObjectPrependOptionsPrefix
+#endif
+      subroutine PetscDataTypeFromString(a,b,c,z)
+       character(*) a (*) ! char
+       PetscDataType b ! PetscDataType
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscDataTypeFromString
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectStateGet(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscObjectState b ! PetscObjectState
+       PetscErrorCode z
+       end subroutine PetscObjectStateGet
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectStateSet(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscObjectState b ! PetscObjectState
+       PetscErrorCode z
+       end subroutine PetscObjectStateSet
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetId(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscObjectId b ! PetscObjectId
+       PetscErrorCode z
+       end subroutine PetscObjectGetId
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectCompareId(a,b,c,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscObjectId b ! PetscObjectId
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscObjectCompareId
+#endif
+      subroutine PetscSubcommSetFromOptions(a,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       PetscErrorCode z
+       end subroutine PetscSubcommSetFromOptions
+      subroutine PetscSubcommSetOptionsPrefix(a,b,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscSubcommSetOptionsPrefix
+      subroutine PetscSubcommView(a,b,z)
+       import tPetscSubcomm,tPetscViewer
+       PetscSubcomm a ! PetscSubcomm
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscSubcommView
+      subroutine PetscSubcommSetNumber(a,b,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSubcommSetNumber
+      subroutine PetscSubcommSetType(a,b,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       PetscSubcommType b ! PetscSubcommType
+       PetscErrorCode z
+       end subroutine PetscSubcommSetType
+      subroutine PetscSubcommSetTypeGeneral(a,b,c,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       PetscMPIInt b ! PetscMPIInt
+       PetscMPIInt c ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscSubcommSetTypeGeneral
+      subroutine PetscSubcommDestroy(a,z)
+       import tPetscSubcomm
+       PetscSubcomm a ! PetscSubcomm
+       PetscErrorCode z
+       end subroutine PetscSubcommDestroy
+      subroutine PetscSubcommCreate(a,b,z)
+       import tPetscSubcomm
+       MPI_Comm a ! MPI_Comm
+       PetscSubcomm b ! PetscSubcomm
+       PetscErrorCode z
+       end subroutine PetscSubcommCreate
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscObjectGetNewTag(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscMPIInt b ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscObjectGetNewTag
+#endif
+      subroutine PetscCommGetNewTag(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       PetscMPIInt b ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscCommGetNewTag
+      subroutine PetscGetVersionNumber(a,b,c,d,z)
+       PetscInt a ! PetscInt
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscGetVersionNumber
+      subroutine PetscBLASSetNumThreads(a,z)
+       PetscInt a ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscBLASSetNumThreads
+      subroutine PetscBLASGetNumThreads(a,z)
+       PetscInt a ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscBLASGetNumThreads
+      subroutine PetscOptionsCreate(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsCreate
+      subroutine PetscOptionsDestroy(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsDestroy
+      subroutine PetscOptionsPush(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsPush
+      subroutine PetscOptionsPop(z)
+       PetscErrorCode z
+       end subroutine PetscOptionsPop
+      subroutine PetscOptionsValidKey(a,b,z)
+       character(*) a (*) ! char
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsValidKey
+      subroutine PetscOptionsInsertString(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsInsertString
+      subroutine PetscOptionsInsertFile(a,b,c,d,z)
+       import tPetscOptions
+       MPI_Comm a ! MPI_Comm
+       PetscOptions b ! PetscOptions
+       character(*) c (*) ! char
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsInsertFile
+      subroutine PetscOptionsView(a,b,z)
+       import tPetscOptions,tPetscViewer
+       PetscOptions a ! PetscOptions
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscOptionsView
+      subroutine PetscOptionsPrefixPush(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsPrefixPush
+      subroutine PetscOptionsPrefixPop(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsPrefixPop
+      subroutine PetscOptionsClear(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsClear
+      subroutine PetscOptionsSetAlias(a,b,c,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsSetAlias
+      subroutine PetscOptionsSetValue(a,b,c,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsSetValue
+      subroutine PetscOptionsClearValue(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsClearValue
+      subroutine PetscOptionsReject(a,b,c,d,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       character(*) c (*) ! char
+       character(*) d (*) ! char
+       PetscErrorCode z
+       end subroutine PetscOptionsReject
+      subroutine PetscOptionsHasHelp(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsHasHelp
+      subroutine PetscOptionsHasName(a,b,c,d,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b (*) ! char
+       character(*) c (*) ! char
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsHasName
+      subroutine PetscOptionsUsed(a,b,c,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       character(*) b ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscOptionsUsed
+      subroutine PetscOptionsAllUsed(a,b,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscOptionsAllUsed
+      subroutine PetscOptionsLeft(a,z)
+       import tPetscOptions
+       PetscOptions a ! PetscOptions
+       PetscErrorCode z
+       end subroutine PetscOptionsLeft
+      subroutine PetscElementalInitializePackage(z)
+       PetscErrorCode z
+       end subroutine PetscElementalInitializePackage
+      subroutine PetscElementalInitialized(a,z)
+       PetscBool a ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscElementalInitialized
+      subroutine PetscElementalFinalizePackage(z)
+       PetscErrorCode z
+       end subroutine PetscElementalFinalizePackage
+      subroutine PetscDeviceContextView(a,b,z)
+       import tPetscDeviceContext,tPetscViewer
+       PetscDeviceContext a ! PetscDeviceContext
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscDeviceContextView
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscDeviceContextViewFromOptions(a,b,c,z)
+       import tPetscDeviceContext,tPetscObject
+       PetscDeviceContext a ! PetscDeviceContext
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscDeviceContextViewFromOptions
+#endif
+      subroutine PetscDeviceView(a,b,z)
+       import tPetscDevice,tPetscViewer
+       PetscDevice a ! PetscDevice
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscDeviceView
+      subroutine PetscDeviceGetType(a,b,z)
+       import tPetscDevice
+       PetscDevice a ! PetscDevice
+       PetscDeviceType b ! PetscDeviceType
+       PetscErrorCode z
+       end subroutine PetscDeviceGetType
+      subroutine PetscPythonFinalize(z)
+       PetscErrorCode z
+       end subroutine PetscPythonFinalize
+      subroutine PetscPythonInitialize(a,b,z)
+       character(*) a (*) ! char
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscPythonInitialize
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscPythonMonitorSet(a,b,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscPythonMonitorSet
+#endif
+      subroutine PetscGetCPUTime(a,z)
+       PetscLogDouble a ! PetscLogDouble
+       PetscErrorCode z
+       end subroutine PetscGetCPUTime
+      subroutine PetscLinearRegression(a,b,c,d,e,z)
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscReal c (*) ! PetscReal
+       PetscReal d ! PetscReal
+       PetscReal e ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscLinearRegression
+      subroutine PetscProcessPlacementView(a,z)
+       import tPetscViewer
+       PetscViewer a ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscProcessPlacementView
+      subroutine PetscCommBuildTwoSidedSetType(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       PetscBuildTwoSidedType b ! PetscBuildTwoSidedType
+       PetscErrorCode z
+       end subroutine PetscCommBuildTwoSidedSetType
+      subroutine PetscCommBuildTwoSidedGetType(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       PetscBuildTwoSidedType b ! PetscBuildTwoSidedType
+       PetscErrorCode z
+       end subroutine PetscCommBuildTwoSidedGetType
+      subroutine PetscSequentialPhaseBegin(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       integer b ! int
+       PetscErrorCode z
+       end subroutine PetscSequentialPhaseBegin
+      subroutine PetscSequentialPhaseEnd(a,b,z)
+       MPI_Comm a ! MPI_Comm
+       integer b ! int
+       PetscErrorCode z
+       end subroutine PetscSequentialPhaseEnd
+      subroutine PetscGlobalMinMaxInt(a,b,c,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscGlobalMinMaxInt
+      subroutine PetscGlobalMinMaxReal(a,b,c,z)
+       MPI_Comm a ! MPI_Comm
+       PetscReal b (*) ! PetscReal
+       PetscReal c (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscGlobalMinMaxReal
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscBarrier(a,z)
+       import tPetscObject
+       type(*) a ! PetscObject
+       PetscErrorCode z
+       end subroutine PetscBarrier
+#endif
+      subroutine PetscSleep(a,z)
+       PetscReal a ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscSleep
+      subroutine PetscSplitOwnershipBlock(a,b,c,d,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSplitOwnershipBlock
+      subroutine PetscSplitOwnership(a,b,c,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSplitOwnership
+      subroutine PetscSplitOwnershipEqual(a,b,c,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSplitOwnershipEqual
+      subroutine PetscSortedReal(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscReal b (*) ! PetscReal
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSortedReal
+      subroutine PetscSortReal(a,b,z)
+       PetscCount a ! PetscCount
+       PetscReal b (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscSortReal
+      subroutine PetscSortRealWithArrayInt(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscReal b (*) ! PetscReal
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortRealWithArrayInt
+      subroutine PetscFindReal(a,b,c,d,e,z)
+       PetscReal a ! PetscReal
+       PetscCount b ! PetscCount
+       PetscReal c (*) ! PetscReal
+       PetscReal d ! PetscReal
+       PetscInt e ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFindReal
+      subroutine PetscSortRemoveDupsReal(a,b,z)
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscSortRemoveDupsReal
+      subroutine PetscSortSplit(a,b,c,d,z)
+       PetscInt a ! PetscInt
+       PetscInt b ! PetscInt
+       PetscScalar c (*) ! PetscScalar
+       PetscInt d (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortSplit
+      subroutine PetscSortSplitReal(a,b,c,d,z)
+       PetscInt a ! PetscInt
+       PetscInt b ! PetscInt
+       PetscReal c (*) ! PetscReal
+       PetscInt d (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortSplitReal
+      subroutine PetscSortIntWithPermutation(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortIntWithPermutation
+      subroutine PetscSortRealWithPermutation(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortRealWithPermutation
+      subroutine PetscIntSortSemiOrdered(a,b,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscIntSortSemiOrdered
+      subroutine PetscIntSortSemiOrderedWithArray(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscIntSortSemiOrderedWithArray
+      subroutine PetscMPIIntSortSemiOrdered(a,b,z)
+       PetscInt a ! PetscInt
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscMPIIntSortSemiOrdered
+      subroutine PetscMPIIntSortSemiOrderedWithArray(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscMPIInt c (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscMPIIntSortSemiOrderedWithArray
+      subroutine PetscRealSortSemiOrdered(a,b,z)
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine PetscRealSortSemiOrdered
+      subroutine PetscRealSortSemiOrderedWithArrayInt(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscReal b (*) ! PetscReal
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscRealSortSemiOrderedWithArrayInt
+      subroutine PetscSSEIsEnabled(a,b,c,z)
+       MPI_Comm a ! MPI_Comm
+       PetscBool b ! PetscBool
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSSEIsEnabled
+      subroutine PetscSortedInt(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSortedInt
+      subroutine PetscSortedInt64(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt64 b (*) ! PetscInt64
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSortedInt64
+      subroutine PetscSortInt(a,b,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortInt
+      subroutine PetscSortInt64(a,b,z)
+       PetscCount a ! PetscCount
+       PetscInt64 b (*) ! PetscInt64
+       PetscErrorCode z
+       end subroutine PetscSortInt64
+      subroutine PetscSortCount(a,b,z)
+       PetscCount a ! PetscCount
+       PetscCount b (*) ! PetscCount
+       PetscErrorCode z
+       end subroutine PetscSortCount
+      subroutine PetscSortReverseInt(a,b,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortReverseInt
+      subroutine PetscSortedRemoveDupsInt(a,b,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortedRemoveDupsInt
+      subroutine PetscSortedCheckDupsInt(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSortedCheckDupsInt
+      subroutine PetscSortRemoveDupsInt(a,b,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortRemoveDupsInt
+      subroutine PetscFindInt(a,b,c,d,z)
+       PetscInt a ! PetscInt
+       PetscCount b ! PetscCount
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFindInt
+      subroutine PetscCheckDupsInt(a,b,c,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscCheckDupsInt
+      subroutine PetscFindMPIInt(a,b,c,d,z)
+       PetscMPIInt a ! PetscMPIInt
+       PetscCount b ! PetscCount
+       PetscMPIInt c (*) ! PetscMPIInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFindMPIInt
+      subroutine PetscSortIntWithArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortIntWithArray
+      subroutine PetscSortIntWithArrayPair(a,b,c,d,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortIntWithArrayPair
+      subroutine PetscSortIntWithMPIIntArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscMPIInt c (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscSortIntWithMPIIntArray
+      subroutine PetscSortIntWithCountArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscCount c (*) ! PetscCount
+       PetscErrorCode z
+       end subroutine PetscSortIntWithCountArray
+      subroutine PetscSortIntWithIntCountArrayPair(a,b,c,d,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscCount d (*) ! PetscCount
+       PetscErrorCode z
+       end subroutine PetscSortIntWithIntCountArrayPair
+      subroutine PetscSortedMPIInt(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscSortedMPIInt
+      subroutine PetscSortMPIInt(a,b,z)
+       PetscCount a ! PetscCount
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscSortMPIInt
+      subroutine PetscSortRemoveDupsMPIInt(a,b,z)
+       PetscInt a ! PetscInt
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscSortRemoveDupsMPIInt
+      subroutine PetscSortMPIIntWithArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscMPIInt c (*) ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscSortMPIIntWithArray
+      subroutine PetscSortMPIIntWithIntArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscSortMPIIntWithIntArray
+      subroutine PetscSortIntWithScalarArray(a,b,c,z)
+       PetscCount a ! PetscCount
+       PetscInt b (*) ! PetscInt
+       PetscScalar c (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscSortIntWithScalarArray
+      subroutine PetscMergeIntArray(a,b,c,d,e,f,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscInt e ! PetscInt
+       PetscInt f ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscMergeIntArray
+      subroutine PetscMergeIntArrayPair(a,b,c,d,e,f,g,h,i,z)
+       PetscInt a ! PetscInt
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e (*) ! PetscInt
+       PetscInt f (*) ! PetscInt
+       PetscInt g ! PetscInt
+       PetscInt h ! PetscInt
+       PetscInt i ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscMergeIntArrayPair
+      subroutine PetscMergeMPIIntArray(a,b,c,d,e,f,z)
+       PetscInt a ! PetscInt
+       PetscMPIInt b (*) ! PetscMPIInt
+       PetscInt c ! PetscInt
+       PetscMPIInt d (*) ! PetscMPIInt
+       PetscInt e ! PetscInt
+       PetscMPIInt f ! PetscMPIInt
+       PetscErrorCode z
+       end subroutine PetscMergeMPIIntArray
+      subroutine PetscParallelSortedInt(a,b,c,d,z)
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscParallelSortedInt

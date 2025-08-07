@@ -1,0 +1,94 @@
+      subroutine DMAdaptorCreate(a,b,z)
+       import tDMAdaptor
+       MPI_Comm a ! MPI_Comm
+       DMAdaptor b ! DMAdaptor
+       PetscErrorCode z
+       end subroutine DMAdaptorCreate
+      subroutine DMAdaptorDestroy(a,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscErrorCode z
+       end subroutine DMAdaptorDestroy
+      subroutine DMAdaptorSetType(a,b,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       character(*) b ! DMAdaptorType
+       PetscErrorCode z
+       end subroutine DMAdaptorSetType
+      subroutine DMAdaptorGetType(a,b,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       character(*) b ! DMAdaptorType
+       PetscErrorCode z
+       end subroutine DMAdaptorGetType
+      subroutine DMAdaptorMonitorCancel(a,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscErrorCode z
+       end subroutine DMAdaptorMonitorCancel
+      subroutine DMAdaptorSetOptionsPrefix(a,b,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMAdaptorSetOptionsPrefix
+      subroutine DMAdaptorSetFromOptions(a,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscErrorCode z
+       end subroutine DMAdaptorSetFromOptions
+      subroutine DMAdaptorView(a,b,z)
+       import tDMAdaptor,tPetscViewer
+       DMAdaptor a ! DMAdaptor
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine DMAdaptorView
+      subroutine DMAdaptorGetSolver(a,b,z)
+       import tDMAdaptor,tSNES
+       DMAdaptor a ! DMAdaptor
+       SNES b ! SNES
+       PetscErrorCode z
+       end subroutine DMAdaptorGetSolver
+      subroutine DMAdaptorSetSolver(a,b,z)
+       import tDMAdaptor,tSNES
+       DMAdaptor a ! DMAdaptor
+       SNES b ! SNES
+       PetscErrorCode z
+       end subroutine DMAdaptorSetSolver
+      subroutine DMAdaptorGetSequenceLength(a,b,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMAdaptorGetSequenceLength
+      subroutine DMAdaptorSetSequenceLength(a,b,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMAdaptorSetSequenceLength
+      subroutine DMAdaptorSetUp(a,z)
+       import tDMAdaptor
+       DMAdaptor a ! DMAdaptor
+       PetscErrorCode z
+       end subroutine DMAdaptorSetUp
+      subroutine DMAdaptorMonitor(a,b,c,d,e,f,g,z)
+       import tDMAdaptor,tDM,tVec
+       DMAdaptor a ! DMAdaptor
+       PetscInt b ! PetscInt
+       DM c ! DM
+       DM d ! DM
+       PetscInt e ! PetscInt
+       PetscReal f (*) ! PetscReal
+       Vec g ! Vec
+       PetscErrorCode z
+       end subroutine DMAdaptorMonitor
+      subroutine DMAdaptorAdapt(a,b,c,d,e,z)
+       import tDMAdaptor,tDM,tVec
+       DMAdaptor a ! DMAdaptor
+       Vec b ! Vec
+       DMAdaptationStrategy c ! DMAdaptationStrategy
+       DM d ! DM
+       Vec e ! Vec
+       PetscErrorCode z
+       end subroutine DMAdaptorAdapt

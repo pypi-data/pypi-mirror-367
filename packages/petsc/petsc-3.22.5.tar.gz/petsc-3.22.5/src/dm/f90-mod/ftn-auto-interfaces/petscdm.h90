@@ -1,0 +1,1872 @@
+      subroutine DMFieldDestroy(a,z)
+       import tDMField
+       DMField a ! DMField
+       PetscErrorCode z
+       end subroutine DMFieldDestroy
+      subroutine DMFieldView(a,b,z)
+       import tDMField,tPetscViewer
+       DMField a ! DMField
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine DMFieldView
+      subroutine DMFieldSetType(a,b,z)
+       import tDMField
+       DMField a ! DMField
+       character(*) b ! DMFieldType
+       PetscErrorCode z
+       end subroutine DMFieldSetType
+      subroutine DMFieldGetType(a,b,z)
+       import tDMField
+       DMField a ! DMField
+       character(*) b ! DMFieldType
+       PetscErrorCode z
+       end subroutine DMFieldGetType
+      subroutine DMFieldGetNumComponents(a,b,z)
+       import tDMField
+       DMField a ! DMField
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMFieldGetNumComponents
+      subroutine DMFieldGetDM(a,b,z)
+       import tDM,tDMField
+       DMField a ! DMField
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMFieldGetDM
+      subroutine DMFieldGetDegree(a,b,c,d,z)
+       import tIS,tDMField
+       DMField a ! DMField
+       IS b ! IS
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMFieldGetDegree
+      subroutine DMFieldCreateDefaultQuadrature(a,b,c,z)
+       import tIS,tPetscQuadrature,tDMField
+       DMField a ! DMField
+       IS b ! IS
+       PetscQuadrature c ! PetscQuadrature
+       PetscErrorCode z
+       end subroutine DMFieldCreateDefaultQuadrature
+      subroutine DMCompositeGetNumberDM(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMCompositeGetNumberDM
+      subroutine DMCompositeGetAccessArray(a,b,c,d,e,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       Vec e (*) ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeGetAccessArray
+      subroutine DMCompositeGetLocalAccessArray(a,b,c,d,e,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       Vec e (*) ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeGetLocalAccessArray
+      subroutine DMCompositeRestoreAccessArray(a,b,c,d,e,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       Vec e (*) ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeRestoreAccessArray
+      subroutine DMCompositeRestoreLocalAccessArray(a,b,c,d,e,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       Vec e ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeRestoreLocalAccessArray
+      subroutine DMCompositeScatterArray(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeScatterArray
+      subroutine DMCompositeGatherArray(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       InsertMode b ! InsertMode
+       Vec c ! Vec
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMCompositeGatherArray
+      subroutine DMCompositeAddDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMCompositeAddDM
+      subroutine DMCompositeGetEntriesArray(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b (*) ! DM
+       PetscErrorCode z
+       end subroutine DMCompositeGetEntriesArray
+      subroutine DMCompositeCreate(a,b,z)
+       import tDM
+       MPI_Comm a ! MPI_Comm
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMCompositeCreate
+      subroutine DMRedundantSetSize(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscMPIInt b ! PetscMPIInt
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine DMRedundantSetSize
+      subroutine DMRedundantGetSize(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscMPIInt b ! PetscMPIInt
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine DMRedundantGetSize
+      subroutine DMRedundantCreate(a,b,c,d,z)
+       import tDM
+       MPI_Comm a ! MPI_Comm
+       PetscMPIInt b ! PetscMPIInt
+       PetscInt c ! PetscInt
+       DM d ! DM
+       PetscErrorCode z
+       end subroutine DMRedundantCreate
+      subroutine DMGlobalToLocalBeginDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGlobalToLocalBeginDefaultShell
+      subroutine DMGlobalToLocalEndDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGlobalToLocalEndDefaultShell
+      subroutine DMLocalToGlobalBeginDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToGlobalBeginDefaultShell
+      subroutine DMLocalToGlobalEndDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToGlobalEndDefaultShell
+      subroutine DMLocalToLocalBeginDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToLocalBeginDefaultShell
+      subroutine DMLocalToLocalEndDefaultShell(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToLocalEndDefaultShell
+      subroutine DMShellSetMatrix(a,b,z)
+       import tDM,tMat
+       DM a ! DM
+       Mat b ! Mat
+       PetscErrorCode z
+       end subroutine DMShellSetMatrix
+      subroutine DMShellSetGlobalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMShellSetGlobalVector
+      subroutine DMShellGetGlobalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMShellGetGlobalVector
+      subroutine DMShellSetLocalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMShellSetLocalVector
+      subroutine DMShellSetGlobalToLocalVecScatter(a,b,z)
+       import tDM,tVecScatter
+       DM a ! DM
+       VecScatter b ! VecScatter
+       PetscErrorCode z
+       end subroutine DMShellSetGlobalToLocalVecScatter
+      subroutine DMShellSetLocalToGlobalVecScatter(a,b,z)
+       import tDM,tVecScatter
+       DM a ! DM
+       VecScatter b ! VecScatter
+       PetscErrorCode z
+       end subroutine DMShellSetLocalToGlobalVecScatter
+      subroutine DMShellSetLocalToLocalVecScatter(a,b,z)
+       import tDM,tVecScatter
+       DM a ! DM
+       VecScatter b ! VecScatter
+       PetscErrorCode z
+       end subroutine DMShellSetLocalToLocalVecScatter
+      subroutine DMShellCreate(a,b,z)
+       import tDM
+       MPI_Comm a ! MPI_Comm
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMShellCreate
+      subroutine DMSlicedSetGhosts(a,b,c,d,e,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSlicedSetGhosts
+      subroutine DMSlicedSetPreallocation(a,b,c,d,e,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSlicedSetPreallocation
+      subroutine DMSlicedSetBlockFills(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSlicedSetBlockFills
+      subroutine DMSlicedCreate(a,b,c,d,e,f,g,h,z)
+       import tDM
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e (*) ! PetscInt
+       PetscInt f (*) ! PetscInt
+       PetscInt g (*) ! PetscInt
+       DM h ! DM
+       PetscErrorCode z
+       end subroutine DMSlicedCreate
+      subroutine DMGetCoordinateDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMGetCoordinateDM
+      subroutine DMSetCoordinateDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMSetCoordinateDM
+      subroutine DMGetCellCoordinateDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinateDM
+      subroutine DMSetCellCoordinateDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMSetCellCoordinateDM
+      subroutine DMGetCoordinateDim(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetCoordinateDim
+      subroutine DMSetCoordinateDim(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetCoordinateDim
+      subroutine DMGetCoordinateSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMGetCoordinateSection
+      subroutine DMSetCoordinateSection(a,b,c,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscSection c ! PetscSection
+       PetscErrorCode z
+       end subroutine DMSetCoordinateSection
+      subroutine DMGetCellCoordinateSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinateSection
+      subroutine DMSetCellCoordinateSection(a,b,c,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscSection c ! PetscSection
+       PetscErrorCode z
+       end subroutine DMSetCellCoordinateSection
+      subroutine DMGetCoordinates(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCoordinates
+      subroutine DMSetCoordinates(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMSetCoordinates
+      subroutine DMGetCellCoordinates(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinates
+      subroutine DMSetCellCoordinates(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMSetCellCoordinates
+      subroutine DMGetCoordinatesLocalSetUp(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocalSetUp
+      subroutine DMGetCoordinatesLocal(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocal
+      subroutine DMGetCoordinatesLocalNoncollective(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocalNoncollective
+      subroutine DMGetCoordinatesLocalTuple(a,b,c,d,z)
+       import tIS,tPetscSection,tDM,tVec
+       DM a ! DM
+       IS b ! IS
+       PetscSection c ! PetscSection
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocalTuple
+      subroutine DMSetCoordinatesLocal(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMSetCoordinatesLocal
+      subroutine DMGetCellCoordinatesLocalSetUp(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinatesLocalSetUp
+      subroutine DMGetCellCoordinatesLocal(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinatesLocal
+      subroutine DMGetCellCoordinatesLocalNoncollective(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetCellCoordinatesLocalNoncollective
+      subroutine DMSetCellCoordinatesLocal(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMSetCellCoordinatesLocal
+      subroutine DMGetLocalBoundingBox(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscReal b (*) ! PetscReal
+       PetscReal c (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine DMGetLocalBoundingBox
+      subroutine DMGetBoundingBox(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscReal b (*) ! PetscReal
+       PetscReal c (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine DMGetBoundingBox
+      subroutine DMSetCoordinateDisc(a,b,c,z)
+       import tDM,tPetscFE
+       DM a ! DM
+       PetscFE b ! PetscFE
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetCoordinateDisc
+      subroutine DMLocatePoints(a,b,c,d,z)
+       import tPetscSF,tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       DMPointLocationType c ! DMPointLocationType
+       PetscSF d ! PetscSF
+       PetscErrorCode z
+       end subroutine DMLocatePoints
+      subroutine DMAdaptLabel(a,b,c,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       DMLabel b ! DMLabel
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMAdaptLabel
+      subroutine DMAdaptMetric(a,b,c,d,e,z)
+       import tDMLabel,tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       DMLabel c ! DMLabel
+       DMLabel d ! DMLabel
+       DM e ! DM
+       PetscErrorCode z
+       end subroutine DMAdaptMetric
+      subroutine DMSetSnapToGeomModel(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMSetSnapToGeomModel
+      subroutine DMSnapToGeomModel(a,b,c,d,e,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscScalar d (*) ! PetscScalar
+       PetscScalar e (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine DMSnapToGeomModel
+      subroutine DMGetLocalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetLocalVector
+      subroutine DMRestoreLocalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMRestoreLocalVector
+      subroutine DMGetGlobalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMGetGlobalVector
+      subroutine DMClearGlobalVectors(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearGlobalVectors
+      subroutine DMClearLocalVectors(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearLocalVectors
+      subroutine DMRestoreGlobalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMRestoreGlobalVector
+      subroutine DMClearNamedGlobalVectors(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearNamedGlobalVectors
+      subroutine DMClearNamedLocalVectors(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearNamedLocalVectors
+      subroutine DMHasNamedGlobalVector(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasNamedGlobalVector
+      subroutine DMGetNamedGlobalVector(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       character(*) b ! char
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMGetNamedGlobalVector
+      subroutine DMRestoreNamedGlobalVector(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       character(*) b ! char
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMRestoreNamedGlobalVector
+      subroutine DMHasNamedLocalVector(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasNamedLocalVector
+      subroutine DMGetNamedLocalVector(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       character(*) b ! char
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMGetNamedLocalVector
+      subroutine DMRestoreNamedLocalVector(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       character(*) b ! char
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMRestoreNamedLocalVector
+      subroutine DMCreateSectionSubDM(a,b,c,d,e,f,g,z)
+       import tIS,tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscInt e (*) ! PetscInt
+       IS f ! IS
+       DM g ! DM
+       PetscErrorCode z
+       end subroutine DMCreateSectionSubDM
+      subroutine DMSetPeriodicity(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscReal b (*) ! PetscReal
+       PetscReal c (*) ! PetscReal
+       PetscReal d (*) ! PetscReal
+       PetscErrorCode z
+       end subroutine DMSetPeriodicity
+      subroutine DMLocalizeCoordinate(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscScalar b (*) ! PetscScalar
+       PetscBool c ! PetscBool
+       PetscScalar d (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine DMLocalizeCoordinate
+      subroutine DMGetCoordinatesLocalizedLocal(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocalizedLocal
+      subroutine DMGetCoordinatesLocalized(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetCoordinatesLocalized
+      subroutine DMGetSparseLocalize(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetSparseLocalize
+      subroutine DMSetSparseLocalize(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetSparseLocalize
+      subroutine DMLocalizeCoordinates(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMLocalizeCoordinates
+      subroutine DMCreate(a,b,z)
+       import tDM
+       MPI_Comm a ! MPI_Comm
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMCreate
+      subroutine DMClone(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMClone
+      subroutine DMSetVecType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! VecType
+       PetscErrorCode z
+       end subroutine DMSetVecType
+      subroutine DMGetVecType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! VecType
+       PetscErrorCode z
+       end subroutine DMGetVecType
+      subroutine VecGetDM(a,b,z)
+       import tDM,tVec
+       Vec a ! Vec
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine VecGetDM
+      subroutine VecSetDM(a,b,z)
+       import tDM,tVec
+       Vec a ! Vec
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine VecSetDM
+      subroutine DMSetISColoringType(a,b,z)
+       import tDM
+       DM a ! DM
+       ISColoringType b ! ISColoringType
+       PetscErrorCode z
+       end subroutine DMSetISColoringType
+      subroutine DMGetISColoringType(a,b,z)
+       import tDM
+       DM a ! DM
+       ISColoringType b ! ISColoringType
+       PetscErrorCode z
+       end subroutine DMGetISColoringType
+      subroutine DMSetMatType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! MatType
+       PetscErrorCode z
+       end subroutine DMSetMatType
+      subroutine DMGetMatType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! MatType
+       PetscErrorCode z
+       end subroutine DMGetMatType
+      subroutine MatGetDM(a,b,z)
+       import tDM,tMat
+       Mat a ! Mat
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine MatGetDM
+      subroutine MatSetDM(a,b,z)
+       import tDM,tMat
+       Mat a ! Mat
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine MatSetDM
+      subroutine DMSetOptionsPrefix(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMSetOptionsPrefix
+      subroutine DMAppendOptionsPrefix(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMAppendOptionsPrefix
+      subroutine DMGetOptionsPrefix(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMGetOptionsPrefix
+      subroutine DMDestroy(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMDestroy
+      subroutine DMSetUp(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMSetUp
+      subroutine DMSetFromOptions(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMSetFromOptions
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine DMViewFromOptions(a,b,c,z)
+       import tDM,tPetscObject
+       DM a ! DM
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine DMViewFromOptions
+#endif
+      subroutine DMView(a,b,z)
+       import tDM,tPetscViewer
+       DM a ! DM
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine DMView
+      subroutine DMCreateGlobalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMCreateGlobalVector
+      subroutine DMCreateLocalVector(a,b,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscErrorCode z
+       end subroutine DMCreateLocalVector
+      subroutine DMGetLocalToGlobalMapping(a,b,z)
+       import tDM,tISLocalToGlobalMapping
+       DM a ! DM
+       ISLocalToGlobalMapping b ! ISLocalToGlobalMapping
+       PetscErrorCode z
+       end subroutine DMGetLocalToGlobalMapping
+      subroutine DMGetBlockSize(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetBlockSize
+      subroutine DMCreateInterpolation(a,b,c,d,z)
+       import tDM,tVec,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMCreateInterpolation
+      subroutine DMCreateInterpolationScale(a,b,c,d,z)
+       import tDM,tVec,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMCreateInterpolationScale
+      subroutine DMCreateRestriction(a,b,c,z)
+       import tDM,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       PetscErrorCode z
+       end subroutine DMCreateRestriction
+      subroutine DMCreateInjection(a,b,c,z)
+       import tDM,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       PetscErrorCode z
+       end subroutine DMCreateInjection
+      subroutine DMCreateMassMatrix(a,b,c,z)
+       import tDM,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       PetscErrorCode z
+       end subroutine DMCreateMassMatrix
+      subroutine DMCreateMassMatrixLumped(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMCreateMassMatrixLumped
+      subroutine DMCreateColoring(a,b,c,z)
+       import tDM,tISColoring
+       DM a ! DM
+       ISColoringType b ! ISColoringType
+       ISColoring c ! ISColoring
+       PetscErrorCode z
+       end subroutine DMCreateColoring
+      subroutine DMCreateMatrix(a,b,z)
+       import tDM,tMat
+       DM a ! DM
+       Mat b ! Mat
+       PetscErrorCode z
+       end subroutine DMCreateMatrix
+      subroutine DMSetMatrixPreallocateSkip(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetMatrixPreallocateSkip
+      subroutine DMSetMatrixPreallocateOnly(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetMatrixPreallocateOnly
+      subroutine DMSetMatrixStructureOnly(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetMatrixStructureOnly
+      subroutine DMSetBlockingType(a,b,z)
+       import tDM
+       DM a ! DM
+       DMBlockingType b ! DMBlockingType
+       PetscErrorCode z
+       end subroutine DMSetBlockingType
+      subroutine DMGetBlockingType(a,b,z)
+       import tDM
+       DM a ! DM
+       DMBlockingType b ! DMBlockingType
+       PetscErrorCode z
+       end subroutine DMGetBlockingType
+      subroutine DMCreateSubDM(a,b,c,d,e,z)
+       import tIS,tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       IS d ! IS
+       DM e ! DM
+       PetscErrorCode z
+       end subroutine DMCreateSubDM
+      subroutine DMRefine(a,b,c,z)
+       import tDM
+       DM a ! DM
+       integer b ! MPI_Comm
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMRefine
+      subroutine DMInterpolate(a,b,c,z)
+       import tDM,tMat
+       DM a ! DM
+       Mat b ! Mat
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMInterpolate
+      subroutine DMInterpolateSolution(a,b,c,d,e,z)
+       import tDM,tVec,tMat
+       DM a ! DM
+       DM b ! DM
+       Mat c ! Mat
+       Vec d ! Vec
+       Vec e ! Vec
+       PetscErrorCode z
+       end subroutine DMInterpolateSolution
+      subroutine DMGetRefineLevel(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetRefineLevel
+      subroutine DMSetRefineLevel(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetRefineLevel
+      subroutine DMExtrude(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMExtrude
+      subroutine DMHasBasisTransform(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasBasisTransform
+      subroutine DMGlobalToLocal(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGlobalToLocal
+      subroutine DMGlobalToLocalBegin(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGlobalToLocalBegin
+      subroutine DMGlobalToLocalEnd(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGlobalToLocalEnd
+      subroutine DMLocalToGlobal(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToGlobal
+      subroutine DMLocalToGlobalBegin(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToGlobalBegin
+      subroutine DMLocalToGlobalEnd(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToGlobalEnd
+      subroutine DMLocalToLocalBegin(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToLocalBegin
+      subroutine DMLocalToLocalEnd(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       InsertMode c ! InsertMode
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMLocalToLocalEnd
+      subroutine DMCoarsen(a,b,c,z)
+       import tDM
+       DM a ! DM
+       integer b ! MPI_Comm
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMCoarsen
+      subroutine DMRestrict(a,b,c,d,e,z)
+       import tDM,tVec,tMat
+       DM a ! DM
+       Mat b ! Mat
+       Vec c ! Vec
+       Mat d ! Mat
+       DM e ! DM
+       PetscErrorCode z
+       end subroutine DMRestrict
+      subroutine DMSubDomainRestrict(a,b,c,d,z)
+       import tDM,tVecScatter
+       DM a ! DM
+       VecScatter b ! VecScatter
+       VecScatter c ! VecScatter
+       DM d ! DM
+       PetscErrorCode z
+       end subroutine DMSubDomainRestrict
+      subroutine DMGetCoarsenLevel(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetCoarsenLevel
+      subroutine DMSetCoarsenLevel(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetCoarsenLevel
+      subroutine DMRefineHierarchy(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DM c (*) ! DM
+       PetscErrorCode z
+       end subroutine DMRefineHierarchy
+      subroutine DMCoarsenHierarchy(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DM c (*) ! DM
+       PetscErrorCode z
+       end subroutine DMCoarsenHierarchy
+      subroutine DMHasVariableBounds(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasVariableBounds
+      subroutine DMComputeVariableBounds(a,b,c,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine DMComputeVariableBounds
+      subroutine DMHasColoring(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasColoring
+      subroutine DMHasCreateRestriction(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasCreateRestriction
+      subroutine DMHasCreateInjection(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasCreateInjection
+      subroutine DMSetType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! DMType
+       PetscErrorCode z
+       end subroutine DMSetType
+      subroutine DMGetType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! DMType
+       PetscErrorCode z
+       end subroutine DMGetType
+      subroutine DMConvert(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! DMType
+       DM c ! DM
+       PetscErrorCode z
+       end subroutine DMConvert
+      subroutine DMLoad(a,b,z)
+       import tDM,tPetscViewer
+       DM a ! DM
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine DMLoad
+      subroutine DMGetSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMGetSection
+      subroutine DMGetLocalSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMGetLocalSection
+      subroutine DMSetSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMSetSection
+      subroutine DMSetLocalSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMSetLocalSection
+      subroutine DMGetDefaultConstraints(a,b,c,d,z)
+       import tPetscSection,tDM,tVec,tMat
+       DM a ! DM
+       PetscSection b ! PetscSection
+       Mat c ! Mat
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMGetDefaultConstraints
+      subroutine DMSetDefaultConstraints(a,b,c,d,z)
+       import tPetscSection,tDM,tVec,tMat
+       DM a ! DM
+       PetscSection b ! PetscSection
+       Mat c ! Mat
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMSetDefaultConstraints
+      subroutine DMGetGlobalSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMGetGlobalSection
+      subroutine DMSetGlobalSection(a,b,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscErrorCode z
+       end subroutine DMSetGlobalSection
+      subroutine DMGetSectionSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMGetSectionSF
+      subroutine DMSetSectionSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMSetSectionSF
+      subroutine DMCreateSectionSF(a,b,c,z)
+       import tPetscSection,tDM
+       DM a ! DM
+       PetscSection b ! PetscSection
+       PetscSection c ! PetscSection
+       PetscErrorCode z
+       end subroutine DMCreateSectionSF
+      subroutine DMGetPointSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMGetPointSF
+      subroutine DMSetPointSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMSetPointSF
+      subroutine DMGetNaturalSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMGetNaturalSF
+      subroutine DMSetNaturalSF(a,b,z)
+       import tPetscSF,tDM
+       DM a ! DM
+       PetscSF b ! PetscSF
+       PetscErrorCode z
+       end subroutine DMSetNaturalSF
+      subroutine DMClearFields(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearFields
+      subroutine DMGetNumFields(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetNumFields
+      subroutine DMSetNumFields(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetNumFields
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine DMGetField(a,b,c,d,z)
+       import tDMLabel,tDM,tPetscObject
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DMLabel c ! DMLabel
+       type(*) d ! PetscObject
+       PetscErrorCode z
+       end subroutine DMGetField
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine DMSetField(a,b,c,d,z)
+       import tDMLabel,tDM,tPetscObject
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DMLabel c ! DMLabel
+       type(*) d ! PetscObject
+       PetscErrorCode z
+       end subroutine DMSetField
+#endif
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine DMAddField(a,b,c,z)
+       import tDMLabel,tDM,tPetscObject
+       DM a ! DM
+       DMLabel b ! DMLabel
+       type(*) c ! PetscObject
+       PetscErrorCode z
+       end subroutine DMAddField
+#endif
+      subroutine DMSetFieldAvoidTensor(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetFieldAvoidTensor
+      subroutine DMGetFieldAvoidTensor(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetFieldAvoidTensor
+      subroutine DMCopyFields(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       DM d ! DM
+       PetscErrorCode z
+       end subroutine DMCopyFields
+      subroutine DMGetAdjacency(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscBool c ! PetscBool
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetAdjacency
+      subroutine DMSetAdjacency(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscBool c ! PetscBool
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetAdjacency
+      subroutine DMGetBasicAdjacency(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetBasicAdjacency
+      subroutine DMSetBasicAdjacency(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetBasicAdjacency
+      subroutine DMGetNumDS(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetNumDS
+      subroutine DMClearDS(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearDS
+      subroutine DMGetDS(a,b,z)
+       import tDM,tPetscDS
+       DM a ! DM
+       PetscDS b ! PetscDS
+       PetscErrorCode z
+       end subroutine DMGetDS
+      subroutine DMGetCellDS(a,b,c,d,z)
+       import tDM,tPetscDS
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscDS c ! PetscDS
+       PetscDS d ! PetscDS
+       PetscErrorCode z
+       end subroutine DMGetCellDS
+      subroutine DMGetRegionDS(a,b,c,d,e,z)
+       import tDMLabel,tDM,tPetscDS,tIS
+       DM a ! DM
+       DMLabel b ! DMLabel
+       IS c ! IS
+       PetscDS d ! PetscDS
+       PetscDS e ! PetscDS
+       PetscErrorCode z
+       end subroutine DMGetRegionDS
+      subroutine DMSetRegionDS(a,b,c,d,e,z)
+       import tDMLabel,tDM,tPetscDS,tIS
+       DM a ! DM
+       DMLabel b ! DMLabel
+       IS c ! IS
+       PetscDS d ! PetscDS
+       PetscDS e ! PetscDS
+       PetscErrorCode z
+       end subroutine DMSetRegionDS
+      subroutine DMGetRegionNumDS(a,b,c,d,e,f,z)
+       import tDMLabel,tDM,tPetscDS,tIS
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DMLabel c ! DMLabel
+       IS d ! IS
+       PetscDS e ! PetscDS
+       PetscDS f ! PetscDS
+       PetscErrorCode z
+       end subroutine DMGetRegionNumDS
+      subroutine DMSetRegionNumDS(a,b,c,d,e,f,z)
+       import tDMLabel,tDM,tPetscDS,tIS
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DMLabel c ! DMLabel
+       IS d ! IS
+       PetscDS e ! PetscDS
+       PetscDS f ! PetscDS
+       PetscErrorCode z
+       end subroutine DMSetRegionNumDS
+      subroutine DMFindRegionNum(a,b,c,z)
+       import tDM,tPetscDS
+       DM a ! DM
+       PetscDS b ! PetscDS
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine DMFindRegionNum
+      subroutine DMCreateFEDefault(a,b,c,d,e,z)
+       import tDM,tPetscFE
+       DM a ! DM
+       PetscInt b ! PetscInt
+       character(*) c (*) ! char
+       PetscInt d ! PetscInt
+       PetscFE e ! PetscFE
+       PetscErrorCode z
+       end subroutine DMCreateFEDefault
+      subroutine DMCreateDS(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMCreateDS
+      subroutine DMUseTensorOrder(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMUseTensorOrder
+      subroutine DMComputeExactSolution(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       PetscReal b ! PetscReal
+       Vec c ! Vec
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMComputeExactSolution
+      subroutine DMCopyDS(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       DM d ! DM
+       PetscErrorCode z
+       end subroutine DMCopyDS
+      subroutine DMCopyDisc(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMCopyDisc
+      subroutine DMGetDimension(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetDimension
+      subroutine DMSetDimension(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetDimension
+      subroutine DMGetDimPoints(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetDimPoints
+      subroutine DMGetOutputDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMGetOutputDM
+      subroutine DMGetOutputSequenceNumber(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscReal c ! PetscReal
+       PetscErrorCode z
+       end subroutine DMGetOutputSequenceNumber
+      subroutine DMSetOutputSequenceNumber(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscReal c ! PetscReal
+       PetscErrorCode z
+       end subroutine DMSetOutputSequenceNumber
+      subroutine DMOutputSequenceLoad(a,b,c,d,e,z)
+       import tDM,tPetscViewer
+       DM a ! DM
+       PetscViewer b ! PetscViewer
+       character(*) c (*) ! char
+       PetscInt d ! PetscInt
+       PetscReal e ! PetscReal
+       PetscErrorCode z
+       end subroutine DMOutputSequenceLoad
+      subroutine DMGetOutputSequenceLength(a,b,c,d,z)
+       import tDM,tPetscViewer
+       DM a ! DM
+       PetscViewer b ! PetscViewer
+       character(*) c (*) ! char
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetOutputSequenceLength
+      subroutine DMGetUseNatural(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetUseNatural
+      subroutine DMSetUseNatural(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetUseNatural
+      subroutine DMCreateLabel(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine DMCreateLabel
+      subroutine DMCreateLabelAtIndex(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine DMCreateLabelAtIndex
+      subroutine DMGetLabelValue(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetLabelValue
+      subroutine DMSetLabelValue(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMSetLabelValue
+      subroutine DMClearLabelValue(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMClearLabelValue
+      subroutine DMGetLabelSize(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetLabelSize
+      subroutine DMGetLabelIdIS(a,b,c,z)
+       import tIS,tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       IS c ! IS
+       PetscErrorCode z
+       end subroutine DMGetLabelIdIS
+      subroutine DMGetStratumSize(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetStratumSize
+      subroutine DMGetStratumIS(a,b,c,d,z)
+       import tIS,tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       IS d ! IS
+       PetscErrorCode z
+       end subroutine DMGetStratumIS
+      subroutine DMSetStratumIS(a,b,c,d,z)
+       import tIS,tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       IS d ! IS
+       PetscErrorCode z
+       end subroutine DMSetStratumIS
+      subroutine DMClearLabelStratum(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscInt c ! PetscInt
+       PetscErrorCode z
+       end subroutine DMClearLabelStratum
+      subroutine DMGetNumLabels(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetNumLabels
+      subroutine DMGetLabelName(a,b,c,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine DMGetLabelName
+      subroutine DMHasLabel(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMHasLabel
+      subroutine DMGetLabel(a,b,c,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       DMLabel c ! DMLabel
+       PetscErrorCode z
+       end subroutine DMGetLabel
+      subroutine DMGetLabelByNum(a,b,c,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       DMLabel c ! DMLabel
+       PetscErrorCode z
+       end subroutine DMGetLabelByNum
+      subroutine DMAddLabel(a,b,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       DMLabel b ! DMLabel
+       PetscErrorCode z
+       end subroutine DMAddLabel
+      subroutine DMSetLabel(a,b,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       DMLabel b ! DMLabel
+       PetscErrorCode z
+       end subroutine DMSetLabel
+      subroutine DMRemoveLabel(a,b,c,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       DMLabel c ! DMLabel
+       PetscErrorCode z
+       end subroutine DMRemoveLabel
+      subroutine DMRemoveLabelBySelf(a,b,c,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       DMLabel b ! DMLabel
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMRemoveLabelBySelf
+      subroutine DMGetLabelOutput(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetLabelOutput
+      subroutine DMSetLabelOutput(a,b,c,z)
+       import tDM
+       DM a ! DM
+       character(*) b (*) ! char
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMSetLabelOutput
+      subroutine DMCopyLabels(a,b,c,d,e,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscCopyMode c ! PetscCopyMode
+       PetscBool d ! PetscBool
+       DMCopyLabelsMode e ! DMCopyLabelsMode
+       PetscErrorCode z
+       end subroutine DMCopyLabels
+      subroutine DMGetCoarseDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMGetCoarseDM
+      subroutine DMSetCoarseDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMSetCoarseDM
+      subroutine DMGetFineDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMGetFineDM
+      subroutine DMSetFineDM(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMSetFineDM
+      subroutine MatFDColoringUseDM(a,b,z)
+       import tMatFDColoring,tMat
+       Mat a ! Mat
+       MatFDColoring b ! MatFDColoring
+       PetscErrorCode z
+       end subroutine MatFDColoringUseDM
+      subroutine DMGetCompatibility(a,b,c,d,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscBool c ! PetscBool
+       PetscBool d ! PetscBool
+       PetscErrorCode z
+       end subroutine DMGetCompatibility
+      subroutine DMMonitorCancel(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMMonitorCancel
+      subroutine DMMonitor(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMMonitor
+      subroutine DMComputeError(a,b,c,d,z)
+       import tDM,tVec
+       DM a ! DM
+       Vec b ! Vec
+       PetscReal c (*) ! PetscReal
+       Vec d ! Vec
+       PetscErrorCode z
+       end subroutine DMComputeError
+      subroutine DMGetNumAuxiliaryVec(a,b,z)
+       import tDM
+       DM a ! DM
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetNumAuxiliaryVec
+      subroutine DMGetAuxiliaryVec(a,b,c,d,e,z)
+       import tDMLabel,tDM,tVec
+       DM a ! DM
+       DMLabel b ! DMLabel
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       Vec e ! Vec
+       PetscErrorCode z
+       end subroutine DMGetAuxiliaryVec
+      subroutine DMSetAuxiliaryVec(a,b,c,d,e,z)
+       import tDMLabel,tDM,tVec
+       DM a ! DM
+       DMLabel b ! DMLabel
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       Vec e ! Vec
+       PetscErrorCode z
+       end subroutine DMSetAuxiliaryVec
+      subroutine DMGetAuxiliaryLabels(a,b,c,d,z)
+       import tDMLabel,tDM
+       DM a ! DM
+       DMLabel b (*) ! DMLabel
+       PetscInt c (*) ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine DMGetAuxiliaryLabels
+      subroutine DMCopyAuxiliaryVec(a,b,z)
+       import tDM
+       DM a ! DM
+       DM b ! DM
+       PetscErrorCode z
+       end subroutine DMCopyAuxiliaryVec
+      subroutine DMClearAuxiliaryVec(a,z)
+       import tDM
+       DM a ! DM
+       PetscErrorCode z
+       end subroutine DMClearAuxiliaryVec
+      subroutine DMPolytopeMatchOrientation(a,b,c,d,e,z)
+       DMPolytopeType a ! DMPolytopeType
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscBool e ! PetscBool
+       PetscErrorCode z
+       end subroutine DMPolytopeMatchOrientation
+      subroutine DMPolytopeGetOrientation(a,b,c,d,z)
+       DMPolytopeType a ! DMPolytopeType
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMPolytopeGetOrientation
+      subroutine DMPolytopeMatchVertexOrientation(a,b,c,d,e,z)
+       DMPolytopeType a ! DMPolytopeType
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscBool e ! PetscBool
+       PetscErrorCode z
+       end subroutine DMPolytopeMatchVertexOrientation
+      subroutine DMPolytopeGetVertexOrientation(a,b,c,d,z)
+       DMPolytopeType a ! DMPolytopeType
+       PetscInt b (*) ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d ! PetscInt
+       PetscErrorCode z
+       end subroutine DMPolytopeGetVertexOrientation
+      subroutine DMPolytopeInCellTest(a,b,c,z)
+       DMPolytopeType a ! DMPolytopeType
+       PetscReal b (*) ! PetscReal
+       PetscBool c ! PetscBool
+       PetscErrorCode z
+       end subroutine DMPolytopeInCellTest
+      subroutine DMReorderSectionSetDefault(a,b,z)
+       import tDM
+       DM a ! DM
+       DMReorderDefaultFlag b ! DMReorderDefaultFlag
+       PetscErrorCode z
+       end subroutine DMReorderSectionSetDefault
+      subroutine DMReorderSectionGetDefault(a,b,z)
+       import tDM
+       DM a ! DM
+       DMReorderDefaultFlag b ! DMReorderDefaultFlag
+       PetscErrorCode z
+       end subroutine DMReorderSectionGetDefault
+      subroutine DMReorderSectionSetType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! MatOrderingType
+       PetscErrorCode z
+       end subroutine DMReorderSectionSetType
+      subroutine DMReorderSectionGetType(a,b,z)
+       import tDM
+       DM a ! DM
+       character(*) b ! MatOrderingType
+       PetscErrorCode z
+       end subroutine DMReorderSectionGetType
+      subroutine PetscPartitionerMatPartitioningGetMatPartitioning(a,b,z&
+     &)
+       import tPetscPartitioner,tMatPartitioning
+       PetscPartitioner a ! PetscPartitioner
+       MatPartitioning b ! MatPartitioning
+       PetscErrorCode z
+       end subroutine PetscPartitionerMatPartitioningGetMatPartitioning
+      subroutine PetscPartitionerShellSetPartition(a,b,c,d,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscPartitionerShellSetPartition
+      subroutine PetscPartitionerShellSetRandom(a,b,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscPartitionerShellSetRandom
+      subroutine PetscPartitionerShellGetRandom(a,b,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine PetscPartitionerShellGetRandom
+      subroutine PetscPartitionerSetType(a,b,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       character(*) b ! PetscPartitionerType
+       PetscErrorCode z
+       end subroutine PetscPartitionerSetType
+      subroutine PetscPartitionerGetType(a,b,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       character(*) b ! PetscPartitionerType
+       PetscErrorCode z
+       end subroutine PetscPartitionerGetType
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscPartitionerViewFromOptions(a,b,c,z)
+       import tPetscPartitioner,tPetscObject
+       PetscPartitioner a ! PetscPartitioner
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscPartitionerViewFromOptions
+#endif
+      subroutine PetscPartitionerView(a,b,z)
+       import tPetscPartitioner,tPetscViewer
+       PetscPartitioner a ! PetscPartitioner
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscPartitionerView
+      subroutine PetscPartitionerSetFromOptions(a,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscErrorCode z
+       end subroutine PetscPartitionerSetFromOptions
+      subroutine PetscPartitionerSetUp(a,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscErrorCode z
+       end subroutine PetscPartitionerSetUp
+      subroutine PetscPartitionerReset(a,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscErrorCode z
+       end subroutine PetscPartitionerReset
+      subroutine PetscPartitionerDestroy(a,z)
+       import tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscErrorCode z
+       end subroutine PetscPartitionerDestroy
+      subroutine PetscPartitionerPartition(a,b,c,d,e,f,g,h,i,j,z)
+       import tIS,tPetscSection,tPetscPartitioner
+       PetscPartitioner a ! PetscPartitioner
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d (*) ! PetscInt
+       PetscInt e (*) ! PetscInt
+       PetscSection f ! PetscSection
+       PetscSection g ! PetscSection
+       PetscSection h ! PetscSection
+       PetscSection i ! PetscSection
+       IS j ! IS
+       PetscErrorCode z
+       end subroutine PetscPartitionerPartition
+      subroutine PetscPartitionerCreate(a,b,z)
+       import tPetscPartitioner
+       MPI_Comm a ! MPI_Comm
+       PetscPartitioner b ! PetscPartitioner
+       PetscErrorCode z
+       end subroutine PetscPartitionerCreate

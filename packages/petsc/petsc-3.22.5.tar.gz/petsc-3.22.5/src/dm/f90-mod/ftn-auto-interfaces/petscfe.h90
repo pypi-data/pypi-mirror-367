@@ -1,0 +1,384 @@
+      subroutine PetscFEOpenCLSetRealType(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscDataType b ! PetscDataType
+       PetscErrorCode z
+       end subroutine PetscFEOpenCLSetRealType
+      subroutine PetscFEOpenCLGetRealType(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscDataType b ! PetscDataType
+       PetscErrorCode z
+       end subroutine PetscFEOpenCLGetRealType
+      subroutine PetscFECreateVector(a,b,c,d,e,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscBool c ! PetscBool
+       PetscBool d ! PetscBool
+       PetscFE e ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateVector
+      subroutine PetscFESetType(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       character(*) b ! PetscFEType
+       PetscErrorCode z
+       end subroutine PetscFESetType
+      subroutine PetscFEGetType(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       character(*) b ! PetscFEType
+       PetscErrorCode z
+       end subroutine PetscFEGetType
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PetscFEViewFromOptions(a,b,c,z)
+       import tPetscObject,tPetscFE
+       PetscFE a ! PetscFE
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PetscFEViewFromOptions
+#endif
+      subroutine PetscFEView(a,b,z)
+       import tPetscViewer,tPetscFE
+       PetscFE a ! PetscFE
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PetscFEView
+      subroutine PetscFESetFromOptions(a,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFESetFromOptions
+      subroutine PetscFESetUp(a,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFESetUp
+      subroutine PetscFEDestroy(a,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFEDestroy
+      subroutine PetscFECreate(a,b,z)
+       import tPetscFE
+       MPI_Comm a ! MPI_Comm
+       PetscFE b ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreate
+      subroutine PetscFEGetSpatialDimension(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFEGetSpatialDimension
+      subroutine PetscFESetNumComponents(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFESetNumComponents
+      subroutine PetscFEGetNumComponents(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFEGetNumComponents
+      subroutine PetscFESetTileSizes(a,b,c,d,e,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFESetTileSizes
+      subroutine PetscFEGetTileSizes(a,b,c,d,e,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscInt d ! PetscInt
+       PetscInt e ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFEGetTileSizes
+      subroutine PetscFEGetBasisSpace(a,b,z)
+       import tPetscSpace,tPetscFE
+       PetscFE a ! PetscFE
+       PetscSpace b ! PetscSpace
+       PetscErrorCode z
+       end subroutine PetscFEGetBasisSpace
+      subroutine PetscFESetBasisSpace(a,b,z)
+       import tPetscSpace,tPetscFE
+       PetscFE a ! PetscFE
+       PetscSpace b ! PetscSpace
+       PetscErrorCode z
+       end subroutine PetscFESetBasisSpace
+      subroutine PetscFEGetDualSpace(a,b,z)
+       import tPetscDualSpace,tPetscFE
+       PetscFE a ! PetscFE
+       PetscDualSpace b ! PetscDualSpace
+       PetscErrorCode z
+       end subroutine PetscFEGetDualSpace
+      subroutine PetscFESetDualSpace(a,b,z)
+       import tPetscDualSpace,tPetscFE
+       PetscFE a ! PetscFE
+       PetscDualSpace b ! PetscDualSpace
+       PetscErrorCode z
+       end subroutine PetscFESetDualSpace
+      subroutine PetscFEGetQuadrature(a,b,z)
+       import tPetscQuadrature,tPetscFE
+       PetscFE a ! PetscFE
+       PetscQuadrature b ! PetscQuadrature
+       PetscErrorCode z
+       end subroutine PetscFEGetQuadrature
+      subroutine PetscFESetQuadrature(a,b,z)
+       import tPetscQuadrature,tPetscFE
+       PetscFE a ! PetscFE
+       PetscQuadrature b ! PetscQuadrature
+       PetscErrorCode z
+       end subroutine PetscFESetQuadrature
+      subroutine PetscFEGetFaceQuadrature(a,b,z)
+       import tPetscQuadrature,tPetscFE
+       PetscFE a ! PetscFE
+       PetscQuadrature b ! PetscQuadrature
+       PetscErrorCode z
+       end subroutine PetscFEGetFaceQuadrature
+      subroutine PetscFESetFaceQuadrature(a,b,z)
+       import tPetscQuadrature,tPetscFE
+       PetscFE a ! PetscFE
+       PetscQuadrature b ! PetscQuadrature
+       PetscErrorCode z
+       end subroutine PetscFESetFaceQuadrature
+      subroutine PetscFECopyQuadrature(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscFE b ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECopyQuadrature
+      subroutine PetscTabulationDestroy(a,z)
+       PetscTabulation a ! PetscTabulation
+       PetscErrorCode z
+       end subroutine PetscTabulationDestroy
+      subroutine PetscFEGetDimension(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine PetscFEGetDimension
+      subroutine PetscFEPushforward(a,b,c,d,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscFEGeom b ! PetscFEGeom
+       PetscInt c ! PetscInt
+       PetscScalar d (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEPushforward
+      subroutine PetscFEPushforwardGradient(a,b,c,d,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscFEGeom b ! PetscFEGeom
+       PetscInt c ! PetscInt
+       PetscScalar d (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEPushforwardGradient
+      subroutine PetscFEPushforwardHessian(a,b,c,d,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscFEGeom b ! PetscFEGeom
+       PetscInt c ! PetscInt
+       PetscScalar d (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEPushforwardHessian
+      subroutine PetscFEIntegrate(a,b,c,d,e,f,g,h,z)
+       import tPetscDS
+       PetscDS a ! PetscDS
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscFEGeom d ! PetscFEGeom
+       PetscScalar e (*) ! PetscScalar
+       PetscDS f ! PetscDS
+       PetscScalar g (*) ! PetscScalar
+       PetscScalar h (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrate
+      subroutine PetscFEIntegrateResidual(a,b,c,d,e,f,g,h,i,j,z)
+       import tPetscDS
+       PetscDS a ! PetscDS
+       PetscFormKey b ! PetscFormKey
+       PetscInt c ! PetscInt
+       PetscFEGeom d ! PetscFEGeom
+       PetscScalar e (*) ! PetscScalar
+       PetscScalar f (*) ! PetscScalar
+       PetscDS g ! PetscDS
+       PetscScalar h (*) ! PetscScalar
+       PetscReal i ! PetscReal
+       PetscScalar j (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateResidual
+      subroutine PetscFEIntegrateBdResidual(a,b,c,d,e,f,g,h,i,j,k,z)
+       import tPetscDS,tPetscWeakForm
+       PetscDS a ! PetscDS
+       PetscWeakForm b ! PetscWeakForm
+       PetscFormKey c ! PetscFormKey
+       PetscInt d ! PetscInt
+       PetscFEGeom e ! PetscFEGeom
+       PetscScalar f (*) ! PetscScalar
+       PetscScalar g (*) ! PetscScalar
+       PetscDS h ! PetscDS
+       PetscScalar i (*) ! PetscScalar
+       PetscReal j ! PetscReal
+       PetscScalar k (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateBdResidual
+      subroutine PetscFEIntegrateHybridResidual(a,b,c,d,e,f,g,h,i,j,k,l,&
+     &z)
+       import tPetscDS
+       PetscDS a ! PetscDS
+       PetscDS b ! PetscDS
+       PetscFormKey c ! PetscFormKey
+       PetscInt d ! PetscInt
+       PetscInt e ! PetscInt
+       PetscFEGeom f ! PetscFEGeom
+       PetscScalar g (*) ! PetscScalar
+       PetscScalar h (*) ! PetscScalar
+       PetscDS i ! PetscDS
+       PetscScalar j (*) ! PetscScalar
+       PetscReal k ! PetscReal
+       PetscScalar l (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateHybridResidual
+      subroutine PetscFEIntegrateJacobian(a,b,c,d,e,f,g,h,i,j,k,l,z)
+       import tPetscDS
+       PetscDS a ! PetscDS
+       PetscFEJacobianType b ! PetscFEJacobianType
+       PetscFormKey c ! PetscFormKey
+       PetscInt d ! PetscInt
+       PetscFEGeom e ! PetscFEGeom
+       PetscScalar f (*) ! PetscScalar
+       PetscScalar g (*) ! PetscScalar
+       PetscDS h ! PetscDS
+       PetscScalar i (*) ! PetscScalar
+       PetscReal j ! PetscReal
+       PetscReal k ! PetscReal
+       PetscScalar l (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateJacobian
+      subroutine PetscFEIntegrateBdJacobian(a,b,c,d,e,f,g,h,i,j,k,l,m,z)
+       import tPetscDS,tPetscWeakForm&
+     &
+       PetscDS a ! PetscDS
+       PetscWeakForm b ! PetscWeakForm
+       PetscFEJacobianType c ! PetscFEJacobianType
+       PetscFormKey d ! PetscFormKey
+       PetscInt e ! PetscInt
+       PetscFEGeom f ! PetscFEGeom
+       PetscScalar g (*) ! PetscScalar
+       PetscScalar h (*) ! PetscScalar
+       PetscDS i ! PetscDS
+       PetscScalar j (*) ! PetscScalar
+       PetscReal k ! PetscReal
+       PetscReal l ! PetscReal
+       PetscScalar m (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateBdJacobian
+      subroutine PetscFEIntegrateHybridJacobian(a,b,c,d,e,f,g,h,i,j,k,l,&
+     &m,n,z)
+       import tPetscDS
+       PetscDS a ! PetscDS
+       PetscDS b ! PetscDS
+       PetscFEJacobianType c ! PetscFEJacobianType
+       PetscFormKey d ! PetscFormKey
+       PetscInt e ! PetscInt
+       PetscInt f ! PetscInt
+       PetscFEGeom g ! PetscFEGeom
+       PetscScalar h (*) ! PetscScalar
+       PetscScalar i (*) ! PetscScalar
+       PetscDS j ! PetscDS
+       PetscScalar k (*) ! PetscScalar
+       PetscReal l ! PetscReal
+       PetscReal m ! PetscReal
+       PetscScalar n (*) ! PetscScalar
+       PetscErrorCode z
+       end subroutine PetscFEIntegrateHybridJacobian
+      subroutine PetscFEGetHeightSubspace(a,b,c,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscFE c ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFEGetHeightSubspace
+      subroutine PetscFERefine(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscFE b ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFERefine
+      subroutine PetscFECreateFromSpaces(a,b,c,d,e,z)
+       import tPetscDualSpace,tPetscSpace,tPetscQuadrature,tPetscFE
+       PetscSpace a ! PetscSpace
+       PetscDualSpace b ! PetscDualSpace
+       PetscQuadrature c ! PetscQuadrature
+       PetscQuadrature d ! PetscQuadrature
+       PetscFE e ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateFromSpaces
+      subroutine PetscFECreateDefault(a,b,c,d,e,f,g,z)
+       import tPetscFE
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscBool d ! PetscBool
+       character(*) e (*) ! char
+       PetscInt f ! PetscInt
+       PetscFE g ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateDefault
+      subroutine PetscFECreateByCell(a,b,c,d,e,f,g,z)
+       import tPetscFE
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       DMPolytopeType d ! DMPolytopeType
+       character(*) e (*) ! char
+       PetscInt f ! PetscInt
+       PetscFE g ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateByCell
+      subroutine PetscFECreateLagrange(a,b,c,d,e,f,g,z)
+       import tPetscFE
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscBool d ! PetscBool
+       PetscInt e ! PetscInt
+       PetscInt f ! PetscInt
+       PetscFE g ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateLagrange
+      subroutine PetscFECreateLagrangeByCell(a,b,c,d,e,f,g,z)
+       import tPetscFE
+       MPI_Comm a ! MPI_Comm
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       DMPolytopeType d ! DMPolytopeType
+       PetscInt e ! PetscInt
+       PetscInt f ! PetscInt
+       PetscFE g ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFECreateLagrangeByCell
+      subroutine PetscFELimitDegree(a,b,c,d,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       PetscInt b ! PetscInt
+       PetscInt c ! PetscInt
+       PetscFE d ! PetscFE
+       PetscErrorCode z
+       end subroutine PetscFELimitDegree
+      subroutine PetscFESetName(a,b,z)
+       import tPetscFE
+       PetscFE a ! PetscFE
+       character(*) b (*) ! char
+       PetscErrorCode z
+       end subroutine PetscFESetName

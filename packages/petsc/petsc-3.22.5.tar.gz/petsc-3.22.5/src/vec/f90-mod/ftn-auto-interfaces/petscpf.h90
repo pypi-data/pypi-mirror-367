@@ -1,0 +1,38 @@
+      subroutine PFApplyVec(a,b,c,z)
+       import tVec
+       PF a ! PF
+       Vec b ! Vec
+       Vec c ! Vec
+       PetscErrorCode z
+       end subroutine PFApplyVec
+      subroutine PFApply(a,b,c,d,z)
+       PF a ! PF
+       PetscInt b ! PetscInt
+       PetscScalar c ! PetscScalar
+       PetscScalar d ! PetscScalar
+       PetscErrorCode z
+       end subroutine PFApply
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine PFViewFromOptions(a,b,c,z)
+       import tPetscObject
+       PF a ! PF
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine PFViewFromOptions
+#endif
+      subroutine PFView(a,b,z)
+       import tPetscViewer
+       PF a ! PF
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine PFView
+      subroutine PFGetType(a,b,z)
+       PF a ! PF
+       character(*) b ! PFType
+       PetscErrorCode z
+       end subroutine PFGetType
+      subroutine PFSetFromOptions(a,z)
+       PF a ! PF
+       PetscErrorCode z
+       end subroutine PFSetFromOptions

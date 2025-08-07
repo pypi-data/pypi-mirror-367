@@ -1,0 +1,417 @@
+      subroutine MatCoarsenMISKSetDistance(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatCoarsenMISKSetDistance
+      subroutine MatCoarsenMISKGetDistance(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatCoarsenMISKGetDistance
+      subroutine MatCoarsenGetType(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       character(*) b ! MatCoarsenType
+       PetscErrorCode z
+       end subroutine MatCoarsenGetType
+      subroutine MatCoarsenApply(a,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscErrorCode z
+       end subroutine MatCoarsenApply
+      subroutine MatCoarsenSetAdjacency(a,b,z)
+       import tMat,tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       Mat b ! Mat
+       PetscErrorCode z
+       end subroutine MatCoarsenSetAdjacency
+      subroutine MatCoarsenSetStrictAggs(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine MatCoarsenSetStrictAggs
+      subroutine MatCoarsenDestroy(a,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscErrorCode z
+       end subroutine MatCoarsenDestroy
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine MatCoarsenViewFromOptions(a,b,c,z)
+       import tMatCoarsen,tPetscObject
+       MatCoarsen a ! MatCoarsen
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine MatCoarsenViewFromOptions
+#endif
+      subroutine MatCoarsenView(a,b,z)
+       import tMatCoarsen,tPetscViewer
+       MatCoarsen a ! MatCoarsen
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine MatCoarsenView
+      subroutine MatCoarsenSetType(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       character(*) b ! MatCoarsenType
+       PetscErrorCode z
+       end subroutine MatCoarsenSetType
+      subroutine MatCoarsenSetGreedyOrdering(a,b,z)
+       import tIS,tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       IS b ! IS
+       PetscErrorCode z
+       end subroutine MatCoarsenSetGreedyOrdering
+      subroutine MatCoarsenSetFromOptions(a,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscErrorCode z
+       end subroutine MatCoarsenSetFromOptions
+      subroutine MatCoarsenSetMaximumIterations(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatCoarsenSetMaximumIterations
+      subroutine MatCoarsenSetStrengthIndex(a,b,c,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscInt b ! PetscInt
+       PetscInt c (*) ! PetscInt
+       PetscErrorCode z
+       end subroutine MatCoarsenSetStrengthIndex
+      subroutine MatCoarsenSetThreshold(a,b,z)
+       import tMatCoarsen
+       MatCoarsen a ! MatCoarsen
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatCoarsenSetThreshold
+      subroutine MatCoarsenCreate(a,b,z)
+       import tMatCoarsen
+       MPI_Comm a ! MPI_Comm
+       MatCoarsen b ! MatCoarsen
+       PetscErrorCode z
+       end subroutine MatCoarsenCreate
+      subroutine MatColoringCreate(a,b,z)
+       import tMatColoring,tMat
+       Mat a ! Mat
+       MatColoring b ! MatColoring
+       PetscErrorCode z
+       end subroutine MatColoringCreate
+      subroutine MatColoringDestroy(a,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscErrorCode z
+       end subroutine MatColoringDestroy
+      subroutine MatColoringSetType(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       character(*) b ! MatColoringType
+       PetscErrorCode z
+       end subroutine MatColoringSetType
+      subroutine MatColoringSetFromOptions(a,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscErrorCode z
+       end subroutine MatColoringSetFromOptions
+      subroutine MatColoringSetDistance(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatColoringSetDistance
+      subroutine MatColoringGetDistance(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatColoringGetDistance
+      subroutine MatColoringSetMaxColors(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatColoringSetMaxColors
+      subroutine MatColoringGetMaxColors(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatColoringGetMaxColors
+      subroutine MatColoringApply(a,b,z)
+       import tMatColoring,tISColoring
+       MatColoring a ! MatColoring
+       ISColoring b ! ISColoring
+       PetscErrorCode z
+       end subroutine MatColoringApply
+      subroutine MatColoringView(a,b,z)
+       import tMatColoring,tPetscViewer
+       MatColoring a ! MatColoring
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine MatColoringView
+      subroutine MatColoringSetWeightType(a,b,z)
+       import tMatColoring
+       MatColoring a ! MatColoring
+       MatColoringWeightType b ! MatColoringWeightType
+       PetscErrorCode z
+       end subroutine MatColoringSetWeightType
+      subroutine MatGetOrdering(a,b,c,d,z)
+       import tIS,tMat
+       Mat a ! Mat
+       character(*) b ! MatOrderingType
+       IS c ! IS
+       IS d ! IS
+       PetscErrorCode z
+       end subroutine MatGetOrdering
+      subroutine MatCreateLaplacian(a,b,c,d,z)
+       import tMat
+       Mat a ! Mat
+       PetscReal b ! PetscReal
+       PetscBool c ! PetscBool
+       Mat d ! Mat
+       PetscErrorCode z
+       end subroutine MatCreateLaplacian
+      subroutine MatPartitioningGetType(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       character(*) b ! MatPartitioningType
+       PetscErrorCode z
+       end subroutine MatPartitioningGetType
+      subroutine MatPartitioningSetNParts(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatPartitioningSetNParts
+      subroutine MatPartitioningApplyND(a,b,z)
+       import tIS,tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       IS b ! IS
+       PetscErrorCode z
+       end subroutine MatPartitioningApplyND
+      subroutine MatPartitioningApply(a,b,z)
+       import tIS,tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       IS b ! IS
+       PetscErrorCode z
+       end subroutine MatPartitioningApply
+      subroutine MatPartitioningImprove(a,b,z)
+       import tIS,tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       IS b ! IS
+       PetscErrorCode z
+       end subroutine MatPartitioningImprove
+      subroutine MatPartitioningViewImbalance(a,b,z)
+       import tIS,tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       IS b ! IS
+       PetscErrorCode z
+       end subroutine MatPartitioningViewImbalance
+      subroutine MatPartitioningSetAdjacency(a,b,z)
+       import tMat,tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       Mat b ! Mat
+       PetscErrorCode z
+       end subroutine MatPartitioningSetAdjacency
+      subroutine MatPartitioningDestroy(a,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscErrorCode z
+       end subroutine MatPartitioningDestroy
+      subroutine MatPartitioningSetUseEdgeWeights(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine MatPartitioningSetUseEdgeWeights
+      subroutine MatPartitioningGetUseEdgeWeights(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine MatPartitioningGetUseEdgeWeights
+      subroutine MatPartitioningCreate(a,b,z)
+       import tMatPartitioning
+       MPI_Comm a ! MPI_Comm
+       MatPartitioning b ! MatPartitioning
+       PetscErrorCode z
+       end subroutine MatPartitioningCreate
+#if defined(PETSC_HAVE_FORTRAN_TYPE_STAR)
+      subroutine MatPartitioningViewFromOptions(a,b,c,z)
+       import tMatPartitioning,tPetscObject
+       MatPartitioning a ! MatPartitioning
+       type(*) b ! PetscObject
+       character(*) c (*) ! char
+       PetscErrorCode z
+       end subroutine MatPartitioningViewFromOptions
+#endif
+      subroutine MatPartitioningView(a,b,z)
+       import tMatPartitioning,tPetscViewer
+       MatPartitioning a ! MatPartitioning
+       PetscViewer b ! PetscViewer
+       PetscErrorCode z
+       end subroutine MatPartitioningView
+      subroutine MatPartitioningSetType(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       character(*) b ! MatPartitioningType
+       PetscErrorCode z
+       end subroutine MatPartitioningSetType
+      subroutine MatPartitioningSetFromOptions(a,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscErrorCode z
+       end subroutine MatPartitioningSetFromOptions
+      subroutine MatPartitioningSetNumberVertexWeights(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatPartitioningSetNumberVertexWeights
+      subroutine MatPartitioningChacoSetGlobal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoGlobalType b ! MPChacoGlobalType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetGlobal
+      subroutine MatPartitioningChacoGetGlobal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoGlobalType b ! MPChacoGlobalType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoGetGlobal
+      subroutine MatPartitioningChacoSetLocal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoLocalType b ! MPChacoLocalType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetLocal
+      subroutine MatPartitioningChacoGetLocal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoLocalType b ! MPChacoLocalType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoGetLocal
+      subroutine MatPartitioningChacoSetCoarseLevel(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetCoarseLevel
+      subroutine MatPartitioningChacoSetEigenSolver(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoEigenType b ! MPChacoEigenType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetEigenSolver
+      subroutine MatPartitioningChacoGetEigenSolver(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPChacoEigenType b ! MPChacoEigenType
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoGetEigenSolver
+      subroutine MatPartitioningChacoSetEigenTol(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetEigenTol
+      subroutine MatPartitioningChacoGetEigenTol(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoGetEigenTol
+      subroutine MatPartitioningChacoSetEigenNumber(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoSetEigenNumber
+      subroutine MatPartitioningChacoGetEigenNumber(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatPartitioningChacoGetEigenNumber
+      subroutine MatPartitioningPartySetGlobal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       character(*) b ! char
+       PetscErrorCode z
+       end subroutine MatPartitioningPartySetGlobal
+      subroutine MatPartitioningPartySetLocal(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       character(*) b ! char
+       PetscErrorCode z
+       end subroutine MatPartitioningPartySetLocal
+      subroutine MatPartitioningPartySetCoarseLevel(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningPartySetCoarseLevel
+      subroutine MatPartitioningPartySetMatchOptimization(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine MatPartitioningPartySetMatchOptimization
+      subroutine MatPartitioningPartySetBipart(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscBool b ! PetscBool
+       PetscErrorCode z
+       end subroutine MatPartitioningPartySetBipart
+      subroutine MatPartitioningParmetisSetCoarseSequential(a,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscErrorCode z
+       end subroutine MatPartitioningParmetisSetCoarseSequential
+      subroutine MatPartitioningParmetisSetRepartition(a,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscErrorCode z
+       end subroutine MatPartitioningParmetisSetRepartition
+      subroutine MatPartitioningParmetisGetEdgeCut(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscInt b ! PetscInt
+       PetscErrorCode z
+       end subroutine MatPartitioningParmetisGetEdgeCut
+      subroutine MatMeshToCellGraph(a,b,c,z)
+       import tMat
+       Mat a ! Mat
+       PetscInt b ! PetscInt
+       Mat c ! Mat
+       PetscErrorCode z
+       end subroutine MatMeshToCellGraph
+      subroutine MatPartitioningPTScotchSetImbalance(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningPTScotchSetImbalance
+      subroutine MatPartitioningPTScotchGetImbalance(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       PetscReal b ! PetscReal
+       PetscErrorCode z
+       end subroutine MatPartitioningPTScotchGetImbalance
+      subroutine MatPartitioningPTScotchSetStrategy(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPPTScotchStrategyType b ! MPPTScotchStrategyType
+       PetscErrorCode z
+       end subroutine MatPartitioningPTScotchSetStrategy
+      subroutine MatPartitioningPTScotchGetStrategy(a,b,z)
+       import tMatPartitioning
+       MatPartitioning a ! MatPartitioning
+       MPPTScotchStrategyType b ! MPPTScotchStrategyType
+       PetscErrorCode z
+       end subroutine MatPartitioningPTScotchGetStrategy
