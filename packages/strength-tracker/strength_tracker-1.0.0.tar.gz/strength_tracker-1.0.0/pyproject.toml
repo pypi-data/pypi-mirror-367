@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strength-tracker"
+version = "1.0.0"
+description = "A comprehensive terminal-based workout tracking application for Mark Rippetoe's Starting Strength program"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+maintainers = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["workout", "strength", "fitness", "tracking", "starting-strength", "rippetoe"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Games/Entertainment",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "rich>=10.0.0",
+    "pyyaml>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/strength-tracker"
+Documentation = "https://github.com/yourusername/strength-tracker#readme"
+Repository = "https://github.com/yourusername/strength-tracker.git"
+"Bug Tracker" = "https://github.com/yourusername/strength-tracker/issues"
+
+[project.scripts]
+strength-tracker = "strength_tracker:main"
+
+[project.gui-scripts]
+strength-tracker-gui = "strength_tracker:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["strength_tracker*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.yaml", "*.yml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

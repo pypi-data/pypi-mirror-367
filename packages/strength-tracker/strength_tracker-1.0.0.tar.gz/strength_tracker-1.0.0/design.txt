@@ -1,0 +1,246 @@
+Starting Strength Terminal Assistant — Development Blueprint
+1. Purpose
+Build a terminal-based workout tracker for the Starting Strength program.
+
+Reads user setup from a config.yaml.
+
+Tracks which workout (A or B) is next.
+
+Calculates next session weights (auto progression).
+
+Handles standard Starting Strength deload logic:
+
+E.g., if a lift stalls (missed same weight 3 sessions), reduce by 10% and restart.
+
+Allows user-defined auxiliary exercises (with or without progression).
+
+Rounds barbell weights to nearest 2.5 kg.
+
+Tracks bodyweight after each session.
+
+Stores a history log on disk.
+
+2. User Workflow
+User edits config.yaml to:
+
+Set start date.
+
+Define lifts with starting weights, increments.
+
+Configure workout A/B templates.
+
+Configure stalling/deload rules.
+
+Add any desired auxiliary lifts.
+
+User runs the app in terminal: python main.py
+
+App:
+
+Loads config.
+
+Checks workout history to see what’s next.
+
+Calculates today’s plan.
+
+Displays the plan in terminal.
+
+Prompts for:
+
+Did they complete each lift successfully?
+
+Current bodyweight.
+
+Updates log with actuals.
+
+Adjusts progression/deload logic automatically for next time.
+
+3. Technical Requirements
+Area	Details
+Language	Python 3.x
+Config format	config.yaml
+Workout log	workout_log.yaml
+Rounding	Round weights up to nearest 2.5 kg
+Deloading	If a lift fails 3 times, reduce its working weight by 10%
+Auxiliary exercises	User can define any number in config. Can repeat weight or apply progression.
+Bodyweight	User logs bodyweight each session.
+Persistence	Logs stored locally for easy backup.
+
+4. Proposed Folder & File Structure
+arduino
+Copy
+Edit
+starting_strength_assistant/
+├── config.yaml
+├── main.py
+├── core/
+│   ├── config_loader.py
+│   ├── scheduler.py
+│   ├── progression.py
+│   ├── logger.py
+│   ├── models.py
+├── history/
+│   ├── workout_log.yaml
+├── README.md
+5. Suggested Key Modules
+config_loader.py
+Purpose:
+
+Load config.yaml.
+
+Validate required keys:
+
+start_date
+
+workouts (A/B)
+
+exercises with start weights and increments.
+
+deload settings.
+
+auxiliary definitions.
+
+Return a structured Config object.
+
+scheduler.py
+Purpose:
+
+Determine whether today is Workout A or B:
+
+Use start_date and history to count sessions.
+
+Calculate next working weights:
+
+Use last successful weight.
+
+Apply increment.
+
+Apply deload if needed.
+
+Round to 2.5 kg.
+
+Combine core lifts + auxiliary lifts.
+
+progression.py
+Purpose:
+
+Track lift success/failure streaks.
+
+If lift fails stalling_attempts (e.g., 3), reduce weight by reduce_percent (e.g., 10%).
+
+Reset progression for that lift.
+
+logger.py
+Purpose:
+
+Save each session:
+
+Date.
+
+Workout type (A/B).
+
+Planned lifts & weights.
+
+Success/failure per lift.
+
+Actual bodyweight.
+
+Append to workout_log.yaml.
+
+models.py
+Purpose:
+
+Define data structures:
+
+Config
+
+Lift
+
+WorkoutPlan
+
+WorkoutHistory
+
+Ensure reusable types for reading/writing data.
+
+main.py
+Purpose:
+
+CLI entry point.
+
+Load config.
+
+Load last session log.
+
+Generate today’s workout plan.
+
+Print clear terminal output:
+
+yaml
+Copy
+Edit
+📅 Date: 2025-06-24
+Workout A
+────────────────
+Squat: 85 kg
+Bench Press: 62.5 kg
+Deadlift: 110 kg
+Chin-ups: 3 x 8
+Prompt:
+
+Did you complete each lift? (Y/N)
+
+Enter today’s bodyweight.
+
+Save all results to workout_log.yaml.
+
+6. Example config.yaml
+yaml
+Copy
+Edit
+start_date: "2025-06-24"
+
+workouts:
+  A:
+    - Squat
+    - Bench Press
+    - Deadlift
+  B:
+    - Squat
+    - Overhead Press
+    - Power Clean
+
+exercises:
+  Squat:
+    start_weight: 80
+    increment: 2.5
+  Bench Press:
+    start_weight: 60
+    increment: 2.5
+  Deadlift:
+    start_weight: 100
+    increment: 5
+  Overhead Press:
+    start_weight: 40
+    increment: 2.5
+  Power Clean:
+    start_weight: 50
+    increment: 2.5
+
+deload:
+  stalling_attempts: 3
+  reduce_percent: 10
+
+auxiliary:
+  Chin-ups:
+    sets: 3
+    reps: 8
+    progressive: false
+  Curls:
+    sets: 3
+    reps: 10
+    progressive: true
+    increment: 2.5
+
+units: "kg"
+7. Summary for the Implementing AI
+“This is a terminal-based Python app that generates and tracks Starting Strength workouts using user-supplied config. It implements strict Starting Strength progression and deload logic, supports user-defined auxiliary lifts, rounds weights to nearest 2.5 kg, logs bodyweight, and saves all data for continuity. It assumes no UI — only terminal I/O and YAML files.”
