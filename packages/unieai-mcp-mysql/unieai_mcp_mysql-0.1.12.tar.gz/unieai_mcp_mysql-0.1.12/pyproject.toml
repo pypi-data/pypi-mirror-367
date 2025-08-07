@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry]
+name = "unieai-mcp-mysql"
+version = "0.1.12"
+description = "UnieAI MCP server with MySQL"
+authors = ["UnieAI <contact@unieai.com>"]
+license = "Proprietary"
+readme = "README.md"
+homepage = "https://www.unieai.com/"
+packages = [
+    { include = "unieai_mcp_mysql", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastmcp = "^0.1.0"
+python-docx = "^0.8.11"
+httpx = "^0.24.0"
+sqlalchemy = "^2.0.0"
+pymysql = "^1.0.2"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.scripts]
+unieai-mcp-mysql = "unieai_mcp_mysql.server:main"
