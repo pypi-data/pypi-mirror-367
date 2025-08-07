@@ -1,0 +1,89 @@
+oops NEWS
++++++++++
+
+Changes and improvements to oops, grouped by release.
+
+0.1.0
+-----
+
+* Drop Python 2.7 support. (İlker Emre Koç)
+* Add Python 3.8 support. (İlker Emre Koç)
+* Add linters and lpci integration. (İlker Emre Koç)
+* Replace zc.buildout with venv, pip, and tox. (İlker Emre Koç)
+
+0.0.14
+------
+
+* Add Python 3 support. (Colin Watson)
+
+0.0.13
+------
+
+* New publishers pprint_to_stream. Very useful for interactive observing of
+  Oops reports  - just hook it up to your source (e.g. via oops_amqp) and
+  off you go. (Robert Collins)
+
+0.0.12
+------
+
+* No changes
+
+0.0.11
+------
+
+* Changes to publishing to better support fallback publishing:
+
+  * Using multiple publishers with an ``oops.Config`` object is now deprecated.
+    Use the ``publisher`` attribute instead, and use
+    ``oops.publishers.publish_to_many`` if you need to publish to many
+    publishers at once.
+
+  * If you are doing fallback publishing then ``publish_new_only`` is
+    deprecated and you should use ``oops.publishers.publish_with_fallback``
+    instead.
+
+  * Publishers need to be updated to return lists rather than single objects.
+    The new functions in ``oops.publishers`` (``publish_to_many`` and
+    ``publish_with_fallback``) only take the new style publishers.
+    If you have a publisher that uses the old return values then
+    ``oops.publishers.convert_result_to_list`` can be used to wrap the
+    publisher for use with the new functions.
+
+  * Publishers that use the new return values can't be used with the
+    deprecated ``oops.Config.publishers`` list.
+
+  * The compatibility code of ``oops.Config.publishers``, ``publish_new_only``
+    and ``convert_result_to_list`` will be removed in a later release.
+
+0.0.10
+------
+
+* Change req_vars to be documented as a dict, mentioning the older list format
+  for compatibility. (Robert Collins, #888866)
+
+* Now licensed under LGPL-3. (Robert Collins)
+
+0.0.9
+-----
+
+* Do not propogate oops ids of None to the report: they indicate that the oops
+  was not handled. (Robert Collins)
+
+* New helper function ``publish_new_only`` which lets you easily add fallback
+  publishers: if the first publisher does not publish and instead returns None,
+  ``publish_new_only`` will call the publisher it wraps. Otherwise it will just
+  return None itself. (Robert Collins)
+
+0.0.8
+-----
+
+* Attach the local hostname to reports by default. This permits differentiating
+  different hosts in a cluster of the same reporters.  (Robert Collins)
+
+0.0.7
+-----
+
+* Add well known key 'timeline' as a location for the 'sequence of things that
+  led up to the OOPS'. See also the oops-timeline module which will populate this
+  from a Timeline object.
+
