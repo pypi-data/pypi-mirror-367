@@ -1,0 +1,157 @@
+Metadata-Version: 2.4
+Name: zoom-deep-clean-enhanced
+Version: 2.4.1
+Summary: Enhanced VM-Aware & System-Wide Zoom cleanup utility for macOS
+Home-page: https://github.com/PHLthy215/zoom-deep-clean-enhanced
+Author: PHLthy215
+Author-email: PHLthy215@example.com
+Project-URL: Bug Reports, https://github.com/PHLthy215/zoom-deep-clean-enhanced/issues
+Project-URL: Source, https://github.com/PHLthy215/zoom-deep-clean-enhanced
+Project-URL: Documentation, https://github.com/PHLthy215/zoom-deep-clean-enhanced/blob/main/README.md
+Keywords: zoom,cleanup,privacy,macos,vm,virtual-machine,system-administration,security,fingerprint-removal
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Requires-Dist: mypy>=0.800; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-python
+Dynamic: summary
+
+# Zoom Deep Clean Enhanced
+
+![Tests](https://github.com/PHLthy215/zoom-deep-clean-enhanced/workflows/Tests/badge.svg)
+![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)
+![macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+Complete Zoom removal tool for macOS with VM awareness and device fingerprint elimination.
+
+**Version: 2.3.0**
+
+## 🚀 Quick Start
+
+```bash
+# Install
+pip3 install zoom-deep-clean-enhanced
+
+# Preview cleanup (safe)
+zoom-deep-clean-enhanced --dry-run --verbose
+
+# Run cleanup
+zoom-deep-clean-enhanced --force
+```
+
+📖 **[Full Documentation](docs/)** | 🚨 **[Troubleshooting](docs/troubleshooting.md)** | 💻 **[Development](docs/development.md)**
+
+## ✨ Features
+
+### 🖥️ VM Support
+- **VMware Fusion, VirtualBox, Parallels Desktop** detection
+- **VM-aware process management** and cleanup
+- **Shared resource cleanup** between host and VMs
+
+### 🔍 Complete Removal
+- **System-wide file search** across all macOS locations
+- **Keychain entries** and authentication tokens
+- **Launch agents/daemons** and privileged helpers
+- **WebKit storage** and HTTP caches
+- **Preference files** and application data
+
+### 🛡️ Safety & Security
+- **Dry-run mode** for safe preview
+- **Comprehensive logging** and error handling
+- **Input validation** and security checks
+- **Automatic backups** before cleanup
+
+## 📦 Installation
+
+```bash
+# From PyPI
+pip3 install zoom-deep-clean-enhanced
+
+# From source
+git clone https://github.com/PHLthy215/zoom-deep-clean-enhanced.git
+cd zoom-deep-clean-enhanced
+pip3 install -e .
+```
+
+## 🖥️ Usage
+
+### Command Line
+```bash
+# Basic usage
+zoom-deep-clean-enhanced --force
+
+# With GUI
+python3 -m zoom_deep_clean.gui_enhanced
+
+# Common options
+zoom-deep-clean-enhanced --dry-run --verbose    # Safe preview
+zoom-deep-clean-enhanced --force --system-reboot    # Full cleanup + reboot
+```
+
+### Python API
+```python
+from zoom_deep_clean import ZoomDeepCleanerEnhanced
+
+cleaner = ZoomDeepCleanerEnhanced(verbose=True, dry_run=True)
+success = cleaner.run_deep_clean()
+```
+
+## ⚙️ Requirements
+
+- **macOS 12.x+** (Monterey, Ventura, Sonoma, Sequoia)
+- **Python 3.9+**
+- **sudo privileges** (for system-level cleanup)
+
+## 📁 Output Files
+
+- **Log**: `~/Documents/zoom_deep_clean_enhanced.log`
+- **Report**: `~/Documents/zoom_cleanup_enhanced_report.json`
+
+## ⚠️ Important Notes
+
+- **Complete removal**: Reinstallation of Zoom required after cleanup
+- **VM awareness**: Automatically detects and stops VMs during cleanup
+- **System reboot**: Optional automatic reboot ensures complete cleanup
+- **Always preview first**: Use `--dry-run` to see what will be removed
+
+## 📄 License
+
+MIT License
+
+## 🔗 Links
+
+- **Documentation**: [docs/](docs/)
+- **Issues**: [GitHub Issues](https://github.com/PHLthy215/zoom-deep-clean-enhanced/issues)
+- **PyPI**: [zoom-deep-clean-enhanced](https://pypi.org/project/zoom-deep-clean-enhanced/)
+
+---
+
+**⚠️ Use at your own risk. Always run `--dry-run` first to preview changes.**
