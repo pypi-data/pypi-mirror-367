@@ -1,0 +1,27 @@
+{
+  "description": "The read file content is not binary-safe.",
+  "functions": {
+    "file-read": [
+      {
+        "description": "This only works for the GNU version of `fmt`.",
+        "code": "fmt -pNON_EXISTING_PREFIX [file]\n"
+      },
+      {
+        "description": "This corrupts the output by wrapping very long lines at the given width.",
+        "code": "fmt -999 [file]\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "This corrupts the output by wrapping very long lines at the given width.",
+        "code": "./fmt -999 [file]\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "This corrupts the output by wrapping very long lines at the given width.",
+        "code": "sudo fmt -999 [file]\n"
+      }
+    ]
+  }
+}

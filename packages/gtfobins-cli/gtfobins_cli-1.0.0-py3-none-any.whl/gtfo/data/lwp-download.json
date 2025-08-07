@@ -1,0 +1,26 @@
+{
+  "description": "Fetch a remote file via HTTP GET request.",
+  "functions": {
+    "file-download": [
+      {
+        "code": "lwp-download [url] [file]\n"
+      }
+    ],
+    "sudo": [
+      {
+        "code": "sudo lwp-download [url] [file]\n"
+      }
+    ],
+    "file-read": [
+      {
+        "description": "The file path must be absolute.",
+        "code": "TF=$(mktemp)\nlwp-download \"file://[file]\" $TF\ncat $TF\n"
+      }
+    ],
+    "file-write": [
+      {
+        "code": "TF=$(mktemp)\necho [data] >$TF\nlwp-download file://$TF [file]\n"
+      }
+    ]
+  }
+}
