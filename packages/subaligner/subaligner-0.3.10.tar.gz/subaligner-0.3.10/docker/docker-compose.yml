@@ -1,0 +1,38 @@
+version: "3"
+services:
+
+  subaligner-centos7:
+    build:
+      context: ./
+      dockerfile: Dockerfile-CentOS7
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.el7
+
+  subaligner-ubuntu20:
+    build:
+      context: ./
+      dockerfile: Dockerfile-Ubuntu20
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.u20
+
+  subaligner-ubuntu22:
+    build:
+      context: ./
+      dockerfile: Dockerfile-Ubuntu22
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.u22
+
+  subaligner-archlinux:
+    build:
+      context: ./
+      dockerfile: Dockerfile-ArchLinux
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.arch
+
+  subaligner-debian11:
+    build:
+      context: ./
+      dockerfile: Dockerfile-Debian11
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.deb11
+
+  subaligner-fedora34:
+    build:
+      context: ./
+      dockerfile: Dockerfile-Fedora34
+    image: baxtree/subaligner:${SUBALIGNER_VERSION}.fed34

@@ -1,0 +1,54 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ master, development ]
+  pull_request:
+    branches: [ master, development ]
+  workflow_dispatch:
+
+jobs:
+  main:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Dependency installation
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install ffmpeg
+          sudo apt-get -y install espeak libespeak1 libespeak-dev espeak-data
+          sudo apt-get -y install libsndfile-dev
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install -e ".[stretch]"
+          pip install -e ".[llm]"
+          pip install -e ".[dev]"
+          pip install -e ".[site]"
+      - name: Type checking
+        run: |
+          python -m mypy --follow-imports=normal subaligner
+      - name: Linting
+        run: |
+          pycodestyle subaligner tests examples misc bin/subaligner bin/subaligner_1pass bin/subaligner_2pass bin/subaligner_batch bin/subaligner_convert bin/subaligner_train  bin/subaligner_tune setup.py --ignore=E203,E501,E902,W503 --exclude="subaligner/lib"
+      - name: Linting docstring
+        run: |
+          darglint -v 2 subaligner
+      - name: Unit tests and coverage
+        run: |
+          coverage run -m unittest discover
+          coverage combine
+          coverage xml
+          bash <(curl -s https://codecov.io/bash) -n patch -F 90
+      - name: Integration tests
+        run: |
+          radish -b tests/integration/radish tests/integration/feature
+

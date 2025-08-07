@@ -1,0 +1,30 @@
+# Subaligner CentOS 7 Docker Image
+From centos:8
+
+ARG RELEASE_VERSION
+
+ENV RELEASE_VERSION=${RELEASE_VERSION}
+
+RUN cd /etc/yum.repos.d/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+RUN ["/bin/bash", "-c", "dnf install -y epel-release dnf-utils &&\
+    dnf upgrade -y openssl-libs bind-export-libs &&\
+    dnf config-manager --set-enabled powertools &&\
+    dnf install -y https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm &&\
+    dnf install -y ffmpeg &&\
+    dnf install -y espeak-ng &&\
+    ln -s /usr/lib64/libespeak-ng.so.1 /usr/lib64/libespeak.so &&\
+    dnf install -y libsndfile-devel &&\
+    dnf install -y python3 &&\
+    dnf install -y gcc &&\
+    dnf install -y python3-wheel &&\
+    dnf install -y python3-devel &&\
+    dnf install -y python3-pip &&\
+    dnf makecache &&\
+    dnf upgrade python3-pip &&\
+    python3 -m pip install --upgrade pip &&\
+    python3 -m pip install --upgrade \"setuptools<65.0.0\" wheel &&\
+    python3 -m pip install \"subaligner==${RELEASE_VERSION}\" &&\
+    python3 -m pip install \"subaligner[llm]==${RELEASE_VERSION}\""]
