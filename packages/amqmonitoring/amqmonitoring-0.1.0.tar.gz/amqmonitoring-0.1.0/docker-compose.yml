@@ -1,0 +1,33 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_server
+    ports:
+      - "5672:5672"    # AMQP port
+      - "15672:15672"  # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+#  message_sender:
+#    build:
+#      context: .
+#      dockerfile: examples/custom_sender.Dockerfile
+#    container_name: message_sender
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#    environment:
+#      RABBITMQ_HOST: rabbitmq
+#      RABBITMQ_PORT: 5672
+#      RABBITMQ_USER: guest
+#      RABBITMQ_PASSWORD: guest
+#      QUEUE_NAME: test_queue
+#      MESSAGE_INTERVAL: 1  # seconds between messages
+#    restart: unless-stopped
+
