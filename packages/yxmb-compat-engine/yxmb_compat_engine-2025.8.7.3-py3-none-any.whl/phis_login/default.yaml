@@ -1,0 +1,69 @@
+# 医院基本信息
+hospital_name: "医院"
+base_url: "http://10.216.11.12:8089/cis/login.jsp"
+
+# 页面配置
+config:
+  login_page:
+    username_input: ["用户名", "phisname"]
+    password_input: ["密码", "password"]
+    captcha_input: ["验证码", "img"]
+    login_button: ["登录", ".submit-btn"]
+    # args: ["eval_ProgramConfigV2.get_username()", "eval_ProgramConfigV2.get_password()"]
+    # args: ["gnnf", "123"]
+    args: null
+    wait: 1
+    check: "'phis/app/login' in driver.current_url"
+    retry: 3
+    then:
+      - click: ["健康档案", "//*[@id='ext-gen3']/section/div[3]/ul/li[1]/a"]
+      - click: ["确定", "//*[@id='button-1005-btnIconEl']"]
+      - click: ["档案管理", "navLi_10103"]
+
+# 业务流程定义
+workflow:
+  delete_normal_followup:
+    data_source: "文档/名单.xlsx"
+    data_ori_row: ["身份证号", "随访日期"]
+    data_row: ["sfzh", "followup_date"]
+    steps:
+      - page: "login_page"
+    batch_steps:
+      - page: "patient_page"
+        args: "sfzh"
+        method: "open_normal_followup"
+      - page: "normal_followup_page"
+        args: "followup_date"
+        method: "delete_normal_followup"
+      - page: "normal_followup_page"
+        method: "navigate_back"
+
+  new_chronic_diease_followup:
+    data_source: "文档/名单.xlsx"
+    data_ori_row: ["身份证号", "随访日期"]
+    data_row: ["sfzh", "followup_date"]
+    steps:
+      - page: "login_page"
+    batch_steps:
+      - page: "patient_page"
+        args: "sfzh"
+        method: "open_normal_followup"
+      - page: "normal_followup_page"
+        args: "followup_date"
+        method: "new_followup"
+      - page: "normal_followup_page"
+        method: "navigate_back"
+
+  update_chronic_diease_followup:
+    data_source: "文档/名单.xlsx"
+    data_ori_row: ["身份证号", "随访日期"]
+    data_row: ["sfzh", "followup_date"]
+    steps:
+      - page: "login_page"
+    batch_steps:
+      - page: "patient_page"
+        args: "sfzh"
+        method: "open_chronic_diease_followup"
+      - page: "chronic_diease_followup_page"
+        args: "followup_date"
+        method: "update_followup"

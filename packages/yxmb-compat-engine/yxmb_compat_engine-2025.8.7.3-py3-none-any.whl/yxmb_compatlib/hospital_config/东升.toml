@@ -1,0 +1,22 @@
+pinyin = "dongsheng"
+
+settings.ignore_department = false
+
+[login]
+  pre_login_actions = [
+    { type = "handle_alert", description = "处理登录前的弹窗" }
+  ]
+    captcha_enabled = false
+    username = ["id", "j_username"]
+    password = ["id", "j_password"]
+  # 登录后执行的操作序列
+  # type 可为: "switch_window", "maximize_window", "click", "handle_alert", "sleep"
+  post_login_actions = [
+    { type = "handle_alert" },
+    { type = "sleep", duration = 5, description = "等待5秒" },
+    { type = "click", locator = ["xpath", "//*[@id='dd65-ddheader']"], description = "点击主菜单/导航头" },
+    { type = "handle_alert", optional = true },
+    { type = "switch_window" },
+    { type = "maximize_window" },
+    { type = "click", locator = ["xpath", "//*[@id='button-1005-btnIconEl']"], description = "关闭可能出现的弹窗", optional = true }
+  ]
