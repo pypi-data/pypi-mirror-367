@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastmcp-time-service"
+version = "1.2.0"
+description = "基于SSE传输的MCP时间服务器，提供多时区时间查询功能"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "AlexLIAOwang", email = "liaowang@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers", 
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: System :: Networking :: Time Synchronization",
+]
+keywords = ["mcp", "time", "timezone", "fastmcp", "model-context-protocol"]
+requires-python = ">=3.8"
+
+dependencies = [
+    "mcp>=1.6.0",
+    "pytz>=2024.1",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/AlexLIAOwang/fastmcp-time-service"
+Repository = "https://github.com/AlexLIAOwang/fastmcp-time-service"
+Documentation = "https://github.com/AlexLIAOwang/fastmcp-time-service/blob/main/README.md"
+Issues = "https://github.com/AlexLIAOwang/fastmcp-time-service/issues"
+
+[project.scripts]
+fastmcp-time-service = "fastmcp_time_service.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fastmcp_time_service*"]
+
+[tool.setuptools.package-data]
+"fastmcp_time_service" = ["*.py"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"

@@ -1,0 +1,222 @@
+# FastMCP Time Service
+
+[![PyPI version](https://badge.fury.io/py/fastmcp-time-service.svg)](https://badge.fury.io/py/fastmcp-time-service)
+[![Python](https://img.shields.io/pypi/pyversions/fastmcp-time-service.svg)](https://pypi.org/project/fastmcp-time-service/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+基于SSE传输的MCP时间服务器，提供多时区时间查询功能。这是一个基于 [Model Context Protocol (MCP)](https://modelcontextprotocol.io) 和 FastMCP 框架构建的时间服务。
+
+## 功能特性
+
+- 🌍 **多时区支持** - 支持全球各地时区的时间查询
+- 🇨🇳 **中文友好** - 支持中文时区名称输入
+- ⚡ **高性能** - 基于 FastMCP 框架，支持异步处理
+- 🔧 **易于配置** - 支持环境变量配置服务器参数
+- 📡 **标准协议** - 完全兼容 MCP 协议标准
+
+## 安装
+
+使用 pip 安装：
+
+```bash
+pip install fastmcp-time-service
+```
+
+## 快速开始
+
+### 作为 CLI 工具运行
+
+安装后，可以直接通过命令行启动服务：
+
+```bash
+fastmcp-time-service
+```
+
+### 作为 Python 模块使用
+
+```python
+from fastmcp_time_service import TimeServer
+
+# 创建时间服务器实例
+server = TimeServer()
+
+# 启动服务器
+server.run()
+```
+
+### 自定义配置
+
+通过环境变量配置服务器：
+
+```bash
+export MCP_TIME_HOST=127.0.0.1
+export MCP_TIME_PORT=8005
+fastmcp-time-service
+```
+
+或在代码中直接指定：
+
+```python
+from fastmcp_time_service import TimeServer
+
+# 自定义主机和端口
+server = TimeServer(host="127.0.0.1", port=8005)
+server.run()
+```
+
+## MCP 工具
+
+### get_current_time
+
+获取指定时区的当前时间。
+
+**参数:**
+- `timezone` (可选): 时区名称，默认为 "Asia/Shanghai"
+
+**支持的时区格式:**
+- 标准时区名称: `"Asia/Shanghai"`, `"America/New_York"`, `"Europe/London"`
+- 中文别名: `"中国"`, `"北京"`, `"上海"`
+- 英文别名: `"China"`, `"Beijing"`, `"CST"`
+
+**示例:**
+
+```python
+# 获取北京时间
+result = await get_current_time("Asia/Shanghai")
+# 输出: "Asia/Shanghai 的当前时间是: 2024年01月15日 14:30:25 CST"
+
+# 使用中文别名
+result = await get_current_time("北京")
+# 输出: "北京 的当前时间是: 2024年01月15日 14:30:25 CST"
+
+# 获取纽约时间
+result = await get_current_time("America/New_York")
+# 输出: "America/New_York 的当前时间是: 2024年01月15日 01:30:25 EST"
+```
+
+## 配置说明
+
+### 环境变量
+
+- `MCP_TIME_HOST`: 服务器绑定地址，默认 `0.0.0.0`
+- `MCP_TIME_PORT`: 服务器端口，默认 `8005`
+
+### 配置文件
+
+支持使用 `.env` 文件进行配置：
+
+```env
+MCP_TIME_HOST=127.0.0.1
+MCP_TIME_PORT=8005
+```
+
+## 在 MCP 客户端中使用
+
+### Claude Desktop 配置
+
+在 `claude_desktop_config.json` 中添加：
+
+```json
+{
+  "mcpServers": {
+    "time-service": {
+      "command": "fastmcp-time-service",
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+### 自定义 MCP 客户端
+
+```python
+import asyncio
+from mcp.client.stdio import StdioServerParameters, stdio_client
+
+async def main():
+    server_params = StdioServerParameters(
+        command="fastmcp-time-service",
+        args=[]
+    )
+    
+    async with stdio_client(server_params) as (read, write):
+        # 使用 MCP 客户端调用时间工具
+        pass
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## 开发
+
+### 本地开发
+
+1. 克隆仓库：
+```bash
+git clone https://github.com/AlexLIAOwang/fastmcp-time-service.git
+cd fastmcp-time-service
+```
+
+2. 安装开发依赖：
+```bash
+pip install -e ".[dev]"
+```
+
+3. 运行测试：
+```bash
+pytest
+```
+
+### 代码格式化
+
+```bash
+# 使用 black 格式化代码
+black fastmcp_time_service/
+
+# 使用 ruff 进行代码检查
+ruff check fastmcp_time_service/
+```
+
+## 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+## 贡献
+
+欢迎贡献代码！请遵循以下步骤：
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 更新日志
+
+### v1.2.0
+- 优化包结构，提供更好的模块化设计
+- 改进错误处理和异常信息
+- 添加更多的时区别名支持
+- 增强文档和示例
+
+### v1.1.0
+- 添加中文时区别名支持
+- 优化时间格式输出
+- 修复时区解析问题
+
+### v1.0.0
+- 初始版本发布
+- 基础时区查询功能
+- MCP 协议支持
+
+## 支持
+
+如有问题或建议，请：
+
+1. 查看 [文档](https://github.com/AlexLIAOwang/fastmcp-time-service/blob/main/README.md)
+2. 搜索现有 [Issues](https://github.com/AlexLIAOwang/fastmcp-time-service/issues)
+3. 创建新的 Issue 描述问题
+
+---
+
+**关键词:** MCP, Model Context Protocol, 时间服务, 时区, FastMCP, Python, 异步编程
