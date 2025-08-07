@@ -1,0 +1,79 @@
+[project]
+name = "msg91-py"
+version = "0.2.0"
+description = "A Python client library for the MSG91 SMS API"
+readme = "README.md"
+authors = [
+    { name = "Karambir Singh Nain", email = "akarambir@gmail.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "httpx>=0.24.0",
+    "typing-extensions>=4.5.0",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Communications :: Telephony",
+]
+
+[project.urls]
+Homepage = "https://github.com/karambir/msg91-py"
+Documentation = "https://github.com/karambir/msg91-py"
+Issues = "https://github.com/karambir/msg91-py/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/msg91"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=msg91 --cov-report=term-missing"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    # "UP",   # pyupgrade
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds 15.
+max-complexity = 15
+
+[tool.ruff.lint.isort]
+known-first-party = ["msg91"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-cov>=6.1.1",
+    "pytest-sugar>=1.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.0.240",
+    "pre-commit>=3.5.0",
+]
