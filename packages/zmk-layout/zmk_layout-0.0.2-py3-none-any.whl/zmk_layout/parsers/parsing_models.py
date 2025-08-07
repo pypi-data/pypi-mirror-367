@@ -1,0 +1,124 @@
+"""Parsing models and data classes for ZMK keymap parsing."""
+
+from typing import Any, Literal
+
+from zmk_layout.models.base import LayoutBaseModel
+
+
+class ExtractionConfig(LayoutBaseModel):
+    """Configuration for extracting a section from keymap content."""
+
+    tpl_ctx_name: str
+    type: Literal["dtsi", "behavior", "macro", "combo", "keymap", "input_listener"]
+    layer_data_name: str
+    delimiter: list[str]
+
+
+class ExtractedSection(LayoutBaseModel):
+    """Extracted section from keymap content."""
+
+    name: str
+    content: str | dict[str, object] | list[object]
+    raw_content: str
+    type: str
+
+
+class ParsingContext(LayoutBaseModel):
+    """Context for parsing operations."""
+
+    keymap_content: str
+    title: str = "ZMK Layout Generated Keymap"
+    keyboard_name: str = "unknown"
+    extraction_config: list[ExtractionConfig] | list[str] | None = None
+    warnings: list[str] = []
+    errors: list[str] = []
+    defines: dict[str, str] = {}
+    extracted_sections: dict[str, Any] = {}
+
+
+class SectionProcessingResult(LayoutBaseModel):
+    """Result of processing an extracted section."""
+
+    success: bool
+    data: Any | None = None
+    raw_content: str = ""
+    error_message: str = ""
+    warnings: list[str] = []
+
+
+def get_default_extraction_config() -> list[ExtractionConfig]:
+    """Get default extraction configuration for backward compatibility."""
+    return [
+        ExtractionConfig(
+            tpl_ctx_name="custom_devicetree",
+            type="dtsi",
+            layer_data_name="custom_devicetree",
+            delimiter=[
+                r"/\*\s*Custom\s+Device-tree\s*\*/",
+                r"/\*\s*Input\s+Listeners\s*\*/",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="input_listeners_dtsi",
+            type="input_listener",
+            layer_data_name="input_listeners",
+            delimiter=[
+                r"/\*\s*Input\s+Listeners\s*\*/",
+                r"/\*\s*System\s+behavior\s+and\s+Macros\s*\*/",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="system_behaviors_dts",
+            type="dtsi",
+            layer_data_name="system_behaviors_raw",
+            delimiter=[
+                r"/\*\s*System\s+behavior\s+and\s+Macros\s*\*/",
+                r"/\*\s*(?:#define\s+for\s+key\s+positions|Custom\s+Defined\s+Behaviors|Automatically\s+generated\s+macro|$)",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="custom_defined_behaviors",
+            type="dtsi",
+            layer_data_name="custom_defined_behaviors",
+            delimiter=[
+                r"/\*\s*Custom\s+Defined\s+Behaviors\s*\*/",
+                r"/\*\s*(?:Automatically\s+generated\s+macro|Automatically\s+generated\s+behavior|Automatically\s+generated\s+combos|Automatically\s+generated\s+keymap|$)",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="user_macros_dtsi",
+            type="macro",
+            layer_data_name="macros",
+            delimiter=[
+                r"/\*\s*Automatically\s+generated\s+macro\s+definitions\s*\*/",
+                r"/\*\s*(?:Automatically\s+generated\s+behavior|Automatically\s+generated\s+combos|Automatically\s+generated\s+keymap|$)",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="user_behaviors_dtsi",
+            type="behavior",
+            layer_data_name="behaviors",
+            delimiter=[
+                r"/\*\s*Automatically\s+generated\s+behavior\s+definitions\s*\*/",
+                r"/\*\s*(?:Automatically\s+generated\s+combos|Automatically\s+generated\s+keymap|$)",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="combos_dtsi",
+            type="combo",
+            layer_data_name="combos",
+            delimiter=[
+                r"/\*\s*Automatically\s+generated\s+combos\s+definitions\s*\*/",
+                r"/\*\s*(?:Automatically\s+generated\s+keymap|$)",
+            ],
+        ),
+        ExtractionConfig(
+            tpl_ctx_name="keymap_dtsi",
+            type="keymap",
+            layer_data_name="layers",
+            delimiter=[
+                r"/\*\s*Automatically\s+generated\s+keymap\s*\*/",
+                r"\Z",  # End of file
+            ],
+        ),
+    ]
