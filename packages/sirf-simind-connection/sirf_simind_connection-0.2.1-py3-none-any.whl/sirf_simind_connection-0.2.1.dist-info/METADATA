@@ -1,0 +1,106 @@
+Metadata-Version: 2.4
+Name: sirf-simind-connection
+Version: 0.2.1
+Summary: A wrapper for SIRF and SIMIND for Monte Carlo SPECT simulations
+Author-email: Sam Porter <sam.porter.18@ucl.ac.uk>, Rebecca Gillen <rebecca.gillen.18@ucl.ac.uk>, "Efstathios (Stahis) Varzakis" <efstathios.varzakis.22@ucl.ac.uk>
+Maintainer-email: Sam Porter <sam.porter.18@ucl.ac.uk>
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/samdporter/SIRF-SIMIND-Connection
+Project-URL: Documentation, https://sirf-simind-connection.readthedocs.io/
+Project-URL: Repository, https://github.com/samdporter/SIRF-SIMIND-Connection
+Project-URL: Issues, https://github.com/samdporter/SIRF-SIMIND-Connection/issues
+Keywords: SPECT,Monte Carlo,medical imaging,SIMIND,SIRF,STIR
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: pydicom>=2.0.0
+Requires-Dist: pyyaml>=5.4.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: autoflake; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-rtd-theme; extra == "dev"
+Requires-Dist: sphinx-autodoc-typehints; extra == "dev"
+Requires-Dist: myst-parser; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+# SIRF-SIMIND-Connection
+
+[![Tests](https://github.com/samdporter/SIRF-SIMIND-Connection/workflows/Tests/badge.svg)](https://github.com/samdporter/SIRF-SIMIND-Connection/actions)
+[![Documentation Status](https://readthedocs.org/projects/sirf-simind-connection/badge/?version=latest)](https://sirf-simind-connection.readthedocs.io/en/latest/?badge=latest)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+
+A Python wrapper for SIRF and SIMIND integration for SPECT imaging.
+
+## Quick Links
+- [Full Documentation](https://SIRF-SIMIND-Connection.readthedocs.io/)
+- [Installation](https://SIRF-SIMIND-Connection.readthedocs.io/en/latest/installation.html)
+
+## Key Features
+- Monte Carlo SPECT Simulation
+- Dual Scoring Routines (SCATTWIN/PENETRATE)  
+- DICOM to STIR Conversion
+- **Advanced Schneider2000 Density Conversion** - Clinically validated HU-to-density mapping with 44 tissue segments
+
+## Installation
+
+```bash
+pip install sirf-simind-connection
+```
+
+## Quick Start
+```python
+from sirf_simind_connection import SimindSimulator, SimulationConfig
+from sirf_simind_connection.configs import get
+from sirf_simind_connection.utils.stir_utils import create_simple_phantom, create_attenuation_map
+
+# Create phantom and attenuation map
+phantom = create_simple_phantom()
+mu_map = create_attenuation_map(phantom)
+
+# Load pre-configured scanner settings
+config = SimulationConfig(get("AnyScan.yaml"))
+simulator = SimindSimulator(config, output_dir='output')
+
+# Set inputs and run
+simulator.set_source(phantom)
+simulator.set_mu_map(mu_map)
+simulator.set_energy_windows([126], [154], [0])  # Tc-99m ± 10%
+simulator.run_simulation()
+```
+
+### Advanced Density Conversion
+
+```python
+from sirf_simind_connection.converters.attenuation import hu_to_density_schneider
+import numpy as np
+
+# Convert HU image to densities using Schneider2000 model
+hu_image = np.array([[-1000, 0, 500], [800, 1200, 2000]])
+density_map = hu_to_density_schneider(hu_image)  # 44-segment clinical model
+```
+
+## Contributing
+Please see our [Contributing Guide](CONTRIBUTING.md).
+
+## License
+Apache License 2.0
