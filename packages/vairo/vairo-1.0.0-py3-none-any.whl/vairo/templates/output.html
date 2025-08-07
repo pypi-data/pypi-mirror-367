@@ -1,0 +1,1003 @@
+{% macro color_plddt(plddt) %}
+    <span style="color:
+            {% if plddt > 70 %}
+                green
+            {% elif plddt < 50 %}
+                red
+            {% else %}
+                orange
+            {% endif %}
+         ">{{ plddt }} average pLDDT</span>
+{% endmacro %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <title>VAIRO</title>
+        <style type='text/css'>
+            body {
+                color: #000000;
+                background: #FFFFFF;
+                font-family: sans-serif;
+                padding: 0px !important;
+                margin: 0px !important;
+                font-size:16px;
+            }
+
+            #interface_information ul li {
+                list-style: none;
+            }
+
+            .green-row {
+                background-color: #8cbc6c;
+            }
+
+            .blue-row {
+                background-color: #9ec3e5;
+            }
+
+            .green {
+                color: green;
+            }
+
+            .blue {
+                color: blue;
+            }
+
+            .black {
+                color: black;
+            }
+
+            .hide-row{
+            }
+
+            #frobenius_graphs ul li {
+                list-style: none;
+            }
+
+            #sidebar ul li {
+                list-style: none;
+            }
+
+            #container-main {
+                display: inline-block;
+                margin-left: 140px;
+                margin-top: 40px;
+                max-width: 88%;
+            }
+
+            #sidebar {
+                width: 120px;
+                height: 100%;
+                position: fixed;
+                background: #31393c;
+            }
+
+            #header {
+                padding: 0 15px;
+                position: fixed;
+                left: 0;
+                right: 0;
+                z-index: 1002;
+                background: #2176ff;
+                border-bottom: 1px solid #33a1fd;
+                color: #FFFFFF;
+                text-align: center;
+            }
+
+            h1 {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            h2 {
+                margin-top: 20px;
+            }
+
+            h4 {
+                margin-top: 20px;
+                margin-bottom: 0px;
+            }
+
+            ul.sidebar-menu , ul.sidebar-menu li ul.sub{
+                margin: -2px 0 0;
+                padding: 0;
+            }
+
+            ul.sidebar-menu {
+                margin-top: 75px;
+            }
+
+            ul.sidebar-menu li ul.sub li{
+                background: #31393c;
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            ul.sidebar-menu li ul.sub li{
+                font-size: 14px;
+                padding: 6px 0;
+                line-height: 35px;
+                height: 35px;
+                color: #aeb2b7;
+            }
+
+            ul.sidebar-menu li ul.sub li:hover {
+                color: white;
+                background: transparent;
+            }
+
+            ul.sidebar-menu li ul.sub li.active{
+                color: #68dff0;
+                display: block;
+            }
+
+            ul.sidebar-menu li{
+                color: #FFFFFF;
+                text-decoration: none;
+                display: block;
+                padding: 15px 0 15px 10px;
+                font-size: 14px;
+                outline: none;
+                margin-bottom: 5px;
+                margin-left:10px;
+                margin-right:10px;
+            }
+
+            ul.sidebar-menu li.active, ul.sidebar-menu li:hover, ul.sidebar-menu li:focus {
+                background: #767B7D;
+                color: #fff;
+                display: block;
+            }
+
+            .section-div{
+                padding-top: 35px;
+            }
+
+            .btn {
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+                vertical-align: middle;
+                cursor: pointer;
+                float: left;
+                border: 1px solid #424242;
+                background-color: #e7e7e7;
+            }
+            .btn:hover{
+                background-color: #b8b8b8;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: auto;
+            }
+            th{
+                border: 2px solid #000000;
+                background-color: #b8b8b8;
+                text-align: center;
+                padding: 8px;
+            }
+            li{
+                margin: 10px 0;
+            }
+
+            td{
+                border: 2px solid #000000;
+                text-align: center;
+                padding: 8px;
+            }
+            .details-frobenius {
+                border: 2px solid #000000;
+            }
+
+            .details-frobenius-in {
+                padding-left: 10px;
+            }
+
+            .details-frobenius ul li{
+                padding: 10px;
+                margin: 0px;
+                border-top: 1px solid black;
+
+            }
+            .summary-frobenius {
+                padding: 10px;
+                background-color: #b8b8b8;
+            }
+            .div-frobenius {
+                padding-left: 15px;
+            }
+            pre code {
+                background-color: #eee;
+                border: 1px solid #999;
+                display: block;
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body id="init_body">
+        <header id="header">
+            <h1 class="logo">VAIRO</h1>
+        </header>
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <ul class="sidebar-menu">
+                <li name="summary" onclick="move_to(event)" class="sub-menu">Summary</li>
+                <li name="input" onclick="move_to(event)" class="sub-menu">Input</li>
+                {% if 'gantt' in data %}
+                    <li name="alignment" onclick="move_to(event)" class="sub-menu">Alignment</li>
+                {% endif %}
+                {% if 'plddt' in data %}
+                    <li name="plddt" onclick="move_to(event)" class="sub-menu">PLDDT for predictions</li>
+                {% endif %}
+                {% if 'cluster_list' in data %}
+                    <li name="clustering" onclick="move_to(event)" class="sub-menu">Clustering</li>                
+                {% endif %}
+                {# note: commented-out template because we no longer use this
+                {% if 'frobenius_dict' in data %}
+                    <li name="frobenius_graphs" onclick="move_to(event)" class="sub-menu">Frobenius Graphs</li>                
+                {% endif %}
+                #}
+                {# note: commented-out template because we no longer use this
+                {% if 'dendogram_struct' in data %}
+                    <li name="dendogram" onclick="move_to(event)" class="sub-menu">Dendogram</li>                
+                {% endif %}
+                #}
+                {% if 'interfaces_dict' in data %}
+                    <li name="interface_information" onclick="move_to(event)" class="sub-menu">Interfaces</li>                
+                {% endif %}
+                {% if 'table' in data %}
+                    <li name="tables" onclick="move_to(event)" class="sub-menu">Tables</li>
+                {% endif %}
+                {% if 'pymol' in data %}
+                    <li name="pymol" onclick="move_to(event)" class="sub-menu">Pymol</li>
+                {% endif %}
+                <li name="log" onclick="move_to(event)" class="sub-menu">Log file</li>
+                <li name="conclusions" onclick="move_to(event)" class="sub-menu">Conclusions</li>
+                <li name="citations" onclick="move_to(event)" class="sub-menu">Citations</li>
+                <li name="support" onclick="move_to(event)" class="sub-menu">Support</li>
+                </ul>
+            </div>
+        </aside>
+
+        <section id="container-main">
+            <p style="margin-top:30px">
+                VAIRO guides predictions towards particular dynamic states selecting the prior information input or analysing the results of the search.
+            </p>            
+            <div id="summary" class="section-div">
+                <h2>Summary</h2>
+                <p>Mode: {{ data.mode }}</p>
+                <p>State: {{ data.state }}</p>
+                <p></p>
+                {% if data.custom_features %}
+                    The
+                    {% if data.total_copies > 1 %}
+                        complex
+                    {% else %}
+                        structure
+                    {% endif %}                    
+                    is predicted in homology to {{ data.num_templates }} template/s, {{ data.number_alignments }} alignment/s provided.
+                {% else %}
+                    AF-selected templates will be analysed and structurally clustered. Predictions will be driven towards the different extreme structures.
+                {% endif %}
+                {% if data.mosaic > 1%} 
+                     {{ data.mosaic }} partially overlapping fragments are predicted and merged into the structure.
+                {% endif %}
+                </p>
+                {% if data.cluster_list | length == 1 %}
+                    <p>Only one cluster was determinated and created, all information will be displayed in this output file.</p>
+                {% endif %}
+                {% if data.complete_html  %}
+                    <p>On this page, only the top 20 most complete and/or similar to the prediction templates are displayed. To access the full list of templates, please click the following <a href="{{data.complete_html}}" target="_blank">link</a> </p>
+                {% endif %}
+                {% if data.ranked_by_qscore %}
+                    {% for key, values in data.ranked_by_qscore.items() %}
+                        {% if loop.first %}
+                            <p>Best result is <span class="green">{{ values[0].name }}</span> with a {{color_plddt(values[0].plddt)}}.
+                                {% if data.ranked_list[0].superposition_experimental %}
+                                    It has been determined to be the closest prediction to an experimental pdb ({{ data.ranked_list[0].superposition_experimental[0].pdb }}: {{ data.ranked_list[0].superposition_experimental[0].qscore }} Q-Score).
+                                {% endif %}
+                                Can be found in the following path: <a download="{{ values[0].name }}.pdb" href=data:text/plain;base64,{{ values[0].encoded }}>{{ values[0].path }}</a>
+                            </p>
+                            {% for ranked in values if ranked.name != values[0].name %}
+                                {% if loop.first %}
+                                    <p>Other equal structural solutions are:</p>
+                                    <ul>
+                                {% endif %}
+                                    <li><span class="green"> {{ ranked.name }}</span>: <a download="{{ ranked.name }}.pdb" href=data:text/plain;base64,{{ ranked.encoded }}> {{ ranked.split_path }}</a> ({{ ranked.qscore }} Q-Score with {{ values[0].name }})</li>
+                                {% if loop.last %}
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% if loop.index == 2 %}
+                                <p>Other successful predictions can be grouped in {{ data.ranked_by_qscore|length - 1 }} structurally consistent sets:</p>
+                                <ul>
+                                {% endif %}
+                                <li>{{ key }} group:</li>
+                                    {% for ranked in values %}
+                                        {% if loop.first %}
+                                            <ul>
+                                                {% if ranked.name in data.filtered_dict %}
+                                                    <li><span class="blue"> {{ ranked.name }}</span>: <a download="{{ ranked.name }}.pdb" href=data:text/plain;base64,{{ ranked.encoded }}> {{ ranked.split_path }}</a> ({{ color_plddt(ranked.plddt) }})</li>
+                                                {% else %}
+                                                    <li><span> {{ ranked.name }}</span>: <a download="{{ ranked.name }}.pdb" href=data:text/plain;base64,{{ ranked.encoded }}> {{ ranked.split_path }}</a> ({{ color_plddt(ranked.plddt) }})</li>
+                                                {% endif %}
+                                        {% else %}
+                                                {% if ranked.name in data.filtered_dict %}
+                                                    <li><span class="blue"> {{ ranked.name }}</span>: <a download="{{ ranked.name }}.pdb" href=data:text/plain;base64,{{ ranked.encoded }}> {{ ranked.split_path }}</a> ({{ ranked.qscore }} Q-Score with {{ key }})</li>
+                                                {% else %}
+                                                    <li><span> {{ ranked.name }}</span>: <a download="{{ ranked.name }}.pdb" href=data:text/plain;base64,{{ ranked.encoded }}> {{ ranked.split_path }}</a> ({{ ranked.qscore }} Q-Score with {{ key }})</li>
+                                                {% endif %}
+                                        {% endif %}
+                                        {% if loop.last %}
+                                            </ul>
+                                        {% endif %}
+                                    {% endfor %}                                
+                            {% if loop.last %}
+                                </ul>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if data.num_msa == 0 %}
+                    <p>No sequences have been added to the MSA
+                {% else %}
+                    <p>There is/are {{ data.num_msa }} sequence/s in the MSA
+                {% endif %}
+                {% if data.num_templates == 0 %}
+                    and no templates have been added to the input.
+                {% else %}
+                    and {{ data.num_templates }} template/s that has/have been used as input.
+                {% endif %}</p>
+                {% if data.info_input %}
+                    <p>It can be broken down in the following way:</p>
+                    <ul>
+                        <li>A copy from the query sequence: 1 sequence.</li>
+                        {% for info in data.info_input %}
+                            {% if loop.first %} 
+                                {% if info.num_templates != 0 or  info.num_msa != 0 %}     
+                                    <li> From the user input: {{ info.num_templates }} template/s and {{  info.num_msa }} sequence/s.</li>
+                                {% endif %}
+                                
+                            {% else %}
+                                <li> From {{ info.type }} {{ info.path }}: {{ info.num_templates }} template/s and {{  info.num_msa }} sequence/s.</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if 'templates_list' in data %}
+                    {% for template in data.templates_list if template.modifications_struct and template.modifications_struct.modifications_list %}
+                        {% if loop.first %}
+                            <p>The following changes have been made to the sequence of the templates:</p>
+                            <ul>
+                        {% endif %}
+
+                        {% for change in template.modifications_struct.modifications_list %}
+                            {% if loop.first  %}
+                                <li> {{ template.pdb_id }}:
+                                <ul>
+                            {% endif %}
+                            <p>
+                                {% if change.when == 'before_alignment' %}
+                                    Modifications have been done before alignment in a chain {{ change.chain }}:
+                                {% else %}
+                                    Modifications have been done after an alignment chain {{ change.chain }}:
+                                {% endif %}                               
+                                {% if change.delete_residues %}
+                                    Deleted residues: {{ print_consecutive_numbers(change.delete_residues) }}
+                                {% endif %} 
+                                {% if change.maintain_residues %}
+                                    Maintained residues: {{ print_consecutive_numbers(change.maintain_residues) }}
+                                {% endif %} 
+                                {% if change.position != -1 %}
+                                    Selected position: {{ change.position }}
+                                {% endif %}
+                                {% for mutation in change.mutations %}
+                                    {% if loop.first  %}
+                                        <ul>
+                                    {% endif %}
+                                        <li>
+                                            It has mutated the following residues: {{ print_consecutive_numbers(mutation.mutate_residues_number) }}
+                                            with: {{ mutation.mutate_with }}
+                                        </li>
+                                    {% if loop.last  %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            {% if loop.last  %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if loop.last %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if data.filtered_ranked_reason %}
+                    <p>The following predictions have been filtered:</p>
+                    <ul>
+                        {% for key, value in data.filtered_ranked_reason.items() %}
+                            <li> <span style="color: red"> {{ key }}: {{ value }} </span> </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div id="input" class="section-div">
+                <h2>Input</h2>
+                <div style="padding: 10px;height:400px;width:90%;border:1px solid #000;overflow:auto;">
+                    <pre>{{ data.bor_text }}</pre>
+                </div>
+            </div>
+            {% if 'gantt' in data %}
+                <div id="alignment" class="section-div">
+                    <h2>Alignment</h2>
+                        <img style="width: 100%" src="data:image/png;base64,{{ data.gantt.plot_both }}" alt="Gantt diagram with msa and templates">
+                        <p style="white-space: pre-wrap;">{{ data.gantt.legend_both }}</p>
+
+                        <ul style="margin: 0px 0px; padding-left: 0px">
+                            <li style="list-style: none;">
+                                <details>
+                                <summary><h4 style="display:inline">Templates plot</h4></summary>
+                                    <img style="width: 100%" src="data:image/png;base64,{{ data.gantt.plot_template }}" alt="Gantt diagram with templates">
+                                    <p style="white-space: pre-wrap;">{{ data.gantt.legend_template }}</p>
+                                </details>
+                            </li>
+                            <li style="list-style: none;">
+                            <details>
+                            <summary><h4 style="display:inline">MSA plot</h4></summary>
+                                    <img style="width: 100%" src="data:image/png;base64,{{ data.gantt.plot_msa }}" alt="Gantt diagram with msa">
+                                    <p style="white-space: pre-wrap;">{{ data.gantt.legend_msa }}</p>
+                            </details>
+                            </li>
+                        </ul>
+                </div>
+            {% endif %}
+            {% if 'plddt' in data %}
+                <div id="plddt" class="section-div">
+                    <h2>pLDDT for predictions</h2>
+                    <img style="width: 100%" src="data:image/png;base64,{{ data.plddt }}" alt="PLDDT graph">
+                </div>
+            {% endif %}
+            {% if 'cluster_list' in data %}
+                <div id="clustering" class="section-div">
+                    <h2>Clustering</h2>
+                    {% if 'cluster_list' in data %}
+                        <p>The templates have been divided in {{ data.cluster_list | length }} clusters.
+                            {{ data.cluster_list | length }} VAIRO jobs have been launched using the following templates:
+                        </p>
+                        {% for cluster in data.cluster_list %}
+                            {% if loop.first %}
+                                <ul>
+                            {% endif %}
+                                <li><a href="#" data-encoded="{{ cluster.encoded_path }}" onclick="openEmbeddedPage(this)" target="_blank">{{ cluster.label }}</a>:
+                                    {% if cluster.templates | length > 0 %}
+                                        {{ cluster.templates | join(', ') }}
+                                    {% else %}
+                                        Without templates
+                                    {% endif %}
+                                </li>
+                            {% if loop.last %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if 'clustering_plot' in data %}
+                        <img style="width: 70%" src="data:image/png;base64,{{ data.clustering_plot }}" alt="Clustering plot">
+                    {% endif %}
+                    {% if 'clustering_ranked_plot' in data %}
+                        <img style="width: 70%" src="data:image/png;base64,{{ data.clustering_ranked_plot }}" alt="Clustering plot and predictions">                  
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {# note: commented-out template because we no longer use this
+            {% if 'frobenius_dict' in data %}
+                <div id="frobenius_graphs" class="section-div">
+                    <h2>Frobenius Graphs</h2>
+                    <div>
+                        <span style="vertical-align: middle;">Frobenius distance: </span>
+                        <img style="width: 30%; vertical-align: middle;" src="data:image/png;base64,{{ data.frobenius_equation }}" alt="Frobenius distances graph">
+                    </div>
+                    <div>
+                        <span style="vertical-align: middle;">Where: </span>
+                        <img style="width: 15%; vertical-align: middle;" src="data:image/png;base64,{{ data.frobenius_equation2 }}" alt="Frobenius distances graph">
+                    </div>
+                    <br>
+                    {% for key, value in data.frobenius_dict.items() %}
+                        <details class="details-frobenius"
+                        {% if key == data.ranked_list[0].name %}
+                         openstruct
+                        {% endif %}
+                        >
+                        <summary class="summary-frobenius"> <h3 style="display:inline">{{ key }}</h3></summary>
+                        {% for ranked in value %}
+                                {% if loop.first %}
+                                    <ul style="margin: 0px 0px; padding-left: 0px">
+                                {% endif %}
+                                    <li>
+                                            {% if loop.index == 2 %}
+                                                <details class="details-frobenius-in">
+                                                <summary><h4 style="display:inline">{{ ranked.template }}: Worst coverage ({{ ranked.core }} CV)</h4></summary>
+                                            {% elif loop.first %}
+                                                <details class="details-frobenius-in" open>
+                                                <summary><h4 style="display:inline">{{ ranked.template }}: Best coverage ({{ ranked.core }} CV)</h4></summary>
+                                            {% else %}
+                                                <details class="details-frobenius-in">
+                                                <summary><h4 style="display:inline">{{ ranked.template }} ({{ ranked.core }} CV)</h4></summary>
+                                            {% endif %}
+                                            <div class="div-frobenius">
+                                                <p>Frobenius distance of CV distances: {{ ranked.dist_coverage }}</p>
+                                                <p>Frobenius distance of CV angles: {{ ranked.ang_coverage }}</p>
+                                                <div style="display:flex;">
+                                                    <div style="float:left;">
+                                                        <p>Between distances</p>
+                                                        <img style="width: 80%" src="data:image/png;base64,{{ ranked.encoded_dist_plot  }}" alt="Frobenius distances graph">
+                                                    </div>
+                                                    <div style="float:left;">
+                                                        <p>Between angles</p>
+                                                        <img style="width: 80%" src="data:image/png;base64,{{ ranked.encoded_ang_plot  }}" alt="Frobenius angles graph">
+                                                    </div>
+                                                </div>
+                                                {% if data.sequence_plot  %}
+                                                    <img style="width: 80%" src="data:image/png;base64,{{ data.sequence_plot  }}" alt="Sequence plot">
+                                                {% endif %}
+                                            </div>
+                                        </details>
+                                    </li>
+                                {% if loop.last %}
+                                    </ul>
+                                {% endif %}
+                        {% endfor %}
+                        </details>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            #}
+            {# note: commented-out template because we no longer use this
+            {% if 'dendogram_struct' in data %}
+                <div id="dendogram" class="section-div">
+                    <h2>Dendogram</h2>
+                    {% if data.dendogram_struct.dendogram_list %}
+                        <p>The templates have been divided in {{ data.dendogram_struct.dendogram_list | length }} clusters.</p>
+                        {% for cluster in data.dendogram_struct.dendogram_list %}
+                            {% if loop.first %}
+                                <ul>
+                            {% endif %}
+                                <li>{{ cluster | join(', ') }}</li>
+                            {% if loop.last %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <img style="width: 70%" src="data:image/png;base64,{{ data.dendogram_struct.encoded_dendogram_plot }}" alt="Dendogram plot">
+                </div>  
+            {% endif %}
+            #}
+            {% if 'interfaces_dict' in data %}
+                <div id="interface_information" class="section-div">
+                    <h2>Interface information</h2>
+                    <h3>Interfaces in predictions, experimental pdbs and templates (Area, DeltaG, nhb)</h3>
+                    <table id="interface_table">
+                        <tr>
+                            <th>Interfaces</th>
+                            {% for pdb_key, pdb_interfaces in data.interfaces_dict.pdbs.items() %}
+                                {% if pdb_interfaces|length >= data.num_interfaces or pdb_key in data.filtered_dict %}
+                                    <th>{{ pdb_key }}</th>
+                                {% else %}
+                                    <th class="hide-row" style="display:none;">{{ pdb_key }}</th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% for inter_code in data.interfaces_dict.interfaces.keys()  %}
+                            <tr>
+                                <td>{{ inter_code }}</td>
+                                {% for pdb_key, pdb_interfaces in data.interfaces_dict.pdbs.items() %}
+                                    {% set ns = namespace(found_data=None, inter_color='black') %}
+                                    {% for inter in pdb_interfaces %}
+                                        {% if inter.name == inter_code %}
+                                            {% if data.interfaces_dict.interfaces[inter.name] != None %}
+                                                {% if inter.deltaG <= data.interfaces_dict.interfaces[inter.name] %}
+                                                    {% set ns.inter_color = 'green' %}
+                                                {% elif inter.deltaG > data.interfaces_dict.interfaces[inter.name] %}
+                                                    {% set ns.inter_color = 'blue' %}
+                                                {% endif %}
+                                            {% endif %}
+                                            {% set ns.found_data = inter.area ~ ', ' ~ inter.deltaG ~ ', ' ~ inter.nhb %}
+                                        {%  endif %}
+                                    {% endfor %}
+                                    {% if pdb_interfaces|length >= data.num_interfaces or pdb_key in data.filtered_dict %}
+                                        <td><span class={{ns.inter_color}}>{{ ns.found_data }}</span></td>
+                                    {% else %}
+                                        <td class="hide-row" style="display:none;"><span class={{ns.inter_color}}>{{ ns.found_data }}</span></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideInterfaces('interface_table', this)">Show all interfaces</button>
+                    <br>
+                    <br>
+                    {% for ranked_key, ranked_interfaces in data.interfaces_dict.pdbs.items() if ranked_key in data.filtered_dict %}
+                        {% set ns = namespace(length_loop=ranked_interfaces|length, counter_loop=0) %}
+                        {% for ranked_inter in ranked_interfaces %}
+                            {% if ns.counter_loop == 0 %}
+                                <details class="details-frobenius"
+                                    {% if ranked_key == data.ranked_list[0].name %}
+                                    open
+                                    {% endif %}             
+                                >
+                                <summary class="summary-frobenius"> <h3 style="display:inline">{{ ranked_key }}</h3></summary>
+                                <ul style="margin: 0px 0px; padding-left: 0px">
+                            {% endif %}
+                            <li>
+                                <details class="details-frobenius-in">
+                                    <summary><h4 style="display:inline">{{ ranked_inter.name }}</h4></summary>
+                                    <p> Solvation for each chain:
+                                        <ul>
+                                            <li style="border: none; list-style: disc;">{{ ranked_inter.chain1 }}: Solvation: {{ ranked_inter.solvation1 }}, SE gain: {{ ranked_inter.se_gain1 }}</li>
+                                            <li style="border: none; list-style: disc;">{{ ranked_inter.chain2 }}: Solvation: {{ ranked_inter.solvation2 }}, SE gain: {{ ranked_inter.se_gain2 }}</li>
+                                        </ul>
+                                    </p>
+
+                            {% set counter_loop = namespace(counter_loop=0) %}
+                            {% for template_key, template_interfaces in data.interfaces_dict.pdbs.items() if template_key not in data.filtered_dict %}
+                                {% for template_inter in template_interfaces if template_inter.name == ranked_inter.name %}
+                                    {% if counter_loop.counter_loop == 0 %}
+                                        {% set counter_loop.counter_loop = 1 %}
+                                        <p>The interface can be found in the following pdbs:</p>
+                                        <ul style="padding-left: 5px;">
+                                    {% endif %}
+                                    <li style="border-top: 0px">
+                                        <details class="details-frobenius-in">
+                                            <summary><h4 style="display:inline">{{ template_key }}</h4></summary>
+                                            <div class="div-frobenius">
+                                                <ul>
+                                                    <li style="border: none; list-style: disc;">{{ template_inter.chain1 }}: Solvation: {{ template_inter.solvation1 }}, SE gain: {{ template_inter.se_gain1 }}</li>
+                                                    <li style="border: none; list-style: disc;">{{ template_inter.chain2 }}: Solvation: {{ template_inter.solvation2 }}, SE gain: {{ template_inter.se_gain2 }}</li>
+                                                </ul>
+                                            </div>
+                                        </details>
+                                    </li>
+
+                                {% endfor %}
+                            {% endfor %}
+                            {% if counter_loop.counter_loop != 0 %}
+                                </ul>
+                            {% endif %}
+                            </details>
+                            </li>
+                            {% set ns.counter_loop = ns.counter_loop + 1 %}
+                            {% if ns.length_loop == ns.counter_loop %}
+                                </ul>
+                                </details>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if 'table' in data %}
+            <div id="tables" class="section-div">
+                <h2>Tables</h2>
+                {% if data.ranked_list %}
+                    <h3>pLDDT information</h3>
+                    <table id="table_average_plddt">
+                        <tr>
+                            <th>Predictions</th>
+                            <th>Average pLDDT</th>
+                            <th>Compactness</th>
+                            <th>Percentage Ramachandran outliers</th>
+                        </tr>
+                        {% for ranked in data.ranked_list %}
+                            {% if ranked.name in data.bests_dict %}
+                                <tr class="green-row">
+                            {% elif ranked.name in data.filtered_dict %}
+                                <tr class="blue-row">
+                            {% else %}
+                                <tr class="hide-row" style="display:none;">
+                            {% endif %}
+                                <td>{{ ranked.name }}</td>
+                                <td>{{ ranked.plddt }}</td>
+                                <td>{{ ranked.compactness }}</td>
+                                <td>{{ ranked.ramachandran }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideValues('table_average_plddt', this)">Show all predictions</button>
+                {% endif %}
+                {% if 'secondary_dict' in data.table %}
+                    <h3>Secondary structure percentages calculated with ALEPH</h3>
+                    <table id="table_ss">
+                        <tr>
+                            <th>Prediction</th>
+                            <th>Helix</th>
+                            <th>Beta</th>
+                        </tr>
+                        {% for key, value in data.table.secondary_dict.items() %}
+                            {% if key in data.bests_dict %}
+                                <tr class="green-row">
+                            {% elif key in data.filtered_dict %}
+                                <tr class="blue-row">
+                            {% else %}
+                                <tr class="hide-row" style="display:none;">
+                            {% endif %}
+                                <td>{{ key }}</td>
+                                <td>{{ value.ah }}</td>
+                                <td>{{ value.bs }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideValues('table_ss', this)">Show all predictions</button>
+                {% endif %}
+                {% if 'energies_dict' in data.table %}
+                    <h3>Prediction energies</h3>
+                    <table id="table_energies">
+                        <tr>
+                            <th>Prediction</th>
+                            <th>potential (kcal/mol)</th>
+                        </tr>
+                        {% for key, value in data.table.energies_dict.items() %}
+                            {% if key in data.bests_dict %}
+                                <tr class="green-row">
+                            {% elif key in data.filtered_dict %}
+                                <tr class="blue-row">
+                            {% else %}
+                                <tr class="hide-row" style="display:none;">
+                            {% endif %}
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideValues('table_energies', this)">Show all predictions</button>
+                {% endif %}
+                {% if 'ranked_qscore_dict' in data.table %}
+                    <h3>Superposition between predictions (Q-Score(%))</h3>
+                    <table id="table_rankeds_qscore">
+                        <tr>
+                            <th>Prediction</th>
+                            {% for key in data.table.ranked_qscore_dict.keys() %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        </tr>
+                        {% for key, value in data.table.ranked_qscore_dict.items() %}
+                            {% if key in data.bests_dict %}
+                                <tr class="green-row">
+                            {% elif key in data.filtered_dict %}
+                                <tr class="blue-row">
+                            {% else %}
+                                <tr class="hide-row" style="display:none;">
+                            {% endif %}
+                                <td>{{ key }}</td>
+                                {% for value2 in value.values() %}
+                                    <td>{{ value2 }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideValues('table_rankeds_qscore', this)">Show all predictions</button>
+                {% endif %}
+                {% if 'rmsd_dict' in data.table %}
+                    <h3>Superposition of predictions and templates (Q-Score (%), RMSD (<span>&#8491;</span>), superposed residues (total residues))</h3>
+                    <table id="table_templates_rmsd">
+                        <tr>
+                            <th>Prediction</th>
+                            {% for value in data.table.rmsd_dict.values() %}
+                                {% for key in value.keys() if loop.first%}            
+                                    <th>{{ key }}</th>
+                                {% endfor %}
+                            {% endfor %}
+                        </tr>
+                        {% for key, value in data.table.rmsd_dict.items() %}
+                            {% if key in data.bests_dict %}
+                                <tr class="green-row">
+                            {% elif key in data.filtered_dict %}
+                                <tr class="blue-row">
+                            {% else %}
+                            <tr class="hide-row" style="display:none;">
+                            {% endif %}
+                                <td>{{ key }}</td>
+                                {% for key2, value2 in value.items() %}
+                                    <td>{{ value2.qscore }}, {{ value2.rmsd }} ({{ value2.aligned_residues }} of {{ value2.total_residues }})</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <button onclick="hideValues('table_templates_rmsd', this)">Show all predictions</button>
+                {% endif %}
+                {% if 'experimental_dict' in data.table %}
+                    <h3>Superposition of experimental pdbs with predictions and templates (Q-Score (%), RMSD (<span>&#8491;</span>), superposed residues (total residues))</h3>
+                    <table>
+                        <tr>
+                            <th>experimental pdb</th>
+                            {% for value in data.table.experimental_dict.values() %}
+                                {% for key in value.keys() if loop.first%}
+                                    <th>{{ key }}</th>
+                                {% endfor %}
+                            {% endfor %}
+                        </tr>
+                        {% for key, value in data.table.experimental_dict.items() %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                {% for value2 in value.values() %}
+                                    {% if key2 in data.bests_dict %}
+                                        <td class="blue-row">{{ value2.qscore }}, {{ value2.rmsd }} ({{ value2.aligned_residues }} of {{ value2.total_residues }})</td>
+                                    {% elif key in data.filtered_dict %}
+                                        <td class="blue-row">{{ value2.qscore }}, {{ value2.rmsd }} ({{ value2.aligned_residues }} of {{ value2.total_residues }})</td>                                
+                                    {% else %}
+                                        <td>{{ value2.qscore }}, {{ value2.rmsd }} ({{ value2.aligned_residues }} of {{ value2.total_residues }})</td>
+                                    {% endif %} 
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% if 'pymol' in data %}
+                <div id="pymol" class="section-div">
+                    <h2>Pymol</h2>
+                    {% if data.pymol != None %}
+                        <p>In order to run the Pymol Script, run the following code in the terminal:</p>
+                        <pre>
+                            <code>pymol {{ data.pymol }} </code>
+                        </pre>
+                    {% else %}
+                        <p>No PyMOL installation was detected, and consequently, no PyMOL session was created. Please ensure that PyMOL is correctly installed. Additionally, verify that it can be called using its designated name in the console.</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div id="log" class="section-div">
+                <h2>Log</h2>
+                <div style="padding: 10px;height:400px;width:90%;border:1px solid #000;overflow:auto;">
+                    <pre>{{ data.log_text }}</pre>
+                </div>
+            </div>  
+            <div id="conclusions" class="section-div">
+                <h2>Conclusions</h2>
+                {% if data.bests_dict|length == 1 %}
+                    <p>The best predicted model is <span class="green">{{ data.ranked_list[0].name }}</span>.
+                        {% if data.ranked_list[0].superposition_experimental %}
+                            The closest experimental is {{ data.ranked_list[0].superposition_experimental[0].pdb }} with a {{ data.ranked_list[0].superposition_experimental[0].rmsd }} RMSD</p>
+                        {% endif %}
+                        {% if data.ranked_list[0].superposition_templates %}
+                            The closest template is {{ data.ranked_list[0].superposition_templates[0].pdb }} with a {{ data.ranked_list[0].superposition_templates[0].rmsd }} RMSD</p>
+                        {% endif %}
+                {% elif data.bests_dict|length > 1 %}
+                    <p>There are {{ data.bests_dict|length }} equal best predicted models:
+                        {% for key, value in data.bests_dict.items() %}
+                            <span class="green">{{ key }}</span>
+                            {% if not loop.last %}
+                                ,
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                {% else %}
+                    <p>Predictions could not be found.</p>
+                {% endif %}
+                {% if data.conclusion_dict %}
+                    <p>The closest {{ data.conclusion_type }} to the predictions are the following ones:</p>
+                        <ul>
+                            {% for key, value in data.conclusion_dict.items() %}
+                                <li>{{ key }}:
+                                    {% for ranked in value %}
+                                        {% if ranked in data.bests_dict %}
+                                            <span class="green">{{ ranked }}</span>
+                                        {% elif ranked in data.filtered_dict %}
+                                            <span class="blue">{{ ranked }}</span>
+                                        {% else %}
+                                            {{ ranked }}
+                                        {% endif %}
+                                        {% if not loop.last %}
+                                            ,
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                {% endif %}
+            </div>
+            <div id="citations" class="section-div">
+                <h2>Citations</h2>
+                <p>
+                    <a href="https://doi.org/10.1038/s41586-021-03819-2" target="_blank">Highly accurate protein structure prediction with AlphaFold.</a><br>
+                    Jumper, J., Evans, R., Pritzel, A.<br>
+                    (2021) Nature 596, 583-589.
+                </p>
+            </div>        
+            <div id="support" class="section-div">
+                <h2>Support</h2>
+                <p>
+                For online documentation and tutorials visit <a href="http://chango.ibmb.csic.es" target="_blank">www.chango.ibmb.csic.es</a><br/>
+                For developer support email <a href="mailto:bugs-borges@ibmb.csic.es" target="_blank">bugs-borges@ibmb.csic.es</a><br/>
+                Crystallographic Methods Group <br/> 
+                <a href="http://www.ibmb.csic.es/" target="_blank">Molecular Biology Institute of Barcelona </a></p>
+            </div>
+        </section>
+    </body>
+    <script>
+        window.onload = function () {
+            hideEmptyRows('interface_table');
+        };
+
+        function move_to(e){
+            window.location.hash = e.target.getAttribute("name");
+        }
+
+        function hideValues(tableId, button) {
+            var table = document.getElementById(tableId);
+            if (!table) {return;}
+            var elements = table.getElementsByClassName("hide-row");
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                element.style.display = element.style.display === "none" ? "" : "none";
+            }
+            button.textContent = button.textContent === "Show all predictions"
+                ? "Hide bad predictions"
+                : "Show all predictions";
+        }
+
+        function hideEmptyRows(tableId) {
+            var table = document.getElementById(tableId);
+            if (!table) {return;}
+            var rows = table.getElementsByTagName("tr");
+            for (var i = 1; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var isEmpty = true;
+                for (var j = 1; j < cells.length; j++) {
+                    if (cells[j].querySelector('span').textContent !== "None" && cells[j].style.display !== "none") {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+                if (isEmpty) {
+                    for (var j = 0; j < cells.length; j++) {
+                        cells[j].classList.add("hide-row");
+                        cells[j].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function hideInterfaces(tableId, button) {
+            var table = document.getElementById(tableId);
+            if (!table) {return;}
+            var elements = table.getElementsByClassName("hide-row");
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                element.style.display = element.style.display === "none" ? "" : "none";
+            }
+            button.textContent = button.textContent === "Show all interfaces"
+                ? "Hide interfaces"
+                : "Show all interfaces";
+        }
+
+        function openEmbeddedPage(element) {
+            try {
+                const encodedHtml = element.getAttribute('data-encoded');
+                if (!encodedHtml) {
+                    console.error('No encoded data found');
+                    return;
+                }
+                const decodedHtml = atob(encodedHtml);
+                const blob = new Blob([decodedHtml], { type: 'text/html' });
+                const blobUrl = URL.createObjectURL(blob);
+                window.open(blobUrl, '_blank');
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+            } catch (error) {
+                console.error('Error opening embedded page:', error);
+            }
+        }
+
+    </script>
+</html>
