@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: quick-colorlog
+Version: 0.0.10
+Summary: Colorized logging with Python.
+Author: Scott Walsh
+Author-email: scott@invisiblethreat.ca
+Maintainer: Scott Walsh
+Maintainer-email: scott@invisiblethreat.ca
+Project-URL: homepage, https://github.com/invisiblethreat/quick-colorlog
+Project-URL: documentation, https://github.com/invisiblethreat/quick-colorlog/blob/main/README.md
+Project-URL: repository, https://github.com/invisiblethreat/quick-colorlog
+Keywords: logging,color,colorama,formatter
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Logging
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: colorama>=0.4.0
+Provides-Extra: test
+Requires-Dist: pytest>=6.0; extra == "test"
+Requires-Dist: pytest-cov>=2.0; extra == "test"
+Requires-Dist: pytest-xdist>=2.0; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: pytest-xdist>=2.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: isort>=5.0; extra == "dev"
+Requires-Dist: mypy>=0.900; extra == "dev"
+
+# `quick-colorlog`
+
+Inspired by `coloredlogs` but without the subprocesses.
+
+### Quickstart
+
+```python
+from quick_colorlog import init_colors
+
+init_colors()
+```
+
+### Defaults
+
+By default, the log level is set to `logging.INFO` and the output stream is
+attached to `sys.stderr`. To change these, pass arguments to `init_colors()`
+
+```python
+from quick_colorlog import init_colors
+
+init_colors(level=logging.DEBUG, output=sys.stdout)
+```
+
+### Example
+
+```python
+import logging
+from quick_colorlog import init_colors
+
+init_colors()
+
+logger = logging.getLogger('testing')
+logger.debug("test")
+logger.info("test")
+logger.warning("test")
+logger.error("test")
+logger.critical("test")
+```
