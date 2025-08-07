@@ -1,0 +1,41 @@
+[project]
+name = "tierkreis"
+description = "Python client and utilities for tierkreis."
+readme = "README.md"
+version = "2.0.1"
+authors = [
+    { name = "Seyon Sivarajah", email = "seyon.sivarajah@quantinuum.com" },
+    { name = "Lukas Heidemann", email = "lukas.heidemann@quantinuum.com" },
+    { name = "John Children", email = "john.children@quantinuum.com" },
+    { name = "Alan Lawrence", email = "alan.lawrence@quantinuum.com" },
+    { name = "Matthew Burke", email = "matthew.burke@quantinuum.com" },
+    { name = "Philipp Seitz", email = "philipp.seitz@quantinuum.com" },
+]
+
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "pydantic~=2.5",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest",
+]
+build = ["build[uv]"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py312"
+extend-exclude = []
+
+[tool.pyright]
+include = ["."]
+exclude = []
+ignore = []
+
+[project.scripts]
+tkr = "tierkreis.cli.tkr:main"
