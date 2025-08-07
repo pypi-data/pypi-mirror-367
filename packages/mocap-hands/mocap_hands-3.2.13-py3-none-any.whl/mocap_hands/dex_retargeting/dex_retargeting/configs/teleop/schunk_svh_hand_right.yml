@@ -1,0 +1,29 @@
+retargeting:
+  type: vector
+  urdf_path: schunk_hand/schunk_svh_hand_right.urdf
+
+  # Target refers to the retargeting target, which is the robot hand
+  target_joint_names: [ 'RightHandThumb1_joint_1', 'RightHandThumb1_joint_2', 'RightHandIndex1_joint_0',
+                        'RightHandIndex2_joint_0', 'RightHandPinky1_joint_0', 'RightHandPinky1_joint_1',
+                        'RightHandRing1_joint_0', 'RightHandMiddle1_joint_0', 'RightHandMiddle2_joint_0',
+                        'RightHandIndex1_joint_1', 'RightHandRing1_joint_1', 'RightHandPinky1_joint_1',
+                        'RightHandMiddle1_joint_1',
+                        'RightHandRing2_joint_0', 'RightHandRing3_joint_0',
+                        'RightHandPinky2_joint_0', 'RightHandPinky3_joint_0',
+                        'RightHandThumb2_joint_0', 'RightHandThumb3_joint_0',
+                        'RightHandIndex3_joint_0', 'RightHandMiddle3_joint_0']
+  target_origin_link_names: [ "right_hand_base_link","right_hand_base_link", "right_hand_base_link", "right_hand_base_link", "right_hand_base_link",
+                              "right_hand_base_link","right_hand_base_link", "right_hand_base_link", "right_hand_base_link", "right_hand_base_link",
+                              "right_hand_base_link", "right_hand_base_link"]
+  target_task_link_names: [ "thtip", "fftip", "mftip", "rftip", "lftip",
+                            "RightHandThumb2_link_0", "RightHandIndex2_link_0", "RightHandMiddle2_link_0", "RightHandRing2_link_0", "RightHandPinky2_link_0",
+                            "RightHandRing3_link_0", "RightHandPinky3_link_0"]
+  scaling_factor: 1
+
+
+  # Source refers to the retargeting input, which usually corresponds to the human hand
+  # The joint indices of human hand joint which corresponds to each link in the target_link_names
+  target_link_human_indices: [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], [ 4, 8, 12, 16, 20, 2, 6, 10, 14, 18, 15, 19] ]
+
+  # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
+  low_pass_alpha: 0.5

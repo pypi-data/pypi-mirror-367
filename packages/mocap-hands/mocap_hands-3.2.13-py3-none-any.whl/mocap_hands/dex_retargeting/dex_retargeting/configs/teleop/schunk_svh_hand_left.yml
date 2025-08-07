@@ -1,0 +1,29 @@
+retargeting:
+  type: vector
+  urdf_path: schunk_hand/schunk_svh_hand_left.urdf
+
+  # Target refers to the retargeting target, which is the robot hand
+  target_joint_names: [ 'LeftHandThumb1_joint_1', 'LeftHandThumb1_joint_2', 'LeftHandIndex1_joint_0',
+                        'LeftHandIndex2_joint_0', 'LeftHandPinky1_joint_0', 'LeftHandPinky1_joint_1',
+                        'LeftHandRing1_joint_0', 'LeftHandMiddle1_joint_0', 'LeftHandMiddle2_joint_0',
+                        'LeftHandIndex1_joint_1', 'LeftHandRing1_joint_1', 'LeftHandPinky1_joint_1',
+                        'LeftHandMiddle1_joint_1',
+                        'LeftHandRing2_joint_0', 'LeftHandRing3_joint_0',
+                        'LeftHandPinky2_joint_0', 'LeftHandPinky3_joint_0',
+                        'LeftHandThumb2_joint_0', 'LeftHandThumb3_joint_0',
+                        'LeftHandIndex3_joint_0', 'LeftHandMiddle3_joint_0']
+  target_origin_link_names: [ "left_hand_base_link","left_hand_base_link", "left_hand_base_link", "left_hand_base_link", "left_hand_base_link",
+                              "left_hand_base_link","left_hand_base_link", "left_hand_base_link", "left_hand_base_link", "left_hand_base_link",
+                              "left_hand_base_link", "left_hand_base_link"]
+  target_task_link_names: [ "thtip", "fftip", "mftip", "rftip", "lftip",
+                            "LeftHandThumb2_link_0", "LeftHandIndex2_link_0", "LeftHandMiddle2_link_0", "LeftHandRing2_link_0", "LeftHandPinky2_link_0",
+                            "LeftHandRing3_link_0", "LeftHandPinky3_link_0"]
+  scaling_factor: 1
+
+
+  # Source refers to the retargeting input, which usually corresponds to the human hand
+  # The joint indices of human hand joint which corresponds to each link in the target_link_names
+  target_link_human_indices: [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], [ 4, 8, 12, 16, 20, 2, 6, 10, 14, 18, 15, 19] ]
+
+  # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
+  low_pass_alpha: 0.5
