@@ -1,0 +1,144 @@
+# RightsToSecure Hybrid Crypto Wrapper - Docker Compose
+# Quantum-resistant hybrid cryptography library deployment
+
+version: '3.8'
+
+services:
+  # Main API service
+  hybrid-crypto-api:
+    build: .
+    container_name: rights-to-secure-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - hybrid-crypto-network
+
+  # Development service with hot reload
+  hybrid-crypto-dev:
+    build: .
+    container_name: rights-to-secure-dev
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=debug
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    restart: unless-stopped
+    command: ["python", "examples/api_example.py"]
+    profiles:
+      - dev
+    networks:
+      - hybrid-crypto-network
+
+  # Testing service
+  hybrid-crypto-test:
+    build: .
+    container_name: rights-to-secure-test
+    volumes:
+      - .:/app
+    command: ["pytest", "tests/", "-v", "--tb=short"]
+    profiles:
+      - test
+    networks:
+      - hybrid-crypto-network
+
+  # Demo service for key exchange
+  hybrid-crypto-demo-kem:
+    build: .
+    container_name: rights-to-secure-demo-kem
+    volumes:
+      - .:/app
+    command: ["python", "examples/demo_key_exchange.py"]
+    profiles:
+      - demo
+    networks:
+      - hybrid-crypto-network
+
+  # Demo service for signatures
+  hybrid-crypto-demo-sign:
+    build: .
+    container_name: rights-to-secure-demo-sign
+    volumes:
+      - .:/app
+    command: ["python", "examples/demo_signing.py"]
+    profiles:
+      - demo
+    networks:
+      - hybrid-crypto-network
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: rights-to-secure-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - hybrid-crypto-api
+    restart: unless-stopped
+    profiles:
+      - production
+    networks:
+      - hybrid-crypto-network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:alpine
+    container_name: rights-to-secure-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    profiles:
+      - production
+    networks:
+      - hybrid-crypto-network
+
+  # PostgreSQL for key storage (optional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: rights-to-secure-postgres
+    environment:
+      POSTGRES_DB: hybrid_crypto
+      POSTGRES_USER: crypto_user
+      POSTGRES_PASSWORD: secure_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    profiles:
+      - production
+    networks:
+      - hybrid-crypto-network
+
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  hybrid-crypto-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 

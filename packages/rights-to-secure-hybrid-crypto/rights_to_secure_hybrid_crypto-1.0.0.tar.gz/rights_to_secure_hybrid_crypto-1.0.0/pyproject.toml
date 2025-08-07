@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rights-to-secure-hybrid-crypto"
+version = "1.0.0"
+description = "Hybrid Post-Quantum Cryptography Library combining classical and quantum-resistant algorithms"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Praveen Naidu", email = "contact@arkaenterprises.com"}
+]
+maintainers = [
+    {name = "Praveen Naidu", email = "contact@arkaenterprises.com"}
+]
+keywords = [
+    "cryptography",
+    "post-quantum",
+    "quantum-resistant",
+    "hybrid",
+    "rsa",
+    "ecc",
+    "ecdsa",
+    "kyber",
+    "dilithium",
+    "security",
+    "encryption",
+    "signature",
+    "key-exchange",
+    "kem",
+    "rights-to-secure",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Communications :: Email",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "cryptography>=41.0.0",
+    "liboqs-python>=0.7.2",
+    "pytest>=7.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+api = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "pydantic>=2.0.0",
+]
+web = [
+    "flask>=2.3.0",
+    "flask-cors>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://rightstosecure.com"
+Documentation = "https://academy.rightstosecure.com"
+Repository = "https://github.com/rightstosecure/hybrid-crypto"
+"Bug Tracker" = "https://github.com/rightstosecure/hybrid-crypto/issues"
+
+[project.scripts]
+rights-to-secure-demo = "examples.demo_key_exchange:main"
+rights-to-secure-sign-demo = "examples.demo_signing:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "examples*", "tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt", "*.json"] 
