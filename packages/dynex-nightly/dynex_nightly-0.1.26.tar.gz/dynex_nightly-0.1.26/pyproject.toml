@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dynex-nightly"
+dynamic = ["version"]
+description = "Dynex SDK (beta) Neuromorphic Computing Library"
+authors = [
+    { name = "Dynex Developers" }
+]
+keywords = ["neuromorphic", "quantum", "sdk", "dynex", "computing"]
+readme = "README.md"
+license = { text = "BSD-3-Clause" }
+requires-python = ">=3.11"
+
+dependencies = [
+    "requests>=2.25",
+    "numpy>=1.23",
+    "dimod>=0.10.17",
+    "pyqubo>=1.2.0",
+    "tabulate>=0.8",
+    "tqdm>=4.66",
+    "pycryptodome>=3.18",
+    "pennylane>=0.34",
+    "ipython>=8.0",
+    "pydantic>=2.11.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "flake8",
+    "black",
+    "isort"
+]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
