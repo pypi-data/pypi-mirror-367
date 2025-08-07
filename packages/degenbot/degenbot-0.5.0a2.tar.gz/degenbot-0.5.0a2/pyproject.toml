@@ -1,0 +1,284 @@
+[project]
+name = "degenbot"
+version = "0.5.0a2"
+authors = [
+    { name="BowTiedDevil", email="devil@bowtieddevil.com" },
+]
+description = "Python classes to aid rapid development of Uniswap (V2, V3, V4), Curve V1, and Solidly V2 arbitrage bots on EVM-compatible blockchains"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic >= 1.16.4, <1.17",
+    "cchecksum >=0.3.1, <1",
+    "click >=8.2.1, <9",
+    "cvxpy >=1.7.1, <2",
+    "pydantic >=2.11.7, <3",
+    "pydantic-settings >=2.10.1, <3",
+    "scipy >=1.16.1, <1.17",
+    "sqlalchemy >=2.0.42, <3",
+    "tenacity >=9.1.2, <10",    
+    "tomlkit >= 0.13.3, <0.14",
+    "tqdm >= 4.67.1, < 4.68",
+    "web3 >=7.12.1, <8",
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: POSIX",
+]
+
+[project.urls]
+Homepage = "https://www.degencode.com"
+Repository = "https://github.com/BowTiedDevil/degenbot"
+Tracker = "https://github.com/BowTiedDevil/degenbot/issues"
+Twitter = "https://twitter.com/BowTiedDevil"
+
+[project.scripts]
+degenbot = "degenbot.cli:cli"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:", # exclude type checking imports and checks
+    "return NotImplemented", # required for __eq__, __lt__, __gt__
+    "def __hash__",
+    "def __repr__",
+    "def __str__",
+    "logger.debug",
+    "case _:", # exclude catch-all
+]
+
+[tool.coverage.run]
+source = ["src/degenbot"]
+omit = [
+    "abi.py",
+    "exceptions.py",
+]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+files=[
+    "src/degenbot",
+    "tests/",
+]
+python_version = "3.12"
+python_executable = ".venv/bin/python"
+untyped_calls_exclude = "cvxpy"
+
+[[tool.mypy.overrides]]
+module="tests/test_cvxpy.py"
+disable_error_code = [
+    "attr-defined",
+]
+
+[[tool.mypy.overrides]]
+module="degenbot.*"
+strict = true
+
+[[tool.mypy.overrides]]
+module="tests.*"
+disable_error_code = [
+    "no-untyped-def",
+]
+
+[[tool.mypy.overrides]]
+module=[
+    "eth_abi.*",
+    "scipy.*",
+    "tqdm.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+#    "DOC",      # pydoclint
+#    "D",        # pydocstyle
+#    "COM",      # flake8-commas
+#    "FIX",      # flake8-fixme
+    "ERA",      # eradicate
+    "ANN",      # flake8-annotations
+    "ASYNC",    # flake8-async
+    "S",        # flake8-bandit
+    "BLE",      # flake8-blind-except
+    "FBT",      # flake8-boolean-trap
+    "B",        # flake8-bugbear
+    "A",        # flake8-builtins
+    "C4",       # flake8-comprehensions
+    "EM",       # flake8-errmsg
+    "FA",       # flake8-future-annotations
+    "ICN",      # flake8-import-conventions
+    "LOG",      # flake8-logging
+    "G",        # flake8-logging-format
+    "INP",      # flake8-no-pep420
+    "PIE",      # flake8-pie
+    "T20",      # flake8-print
+    "PYI",      # flake8-pyi
+    "PT",       # flake8-pytest-style
+    "Q",        # flake8-quotes
+    "RSE",      # flake8-raise
+    "RET",      # flake8-return
+    "SLF",      # flake8-self
+#    "TD",       # flake8-todos
+    "PTH",      # flake8-use-pathlib
+    "FLY",      # flynt
+    "NPY",      # numpy-specific
+    "SIM",      # flake8-simplify
+    "TID",      # flake8-tidy-imports
+    "TCH",      # flake8-type-checking
+    "ARG",      # flake8-unused-arguments
+    "I",        # isort
+    "C90",      # mccabe
+    "N",        # pep8-naming
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "PL",       # pylint
+    "PERF",     # perflint
+    "UP",       # pyupgrade
+    "FURB",     # refurb
+    "RUF",      # ruff-specific rules
+    "TRY",      # tryceratops
+]
+ignore = [
+    "N818",     # error-suffix-on-exception-name
+    "PLR0911",  # too-many-return-statements
+    "PLR0912",  # too-many-branches
+    "PLR0913",  # too-many-arguments
+    "PLR0915",  # too-many-statements
+    "S101",     # asserts are used often, but not as input validation
+    "UP038",    # deprecated - ref: https://docs.astral.sh/ruff/rules/non-pep604-isinstance/
+]
+logger-objects = [
+    "logging.logger",
+    "degenbot.logger",
+]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ANN", # type annotations for tests are low priority
+    "C4",
+    "C90", # high complexity tests are acceptable
+    "ERA",
+    "FBT",
+    "PLR2004", # Many swap amount tests compare "magic" values — transforming to named constants is not worthwhile
+    "S", # asserts are expected for testing
+    "SLF",
+    "T20",
+]
+
+[tool.pytest.ini_options]
+addopts = "-n 4 --dist worksteal --import-mode=importlib --cov=./src/degenbot --cov-branch --cov-report=html --random-order"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = "src"
+python_files = "test_*.py"
+testpaths = "tests"
+
+[tool.uv]
+dev-dependencies = [
+    "hypothesis",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-benchmark",
+    "pytest-cov",
+    "pytest-random-order",
+    "pytest-xdist",
+    "python-dotenv",
+]
+
+
+[tool.alembic]
+
+# path to migration scripts.
+# this is typically a path given in POSIX (e.g. forward slashes)
+# format, relative to the token %(here)s which refers to the location of this
+# ini file
+script_location = "%(here)s/src/degenbot/migrations"
+
+# template used to generate migration file names; The default value is %%(rev)s_%%(slug)s
+# Uncomment the line below if you want the files to be prepended with date and time
+# see https://alembic.sqlalchemy.org/en/latest/tutorial.html#editing-the-ini-file
+# for all available tokens
+# file_template = "%%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d%%(minute).2d-%%(rev)s_%%(slug)s"
+
+# additional paths to be prepended to sys.path. defaults to the current working directory.
+prepend_sys_path = [
+    "."
+]
+
+# timezone to use when rendering the date within the migration file
+# as well as the filename.
+# If specified, requires the python>=3.9 or backports.zoneinfo library and tzdata library.
+# Any required deps can installed by adding `alembic[tz]` to the pip requirements
+# string value is passed to ZoneInfo()
+# leave blank for localtime
+# timezone =
+
+# max length of characters to apply to the "slug" field
+# truncate_slug_length = 40
+
+# set to 'true' to run the environment during
+# the 'revision' command, regardless of autogenerate
+# revision_environment = false
+
+# set to 'true' to allow .pyc and .pyo files without
+# a source .py file to be detected as revisions in the
+# versions/ directory
+# sourceless = false
+
+# version location specification; This defaults
+# to <script_location>/versions.  When using multiple version
+# directories, initial revisions must be specified with --version-path.
+# version_locations = [
+#    "%(here)s/alembic/versions",
+#    "%(here)s/foo/bar"
+# ]
+
+
+# set to 'true' to search source files recursively
+# in each "version_locations" directory
+# new in Alembic version 1.10
+# recursive_version_locations = false
+
+# the output encoding used when revision files
+# are written from script.py.mako
+# output_encoding = "utf-8"
+
+# This section defines scripts or Python functions that are run
+# on newly generated revision scripts.  See the documentation for further
+# detail and examples
+# [[tool.alembic.post_write_hooks]]
+# format using "black" - use the console_scripts runner,
+# against the "black" entrypoint
+# name = "black"
+# type = "console_scripts"
+# entrypoint = "black"
+# options = "-l 79 REVISION_SCRIPT_FILENAME"
+#
+# [[tool.alembic.post_write_hooks]]
+# lint with attempts to fix using "ruff" - use the module runner, against the "ruff" module
+# name = "ruff"
+# type = "module"
+# module = "ruff"
+# options = "check --fix REVISION_SCRIPT_FILENAME"
+#
+# [[tool.alembic.post_write_hooks]]
+# Alternatively, use the exec runner to execute a binary found on your PATH
+# name = "ruff"
+# type = "exec"
+# executable = "ruff"
+# options = "check --fix REVISION_SCRIPT_FILENAME"
+
