@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Analysis Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --heading-color: #1e3a5f;
+            --border-color: #e0e6ed;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --primary-color: #4a90e2;
+            --table-header-bg: #f1f5f9;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --heading-color: #bb86fc;
+            --border-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --primary-color: #bb86fc;
+            --table-header-bg: #2c2c2c;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            padding: 2rem;
+            max-width: 1800px;
+            margin: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        h1, h2 {
+            color: var(--heading-color);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        
+        .grid-container {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .dashboard {
+            grid-template-columns: 1fr 1.5fr;
+        }
+        
+        .insights {
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .stat-box h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .stat-box p {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .template-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .template-selector label {
+            font-weight: 500;
+        }
+        
+        .template-selector select {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+        
+        .export-buttons button, .theme-switch-wrapper {
+            align-self: center;
+        }
+        
+        .traffic-flow-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .traffic-flow-section h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: var(--heading-color);
+        }
+        
+        .traffic-flow-section .plotly {
+            width: 100% !important;
+            max-width: 100%;
+        }
+        
+        .traffic-flow-section .js-plotly-plot {
+            width: 100% !important;
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+        
+        .theme-switch input {
+            display: none;
+        }
+        
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            background-color: #fff;
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        /* Template switching modal */
+        .template-switch-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .modal-content h3 {
+            color: var(--heading-color);
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .command-box {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow-x: auto;
+        }
+        
+        .command-box code {
+            font-family: monospace;
+            white-space: nowrap;
+            overflow-x: auto;
+            flex-grow: 1;
+            padding-right: 1rem;
+        }
+        
+        .copy-button, .close-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+        
+        .copy-button:hover, .close-button:hover {
+            opacity: 0.9;
+        }
+        
+        .close-button {
+            display: block;
+            margin-left: auto;
+            margin-top: 1rem;
+        }
+        
+        .filters-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .export-buttons button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+        
+        .export-buttons button:hover {
+            opacity: 0.9;
+        }
+        
+        table.dataTable {
+            width: 100% !important;
+        }
+        
+        table.dataTable thead th {
+            background-color: var(--table-header-bg);
+            color: var(--heading-color);
+        }
+        
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter,
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_processing,
+        .dataTables_wrapper .dataTables_paginate {
+            color: var(--text-color) !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: var(--text-color) !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    <div class="container">
+        <div class="header">
+            <h1>URL Analysis Report</h1>
+            <div class="header-controls">
+                <div class="template-selector">
+                    <label for="template-select">Template:</label>
+                    <select id="template-select">
+                        {% for template in available_templates %}
+                        <option value="{{ template.filename }}" {% if template.filename == current_template %}selected{% endif %}>
+                            {{ template.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-container dashboard">
+            <div class="chart-container card">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="stats-grid">
+                {{ stats_boxes_html|safe }}
+            </div>
+        </div>
+        
+        <h2>Domain & Time Insights</h2>
+        <div class="grid-container insights">
+            <div class="card" id="topDomainsContainer">
+                <canvas id="topDomainsChart"></canvas>
+                <div class="traffic-flow-section">
+                    <h3>Traffic Flow Analysis</h3>
+                    {{ sankey_html|safe }}
+                </div>
+            </div>
+            <div class="card">
+                {{ time_charts_html|safe }}
+            </div>
+        </div>
+        
+        <h2>Detailed URL Data</h2>
+        <div class="card">
+            <div class="filters-container">
+                <div class="export-buttons">
+                    <button id="exportCsv">Export CSV</button>
+                    <button id="exportJson">Export JSON</button>
+                </div>
+                {{ filters_html|safe }}
+            </div>
+            
+            {{ table_html|safe }}
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script>
+        {{ chart_data_js|safe }}
+        
+        // Theme toggle
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        if (localStorage.getItem('theme') === 'dark') toggleSwitch.checked = true;
+        toggleSwitch.addEventListener('change', e => {
+            const theme = e.target.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Template switching
+        const templateSelect = document.getElementById('template-select');
+        templateSelect.addEventListener('change', e => {
+            const selectedTemplate = e.target.value;
+            const templateName = e.target.options[e.target.selectedIndex].text;
+            const reportPath = "{{ report_path }}";
+            
+            // Create a command that the user can run to switch templates
+            const command = `url_analyzer report --path "${reportPath}" --template "${selectedTemplate}"`;
+            
+            // Create a modal dialog to display the command
+            const modal = document.createElement('div');
+            modal.className = 'template-switch-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>Switch to Template: ${templateName}</h3>
+                    <p>To switch to this template, run the following command in your terminal:</p>
+                    <div class="command-box">
+                        <code>${command}</code>
+                        <button class="copy-button" onclick="copyCommand()">Copy</button>
+                    </div>
+                    <button class="close-button" onclick="closeModal()">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Add the copyCommand and closeModal functions
+            window.copyCommand = function() {
+                const commandText = command;
+                navigator.clipboard.writeText(commandText)
+                    .then(() => {
+                        const copyButton = document.querySelector('.copy-button');
+                        copyButton.textContent = 'Copied!';
+                        setTimeout(() => {
+                            copyButton.textContent = 'Copy';
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy command: ', err);
+                        alert('Failed to copy command. Please copy it manually.');
+                    });
+            };
+            
+            window.closeModal = function() {
+                document.body.removeChild(modal);
+                // Reset the select to the current template
+                templateSelect.value = "{{ current_template }}";
+            };
+        });
+        
+        {{ charts_js|safe }}
+        
+        {{ datatable_js|safe }}
+    </script>
+</body>
+</html>

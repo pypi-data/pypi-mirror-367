@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 mb-4">URL Analyzer</h1>
+        <p class="lead mb-5">
+            A powerful tool for analyzing, categorizing, and reporting on URLs and domains.
+            Gain insights into your web traffic and understand the patterns in your data.
+        </p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Analyze</h3>
+                <p class="card-text">
+                    Analyze individual URLs or bulk process files containing multiple URLs.
+                    Get detailed information about each URL's category, safety, and more.
+                </p>
+                <a href="{{ url_for('analysis.index') }}" class="btn btn-primary mt-3">
+                    Start Analysis
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Reports</h3>
+                <p class="card-text">
+                    Generate comprehensive reports with visualizations to understand patterns
+                    and trends in your URL data. Export in multiple formats.
+                </p>
+                <a href="{{ url_for('reports.generate') }}" class="btn btn-primary mt-3">
+                    Create Reports
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-cog fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Settings</h3>
+                <p class="card-text">
+                    Customize the application to your needs. Configure analysis parameters,
+                    reporting preferences, and user interface settings.
+                </p>
+                <a href="{{ url_for('settings.user') }}" class="btn btn-primary mt-3">
+                    Configure Settings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h3 class="mb-0">Quick Analysis</h3>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('analysis.analyze_url') }}" method="post" class="mb-0">
+                    {{ csrf_token() }}
+                    <div class="input-group">
+                        <input type="url" name="url" class="form-control form-control-lg" 
+                               placeholder="Enter a URL to analyze" required
+                               aria-label="URL to analyze">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search me-2"></i>Analyze
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-10 mx-auto">
+        <h2 class="text-center mb-4">Recent Reports</h2>
+        
+        {% if recent_reports %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Report Name</th>
+                            <th>Date Created</th>
+                            <th>URLs Analyzed</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in recent_reports %}
+                            <tr>
+                                <td>{{ report.name }}</td>
+                                <td>{{ report.created_at|format_date }}</td>
+                                <td>{{ report.url_count }}</td>
+                                <td>
+                                    <a href="{{ url_for('reports.view', report_id=report.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                    <a href="{{ url_for('reports.download', report_id=report.id) }}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-download me-1"></i>Download
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i>No reports have been generated yet.
+                <a href="{{ url_for('reports.generate') }}" class="alert-link">Create your first report</a>.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add any page-specific JavaScript here
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Home page loaded');
+    });
+</script>
+{% endblock %}

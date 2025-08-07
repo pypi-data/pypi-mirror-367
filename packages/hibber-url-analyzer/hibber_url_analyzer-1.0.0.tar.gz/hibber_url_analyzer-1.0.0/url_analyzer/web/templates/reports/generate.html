@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Report{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="mb-3">Generate Report</h1>
+        <p class="lead">
+            Create comprehensive reports with visualizations to understand patterns and trends in your URL data.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h2 class="h5 mb-0">Report Configuration</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('reports.generate_report') }}" method="post" enctype="multipart/form-data">
+                    {{ csrf_token() }}
+                    
+                    <div class="mb-4">
+                        <h3 class="h6 mb-3">Data Source</h3>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="data_source" id="dataSourceFile" value="file" checked>
+                            <label class="form-check-label" for="dataSourceFile">
+                                Upload a new file
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="data_source" id="dataSourceAnalysis" value="analysis">
+                            <label class="form-check-label" for="dataSourceAnalysis">
+                                Use existing analysis
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="data_source" id="dataSourceAPI" value="api">
+                            <label class="form-check-label" for="dataSourceAPI">
+                                Fetch data from API
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="fileSourceOptions" class="mb-4">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Upload File</label>
+                            <input type="file" class="form-control" id="file" name="file" accept=".csv,.xlsx,.xls">
+                            <div class="form-text">
+                                File must contain a column named "Domain_name" or "URL"
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analysisSourceOptions" class="mb-4 d-none">
+                        <div class="mb-3">
+                            <label for="analysis_id" class="form-label">Select Analysis</label>
+                            <select class="form-select" id="analysis_id" name="analysis_id">
+                                <option value="" selected disabled>Choose an analysis...</option>
+                                {% for analysis in analyses %}
+                                    <option value="{{ analysis.id }}">
+                                        {{ analysis.name or 'Analysis #' + analysis.id }} ({{ analysis.created_at|format_date }}) - {{ analysis.url_count }} URLs
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="apiSourceOptions" class="mb-4 d-none">
+                        <div class="mb-3">
+                            <label for="api_endpoint" class="form-label">API Endpoint</label>
+                            <input type="url" class="form-control" id="api_endpoint" name="api_endpoint" placeholder="https://api.example.com/data">
+                        </div>
+                        <div class="mb-3">
+                            <label for="api_key" class="form-label">API Key (if required)</label>
+                            <input type="password" class="form-control" id="api_key" name="api_key">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="h6 mb-3">Report Options</h3>
+                        <div class="mb-3">
+                            <label for="report_name" class="form-label">Report Name</label>
+                            <input type="text" class="form-control" id="report_name" name="report_name" 
+                                   placeholder="My URL Analysis Report" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="report_template" class="form-label">Report Template</label>
+                            <select class="form-select" id="report_template" name="report_template">
+                                <option value="standard" selected>Standard Report</option>
+                                <option value="executive">Executive Summary</option>
+                                <option value="detailed">Detailed Analysis</option>
+                                <option value="security">Security Focus</option>
+                                <option value="traffic">Traffic Analysis</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chart_style" class="form-label">Chart Style</label>
+                            <select class="form-select" id="chart_style" name="chart_style">
+                                <option value="default" selected>Default</option>
+                                <option value="modern">Modern</option>
+                                <option value="minimal">Minimal</option>
+                                <option value="colorful">Colorful</option>
+                                <option value="monochrome">Monochrome</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="h6 mb-3">Visualizations</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_category_chart" name="visualizations[]" value="category_chart" checked>
+                                    <label class="form-check-label" for="include_category_chart">
+                                        Category Distribution
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_domain_chart" name="visualizations[]" value="domain_chart" checked>
+                                    <label class="form-check-label" for="include_domain_chart">
+                                        Top Domains
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_time_chart" name="visualizations[]" value="time_chart" checked>
+                                    <label class="form-check-label" for="include_time_chart">
+                                        Time Analysis
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_sankey" name="visualizations[]" value="sankey" checked>
+                                    <label class="form-check-label" for="include_sankey">
+                                        Traffic Flow (Sankey)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_geo_map" name="visualizations[]" value="geo_map">
+                                    <label class="form-check-label" for="include_geo_map">
+                                        Geographic Map
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="include_heatmap" name="visualizations[]" value="heatmap">
+                                    <label class="form-check-label" for="include_heatmap">
+                                        Category Heatmap
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="h6 mb-3">Export Options</h3>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="export_html" name="export_formats[]" value="html" checked>
+                            <label class="form-check-label" for="export_html">
+                                HTML Report
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="export_pdf" name="export_formats[]" value="pdf">
+                            <label class="form-check-label" for="export_pdf">
+                                PDF Report
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="export_csv" name="export_formats[]" value="csv">
+                            <label class="form-check-label" for="export_csv">
+                                CSV Data Export
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="export_json" name="export_formats[]" value="json">
+                            <label class="form-check-label" for="export_json">
+                                JSON Data Export
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-chart-bar me-2"></i>Generate Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle data source selection
+        const dataSourceRadios = document.querySelectorAll('input[name="data_source"]');
+        const fileOptions = document.getElementById('fileSourceOptions');
+        const analysisOptions = document.getElementById('analysisSourceOptions');
+        const apiOptions = document.getElementById('apiSourceOptions');
+        
+        function updateDataSourceOptions() {
+            const selectedValue = document.querySelector('input[name="data_source"]:checked').value;
+            
+            fileOptions.classList.add('d-none');
+            analysisOptions.classList.add('d-none');
+            apiOptions.classList.add('d-none');
+            
+            if (selectedValue === 'file') {
+                fileOptions.classList.remove('d-none');
+            } else if (selectedValue === 'analysis') {
+                analysisOptions.classList.remove('d-none');
+            } else if (selectedValue === 'api') {
+                apiOptions.classList.remove('d-none');
+            }
+        }
+        
+        dataSourceRadios.forEach(radio => {
+            radio.addEventListener('change', updateDataSourceOptions);
+        });
+        
+        // Initialize with current selection
+        updateDataSourceOptions();
+        
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const selectedValue = document.querySelector('input[name="data_source"]:checked').value;
+            
+            if (selectedValue === 'file' && !document.getElementById('file').files.length) {
+                event.preventDefault();
+                alert('Please select a file to upload.');
+            } else if (selectedValue === 'analysis' && !document.getElementById('analysis_id').value) {
+                event.preventDefault();
+                alert('Please select an analysis.');
+            } else if (selectedValue === 'api' && !document.getElementById('api_endpoint').value) {
+                event.preventDefault();
+                alert('Please enter an API endpoint.');
+            }
+        });
+    });
+</script>
+{% endblock %}

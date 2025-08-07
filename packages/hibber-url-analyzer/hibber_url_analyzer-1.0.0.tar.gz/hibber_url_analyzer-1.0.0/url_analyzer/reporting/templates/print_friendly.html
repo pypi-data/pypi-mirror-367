@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Analysis Report - Print Friendly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.5;
+            background-color: #fff;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        h1 {
+            font-size: 24pt;
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h2 {
+            font-size: 18pt;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            font-size: 14pt;
+        }
+        
+        p {
+            margin: 0.5em 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+            page-break-inside: avoid;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        
+        .stat-box h3 {
+            margin: 0 0 5px 0;
+            font-size: 12pt;
+        }
+        
+        .stat-box p {
+            margin: 0;
+            font-size: 18pt;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 10pt;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-size: 11pt;
+            }
+            
+            h1 {
+                font-size: 20pt;
+            }
+            
+            h2 {
+                font-size: 16pt;
+            }
+            
+            h3 {
+                font-size: 12pt;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: none;
+                padding: 0;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            table {
+                font-size: 9pt;
+            }
+            
+            .stat-box p {
+                font-size: 16pt;
+            }
+            
+            /* Ensure white background for all elements */
+            * {
+                background-color: #fff !important;
+                color: #000 !important;
+            }
+            
+            /* Preserve colors for charts */
+            canvas {
+                color: initial !important;
+                background-color: initial !important;
+            }
+            
+            /* Add URL after links */
+            a:after {
+                content: " (" attr(href) ")";
+                font-size: 90%;
+            }
+            
+            /* Remove shadows and fancy effects */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+        }
+        
+        /* Print button */
+        .print-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: block;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Table styles for URL data */
+        .url-table {
+            font-size: 10pt;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .url-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .url-table tr.sensitive {
+            background-color: #ffebee;
+        }
+        
+        /* Summary section */
+        .summary-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+        
+        /* Category legend */
+        .category-legend {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .color-box {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="print-button no-print" onclick="window.print()">Print Report</button>
+        
+        <h1>URL Analysis Report</h1>
+        <p class="report-date">Generated on: <span id="reportDate">{{ report_date }}</span></p>
+        
+        <div class="summary-section">
+            <h2>Executive Summary</h2>
+            <p>This report provides an analysis of URL browsing data, categorizing URLs and identifying potential security concerns. The analysis examined a total of <strong id="totalUrls">--</strong> URLs across <strong id="totalCategories">--</strong> categories.</p>
+            <p>Key findings include:</p>
+            <ul>
+                <li><span id="sensitivePercentage">--</span>% of URLs contain potentially sensitive information</li>
+                <li>The most visited domain is <strong id="topDomain">--</strong></li>
+                <li><span id="uncategorizedPercentage">--</span>% of URLs could not be categorized</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Key Statistics</h2>
+            <div class="stats-grid">
+                {{ stats_boxes_html|safe }}
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>URL Categories</h2>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="category-legend" id="categoryLegend">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <div class="section">
+            <h2>Top Domains</h2>
+            <div class="chart-container">
+                <canvas id="topDomainsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Time Analysis</h2>
+            <div>
+                {{ time_charts_html|safe }}
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <div class="section">
+            <h2>Sensitive URLs</h2>
+            <p>The following table shows URLs that may contain sensitive information:</p>
+            <div id="sensitiveUrlsTable">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>URL Data</h2>
+            <p>Showing up to 50 URLs from the analysis:</p>
+            <div id="urlTableContainer">
+                <!-- Will be populated with a simplified version of the data table -->
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>URL Analysis Report - Generated by URL Analyzer</p>
+            <p>Page <span class="page-number"></span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Set current date
+        document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        {{ chart_data_js|safe }}
+        
+        // Initialize charts and populate data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category chart
+            const categoryColors = [
+                '#3498db', '#2ecc71', '#e74c3c', '#9b59b6', 
+                '#f1c40f', '#e67e22', '#95a5a6', '#34495e'
+            ];
+            
+            new Chart(document.getElementById('categoryChart'), {
+                type: 'pie',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: categoryColors.slice(0, chartLabels.length),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Create category legend
+            const legendContainer = document.getElementById('categoryLegend');
+            chartLabels.forEach((label, index) => {
+                const item = document.createElement('div');
+                item.className = 'category-item';
+                
+                const colorBox = document.createElement('div');
+                colorBox.className = 'color-box';
+                colorBox.style.backgroundColor = categoryColors[index % categoryColors.length];
+                
+                const labelText = document.createElement('span');
+                labelText.textContent = label;
+                
+                item.appendChild(colorBox);
+                item.appendChild(labelText);
+                legendContainer.appendChild(item);
+            });
+            
+            // Top domains chart
+            const topDomainsChart = new Chart(document.getElementById('topDomainsChart'), {
+                type: 'horizontalBar',
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Update top domains chart with data
+            const domainData = topNByClientData['All'];
+            topDomainsChart.data.labels = domainData.labels;
+            topDomainsChart.data.datasets = [{
+                label: 'Visits',
+                data: domainData.data,
+                backgroundColor: '#3498db'
+            }];
+            topDomainsChart.update();
+            
+            // Calculate and display insights
+            try {
+                // Get total URLs and categories
+                const totalUrls = chartData.reduce((sum, value) => sum + value, 0);
+                const totalCategories = chartLabels.length;
+                document.getElementById('totalUrls').textContent = totalUrls.toLocaleString();
+                document.getElementById('totalCategories').textContent = totalCategories;
+                
+                // Calculate sensitive percentage
+                const sensitiveIndex = chartLabels.indexOf('Sensitive');
+                if (sensitiveIndex !== -1) {
+                    const sensitivePercentage = ((chartData[sensitiveIndex] / totalUrls) * 100).toFixed(1);
+                    document.getElementById('sensitivePercentage').textContent = sensitivePercentage;
+                }
+                
+                // Calculate uncategorized percentage
+                const uncategorizedIndex = chartLabels.indexOf('Uncategorized');
+                if (uncategorizedIndex !== -1) {
+                    const uncategorizedPercentage = ((chartData[uncategorizedIndex] / totalUrls) * 100).toFixed(1);
+                    document.getElementById('uncategorizedPercentage').textContent = uncategorizedPercentage;
+                }
+                
+                // Get top domain info
+                if (domainData.labels && domainData.labels.length > 0) {
+                    const topDomainIndex = domainData.data.indexOf(Math.max(...domainData.data));
+                    const topDomain = domainData.labels[topDomainIndex];
+                    document.getElementById('topDomain').textContent = topDomain;
+                }
+                
+                // Create simplified URL table (for print)
+                const urlTable = document.createElement('table');
+                urlTable.className = 'url-table';
+                
+                // Create table header
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                ['Domain', 'Category', 'Sensitive'].forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                urlTable.appendChild(thead);
+                
+                // Create table body with sample data
+                const tbody = document.createElement('tbody');
+                
+                // Get data from the main table
+                const table = $('#urlTable').DataTable();
+                if (table) {
+                    const data = table.data().toArray();
+                    const headers = table.columns().header().toArray().map(h => h.innerText);
+                    
+                    // Find column indices
+                    const urlColIndex = headers.indexOf('Domain_name');
+                    const categoryColIndex = headers.indexOf('URL_Category');
+                    const sensitiveColIndex = headers.indexOf('Is_Sensitive');
+                    
+                    if (urlColIndex !== -1 && categoryColIndex !== -1 && sensitiveColIndex !== -1) {
+                        // Get up to 50 rows for the print view
+                        const maxRows = Math.min(data.length, 50);
+                        for (let i = 0; i < maxRows; i++) {
+                            const row = data[i];
+                            const tr = document.createElement('tr');
+                            
+                            // Add class for sensitive URLs
+                            if (row[sensitiveColIndex] === 'True' || row[sensitiveColIndex] === true) {
+                                tr.className = 'sensitive';
+                            }
+                            
+                            // Add cells
+                            const urlCell = document.createElement('td');
+                            urlCell.textContent = row[urlColIndex];
+                            
+                            const categoryCell = document.createElement('td');
+                            categoryCell.textContent = row[categoryColIndex];
+                            
+                            const sensitiveCell = document.createElement('td');
+                            sensitiveCell.textContent = row[sensitiveColIndex] === 'True' || row[sensitiveColIndex] === true ? 'Yes' : 'No';
+                            
+                            tr.appendChild(urlCell);
+                            tr.appendChild(categoryCell);
+                            tr.appendChild(sensitiveCell);
+                            
+                            tbody.appendChild(tr);
+                        }
+                    }
+                }
+                
+                urlTable.appendChild(tbody);
+                document.getElementById('urlTableContainer').appendChild(urlTable);
+                
+                // Create sensitive URLs table
+                const sensitiveTable = document.createElement('table');
+                sensitiveTable.className = 'url-table';
+                
+                // Create table header
+                const sensitiveThead = document.createElement('thead');
+                const sensitiveHeaderRow = document.createElement('tr');
+                ['Domain', 'Category'].forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    sensitiveHeaderRow.appendChild(th);
+                });
+                sensitiveThead.appendChild(sensitiveHeaderRow);
+                sensitiveTable.appendChild(sensitiveThead);
+                
+                // Create table body with sensitive URLs
+                const sensitiveTbody = document.createElement('tbody');
+                
+                // Filter sensitive URLs
+                if (table) {
+                    const data = table.data().toArray();
+                    const headers = table.columns().header().toArray().map(h => h.innerText);
+                    
+                    // Find column indices
+                    const urlColIndex = headers.indexOf('Domain_name');
+                    const categoryColIndex = headers.indexOf('URL_Category');
+                    const sensitiveColIndex = headers.indexOf('Is_Sensitive');
+                    
+                    if (urlColIndex !== -1 && categoryColIndex !== -1 && sensitiveColIndex !== -1) {
+                        // Filter sensitive URLs
+                        const sensitiveUrls = data.filter(row => 
+                            row[sensitiveColIndex] === 'True' || row[sensitiveColIndex] === true
+                        );
+                        
+                        // Get up to 20 sensitive URLs for the print view
+                        const maxRows = Math.min(sensitiveUrls.length, 20);
+                        for (let i = 0; i < maxRows; i++) {
+                            const row = sensitiveUrls[i];
+                            const tr = document.createElement('tr');
+                            tr.className = 'sensitive';
+                            
+                            // Add cells
+                            const urlCell = document.createElement('td');
+                            urlCell.textContent = row[urlColIndex];
+                            
+                            const categoryCell = document.createElement('td');
+                            categoryCell.textContent = row[categoryColIndex];
+                            
+                            tr.appendChild(urlCell);
+                            tr.appendChild(categoryCell);
+                            
+                            sensitiveTbody.appendChild(tr);
+                        }
+                    }
+                }
+                
+                sensitiveTable.appendChild(sensitiveTbody);
+                document.getElementById('sensitiveUrlsTable').appendChild(sensitiveTable);
+                
+            } catch (e) {
+                console.error('Error calculating insights:', e);
+            }
+            
+            // Add page numbers for printing
+            const pageNumbers = document.querySelectorAll('.page-number');
+            pageNumbers.forEach((element, index) => {
+                element.textContent = (index + 1) + ' of ' + pageNumbers.length;
+            });
+        });
+    </script>
+</body>
+</html>
