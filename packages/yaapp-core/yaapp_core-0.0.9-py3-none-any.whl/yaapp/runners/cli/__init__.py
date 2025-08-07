@@ -1,0 +1,1 @@
+"""Simple CLI runner package."""
