@@ -1,0 +1,148 @@
+Metadata-Version: 2.4
+Name: slurm-top-python
+Version: 1.0.0a13
+Summary: A task manager written in Python for HPC systems that use Slurm
+Author-email: Aashray Reddy <aashrayr.101@gmail.com>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2025 Aashray Reddy
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+        Includes other software related under the MIT license:
+        - ptop, Copyright (c) 2018 Ankush Sharma. For licensing, see LICENSE-ptop
+Project-URL: Homepage, https://github.com/kinetekenergy/slurm_top_python
+Project-URL: Issues, https://github.com/kinetekenergy/slurm_top_python
+Project-URL: Download, https://github.com/kinetekenergy/slurm_top_python/releases/download/v1.0.0a1/slurm_top_python-1.0.0a1_2025-07-22.tar.gz
+Keywords: top,slurm_top_python,task manager,python,slurm,HPC,ptop
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Information Technology
+Classifier: Natural Language :: English
+Classifier: Topic :: System :: Monitoring
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Requires-Python: >=2.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE-ptop
+Requires-Dist: certifi==2018.10.15
+Requires-Dist: chardet==3.0.4
+Requires-Dist: drawille==0.1.0
+Requires-Dist: idna==2.7
+Requires-Dist: lehar==0.4
+Requires-Dist: npyscreen==4.10.5
+Requires-Dist: psutil==5.6.6
+Requires-Dist: requests
+Requires-Dist: urllib3
+Requires-Dist: argparse==1.4.0
+Requires-Dist: huepy==0.9.8.1
+Requires-Dist: PyYAML==6.0.2
+Dynamic: license-file
+
+# slurm_top_python
+
+`slurm_top_python` is a task manager for high-performance computing systems that use Slurm. It was originally designed for the UCSD Expanse servers, but can work on other servers that use Slurm and Slurm jobs.
+
+Credit to [ptop](https://github.com/darxtrix/ptop) - original creators of the Python taskmanager app that this is based on. You can view the licensing under the LICENSE file. This app is an adaptation of their program.
+
+## Work in progress
+
+## Installation
+
+`slurm_top_python` is compatible with both Python2.x and Python3.x and is tested on Linux environments.
+
+```bash
+pip install slurm_top_python
+```
+
+or
+
+```bash
+git clone https://github.com/kinetekenergy/slurm_top_python
+cd slurm_top_python/
+pip install -r requirements.txt
+sudo python setup.py install
+```
+
+## Upgrading slurm_top_python
+
+```bash
+pip install --upgrade slurm_top_python
+```
+
+## Usage
+
+```bash
+slurm_top_python
+```
+
+Alternatively, you can type `s_top`.
+
+## Common Errors
+
+When running the program, you might get the following error: `(<class 'npyscreen.wgwidget.NotEnoughSpaceForWidget'>, NotEnoughSpaceForWidget('Not enough space for requested size'), <traceback object at 0x155552ca4e00>)`.
+
+This means that your terminal size isn't big enough. To fix this, make your terminal window larger. You can maximize it or manually make it larger.
+
+## Developing slurm_top_python
+
+```bash
+git clone https://github.com/kinetekenergy/slurm_top_python
+code slurm_top_python # vscode is preferred, but any IDE that supports docker + devcontainers will work
+```
+
+Open the devcontainer in your IDE. If you are using vscode, there will be a pop-up asking to reopen the folder in a devcontainer. Accept it, and all the necessary tools will be installed.
+
+
+**Note:** slurm_top_python will create a log file called `.slurm_top_python.log` in the home directory of the user.
+
+## Main modules
+
+- `slurm_top_python.core` : Defines a basic `Plugin` class that other plugins in the `slurm_top_python.plugins` inherit.
+- `slurm_top_python.interfaces` : The interface to the slurm_top_python built using npyscreen.
+- `slurm_top_python.plugins` : This module contains all the plugin sensors supported i.e `Disk Sensor`,`Memory Sensor`,`Process Sensor`, etc. ( Any new plugin should be added here).
+- `slurm_top_python.statistics` : Generate continuous statistics using background thread jobs by locating plugins in the plugins directory.
+- `slurm_top_python.utils` : Custom thread classes.
+
+## Publishing
+
+**First time:**
+
+```bash
+python -m build
+python -m twine upload dist/*
+# enter your api key when prompted
+```
+
+**To update:**
+
+First, update your version number. Then:
+
+```bash
+python -m build
+python -m twine upload dist/<the .whl file that was generated>
+# enter your api key when prompted
+```
