@@ -1,0 +1,1 @@
+§slide_0ƒ¨children‚©slide_0_0„¤type¨Markdown¤text¦Before¨fontsizeË?©™™™™™š¥style‚¨position¨absolute¥color§#DCDCDC©slide_0_1„¤type¨Markdown¤text¥After¨fontsizeË?©™™™™™š¥style‚¨position¨absolute¥color§#DCDCDC¥style¯backgroundColor§#303030©animation’‚¡0Â¡1Ã‚¡0Ã¡1Â
