@@ -1,0 +1,16 @@
+# smithery.yaml  – container-based STDIO server, no user config needed
+runtime: container
+image: "davidf9999/gx-mcp-server:latest"
+
+startCommand:
+  type: stdio         # use STDIO transport (like calculator)
+  configSchema:       # empty schema ⇒ no API keys required
+    type: object
+    description: "No configuration necessary"
+  exampleConfig: {}
+
+metadata:
+  name: "gx-mcp-server"
+  description: "Expose Great Expectations data-quality checks as MCP tools"
+  homepage: "https://github.com/davidf9999/gx-mcp-server"
+  tags: ["data-quality", "great-expectations"]
