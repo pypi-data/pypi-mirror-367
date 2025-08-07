@@ -1,0 +1,67 @@
+# Taient SDK for Python
+
+```shell
+pip install taientsdk requests dotenv
+```
+
+```shell
+cat > .env<<EOF
+TAIENT_HRP_SERVER=...
+TAIENT_HRP_PORT=...
+EOF
+```
+
+```shell
+cat > demo.py<<EOF
+from dotenv import load_dotenv
+from taientsdk import TaientClient
+
+load_dotenv()
+
+if __name__ == "__main__":
+    # 1. init client
+    conf = {
+        "TAIENT_HRP_USERNAME": "your_username",
+        "TAIENT_HRP_PASSWORD": "your_password"
+    }
+    client = TaientClient(config=conf)
+
+    # 2. Obtain a list of candidates with contact information
+    # POST /exploree/search
+    search_payload = {
+        "page": 1,
+        "rowsPerPage": 10,
+        "searchParamList": [
+            {
+                "name": "有电话",
+                "typeValue": "contactTypes"
+            }
+        ]
+    }
+    hrp_response = client.hrp_post("/exploree/search", search_payload)
+    if hrp_response:
+        print("List of candidates with phone numbers:", client.get_data(hrp_response, dict))
+
+    # 3. Obtain contact information of a specific candidate
+    # GET /candidate/getCandidateContact?candidateId={exploreeId}
+    hrp_response = client.hrp_get("/candidate/getCandidateContact?candidateId=ea7d4851-48e9-4f40-9177-df9b41be2a36")
+    if hrp_response:
+        print("Candidate contact information:", client.get_data(hrp_response, dict))
+
+    # 4. Write a follow-up and determine whether it has been duplicated (within iSoftStone)
+    # GET /candidate/comment/{exploreeId}
+    comment = {
+        "commentText": "api测试跟进"
+    }
+    hrp_response = client.hrp_post("/candidate/comment/ea7d4851-48e9-4f40-9177-df9b41be2a36", comment)
+    if hrp_response:
+        print("Write follow-up information for candidate:", client.get_data(hrp_response, dict))
+
+    # 5. Obtain candidate details (optional)
+    # GET /candidate/getCandidateBasicInfo?candidateId={exploreeId}
+    hrp_response = client.hrp_get("/candidate/getCandidateBasicInfo?candidateId=2e0441d8-6bae-4424-a9f8-86c5726ba77d")
+    if hrp_response:
+        print("Detailed information of candidate:", client.get_data(hrp_response, dict))
+
+EOF
+```
