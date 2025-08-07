@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: TrakteerApiWrapper
+Version: 0.3
+Summary: A simple wrapper for the Trakteer API
+Home-page: https://github.com/IndraBagus0/TrakteerApiWrapper
+Author: Indra Bagus
+Author-email: indrabusiness00@gmail.com
+License: MIT
+Keywords: trakteer,api,wrapper,python
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# TrakteerApiWrapper
+
+[![Downloads](https://static.pepy.tech/badge/TrakteerApiWrapper)](https://pepy.tech/project/TrakteerApiWrapper)
+
+Python wrapper untuk Trakteer Public API.  
+Mudah digunakan untuk mengambil informasi seperti saldo saat ini, riwayat dukungan, riwayat transaksi, dan total jumlah donasi dari email tertentu.
+
+## ðŸ”— API Endpoint
+
+Base URL: `https://api.trakteer.id/v1/public`
+
+---
+
+## ðŸ”§ Install
+
+```bash
+pip install TrakteerApiWrapper
+```
+
+## Usage
+```python
+from TrakteerApiWrapper import TrakteerApi
+
+trakteer = TrakteerApi("enter_your_api_key_here")
+
+# Get current balance
+balance = trakteer.get_current_balance()
+print("Balance:", balance)
+
+# Get support history
+support_history = trakteer.get_support_history(limit=2, page=1, include=["is_guest", "reply_message", "net_amount", "payment_method", "order_id", "supporter_email", "updated_at_diff_label"])
+print("Support History:", support_history)
+
+# Get transaction history
+transactions = trakteer.get_transaction_history(limit=2, page=1, include=["is_guest", "reply_message", "net_amount", "updated_at_diff_label"])
+print("Transactions:", transactions)
+
+# Get quantity given
+quantity = trakteer.get_quantity_given("supporter@example.com")
+print("Quantity Given:", quantity)
+
+# please refer to https://trakteer.id/manage/api-trakteer
+```
