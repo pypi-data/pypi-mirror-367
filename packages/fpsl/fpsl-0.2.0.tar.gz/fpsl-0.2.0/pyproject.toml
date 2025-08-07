@@ -1,0 +1,127 @@
+[project]
+name = "fpsl"
+version = "0.2.0"
+description = "Fokker-Planck Score Learning: Efficient free-energy estimation under periodic boundary conditions"
+readme = "README.md"
+authors = [
+    { name = "braniii" }
+]
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = [
+    "fokker-planck",
+    "score-learning",
+    "free-energy estimation",
+    "jax",
+    "machine-learning",
+    "diffusion model",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "beartype>=0.21.0",
+    "flax>=0.10.6",
+    "jax[cuda,cuda12]==0.6.0",
+    "jax-dataloader>=0.1.3",
+    "jaxtyping>=0.2.36",
+    "matplotlib>=3.10.3",
+    "optax>=0.2.5",
+    "tqdm>=4.67.1",
+    "wandb>=0.20.1",
+]
+
+[project.urls]
+Documentation = "https://BereauLab.github.io/fokker-planck-score-learning"
+Repository = "https://github.com/BereauLab/fokker-planck-score-learning"
+Issues = "https://github.com/BereauLab/fokker-planck-score-learning/issues"
+Changelog = "https://BereauLab.github.io/fokker-planck-score-learning/changelog"
+
+[project.optional-dependencies]
+cuda = [
+    "jax[cuda12]>=0.6.0",
+]
+tpu = [
+    "jax[tpu]>=0.6.0",
+]
+
+[tool.uv]
+conflicts = [
+    [
+      { extra = "cuda" },
+      { extra = "tpu" },
+    ],
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E4", "E7", "E9", "F", "C901"]
+ignore = ["F722"]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+preview = true
+
+[tool.ruff.format]
+quote-style = "single"
+preview = true
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "ruff>=0.12.0",
+    "tox>=4.27.0",
+    "tox-uv>=1.26.1",
+]
+docs = [
+    "jupyter>=1.1.1",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-jupyter>=0.25.1",
+    "mkdocs-literate-nav>=0.6.2",
+    "mkdocs-material>=9.6.14",
+    "mkdocs-section-index>=0.3.10",
+    "mkdocstrings-python>=1.16.12",
+    "prettypyplot>=0.11.0",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+"**/{tests,docs}/*" = ["E402"]
+
+[tool.tox]
+requires = ["tox"]
+envlist = ["py310", "py311", "py312", "py313", "lint"]
+
+[tool.tox.env_run_base]
+description = "Run test under {base_python}"
+dependency_groups = ["dev"]
+commands = [["pytest"]]
+
+[tool.tox.env.lint]
+description = "Check code against coding style standards"
+dependency_groups = ["dev"]
+commands = [
+    ["ruff", "check"],
+    ["ruff", "format", "--check"],
+]
+
+[tool.tox.gh.python]
+"3.13" = ["py313"]
+"3.12" = ["lint", "py312"]
+"3.11" = ["py311"]
+"3.10" = ["py310"]
