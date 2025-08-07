@@ -1,0 +1,111 @@
+What’s new in version 0.4.0
+===========================
+Version available since 05 01 2021
+
+Bug fixed
+---------
+- PuLP library version changed from >=1.6.10 to 2.1: changed imports in
+  *general.optimisation.model*, as well as requirements.txt, setup.py and
+  associated docs.
+
+
+New functionalities
+-------------------
+
+Energy
+++++++
+
+Units
+*****
+- e_max and e_min parameters now add technical constraints (set_e_min and set_e_max) when set to a value.
+- e_tot upper bound is now set as the p_max value times the number of hours over the studied time period. The lower bound is either set to 0, or minus the upper bound if the unit is a storage unit.
+- the *add* methods put in place with parameters are now *_add* methods.
+- set_e_max constraint changed to set_e_max_period (respectively e_min)
+
+Consumption Units
+*****************
+- add imaginary parameter in SeveralConsumptionUnit
+
+Production Units
+****************
+- add new parameters : particle_emission (quantity) and rr_energy (True/False renewable and recovery energy unit)
+- add imaginary parameter in SeveralProductionUnit
+
+Energy Nodes
+************
+- add get_input_poles and get_output_poles
+
+General
++++++++
+
+Model
+*****
+- add lpfics (Linear Programming : Find Incompatible Constraint Sets) to
+help finding incompatible constraint sets in OMEGAlpes projects
+
+Utils
+*****
+- add plot_2D_pareto method
+
+Actors
+++++++
+Update the Actor structure
+- move Prosumer class into prosumer_actors.py
+- move Supplier class into supplier_actors.py
+
+Project Developer Actors
+*************************
+- create a ProjectDeveloper class as a new type of actor
+
+Operator Actor
+**************
+- add grid_operator_actors.py
+- add prosumer_actors.py
+- add supplier_actors.py
+
+Consumer Actor
+**************
+- use add_power_consumption_total_minimum or add_power_consumption_by_unit_minimum instead of add_power_consumption_minimum
+- use add_power_consumption_total_maximum or add_power_consumption_by_unit_maximum instead of add_power_consumption_maximum
+
+Producer Actor
+**************
+- use add_power_production_total_minimum or add_power_production_by_unit_minimum instead of add_power_production_minimum
+- use add_power_production_total_maximum or add_power_production_by_unit_maximum instead of add_power_production_maximum
+- add add_temporary_stop
+
+Deprecated
+----------
+- the name of the function set_operating_time_range changed to add_operating_time_range for code consistency. set_operating_time_range is now deprecated.
+
+Energy
+++++++
+
+Consumption Units
+*****************
+- delete SeveralImaginaryConsumptionUnit (use imaginary parameter in SeveralConsumptionUnit instead)
+
+Production Units
+****************
+- delete SeveralImaginaryProductionUnit (use imaginary parameter in SeveralProductionUnit instead)
+
+
+Actors
+++++++
+
+Consumer Actor
+**************
+- add_power_consumption_minimum (replaced by add_power_consumption_total_minimum)
+- add_power_consumption_maximum (replaced by add_power_consumption_total_maximum)
+
+Producer Actor
+**************
+- add_power_production_minimum (replaced by add_power_production_total_minimum)
+- add_power_production_maximum (replaced by add_power_production_total_minimum)
+
+
+Contributors
+------------
+
+Lou Morriet,
+Sacha Hodencq

@@ -1,0 +1,98 @@
+What’s new in version 0.5.0
+===========================
+Version available since ...
+
+Bug fixed
+---------
+
+Storage Units
+****************
+- e_min and e_max for both charging and discharging can be defined
+- The issues related to the charging and discharging rates of the storage unit have been resolved.
+- The issue causing a KeyError: 'storage_e_f_min' when directly specifying e_f — due to the model incorrectly adding constraints involving non-optimization variables—has been resolved.
+
+
+New functionalities
+-------------------
+
+Energy
+++++++
+
+Units
+*****
+
+Conversion Units
+****************
+
+Storage Units
+****************
+- StorageUnit updated from EnergyUnit to AssemblyUnit
+- Possibility to assign the capacity without assigning the maximum power of charging and discharging, default value equals to capacity value
+- e_min and e_max for both charging and discharging can be defined
+- The issues related to the charging and discharging rates of the storage unit have been resolved.
+- A new constraint, ef_geq_e0, has been added to the storage unit to softly enforce that the final state of charge (SOC) is at least equal to the initial SOC
+- The issue causing a KeyError: 'storage_e_f_min' when directly specifying e_f — due to the model incorrectly adding constraints involving non-optimization variables—has been resolved.
+
+Energy Nodes
+****************
+- Adapt the connect_units to the new StorageUnit
+
+
+Exergy
+++++++
+
+Units
+*****
+
+Thermal Exergy
+****************
+Updated in order to consider the new StorageUnit as an AssemblyUnit (methods _check_energy_unit and _check_energy_type)
+
+Electrical Exergy
+****************
+Updated in order to consider the new StorageUnit as an AssemblyUnit (methods _check_energy_unit and _check_energy_type)
+
+
+
+Energy Nodes
+************
+
+
+General
++++++++
+
+Model
+*****
+
+Utils
+*****
+
+
+Actors
+++++++
+
+
+Deprecated
+----------
+
+Energy
+++++++
+
+Consumption Units
+*****************
+
+Production Units
+****************
+
+
+Actors
+++++++
+
+Documentation
+-------------
+
+Contributors
+------------
+
+Sacha Hodencq,
+Mathieu Brugeron,

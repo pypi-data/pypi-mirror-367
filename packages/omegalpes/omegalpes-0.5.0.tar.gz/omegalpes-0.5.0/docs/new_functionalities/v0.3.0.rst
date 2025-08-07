@@ -1,0 +1,79 @@
+What’s new in version 0.3.0
+===========================
+Version available since 18th February 2020
+
+Bug fixed
+---------
+
+- Change pmin and pmax parameters of VariableEnergyUnits and its derivatives
+  (SeveralEnergyUnit, VariableConsumptionUnit, SeveralConsumptionUnit,
+  VariableProductionUnit, SeveralProductionUnit) into p_min and p_max
+
+
+New Functionalities
+-------------------
+
+Energy
+++++++
+
+Units
+*****
+
+- EnergyUnit has "minimize_exergy_destruction" and "minimize_exergy" objectives
+- FixedEnergyUnit takes into account Dataframe for power values
+- ElectricalConversionUnit created in conversion_units
+- ReversibleUnit created in a dedicated package in the energy.units folder.
+  ReversibleUnit is a new type of energy unit that can both produce or consume
+  energy, but not at the same time.
+- AssemblyUnits created in the energy_units package as an assembly of one or
+  several production, consumption and/or reversible unit. It is the parent
+  class of both conversion units and reversible units.
+- AssemblyUnit has "minimize_exergy_destruction" objective
+- ReversibleConversionUnit created in conversion units, enabling reversible
+  power flows (i.e. an electrical transformer). It is an AssemblyUnit of two
+  reversible units, one qualified as *upward* and another *downward*.
+- StorageUnit has a new attribute self_disch_t
+
+Exergy
+******
+
+- Exergy module created. Integration of the exergy approach in OMEGAlpes. With
+  the code of this branch, OMEGAlpes will be able to quantify thermal and
+  electrical exergy, as well as the destroyed exergy within any production,
+  consumption, storage or conversion unit.
+
+General
++++++++
+
+Optimisation
+************
+
+- HourlyDynamicConstraint deprecated and changed into
+  DailyDynamicConstraint, now used in set_operating_hours() (that replaced
+  add_operating_hours() )
+
+Utils
+*****
+
+- Titles as parameters in plot_quantities()
+- Add function get_value() to get int or list
+- Add get_value_with_dates() to get a dataframe
+- Add resample_data() to change the time step for a data set
+
+Deprecated
+----------
+Methods
++++++++
+- Deprecate add_operating_time_range() in class EnergyUnit
+
+Class
++++++
+- Deprecate HourlyDynamicConstraint in module Elements
+
+Contributors
+------------
+
+Lou Morriet,
+Sacha Hodencq,
+Mathieu Brugeron,
+Jaume Fito

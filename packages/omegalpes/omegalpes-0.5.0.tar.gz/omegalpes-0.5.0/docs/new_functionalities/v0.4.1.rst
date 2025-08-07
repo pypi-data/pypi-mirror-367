@@ -1,0 +1,93 @@
+What’s new in version 0.4.1
+===========================
+Version available since September 21, 2021
+
+Bug fixed
+---------
+Energy
+++++++
+
+Units
+*****
+- time.DT removed from the e_max and e_min calculation, since it is already taken into account in the e_tot calculation (see Issue #66)
+
+
+New functionalities
+-------------------
+
+Energy
+++++++
+
+Units
+*****
+
+Storage Units
+*************
+- Adding pd_max and pc_max ratio to link it to the storage capacity when optimising it with the minimize_capacity objective. Adding pc_max and pd_max quantities
+- Modifying the min_capacity objective by taking into account a maximum capacity and a initial value to SOC
+- Adding a minimize_gwp objective
+
+Energy Nodes
+************
+
+
+General
++++++++
+
+Model
+*****
+- Modifying the Pareto creation method by assigning a time limite of 60 seconds for the solving of each optimization problem
+
+Utils
+*****
+
+
+Actors
+++++++
+
+Producer Actor
+**************
+
+Prosumer Actor
+**************
+- adding the operated_storage_unit_list in order to allow the consideration of storage units into the prosumer area of responsibility
+- add a min_capacity actor objective which activate the min_capacity for all storage units in the prosumer area of responsability
+
+HeatGridOperator
+****************
+- allowing the StorageUnit class into the operated_unit_type_tuple parameter
+- add a min_capacity actor objective which activate the min_capacity for all storage units in the prosumer area of responsability
+
+
+ElectricityGridOperator
+***********************
+- allowing the StorageUnit class into the operated_unit_type_tuple parameter
+- add a min_capacity actor objective which activate the min_capacity for all storage units in the prosumer area of responsability
+
+
+Deprecated
+----------
+
+Energy
+++++++
+
+Consumption Units
+*****************
+
+Production Units
+****************
+
+
+Actors
+++++++
+
+Documentation
+-------------
+Completing OMEGAlpes documentation with exergy module and actors package description. Adding pages about the use of OMEGAlpes and the graphical interface
+
+Contributors
+------------
+
+Sacha Hodencq,
+Mathieu Brugeron,
+Lou Morriet

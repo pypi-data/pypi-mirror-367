@@ -1,0 +1,51 @@
+What’s new in version 0.5.0
+===========================
+Version available since August 7, 2025
+
+Bug fixed
+---------
+
+Storage Units
+****************
+- e_min and e_max for both charging and discharging can be defined
+- The issues related to the charging and discharging rates of the storage unit have been resolved.
+- The issue causing a KeyError: 'storage_e_f_min' when directly specifying e_f — due to the model incorrectly adding constraints involving non-optimization variables—has been resolved.
+
+Consumption Units
+****************
+- The issue causing distortion of the consumption profile of shiftable energy units—despite maintaining the same total energy consumption 
+has been resolved in the latest release.
+
+New functionalities
+-------------------
+
+Storage Units
+****************
+- StorageUnit updated from EnergyUnit to AssemblyUnit
+- Possibility to assign the capacity without assigning the maximum power of charging and discharging, default value equals to capacity value
+- e_min and e_max for both charging and discharging can be defined
+- A new constraint, ef_geq_e0, has been added to the storage unit to softly enforce that the final state of charge (SOC) is at least equal to the initial SOC
+- The issue causing a KeyError: 'storage_e_f_min' when directly specifying e_f — due to the model incorrectly adding constraints involving non-optimization variables—has been resolved.
+
+Energy Nodes
+****************
+- Adapt the connect_units to the new StorageUnit
+
+Thermal Exergy
+****************
+Updated in order to consider the new StorageUnit as an AssemblyUnit (methods _check_energy_unit and _check_energy_type)
+
+Electrical Exergy
+****************
+Updated in order to consider the new StorageUnit as an AssemblyUnit (methods _check_energy_unit and _check_energy_type)
+
+
+Documentation
+-------------
+
+The documentation has been updated to improve for users comprehensiveness
+
+Contributors
+------------
+
+Mainak DAN, Nana Kofi Baabu TWUM DUAH, Sacha HODENCQ, Benoit DELINCHANT
