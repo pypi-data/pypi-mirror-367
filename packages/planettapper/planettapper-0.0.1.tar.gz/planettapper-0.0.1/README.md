@@ -1,0 +1,18 @@
+# Description:
+The planetTAPper package can be used to search for a planet's attributes given its name.  planetTAPper relies on the the pyvo library in addition to the IVOA Table Access Protocol (TAP) and IVOA Astronomical Data Query Language.  Data is taken from the Planetary Systems Composite Data from the Nasa Exoplanet Archive
+
+All names can be found at: [Data Column Definitions](https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html)
+
+## Requirements & Installation:
+```
+pip install pyvo
+```
+The pyvo library requires affiliate libraries be installed
+```
+pip install numpy astropy requests
+```
+or install all required packages with 
+```
+pip install -r requirements.txt
+```
+[![A rectangular badge, half black half purple containing the text made at Code Astro](https://img.shields.io/badge/Made%20at-Code/Astro-blueviolet.svg)](https://semaphorep.github.io/codeastro/)
