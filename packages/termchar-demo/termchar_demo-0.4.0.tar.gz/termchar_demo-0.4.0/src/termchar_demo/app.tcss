@@ -1,0 +1,106 @@
+Tabs .underline--bar {
+    color: $secondary;
+}
+
+Client, Server {
+    border: solid $accent;
+    border-title-color: $text;
+    border-title-style: bold;
+    width: 1fr;
+
+    & Horizontal {
+        height: auto;
+    }
+}
+
+Arrows {
+    width: 10;
+    color: $primary-lighten-3;
+
+    & #right {
+        offset-y: 2;
+    }
+    & #left {
+        dock: bottom;
+        offset-y: -5;
+    }
+}
+
+Button {
+    border: tall $surface;
+}
+
+.active {
+    color: $secondary;
+}
+
+#input-buffer {
+    border: solid $primary;
+    border-title-color: $accent-lighten-3;
+    width: 100%;
+    height: 3;
+    hatch: horizontal $success 80%;
+    &.almost-full {
+        hatch: horizontal $warning;
+    }
+    &.full {
+        hatch: horizontal red;
+    }
+}
+
+#log {
+    border: solid $primary;
+    border-title-color: $accent-lighten-3;
+
+    &:focus {
+        border: solid $secondary;
+    }
+}
+
+#output:focus {
+    border: tall $secondary;
+}
+
+BasicServer #output.busy {
+    opacity: 100%;
+    & .input--placeholder {
+        color: $text-disabled;
+        text-style: none;
+    }
+}
+
+#output.busy, BasicServer #output.active {
+    opacity: 100%;
+    & .input--placeholder {
+        color: $secondary;
+        text-style: bold;
+    }
+}
+
+#read-termchars, #write-termchars, #timeout {
+    width: 1fr;
+    border: round $primary;
+    border-title-color: $accent-lighten-3;
+
+    &:focus {
+        border: round $secondary;
+        border-title-color: $secondary;
+    }
+}
+
+#timeout {
+    width: 13;
+    &.-valid:focus {
+        border: round $success;
+    }
+    &.-invalid {
+        border: round $error 60%;
+    }
+    &.-invalid:focus {
+        border: round $error;
+    }
+}
+
+#clear-button {
+    dock: right;
+}
