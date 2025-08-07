@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "just-distribute"
+version = "0.1.5"
+description = "Provides a @distribute decorator that enables concurrent execution of functions without boilerplate code."
+license = "MIT"
+authors = ["Jakub Gajski <jakub.gajski@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/jakubgajski/just_distribute"
+keywords = ["concurrency", "parallelism", "concurrent", "parallel", "decorator", "distributed"]
+packages = [
+    { include = "just_distribute" },
+]
+
+[tool.poetry.group.test]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+psutil = "^5.9.8"
+pathos = "^0.3.2"
+protobuf = ">=6.31.1"
+requests = ">=2.32.4"
+ray = {extras = ["client"], version = "^2.43.0"}
+
+
+[tool.poetry.group.test.dependencies]
+responses = "^0.25.0"
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
