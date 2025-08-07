@@ -1,0 +1,693 @@
+Metadata-Version: 2.4
+Name: vaultide
+Version: 0.1.0
+Summary: CLI interface for training biomolecular model LoRAs
+Author: Vaultide Team
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.0.0
+Requires-Dist: transformers>=4.30.0
+Requires-Dist: pandas<2.2.0,>=2.1.0
+Requires-Dist: scikit-learn>=1.3.0
+Requires-Dist: xgboost>=1.7.0
+Requires-Dist: peft>=0.4.0
+Requires-Dist: torchmetrics>=0.11.0
+Requires-Dist: tqdm>=4.65.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: numpy<2.0.0,>=1.25.0
+Requires-Dist: pydantic>=2.11.7
+Requires-Dist: pandas-stubs>=2.2.2.240807
+Requires-Dist: types-tqdm>=4.67.0.20250516
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: uvicorn>=0.35.0
+Requires-Dist: click>=8.1.8
+Requires-Dist: protobuf>=6.31.1
+Requires-Dist: esm>=2.0.0
+Dynamic: license-file
+
+# Vaultide
+
+A feature-agnostic command-line interface for running inference and training with biomolecular model LoRAs for a wide range of biomolecular tasks.
+
+## Features
+
+- **Inference Modes**: On-demand, batch, and streaming (API) inference
+- **Feature-Agnostic Training**: Train models with your own datasets using flexible feature definitions
+- **Smart Feature Detection**: Auto-detect common column names or specify custom features
+- **Model-Specific Validation**: Each model type defines its own required features and validation logic
+- **Model Management**: List and manage trained LoRA models with feature information
+- **Flexible Configuration**: Support for different model sizes and training parameters
+- **Extensible Architecture**: Easy to add new model types with different feature requirements
+- **Standard Directory Structure**: Uses `~/.vaultide/` for all data storage
+- **Biomolecular Focus**: Optimized for biomolecular sequence classification and modeling tasks
+- **Comprehensive Metrics**: AUROC, AUPRC, MCC, and confidence scores
+- **HTTP API**: Model-specific FastAPI servers for production-ready prediction endpoints
+
+## Installation
+
+### From PyPI
+
+```bash
+# Install from PyPI
+pip install vaultide
+
+# Run the CLI
+vaultide --help
+```
+
+### From Source
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd vaultide-cli
+
+# Install the CLI
+pip install -e .
+```
+
+## Directory Structure
+
+The CLI uses a standard directory structure under `~/.vaultide/`:
+
+```
+~/.vaultide/
+├── loras/
+│   └── esm2/            # Trained LoRA models for ESM-2
+├── data/                # User data storage
+└── config/              # Configuration files (future)
+```
+
+This follows standard practices for user-facing CLI tools, storing all data in the user's home directory. The directories are created automatically when you first run the CLI.
+
+## Inference Capabilities
+
+Vaultide provides three ways to run predictions, designed for different use cases from research to production.
+
+### 1. On-Demand Prediction
+For quick, single-sequence predictions directly from the command line. Ideal for interactive use and development.
+
+```bash
+# Predict a single sequence
+vaultide predict esm2 --lora my-trained-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
+```
+
+### 2. Batch Prediction
+For processing large datasets from a CSV file. It generates a detailed output directory with both predictions and compliance-ready metadata.
+
+- **Input**: CSV file with a sequence column.
+- **Output**: `predictions.csv` and `metadata.json`.
+- **Performance**: Optimized for high-throughput processing.
+
+```bash
+# Run batch prediction on a CSV file
+vaultide batch-predict esm2 --lora my-trained-model --input-csv examples.csv --output-dir ./predictions
+```
+
+### 3. Streaming (API)
+For production environments, Vaultide can launch a FastAPI server to serve models over a REST API. This allows for real-time predictions integrated into other applications.
+
+- **Endpoints**: `POST /predict`, `GET /model-info`, `GET /health`.
+- **Scalability**: Can be deployed with any ASGI server (e.g., Uvicorn, Gunicorn).
+
+```bash
+# Start a prediction server
+vaultide serve esm2 --lora my-trained-model --host 0.0.0.0 --port 8000
+
+# Send a prediction request
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"sequence": "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"}'
+```
+
+## Quick Start
+
+### 1. Run prediction with a trained LoRA
+
+```bash
+# Basic ESM-2 prediction
+vaultide predict esm2 --lora my-trained-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
+
+# ESM-2 prediction with custom LoRA strength
+vaultide predict esm2 --lora my-trained-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG" --lora-strength 0.5
+
+# ESM-2 verbose prediction with full details
+vaultide predict esm2 --lora my-trained-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG" --verbose
+
+# Basic ESMC prediction
+vaultide predict esmc --lora my-esmc-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
+
+# ESMC prediction with custom LoRA strength
+vaultide predict esmc --lora my-esmc-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG" --lora-strength 0.5
+
+# ESMC verbose prediction with full details
+vaultide predict esmc --lora my-esmc-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG" --verbose
+```
+
+### 2. Start a prediction server
+
+```bash
+# Start ESM-2 server with default settings (localhost:8000)
+vaultide serve esm2 --lora my-trained-model
+
+# Start ESM-2 server on specific host and port
+vaultide serve esm2 --lora my-trained-model --host 0.0.0.0 --port 8000
+
+# Start ESM-2 server with verbose logging
+vaultide serve esm2 --lora my-trained-model --verbose
+
+# Start ESMC server with default settings (localhost:8000)
+vaultide serve esmc --lora my-esmc-model
+
+# Start ESMC server on specific host and port
+vaultide serve esmc --lora my-esmc-model --host 0.0.0.0 --port 8000
+
+# Start ESMC server with verbose logging
+vaultide serve esmc --lora my-esmc-model --verbose
+```
+
+**API Endpoints:**
+- `GET /`: API information and available endpoints
+- `GET /health`: Health check
+- `GET /model-info`: Model information
+- `POST /predict`: Run prediction on protein sequence
+
+**Example API Usage:**
+```bash
+# Start server
+vaultide serve esm2 --lora my-model --host 0.0.0.0 --port 8000
+
+# Make prediction request
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sequence": "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG",
+    "lora_strength": 1.0,
+    "full_probabilities": false
+  }'
+```
+
+### 3. Train ESM-2 with auto-detected features
+
+```bash
+# Train with auto-detected columns (recommended)
+vaultide train esm2 \
+  --train-data /path/to/train.csv \
+  --val-data /path/to/val.csv \
+  --test-data /path/to/test.csv \
+  --epochs 5 \
+  --model-size 650m \
+  --learning-rate 1e-4
+```
+
+### 4. Train with custom feature columns
+
+```bash
+# Train ESM-2 with custom column names
+vaultide train esm2 \
+  --sequence-column window \
+  --label-column target \
+  --train-data /path/to/train.csv \
+  --val-data /path/to/val.csv \
+  --test-data /path/to/test.csv \
+  --epochs 10 \
+  --model-size 650m
+
+# Train ESMC with custom column names
+vaultide train esmc \
+  --sequence-column window \
+  --label-column target \
+  --train-data /path/to/train.csv \
+  --val-data /path/to/val.csv \
+  --test-data /path/to/test.csv \
+  --epochs 10 \
+  --model-size 300m
+```
+
+### 5. Check feature requirements
+
+```bash
+# See what features a model type requires
+vaultide features esm2
+
+# List all available models with feature information
+vaultide list models --json
+```
+
+### 6. List available models and trained LoRAs
+
+```bash
+# See all available base models
+vaultide list models
+
+# List trained LoRA models (defaults to esm2)
+vaultide list loras
+
+# List trained LoRAs for a specific model type
+vaultide list loras esm2
+
+# List trained LoRAs from a specific directory
+vaultide list loras esm2 --lora-base ~/.vaultide/loras/esm2/
+```
+
+## Available Commands
+
+### Prediction Commands
+
+```bash
+# Run prediction with trained LoRA
+vaultide predict esm2 --lora <model_name> --sequence <protein_sequence> [options]
+
+# Options:
+# --lora-strength: LoRA strength (0.0 to 2.0, default: 1.0)
+# --verbose: Show detailed output
+# --json: Output in JSON format
+# --output-file: Save results to file
+# --full-probabilities: Return full probability distribution
+
+# Run batch prediction on CSV file
+vaultide batch-predict esm2 --lora <model_name> --input-csv <input.csv> --output-dir <output_dir> [options]
+
+# Batch prediction options:
+# --input-csv: Path to input CSV file containing sequences
+# --output-dir: Directory to save output CSV and metadata files
+# --sequence-column: Name of sequence column (auto-detected if not specified)
+# --lora-strength: LoRA strength (0.0 to 2.0, default: 1.0)
+# --full-probabilities: Return full probability distribution
+# --batch-size: Batch size for processing (default: 32)
+# --verbose: Show detailed output
+```
+
+### Serve Commands
+
+```bash
+# Start FastAPI server for predictions
+vaultide serve esm2 --lora <model_name> [options]
+
+# Options:
+# --lora-strength: LoRA strength (0.0 to 2.0, default: 1.0)
+# --host: Host to bind server to (default: 127.0.0.1)
+# --port: Port to bind server to (default: 8000)
+# --verbose: Show verbose server logs
+```
+
+### Training Commands
+
+```bash
+# Train ESM-2 model
+vaultide train esm2 [options]
+```
+
+**Training Options:**
+- `--train-data`: Path to training data CSV (required)
+- `--val-data`: Path to validation data CSV (required)
+- `--test-data`: Path to test data CSV (required)
+- `--sequence-column`: Name of sequence column in CSV (auto-detected if not specified)
+- `--label-column`: Name of label column in CSV (default: label)
+- `--name`: Custom name for the LoRA model (optional, auto-generated if not provided)
+- `--baseline-batch-size`: Batch size for baseline training (default: 16)
+- `--lora-batch-size`: Batch size for LoRA training (default: 8)
+- `--epochs`: Number of training epochs (default: 5)
+- `--learning-rate`: Learning rate (default: 1e-4)
+- `--lora-r`: LoRA rank (default: 8)
+- `--lora-alpha`: LoRA alpha (default: 16)
+- `--no-baseline`: Skip baseline model training
+- `--model-size`: Model size (8m, 35m, 150m, 650m, 3b, 15b, default: 650m)
+
+### Feature Commands
+
+```bash
+# Show feature requirements for a model type
+vaultide features <model_type>
+
+# Examples:
+vaultide features esm2
+```
+
+### List Commands
+
+```bash
+# List available models with feature information
+vaultide list models [--json]
+
+# List trained LoRA models
+vaultide list loras [model_type] [--json] [--lora-base <path>]
+```
+
+##  Architecture
+
+Vaultide uses a modular, model-agnostic architecture:
+
+- **CLI Layer**: Model-agnostic command-line interface that routes to model-specific implementations
+- **Model Modules**: Each model type (ESM-2, etc.) implements its own training, prediction, and serving logic
+- **Feature System**: Flexible feature validation that adapts to each model's requirements
+- **Extensible Design**: Easy to add new model types without modifying the core CLI
+
+## Batch Prediction Output
+
+When using batch prediction, Vaultide creates a structured output with both predictions and comprehensive metadata for compliance and audit purposes.
+
+### Output Structure
+```
+output_directory/
+├── predictions.csv          # Predictions with original data + new columns
+└── metadata.json           # Comprehensive metadata for compliance
+```
+
+### Predictions CSV Format
+The output CSV contains all original columns plus:
+- `prediction`: Model prediction (float for binary, list for multi-class)
+- `confidence`: Confidence score for the prediction
+- `prediction_class_0`, `prediction_class_1`, etc.: Individual class probabilities (if --full-probabilities used)
+
+### Metadata JSON Format
+The metadata file includes:
+- **Input Information**: File path, hash, size, sequence column used
+- **Model Information**: LoRA name, path, configuration hash, parameters
+- **Processing Information**: Timing, validation errors, statistics
+- **System Information**: Python version, PyTorch version, device used
+- **Compliance Data**: Unique metadata ID, timestamps, file integrity hashes
+
+### Example Metadata
+```json
+{
+  "metadata_version": "1.0",
+  "generation_timestamp": "2024-01-15T10:30:00.123456",
+  "metadata_id": "550e8400-e29b-41d4-a716-446655440000",
+  "input_file": {
+    "path": "/path/to/input.csv",
+    "hash": "a1b2c3d4e5f6...",
+    "size_bytes": 1024,
+    "sequence_column": "window",
+    "total_rows": 1000,
+    "valid_rows": 995,
+    "invalid_rows": 5
+  },
+  "model": {
+    "lora_name": "my-trained-model",
+    "lora_strength": 1.0,
+    "full_probabilities": false,
+    "batch_size": 32
+  },
+  "processing": {
+    "processing_time_seconds": 45.2,
+    "validation_errors": ["Row 15: Invalid sequence..."]
+  }
+}
+```
+
+## Model File Formats
+
+Vaultide supports trained LoRA models in multiple formats:
+
+### Supported Weight File Formats
+- **`.bin`**: Traditional PyTorch binary format
+- **`.safetensors`**: Modern, secure tensor format (recommended)
+
+### Required Model Files
+Each trained LoRA model must contain:
+- `adapter_config.json`: Model configuration and metadata
+- `adapter_model.bin` OR `adapter_model.safetensors`: Model weights
+
+### Model Directory Structure
+```
+~/.vaultide/loras/esm2/
+├── my-trained-model/
+│   ├── adapter_config.json
+│   ├── adapter_model.safetensors  # or adapter_model.bin
+│   └── README.md (optional)
+└── another-model/
+    ├── adapter_config.json
+    └── adapter_model.bin
+```
+
+### Benefits of Safetensors
+- **Security**: Prevents arbitrary code execution during model loading
+- **Performance**: Faster loading times, especially for large models
+- **Compatibility**: Works with modern PyTorch and Hugging Face libraries
+- **Future-proof**: Recommended format for new models
+
+## Feature-Agnostic System
+
+Vaultide uses a feature-agnostic architecture where each model type defines its own required features and validation logic.
+
+### Current Model Types
+
+#### ESM-2 Model
+**Required Features:**
+- `sequence`: Protein sequence column (auto-detected if not specified)
+- `label`: Target label column for classification (default: label)
+
+**Use Cases:**
+- Protein function prediction
+- Protein-protein interaction prediction
+- Protein-ligand binding prediction
+- Protein stability prediction
+- Protein localization prediction
+- And many other biomolecular classification tasks
+
+**Auto-Detection Priority:**
+1. `sequence` (default)
+2. `window` (PTM prediction format)
+3. `protein_sequence`
+4. `seq`
+5. Any column containing 'sequence', 'seq', 'window', or 'protein'
+
+**Label Auto-Detection:**
+1. `label` (default)
+2. `target`
+3. `class`
+4. Any column containing 'label', 'target', 'class', or 'y'
+
+#### ESMC Model
+**Required Features:**
+- `sequence`: Protein sequence column (auto-detected if not specified)
+- `label`: Target label column for classification (default: label)
+
+**Use Cases:**
+- Protein function prediction
+- Protein-protein interaction prediction
+- Protein-ligand binding prediction
+- Protein stability prediction
+- Protein localization prediction
+- And many other biomolecular classification tasks
+
+**Model Details:**
+- Base model: `EvolutionaryScale/esmc-300m-2024-12`
+- 300M parameters
+- Optimized for protein sequence analysis
+
+**Auto-Detection Priority:**
+1. `sequence` (default)
+2. `window` (PTM prediction format)
+3. `protein_sequence`
+4. `seq`
+5. Any column containing 'sequence', 'seq', 'window', or 'protein'
+
+**Label Auto-Detection:**
+1. `label` (default)
+2. `target`
+3. `class`
+4. Any column containing 'label', 'target', 'class', or 'y'
+
+### Adding New Model Types
+
+The system is designed to be easily extensible with a **model-agnostic CLI architecture**. To add a new model type:
+
+#### 1. Create Feature Validator
+```python
+class NewModelFeatureValidator(FeatureValidator):
+    def __init__(self):
+        super().__init__("newmodel")
+        self.required_features = {"sequence", "label", "structure"}
+        self.optional_features = {"metadata"}
+        self.feature_descriptions = {
+            "sequence": "Protein sequence column",
+            "label": "Target label column",
+            "structure": "Protein structure file path",
+            "metadata": "Additional metadata (optional)"
+        }
+    
+    def validate_features(self, data_path: str, features: Dict[str, str]) -> Dict[str, str]:
+        # Custom validation logic...
+        return validated_features
+
+# Register the new model
+FEATURE_VALIDATORS["newmodel"] = NewModelFeatureValidator()
+```
+
+#### 2. Add Model Properties
+```python
+# In vaultide/cli/cli.py, extend get_model_properties()
+elif model_type == "newmodel":
+    model_sizes = {
+        "small": "your-model/small-variant",
+        "medium": "your-model/medium-variant",
+        "large": "your-model/large-variant",
+    }
+    size = model_size or "medium"
+    return {
+        "model_name": model_sizes.get(size, model_sizes["medium"]),
+        "model_size": size,
+    }
+```
+
+#### 3. Create Model-Specific Modules
+Create `vaultide/newmodel/` directory with:
+- `training_pipeline.py` - Training logic
+- `inference.py` - Single prediction logic  
+- `batch_inference.py` - Batch prediction logic
+- `serve.py` - FastAPI server logic
+
+#### 4. Register in CLI Routing
+```python
+# Add to function mappings in vaultide/cli/cli.py
+predict_functions = {
+    "esm2": self.predict_esm2,
+    "newmodel": self.predict_newmodel,  # Add this
+}
+
+batch_predict_functions = {
+    "esm2": self.batch_predict_esm2,
+    "newmodel": self.batch_predict_newmodel,  # Add this
+}
+
+serve_functions = {
+    "esm2": self._serve_esm2,
+    "newmodel": self._serve_newmodel,  # Add this
+}
+```
+
+#### 5. Usage
+Once registered, your new model type works with all CLI commands:
+
+```bash
+# Train
+vaultide train newmodel --train-data data.csv --val-data val.csv --test-data test.csv
+
+# Predict
+vaultide predict newmodel --lora my-model --sequence "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
+
+# Serve
+vaultide serve newmodel --lora my-model --host 0.0.0.0 --port 8000
+
+# List models
+vaultide list models  # Shows your new model type
+vaultide features newmodel  # Shows feature requirements
+```
+
+## Data Format
+
+The CLI supports flexible CSV formats with smart feature auto-detection:
+
+### Supported Column Names
+
+**Sequence Columns** (auto-detected in order):
+- `sequence` (default)
+- `window` (PTM prediction format)
+- `protein_sequence`
+- `seq`
+- Any column containing 'sequence', 'seq', 'window', or 'protein'
+
+**Label Columns** (auto-detected in order):
+- `label` (default)
+- `target`
+- `class`
+- Any column containing 'label', 'target', 'class', or 'y'
+
+### Example CSV Formats
+
+**Standard format:**
+```csv
+sequence,label
+MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG,0
+MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG,1
+```
+
+**PTM prediction template format:**
+```csv
+protein_id,window,position,label
+Q86U44,XXXXXMSDTWSSIQAHKKQLDSLRERLQRRRKQ,12,0
+Q86U44,XXXXMSDTWSSIQAHKKQLDSLRERLQRRRKQD,13,0
+Q86U44,AEKKGPGEVAGTVTGQKRRAEQDSTTVAAFASS,177,1
+Q86U44,VSGLNSSASEPAKEPAKKSRKHAASDVDLEIES,211,1
+```
+
+**Custom column names:**
+```csv
+protein_sequence,target
+MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG,0
+MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG,1
+```
+
+### Feature Specification
+
+You can specify custom feature columns using CLI options:
+
+```bash
+# Use custom column names
+vaultide train esm2 \
+  --sequence-column protein_sequence \
+  --label-column target \
+  --train-data data/train.csv \
+  --val-data data/val.csv \
+  --test-data data/test.csv
+
+# Let the system auto-detect (recommended)
+vaultide train esm2 \
+  --train-data data/train.csv \
+  --val-data data/val.csv \
+  --test-data data/test.csv
+```
+
+## Smart Auto-Detection
+
+The CLI automatically detects your data format and column names:
+
+1. **Feature Detection**: Looks for common column names based on model requirements
+2. **Data Validation**: Ensures sequences are strings and labels are numeric
+3. **Helpful Error Messages**: Provides clear guidance when features can't be found
+
+If auto-detection fails, you'll get a helpful error message like:
+```
+Could not detect sequence column. Please specify --sequence-column.
+Expected columns: sequence, window, protein_sequence, seq, or similar
+Available columns: ['protein_id', 'window', 'position', 'label']
+```
+
+## Model Sizes
+
+The CLI currently supports ESM-2 and ESM-C models with these sizes:
+
+| Size | Model                          | Parameters | Layers | Memory Usage | Speed     |
+|------|--------------------------------|------------|--------|--------------|-----------|
+| 8m   | `facebook/esm2_t6_8M_UR50D`    | 8M         | 6      | ~1GB         | Very Fast |
+| 35m  | `facebook/esm2_t12_35M_UR50D`  | 35M        | 12     | ~1.5GB       | Fast      |
+| 150m | `facebook/esm2_t30_150M_UR50D` | 150M       | 30     | ~2GB         | Medium    |
+| 650m | `facebook/esm2_t33_650M_UR50D` | 650M       | 33     | ~4GB         | Medium    |
+| 3b   | `facebook/esm2_t36_3B_UR50D`   | 3B         | 36     | ~12GB        | Slow      |
+| 15b  | `facebook/esm2_t48_15B_UR50D`  | 15B        | 48     | ~32GB        | Very Slow |
+| 300m | `ESMC_300M_202412`             | 300M       |        |              |           |
+| 600m | `ESMC_600M_202412`             | 300M       |        |              |           |
+
+### Future Models
+
+The architecture is designed to support additional biomolecular models:
+- **ESM-3**: Next-generation protein language models
+- **ProtBERT**: Protein-specific BERT models
+- **Multi-modal Models**: Models using both sequence and structure data
+- **RNA Models**: Models for RNA sequence analysis and structure prediction
+- **DNA Models**: Models for DNA sequence analysis and regulatory element prediction
+- **Small Molecule Models**: Models for drug-like molecule property prediction
+- **Custom Models**: User-defined biomolecular models for any domain

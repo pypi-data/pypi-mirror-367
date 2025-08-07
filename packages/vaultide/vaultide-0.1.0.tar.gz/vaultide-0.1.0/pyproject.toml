@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vaultide"
+version = "0.1.0"
+description = "CLI interface for training biomolecular model LoRAs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Vaultide Team"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "pandas>=2.1.0,<2.2.0",
+    "scikit-learn>=1.3.0",
+    "xgboost>=1.7.0",
+    "peft>=0.4.0",
+    "torchmetrics>=0.11.0",
+    "tqdm>=4.65.0",
+    "pyyaml>=6.0",
+    "numpy>=1.25.0,<2.0.0",
+    "pydantic>=2.11.7",
+    "pandas-stubs>=2.2.2.240807",
+    "types-tqdm>=4.67.0.20250516",
+    "fastapi>=0.116.1",
+    "uvicorn>=0.35.0",
+    "click>=8.1.8",
+    "protobuf>=6.31.1",
+    "esm>=2.0.0",
+]
+
+[project.scripts]
+vaultide = "vaultide.cli.main:main"
+
+[tool.setuptools.packages.find]
+include = ["*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt", "*.yaml", "*.yml"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
