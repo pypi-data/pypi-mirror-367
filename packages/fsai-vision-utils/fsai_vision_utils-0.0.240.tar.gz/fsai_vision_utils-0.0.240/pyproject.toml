@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "fsai-vision-utils"
+version = "v0.0.240"
+description = "Helper functions for vision processing."
+authors = ["Michael Mohamed <michael@foundationstack.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/fsai-dev/fsai-vision-utils"
+repository = "https://github.com/fsai-dev/fsai-vision-utils"
+
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+aws-batch-download = 'fsai_vision_utils.clis.aws_batch_download:main'
+coco-slice-dataset = 'fsai_vision_utils.clis.coco_slice_dataset:main'
