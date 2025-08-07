@@ -1,0 +1,52 @@
+# Copyright 2025 Lincoln Institute of Land Policy
+# SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "pgedr"
+version = "0.1.0"
+description = "An OGC API EDR implementation using SQL for pygeoapi"
+authors = [{name = "Benjamin Webb", email = "bwebb@lincolninst.edu"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cryptography>=44.0.3",
+    "geoalchemy2",
+    "psycopg2",
+    "pydantic",
+    "pygeoapi>=0.21.0",
+    "pymysql>=1.1.1",
+    "pytest",
+    "pytest-cov"
+]
+keywords = ['pygeoapi', 'edr', 'data']
+
+classifiers=[   # see https://pypi.org/classifiers/
+        'Development Status :: 4 - Beta',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Scientific/Engineering :: Atmospheric Science',
+        'Topic :: Scientific/Engineering :: GIS',
+        'Topic :: Scientific/Engineering :: Information Analysis'
+    ]
+
+[project.urls]
+Homepage = "https://github.com/internetofwater/pgedr"
+Repository = "https://github.com/internetofwater/pgedr"
+
+[tool.pytest.ini_options]
+addopts = "--cov=pgedr"

@@ -1,0 +1,135 @@
+Metadata-Version: 2.4
+Name: pgedr
+Version: 0.1.0
+Summary: An OGC API EDR implementation using SQL for pygeoapi
+Author-email: Benjamin Webb <bwebb@lincolninst.edu>
+License: MIT License
+        
+        Copyright (c) 2025 Lincoln Institute of Land Policy
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/internetofwater/pgedr
+Project-URL: Repository, https://github.com/internetofwater/pgedr
+Keywords: pygeoapi,edr,data
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering :: Atmospheric Science
+Classifier: Topic :: Scientific/Engineering :: GIS
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cryptography>=44.0.3
+Requires-Dist: geoalchemy2
+Requires-Dist: psycopg2
+Requires-Dist: pydantic
+Requires-Dist: pygeoapi>=0.21.0
+Requires-Dist: pymysql>=1.1.1
+Requires-Dist: pytest
+Requires-Dist: pytest-cov
+Dynamic: license-file
+
+# pygeoapi Environmental Data Retrieval
+
+This repository contains SQL [pygeoapi](https://github.com/geopython/pygeoapi) providers for OGC API - Environmental Data Retrieval (EDR).
+
+## OGC API - EDR
+
+The configuration for SQL OGC API - EDR follows that of pygeoapi for [OGC API - Features](https://docs.pygeoapi.io/en/latest/data-publishing/ogcapi-features.html#postgresql), with the addition of two sections `edr_fields` and `external_tables`.
+For more detailed documentation on the creation of a pygeoapi configuration file, refer
+to the [docs](https://docs.pygeoapi.io/en/latest/configuration.html).
+
+The `edr_fields` section defines the columns of your SQL table and their corresponding field in OGC API - EDR.
+The `external_tables` section allows foriegn table joins to allow `edr_fields` to refer to any table/column with a mapped relationship to the primary table.
+
+### Postgres
+
+The configuration for Postgres EDR is as follows:
+
+```yaml
+- type: edr
+  name: pg_edr.edr.PostgresEDRProvider
+  data: # Same as PostgresSQLProvider
+    host: ${POSTGRES_HOST}
+    dbname: ${POSTGRES_DB}
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    search_path: [capture]
+  table: waterservices_daily
+
+  edr_fields: # Required EDR Fields
+    id_field: id # Result identifier field
+    geom_field: geometry # Result identifier field
+    time_field: time # Result time field
+    location_field: monitoring_location_id # Result location identifier field
+    result_field: value # Result value field
+    parameter_id: parameter_code # Result parameter id field
+    parameter_name: waterservices_timeseries_metadata.parameter_name # Result parameter name field
+    parameter_unit: unit_of_measure # Result parameter unit field
+
+  external_tables: # Additional table joins
+    waterservices_timeseries_metadata: # JOIN waterservices_timeseries_metadata ON waterservices_daily.parameter_code=waterservices_timeseries_metadata.parameter_code
+      foreign: parameter_code
+      remote: parameter_code
+```
+
+### MySQL
+
+The configuration for MySQL EDR is as follows:
+
+```yaml
+- type: edr
+  name: pg_edr.edr.MySQLEDRProvider
+  data: # Same as MySQLProvider
+    host: ${MYSQL_HOST}
+    port: ${MYSQL_PORT}
+    dbname: ${MYSQL_DATABASE}
+    user: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    search_path: [${MYSQL_DATABASE}]
+  table: landing_observations
+
+  edr_fields: # Required EDR Fields
+    id_field: id
+    geom_field: airports.airport_locations.geometry_wkt
+    time_field: time
+    location_field: location_id
+    result_field: value
+    parameter_id: parameter_id
+    parameter_name: airport_parameters.name
+    parameter_unit: airport_parameters.units
+
+  external_tables: # Additional table joins
+    airports: # JOIN airports ON landing_observations.location_id=airports.code
+      foreign: location_id
+      remote: code
+    airports.airport_locations: # JOIN airport_locations ON airports.code=airport_locations.id
+      foreign: code
+      remote: id
+    airport_parameters: # JOIN airport_parameters ON landing_observations.parameter_id=airport_parameters.id
+      foreign: parameter_id
+      remote: id
+
+```
