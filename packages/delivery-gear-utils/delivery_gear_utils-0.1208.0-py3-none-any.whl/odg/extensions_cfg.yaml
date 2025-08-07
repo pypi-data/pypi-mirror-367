@@ -1,0 +1,81 @@
+defaults:
+  delivery_service_url: http://localhost:5000
+  delivery_dashboard_url: http://localhost:3000
+
+access_manager:
+  enabled: False
+
+artefact_enumerator:
+  enabled: False
+  components:
+    - component_name: ocm.software/ocm-gear
+      ocm_repo_url: europe-docker.pkg.dev/gardener-project/releases
+
+bdba:
+  enabled: False
+  mappings:
+    - prefix: ''
+      group_id: 0 # <int> must be set
+      bdba_secret_name: my-secret # <str> must be set
+
+cache_manager:
+  enabled: False
+  prefill_function_caches:
+    components:
+      - component_name: ocm.software/ocm-gear
+
+clamav:
+  enabled: False
+  mappings:
+    - prefix: ''
+
+crypto:
+  enabled: False
+  mappings:
+    - prefix: ''
+      standards:
+        - name: FIPS
+          version: 140-3
+          ref:
+            path: odg/crypto_defaults.yaml
+        - name: NCS
+          version: '1.0'
+          ref:
+            path: odg/crypto_defaults.yaml
+      libraries:
+        - ref:
+            path: odg/crypto_defaults.yaml
+
+delivery_db_backup:
+  enabled: False
+  component_name: my-component # <str> must be set
+  ocm_repo_url: my-ocm-repo # <str> must be set
+
+ghas:
+  enabled: False
+
+issue_replicator:
+  enabled: False
+  mappings:
+    - prefix: ''
+      github_repository: my-github-repository # <str> must be set
+
+osid:
+  enabled: False
+
+responsibles:
+  enabled: False
+  rules:
+    - name: match-all-rule
+      filters:
+        - type: match-all
+      strategies:
+        - type: component-responsibles
+
+sast:
+  enabled: False
+
+odg_operator:
+  enabled: False
+  required_extension_names: []
+  extension_ocm_references: []
