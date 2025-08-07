@@ -1,0 +1,77 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = "setuptools.build_meta"
+
+[project]
+name='versionoverlord'
+dynamic = ["version"]
+description = 'Dependency Manager'
+readme = "README.md"
+license = {text = 'GNU AFFERO GENERAL PUBLIC LICENSE'}
+authors = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+keywords = ['version management', 'dependencies', 'python',]
+
+classifiers = [
+  "Programming Language :: Python",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU Affero General Public License v3",
+  "Operating System :: MacOS :: MacOS X",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+  'codeallybasic>=1.10.0',
+  'PyGithub>=2.5.0',
+  'click>=8.1.7',
+  'semantic-version>=2.10.0',
+]
+
+[project.optional-dependencies]
+test = [
+    'mypy==1.14.0',
+    'mypy-extensions==1.0.0',
+    'types-requests',
+    'types-Deprecated==1.2.9.20240311',
+    'html-testRunner~=1.2.1',
+]
+
+deploy = [
+    "wheel==0.45.1",
+    "setuptools==75.6.0",
+    "twine==6.0.1",
+    "build==1.2.2.post1",
+]
+
+[project.urls]
+Repository = 'https://github.com/hasii2011/versionoverlord'
+
+
+[tool.setuptools.packages.find]
+where = ['src']
+
+[tool.setuptools.package-data]
+'versionoverlord.resources' = ['loggingConfiguration.json']
+
+[tool.setuptools.dynamic]
+version = {attr = 'versionoverlord.__version__'}
+
+[project.scripts]
+
+querySlugs          = "versionoverlord.commands.QuerySlugs:querySlugs"
+createSpecification = "versionoverlord.commands.CreateSpecification:createSpecification"
+updateDependencies  = "versionoverlord.commands.UpdateDependencies:updateDependencies"
+versionOverlord     = "versionoverlord.commands.VersionOverlord:versionOverlord"
+draftRelease        = 'versionoverlord.commands.DraftRelease:draftRelease'
+bumpVersion         = 'versionoverlord.commands.BumpVersion:bumpVersion'
+pickDependencies    = 'versionoverlord.commands.PickDependencies:pickDependencies'
+publishRelease      = 'versionoverlord.commands.PublishRelease:publishRelease'
+qs = "versionoverlord.commands.QuerySlugs:querySlugs"
+cs = "versionoverlord.commands.CreateSpecification:createSpecification"
+ud = "versionoverlord.commands.UpdateDependencies:updateDependencies"
+vo = "versionoverlord.commands.VersionOverlord:versionOverlord"
+dr = 'versionoverlord.commands.DraftRelease:draftRelease'
+bv = 'versionoverlord.commands.BumpVersion:bumpVersion'
+pd = 'versionoverlord.commands.PickDependencies:pickDependencies'
+pub = 'versionoverlord.commands.PublishRelease:publishRelease'
+
