@@ -1,0 +1,89 @@
+name: Tests
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - '!test_branch'
+      - '!documentation'
+  schedule:  # once a day at midnight UTC
+    - cron: '0 0 * * *'
+  pull_request: # requires approval for first-time contributors
+    types: [synchronize, opened, reopened, labeled]
+  workflow_dispatch: # Manually trigger with 'Run workflow' button
+
+concurrency: # Replace Cancel Workflow Action
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    defaults:
+     run:
+       shell: bash -l {0}
+    env:
+      OS: ubuntu-latest
+      PYTHON: '3.9'
+    services:
+      mysql:
+        image: datajoint/mysql:8.0
+        env: # args: mysql -h 127.0.0.1 -P 3308 -uroot -ptutorial -e "CMD;"
+          MYSQL_DATABASE: localhost
+          MYSQL_ROOT_PASSWORD: tutorial
+        ports:
+          - 3308:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON }}
+    - name: Set up conda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: spyglass
+        environment-file: environment.yml
+        miniforge-version: latest
+        use-mamba: true
+    - name: Install apt dependencies
+      run: |
+        sudo apt-get update # First mysql options
+        sudo apt-get install mysql-client libmysqlclient-dev libgirepository1.0-dev -y
+        sudo apt-get install ffmpeg libsm6 libxext6 -y # non-dlc position deps
+    - name: Run pip install for test deps
+      run: |
+        pip install --quiet .[test]
+    - name: Download data
+      env:
+        BASEURL: https://ucsf.box.com/shared/static/
+        NWB_URL: k3sgql6z475oia848q1rgms4zdh4rkjn.nwb
+        VID1URL: ykep8ek4ogad20wz4p0vuyuqfo60cv3w.h264
+        VID2URL: d2jjk0y565ru75xqojio3hymmehzr5he.h264
+        NWBFILE: minirec20230622.nwb
+        VID_ONE: 20230622_minirec_01_s1.1.h264
+        VID_TWO: 20230622_minirec_02_s2.1.h264
+        RAW_DIR: /home/runner/work/spyglass/spyglass/tests/_data/raw/
+        VID_DIR: /home/runner/work/spyglass/spyglass/tests/_data/video/
+      run: |
+        mkdir -p $RAW_DIR $VID_DIR
+        curl_opts() { # Declare func with download options
+          curl -L --output "$1""$2" "$BASEURL""$3"
+        }
+        curl_opts $RAW_DIR $NWBFILE $NWB_URL
+        curl_opts $VID_DIR $VID_ONE $VID1URL
+        curl_opts $VID_DIR $VID_TWO $VID2URL
+    - name: Move actions coveragerc
+      run: mv tests/.coveragerc .coveragerc
+    - name: Run tests
+      run: |
+        pytest --no-docker --no-dlc \
+          --cov-config=.coveragerc --cov=spyglass-neuro --cov-report=xml \
+          tests/
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
