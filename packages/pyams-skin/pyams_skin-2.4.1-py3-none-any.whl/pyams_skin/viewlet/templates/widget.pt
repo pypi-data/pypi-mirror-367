@@ -1,0 +1,11 @@
+<tal:if define="widget view.view"
+		switch="widget.mode">
+	<tal:if case="'hidden'">
+		${structure:widget()}
+	</tal:if>
+	<tal:if case="default">
+		<i tal:omit-tag="">${structure:provider:pyams.header}</i>
+		<i tal:omit-tag="">${structure:widget()}</i>
+		<i tal:omit-tag="">${structure:provider:pyams.footer}</i>
+	</tal:if>
+</tal:if>

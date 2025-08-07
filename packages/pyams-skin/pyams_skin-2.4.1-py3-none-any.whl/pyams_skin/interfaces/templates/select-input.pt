@@ -1,0 +1,43 @@
+<select id="${view.id}"
+        name="${view.name}"
+        class="form-control select2 ${view.klass}"
+        style="${view.style}"
+        lang="${view.lang}"
+        onclick="${view.onclick}"
+        ondblclick="${view.ondblclick}"
+        onmousedown="${view.onmousedown}"
+        onmouseup="${view.onmouseup}"
+        onmouseover="${view.onmouseover}"
+        onmousemove="${view.onmousemove}"
+        onmouseout="${view.onmouseout}"
+        onkeypress="${view.onkeypress}"
+        onkeydown="${view.onkeydown}"
+        onkeyup="${view.onkeyup}"
+        disabled="${view.disabled}"
+        tabindex="${view.tabindex}"
+        onfocus="${view.onfocus}"
+        onblur="${view.onblur}"
+        onchange="${view.onchange}"
+        multiple="${view.multiple}"
+        size="${view.size}"
+        tal:define="placeholder view.placeholder | nothing;
+                    ajax_url view.ajax_url | nothing;
+                    view_data tales:object_data(view);"
+        data-allow-clear="${'true' if placeholder and not view.required else None}"
+        data-placeholder="${placeholder}"
+        data-ajax--url="${ajax_url}"
+        data-ajax--params='${view.ajax_params | nothing}'
+        data-minimum-input-length="${'2' if ajax_url else None}"
+        data-ams-data='${view_data}'>
+    <tal:if condition="placeholder">
+        <option></option>
+    </tal:if>
+    <tal:if condition='"\"data\"" not in (view_data or "")'>
+        <tal:loop repeat="item view.items">
+            <option id="${item['id']}"
+                    value="${item['value']}"
+                    selected="${'selected' if item['selected'] else None}">${item['content']}</option>
+        </tal:loop>
+    </tal:if>
+</select>
+<input name="${view.name}-empty-marker" type="hidden" value="1" />

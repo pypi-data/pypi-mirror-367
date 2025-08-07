@@ -1,0 +1,18 @@
+<div class="custom-control custom-switch border-0">
+    <tal:loop repeat="item view.items">
+        <input type="checkbox"
+               class="custom-control-input"
+               id="${item['id']}"
+               name="${item['name']}"
+               value="${item['value']}"
+               checked="${'checked' if item['checked'] else None}"
+               data-ams-data="${tales:object_data(view)}" />
+        <label for="${item['id']}"
+               class="custom-control-label">
+            <i tal:omit-tag="">${item['label']}</i>
+        </label>
+    </tal:loop>
+    <input type="hidden"
+           name="${view.name}-empty-marker"
+           value="1" />
+</div>

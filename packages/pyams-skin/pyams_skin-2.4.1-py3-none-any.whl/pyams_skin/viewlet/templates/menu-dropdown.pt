@@ -1,0 +1,13 @@
+<div class="d-flex dropdown mx-1">
+	<span class="btn btn-${view.status} ${view.css_class} dropdown-toggle"
+		  data-toggle="dropdown" aria-expanded="false">
+		<i tal:condition="view.icon_class"
+		   class="fa-fw ${view.icon_class}"></i>
+		<i tal:omit-tag="" i18n:translate="">${view.label}</i>
+	</span>
+	<span class="dropdown-menu">
+		<tal:loop repeat="viewlet view.viewlets">
+			${structure:viewlet.render()}
+		</tal:loop>
+	</span>
+</div>

@@ -1,0 +1,26 @@
+<table class="table border border-top-0 table-xs datatable width-100"
+	   data-ams-modules="plugins"
+	   data-searching="false" data-info="false" data-paging="false" data-ordering="false"
+	   data-row-reorder='{
+		"update": false
+	   }'
+	   data-ams-reorder-input-target="#${view.id}">
+	<thead class="hidden">
+		<tr>
+			<th data-ams-column='{"className": "reorder"}'></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr tal:repeat="term view.value"
+			id="${view.id}-${repeat['term'].index}"
+			data-ams-row-value="${term}">
+			<td><i class="fas fa-arrows-alt-v"></i></td>
+			<td>${view.terms.getTerm(term).title}</td>
+		</tr>
+	</tbody>
+</table>
+<input type="hidden"
+	   id="${view.id}"
+	   name="${view.name}"
+	   value="${';'.join(view.value or ())}" />

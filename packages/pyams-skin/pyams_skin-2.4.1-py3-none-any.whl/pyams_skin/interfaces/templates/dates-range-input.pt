@@ -1,0 +1,19 @@
+<div class="${view.klass} d-flex"
+	 i18n:domain="pyams_skin">
+	<tal:loop repeat="widget view.widgets">
+		<div class="col-form-label px-2">
+			<label for="${widget.id}">
+				<span tal:condition="repeat['widget'].start()"
+					  i18n:translate="">${view.field.from_label}</span>
+				<span tal:condition="repeat['widget'].end()"
+					  i18n:translate="">${view.field.to_label}</span>
+			</label>
+		</div>
+		<div class="widget">
+			<div class="multi-widget-input">
+				${structure:widget.render()}
+			</div>
+		</div>
+	</tal:loop>
+	${structure:view.counter_marker}
+</div>
