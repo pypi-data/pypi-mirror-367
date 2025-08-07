@@ -1,0 +1,67 @@
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - "main"
+  schedule:
+    - cron: "0 0 * * *"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 is tested via /.builds/alpine-py311.yml
+        # TODO: move these oldest pythons to sr.ht job in docker
+        python: ["3.9", "3.10"]
+    name: postgres, python${{ matrix.python }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install tox
+      - run: sudo apt-get update && sudo apt-get install libpq-dev
+      - run: tox -e py-postgres
+  mysql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mariadb
+        env:
+          MARIADB_PASSWORD: mysql
+          MARIADB_ROOT_PASSWORD: mysql
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
+        ports:
+          - 3306:3306
+    strategy:
+      fail-fast: false
+    name: mysql
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - run: pip install tox
+      - run: sudo apt-get update && sudo apt-get install libmysqlclient-dev
+      - run: tox -e py-mysql
