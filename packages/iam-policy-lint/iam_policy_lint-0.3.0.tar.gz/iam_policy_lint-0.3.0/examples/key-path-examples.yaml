@@ -1,0 +1,78 @@
+# Example YAML showing different key path patterns for embedded IAM policies
+
+# 1. Kubernetes-style with arrays (spec.resourceConfig.inlinePolicy[].policy)
+apiVersion: eks.olo.com/v1beta1
+kind: ADMINIRSA
+metadata:
+  name: k8s-example
+spec:
+  resourceConfig:
+    inlinePolicy:
+    - name: s3-access
+      policy: |
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["s3:GetObject"],
+              "Resource": "arn:aws:s3:::my-bucket/*"
+            }
+          ]
+        }
+
+---
+# 2. ConfigMap with data.policy (data.policy)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: policy-config
+data:
+  policy: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": ["logs:CreateLogGroup"],
+          "Resource": "*"
+        }
+      ]
+    }
+
+---
+# 3. Terraform-style with parameters (parameters.PolicyDocument)
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  PolicyDocument:
+    Type: String
+    Default: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": ["ec2:DescribeInstances"],
+            "Resource": "*"
+          }
+        ]
+      }
+
+---
+# 4. Annotation-based (metadata.annotations."iam.policy")
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: service-account-example
+  annotations:
+    "iam.policy": |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": ["dynamodb:GetItem"],
+            "Resource": "arn:aws:dynamodb:us-east-1:123456789012:table/MyTable"
+          }
+        ]
+      }

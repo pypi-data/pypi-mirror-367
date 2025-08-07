@@ -1,0 +1,179 @@
+# Parliament Configuration Override
+# This file provides severity mappings for Parliament's community auditors
+# and custom configuration for IAM policy linting
+
+# Credential exposure issues - These are critical security risks
+CREDENTIALS_EXPOSURE:
+  title: "Credential Exposure Risk"
+  description: "Policy allows actions that could expose AWS credentials or temporary tokens"
+  severity: HIGH
+
+# Permission management actions - High risk as they can modify access controls
+PERMISSIONS_MANAGEMENT_ACTIONS:
+  title: "Permission Management Actions"
+  description: "Policy allows modification of IAM permissions and access controls"
+  severity: HIGH
+
+# Privilege escalation vulnerabilities - Critical security risks
+PRIVILEGE_ESCALATION:
+  title: "Privilege Escalation Risk"
+  description: "Policy allows actions that could be used to escalate IAM privileges"
+  severity: CRITICAL
+
+# General IAM policy issues
+RESOURCE_STAR:
+  title: "Overly Broad Resource Access"
+  description: "Policy uses wildcard (*) resources which may be overly permissive"
+  severity: MEDIUM
+
+# Unknown actions
+UNKNOWN_ACTION:
+  title: "Unknown Action"
+  description: "Policy references actions that are not recognized"
+  severity: LOW
+
+# Resource mismatches
+RESOURCE_MISMATCH:
+  title: "Resource Mismatch"
+  description: "Resources specified do not match the requirements for the actions"
+  severity: MEDIUM
+
+# Invalid policy versions
+INVALID_VERSION:
+  title: "Invalid Policy Version"
+  description: "Policy uses an invalid or unsupported version"
+  severity: HIGH
+
+# Old policy versions
+OLD_VERSION:
+  title: "Outdated Policy Version"
+  description: "Policy uses an outdated version format"
+  severity: LOW
+
+# Malformed policies
+MALFORMED:
+  title: "Malformed Policy"
+  description: "Policy structure is malformed or invalid"
+  severity: HIGH
+
+# Condition issues
+UNKNOWN_CONDITION_FOR_ACTION:
+  title: "Invalid Condition Key"
+  description: "Policy uses condition keys that are not valid for the specified actions"
+  severity: MEDIUM
+
+MISMATCHED_TYPE:
+  title: "Condition Type Mismatch"
+  description: "Policy condition value type does not match expected type"
+  severity: LOW
+
+UNKNOWN_OPERATOR:
+  title: "Unknown Condition Operator"
+  description: "Policy uses an unknown or invalid condition operator"
+  severity: MEDIUM
+
+# Data exposure issues
+DATA_EXPOSURE:
+  title: "Data Exposure Risk"
+  description: "Policy may allow unauthorized access to sensitive data"
+  severity: HIGH
+
+# Network exposure issues
+NETWORK_EXPOSURE:
+  title: "Network Exposure Risk"
+  description: "Policy may allow unauthorized network access"
+  severity: MEDIUM
+
+# General security issues
+SECURITY_ISSUE:
+  title: "Security Issue"
+  description: "Policy contains potential security vulnerabilities"
+  severity: MEDIUM
+
+# Data exfiltration risks
+DATA_EXFILTRATION:
+  title: "Data Exfiltration Risk"
+  description: "Policy allows actions that could be used to exfiltrate data"
+  severity: HIGH
+  group: SECURITY
+
+# Resource exposure issues
+RESOURCE_EXPOSURE:
+  title: "Resource Exposure"
+  description: "Policy allows actions that could expose AWS resources publicly"
+  severity: MEDIUM
+  group: SECURITY
+
+# Network security issues
+NETWORK_EXPOSURE:
+  title: "Network Exposure"
+  description: "Policy allows network configuration changes that could expose resources"
+  severity: MEDIUM
+  group: SECURITY
+
+# Malformed policies - Should be fixed immediately
+MALFORMED:
+  title: "Malformed Policy"
+  description: "Policy has structural issues or syntax errors"
+  severity: HIGH
+  group: SYNTAX
+
+# Unknown actions - Usually indicates typos or deprecated actions
+UNKNOWN_ACTION:
+  title: "Unknown Action"
+  description: "Policy references actions that don't exist in AWS"
+  severity: MEDIUM
+  group: SYNTAX
+
+# Resource mismatches - Actions don't apply to the specified resources
+RESOURCE_MISMATCH:
+  title: "Resource Mismatch"
+  description: "Actions in policy don't apply to the specified resource types"
+  severity: MEDIUM
+  group: SYNTAX
+
+# Wildcard usage - Can be overly permissive
+WILDCARD_ACTION:
+  title: "Wildcard Action"
+  description: "Policy uses wildcard (*) in actions which may be overly permissive"
+  severity: MEDIUM
+  group: BEST_PRACTICES
+
+WILDCARD_RESOURCE:
+  title: "Wildcard Resource"
+  description: "Policy uses wildcard (*) in resources which may be overly permissive"
+  severity: MEDIUM
+  group: BEST_PRACTICES
+
+# Service-specific security issues
+S3_EXPOSURE:
+  title: "S3 Exposure Risk"
+  description: "Policy allows potentially dangerous S3 actions"
+  severity: MEDIUM
+  group: SECURITY
+
+EC2_EXPOSURE:
+  title: "EC2 Exposure Risk"
+  description: "Policy allows potentially dangerous EC2 actions"
+  severity: MEDIUM
+  group: SECURITY
+
+IAM_EXPOSURE:
+  title: "IAM Exposure Risk"
+  description: "Policy allows potentially dangerous IAM actions"
+  severity: HIGH
+  group: SECURITY
+
+# Default settings for any unlisted findings
+DEFAULT:
+  title: "Security Finding"
+  description: "Policy contains a potential security issue"
+  severity: MEDIUM
+  group: SECURITY
+
+# Ignore locations - Add patterns here to suppress specific findings
+# ignore_locations:
+#   - filepath: "examples/test-policy.json"
+#     issue: "WILDCARD_ACTION"
+#   - filepath: ".*development.*"
+#     severity: "LOW"
