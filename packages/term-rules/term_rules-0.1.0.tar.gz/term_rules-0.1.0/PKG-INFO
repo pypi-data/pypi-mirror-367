@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: term-rules
+Version: 0.1.0
+Summary: Transparent Easy Rule Model (credit scoring rules)
+Project-URL: Homepage, https://github.com/yourname/term-rules
+Project-URL: Issues, https://github.com/yourname/term-rules/issues
+Author-email: Your Name <you@example.com>
+License: MIT License
+        
+        Copyright (c) 2025 朱孟宇
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the “Software”), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice (including the next
+        paragraph) shall be included in all copies or substantial portions of the
+        Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Requires-Dist: bitarray>=2.5.1
+Requires-Dist: catboost>=1.2
+Requires-Dist: eventlet>=0.33.3
+Requires-Dist: gmpy2>=2.1.2
+Requires-Dist: lightgbm>=4.0
+Requires-Dist: mpmath>=1.3.0
+Requires-Dist: numpy>=1.22.3
+Requires-Dist: pandas>=1.5.3
+Requires-Dist: plotly>=5.0
+Requires-Dist: scikit-learn>=1.2.2
+Requires-Dist: scipy>=1.8.0
+Requires-Dist: tqdm>=4.65.0
+Requires-Dist: xgboost>=1.7.6
+Description-Content-Type: text/markdown
+
+# term-rules
+
+Transparent Easy Rule Model（基于树模型的规则抽取与评估，German Credit 示例）。
+
+> 安装（包名）：`pip install term-rules`  
+> 导入（代码包）：`import term`（因为源码目录叫 `term/`）
+
+## 快速开始
+```python
+from term import Rule
+r = Rule("CreditHistory <= 3.5 & Duration > 11.5 & Savings <= 1.5")
+mask = r(df)  # True 表示命中该规则

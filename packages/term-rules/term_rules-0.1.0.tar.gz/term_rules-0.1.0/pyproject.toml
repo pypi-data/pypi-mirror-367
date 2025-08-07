@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "term-rules"               # 若以后用 "term" 就把这里改成 "term"
+version = "0.1.0"
+description = "Transparent Easy Rule Model (credit scoring rules)"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+# 运行时依赖（你的清单）
+dependencies = [
+  "numpy>=1.22.3",
+  "scipy>=1.8.0",
+  "scikit-learn>=1.2.2",     # ✅ 已包含 AdaBoost 和 GBDT
+  "gmpy2>=2.1.2",
+  "pandas>=1.5.3",
+  "bitarray>=2.5.1",
+  "tqdm>=4.65.0",
+  "plotly>=5.0",
+  "catboost>=1.2",
+  "lightgbm>=4.0",
+  "xgboost>=1.7.6",
+  "eventlet>=0.33.3",
+  "mpmath>=1.3.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/yourname/term-rules"
+Issues   = "https://github.com/yourname/term-rules/issues"
+
+# wheel 里只放 term/ 这个包
+[tool.hatch.build.targets.wheel]
+packages = ["term"]
+
+# sdist 额外包含的文件/目录
+[tool.hatch.build.targets.sdist]
+include = [
+  "/term",
+  "/README.md",
+  "/LICENSE",
+  "/MANIFEST.in",
+  "/pyproject.toml",
+  "/tests"
+]
