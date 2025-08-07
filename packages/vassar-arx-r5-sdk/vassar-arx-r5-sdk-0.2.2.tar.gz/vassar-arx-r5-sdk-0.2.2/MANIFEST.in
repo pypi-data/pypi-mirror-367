@@ -1,0 +1,29 @@
+include README.md
+include LICENSE
+include pyproject.toml
+
+# Include all source files
+recursive-include vassar_arx_r5_sdk *.py
+recursive-include vassar_arx_r5_sdk *.cpp
+recursive-include vassar_arx_r5_sdk *.hpp
+recursive-include vassar_arx_r5_sdk *.h
+recursive-include vassar_arx_r5_sdk CMakeLists.txt
+recursive-include vassar_arx_r5_sdk *.sh
+
+# Include URDF files
+recursive-include vassar_arx_r5_sdk *.urdf
+
+# Include pre-built libraries
+recursive-include vassar_arx_r5_sdk *.so
+recursive-include vassar_arx_r5_sdk/bimanual/lib/arx_r5_src *.so
+
+# Include header files
+recursive-include vassar_arx_r5_sdk/bimanual/lib/arx_r5_src/include *
+recursive-include vassar_arx_r5_sdk/bimanual/lib/arx_hardware_interface/include *
+
+# Exclude build artifacts
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .gitignore
+global-exclude build/
+global-exclude *.egg-info/

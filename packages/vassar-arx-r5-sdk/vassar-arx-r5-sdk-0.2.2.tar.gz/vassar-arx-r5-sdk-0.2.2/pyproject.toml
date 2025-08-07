@@ -1,0 +1,63 @@
+[build-system]
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "pybind11>=2.6.0",
+    "cmake>=3.18",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vassar-arx-r5-sdk"
+version = "0.2.2"
+description = "Python SDK for ARX R5 Robot Arm Control"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "BSD-3-Clause"}
+authors = [
+    {name = "ARXrobotics", email = "contact@arx-x.com"},
+]
+maintainers = [
+    {name = "Vassar"},
+]
+keywords = ["robotics", "robot arm", "ARX", "R5", "control"]
+classifiers = []
+dependencies = [
+    "numpy>=1.19.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ARXroboticsX/R5"
+"Bug Reports" = "https://github.com/ARXroboticsX/R5/issues"
+Source = "https://github.com/ARXroboticsX/R5"
+
+[project.optional-dependencies]
+dev = [
+    "pybind11>=2.6.0",
+    "cmake>=3.18",
+]
+
+[tool.setuptools.packages.find]
+include = ["vassar_arx_r5_sdk*"]
+
+[tool.setuptools.package-data]
+vassar_arx_r5_sdk = [
+    "bimanual/script/*.urdf",
+    "bimanual/lib/*.so",
+    "bimanual/lib/*.hpp", 
+    "bimanual/lib/arx_r5_src/*.so",
+    "bimanual/lib/arx_r5_src/include/**/*",
+    "bimanual/lib/arx_hardware_interface/include/**/*",
+    "bimanual/src/*.cpp",
+    "bimanual/src/*.hpp",
+    "bimanual/CMakeLists.txt",
+    "bimanual/build.sh",
+    "setup.sh",
+    "build.sh",
+]
+
+# Note: This package is distributed as source only (sdist) because:
+# 1. It contains pre-built .so files that are not manylinux compatible
+# 2. PyPI does not accept wheels with linux_x86_64 platform tags
+# 3. Users will need to have the required system dependencies installed
+# See .github/workflows/build-and-publish-ubuntu.yml for the build process
