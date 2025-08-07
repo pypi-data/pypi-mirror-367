@@ -1,0 +1,160 @@
+name: 📦 Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      test_only:
+        description: 'Publish to TestPyPI only'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: 🧪 Run tests
+      run: |
+        pytest tests/ -v --cov=src/docx_image_extractor_mcp --cov-report=xml
+    
+    - name: 📊 Upload coverage to Codecov
+      if: matrix.python-version == '3.11'
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  build:
+    name: 🏗️ Build Package
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: 📦 Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine wheel setuptools
+    
+    - name: 🏗️ Build package
+      run: python -m build
+    
+    - name: 🔍 Check package
+      run: |
+        python -m twine check dist/*
+        ls -la dist/
+    
+    - name: 📤 Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+  publish-test:
+    name: 🚀 Publish to TestPyPI
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release'
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/docx-image-extractor-mcp/
+    
+    steps:
+    - name: 📥 Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: 🚀 Publish to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        skip-existing: true
+
+  publish-pypi:
+    name: 🎉 Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [build, publish-test]
+    if: github.event_name == 'release' && !inputs.test_only
+    environment:
+      name: pypi
+      url: https://pypi.org/project/docx-image-extractor-mcp/
+    
+    steps:
+    - name: 📥 Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: 🎉 Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
+  create-github-release:
+    name: 📋 Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: publish-pypi
+    if: github.event_name == 'release'
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 📥 Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: 📋 Update release with artifacts
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*
+        body: |
+          ## 🎉 新版本发布
+          
+          ### 📦 安装方式
+          ```bash
+          pip install docx-image-extractor-mcp
+          ```
+          
+          ### 🔗 相关链接
+          - [PyPI 页面](https://pypi.org/project/docx-image-extractor-mcp/)
+          - [使用文档](https://github.com/docx-image-extractor/docx-image-extractor-mcp/blob/main/README.md)
+          - [配置指南](https://github.com/docx-image-extractor/docx-image-extractor-mcp/blob/main/docs/WINDOWS_SETUP_GUIDE.md)
+          
+          ### 📝 更新日志
+          请查看 [CHANGELOG.md](https://github.com/docx-image-extractor/docx-image-extractor-mcp/blob/main/CHANGELOG.md) 了解详细更新内容。

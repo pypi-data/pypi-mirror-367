@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  docx-extractor:
+    build: .
+    container_name: docx-image-extractor-mcp
+    volumes:
+      - ./extracted_images:/app/extracted_images
+      - ./test_documents:/app/test_documents:ro
+    environment:
+      - PYTHONPATH=/app
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    
+  # 开发环境服务
+  dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: docx-extractor-dev
+    volumes:
+      - .:/app
+      - /app/.git
+    environment:
+      - PYTHONPATH=/app
+    ports:
+      - "8001:8000"
+    command: python -m docx_image_extractor_mcp
+    restart: unless-stopped
