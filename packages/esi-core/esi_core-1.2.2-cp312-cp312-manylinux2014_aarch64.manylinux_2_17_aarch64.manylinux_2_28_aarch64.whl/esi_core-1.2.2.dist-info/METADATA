@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: esi-core
+Version: 1.2.2
+Summary: Repository for compiled code used by ESI projects.
+Author-email: Eric Thompson <emthompsone@usgs.gov>, Bruce Worden <cbworden@contractor.usgs.gov>, Gabe Ferragut <gferragut@usgs.gov>
+License: License
+        =======
+        
+        Unless otherwise noted, This project is in the public domain in the United
+        States because it contains materials that originally came from the United
+        States Geological Survey, an agency of the United States Department of
+        Interior. For more information, see the official USGS copyright policy at
+        https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits
+        
+        Additionally, we waive copyright and related rights in the work
+        worldwide through the CC0 1.0 Universal public domain dedication.
+        
+        
+        CC0 1.0 Universal Summary
+        -------------------------
+        
+        This is a human-readable summary of the
+        [Legal Code (read the full text)][1].
+        
+        
+        ### No Copyright
+        
+        The person who associated a work with this deed has dedicated the work to
+        the public domain by waiving all of his or her rights to the work worldwide
+        under copyright law, including all related and neighboring rights, to the
+        extent allowed by law.
+        
+        You can copy, modify, distribute and perform the work, even for commercial
+        purposes, all without asking permission.
+        
+        
+        ### Other Information
+        
+        In no way are the patent or trademark rights of any person affected by CC0,
+        nor are the rights that other persons may have in the work or in how the
+        work is used, such as publicity or privacy rights.
+        
+        Unless expressly stated otherwise, the person who associated a work with
+        this deed makes no warranties about the work, and disclaims liability for
+        all uses of the work, to the fullest extent permitted by applicable law.
+        When using or citing the work, you should not imply endorsement by the
+        author or the affirmer.
+        
+        
+        
+        [1]: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+        
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: numpy>=1.26
+Requires-Dist: obspy>=1.3.1
+Requires-Dist: six>=1.16
+Provides-Extra: dev
+Requires-Dist: build>=0.7.0; extra == "dev"
+Requires-Dist: black>=21; extra == "dev"
+Requires-Dist: flake8>=3.9; extra == "dev"
+Requires-Dist: ipython>=7.26; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest>=6.2; extra == "test"
+Requires-Dist: pytest-cov>=2.12; extra == "test"
+Requires-Dist: pytest-console-scripts>=1.2; extra == "test"
+Requires-Dist: vcrpy>=4.1; extra == "test"
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: twine; extra == "build"
+Requires-Dist: check-wheel-contents; extra == "build"
+Dynamic: license-file
+
+# esi-core
+
+Repository for compiled code used by ESI projects, namely C code used in the USGS Shakemap and Groundmotion-Processing programs.
+
+As of September 15th, this project is functional for the gmprocess portion of compiled code. Shakemap functionality will soon follow.
+
+## gmprocess
+
+The compiled code here is used in [gmprocess](https://github.com/usgs/groundmotion-processing) both in metrics calculations and waveform processing.
+
+Computation of waveform metrics utilizes the ```oscillators``` module, while waveform processing routines use the ```auto_fchp``` for corner frequency determination, as well as the ```konno-omachi``` and ```smoothing``` modules to perform spectral smoothing
+
+
+
+## Shakemap
+
+Provides the [Shakemap](https://github.com/usgs/shakemap) project with necessary C libraries for Shakemap production and contouring
