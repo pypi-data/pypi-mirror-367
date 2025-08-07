@@ -1,0 +1,126 @@
+manufacturer: Keysight
+model: EL33133A
+device_type: dc_active_load
+
+general_specifications:
+  max_power_W: 250.0
+  max_current_A: 40.0
+  max_voltage_V: 150.0
+  number_of_channels: 1
+
+features:
+  - name: "Transient Operation"
+    description: "Supports transient operation modes (pulse, toggle, continuous)."
+  - name: "Battery Test"
+    description: "Built-in battery test functionality."
+  - name: "Data Acquisition"
+    description: "Scope and datalogger for waveform and measurement capture."
+
+operating_modes:
+  constant_current_CC:
+    ranges:
+      - name: "low"
+        max_current_A: 8.0
+        programming_accuracy:
+          percent_of_setting: 0.05
+          offset_A: 0.00082
+        readback_accuracy:
+          percent_of_reading: 0.04
+          offset_A: 0.003
+      - name: "high"
+        max_current_A: 40.0
+        programming_accuracy:
+          percent_of_setting: 0.05
+          offset_A: 0.0072
+        readback_accuracy:
+          percent_of_reading: 0.04
+          offset_A: 0.01
+  constant_voltage_CV:
+    ranges:
+      - name: "low"
+        max_voltage_V: 30.0
+        programming_accuracy:
+          percent_of_setting: 0.03
+          offset_V: 0.0042
+        readback_accuracy:
+          percent_of_reading: 0.02
+          offset_V: 0.015
+      - name: "high"
+        max_voltage_V: 150.0
+        programming_accuracy:
+          percent_of_setting: 0.03
+          offset_V: 0.015
+        readback_accuracy:
+          percent_of_reading: 0.02
+          offset_V: 0.015
+  constant_power_CP:
+    ranges:
+      - name: "low"
+        range_W: "50W"
+        programming_accuracy:
+          percent_of_setting: 0.08
+          offset_W: 0.018
+        readback_accuracy:
+          percent_of_reading: 0.08
+          offset_W: 0.018
+      - name: "medium"
+        range_W: "250W"
+        programming_accuracy:
+          percent_of_setting: 0.08
+          offset_W: 0.15
+        readback_accuracy:
+          percent_of_reading: 0.08
+          offset_W: 0.15
+      - name: "high"
+        range_W: "250W"
+        programming_accuracy:
+          percent_of_setting: 0.08
+          offset_W: 1.5
+        readback_accuracy:
+          percent_of_reading: 0.08
+          offset_W: 1.2
+  constant_resistance_CR:
+    ranges:
+      - name: "low"
+        range_ohm: "1.8S"
+        programming_accuracy:
+          percent_of_setting: 0.1
+        readback_accuracy:
+          percent_of_reading: 0.1
+      - name: "medium"
+        range_ohm: "0.036S"
+        programming_accuracy:
+          percent_of_setting: 0.1
+        readback_accuracy:
+          percent_of_reading: 0.1
+      - name: "high"
+        range_ohm: "0.036S"
+        programming_accuracy:
+          percent_of_setting: 0.1
+        readback_accuracy:
+          percent_of_reading: 0.1
+
+protection:
+  over_current:
+    settable_range: "0 to 44 A"
+    accuracy: "±(0.5% of setting + 0.4 A)"
+  over_voltage:
+    settable_range: "1 to 157.5 V"
+    accuracy: "±(0.5% of setting + 0.25 V)"
+  over_power:
+    settable_range: "0 to 275 W"
+    accuracy: "±(1% of setting + 1 W)"
+  over_temperature:
+    description: "Internal temperature sensor protects against overheating."
+
+other_characteristics_typical:
+  power_on_time: "2 seconds"
+  command_processing_time: "< 4 ms"
+  calibration:
+    current_calibration_resolution: 0.001
+    voltage_calibration_resolution: 0.001
+
+environmental:
+  operating_temperature: "0 °C to 40 °C"
+  storage_temperature: "-40 °C to 70 °C"
+  humidity: "Up to 80% RH, non-condensing"
