@@ -1,0 +1,559 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Canvas State Schema v1",
+  "description": "Schema for validating canvas state including dropped legos, connections, and display settings",
+  "type": "object",
+
+  "properties": {
+    "canvasId": {
+      "type": "string",
+      "description": "Unique identifier for the canvas"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the canvas",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "pieces": {
+      "type": "array",
+      "description": "Array of dropped lego pieces on the canvas",
+      "items": {
+        "$ref": "#/definitions/Lego"
+      }
+    },
+    "connections": {
+      "type": "array",
+      "description": "Array of connections between lego pieces",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "object",
+            "properties": {
+              "legoId": {
+                "type": "string",
+                "description": "Instance ID of the source lego"
+              },
+              "leg_index": {
+                "type": "number",
+                "description": "Index of the source leg",
+                "minimum": 0
+              }
+            },
+            "required": ["legoId", "leg_index"],
+            "additionalProperties": false
+          },
+          "to": {
+            "type": "object",
+            "properties": {
+              "legoId": {
+                "type": "string",
+                "description": "Instance ID of the target lego"
+              },
+              "leg_index": {
+                "type": "number",
+                "description": "Index of the target leg",
+                "minimum": 0
+              }
+            },
+            "required": ["legoId", "leg_index"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["from", "to"],
+        "additionalProperties": false
+      }
+    },
+    "viewport": {
+      "type": "object",
+      "properties": {
+        "screenWidth": {
+          "type": "number"
+        },
+        "screenHeight": {
+          "type": "number"
+        },
+        "zoomLevel": {
+          "type": "number"
+        },
+        "logicalPanOffset": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+
+    "hideConnectedLegs": {
+      "type": "boolean",
+      "description": "Whether to hide legs that are connected to other legos",
+      "default": false
+    },
+    "hideIds": {
+      "type": "boolean",
+      "description": "Whether to hide lego instance IDs",
+      "default": false
+    },
+    "hideTypeIds": {
+      "type": "boolean",
+      "description": "Whether to hide lego type IDs and short names",
+      "default": false
+    },
+    "hideDanglingLegs": {
+      "type": "boolean",
+      "description": "Whether to hide labels for legs that are not connected",
+      "default": false
+    },
+    "hideLegLabels": {
+      "type": "boolean",
+      "description": "Whether to hide all leg labels",
+      "default": false
+    },
+    "nextZIndex": {
+      "type": "number",
+      "description": "Next z-index value to be assigned to floating panels",
+      "minimum": 1000
+    },
+    "parityCheckMatrices": {
+      "type": "array",
+      "description": "Array of parity check matrices keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the parity check matrix"
+          },
+          "value": {
+            "type": "object",
+            "description": "Parity check matrix object with matrix data and leg ordering",
+            "properties": {
+              "matrix": {
+                "type": "array",
+                "description": "2D array representing the parity check matrix",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "legOrdering": {
+                "type": "array",
+                "description": "Array of tensor network legs defining the ordering",
+                "items": {
+                  "type": "object",
+                  "description": "Tensor network leg object",
+                  "properties": {
+                    "instance_id": {
+                      "type": "string",
+                      "description": "Instance ID of the lego (instance_id)"
+                    },
+                    "leg_index": {
+                      "type": "number",
+                      "description": "Index of the leg",
+                      "minimum": 0
+                    }
+                  },
+                  "required": ["instance_id", "leg_index"],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": ["matrix", "legOrdering"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    },
+    "weightEnumerators": {
+      "type": "array",
+      "description": "Array of weight enumerators keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the weight enumerator"
+          },
+          "value": {
+            "type": "array",
+            "description": "Array of weight enumerator objects",
+            "items": {
+              "type": "object",
+              "properties": {
+                "taskId": {
+                  "type": "string",
+                  "description": "Optional task identifier"
+                },
+                "polynomial": {
+                  "type": "string",
+                  "description": "Optional polynomial representation"
+                },
+                "normalizerPolynomial": {
+                  "type": "string",
+                  "description": "Optional normalizer polynomial representation"
+                },
+                "truncateLength": {
+                  "type": "number",
+                  "description": "Optional truncation length"
+                },
+                "openLegs": {
+                  "type": "array",
+                  "description": "Array of open tensor network legs",
+                  "items": {
+                    "type": "object",
+                    "description": "Tensor network leg object",
+                    "properties": {
+                      "instance_id": {
+                        "type": "string",
+                        "description": "Instance ID of the lego"
+                      },
+                      "leg_index": {
+                        "type": "number",
+                        "description": "Index of the leg",
+                        "minimum": 0
+                      }
+                    },
+                    "required": ["instance_id", "leg_index"],
+                    "additionalProperties": false
+                  }
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["pending", "running", "completed", "failed"],
+                  "description": "Status of the weight enumerator calculation"
+                },
+                "errorMessage": {
+                  "type": "string",
+                  "description": "Error message if the calculation failed"
+                }
+              },
+              "required": ["openLegs"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    },
+    "cachedTensorNetworks": {
+      "$ref": "#/definitions/cachedTensorNetworks"
+    },
+    "highlightedTensorNetworkLegs": {
+      "type": "array",
+      "description": "Array of highlighted tensor network legs keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the highlighted tensor network legs"
+          },
+          "value": {
+            "type": "array",
+            "description": "Array of highlighted leg objects",
+            "items": {
+              "type": "object",
+              "properties": {
+                "leg": {
+                  "type": "object",
+                  "description": "Tensor network leg object",
+                  "properties": {
+                    "instance_id": {
+                      "type": "string",
+                      "description": "Instance ID of the lego"
+                    },
+                    "leg_index": {
+                      "type": "number",
+                      "description": "Index of the leg"
+                    }
+                  },
+                  "required": ["instance_id", "leg_index"],
+                  "additionalProperties": false
+                },
+                "operator": {
+                  "type": "string",
+                  "enum": ["X", "Y", "Z", "I"],
+                  "description": "Pauli operator"
+                }
+              },
+              "required": ["leg", "operator"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    },
+    "selectedTensorNetworkParityCheckMatrixRows": {
+      "type": "array",
+      "description": "Array of selected tensor network parity check matrix rows keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the selected matrix rows"
+          },
+          "value": {
+            "type": "array",
+            "description": "Array of selected row indices",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    },
+    "parity_check_matrix_table": {
+      "type": "array",
+      "description": "Array of parity check matrix tables keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the parity check matrix table"
+          },
+          "value": {
+            "type": "array",
+            "description": "Array of parity check matrix tables",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["pieces", "connections"],
+  "additionalProperties": false,
+  "definitions": {
+    "Lego": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Type identifier for the lego piece"
+        },
+        "instance_id": {
+          "type": "string",
+          "description": "Unique instance identifier for the lego piece"
+        },
+        "x": {
+          "type": "number",
+          "description": "X coordinate of the lego piece in logical coordinates"
+        },
+        "y": {
+          "type": "number",
+          "description": "Y coordinate of the lego piece in logical coordinates"
+        },
+        "is_dynamic": {
+          "type": "boolean",
+          "description": "Whether the lego piece is dynamic (has parameters)"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Dynamic parameters for the lego piece",
+          "additionalProperties": true
+        },
+        "parity_check_matrix": {
+          "type": "array",
+          "description": "Parity check matrix for the lego piece",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "minItems": 1
+        },
+        "logical_legs": {
+          "type": "array",
+          "description": "Array of logical leg indices",
+          "items": {
+            "type": "number"
+          }
+        },
+        "gauge_legs": {
+          "type": "array",
+          "description": "Array of gauge leg indices",
+          "items": {
+            "type": "number"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the lego piece"
+        },
+        "short_name": {
+          "type": "string",
+          "description": "Short display name of the lego piece"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the lego piece"
+        },
+        "selectedMatrixRows": {
+          "type": "array",
+          "description": "Array of selected matrix row indices",
+          "items": {
+            "type": "number"
+          }
+        },
+        "highlightedLegConstraints": {
+          "type": "array",
+          "description": "Array of highlighted leg constraints",
+          "items": {
+            "type": "object",
+            "properties": {
+              "legIndex": {
+                "type": "number"
+              },
+              "operator": {
+                "type": "string",
+                "enum": ["X", "Y", "Z", "I"]
+              }
+            },
+            "required": ["legIndex", "operator"]
+          }
+        }
+      },
+      "required": ["id", "instance_id", "x", "y", "parity_check_matrix"],
+      "additionalProperties": false
+    },
+    "cachedTensorNetworks": {
+      "type": "array",
+      "description": "Array of cached tensor networks keyed by identifier",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the cached tensor network"
+          },
+          "value": {
+            "type": "object",
+            "description": "Cached tensor network object",
+            "properties": {
+              "isActive": {
+                "type": "boolean",
+                "description": "Whether the tensor network is currently active"
+              },
+              "tensorNetwork": {
+                "type": "object",
+                "description": "The tensor network object",
+                "properties": {
+                  "legos": {
+                    "type": "array",
+                    "description": "Array of legos in the tensor network",
+                    "items": {
+                      "$ref": "#/definitions/Lego"
+                    }
+                  },
+                  "connections": {
+                    "type": "array",
+                    "description": "Array of connections in the tensor network",
+                    "items": {
+                      "type": "object",
+                      "description": "Connection object",
+                      "properties": {
+                        "from": {
+                          "type": "object",
+                          "description": "Source connection point",
+                          "properties": {
+                            "legoId": {
+                              "type": "string",
+                              "description": "ID of the source lego"
+                            },
+                            "leg_index": {
+                              "type": "number",
+                              "description": "Index of the source leg"
+                            }
+                          },
+                          "required": ["legoId", "leg_index"],
+                          "additionalProperties": false
+                        },
+                        "to": {
+                          "type": "object",
+                          "description": "Target connection point",
+                          "properties": {
+                            "legoId": {
+                              "type": "string",
+                              "description": "ID of the target lego"
+                            },
+                            "leg_index": {
+                              "type": "number",
+                              "description": "Index of the target leg"
+                            }
+                          },
+                          "required": ["legoId", "leg_index"],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": ["from", "to"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "signature": {
+                    "type": "string",
+                    "description": "Unique signature of the tensor network"
+                  }
+                },
+                "required": ["legos", "connections", "signature"],
+                "additionalProperties": false
+              },
+              "svg": {
+                "type": "string",
+                "description": "SVG representation of the tensor network"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the cached tensor network"
+              },
+              "isLocked": {
+                "type": "boolean",
+                "description": "Whether the tensor network is locked"
+              },
+              "lastUpdated": {
+                "type": "string",
+                "description": "ISO string representation of the last update time"
+              }
+            },
+            "required": [
+              "isActive",
+              "tensorNetwork",
+              "svg",
+              "name",
+              "isLocked",
+              "lastUpdated"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": ["key", "value"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

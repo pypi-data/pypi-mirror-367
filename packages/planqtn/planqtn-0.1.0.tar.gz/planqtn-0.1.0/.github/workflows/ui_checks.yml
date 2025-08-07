@@ -1,0 +1,41 @@
+name: UI & Docs Checks
+run-name: ${{ github.actor }} is checking the UI
+on:
+  pull_request:
+    paths:
+      - "app/ui/**"
+      - "check/ui**"
+      - "planqtn/**"
+      - ".github/workflows/ui_checks.yml"
+  push:
+    paths:
+      - "app/ui/**"
+      - "check/ui**"
+      - "planqtn/**"
+      - ".github/workflows/ui_checks.yml"
+jobs:
+  UI-docs-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        working-directory: app/ui
+        run: |
+          npm install --include=dev
+      - name: install python dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          pip install --upgrade uv
+          pip install -r docs/requirements.txt
+          uv pip install -r pyproject.toml --all-extras --system
+      - name: Run tests
+        run: |
+          check/ui-and-docs

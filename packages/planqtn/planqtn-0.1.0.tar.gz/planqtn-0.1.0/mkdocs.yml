@@ -1,0 +1,122 @@
+site_name: PlanqTN Documentation
+site_url: https://planqtn.com/docs
+theme:
+  name: material
+  logo: fig/planqtn_logo.png
+  favicon: fig/favicon.ico
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.suggest
+    - toc.follow
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+    previous: material/arrow-left
+    next: material/arrow-right
+    search: material/magnify
+    close: material/close
+    menu: material/menu
+    share: material/share-variant
+    top: material/arrow-up
+nav:
+  - Home:
+      - Welcome to PlanqTN!: index.md
+      - Features: features.md
+      - Roadmap: roadmap.md
+      - Contributing: contributing.md
+      - Legal:
+          - Privacy Policy: legal/privacy-policy.md
+          - Terms of Service: legal/terms-of-service.md
+  - Python API:
+      - index: planqtn/index.md
+      - Tensor network contraction: planqtn/contraction.md
+      - API Reference: planqtn/reference.md
+  - PlanqTN Studio:
+      - index: planqtn-studio/index.md
+      - Anatomy of a quantum LEGO: planqtn-studio/anatomy.md
+      - UI Controls: planqtn-studio/ui-controls.md
+      - Build tensor networks: planqtn-studio/build.md
+      - Transform tensor networks: planqtn-studio/transform.md
+      - Analyze tensor networks: planqtn-studio/analyze.md
+      - Share tensor networks: planqtn-studio/share.md
+      - Runtime kernels: planqtn-studio/runtimes.md
+  - FAQ: faq.md
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.snippets
+plugins:
+  - mkdocstrings
+  - search

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Ensure script is run from the root directory
+if [ ! -f "./pyproject.toml" ]; then
+    echo "Error: This script must be run from the root directory of the repository"
+    echo "Current directory: $(pwd)"
+    echo "Expected to find: pyproject.toml"
+    exit 1
+fi
+
+set -e
+
+export PYTHONPATH="."
+
+echo "Running black"
+black planqtn/** --check
+echo "Running flake8"
+flake8 planqtn
+rm -rf .mypy_cache
+echo Running `mypy --version`
+mypy planqtn
+echo "Running pylint"
+pylint planqtn
+echo "Running doctest for planqtn"
+find planqtn -name '*.py' | xargs -I {} python -m doctest -v {}
+echo "Running pytest"
+pytest planqtn
+
+echo "All checks passed"
