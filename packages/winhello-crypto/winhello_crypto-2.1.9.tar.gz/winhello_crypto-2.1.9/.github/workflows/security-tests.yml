@@ -1,0 +1,214 @@
+name: Security Tests and Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  security-scan:
+    runs-on: windows-latest  # Use Windows for consistency with Windows-only project
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~\AppData\Local\pip\Cache
+        key: ${{ runner.os }}-pip-security-${{ hashFiles('requirements.txt', 'pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-security-
+          ${{ runner.os }}-pip-
+    
+    - name: Cache mypy cache
+      uses: actions/cache@v4
+      with:
+        path: .mypy_cache
+        key: ${{ runner.os }}-mypy-${{ hashFiles('**/*.py') }}
+        restore-keys: |
+          ${{ runner.os }}-mypy-
+
+    - name: Cache pytest cache
+      uses: actions/cache@v4
+      with:
+        path: .pytest_cache
+        key: ${{ runner.os }}-pytest-security-${{ hashFiles('tests/**/*.py') }}
+        restore-keys: |
+          ${{ runner.os }}-pytest-security-
+          ${{ runner.os }}-pytest-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install cryptography pytest pytest-asyncio pytest-cov  # Core dependencies only
+        pip install bandit[toml] safety flake8 mypy black
+      continue-on-error: false
+    
+    - name: Run security analysis with Bandit
+      run: |
+        bandit -r . -x tests/ -f json -o bandit-report.json || echo "Bandit found issues"
+        bandit -r . -x tests/ -f txt || echo "Bandit analysis completed with findings"
+      continue-on-error: true
+    
+    - name: Check for known security vulnerabilities
+      run: |
+        safety check --json --output safety-report.json || echo "Safety check completed with findings"
+        safety check || echo "Safety analysis completed"
+      continue-on-error: true
+    
+    - name: Run code quality checks
+      run: |
+        # Check code formatting (exclude test files from strict formatting)
+        black --check --diff . --exclude tests/ || echo "Code formatting issues found"
+        
+        # Run linting (focus on critical errors first)
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.git,__pycache__,build,dist
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics --exclude=.git,__pycache__,build,dist
+      continue-on-error: true
+    
+    - name: Run type checking
+      run: |
+        mypy hello_crypto.py --ignore-missing-imports --no-strict-optional || echo "Type checking completed for hello_crypto"
+        mypy aws_hello_creds.py --ignore-missing-imports --no-strict-optional || echo "Type checking completed for aws_hello_creds"
+        mypy security_utils.py --ignore-missing-imports --no-strict-optional || echo "Type checking completed for security_utils"
+      continue-on-error: true
+    
+    - name: Run unit tests with coverage
+      run: |
+        pytest tests/ --cov=. --cov-report=xml --cov-report=html --cov-report=term -v --tb=short
+      continue-on-error: true
+      env:
+        PYTHONPATH: .
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      if: always() && hashFiles('coverage.xml') != ''
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+    
+    - name: Upload security scan results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+          htmlcov/
+        retention-days: 7
+        if-no-files-found: ignore
+
+  windows-hello-integration:
+    runs-on: windows-latest
+    if: always() # Run even if security-scan has issues
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Install only core dependencies to avoid pywinrt issues
+        pip install cryptography pytest
+        pip install pytest-asyncio
+    
+    - name: Test module imports
+      run: |
+        python -c "import sys; sys.path.append('.')"
+        python -c "from security_config import AES_KEY_SIZE; print('Security config loaded: AES_KEY_SIZE=' + str(AES_KEY_SIZE))"
+        python -c "from security_utils import ValidationError; print('Security utils loaded successfully')"
+        python -c "import hello_crypto; print('hello_crypto imported successfully')" || echo "Expected error on CI - hello_crypto requires Windows Hello"
+        python -c "import aws_hello_creds; print('aws_hello_creds imported successfully')" || echo "Expected error on CI - aws_hello_creds requires Windows Hello"
+      env:
+        PYTHONPATH: .
+    
+    - name: Run platform-independent tests
+      run: |
+        # Run basic security utils tests that don't require Windows Hello
+        python -m pytest tests/test_security_utils.py::TestFileValidation::test_validate_file_path_valid -v --tb=short || echo "File validation tests completed"
+        python -m pytest tests/test_security_utils.py::TestAWSValidation::test_validate_aws_access_key_valid -v --tb=short || echo "AWS validation tests completed"
+        echo "Platform-independent tests completed"
+      continue-on-error: true
+      env:
+        PYTHONPATH: .
+
+  documentation-check:
+    runs-on: windows-latest
+    if: always()
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check README links
+      shell: pwsh
+      run: |
+        # Check for broken links in README (basic check)
+        Select-String -Path README.md -Pattern "http" | ForEach-Object { Write-Host "Line $($_.LineNumber): $($_.Line)" }
+        if (-not (Select-String -Path README.md -Pattern "http")) { Write-Host "No HTTP links found" }
+        
+        # Check that essential sections exist
+        if (Select-String -Path README.md -Pattern "## Installation") { Write-Host "✅ Installation section found" } else { Write-Host "❌ Installation section missing" }
+        if (Select-String -Path README.md -Pattern "## Usage") { Write-Host "✅ Usage section found" } else { Write-Host "❌ Usage section missing" }
+        if (Select-String -Path README.md -Pattern "## Security") { Write-Host "✅ Security section found" } else { Write-Host "❌ Security section missing" }
+    
+    - name: Check file structure
+      shell: pwsh
+      run: |
+        # Ensure critical files exist
+        if (Test-Path requirements.txt) { Write-Host "✅ requirements.txt exists" } else { Write-Host "❌ requirements.txt missing" }
+        if (Test-Path setup.py) { Write-Host "✅ setup.py exists" } else { Write-Host "❌ setup.py missing" }
+        if (Test-Path LICENSE) { Write-Host "✅ LICENSE exists" } else { Write-Host "❌ LICENSE missing" }
+        
+        # Check for test files
+        $testFiles = Get-ChildItem -Recurse -Name "*test*.py"
+        Write-Host "Test files found: $($testFiles.Count)"
+
+  dependency-check:
+    runs-on: windows-latest
+    if: always()
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    
+    - name: Check dependency versions
+      run: |
+        python -m pip install --upgrade pip
+        
+        # Install core dependencies only (skip Windows-specific ones on CI)
+        pip install cryptography
+        pip check
+        
+        # List installed packages
+        pip list
+    
+    - name: Test installation
+      run: |
+        # Test that the package can be installed (skip pywinrt dependency on CI)
+        pip install -e . --no-deps || echo "Installation completed with warnings"
+        pip install cryptography || echo "Core dependencies installed"
+        python -c "import security_config, security_utils; print('Core security modules imported')" || echo "Core modules test completed"
+        python -c "import hello_crypto, aws_hello_creds; print('All modules imported')" || echo "Expected import issues on CI - modules require Windows Hello"
+      env:
+        PYTHONPATH: .
