@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tabfilepy"
+version = "1.0.0"
+description = "A simple Python (and associated cmd/bash) script which allows file directory tab auto-completions."
+authors = [
+    { name = "Nyoman", email = "nnyomandhipa@gmail.com" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/nelideven/tabfilepy"
+
+[tool.setuptools]
+packages = ["tabfilepy"]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.package-data]
+tabfilepy = ["fp_autocomplete.cmd", "fp_autocomplete.sh"]
+
+[project.scripts]
+tabfilepy = "tabfilepy:main"
