@@ -1,0 +1,32 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leo-win-os-info-mcp"
+version = "0.1.2"
+authors = [
+  { name="LeoChen", email="315531813@qq.com" },
+]
+description = "A simple MCP server that provides host system information."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+# 声明你的包依赖于 mcp.server.fastmcp
+# 假设它来自一个名为 'fastmcp' 的库，请根据实际情况修改
+dependencies = [
+    "fastmcp", 
+]
+
+[project.scripts]
+# 这是最关键的一行！
+# 它创建了一个名为 `mcp-host-info` 的命令行工具，
+# 当用户在终端运行 `mcp-host-info` 时，
+# 系统会执行 `my_mcp_host_info` 包中 `main.py` 文件的 `main` 函数。
+leo-win-os-info-mcp = "leo_win_os_info_mcp.main:main"
