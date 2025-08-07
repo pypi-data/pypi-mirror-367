@@ -1,0 +1,35 @@
+[project]
+name = "veri-agents-external"
+version = "0.1.2"
+description = "Veritone Agents Toolkit: Connectors to external software"
+authors = [
+  {name = "Markus Toman", email = "mtoman@veritone.com"},
+  {name = "Teo Boley", email = "tboley@veritone.com"},
+]
+requires-python = ">=3.12"
+dependencies = [
+  "veri-agents-common[langgraph]>=0.1.2",
+  "veri-agents-knowledgebase>=0.1.1",
+]
+
+[project.optional-dependencies]
+confluence = [
+  "atlassian-python-api>=4.0.4",
+  "langchain-community>=0.3.26",
+  "markdownify>=1.1.0",
+]
+salesforce = [
+  "beautifulsoup4>=4.13.4",
+  "simple-salesforce>=1.12.6",
+]
+slack = [
+    "slack-bolt<2.0.0,>=1.20.1",
+]
+
+# as optional dep so it can be referenced in workspace pyproject.toml
+all = ["veri-agents-external[confluence,salesforce,slack]==0.1.2"]
+dev = ["veri-agents-external[all]==0.1.1"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
