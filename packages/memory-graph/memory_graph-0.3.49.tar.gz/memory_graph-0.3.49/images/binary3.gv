@@ -1,0 +1,46 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node135018944458368 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="0"> </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018944586048 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 100 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> quotient </TD><TD BORDER="1"> 50 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> remainder </TD><TD BORDER="1"> 0 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940459648 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 50 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> quotient </TD><TD BORDER="1"> 25 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> remainder </TD><TD BORDER="1"> 0 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940461824 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 25 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> quotient </TD><TD BORDER="1"> 12 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> remainder </TD><TD BORDER="1"> 1 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018954622400 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 12 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940531088 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="khaki" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> 0: &lt;module&gt; </TD><TD BORDER="1" STYLE="ROUNDED"> 1: binary </TD><TD BORDER="1" STYLE="ROUNDED"> 2: binary </TD><TD BORDER="1" STYLE="ROUNDED"> 3: binary </TD><TD BORDER="1" STYLE="ROUNDED"> 4: binary </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1" PORT="ref2"> </TD><TD BORDER="1" PORT="ref3"> </TD><TD BORDER="1" PORT="ref4"> </TD></TR>
+</TABLE>
+> xlabel=call_stack]
+	node135018940531088:ref0 -> node135018944458368:table [style=solid]
+	node135018940531088:ref1 -> node135018944586048:table [style=solid]
+	node135018940531088:ref2 -> node135018940459648:table [style=solid]
+	node135018940531088:ref3 -> node135018940461824:table [style=solid]
+	node135018940531088:ref4 -> node135018954622400:table [style=solid]
+subgraph { rank=same; node135018944458368 -> node135018944586048 -> node135018940459648 -> node135018940461824 -> node135018954622400[weight=10, style=invis]; }
+}

@@ -1,0 +1,30 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node135018944458368 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="0"> </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940187776 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 100 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> quotient </TD><TD BORDER="1"> 50 </TD></TR>
+    <TR><TD BORDER="1" STYLE="ROUNDED"> remainder </TD><TD BORDER="1"> 0 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940061952 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> value </TD><TD BORDER="1"> 50 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node135018940284224 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="khaki" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> 0: &lt;module&gt; </TD><TD BORDER="1" STYLE="ROUNDED"> 1: binary </TD><TD BORDER="1" STYLE="ROUNDED"> 2: binary </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1" PORT="ref2"> </TD></TR>
+</TABLE>
+> xlabel=call_stack]
+	node135018940284224:ref0 -> node135018944458368:table [style=solid]
+	node135018940284224:ref1 -> node135018940187776:table [style=solid]
+	node135018940284224:ref2 -> node135018940061952:table [style=solid]
+subgraph { rank=same; node135018944458368 -> node135018940187776 -> node135018940061952[weight=10, style=invis]; }
+}
