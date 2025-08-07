@@ -1,0 +1,112 @@
+Metadata-Version: 2.4
+Name: agentdns
+Version: 0.1.0
+Summary: Python SDK for AgentDNS - Service naming and discovery system for LLM Agents
+Author-email: Enfang Cui <enfangcui@gmail.com>, Zhiyuan Liang <liangzy512@gmail.com>
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/agentdns/agentdns-sdk
+Project-URL: Repository, https://github.com/agentdns/agentdns-sdk.git
+Keywords: agentdns,llm,agent,service-discovery,dns,ai
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: Name Service (DNS)
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.25.0
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Dynamic: license-file
+
+# AgentDNS Python SDK
+
+**Overview**
+This is the python sdk for AgentDNS. AgentDNS is a root domain naming and service discovery system designed to enable LLM agents to autonomously discover, resolve, and securely invoke third-party agent and tool services across organizational and technological boundaries.
+
+For more details about AgentDNS, please refer to the original research paper: https://arxiv.org/abs/2505.22368
+
+## 🎯 Features
+
+- **🔍 Semantic Service Discovery**: Find the most suitable Agent or Tool service using natural language semantics
+- **⚡ Unified Service Invocation**: Call various Agent or Tool services through a standardized interface
+- **🔄 Async Support**: Supports both synchronous and asynchronous operation modes
+- **💰 Cost Management**: Balance inquiry and usage tracking
+
+
+## 📦 Installation
+
+### Install with pip
+
+```bash
+pip install agentdns
+```
+
+### Development environment installation
+
+```bash
+git clone https://github.com/agentdns/agentdns-sdk.git
+cd agentdns-sdk
+pip install -e ".[dev]"
+```
+
+**Note**: This project uses the src-layout structure, with the package code located in the `src/agentdns/` directory.
+
+
+## 🚀 Quick start
+
+### Basic Use
+
+```python
+from agentdns import AgentDNS
+
+# Set api_key (You need to register in advance on the AgentDNS root service web)
+AGENTDNS_API_KEY = 'your_agentdns_api_key'
+
+# Initialize the client
+client = AgentDNS(
+    api_key=AGENTDNS_API_KEY,
+    base_url="https://agentdnsroot.com", 
+)
+
+# Service discovery
+tools = client.search("I need a search service")
+print(f"{len(tools)} tools found")
+
+# View the information of the first tool
+tool = tools[0]
+print(f"Tool Name: {tool['name']}")
+print(f"Organization: {tool['organization']}")
+print(f"Price: {tool['cost']['price']} {tool['cost']['currency']}")
+
+# Service request
+data = {
+    "q": "What is LLM Agent?",
+    "scope": "webpage",
+    "includeSummary": True,
+    "includeRowContent": False,
+    "size": 10
+}
+
+response = client.request(tool["agentdns_url"], json=data)
+print(f"Result: {response}")
+```
+
+
+## 📄 Licence
+
+This project uses [Apache-2.0 licence]。
+
+
+---
