@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Occupy Station - {{ station.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Occupy Station: {{ station.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5>Station Details</h5>
+                        <p><strong>Description:</strong> {{ station.description }}</p>
+                        <p><strong>Lab:</strong> {{ station.lab.name }}</p>
+                        <p><strong>Status:</strong> 
+                            {% if station.is_functional %}
+                                <span class="badge bg-success">Functional</span>
+                            {% else %}
+                                <span class="badge bg-danger">Non-functional</span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    {% if not station.is_functional %}
+                        <div class="alert alert-warning">
+                            <strong>Warning:</strong> This station is marked as non-functional. Please contact an administrator.
+                        </div>
+                    {% else %}
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">Occupation Type</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="occupation_type" id="duration" value="duration" checked>
+                                    <label class="form-check-label" for="duration">
+                                        Duration-based (specify hours)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="occupation_type" id="until" value="until">
+                                    <label class="form-check-label" for="until">
+                                        Until specific time
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3" id="duration-section">
+                                <label for="duration_hours" class="form-label">Duration (hours)</label>
+                                <select class="form-select" id="duration_hours" name="duration_hours">
+                                    <option value="1">1 hour</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                    <option value="4">4 hours</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="8">8 hours</option>
+                                    <option value="12">12 hours</option>
+                                    <option value="24">24 hours</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="until-section" style="display: none;">
+                                <label for="occupation_until" class="form-label">End Time</label>
+                                <input type="datetime-local" class="form-control" id="occupation_until" name="occupation_until">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display: none;"></span>
+                                    Occupy Station
+                                </button>
+                                <a href="{{ url_for('station_detail', station_id=station.id) }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const durationRadio = document.getElementById('duration');
+    const untilRadio = document.getElementById('until');
+    const durationSection = document.getElementById('duration-section');
+    const untilSection = document.getElementById('until-section');
+
+    // Set minimum datetime-local value to current time
+    const now = new Date();
+    const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    document.getElementById('occupation_until').min = localDateTime;
+
+    // Handle radio button changes
+    durationRadio.addEventListener('change', function() {
+        if (this.checked) {
+            durationSection.style.display = 'block';
+            untilSection.style.display = 'none';
+        }
+    });
+
+    untilRadio.addEventListener('change', function() {
+        if (this.checked) {
+            durationSection.style.display = 'none';
+            untilSection.style.display = 'block';
+        }
+    });
+
+    // Form submission with loading state
+    const form = document.querySelector('form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const spinner = submitBtn.querySelector('.spinner-border');
+
+    form.addEventListener('submit', function() {
+        submitBtn.disabled = true;
+        spinner.style.display = 'inline-block';
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Occupying...';
+    });
+});
+</script>
+{% endblock %} 

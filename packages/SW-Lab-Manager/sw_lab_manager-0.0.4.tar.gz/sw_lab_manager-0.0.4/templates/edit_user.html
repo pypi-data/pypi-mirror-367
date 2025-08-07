@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Edit User - SW Labs Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> Edit User
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user"></i> Username *
+                        </label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                        <div class="form-text">Enter a unique username for the user</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i> Email Address *
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                        <div class="form-text">Enter a valid email address</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i> New Password
+                        </label>
+                        <input type="password" class="form-control" id="password" name="password">
+                        <div class="form-text">Leave blank to keep the current password</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="is_admin" name="is_admin" {% if user.is_admin %}checked{% endif %}>
+                            <label class="form-check-label" for="is_admin">
+                                <i class="fas fa-shield-alt"></i> Grant Admin Privileges
+                            </label>
+                        </div>
+                        <div class="form-text">Check this box to give the user administrative access</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

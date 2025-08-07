@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lab.name }} - SW Labs Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item active">{{ lab.name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="fas fa-building"></i> {{ lab.name }}
+            </h1>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Labs
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle"></i> Lab Information
+                </h5>
+                <p class="card-text">
+                    <strong>Location:</strong> {{ lab.location or 'Not specified' }}<br>
+                    <strong>Description:</strong> {{ lab.description or 'No description available' }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-pie"></i> Lab Statistics
+                </h5>
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="text-primary">{{ lab.stations|length }}</h4>
+                        <small class="text-muted">Total Stations</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-success">{{ lab.stations|selectattr("is_occupied", "equalto", false)|list|length }}</h4>
+                        <small class="text-muted">Available</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-3">
+            <i class="fas fa-desktop"></i> Stations
+        </h3>
+        
+        {% if lab.stations %}
+            <div class="row">
+                {% for station in lab.stations %}
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header {% if station.is_occupied %}bg-danger{% else %}bg-success{% endif %} text-white">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-desktop"></i> {{ station.name }}
+                                {% if station.is_occupied %}
+                                    <span class="badge bg-light text-dark ms-2">
+                                        <i class="fas fa-user"></i> Occupied
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark ms-2">
+                                        <i class="fas fa-check"></i> Available
+                                    </span>
+                                {% endif %}
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            {% if station.description %}
+                            <p class="card-text">{{ station.description }}</p>
+                            {% endif %}
+                            
+                            <h6 class="mt-3 mb-2">
+                                <i class="fas fa-server"></i> Devices ({{ station.devices|length }})
+                            </h6>
+                            
+                            {% if station.devices %}
+                                <div class="list-group list-group-flush">
+                                    {% for device in station.devices %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-center p-2">
+                                        <div>
+                                            <strong>{{ device.name }}</strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                {{ device.device_type }} - {{ device.ip_address }}
+                                            </small>
+                                            <br>
+                                            <span class="badge {% if device.is_online %}bg-success{% else %}bg-danger{% endif %}">
+                                                <i class="fas fa-circle"></i> 
+                                                {% if device.is_online %}Online{% else %}Offline{% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No devices in this station</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('station_detail', station_id=station.id) }}" 
+                               class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            {% if current_user.is_authenticated %}
+                                {% if station.is_occupied %}
+                                    {% if station.occupied_by == current_user.id or current_user.is_admin %}
+                                    <form method="POST" action="{{ url_for('release_station', station_id=station.id) }}" 
+                                          class="d-inline">
+                                        <button type="submit" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-unlock"></i> Release
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('occupy_station', station_id=station.id) }}" 
+                                          class="d-inline">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-lock"></i> Occupy
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No stations found in this lab.
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a href="{{ url_for('admin_panel') }}" class="alert-link">Add stations in the admin panel</a>.
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
