@@ -1,0 +1,104 @@
+Metadata-Version: 2.4
+Name: thu-learn-downloader
+Version: 0.4.1
+Summary: Download everything from Web Learning of Tsinghua University
+Project-URL: Changelog, https://github.com/liblaf/thu-learn-downloader/blob/main/CHANGELOG.md
+Project-URL: Documentation, https://liblaf.github.io/thu-learn-downloader/
+Project-URL: Funding, https://github.com/liblaf/thu-learn-downloader?sponsor=1
+Project-URL: Homepage, https://github.com/liblaf/thu-learn-downloader
+Project-URL: Issue Tracker, https://github.com/liblaf/thu-learn-downloader/issues
+Project-URL: Release Notes, https://github.com/liblaf/thu-learn-downloader/releases
+Project-URL: Source Code, https://github.com/liblaf/thu-learn-downloader
+Author-email: liblaf <30631553+liblaf@users.noreply.github.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Typing :: Typed
+Requires-Python: >=3.12
+Requires-Dist: beautifulsoup4<5,>=4.0.0
+Requires-Dist: lazy-loader<0.5,>=0.4.0
+Requires-Dist: loguru<0.8,>=0.7.0
+Requires-Dist: pydantic<3,>=2.0.0
+Requires-Dist: python-dateutil<3,>=2.0.0
+Requires-Dist: requests<3,>=2.0.0
+Requires-Dist: rich<15,>=14.0.0
+Requires-Dist: selenium<5,>=4.0.0
+Requires-Dist: tenacity<10,>=9.0.0
+Requires-Dist: typer<0.17,>=0.16.0
+Description-Content-Type: text/markdown
+
+# THU Web Learning Downloader
+
+> [!WARNING]
+> username + password 登陆方式已失效, 致使本项目目前不可用 [#223](https://github.com/liblaf/thu-learn-downloader/issues/223). PR Welcome!
+
+Download everything from Web Learning of Tsinghua University
+
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/liblaf/thu-learn-downloader/ci.yaml)](https://github.com/liblaf/thu-learn-downloader/actions/workflows/ci.yaml)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/thu-learn-downloader)](https://pypi.org/project/thu-learn-downloader/)
+[![PyPI - Version](https://img.shields.io/pypi/v/thu-learn-downloader)](https://pypi.org/project/thu-learn-downloader/)
+
+## Demo
+
+![Demo](https://github.com/liblaf/thu-learn-downloader/raw/assets/demo.png)
+
+The resulting file structure looks like:
+
+```
+thu-learn
+└── Quantum Mechanics(1)
+   ├── docs
+   │  └── 电子教案
+   │     ├── 01-0量子力学介绍1.pdf
+   │     └── 04-0量子力学介绍2.pdf
+   └── work
+      └── 01-第一周作业
+         ├── attach-第一周作业.pdf
+         ├── submit-第一周作业.pdf
+         └── README.md
+```
+
+## Usage
+
+**Usage**:
+
+```console
+$ tld [OPTIONS]
+```
+
+**Options**:
+
+- `-u, --username TEXT`
+- `-p, --password TEXT`
+- `--prefix DIRECTORY`: [default: $HOME/thu-learn]
+- `-s, --semester TEXT`: [default: 2023-2024-1]
+- `-c, --course TEXT`
+- `--document / --no-document`: [default: document]
+- `--homework / --no-homework`: [default: homework]
+- `-j, --jobs INTEGER`: [default: 8]
+- `-l, --language [en|zh]`: [default: en]
+- `--log-level [NOTSET|DEBUG|INFO|WARNING|ERROR|CRITICAL]`: [env var: LOG_LEVEL; default: INFO]
+- `--help`: Show this message and exit.
+
+## Features
+
+- fast concurrent download
+- pretty TUI powered by [rich](https://github.com/Textualize/rich)
+- auto set `mtime` of downloaded files according to timestamp of remote file
+- auto skip download when local file is newer
+- dump homework details into `README.md` in each homework folder
+- pretty markdown files powered by [prettier](https://prettier.io) (require `prettier` installed)
+
+## Installation
+
+- download pre-built binary form [GitHub Releases](https://github.com/liblaf/thu-learn-downloader/releases)
+- `pip install thu-learn-downloader`
+- `pipx install thu-learn-downloader`
