@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clickhouse-easy-connect-ivi"
+description = "Упрощенная библиотека для работы с ClickHouse"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [
+    {name = "D Garin", email = "dgarin@example.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pandas>=1.0.0",
+    "clickhouse-connect>=0.5.0",
+    "PyYAML>=5.0.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "isort",
+    "flake8",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-company/clickhouse-easy-connect-ivi"
+Repository = "https://github.com/your-company/clickhouse-easy-connect-ivi.git"
+Issues = "https://github.com/your-company/clickhouse-easy-connect-ivi/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "clickhouse_easy_connect_ivi.__version__"}
+
+[tool.setuptools.packages.find]
+exclude = ["tests*"]
