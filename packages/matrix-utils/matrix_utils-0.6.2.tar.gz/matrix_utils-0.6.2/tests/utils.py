@@ -1,0 +1,157 @@
+import bw_processing as bwp
+import numpy as np
+import pytest
+
+from matrix_utils.errors import AllArraysEmpty
+from matrix_utils.resource_group import ResourceGroup
+from matrix_utils.utils import (
+    handle_all_arrays_empty,
+    has_relevant_data,
+    safe_concatenate_indices,
+    unroll,
+)
+
+
+def test_safe_concatenate_indices():
+    a = np.array([0, 1, 2])
+    b = np.array([3, 4])
+    c = np.array([])
+    expected = np.array([0, 1, 2, 3, 4])
+    result = safe_concatenate_indices([a, b, c])
+    assert np.allclose(expected, result)
+
+
+def test_safe_concatenate_indices_empty_arrays():
+    a = np.array([])
+    b = np.array([])
+    result = safe_concatenate_indices([a, b])
+    assert result.shape == (0,)
+    assert isinstance(result, np.ndarray)
+
+
+def test_safe_concatenate_indices_error():
+    with pytest.raises(AllArraysEmpty):
+        safe_concatenate_indices([])
+
+
+def test_safe_concatenate_indices_empty_ok():
+    result = safe_concatenate_indices([], empty_ok=True)
+    assert result.shape == (0,)
+    assert isinstance(result, np.ndarray)
+    assert result.dtype == int
+
+
+def create_dp(vector, array, distributions):
+    dp = bwp.create_datapackage()
+    if distributions:
+        dp.add_persistent_vector(
+            matrix="foo",
+            name="distributions",
+            indices_array=np.array([(0, 0)], dtype=bwp.INDICES_DTYPE),
+            distributions_array=np.array(
+                [
+                    (4, 0.5, np.nan, np.nan, 0.2, 0.8, False),
+                ],
+                dtype=bwp.UNCERTAINTY_DTYPE,
+            ),
+        )
+    if vector:
+        dp.add_persistent_vector(
+            matrix="foo",
+            name="vector",
+            indices_array=np.array([(10, 10), (12, 9), (14, 8), (18, 7)], dtype=bwp.INDICES_DTYPE),
+            data_array=np.array([11, 12.3, 14, 125]),
+        )
+    if array:
+        dp.add_persistent_array(
+            matrix="foo",
+            name="array",
+            indices_array=np.array([(1, 0), (2, 1), (5, 1), (8, 1)], dtype=bwp.INDICES_DTYPE),
+            data_array=np.array([[1, 2.3, 4, 25]]).T,
+        )
+    return dp
+
+
+def test_has_relevant_data_use_vector():
+    assert not has_relevant_data("vector", create_dp(False, False, False), True, False, False)
+    assert has_relevant_data("vector", create_dp(True, False, False), True, False, False)
+    assert has_relevant_data("vector", create_dp(True, True, True), True, False, False)
+    assert not has_relevant_data("distributions", create_dp(False, False, True), True, False, False)
+    assert not has_relevant_data("array", create_dp(False, True, False), True, False, False)
+
+
+def test_has_relevant_data_use_distributions():
+    assert not has_relevant_data(
+        "distributions", create_dp(False, False, False), False, False, True
+    )
+    assert has_relevant_data("distributions", create_dp(False, False, True), False, False, True)
+    assert has_relevant_data("distributions", create_dp(True, True, True), False, False, True)
+    assert has_relevant_data("vector", create_dp(True, False, False), False, False, True)
+    assert not has_relevant_data("array", create_dp(False, True, False), False, False, True)
+
+
+def test_has_relevant_data_use_array():
+    assert not has_relevant_data("array", create_dp(False, False, False), False, True, False)
+    assert has_relevant_data("array", create_dp(False, True, False), False, True, False)
+    assert has_relevant_data("array", create_dp(True, True, True), False, True, False)
+    assert not has_relevant_data("vector", create_dp(True, False, False), False, True, False)
+    assert not has_relevant_data("distributions", create_dp(False, True, False), False, True, False)
+
+
+def test_tuple_unrolling():
+    assert unroll("a", 1) == ("a", 1)
+    assert unroll(("a", "b"), 1) == (("a", "b"), 1)
+    assert unroll((("a", "foobar"), "b"), 1) == (("a", "foobar"), "b", 1)
+    assert unroll((("a", "foobar"), "b"), (("weird", "wonderful"), "wild", "wacky")) == (
+        ("a", "foobar"),
+        "b",
+        ("weird", "wonderful"),
+        "wild",
+        "wacky",
+    )
+
+
+def test_handle_all_arrays_empty_multiple():
+    a = bwp.create_datapackage(name="abcd")
+    a.add_persistent_vector(
+        matrix="foo-matrix",
+        name="first-one",
+        indices_array=np.array([(10, 10), (12, 9), (14, 8), (18, 7)], dtype=bwp.INDICES_DTYPE),
+        data_array=np.array([11, 12.3, 14, 125]),
+    )
+    a = a.filter_by_attribute("matrix", "foo-matrix")
+
+    b = bwp.create_datapackage(name="efgh")
+    b.add_persistent_vector(
+        matrix="foo-matrix",
+        name="second-one",
+        indices_array=np.array([(10, 10), (12, 9), (14, 8)], dtype=bwp.INDICES_DTYPE),
+        data_array=np.array([11, 12.3, 14]),
+    )
+    b = b.filter_by_attribute("matrix", "foo-matrix")
+
+    packages = {
+        a: [ResourceGroup(package=a, group_label="first-one")],
+        b: [ResourceGroup(package=b, group_label="second-one")],
+    }
+
+    with pytest.raises(AllArraysEmpty) as exc_info:
+        handle_all_arrays_empty(packages, "foo-matrix")
+
+    expected = """
+No data found to build foo-matrix matrix.
+
+This error commonly occurs when using impact assessment methods for the wrong version of the
+background database, because each background database version has its own set of elementary flows.
+
+Found 2 resource groups in 2 datapackages but none of them had data for the requested method:
+
+Datapackage name: abcd
+Resource group: first-one
+Data array length: 4 (none of this data could be used)
+
+Datapackage name: efgh
+Resource group: second-one
+Data array length: 3 (none of this data could be used)
+"""
+    assert exc_info.value.args[0] == expected
