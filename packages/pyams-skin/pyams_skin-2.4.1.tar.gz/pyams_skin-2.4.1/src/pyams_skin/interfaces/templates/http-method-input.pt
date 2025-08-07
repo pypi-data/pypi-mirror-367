@@ -1,0 +1,24 @@
+<div class="d-flex flex-row"
+	 tal:define="(verb, url) view.display_value"
+	 i18n:domain="pyams_skin">
+	<div class="input-group">
+		<div class="input-group-prepend bg-secondary rounded">
+			<select id="${view.id}"
+					name="${view.name}-verb"
+					class="select2">
+				<option value=""
+						i18n:translate="">(no selection)</option>
+				<option tal:repeat="method view.http_methods"
+						value="${method}"
+						selected="${'selected' if verb==method else None}">
+					${method}
+				</option>
+			</select>
+		</div>
+		<input type="text"
+			   name="${view.name}-url"
+			   class="form-control"
+			   value="${url}" />
+		<input type="hidden" name="${view.name}-empty-marker" value="1" />
+	</div>
+</div>

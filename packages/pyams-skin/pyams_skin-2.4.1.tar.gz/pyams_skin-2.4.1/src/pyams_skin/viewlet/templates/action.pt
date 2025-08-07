@@ -1,0 +1,13 @@
+<a class="btn btn-${view.status} ${view.css_class} hint"
+   href="${view.get_href()}"
+   target="${view.target}"
+   data-original-title="${view.hint}"
+   data-placement="${view.hint_placement}"
+   data-toggle="${'modal' if view.modal_target else None}"
+   data-ams-modules="${'modal' if view.modal_target else None}"
+   data-ams-click-handler="${view.click_handler}"
+   data-ams-data="${tales:object_data(view)}">
+	<i tal:condition="view.icon_class"
+			class="${view.icon_class} fa-fw ${'mr-1' if view.label else ''}"></i>
+	<i tal:omit-tag="" i18n:translate="">${view.label}</i>
+</a>

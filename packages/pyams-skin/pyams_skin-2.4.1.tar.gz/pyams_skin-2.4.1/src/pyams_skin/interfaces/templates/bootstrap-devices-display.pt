@@ -1,0 +1,23 @@
+<div class="form-control custom-control"
+     tal:define="icons view.bootstrap_icons;
+                 value view.display_value or {};">
+    <tal:loop repeat="size view.bootstrap_sizes">
+        <div class="custom-switch d-inline px-4 hint"
+             title="${size.title}">
+            <input type="checkbox"
+                   class="custom-control-input"
+                   id="${view.id}_${size.value}"
+                   name="${view.name}-${size.value}"
+                   value="on"
+                   checked="${'checked' if value.get(size.value) else None}"
+                   disabled="disabled" />
+            <label for="${view.id}_${size.value}"
+                   class="custom-control-label">
+                <i class="fa fa-fw ${icons.get(size.value)}"></i>
+            </label>
+        </div>
+    </tal:loop>
+    <input type="hidden"
+           name="${view.name}-empty-marker"
+           value="1" />
+</div>
