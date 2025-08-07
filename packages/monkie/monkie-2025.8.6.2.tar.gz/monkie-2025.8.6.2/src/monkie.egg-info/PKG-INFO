@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: monkie
+Version: 2025.8.6.2
+Summary: monkie is a Marimo NotebooK Image Explorer
+Author-email: Raymond Hawkins <raymond.hawkins99@gmail.com>, Rodrigo Fernandez-Gonzalez <rodrigo.fernandez.gonzalez@utoronto.ca>
+License-Expression: GPL-3.0-or-later
+Project-URL: Homepage, https://bitbucket.org/raymond_hawkins_utor/monkie
+Project-URL: Bug Tracker, https://bitbucket.org/raymond_hawkins_utor/monkie/issues
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: marimo
+Requires-Dist: numpy>=1.23
+Requires-Dist: scikit-image
+Requires-Dist: scipy
+Dynamic: license-file
+
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/GPL-3.0)
+
+# [MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/) (a Marimo NotebooK Image Explorer) 
+
+MoNkIE is a multi-dimensional image explorer built for Marimo notebooks!
+MoNkIE is based off of [JuNkIE]((https://bitbucket.org/rfg_lab/junkie/src/master/), the Jupyter Notebook Image Explorer.
+
+## Installing [MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/)
+
+To install [MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/), type:
+
+    $ python3 -m pip install --no-chache-dir -U monkie
+
+## Using [MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/)
+
+[MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/) requires that you call two simple functions in
+separate cells to load the image and show the UI, respectively:
+
+```python
+# Put this in your setup cell
+from monkie import monkie
+```
+
+```python
+# First cell
+monkie.load(image)
+```
+
+```python
+# Second cell
+monkie.show()
+```
+
+There are a few ways to open an image with [MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/):
+
+- You can open an image with some other package (e.g. scikit-image, opencv, PIL, etc.) and pass a 
+[numpy ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) to 
+[MoNkIE](https://bitbucket.org/raymond_hawkins_utor/monkie/src/main/) as the parameter
+
+- You can specify the path to the image that you want to open
+
+- Or you can indicate a folder that contains an image sequence.
+
+  - If there are image channels split into different files, you can also specify a tuple of strings to distinguish which files in the folder belong to which channel.
+
+*setup_ui* (bool) specifies whether you want to create the UI elements (True) or just load the image (False). (Defaults to True)

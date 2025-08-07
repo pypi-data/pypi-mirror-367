@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "monkie"
+dynamic = ["version"]
+
+authors = [
+  { name="Raymond Hawkins", email="raymond.hawkins99@gmail.com"},
+  { name="Rodrigo Fernandez-Gonzalez", email="rodrigo.fernandez.gonzalez@utoronto.ca" },
+]
+description = "monkie is a Marimo NotebooK Image Explorer"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers=[
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "marimo",
+  "numpy>=1.23",
+  "scikit-image",
+  "scipy"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "monkie.monkie.__version__"}
+
+[project.urls]
+"Homepage" = "https://bitbucket.org/raymond_hawkins_utor/monkie"
+"Bug Tracker" = "https://bitbucket.org/raymond_hawkins_utor/monkie/issues"
