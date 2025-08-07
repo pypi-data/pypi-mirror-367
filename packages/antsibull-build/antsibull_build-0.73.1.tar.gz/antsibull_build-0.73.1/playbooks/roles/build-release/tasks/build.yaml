@@ -1,0 +1,144 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+- name: Set expected path to deps file, build file, and release archive
+  ansible.builtin.set_fact:
+    _deps_file: "ansible-{{ antsibull_ansible_version }}.deps"
+    _galaxy_file: "ansible-{{ antsibull_ansible_version }}.yaml"
+    _build_file: "{{ antsibull_data_dir }}/ansible-{{ antsibull_ansible_version.split('.', 1)[0] }}.build"
+    _release_archive: "{{ antsibull_sdist_dir }}/ansible-{{ antsibull_ansible_version }}.tar.gz"
+    _release_wheel: "{{ antsibull_sdist_dir }}/ansible-{{ antsibull_ansible_version }}-py3-none-any.whl"
+
+- name: Override antsibull_enforce_tag_policy
+  when: "antsibull_ansible_version is _antsibull_packaging_version('9.0.0a1', '>=')"
+  ansible.builtin.set_fact:
+    antsibull_tags_validate: true
+    antsibull_tags_enforce_policy: true
+
+# Documentation for the following commands:
+# https://github.com/ansible-community/antsibull/blob/main/docs/build-ansible.rst
+
+- name: Check whether the ansible build file exists
+  ansible.builtin.stat:
+    path: '{{ _build_file }}'
+  register: _antsibull_build_file_stat
+
+- name: Allow prereleases for alpha versions
+  ansible.builtin.set_fact:
+    _allow_prereleases: "--allow-prereleases"
+  when: antsibull_ansible_version is regex("^\d+.\d+.\d+(a\d+)$")
+
+- name: Update version ranges in the build file for alpha and beta-1 releases
+  ansible.builtin.command: >-
+    {{ antsibull_build_command }} new-ansible {{ antsibull_ansible_version }}
+      --data-dir {{ antsibull_data_dir }}
+      {{ _allow_prereleases | default('') }}
+  when: >-
+    (antsibull_ansible_version is regex("^\d+.\d+.\d+(a\d+|b1)$") and (antsibull_build_reset | bool))
+    or not _antsibull_build_file_stat.stat.exists
+
+- name: Set up feature freeze for b2 and later betas, and release candidates (unless explicitly ignored by user)
+  ansible.builtin.set_fact:
+    _feature_freeze: "--feature-frozen"
+  when: 
+    - not (antsibull_ignore_feature_freeze | bool)
+    - antsibull_ansible_version is regex("^\d+.\d+.\d+(b[2-9]|b[1-9]\d+|rc\d+)$")
+
+- name: Check whether the ansible deps file exists
+  ansible.builtin.stat:
+    path: "{{ antsibull_data_dir }}/{{ _deps_file }}"
+  register: _antsibull_deps_file_stat
+
+- name: Prepare a release with new dependencies
+  ansible.builtin.command: >-
+    {{ antsibull_build_command }} prepare {{ antsibull_ansible_version }}
+      --data-dir {{ antsibull_data_dir }}
+      {{ _feature_freeze | default('') }}
+      {{ '--tags-file' if antsibull_tags_validate else '' }}
+      {{ '--preserve-deps' if antsibull_preserve_deps else '' }}
+  # Minimal failure tolerance to galaxy collection download errors
+  retries: 3
+  delay: 5
+  register: _build
+  until: _build.rc == 0
+  args:
+    chdir: "{{ playbook_dir | dirname }}"
+  when: >-
+    not (antsibull_skip_prepare | bool)
+    or not _antsibull_deps_file_stat.stat.exists
+
+- name: Find ignores file
+  when: antsibull_tags_validate | bool
+  register: _ignores_stat
+  ansible.builtin.stat:
+    dest: "{{ antsibull_tags_ignores_file }}"
+
+- name: Validate tags file
+  when: antsibull_tags_validate | bool
+  # ignore_errors creates conspicuous error messages without failing the playbook
+  ignore_errors: "{{ not antsibull_tags_enforce_policy }}"
+  # This command never changes anything
+  changed_when: false
+  ansible.builtin.command: >-
+    {{ antsibull_build_command }} validate-tags-file
+    {{ antsibull_data_dir }}/ansible-{{ antsibull_ansible_version }}-tags.yaml
+    {{ '--ignores-file ' ~ antsibull_tags_ignores_file if _ignores_stat.stat.exists else '' }}
+
+- name: Remove existing release tarball and wheel if they exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  when: antsibull_force_rebuild | bool
+  loop:
+    - "{{ _release_archive }}"
+    - "{{ _release_wheel }}"
+
+# If the release archive is already there it won't be re-built if we run again
+- name: Build a release with existing deps
+  ansible.builtin.command: >-
+    {{ antsibull_build_command }} rebuild-single {{ antsibull_ansible_version }}
+      --data-dir {{ antsibull_data_dir }}
+      --sdist-dir {{ antsibull_sdist_dir }}
+      --build-file {{ antsibull_build_file }}
+      --deps-file {{ _deps_file }}
+      --debian
+      {{ '--tags-file' if antsibull_tags_validate else '' }}
+  # Minimal failure tolerance to galaxy collection download errors
+  retries: 3
+  delay: 5
+  register: _rebuild
+  until: _rebuild.rc == 0
+  args:
+    chdir: "{{ playbook_dir | dirname }}"
+    creates: "{{ _release_archive }}"
+
+# We can use this to test that the release on PyPi matches later (for example)
+- name: Record the sha256sum for the built tarball
+  ansible.builtin.command: sha256sum {{ _release_archive }}
+  changed_when: false
+  register: _tarball_checksum
+
+- name: Check whether a galaxy-requirements.yml file exists for that release
+  ansible.builtin.stat:
+    path: '{{ antsibull_data_dir }}/{{ _galaxy_file }}'
+    follow: true
+  register: _galaxy_reqs_stat
+
+# Only create/update galaxy-requirements.yaml if the galaxy-requirements.yaml file existed for that release.
+# This prevents this role breaking when recreating an older release which has no galaxy-requirements.yaml
+# file.
+- when: _galaxy_reqs_stat.stat.exists and _galaxy_reqs_stat.stat.isreg
+  block:
+    - name: Read galaxy-requirements.yml file for the release
+      ansible.builtin.slurp:
+        src: '{{ antsibull_data_dir }}/{{ _galaxy_file }}'
+      register: _galaxy_reqs
+
+    - name: Template a galaxy-requirements.yaml file
+      ansible.builtin.copy:
+        dest: "{{ antsibull_data_dir }}/galaxy-requirements.yaml"
+        content: |
+          # Collections included in Ansible {{ antsibull_ansible_version }}
+          {{ _galaxy_reqs.content | ansible.builtin.b64decode }}

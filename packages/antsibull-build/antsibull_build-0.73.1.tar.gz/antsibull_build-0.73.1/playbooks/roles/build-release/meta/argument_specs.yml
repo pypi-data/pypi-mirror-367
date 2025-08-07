@@ -1,0 +1,163 @@
+---
+# Copyright (c) Ansible Project
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+argument_specs:
+  main:
+    short_description: Build Ansible release package and test it
+    version_added: 0.1.0
+    description:
+      - An Ansible role that builds an Ansible release package with Antsibull and tests it.
+    author:
+      - David Moreau Simard (@dmsimard)
+    options:
+      antsibull_build_command:
+        description: The command to run C(antsibull-build).
+        type: str
+        default: antsibull-build
+
+      antsibull_sdist_dir:
+        description:
+          - The directory where antsibull will build the Ansible release tarball.
+        type: path
+        default: "{{ playbook_dir | dirname }}/build"
+
+      antsibull_build_file:
+        description:
+          - The build file.
+        type: path
+        default: ansible-<major_version>.build
+
+      antsibull_skip_prepare:
+        description:
+          - Skip the prepare step if a C(.deps) file already exists for the release.
+        type: bool
+        default: false
+        version_added: 0.62.0
+
+      antsibull_force_rebuild:
+        description:
+          - Force a rebuild by deleting an existing release tarball and python wheel, if they exist.
+        type: bool
+        default: false
+
+      antsibull_data_git_repo:
+        description:
+          - Where to get the L(ansible-build-data,https://github.com/ansible-community/ansible-build-data) repository from.
+        type: str
+        default: "https://github.com/ansible-community/ansible-build-data"
+
+      antsibull_data_version:
+        description:
+          - The tag (or branch) of the L(ansible-build-data,https://github.com/ansible-community/ansible-build-data)) git repository to checkout.
+          - Could be C(main), C(devel), etc.
+        type: str
+        default: main
+
+      antsibull_data_reset:
+        description:
+          - Whether to forcefully reset the ansible-build-data repository.
+          - Set to V(false) if there are manual changes that should not be overwritten.
+        type: bool
+        default: true
+
+      antsibull_data_git_dir:
+        description:
+          - Where the ansible-build-data git repository will be cloned to.
+        type: path
+        default: "{{ antsibull_sdist_dir }}/ansible-build-data"
+
+      antsibull_data_dir:
+        description:
+          - Directory to read C(.build) and C(.deps) files from and write them to.
+        type: path
+        default: "{{ antsibull_data_git_dir }}/<major_version>"
+
+      antsibull_ansible_version:
+        description:
+          - The version of ansible to build.
+          - For example C(6.3.0), C(7.0.0a1), C(8.0.0rc2).
+        type: str
+        required: true
+
+      antsibull_ansible_venv:
+        description:
+          - Where the Ansible release tarball will be installed for test purposes.
+        type: path
+        default: "{{ antsibull_sdist_dir }}/venv"
+
+      antsibull_build_reset:
+        description:
+          - If set to V(true), will reset existing C(.build) files during the preparation of
+            alpha and beta-1 releases.
+          - If set to V(false), will only create C(.build) files if they do not yet exist.
+          - The default value is the one of O(antsibull_data_reset) for backwards compatibility.
+        type: bool
+        default: antsibull_data_reset
+        version_added: 0.63.0
+
+      antsibull_venv_cleanup:
+        description:
+          - Whether or not to start from scratch with a new venv if one exists.
+        type: bool
+        default: true
+
+      antsibull_tags_validate:
+        description:
+          - Whether to generate a tags data file as part of the release and
+            validate it.
+          - This is enabled by default for C(ansible >= 7.2.0).
+        type: bool
+
+      antsibull_tags_enforce_policy:
+        description:
+          - Whether to abort on C(antsibull-build validate-tags-file) errors;
+            when False, only warnings are printed.
+          - This option is unconditionally enabled for C(ansible >= 9.0.0a1).
+          - This option does nothing if O(antsibull_tags_validate) is False.
+        type: bool
+
+      antsibull_tags_ignores_file:
+        description:
+          - File containing a newline separated list of collections to ignore
+            when running C(antsibull-build validate-tags-file).
+            This file will be ignored if it doesn't exist.
+        type: path
+        default: "{{ antsibull_data_dir }}/validate-tags-ignores"
+
+      antsibull_test_bytecompile:
+        description:
+          - Whether to run a test byte-compiliation of the Python code in the ansible package
+        type: bool
+        default: true
+
+      antsibull_test_bytecompile_pythons:
+        description:
+          - Which Python interpreters to use for the test byte-compilation
+        type: list
+        elements: str
+        default:
+          - "{{ ansible_python_executable | default(ansible_playbook_python) }}"
+
+      antsibull_test_bytecompile_jobs:
+        description:
+          - How many threads to use to byte-compile the Python code in the ansible package
+          - Defaults to 0 (all available CPUs)
+        type: int
+        default: 0
+
+      antsibull_preserve_deps:
+        description:
+          - If set to V(true), will preserve existing C(.deps) files during the preparation
+            process and validate their contents against the build requirements and constraints.
+        type: bool
+        default: false
+        version_added: 0.62.0
+
+      antsibull_ignore_feature_freeze:
+        description:
+          - If set to V(true), will not enable feature freeze for b2 and later betas.
+        type: bool
+        default: false
+        version_added: 0.73.0
