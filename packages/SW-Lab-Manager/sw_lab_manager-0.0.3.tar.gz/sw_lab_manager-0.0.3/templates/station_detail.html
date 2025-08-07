@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}{{ station.name }} - SW Labs Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('lab_detail', lab_id=station.lab.id) }}">{{ station.lab.name }}</a></li>
+                <li class="breadcrumb-item active">{{ station.name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="fas fa-desktop"></i> {{ station.name }}
+            </h1>
+            <a href="{{ url_for('lab_detail', lab_id=station.lab.id) }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Lab
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle"></i> Station Information
+                </h5>
+                <p class="card-text">
+                    <strong>Lab:</strong> {{ station.lab.name }}<br>
+                    <strong>Description:</strong> {{ station.description or 'No description available' }}<br>
+                    <strong>Status:</strong> 
+                    {% if station.is_occupied %}
+                        <span class="badge bg-danger">
+                            <i class="fas fa-user"></i> Occupied
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            <i class="fas fa-check"></i> Available
+                        </span>
+                    {% endif %}
+                </p>
+                
+                {% if station.is_occupied %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-user-clock"></i> 
+                    <strong>Occupied by:</strong> 
+                    {% if occupied_by_user %}
+                        {{ occupied_by_user.username }}
+                    {% elif station.occupied_by %}
+                        User ID: {{ station.occupied_by }}
+                    {% else %}
+                        Unknown user
+                    {% endif %}
+                    {% if station.occupied_at %}
+                        <br><strong>Since:</strong> {{ station.occupied_at.strftime('%Y-%m-%d %H:%M:%S') }}
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-pie"></i> Station Statistics
+                </h5>
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="text-primary">{{ station.devices|length }}</h4>
+                        <small class="text-muted">Total Devices</small>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-success">{{ station.devices|selectattr("is_online", "equalto", true)|list|length }}</h4>
+                        <small class="text-muted">Online</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if current_user.is_authenticated %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="card-title">
+                    <i class="fas fa-tools"></i> Station Actions
+                </h6>
+                {% if station.is_occupied %}
+                    {% if station.occupied_by == current_user.id or current_user.is_admin %}
+                    <form method="POST" action="{{ url_for('release_station', station_id=station.id) }}">
+                        <button type="submit" class="btn btn-warning btn-sm w-100 mb-2">
+                            <i class="fas fa-unlock"></i> Release Station
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Station is occupied by another user.
+                    </div>
+                    {% endif %}
+                {% else %}
+                <form method="POST" action="{{ url_for('occupy_station', station_id=station.id) }}">
+                    <button type="submit" class="btn btn-success btn-sm w-100">
+                        <i class="fas fa-lock"></i> Occupy Station
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-3">
+            <i class="fas fa-server"></i> Devices
+        </h3>
+        
+        {% if station.devices %}
+            <div class="row">
+                {% for device in station.devices %}
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header {% if device.is_online %}bg-success{% else %}bg-danger{% endif %} text-white">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-{% if device.device_type == 'PC' %}desktop{% else %}server{% endif %}"></i> 
+                                {{ device.name }}
+                                <span class="badge bg-light text-dark ms-2">
+                                    {{ device.device_type }}
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-6">
+                                    <strong>IP Address:</strong><br>
+                                    <code>{{ device.ip_address }}</code>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Status:</strong><br>
+                                    <span class="badge {% if device.is_online %}bg-success{% else %}bg-danger{% endif %}">
+                                        <i class="fas fa-circle"></i> 
+                                        {% if device.is_online %}Online{% else %}Offline{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            {% if device.os_info %}
+                            <div class="mb-2">
+                                <strong>Operating System:</strong><br>
+                                <small class="text-muted">{{ device.os_info }}</small>
+                            </div>
+                            {% endif %}
+                            
+                            {% if device.special_apps %}
+                            <div class="mb-2">
+                                <strong>Special Applications:</strong><br>
+                                <small class="text-muted">{{ device.special_apps }}</small>
+                            </div>
+                            {% endif %}
+                            
+                            {% if device.last_ping %}
+                            <div class="mb-2">
+                                <strong>Last Ping:</strong><br>
+                                <small class="text-muted">{{ device.last_ping.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    Created: {{ device.created_at.strftime('%Y-%m-%d') }}
+                                </small>
+                                {% if current_user.is_authenticated and current_user.is_admin %}
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No devices found in this station.
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a href="{{ url_for('admin_panel') }}" class="alert-link">Add devices in the admin panel</a>.
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line"></i> Real-time Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div id="device-status-container">
+                    <p class="text-muted">Loading device status...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateDeviceStatus() {
+    fetch('/api/device_status')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('device-status-container');
+            let html = '<div class="row">';
+            
+            data.forEach(device => {
+                const statusClass = device.is_online ? 'text-success' : 'text-danger';
+                const statusIcon = device.is_online ? 'fa-circle' : 'fa-circle';
+                const statusText = device.is_online ? 'Online' : 'Offline';
+                
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span><strong>${device.name}:</strong></span>
+                            <span class="${statusClass}">
+                                <i class="fas ${statusIcon}"></i> ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching device status:', error);
+        });
+}
+
+// Update status every 30 seconds
+setInterval(updateDeviceStatus, 30000);
+updateDeviceStatus(); // Initial load
+</script>
+{% endblock %}

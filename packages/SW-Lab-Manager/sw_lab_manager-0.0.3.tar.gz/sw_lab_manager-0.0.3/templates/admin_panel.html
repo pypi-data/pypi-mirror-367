@@ -1,0 +1,501 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - SW Labs Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-cog"></i> Admin Panel
+        </h1>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-plus"></i> Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_lab') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-building"></i> Add Lab
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_station') }}" class="btn btn-info w-100">
+                            <i class="fas fa-desktop"></i> Add Station
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_device') }}" class="btn btn-success w-100">
+                            <i class="fas fa-server"></i> Add Device
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('add_user') }}" class="btn btn-warning w-100">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> System Overview
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="border rounded p-3">
+                            <h3 class="text-primary" id="total-labs">{{ labs|length }}</h3>
+                            <p class="text-muted mb-0">Total Labs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3">
+                            <h3 class="text-info" id="total-stations">{{ stations|length }}</h3>
+                            <p class="text-muted mb-0">Total Stations</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3">
+                            <h3 class="text-success" id="total-devices">{{ devices|length }}</h3>
+                            <p class="text-muted mb-0">Total Devices</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="border rounded p-3">
+                            <h3 class="text-warning" id="total-users">{{ users|length }}</h3>
+                            <p class="text-muted mb-0">Total Users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Labs Management -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-building"></i> Labs Management
+                </h5>
+                <a href="{{ url_for('add_lab') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Add Lab
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="labs-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Stations</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lab in labs %}
+                            <tr>
+                                <td>{{ lab.id }}</td>
+                                <td>{{ lab.name }}</td>
+                                <td>{{ lab.location or 'N/A' }}</td>
+                                <td>{{ lab.stations|length }}</td>
+                                <td>{{ lab.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="{{ url_for('lab_detail', lab_id=lab.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ url_for('edit_lab', lab_id=lab.id) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('delete_lab', lab_id=lab.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this lab?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stations Management -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-desktop"></i> Stations Management
+                </h5>
+                <a href="{{ url_for('add_station') }}" class="btn btn-info btn-sm">
+                    <i class="fas fa-plus"></i> Add Station
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="stations-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Lab</th>
+                                <th>Functional Status</th>
+                                <th>Occupation Status</th>
+                                <th>Devices</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for station in stations %}
+                            <tr>
+                                <td>{{ station.id }}</td>
+                                <td>{{ station.name }}</td>
+                                <td>{{ station.lab.name }}</td>
+                                <td>
+                                    {% if station.is_functional %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check"></i> Functional
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times"></i> Non-functional
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if station.is_occupied %}
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-user"></i> Occupied
+                                        </span>
+                                        {% if station.occupied_until %}
+                                            <br><small class="text-muted">Until: {{ station.occupied_until.strftime('%H:%M') }}</small>
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check"></i> Available
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ station.devices|length }}</td>
+                                <td>{{ station.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="{{ url_for('station_detail', station_id=station.id) }}" class="btn btn-sm btn-outline-primary" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('toggle_station_functional', station_id=station.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Toggle Functional Status">
+                                            {% if station.is_functional %}
+                                                <i class="fas fa-times"></i>
+                                            {% else %}
+                                                <i class="fas fa-check"></i>
+                                            {% endif %}
+                                        </button>
+                                    </form>
+                                    <a href="{{ url_for('edit_station', station_id=station.id) }}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('delete_station', station_id=station.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this station?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Devices Management -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-server"></i> Devices Management
+                </h5>
+                <a href="{{ url_for('add_device') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus"></i> Add Device
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="devices-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>IP Address</th>
+                                <th>Station</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for device in devices %}
+                            <tr>
+                                <td>{{ device.id }}</td>
+                                <td>{{ device.name }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ device.device_type }}</span>
+                                </td>
+                                <td><code>{{ device.ip_address }}</code></td>
+                                <td>{{ device.station.name }}</td>
+                                <td>
+                                    {% if device.is_online %}
+                                        <span class="badge bg-success">Online</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Offline</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ device.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_device', device_id=device.id) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('delete_device', device_id=device.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this device?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Users Management -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-users"></i> Users Management
+                </h5>
+                <a href="{{ url_for('add_user') }}" class="btn btn-warning btn-sm">
+                    <i class="fas fa-plus"></i> Add User
+                </a>
+            </div>
+            <div class="card-.body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if user.is_admin %}
+                                        <span class="badge bg-danger">Admin</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">User</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    function refreshData() {
+        $.getJSON('{{ url_for("all_data") }}', function(data) {
+            // Update total counts
+            $('#total-labs').text(data.labs.length);
+            $('#total-stations').text(data.stations.length);
+            $('#total-devices').text(data.devices.length);
+            $('#total-users').text(data.users.length);
+
+            // Update labs table
+            var labs_tbody = $('#labs-table tbody');
+            labs_tbody.empty();
+            if (data.labs.length > 0) {
+                data.labs.forEach(function(lab) {
+                    labs_tbody.append('
+                        <tr>
+                            <td>' + lab.id + '</td>
+                            <td>' + lab.name + '</td>
+                            <td>' + (lab.location || 'N/A') + '</td>
+                            <td>' + lab.stations + '</td>
+                            <td>' + lab.created_at + '</td>
+                            <td>
+                                <a href="/lab/' + lab.id + '" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                                <a href="/admin/lab/' + lab.id + '/edit" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="/admin/lab/' + lab.id + '/delete" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this lab?');"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>');
+                });
+            } else {
+                labs_tbody.append('<tr><td colspan="6" class="text-muted">No labs found.</td></tr>');
+            }
+
+            // Update stations table
+            var stations_tbody = $('#stations-table tbody');
+            stations_tbody.empty();
+            if (data.stations.length > 0) {
+                data.stations.forEach(function(station) {
+                    var functional_badge = station.is_functional ? '<span class="badge bg-success"><i class="fas fa-check"></i> Functional</span>' : '<span class="badge bg-danger"><i class="fas fa-times"></i> Non-functional</span>';
+                    var occupied_badge;
+                    if (station.is_occupied) {
+                        occupied_badge = '<span class="badge bg-warning text-dark"><i class="fas fa-user"></i> Occupied</span>';
+                        if (station.occupied_until) {
+                            occupied_badge += '<br><small class="text-muted">Until: ' + station.occupied_until + '</small>';
+                        }
+                    } else {
+                        occupied_badge = '<span class="badge bg-success"><i class="fas fa-check"></i> Available</span>';
+                    }
+
+                    stations_tbody.append('
+                        <tr>
+                            <td>' + station.id + '</td>
+                            <td>' + station.name + '</td>
+                            <td>' + station.lab + '</td>
+                            <td>' + functional_badge + '</td>
+                            <td>' + occupied_badge + '</td>
+                            <td>' + station.devices + '</td>
+                            <td>' + station.created_at + '</td>
+                            <td>
+                                <a href="/station/' + station.id + '" class="btn btn-sm btn-outline-primary" title="View Details"><i class="fas fa-eye"></i></a>
+                                <form method="POST" action="/admin/station/' + station.id + '/toggle_functional" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="Toggle Functional Status">
+                                        ' + (station.is_functional ? '<i class="fas fa-times"></i>' : '<i class="fas fa-check"></i>') + '
+                                    </button>
+                                </form>
+                                <a href="/admin/station/' + station.id + '/edit" class="btn btn-sm btn-outline-warning" title="Edit"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="/admin/station/' + station.id + '/delete" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this station?');"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>');
+                });
+            } else {
+                stations_tbody.append('<tr><td colspan="8" class="text-muted">No stations found.</td></tr>');
+            }
+
+            // Update devices table
+            var devices_tbody = $('#devices-table tbody');
+            devices_tbody.empty();
+            if (data.devices.length > 0) {
+                data.devices.forEach(function(device) {
+                    var status_badge = device.is_online ? '<span class="badge bg-success">Online</span>' : '<span class="badge bg-danger">Offline</span>';
+                    devices_tbody.append('
+                        <tr>
+                            <td>' + device.id + '</td>
+                            <td>' + device.name + '</td>
+                            <td><span class="badge bg-secondary">' + device.device_type + '</span></td>
+                            <td><code>' + device.ip_address + '</code></td>
+                            <td>' + device.station + '</td>
+                            <td>' + status_badge + '</td>
+                            <td>' + device.created_at + '</td>
+                            <td>
+                                <a href="/admin/device/' + device.id + '/edit" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="/admin/device/' + device.id + '/delete" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this device?');"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>');
+                });
+            } else {
+                devices_tbody.append('<tr><td colspan="8" class="text-muted">No devices found.</td></tr>');
+            }
+
+            // Update users table
+            var users_tbody = $('#users-table tbody');
+            users_tbody.empty();
+            if (data.users.length > 0) {
+                data.users.forEach(function(user) {
+                    var role_badge = user.is_admin ? '<span class="badge bg-danger">Admin</span>' : '<span class="badge bg-secondary">User</span>';
+                    users_tbody.append('
+                        <tr>
+                            <td>' + user.id + '</td>
+                            <td>' + user.username + '</td>
+                            <td>' + user.email + '</td>
+                            <td>' + role_badge + '</td>
+                            <td>' + user.created_at + '</td>
+                            <td>
+                                <a href="/admin/user/' + user.id + '/edit" class="btn btn-sm btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                <form method="POST" action="/admin/user/' + user.id + '/delete" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?');"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>');
+                });
+            } else {
+                users_tbody.append('<tr><td colspan="6" class="text-muted">No users found.</td></tr>');
+            }
+        });
+    }
+
+    setInterval(refreshData, 5000); // Refresh every 5 seconds
+});
+</script>
+{% endblock %}

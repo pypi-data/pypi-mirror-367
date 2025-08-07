@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Station - SW Labs Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> Edit Station
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-tag"></i> Station Name *
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ station.name }}" required>
+                        <div class="form-text">Enter a unique name for the station</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="lab_id" class="form-label">
+                            <i class="fas fa-building"></i> Lab *
+                        </label>
+                        <select class="form-select" id="lab_id" name="lab_id" required>
+                            <option value="">Select a lab...</option>
+                            {% for lab in labs %}
+                            <option value="{{ lab.id }}" {% if lab.id == station.lab_id %}selected{% endif %}>{{ lab.name }} ({{ lab.location or 'No location' }})</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Choose which lab this station belongs to</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-info-circle"></i> Description
+                        </label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ station.description }}</textarea>
+                        <div class="form-text">Optional description of the station's purpose or features</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="is_functional" name="is_functional" {% if station.is_functional %}checked{% endif %}>
+                            <label class="form-check-label" for="is_functional">
+                                <i class="fas fa-check-circle"></i> Station is functional
+                            </label>
+                        </div>
+                        <div class="form-text">Uncheck if the station is currently non-functional</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
