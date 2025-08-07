@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "loki-cli"
+version = "0.1.0"
+description = "Offline Developer CLI for data transformation, formatting, and token decoding"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Loki Project Developers"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing :: Markup :: XML",
+    "Topic :: Utilities"
+]
+requires-python = ">=3.9"
+dependencies = [
+    "typer>=0.9.0",
+    "pyjwt>=2.8.0",
+    "python3-saml>=1.15.0",
+    "pyyaml>=6.0.1",
+    "lxml>=4.9.3",
+    "pandas>=2.0.3"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0"
+]
+
+[project.scripts]
+loki = "loki.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/code-chaios/loki"
+Repository = "https://github.com/code-chaios/loki.git"
