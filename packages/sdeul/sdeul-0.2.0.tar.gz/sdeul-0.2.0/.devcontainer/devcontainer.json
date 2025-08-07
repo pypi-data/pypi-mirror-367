@@ -1,0 +1,36 @@
+{
+  "name": "sdeul-devcontainer",
+  "dockerComposeFile": "./compose.yml",
+  "service": "sdeul-devcontainer",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.formatting.provider": "none",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "anthropic.claude-code",
+        "bierner.markdown-mermaid",
+        "charliermarsh.ruff",
+        "github.codespaces",
+        "github.copilot",
+        "github.copilot-chat",
+        "github.github-vscode-theme",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "saoudrizwan.claude-dev",
+        "vscodevim.vim"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/aws-cli": {}
+  },
+  "postCreateCommand": "git config --global core.pager '' && git config --global --add safe.directory /workspace && uv sync"
+}

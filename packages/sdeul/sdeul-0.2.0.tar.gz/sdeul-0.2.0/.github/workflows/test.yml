@@ -1,0 +1,115 @@
+---
+name: Unit and CLI tests
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        description: Python version to use
+        default: 3.x
+      bats-version:
+        required: false
+        type: string
+        description: Bats version to use
+        default: latest
+      runs-on:
+        required: false
+        type: string
+        description: Runner to use
+        default: ubuntu-latest
+    secrets:
+      GROQ_API_KEY:
+        required: true
+        description: Groq API key
+  workflow_dispatch:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        description: Python version to use
+        default: 3.x
+      bats-version:
+        required: false
+        type: string
+        description: Bats version to use
+        default: latest
+      groq-model:
+        required: false
+        type: choice
+        options:
+          - null
+          - llama-3.1-70b-versatile
+        description: Groq model to use
+        default: null
+      model-file-url:
+        required: false
+        type: choice
+        options:
+          - null
+          - https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q6_K_L.gguf
+          - https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-IQ4_XS.gguf
+          - https://huggingface.co/bartowski/gemma-2-2b-it-GGUF/resolve/main/gemma-2-2b-it-Q6_K_L.gguf
+          - https://huggingface.co/bartowski/gemma-2-2b-it-GGUF/resolve/main/gemma-2-2b-it-IQ4_XS.gguf
+        description: Model file URL to run tests with
+        default: null
+      runs-on:
+        required: false
+        type: string
+        description: Runner to use
+        default: ubuntu-latest
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+    working-directory: .
+jobs:
+  unit-tests:
+    if: inputs.model-file-url == null
+    runs-on: ${{ inputs.runs-on }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: ${{ inputs.python-version || '3.x' }}
+      - name: Install packages
+        run: |
+          pip install -U --no-cache-dir pip uv
+          uv sync
+      - name: Run unit tests using pytest
+        run: |
+          uv run pytest
+  cli-tests:
+    runs-on: ${{ inputs.runs-on }}
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - name: Setup Bats and bats libs
+        uses: bats-core/bats-action@42fcc8700f773c075a16a90eb11674c0318ad507  # 3.0.1
+        with:
+          bats-version: ${{ inputs.bats-version || 'latest' }}
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5.6.0
+        with:
+          python-version: ${{ inputs.python-version || '3.x' }}
+      - name: Install packages
+        run: |
+          pip install -U --no-cache-dir pip uv
+          uv sync
+      - name: Test CLI
+        run: |
+          bats --verbose-run ./test/cli/test_cli.bats
+      - name: Test a command using Groq
+        if: inputs.groq-model != null
+        env:
+          GROQ_MODEL: ${{ inputs.groq-model }}
+        run: |
+          bats --verbose-run ./test/cli/test_groq.bats
+      - name: Run a specified Bats test file
+        if: inputs.model-file-url != null
+        env:
+          MODEL_FILE_URL: ${{ inputs.model-file-url }}
+        run: |
+          bats --verbose-run ./test/cli/test_llamacpp.bats
