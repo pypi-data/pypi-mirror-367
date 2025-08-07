@@ -1,0 +1,198 @@
+variables:
+  PIPELINE_NAME: 'Pipeline'  # A default is not required.
+  CONTAINER_REGISTRY: 'jugit-registry.fz-juelich.de'
+  CONTAINER_IMAGE_PREFIX: 'jugit-registry.fz-juelich.de/a.knieps/fsc'
+
+workflow:
+  name: '$PIPELINE_NAME'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      variables:
+        PIPELINE_NAME: 'MR pipeline: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME'
+    - when: always
+
+
+stages:
+  - build
+  - test
+  - pybuild
+
+# Build stage
+
+.jtpl: &job
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - when: manual
+
+.build: &build
+  <<: *job
+  stage: build
+  artifacts:
+    paths:
+    - build/
+
+.buildl: &build-linux
+  <<: *build
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - cmake --build . --target tests
+
+.buildw: &build-windows
+  <<: *build
+  script:
+    - mkdir build
+    - cd build
+    - cmake -A x64 ..
+    - cmake --build . --target tests
+
+.test: &test
+  <<: *job
+  stage: test
+  script:
+    - cd build
+    - ctest . --no-tests=error
+  artifacts:
+    paths:
+      - build/tests/*.xml
+    reports:
+      junit:
+        - build/tests/*.xml
+
+
+.linux: &linux
+  image: debian:bookworm
+  before_script:
+    - apt-get update --yes
+    - apt-get install --yes cmake python3 python3-pip python3-virtualenv libssl-dev clang-14
+
+.msvc: &msvc
+  tags:
+    - msvc2017
+
+  # Currently we only have windows builds available only for protected branches
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: manual
+    - when: never
+
+.gcc: &gcc
+  <<: *linux
+  variables:
+    CC: gcc
+    CXX: g++
+
+.clang: &clang
+  <<: *linux
+  variables:
+    CC: clang-14
+    CXX: clang++-14
+
+build:gcc:
+  <<: *build-linux
+  <<: *gcc
+
+build:clang:
+  <<: *build-linux
+  <<: *clang
+
+build:msvc:
+  <<: *build-windows
+  <<: *msvc
+
+# Docker build
+
+build:docker:
+  <<: *job
+
+  image: docker:20.10.16
+  services:
+    - name: docker:20.10.16-dind
+      alias: docker
+  stage: build
+
+  cache:
+    key: build-cache
+    paths:
+      - /cache
+
+  script:
+    - docker login ${CONTAINER_REGISTRY} -u ${CONTAINER_REGISTRY_USER} -p ${CONTAINER_REGISTRY_TOKEN}
+    - mkdir -p /cache
+    - DOCKER_BUILDKIT=1 docker build --build-arg="CACHE_DIR=/cache/build" -t ${CONTAINER_IMAGE_PREFIX}/full:nightly .
+    - docker run ${CONTAINER_IMAGE_PREFIX}/full:nightly /usr/local/bin/fusionsc-tests
+    - docker push ${CONTAINER_IMAGE_PREFIX}/full:nightly
+
+# Test stage
+
+test:gcc:
+  <<: *test
+  <<: *gcc
+  needs:
+    - build:gcc
+
+test:clang:
+  <<: *test
+  <<: *clang
+  needs:
+    - build:clang
+
+test:msvc:
+  <<: *test
+  <<: *msvc
+  needs:
+    - build:msvc
+
+# Python build
+
+pybuild:pybuild-manylinux:
+  <<: *job
+
+  stage: pybuild
+  needs: []
+
+  image: quay.io/pypa/manylinux2014_x86_64
+  parallel:
+    matrix:
+      - PYTHON: [cp38-cp38, cp39-cp39, cp310-cp310, cp311-cp311, cp312-cp312, cp313-cp313]
+
+  rules:
+    - when: manual
+
+  before_script:
+    - yum install -y openssl-static
+  script:
+    - /opt/python/$PYTHON/bin/python -m pip install build twine
+    - /opt/python/$PYTHON/bin/python -m build
+    - |+
+      for FILE in "dist/*.whl"
+      do
+        auditwheel show $FILE
+        auditwheel repair $FILE
+      done
+    - /opt/python/$PYTHON/bin/python -m twine upload -u __token__ -p $PYPI_TOKEN --non-interactive --verbose wheelhouse/*.whl
+
+  artifacts:
+    paths:
+      - wheelhouse/*
+
+
+pybuild:pybuild-windows:
+  <<: *job
+  <<: *msvc
+
+  stage: pybuild
+  needs: []
+
+  parallel:
+    matrix:
+      - PYVERSION: ["7", "8", "9", "10", "11"]
+
+  script:
+    - py -3.$env:PYVERSION -m build -w
+    - twine upload -u __token__ -p $PYPI_TOKEN --non-interactive --verbose wheelhouse/*.whl
+
+  artifacts:
+    paths:
+      - dist/*.whl

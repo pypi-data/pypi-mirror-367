@@ -1,0 +1,46 @@
+[project]
+dynamic = ["version"]
+
+name = "fusionsc"
+dependencies = [
+	"typing-extensions >= 3.10",
+	"importlib_resources",
+	"numpy>=1.19.5, <2 ; python_version < '3.9'",
+	"numpy>=1.25.0, <3 ; python_version >= '3.9' and python_version < '3.13'",
+	"numpy>=2.1.0, <3 ; python_version == '3.13'",
+	"numpy>=2.3.0, <3 ; python_version >= '3.14'",
+	"nest-asyncio",
+	"netCDF4",
+	"scipy"
+]
+
+[project.scripts]
+fusionsc-config = "fusionsc.config:configCli"
+
+[build-system]
+requires = [
+  "scikit-build-core",
+  "setuptools_scm[toml]>=6.2",
+  "numpy==1.19.5 ; python_version < '3.9'",
+  "numpy==2.0.2 ; python_version >= '3.9' and python_version < '3.13'",
+  "numpy==2.1.3 ; python_version == '3.13'",
+  "numpy==2.3.2 ; python_version >= '3.14'",
+]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+sdist.exclude = [
+	"/examples/",
+	"/util/",
+	"/src/python/fusionsc/serviceDefs/fusionsc/devices/w7x-resources/components.json",
+	"/src/python/fusionsc/serviceDefs/fusionsc/devices/w7x-resources/compile-index.py"
+]
+
+cmake.targets = ["fsc-skbuild-target"]
+cmake.build-type = "Release"
+install.components = ["SKBUILD"]
+wheel.packages = ["src/python/fusionsc"]
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
