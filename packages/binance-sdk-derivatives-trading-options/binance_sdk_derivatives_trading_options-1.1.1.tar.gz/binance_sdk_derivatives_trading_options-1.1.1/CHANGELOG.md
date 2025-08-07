@@ -1,0 +1,25 @@
+# Changelog
+
+## 1.1.1 - 2025-08-06
+
+### Changed (1)
+
+#### REST API
+
+- Moved `option_margin_account_information` unit tests from `test_market_maker_endpoints_api` folder to `test_account_api`
+
+## 1.1.0 - 2025-08-06
+
+### Changed (4)
+
+- Updated `binance-common` library to version `1.1.0`
+- Changed models responses to handle upper and lower case parameters
+- Added python version `3.13`
+
+#### WebSocket Streams
+
+- Changed `list_subscribe` to return `dict` response
+
+## 1.0.0 - 2025-07-17
+
+- Initial release
