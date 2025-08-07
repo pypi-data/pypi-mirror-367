@@ -1,0 +1,25 @@
+[project]
+name = "azure-mcp-agent"
+version = "0.1.0"
+description = "A Claude MCP server for Azure tasks."
+authors = [
+  { name = "Hassen", email = "hvsssen7@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "pydantic",
+  "mcp" # if you're using Anthropic's SDK
+]
+
+[project.scripts]
+azure-mcp-server = "azure_mcp_agenthassen.server:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
