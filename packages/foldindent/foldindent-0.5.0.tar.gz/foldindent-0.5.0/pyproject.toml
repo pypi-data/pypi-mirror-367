@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "foldindent"
+dynamic = ["version"]
+description = "foldindent - indented text viewer with folding"
+readme = "README.md"
+license = "WTFPL"
+requires-python = ">=3"
+authors = [
+    { name = "Hg", email = "dev@indigo.re" },
+]
+keywords = [
+    "indentation",
+    "text",
+]
+dependencies = [
+    "textual",
+]
+
+[project.scripts]
+foldindent = "foldindent:main"
+
+[project.urls]
+Homepage = "https://gitlab.com/hydrargyrum/foldindent"
+
+[tool.hatch.version]
+path = "foldindent.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/foldindent.py",
+]
+
+[tool.hatch.envs.hatch-test]
+dependencies = [
+    "pytest-asyncio",
+]
