@@ -1,0 +1,82 @@
+"""{{ pipeline.title }} - Clinica Command Line Interface.
+This file has been generated automatically by the `clinica generate template`
+command line tool. See here for more details:
+https://aramislab.paris.inria.fr/clinica/docs/public/latest/InteractingWithClinica/
+"""
+
+import click
+
+from clinica.pipelines import cli_param
+
+pipeline_name = "{{ pipeline.command_name }}"
+
+
+@click.command(name=pipeline_name)
+# Mandatory parameters of the pipeline.
+@cli_param.argument.bids_directory
+@cli_param.argument.caps_directory
+# Pipeline parameters.
+@cli_param.option_group.pipeline_options
+@cli_param.option_group.option(
+    "-po",
+    "--pipeline-option",
+    default="default value",
+    show_default=True,
+    help="Some pipeline option."
+)
+# Standard parameters.
+@cli_param.option.subjects_sessions_tsv
+@cli_param.option.working_directory
+@cli_param.option.n_procs
+# Advanced parameters.
+@cli_param.option_group.advanced_options
+@cli_param.option_group.option(
+    "-ao",
+    "--advanced-option",
+    default="default value",
+    show_default=True,
+    help="Some advanced option."
+)
+def cli(**params) -> None:
+    """Brief description of the pipeline.
+
+    Long description of the pipeline.
+
+    https://aramislab.paris.inria.fr/clinica/docs/public/latest/Pipelines/{{ pipeline.class_name }}/
+    """
+    from networkx import Graph
+
+    from clinica.utils.ux import print_end_pipeline
+
+    from .{{ pipeline.module_name }}_pipeline import {{ pipeline.class_name }}
+
+    parameters = {
+        # Add your own pipeline parameters here to use them inside your
+        # pipeline. See the file `{{ pipeline.module_name }}_pipeline.py` to
+        # see an example of use.
+            "pipeline_option" : params["pipeline_option"],
+            "advanced_option" : params["advanced_option"],
+        }
+
+    # Most of the time, you will want to instantiate your pipeline with a
+    # BIDS and/or CAPS directory as inputs. If the BIDS directory is not needed
+    # for your pipeline, simply remove the corresponding line.
+    pipeline = {{ pipeline.class_name }}(
+        bids_directory=params["bids_directory"],
+        caps_directory=params["caps_directory"],
+        tsv_file=params["subjects_sessions_tsv"],
+        base_dir=params["working_directory"],
+        parameters=parameters,
+        name=pipeline_name,
+    )
+
+    exec_pipeline = (
+        pipeline.run(plugin="MultiProc", plugin_args={"n_procs": n_procs})
+        if n_procs
+        else pipeline.run()
+    )
+
+    if isinstance(exec_pipeline, Graph):
+        print_end_pipeline(
+            pipeline_name, pipeline.base_dir, pipeline.base_dir_was_specified
+        )
