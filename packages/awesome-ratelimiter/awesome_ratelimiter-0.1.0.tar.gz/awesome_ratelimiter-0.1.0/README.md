@@ -1,0 +1,140 @@
+# Awesome Rate Limiter
+
+[](https://www.google.com/search?q=https://pypi.org/project/my-awesome-ratelimiter/)
+[](https://opensource.org/licenses/MIT)
+
+
+一个灵活、线程安全、基于装饰器的 Python 速率限制器，使用令牌桶（Token Bucket）算法实现。
+
+-----
+
+## ✨ 主要特性
+
+  * **易于使用**: 通过简单的 `@` 装饰器语法即可为任何函数添加速率限制。
+  * **令牌桶算法**: 高效地处理突发流量，同时保证长期的平均速率。
+  * **按键区分限制**: 可以根据用户ID、IP地址或任何其他函数参数来施加独立的速率限制。
+  * **高度可定制**: 轻松设置请求速率和时间周期。
+  * **明确的异常处理**: 当请求被限制时，会抛出带有建议重试时间的自定义异常。
+
+## 🔧 安装
+
+你可以通过已构建的 Wheel 文件或从源码进行安装。
+
+**1. 从 Wheel 文件安装:**
+
+```bash
+# TODO uplaod to PyPI
+pip install awesome-ratelimiter
+
+# use this command to workaround
+pip install git+https://github.com/785172550/awesome_ratelimiter.git
+```
+
+**2. 从源码进行开发/可编辑模式安装:**
+
+```bash
+git clone https://github.com/785172550/awesome_ratelimiter.git
+cd awesome_ratelimiter
+pip install -e .
+```
+
+## 🚀 快速开始
+
+使用 `RateLimiter` 非常简单。下面是一些常见用例。
+
+### 示例 1: 全局速率限制
+
+限制一个函数在所有调用中共享同一个速率限制。例如，限制一个 API 每 10 秒最多被调用 5 次。
+
+```python
+import time
+from my_ratelimiter import RateLimiter, RateLimitException
+
+# token_bucket=True 使用 token bucket limiter，否则使用 sliding window
+@RateLimiter(max_requests=5, period=10，token_bucket=True)
+def fetch_global_resource():
+    print(f"[{time.strftime('%H:%M:%S')}] 正在获取全局资源... 成功!")
+
+# 模拟突发调用
+for i in range(7):
+    try:
+        fetch_global_resource()
+    except RateLimitException as e:
+        print(f"[{time.strftime('%H:%M:%S')}] 请求被限制。请在 {e.delay:.2f} 秒后重试。")
+    time.sleep(0.5)
+```
+
+### 示例 2: 根据用户 ID 进行限制
+
+这是更强大的用法。每个用户将拥有自己独立的速率限制。
+
+```python
+import time
+from awosome_ratelimiter import RateLimiter, RateLimitException
+
+# 定义一个函数，用于从函数参数中提取 'user_id'
+def get_user_id(args, kwargs):
+    # 假设 user_id 是第一个位置参数
+    if args:
+        return args[0]
+    # 或者从关键字参数中获取
+    return kwargs.get('user_id')
+
+# 每个用户每分钟最多请求10次
+@RateLimiter(max_requests=10, period=60, get_key_func=get_user_id, token_bucket=False)
+def user_specific_api(user_id: str, action: str):
+    print(f"[{time.strftime('%H:%M:%S')}] 用户 '{user_id}' 正在执行操作 '{action}'... 成功!")
+
+# 模拟来自不同用户的请求
+try:
+    user_specific_api("user-Alice", "查询余额")
+    user_specific_api("user-Bob", "更新资料")
+    user_specific_api("user-Alice", "发起转账") # Alice 的第2次请求，成功
+    
+    # 快速耗尽 Bob 的额度
+    for i in range(9):
+        user_specific_api("user-Bob", f"发送消息 #{i+1}")
+        time.sleep(0.1)
+        
+except RateLimitException as e:
+    print(f"[{time.strftime('%H:%M:%S')}] 请求被限制。请在 {e.delay:.2f} 秒后重试。")
+```
+
+### 处理限制异常
+
+`RateLimitException` 异常对象包含一个 `delay` 属性，它告诉您需要等待多少秒才能进行下一次尝试。
+
+```python
+from my_ratelimiter import RateLimitException
+
+try:
+    some_limited_function()
+except RateLimitException as e:
+    print(f"速率超限，需要等待 {e.delay:.2f} 秒。")
+    # 这里可以加入重试逻辑，例如:
+    # time.sleep(e.delay)
+    # some_limited_function()
+```
+
+
+### `RateLimitException`
+
+当请求被拒绝时抛出的异常。
+
+  * `delay` (float): 一个浮点数，表示建议的最小等待时间（秒），直到可以再次发起请求。
+
+## 🤝 贡献
+
+欢迎任何形式的贡献！如果您发现 Bug 或有功能建议，请随时提交 [Issues](https://www.google.com/search?q=https://github.com/785172550/awesome_ratelimiter/issues)。
+
+如果您希望贡献代码：
+
+1.  Fork 本仓库。
+2.  创建一个新的功能分支 (`git checkout -b feature/AmazingFeature`)。
+3.  提交您的更改 (`git commit -m 'Add some AmazingFeature'`)。
+4.  Push 到您的分支 (`git push origin feature/AmazingFeature`)。
+5.  提交一个 Pull Request。
+
+## 📄 许可证
+
+本项目使用 MIT 许可证。详情请见 `LICENSE` 文件。
