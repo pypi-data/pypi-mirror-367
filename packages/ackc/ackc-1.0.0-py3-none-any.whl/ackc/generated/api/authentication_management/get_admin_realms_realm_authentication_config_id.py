@@ -1,0 +1,181 @@
+from http import HTTPStatus
+from typing import Any, Union, cast
+
+import niquests
+
+from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
+from ...models.authenticator_config_representation import AuthenticatorConfigRepresentation
+from typing import cast
+
+
+
+def _get_kwargs(
+    realm: str,
+    id: str,
+
+) -> dict[str, Any]:
+    
+
+    
+
+    
+
+    _kwargs: dict[str, Any] = {
+        "method": "get",
+        "url": "/admin/realms/{realm}/authentication/config/{id}".format(realm=realm,id=id,),
+    }
+
+
+    return _kwargs
+
+
+def _parse_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> AuthenticatorConfigRepresentation | None:
+    if response.status_code == 200:
+        response_200 = AuthenticatorConfigRepresentation.from_dict(response.json())
+
+
+
+        return response_200
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> Response[AuthenticatorConfigRepresentation]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    realm: str,
+    id: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> Response[AuthenticatorConfigRepresentation]:
+    """ Get authenticator configuration
+
+    Args:
+        realm (str):
+        id (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[AuthenticatorConfigRepresentation]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+id=id,
+
+    )
+
+    response = client.get_niquests_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+def sync(
+    realm: str,
+    id: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> AuthenticatorConfigRepresentation | None:
+    """ Get authenticator configuration
+
+    Args:
+        realm (str):
+        id (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        AuthenticatorConfigRepresentation
+     """
+
+
+    return sync_detailed(
+        realm=realm,
+id=id,
+client=client,
+
+    ).parsed
+
+async def asyncio_detailed(
+    realm: str,
+    id: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> Response[AuthenticatorConfigRepresentation]:
+    """ Get authenticator configuration
+
+    Args:
+        realm (str):
+        id (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[AuthenticatorConfigRepresentation]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+id=id,
+
+    )
+
+    response = await client.get_async_niquests_client().request(
+        **kwargs
+    )
+
+    return _build_response(client=client, response=response)
+
+async def asyncio(
+    realm: str,
+    id: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> AuthenticatorConfigRepresentation | None:
+    """ Get authenticator configuration
+
+    Args:
+        realm (str):
+        id (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        AuthenticatorConfigRepresentation
+     """
+
+
+    return (await asyncio_detailed(
+        realm=realm,
+id=id,
+client=client,
+
+    )).parsed

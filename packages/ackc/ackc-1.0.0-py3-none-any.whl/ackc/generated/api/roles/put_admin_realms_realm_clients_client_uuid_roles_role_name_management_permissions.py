@@ -1,0 +1,222 @@
+from http import HTTPStatus
+from typing import Any, Union, cast
+
+import niquests
+
+from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
+from ...models.management_permission_reference import ManagementPermissionReference
+from typing import cast
+
+
+
+def _get_kwargs(
+    realm: str,
+    client_uuid: str,
+    role_name: str,
+    *,
+    body: ManagementPermissionReference,
+
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+
+    
+
+    
+
+    _kwargs: dict[str, Any] = {
+        "method": "put",
+        "url": "/admin/realms/{realm}/clients/{client_uuid}/roles/{role_name}/management/permissions".format(realm=realm,client_uuid=client_uuid,role_name=role_name,),
+    }
+
+    _kwargs["json"] = body.to_dict()
+
+
+
+    return _kwargs
+
+
+def _parse_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> Union[Any, ManagementPermissionReference] | None:
+    if response.status_code == 200:
+        response_200 = ManagementPermissionReference.from_dict(response.json())
+
+
+
+        return response_200
+    if response.status_code == 403:
+        response_403 = cast(Any, None)
+        return response_403
+    if response.status_code == 404:
+        response_404 = cast(Any, None)
+        return response_404
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> Response[Union[Any, ManagementPermissionReference]]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    realm: str,
+    client_uuid: str,
+    role_name: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+    body: ManagementPermissionReference,
+
+) -> Response[Union[Any, ManagementPermissionReference]]:
+    """ Return object stating whether role Authorization permissions have been initialized or not and a
+    reference
+
+    Args:
+        realm (str):
+        client_uuid (str):
+        role_name (str):
+        body (ManagementPermissionReference):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Union[Any, ManagementPermissionReference]]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+client_uuid=client_uuid,
+role_name=role_name,
+body=body,
+
+    )
+
+    response = client.get_niquests_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+def sync(
+    realm: str,
+    client_uuid: str,
+    role_name: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+    body: ManagementPermissionReference,
+
+) -> Union[Any, ManagementPermissionReference] | None:
+    """ Return object stating whether role Authorization permissions have been initialized or not and a
+    reference
+
+    Args:
+        realm (str):
+        client_uuid (str):
+        role_name (str):
+        body (ManagementPermissionReference):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Union[Any, ManagementPermissionReference]
+     """
+
+
+    return sync_detailed(
+        realm=realm,
+client_uuid=client_uuid,
+role_name=role_name,
+client=client,
+body=body,
+
+    ).parsed
+
+async def asyncio_detailed(
+    realm: str,
+    client_uuid: str,
+    role_name: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+    body: ManagementPermissionReference,
+
+) -> Response[Union[Any, ManagementPermissionReference]]:
+    """ Return object stating whether role Authorization permissions have been initialized or not and a
+    reference
+
+    Args:
+        realm (str):
+        client_uuid (str):
+        role_name (str):
+        body (ManagementPermissionReference):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Union[Any, ManagementPermissionReference]]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+client_uuid=client_uuid,
+role_name=role_name,
+body=body,
+
+    )
+
+    response = await client.get_async_niquests_client().request(
+        **kwargs
+    )
+
+    return _build_response(client=client, response=response)
+
+async def asyncio(
+    realm: str,
+    client_uuid: str,
+    role_name: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+    body: ManagementPermissionReference,
+
+) -> Union[Any, ManagementPermissionReference] | None:
+    """ Return object stating whether role Authorization permissions have been initialized or not and a
+    reference
+
+    Args:
+        realm (str):
+        client_uuid (str):
+        role_name (str):
+        body (ManagementPermissionReference):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Union[Any, ManagementPermissionReference]
+     """
+
+
+    return (await asyncio_detailed(
+        realm=realm,
+client_uuid=client_uuid,
+role_name=role_name,
+client=client,
+body=body,
+
+    )).parsed

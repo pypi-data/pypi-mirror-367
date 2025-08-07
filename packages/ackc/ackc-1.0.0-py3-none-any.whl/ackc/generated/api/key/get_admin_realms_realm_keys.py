@@ -1,0 +1,164 @@
+from http import HTTPStatus
+from typing import Any, Union, cast
+
+import niquests
+
+from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
+from ...models.keys_metadata_representation import KeysMetadataRepresentation
+from typing import cast
+
+
+
+def _get_kwargs(
+    realm: str,
+
+) -> dict[str, Any]:
+    
+
+    
+
+    
+
+    _kwargs: dict[str, Any] = {
+        "method": "get",
+        "url": "/admin/realms/{realm}/keys".format(realm=realm,),
+    }
+
+
+    return _kwargs
+
+
+def _parse_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> KeysMetadataRepresentation | None:
+    if response.status_code == 200:
+        response_200 = KeysMetadataRepresentation.from_dict(response.json())
+
+
+
+        return response_200
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(*, client: AuthenticatedClient | Client, response: niquests.Response) -> Response[KeysMetadataRepresentation]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    realm: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> Response[KeysMetadataRepresentation]:
+    """ 
+    Args:
+        realm (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[KeysMetadataRepresentation]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+
+    )
+
+    response = client.get_niquests_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+def sync(
+    realm: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> KeysMetadataRepresentation | None:
+    """ 
+    Args:
+        realm (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        KeysMetadataRepresentation
+     """
+
+
+    return sync_detailed(
+        realm=realm,
+client=client,
+
+    ).parsed
+
+async def asyncio_detailed(
+    realm: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> Response[KeysMetadataRepresentation]:
+    """ 
+    Args:
+        realm (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[KeysMetadataRepresentation]
+     """
+
+
+    kwargs = _get_kwargs(
+        realm=realm,
+
+    )
+
+    response = await client.get_async_niquests_client().request(
+        **kwargs
+    )
+
+    return _build_response(client=client, response=response)
+
+async def asyncio(
+    realm: str,
+    *,
+    client: Union[AuthenticatedClient, Client],
+
+) -> KeysMetadataRepresentation | None:
+    """ 
+    Args:
+        realm (str):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        KeysMetadataRepresentation
+     """
+
+
+    return (await asyncio_detailed(
+        realm=realm,
+client=client,
+
+    )).parsed
