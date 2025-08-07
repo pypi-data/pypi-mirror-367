@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.30.0/swagger-ui.css" >
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.30.0/swagger-ui-standalone-preset.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.30.0/swagger-ui-bundle.js"> </script>
+
+    <script>
+        var authKey = 'Token {{ token.key }}';
+        var csrfToken = '{{ csrf_token }}';
+        try {
+            const ui = SwaggerUIBundle({
+                url: "{% url schema_url %}",
+                dom_id: '#swagger-ui',
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+                layout: "BaseLayout",
+                requestInterceptor: function (request) {
+                    request.headers.Authorization = authKey;
+                    request.headers['X-CSRFToken'] = csrfToken;
+                    return request;
+                }
+            });
+        } catch (e) {
+            ui;
+        }
+
+    </script>
+</body>
+
+</html>
