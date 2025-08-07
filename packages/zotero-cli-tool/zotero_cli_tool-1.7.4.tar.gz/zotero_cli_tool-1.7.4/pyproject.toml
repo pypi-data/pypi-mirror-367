@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {attr = "zotero.__info__.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt"]
+
+[project]
+name = "zotero-cli-tool"
+authors = [
+  {name="Alexandre D'Hondt", email="alexandre.dhondt@gmail.com"},
+]
+description = "Tinyscript tool for sorting and exporting Zotero references based on pyzotero"
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+keywords = ["zotero", "citations", "cli-app", "tinyscript"]
+requires-python = ">=3.8,<4"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "fonttools>=4.43.0",  # SNYK-PYTHON-FONTTOOLS-6133203
+  "matplotlib",
+  "pyzotero",
+  "tinyscript>=1.30.22",
+  "xlsxwriter",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+gpt = [
+  "chromadb",
+  "crypt-r; sys_platform != 'darwin'",
+  "fastapi>=0.109.1",  # SNYK-PYTHON-FASTAPI-6228055
+  "gpt4all",
+  "langchain>=0.0.225",
+  "llama-cpp-python",
+  "numpy>=1.22.2",     # SNYK-PYTHON-NUMPY-2321964
+  "requests>=2.32.2",  # SNYK-PYTHON-REQUESTS-6928867
+  "sympy>=1.12",       # SNYK-PYTHON-SYMPY-6084333
+  "tqdm",
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+homepage = "https://github.com/dhondta/zotero-cli"
+issues = "https://github.com/dhondta/zotero-cli/issues"
+repository = "https://github.com/dhondta/zotero-cli"
+
+[project.scripts]
+zotero-cli = "zotero.__main__:main"
