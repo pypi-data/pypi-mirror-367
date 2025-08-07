@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: aiauto-client
+Version: 0.1.0
+Summary: AI Auto HPO (Hyperparameter Optimization) Client Library
+Author-email: AIAuto Team <ainode@zeroone.ai>
+Project-URL: Homepage, https://aiauto.cloude.ainode.ai
+Project-URL: Repository, https://aiauto.cloude.ainode.ai
+Project-URL: Documentation, https://aiauto.cloude.ainode.ai
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: optuna>=3.0.0
+Requires-Dist: grpcio>=1.50.0
+Requires-Dist: grpcio-tools>=1.50.0
+Requires-Dist: protobuf>=4.0.0
+
+# AIAuto - Hyperparameter Optimization Client Library
+
+AIAuto는 Kubernetes 기반의 분산 HPO(Hyperparameter Optimization) 시스템을 위한 클라이언트 라이브러리입니다.
+사용자 python lib <-> Next.js 서버 사이 gRPC 통신 담당
+
+## lib build
+- pypi build, upload 종속성 다운로드 `pip install build twine`
+- build lib `python -m build --wheel --sdist`
+  - `aiauto-0.1.0.whl` 생성
+  - `aiauto-0.1.0.tar.gz` 생성
+  - `aiauto.egg-info` 생성
+- `twine upload --repository testpypi dist/*`
+- `twine upload dist/*`
+  - upload 시 pypi token 을 입력하라고 나옴, pypi 로그인 계정 설정가면 있다 
+
+## 설치
+- `pip install aiauto`
+
+## 빠른 시작
+```python
+import aiauto
+
+# 컨트롤러 초기화
+ac = aiauto.AIAutoController()
+
+# Objective 함수 정의
+def objective(trial):
+    tc = aiauto.TrialController(trial)
+    
+    # 하이퍼파라미터 샘플링
+    lr = trial.suggest_float('lr', 1e-5, 1e-1, log=True)
+    
+    # 모델 학습 및 평가 로직
+    # ...
+    tc.log(f'full dataset: train {len(dataset)}, test {len(dataset_test)}, batch_size {batch_size}')
+    
+    return accuracy
+
+# Study 생성 및 최적화 실행
+study = optuna.create_study(
+    study_name='my_optimization',
+    storage=ac.get_storage(),
+    direction='maximize'
+)
+
+study.optimize(objective, n_trials=100)
+```
