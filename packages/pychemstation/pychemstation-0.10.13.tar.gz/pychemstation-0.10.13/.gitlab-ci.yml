@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+  image: python:3.12-slim
+  before_script:
+    - apt-get update && apt-get install make --no-install-recommends -y
+    - python -m pip install -e .
+  script:
+    - pdoc -o doc pychemstation
+  after_script:
+    - mv doc/ ./public/
+  artifacts:
+    paths:
+    - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "v0.10.x"
