@@ -1,0 +1,5 @@
+__author__ = "Jan Krupa"
+__email__ = "jan.krupa@cesnet.cz"
+__version__ = "5.0.2-b1"
+__description__ = "Adds ability to create, edit and view service paths in the CESNET network."
+__name__ = "cesnet_service_path_plugin"
