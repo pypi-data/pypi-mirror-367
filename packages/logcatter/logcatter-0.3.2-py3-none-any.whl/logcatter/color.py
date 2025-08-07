@@ -1,0 +1,12 @@
+from logcatter.level import LEVEL_VERBOSE, LEVEL_DEBUG, LEVEL_INFO, LEVEL_WARNING, LEVEL_ERROR, LEVEL_FATAL
+
+COLOR = {
+    LEVEL_VERBOSE: '\x1b[37;20m',
+    LEVEL_DEBUG: '\x1b[37;20m',
+    LEVEL_INFO: '\x1b[32;20m',
+    LEVEL_WARNING: '\x1b[33;20m',
+    LEVEL_ERROR: '\x1b[31;20m',
+    LEVEL_FATAL: '\x1b[31;1m',
+}
+
+COLOR_RESET = '\x1b[0m'
