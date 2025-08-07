@@ -1,0 +1,35 @@
+# pyproject.toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kard-x"
+version = "0.1.2"
+authors = [ { name="Johnny", email="your.email@example.com" } ]
+description = "A fun, text-based card game built with Python and a customizable rule engine."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file="LICENSE" }
+dependencies = [ "json5", "wcwidth" ]
+classifiers = [
+    "Development Status :: 3 - Alpha", "Environment :: Console",
+    "Intended Audience :: End Users/Desktop", "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent", "Programming Language :: Python :: 3",
+    "Topic :: Games/Entertainment :: Board Games",
+]
+[project.urls]
+"Homepage"="https://github.com/JohnnyWu2k/kardx"
+"Bug Tracker"="https://github.com/JohnnyWu2k/kardx/issues"
+
+
+
+
+[project.scripts]
+kardx = "src.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"src.data" = ["*.jsonc"]
