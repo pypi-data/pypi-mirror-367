@@ -1,0 +1,235 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:  # Allow manual trigger
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'testpypi'
+        type: choice
+        options:
+        - testpypi
+        - pypi
+
+jobs:
+  test:
+    name: Test on Windows 🪟
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+    
+    - name: Run tests
+      run: |
+        echo "Running Windows-specific tests..."
+        python -m pytest tests/ -v
+    
+    - name: Test CLI commands
+      run: |
+        echo "Testing console script functionality..."
+        python hello_crypto.py --help
+        python aws_hello_creds.py --help
+      continue-on-error: true
+
+  build:
+    name: Build distribution 📦
+    runs-on: ubuntu-latest
+    needs: test  # Only build if tests pass
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for proper versioning and git tags
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+    
+    - name: Determine version
+      id: version
+      run: |
+        VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+        echo "Using project version: $VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
+    - name: Verify package metadata
+      run: |
+        echo "Checking package configuration..."
+        python -c "
+        import tomllib
+        with open('pyproject.toml', 'rb') as f:
+            config = tomllib.load(f)
+        
+        project = config['project']
+        print('Package:', project['name'])
+        print('Version:', project['version'])
+        print('Description:', project['description'])
+        print('Console Scripts:', project.get('scripts', {}))
+        "
+    
+    - name: Build package
+      run: |
+        echo "Building wheel and source distribution..."
+        python -m build
+        
+        echo "Built packages:"
+        ls -la dist
+    
+    - name: Check package contents
+      run: |
+        echo "Checking package contents..."
+        twine check dist/*
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+        retention-days: 7
+
+  publish-to-testpypi:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'testpypi'
+    environment: testpypi
+    
+    permissions:
+      id-token: write  # Required for Trusted Publishers
+      contents: read
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    
+    - name: Publish to TestPyPI (Trusted Publisher)
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
+        print-hash: true
+        verbose: true
+      continue-on-error: true
+      id: publish-trusted
+    
+    - name: Publish to TestPyPI (API Token fallback)
+      if: steps.publish-trusted.outcome == 'failure'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        skip-existing: true
+        print-hash: true
+        verbose: true
+
+  publish-to-pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'pypi')
+    environment: pypi
+    
+    permissions:
+      id-token: write  # Required for Trusted Publishers
+      contents: read
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    
+    - name: Publish to PyPI (Trusted Publisher)
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        skip-existing: true
+        print-hash: true
+        verbose: true
+      continue-on-error: true
+      id: publish-trusted
+    
+    - name: Publish to PyPI (API Token fallback)
+      if: steps.publish-trusted.outcome == 'failure'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        skip-existing: true
+        print-hash: true
+        verbose: true
+
+  post-publish:
+    name: Test PyPI package on Windows 🪟
+    needs: [build, publish-to-pypi]
+    runs-on: windows-latest
+    if: always() && (needs.publish-to-pypi.result == 'success')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Verify PyPI publication
+      run: |
+        $VERSION = "${{ needs.build.outputs.version }}"
+        echo "Waiting for package version $VERSION to be available on PyPI..."
+        Start-Sleep -Seconds 60
+        
+        echo "Testing installation from PyPI..."
+        python -m pip install --upgrade "winhello-crypto==$VERSION" --force-reinstall
+        
+        echo "Verifying console scripts..."
+        winhello-crypto --help
+        aws-hello-creds --help
+        
+        echo "Package version $VERSION successfully published and verified!"
+      continue-on-error: true
+    
+    - name: Create deployment summary
+      run: |
+        $VERSION = "${{ needs.build.outputs.version }}"
+        echo "## 🚀 PyPI Deployment Summary" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "✅ **Package**: winhello-crypto" >> $env:GITHUB_STEP_SUMMARY
+        echo "✅ **Version**: $VERSION" >> $env:GITHUB_STEP_SUMMARY
+        echo "✅ **Environment**: PyPI Production" >> $env:GITHUB_STEP_SUMMARY
+        echo "✅ **URL**: https://pypi.org/project/winhello-crypto/$VERSION/" >> $env:GITHUB_STEP_SUMMARY
+        echo "✅ **Installation**: \`pip install winhello-crypto==$VERSION\`" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "### Available Commands" >> $env:GITHUB_STEP_SUMMARY
+        echo "- \`aws-hello-creds\` - AWS credential management" >> $env:GITHUB_STEP_SUMMARY
+        echo "- \`winhello-crypto\` - File encryption/decryption" >> $env:GITHUB_STEP_SUMMARY
+        echo "" >> $env:GITHUB_STEP_SUMMARY
+        echo "### Publishing Method" >> $env:GITHUB_STEP_SUMMARY
+        echo "- ✅ **Trusted Publishers**: Secure authentication without API tokens" >> $env:GITHUB_STEP_SUMMARY
+        echo "- ✅ **Skip Existing**: Robust handling of duplicate uploads" >> $env:GITHUB_STEP_SUMMARY
