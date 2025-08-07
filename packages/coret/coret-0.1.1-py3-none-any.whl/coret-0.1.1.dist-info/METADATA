@@ -1,0 +1,184 @@
+Metadata-Version: 2.4
+Name: coret
+Version: 0.1.1
+Summary: Surrogate based Concept Retrieval for Large Datasets
+Author-email: Onr <restin3@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Onr/surrogate_concept_retrieval
+Project-URL: Bug_Tracker, https://github.com/Onr/surrogate_concept_retrieval/issues
+Project-URL: Documentation, https://onr.github.io/surrogate_concept_retrieval/
+Keywords: concept-retrieval,interpretability,xai,computer-vision,machine-learning
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: <3.13,>=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy<2
+Requires-Dist: toml>=0.10.2
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: faiss-gpu-cu12[fix-cuda]<2,>=1.11.0
+Requires-Dist: cupy-cuda12x>=13.4.1
+Requires-Dist: scipy>=1.13.1
+Requires-Dist: scikit-learn>=1.6.1
+Provides-Extra: test
+Requires-Dist: pytest>=7.0.0; extra == "test"
+Requires-Dist: pytest-cov>=4.0.0; extra == "test"
+Requires-Dist: pytest-mock>=3.10.0; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Requires-Dist: autoflake>=2.0.0; extra == "dev"
+Requires-Dist: docformatter>=1.7.0; extra == "dev"
+Requires-Dist: bandit>=1.7.0; extra == "dev"
+Requires-Dist: sphinx>=7.0.0; extra == "dev"
+Requires-Dist: sphinx_rtd_theme>=2.0.0; extra == "dev"
+Requires-Dist: sphinx-autodoc-typehints>=2.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=7.0.0; extra == "docs"
+Requires-Dist: sphinx_rtd_theme>=2.0.0; extra == "docs"
+Requires-Dist: sphinx-autodoc-typehints>=2.0.0; extra == "docs"
+Dynamic: license-file
+
+# Surrogate Concept Retrieval
+
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+# surrogate_concept_retrieval
+Implementation for the paper Concept Retrieval - What and How?
+
+## Package Status
+
+✅ **Added**:
+- Project URLs and Documentation links
+- Keywords and classifiers for PyPI
+- Populated `__init__.py` for proper imports
+- Documentation structure with Sphinx
+- Example code
+- Improved README with usage examples
+
+🔄 **In Progress**:
+- Comprehensive documentation
+- Test coverage
+- CI/CD setup
+
+## Getting Started
+
+```bash
+# Install the package
+pip install -e .
+```
+
+See `RECOMMENDATIONS.md` for full details on package improvements.
+
+## Overview
+
+This package provides tools for extracting concepts from large datasets using surrogate concept retrieval method.
+
+## Features
+
+- Fast embedding indexing using FAISS
+- GPU-accelerated similarity computation
+- Automatic concept extraction from embedding spaces
+- Flexible concept filtering and refinement
+- Support for projection-based concept analysis
+
+## Installation
+
+```bash
+# Install from PyPI
+pip install coret
+
+# Install with development dependencies
+pip install "coret[dev]"
+```
+
+## Quick Start
+
+```python
+import numpy as np
+from coret import ConceptRetrieval
+
+# Load your embeddings (example uses random data)
+embeddings = np.random.randn(1000, 768)
+embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+embeddings = np.ascontiguousarray(embeddings, dtype=np.float32)
+
+# Initialize concept retrieval
+concept_retriever = ConceptRetrieval()
+
+# Fit the model with embeddings
+concept_retriever.fit(embeddings=embeddings)
+
+# Select a random query embedding for demonstration
+query_index = np.random.randint(0, len(embeddings))
+query_embedding = embeddings[query_index]
+
+# Retrieve concepts for the query
+concepts = concept_retriever.retrieve(
+    query=query_embedding,
+    number_of_concepts=5,
+    number_of_samples_per_concept=5
+)
+
+# Print retrieved concepts
+top_k_concepts_indices_s = concepts['top_k_concepts_indices_s']
+
+print(f"Query index: {query_index}")
+for i, concept_indices in enumerate(top_k_concepts_indices_s):
+  print(f"Concept {i+1}:")
+  print(f"  Indices: {concept_indices}")
+  print()
+```
+
+## Requirements
+
+- Python 3.9+
+- CUDA-compatible GPU (recommended for large datasets)
+- Dependencies:
+  - numpy
+  - faiss-gpu (or faiss-cpu)
+  - scipy
+  - scikit-learn
+  - tqdm
+  - cupy (for GPU acceleration)
+
+## Documentation
+
+For detailed API documentation and examples, please visit our [documentation site](https://onr.github.io/surrogate_concept_retrieval).
+
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+<!-- ## Citation
+
+If you use this library in your research, please cite:
+
+```bibtex
+@article{author2025concept,
+  title={Concept Retrieval - What and How?},
+  author={Author, A.},
+  journal={Journal Name},
+  year={2025}
+}
+``` -->
