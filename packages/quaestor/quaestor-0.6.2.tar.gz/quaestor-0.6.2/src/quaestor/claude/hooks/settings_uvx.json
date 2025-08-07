@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uvx --from quaestor quaestor hook session-context-loader",
+            "description": "Load active specifications into session context"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uvx --from quaestor quaestor hook todo-spec-progress",
+            "description": "Update specification progress when TODOs are completed"
+          }
+        ]
+      }
+    ]
+  }
+}
