@@ -1,0 +1,1 @@
+§slide_0ƒ¨children©slide_0_0„¤type¨Markdown¤textÙR$-C\frac{\partial T}{\partial t} - \nabla \cdot \left(\kappa \nabla T\\right) = Q$¨fontsizeË?©™™™™™š¥style‚¨position¨absolute¥color§#DCDCDC¥style¯backgroundColor§#303030©animation‘¡0Â
