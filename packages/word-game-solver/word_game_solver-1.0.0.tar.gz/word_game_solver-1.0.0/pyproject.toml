@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "word_game_solver"
+version = "1.0.0"
+description = "Generate valid English word sets based on a specified word length and a set of input characters using anagrams and a file with English words."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Sharrrkkk"}]
+maintainers = [{name = "Sharrrkkk"}]
+keywords = ["anagram", "anagrams", "game", "generate", "word", "words", "solver", "finder"]
+dependencies = []
+requires-python = ">= 3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Education",
+    "Topic :: Games/Entertainment",
+    "Programming Language :: Python :: 3"
+]
+
+[project.urls]
+Homepage = "https://github.com/Sharrrkkk/word_game_solver"
+Documentation = "https://github.com/Sharrrkkk/word_game_solver#README.md"
+Repository = "https://github.com/Sharrrkkk/word_game_solver"
+Issues = "https://github.com/Sharrrkkk/word_game_solver/issues"
+
+[project.scripts]
+wordfinder = "word_game_solver.cli:run_cli"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+word_game_solver = ["word_files/*", "info/*"]
