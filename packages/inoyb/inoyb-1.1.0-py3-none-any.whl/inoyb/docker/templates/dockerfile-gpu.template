@@ -1,0 +1,42 @@
+FROM {base_image}
+
+WORKDIR /app
+
+# 更新conda并配置conda-forge
+RUN conda update -n base -c defaults conda && \
+    conda config --add channels conda-forge && \
+    conda config --set channel_priority strict
+
+# 安装地理空间相关依赖和rasterio
+RUN conda install -y \
+    rasterio \
+    gdal \
+    numpy \
+    && conda clean -afy
+
+# 安装PyTorch GPU版本 (使用conda安装可以更好地处理CUDA依赖)
+RUN conda install -y pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia && \
+    conda clean -afy
+
+# 复制requirements并安装Python依赖
+COPY requirements.txt .
+
+# 安装uv包管理器（更快的pip替代品）
+RUN conda install -y -c conda-forge uv && conda clean -afy
+
+# 使用uv安装Python依赖（比pip更快）
+RUN uv pip install --system --no-cache -r requirements.txt
+
+# 安装inoyb框架
+RUN pip install --no-cache-dir inoyb
+
+# 复制项目文件
+COPY gogogo.py mc.json ./
+COPY model/ ./model/
+{examples_copy}
+
+# 暴露Gradio默认端口
+EXPOSE 7860
+
+# 启动命令
+CMD ["python", "gogogo.py"]
