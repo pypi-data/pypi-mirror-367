@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://pptx-dsl.com/schema"
+           xmlns:pptx="http://pptx-dsl.com/schema"
+           elementFormDefault="qualified">
+
+    <!-- Root presentation element -->
+    <xs:element name="presentation" type="pptx:PresentationType"/>
+
+    <!-- Enhanced Presentation Type -->
+    <xs:complexType name="PresentationType">
+        <xs:sequence>
+            <xs:element name="metadata" type="pptx:MetadataType" minOccurs="0"/>
+            <xs:element name="theme" type="pptx:ThemeType" minOccurs="0"/>
+            <xs:element name="responsive" type="pptx:ResponsiveConfigType" minOccurs="0"/>
+            <xs:element name="slide" type="pptx:SlideType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="width" type="xs:int" default="1920"/>
+        <xs:attribute name="height" type="xs:int" default="1080"/>
+    </xs:complexType>
+
+    <!-- Responsive Configuration Type -->
+    <xs:complexType name="ResponsiveConfigType">
+        <xs:sequence>
+            <xs:element name="breakpoint" type="pptx:BreakpointType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="autoAdjust" type="xs:boolean" default="true"/>
+    </xs:complexType>
+
+    <!-- Breakpoint Type -->
+    <xs:complexType name="BreakpointType">
+        <xs:sequence>
+            <xs:element name="columns" type="xs:int" minOccurs="0"/>
+            <xs:element name="padding" type="xs:string" minOccurs="0"/>
+            <xs:element name="spacing" type="xs:string" minOccurs="0"/>
+            <xs:element name="gap" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="minWidth" type="xs:int" use="required"/>
+        <xs:attribute name="maxWidth" type="xs:int" default="999999"/>
+    </xs:complexType>
+
+    <!-- Metadata Type -->
+    <xs:complexType name="MetadataType">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" minOccurs="0"/>
+            <xs:element name="subtitle" type="xs:string" minOccurs="0"/>
+            <xs:element name="author" type="xs:string" minOccurs="0"/>
+            <xs:element name="company" type="xs:string" minOccurs="0"/>
+            <xs:element name="date" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="keywords" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Enhanced Theme Type -->
+    <xs:complexType name="ThemeType">
+        <xs:sequence>
+            <xs:element name="colors" type="pptx:ColorsType" minOccurs="0"/>
+            <xs:element name="fonts" type="pptx:FontsType" minOccurs="0"/>
+            <xs:element name="cardStyles" type="pptx:CardStylesType" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="pptx:ThemeNameType" default="corporate_blue"/>
+    </xs:complexType>
+
+    <!-- Colors Type -->
+    <xs:complexType name="ColorsType">
+        <xs:sequence>
+            <xs:element name="primary" type="xs:string" minOccurs="0"/>
+            <xs:element name="secondary" type="xs:string" minOccurs="0"/>
+            <xs:element name="accent" type="xs:string" minOccurs="0"/>
+            <xs:element name="background" type="xs:string" minOccurs="0"/>
+            <xs:element name="text" type="xs:string" minOccurs="0"/>
+            <xs:element name="success" type="xs:string" minOccurs="0"/>
+            <xs:element name="warning" type="xs:string" minOccurs="0"/>
+            <xs:element name="danger" type="xs:string" minOccurs="0"/>
+            <xs:element name="info" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Enhanced Fonts Type -->
+    <xs:complexType name="FontsType">
+        <xs:sequence>
+            <xs:element name="heading" type="xs:string" minOccurs="0"/>
+            <xs:element name="body" type="xs:string" minOccurs="0"/>
+            <xs:element name="category" type="xs:string" minOccurs="0"/>
+            <xs:element name="title" type="xs:string" minOccurs="0"/>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="badge" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Card Styles Type -->
+    <xs:complexType name="CardStylesType">
+        <xs:sequence>
+            <xs:element name="default" type="pptx:CardStyleType" minOccurs="0"/>
+            <xs:element name="modern" type="pptx:CardStyleType" minOccurs="0"/>
+            <xs:element name="classic" type="pptx:CardStyleType" minOccurs="0"/>
+            <xs:element name="creative" type="pptx:CardStyleType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Card Style Type -->
+    <xs:complexType name="CardStyleType">
+        <xs:sequence>
+            <xs:element name="background" type="pptx:CardBackgroundType" minOccurs="0"/>
+            <xs:element name="border" type="pptx:CardBorderType" minOccurs="0"/>
+            <xs:element name="shadow" type="pptx:CardShadowType" minOccurs="0"/>
+            <xs:element name="typography" type="pptx:CardTypographyType" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+
+    <!-- Card Background Type -->
+    <xs:complexType name="CardBackgroundType">
+        <xs:choice>
+            <xs:element name="solid" type="pptx:SolidBackgroundType"/>
+            <xs:element name="gradient" type="pptx:GradientBackgroundType"/>
+        </xs:choice>
+        <xs:attribute name="roundedCorners" type="xs:boolean" default="true"/>
+    </xs:complexType>
+
+    <!-- Solid Background Type -->
+    <xs:complexType name="SolidBackgroundType">
+        <xs:attribute name="color" type="xs:string" default="#ffffff"/>
+    </xs:complexType>
+
+    <!-- Gradient Background Type -->
+    <xs:complexType name="GradientBackgroundType">
+        <xs:sequence>
+            <xs:element name="color" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="pptx:GradientTypeEnum" default="linear"/>
+        <xs:attribute name="direction" type="pptx:GradientDirectionType" default="horizontal"/>
+    </xs:complexType>
+
+    <!-- Card Border Type -->
+    <xs:complexType name="CardBorderType">
+        <xs:attribute name="style" type="pptx:BorderStyleType" default="solid"/>
+        <xs:attribute name="width" type="xs:decimal" default="1"/>
+        <xs:attribute name="color" type="xs:string" default="#e0e0e0"/>
+    </xs:complexType>
+
+    <!-- Card Shadow Type -->
+    <xs:complexType name="CardShadowType">
+        <xs:attribute name="enabled" type="xs:boolean" default="true"/>
+        <xs:attribute name="color" type="xs:string" default="#cccccc"/>
+        <xs:attribute name="offsetX" type="xs:decimal" default="0.05"/>
+        <xs:attribute name="offsetY" type="xs:decimal" default="0.05"/>
+        <xs:attribute name="blur" type="xs:decimal" default="2.0"/>
+    </xs:complexType>
+
+    <!-- Card Typography Type -->
+    <xs:complexType name="CardTypographyType">
+        <xs:sequence>
+            <xs:element name="category" type="pptx:TypographyElementType" minOccurs="0"/>
+            <xs:element name="title" type="pptx:TypographyElementType" minOccurs="0"/>
+            <xs:element name="description" type="pptx:TypographyElementType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Typography Element Type -->
+    <xs:complexType name="TypographyElementType">
+        <xs:attribute name="fontFamily" type="xs:string" default="Segoe UI"/>
+        <xs:attribute name="fontSize" type="xs:int" default="12"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="normal"/>
+        <xs:attribute name="color" type="xs:string" default="#000000"/>
+        <xs:attribute name="lineHeight" type="xs:decimal" default="1.2"/>
+        <xs:attribute name="letterSpacing" type="xs:string" default="normal"/>
+    </xs:complexType>
+
+    <!-- Enhanced Slide Type -->
+    <xs:complexType name="SlideType">
+        <xs:sequence>
+            <xs:element name="layout" type="pptx:EnhancedLayoutType" minOccurs="0"/>
+            <xs:element name="content" type="pptx:EnhancedContentType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="title" type="xs:string"/>
+        <xs:attribute name="template" type="pptx:SlideTemplateType" default="content"/>
+    </xs:complexType>
+
+    <!-- Enhanced Layout Type -->
+    <xs:complexType name="EnhancedLayoutType">
+        <xs:sequence>
+            <xs:element name="breakpoint" type="pptx:LayoutBreakpointType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="content" type="pptx:EnhancedContentType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:choice minOccurs="0">
+                <xs:element name="auto" type="pptx:AutoLayoutType"/>
+                <xs:element name="grid" type="pptx:GridLayoutType"/>
+                <xs:element name="flex" type="pptx:FlexLayoutType"/>
+                <xs:element name="absolute" type="pptx:AbsoluteLayoutType"/>
+                <xs:element name="cardGrid" type="pptx:CardGridLayoutType"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="type" type="pptx:LayoutTypeEnum" default="auto"/>
+        <xs:attribute name="layoutType" type="pptx:AutoLayoutTypeEnum"/>
+        <xs:attribute name="spacing" type="xs:string" default="10"/>
+        <xs:attribute name="padding" type="xs:string" default="20"/>
+        <xs:attribute name="responsive" type="xs:boolean" default="true"/>
+        <xs:attribute name="columns" type="xs:int" default="1"/>
+        <xs:attribute name="rows" type="xs:int" default="1"/>
+        <xs:attribute name="gap" type="xs:string" default="10"/>
+        <xs:attribute name="direction" type="pptx:FlexDirectionType" default="row"/>
+        <xs:attribute name="justify" type="pptx:JustifyContentType" default="start"/>
+        <xs:attribute name="align" type="pptx:AlignItemsType" default="start"/>
+    </xs:complexType>
+
+    <!-- Card Grid Layout Type -->
+    <xs:complexType name="CardGridLayoutType">
+        <xs:sequence>
+            <xs:element name="card" type="pptx:CardType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="layout" type="pptx:CardLayoutType" default="horizontal"/>
+        <xs:attribute name="backgroundColor" type="xs:string" default="#1f4e79"/>
+        <xs:attribute name="cardSpacing" type="xs:decimal" default="0.3"/>
+        <xs:attribute name="columns" type="xs:int" default="3"/>
+        <xs:attribute name="rows" type="xs:int" default="1"/>
+    </xs:complexType>
+
+    <!-- Card Type -->
+    <xs:complexType name="CardType">
+        <xs:sequence>
+            <xs:element name="image" type="pptx:CardImageType" minOccurs="0"/>
+            <xs:element name="category" type="pptx:CardCategoryType" minOccurs="0"/>
+            <xs:element name="title" type="pptx:CardTitleType" minOccurs="0"/>
+            <xs:element name="description" type="pptx:CardDescriptionType" minOccurs="0"/>
+            <xs:element name="badge" type="pptx:CardBadgeType" minOccurs="0"/>
+            <xs:element name="styling" type="pptx:CardStylingType" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+    </xs:complexType>
+
+    <!-- Card Image Type -->
+    <xs:complexType name="CardImageType">
+        <xs:attribute name="path" type="xs:string" use="required"/>
+        <xs:attribute name="rounded" type="xs:boolean" default="true"/>
+        <xs:attribute name="width" type="xs:decimal" default="3.0"/>
+        <xs:attribute name="height" type="xs:decimal" default="1.5"/>
+    </xs:complexType>
+
+    <!-- Card Category Type -->
+    <xs:complexType name="CardCategoryType" mixed="true">
+        <xs:attribute name="fontFamily" type="xs:string" default="Segoe UI"/>
+        <xs:attribute name="fontSize" type="xs:int" default="10"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="bold"/>
+        <xs:attribute name="color" type="xs:string" default="#6c757d"/>
+    </xs:complexType>
+
+    <!-- Card Title Type -->
+    <xs:complexType name="CardTitleType" mixed="true">
+        <xs:attribute name="fontFamily" type="xs:string" default="Segoe UI"/>
+        <xs:attribute name="fontSize" type="xs:int" default="14"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="bold"/>
+        <xs:attribute name="color" type="xs:string" default="#1f4e79"/>
+    </xs:complexType>
+
+    <!-- Card Description Type -->
+    <xs:complexType name="CardDescriptionType" mixed="true">
+        <xs:attribute name="fontFamily" type="xs:string" default="Segoe UI"/>
+        <xs:attribute name="fontSize" type="xs:int" default="10"/>
+        <xs:attribute name="color" type="xs:string" default="#6c757d"/>
+        <xs:attribute name="lineSpacing" type="xs:decimal" default="1.2"/>
+    </xs:complexType>
+
+    <!-- Card Badge Type -->
+    <xs:complexType name="CardBadgeType">
+        <xs:sequence>
+            <xs:element name="text" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="color" type="xs:string" default="#007bff"/>
+        <xs:attribute name="position" type="pptx:BadgePositionType" default="top-right"/>
+        <xs:attribute name="size" type="pptx:BadgeSizeType" default="small"/>
+        <xs:attribute name="fontFamily" type="xs:string" default="Segoe UI"/>
+        <xs:attribute name="fontSize" type="xs:int" default="8"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="bold"/>
+    </xs:complexType>
+
+    <!-- Card Styling Type -->
+    <xs:complexType name="CardStylingType">
+        <xs:sequence>
+            <xs:element name="background" type="pptx:CardBackgroundType" minOccurs="0"/>
+            <xs:element name="border" type="pptx:CardBorderType" minOccurs="0"/>
+            <xs:element name="shadow" type="pptx:CardShadowType" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="cardColor" type="xs:string" default="#ffffff"/>
+        <xs:attribute name="roundedCorners" type="xs:boolean" default="true"/>
+        <xs:attribute name="imageRounded" type="xs:boolean" default="true"/>
+    </xs:complexType>
+
+    <!-- Layout Breakpoint Type -->
+    <xs:complexType name="LayoutBreakpointType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="minWidth" type="xs:int" use="required"/>
+        <xs:attribute name="maxWidth" type="xs:int" default="999999"/>
+        <xs:attribute name="columns" type="xs:int"/>
+        <xs:attribute name="padding" type="xs:string"/>
+        <xs:attribute name="spacing" type="xs:string"/>
+        <xs:attribute name="gap" type="xs:string"/>
+    </xs:complexType>
+
+    <!-- Auto Layout Type -->
+    <xs:complexType name="AutoLayoutType">
+        <xs:attribute name="alignment" type="pptx:AlignmentType" default="center"/>
+    </xs:complexType>
+
+    <!-- Grid Layout Type -->
+    <xs:complexType name="GridLayoutType">
+        <xs:attribute name="columns" type="xs:int" default="2"/>
+        <xs:attribute name="rows" type="xs:int" default="2"/>
+        <xs:attribute name="gap" type="xs:string" default="10"/>
+    </xs:complexType>
+
+    <!-- Enhanced Flex Layout Type -->
+    <xs:complexType name="FlexLayoutType">
+        <xs:attribute name="direction" type="pptx:FlexDirectionType" default="row"/>
+        <xs:attribute name="justify" type="pptx:JustifyContentType" default="start"/>
+        <xs:attribute name="align" type="pptx:AlignItemsType" default="start"/>
+        <xs:attribute name="wrap" type="xs:boolean" default="false"/>
+    </xs:complexType>
+
+    <!-- Absolute Layout Type -->
+    <xs:complexType name="AbsoluteLayoutType">
+        <!-- No additional attributes needed -->
+    </xs:complexType>
+
+    <!-- Enhanced Content Type -->
+    <xs:complexType name="EnhancedContentType">
+        <xs:choice>
+            <xs:element name="text" type="pptx:EnhancedTextContentType"/>
+            <xs:element name="paragraphs" type="pptx:ParagraphsType"/>
+            <xs:element name="image" type="pptx:ImageContentType"/>
+            <xs:element name="chart" type="pptx:ChartContentType"/>
+            <xs:element name="table" type="pptx:TableContentType"/>
+            <xs:element name="shape" type="pptx:ShapeContentType"/>
+            <xs:element name="group" type="pptx:GroupContentType"/>
+            <xs:element name="card" type="pptx:CardType"/>
+        </xs:choice>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="type" type="pptx:ContentTypeEnum" default="text"/>
+        <xs:attribute name="weight" type="xs:decimal" default="1.0"/>
+        <xs:attribute name="x" type="xs:string" default="0"/>
+        <xs:attribute name="y" type="xs:string" default="0"/>
+        <xs:attribute name="width" type="xs:string"/>
+        <xs:attribute name="height" type="xs:string"/>
+        <xs:attribute name="minWidth" type="xs:string" default="0"/>
+        <xs:attribute name="minHeight" type="xs:string" default="0"/>
+        <xs:attribute name="maxWidth" type="xs:string" default="inf"/>
+        <xs:attribute name="maxHeight" type="xs:string" default="inf"/>
+        <xs:attribute name="overflow" type="pptx:OverflowType" default="wrap"/>
+        <xs:attribute name="responsive" type="xs:boolean" default="true"/>
+    </xs:complexType>
+
+    <!-- Enhanced Text Content Type -->
+    <xs:complexType name="EnhancedTextContentType" mixed="true">
+        <xs:attribute name="fontSize" type="xs:int" default="12"/>
+        <xs:attribute name="fontFamily" type="xs:string" default="Calibri"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="normal"/>
+        <xs:attribute name="fontStyle" type="pptx:FontStyleType" default="normal"/>
+        <xs:attribute name="color" type="xs:string" default="#000000"/>
+        <xs:attribute name="alignment" type="pptx:TextAlignmentType" default="left"/>
+        <xs:attribute name="lineHeight" type="xs:decimal" default="1.2"/>
+        <xs:attribute name="letterSpacing" type="xs:string" default="normal"/>
+        <xs:attribute name="textTransform" type="pptx:TextTransformType" default="none"/>
+        <!-- Enhanced text effects -->
+        <xs:attribute name="textShadow" type="xs:string" default="none"/>
+        <xs:attribute name="shadowColor" type="xs:string" default="#000000"/>
+        <xs:attribute name="shadowOffsetX" type="xs:decimal" default="1.0"/>
+        <xs:attribute name="shadowOffsetY" type="xs:decimal" default="1.0"/>
+        <xs:attribute name="shadowBlur" type="xs:decimal" default="2.0"/>
+        <xs:attribute name="textOutline" type="xs:string" default="none"/>
+        <xs:attribute name="outlineColor" type="xs:string" default="#FFFFFF"/>
+        <xs:attribute name="outlineWidth" type="xs:decimal" default="1.0"/>
+    </xs:complexType>
+
+    <!-- Paragraphs Type -->
+    <xs:complexType name="ParagraphsType">
+        <xs:sequence>
+            <xs:element name="paragraph" type="pptx:EnhancedParagraphType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Enhanced Paragraph Type -->
+    <xs:complexType name="EnhancedParagraphType" mixed="true">
+        <xs:sequence>
+            <xs:element name="run" type="pptx:EnhancedRunType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="alignment" type="pptx:TextAlignmentType" default="left"/>
+        <xs:attribute name="lineHeight" type="xs:decimal" default="1.2"/>
+    </xs:complexType>
+
+    <!-- Enhanced Run Type -->
+    <xs:complexType name="EnhancedRunType" mixed="true">
+        <xs:attribute name="fontSize" type="xs:int" default="12"/>
+        <xs:attribute name="fontFamily" type="xs:string" default="Calibri"/>
+        <xs:attribute name="fontWeight" type="pptx:FontWeightType" default="normal"/>
+        <xs:attribute name="fontStyle" type="pptx:FontStyleType" default="normal"/>
+        <xs:attribute name="color" type="xs:string" default="#000000"/>
+        <xs:attribute name="textTransform" type="pptx:TextTransformType" default="none"/>
+        <xs:attribute name="letterSpacing" type="xs:string" default="normal"/>
+        <!-- Enhanced effects for runs -->
+        <xs:attribute name="textShadow" type="xs:string" default="none"/>
+        <xs:attribute name="textOutline" type="xs:string" default="none"/>
+    </xs:complexType>
+
+    <!-- Image Content Type -->
+    <xs:complexType name="ImageContentType">
+        <xs:attribute name="src" type="xs:string" use="required"/>
+        <xs:attribute name="alt" type="xs:string"/>
+        <xs:attribute name="fit" type="pptx:ImageFitType" default="contain"/>
+        <xs:attribute name="rounded" type="xs:boolean" default="false"/>
+    </xs:complexType>
+
+    <!-- Chart Content Type -->
+    <xs:complexType name="ChartContentType">
+        <xs:sequence>
+            <xs:element name="data" type="pptx:ChartDataType"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="pptx:ChartTypeEnum" use="required"/>
+        <xs:attribute name="title" type="xs:string"/>
+    </xs:complexType>
+
+    <!-- Chart Data Type -->
+    <xs:complexType name="ChartDataType">
+        <xs:sequence>
+            <xs:element name="series" type="pptx:ChartSeriesType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Chart Series Type -->
+    <xs:complexType name="ChartSeriesType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="values" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Table Content Type -->
+    <xs:complexType name="TableContentType">
+        <xs:sequence>
+            <xs:element name="row" type="pptx:TableRowType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="columns" type="xs:int" use="required"/>
+        <xs:attribute name="rows" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <!-- Table Row Type -->
+    <xs:complexType name="TableRowType">
+        <xs:sequence>
+            <xs:element name="cell" type="pptx:TableCellType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Table Cell Type -->
+    <xs:complexType name="TableCellType" mixed="true">
+        <xs:attribute name="alignment" type="pptx:TextAlignmentType" default="left"/>
+        <xs:attribute name="colspan" type="xs:int" default="1"/>
+        <xs:attribute name="rowspan" type="xs:int" default="1"/>
+    </xs:complexType>
+
+    <!-- Shape Content Type -->
+    <xs:complexType name="ShapeContentType">
+        <xs:attribute name="type" type="pptx:ShapeTypeEnum" use="required"/>
+        <xs:attribute name="fill" type="xs:string"/>
+        <xs:attribute name="stroke" type="xs:string"/>
+        <xs:attribute name="strokeWidth" type="xs:decimal" default="1"/>
+    </xs:complexType>
+
+    <!-- Group Content Type -->
+    <xs:complexType name="GroupContentType">
+        <xs:sequence>
+            <xs:element name="content" type="pptx:EnhancedContentType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Enumerations -->
+    <xs:simpleType name="ThemeNameType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="corporate_blue"/>
+            <xs:enumeration value="startup_vibrant"/>
+            <xs:enumeration value="modern_minimal"/>
+            <xs:enumeration value="executive_dark"/>
+            <xs:enumeration value="consulting_clean"/>
+            <xs:enumeration value="financial_professional"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SlideTemplateType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="title"/>
+            <xs:enumeration value="content"/>
+            <xs:enumeration value="two-column"/>
+            <xs:enumeration value="three-column"/>
+            <xs:enumeration value="sidebar"/>
+            <xs:enumeration value="blank"/>
+            <xs:enumeration value="card-grid"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LayoutTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="auto"/>
+            <xs:enumeration value="grid"/>
+            <xs:enumeration value="flex"/>
+            <xs:enumeration value="absolute"/>
+            <xs:enumeration value="card-grid"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CardLayoutType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="horizontal"/>
+            <xs:enumeration value="vertical"/>
+            <xs:enumeration value="grid"/>
+            <xs:enumeration value="masonry"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BadgePositionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="top-right"/>
+            <xs:enumeration value="top-left"/>
+            <xs:enumeration value="bottom-right"/>
+            <xs:enumeration value="bottom-left"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BadgeSizeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="small"/>
+            <xs:enumeration value="medium"/>
+            <xs:enumeration value="large"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="GradientTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="linear"/>
+            <xs:enumeration value="radial"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="GradientDirectionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="horizontal"/>
+            <xs:enumeration value="vertical"/>
+            <xs:enumeration value="diagonal"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BorderStyleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="solid"/>
+            <xs:enumeration value="dashed"/>
+            <xs:enumeration value="dotted"/>
+            <xs:enumeration value="none"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AutoLayoutTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="title"/>
+            <xs:enumeration value="vertical"/>
+            <xs:enumeration value="horizontal"/>
+            <xs:enumeration value="grid"/>
+            <xs:enumeration value="masonry"/>
+            <xs:enumeration value="flow"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="FlexDirectionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="row"/>
+            <xs:enumeration value="column"/>
+            <xs:enumeration value="row-reverse"/>
+            <xs:enumeration value="column-reverse"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="JustifyContentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="start"/>
+            <xs:enumeration value="end"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="space-between"/>
+            <xs:enumeration value="space-around"/>
+            <xs:enumeration value="space-evenly"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AlignItemsType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="start"/>
+            <xs:enumeration value="end"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="stretch"/>
+            <xs:enumeration value="baseline"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AlignmentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="middle"/>
+            <xs:enumeration value="bottom"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TextAlignmentType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="justify"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TextTransformType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="uppercase"/>
+            <xs:enumeration value="lowercase"/>
+            <xs:enumeration value="capitalize"/>
+            <xs:enumeration value="titlecase"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="FontWeightType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="normal"/>
+            <xs:enumeration value="bold"/>
+            <xs:enumeration value="100"/>
+            <xs:enumeration value="200"/>
+            <xs:enumeration value="300"/>
+            <xs:enumeration value="400"/>
+            <xs:enumeration value="500"/>
+            <xs:enumeration value="600"/>
+            <xs:enumeration value="700"/>
+            <xs:enumeration value="800"/>
+            <xs:enumeration value="900"/>
+            <xs:enumeration value="lighter"/>
+            <xs:enumeration value="bolder"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="FontStyleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="normal"/>
+            <xs:enumeration value="italic"/>
+            <xs:enumeration value="oblique"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ContentTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="image"/>
+            <xs:enumeration value="chart"/>
+            <xs:enumeration value="table"/>
+            <xs:enumeration value="shape"/>
+            <xs:enumeration value="group"/>
+            <xs:enumeration value="card"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="OverflowType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="clip"/>
+            <xs:enumeration value="ellipsis"/>
+            <xs:enumeration value="wrap"/>
+            <xs:enumeration value="scale"/>
+            <xs:enumeration value="scroll"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ImageFitType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="contain"/>
+            <xs:enumeration value="cover"/>
+            <xs:enumeration value="fill"/>
+            <xs:enumeration value="scale-down"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ChartTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="column"/>
+            <xs:enumeration value="bar"/>
+            <xs:enumeration value="line"/>
+            <xs:enumeration value="pie"/>
+            <xs:enumeration value="area"/>
+            <xs:enumeration value="scatter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ShapeTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="rectangle"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="triangle"/>
+            <xs:enumeration value="arrow"/>
+            <xs:enumeration value="star"/>
+            <xs:enumeration value="diamond"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ReferenceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="slide"/>
+            <xs:enumeration value="parent"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
