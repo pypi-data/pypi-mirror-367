@@ -1,0 +1,21 @@
+name: Publish to PyPI with Flit
+on:
+  release:
+    types: [published] # Triggers on a new release
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi # Optional: for storing sensitive credentials
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+    - name: Install Flit
+      run: pip install flit
+    - name: Build and publish
+      env:
+        FLIT_USERNAME: __token__ # Or your PyPI username
+        FLIT_PASSWORD: ${{ secrets.PYPI_API_TOKEN }} # Use a GitHub secret for API token
+      run: flit publish
