@@ -1,0 +1,106 @@
+Metadata-Version: 2.4
+Name: claude-code-session-client
+Version: 0.0.1
+Summary: Session-persistent client for Claude Code SDK
+Project-URL: Repository, https://github.com/randombet/claude_code_session_client
+Author-email: Yixuan Zhai <6344553+randombet@users.noreply.github.com>
+License: MIT License
+        
+        Copyright (c) 2025 Yixuan Zhai
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Requires-Dist: claude-code-sdk==0.0.19
+Requires-Dist: trio>=0.20.0
+Provides-Extra: dev
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pytest-trio>=0.8.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Claude Code Session Client
+
+A session-persistent client wrapper for the [Claude Code SDK Python](https://github.com/anthropics/claude-code-sdk-python) that provides automatic conversation persistence and session resumption capabilities.
+
+## Features
+
+- **Automatic Session Persistence**: Conversations are automatically saved to local storage
+- **Session Resumption**: Resume previous conversations using session IDs
+- **Context Retention**: Maintain conversation context across client restarts
+- **Multi-turn Conversations**: Seamlessly handle complex multi-turn interactions
+- **Storage Management**: Organized session storage with metadata tracking
+
+## Installation
+
+```bash
+pip install claude-code-session-client
+```
+
+## Quick Start
+
+```python
+import trio
+from pathlib import Path
+from claude_code_session_client import SessionPersistentClient
+from claude_code_sdk import ClaudeCodeOptions
+
+async def main():
+    storage_path = Path("./sessions")
+    
+    async with SessionPersistentClient(
+        options=ClaudeCodeOptions(),
+        storage_path=storage_path
+    ) as client:
+        # Start conversation
+        await client.query("Hello! What can you help me with?")
+        
+        async for message in client.receive_response():
+            # Handle responses
+            print(message)
+
+if __name__ == "__main__":
+    trio.run(main)
+```
+
+## Session Resumption
+
+```python
+# Resume a previous session
+session_id = "your-session-id"
+await client.start_or_resume_session(session_id)
+```
+
+## Requirements
+
+- Python 3.10+
+- claude-code-sdk-python
+- trio
+
+## License
+
+MIT License
