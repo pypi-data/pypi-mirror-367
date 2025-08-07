@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-toml
+      - id: check-added-large-files
+      - id: debug-statements
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        language: system
+        entry: mypy
+        types_or: [python, pyi]
+      - id: ruff
+        name: ruff
+        language: system
+        entry: tox -e ruff
+        types_or: [python, pyi]
+        pass_filenames: false
