@@ -1,0 +1,139 @@
+[project]
+name = "zmk-layout"
+dynamic = ["version"]
+description = "ZMK keyboard layout manipulation library with fluent API"
+authors = [
+  { name = "ZMK Layout Library Contributors", email = "developers@example.com" },
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = ["lark>=1.2.2", "pydantic>=2.11.0", "typing-extensions>=4.0.0"]
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+full = ["jinja2>=3.0", "rich>=13.0", "lark>=1.1", "jsonpatch>=1.32"]
+templating = ["jinja2>=3.0"]
+display = ["rich>=13.0"]
+parsing = ["lark>=1.1"]
+dev = ["pytest>=8.0", "pytest-cov>=4.0", "ruff>=0.11", "mypy>=1.15"]
+
+[project.urls]
+Homepage = "https://github.com/CaddyGlow/zmk-layout"
+# Documentation = "https://zmk-layout.readthedocs.io"
+Repository = "https://github.com/CaddyGlow/zmk-layout"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "zmk_layout/__version__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["zmk_layout"]
+include = []
+
+[tool.coverage.run]
+include = ["zmk_layout", "tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # Pyflakes
+  "I",   # isort
+  "N",   # pep8-naming
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "SIM", # flake8-simplify
+  # "PTH", # flake8-use-pathlib should be enable at the end
+]
+
+ignore = [
+  "E501",   # Line too long (handled by formatter)
+  "B008",   # Do not perform function calls in argument defaults
+  "N806",   # Variable in function should be lowercase (for pandas df, etc)
+  "SIM108", # Use ternary operator (sometimes less readable)
+  "F401",   # Imported but unused
+  "F841",   # Local variable assigned but never used
+]
+
+exclude = [
+  ".git",
+  ".venv",
+  "venv",
+  "__pycache__",
+  "build",
+  "dist",
+  "*.egg-info",
+]
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.isort]
+known-first-party = ["glovebox"]
+force-single-line = false
+lines-after-imports = 2
+
+[tool.ruff.lint.per-file-ignores]
+# relax on scripts and tests
+"scripts/*" = ["T201"]       # check for print statements
+"tests/*" = ["N802", "N803"] # arg/function name should be lowercase
+
+[tool.mypy]
+python_version = "3.11"
+show_column_numbers = true
+follow_imports = "normal"
+exclude = ["docs/", "examples/"]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+timeout = 30
+addopts = "-v --tb=short --cov-report=term -m 'not performance'"
+markers = [
+  "performance: marks tests as performance tests (deselect with '-m \"not performance\"')",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.17.1",
+  "pre-commit>=4.2.0",
+  "psutil>=7.0.0",
+  "pytest>=8.4.1",
+  "pytest-cov>=6.2.1",
+  "pytest-coverage>=0.0",
+  "pytest-profiling>=1.8.1",
+  "pytest-timeout>=2.4.0",
+  "ruff>=0.12.7",
+  "types-psutil>=7.0.0.20250801",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+  [tox]
+  envlist = py311,py312,py313
+
+  [testenv]
+  deps =
+      pytest
+      pytest-cov
+      pytest-timeout
+  commands = pytest {posargs}
+  """
