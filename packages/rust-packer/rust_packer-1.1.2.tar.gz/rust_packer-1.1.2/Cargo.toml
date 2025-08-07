@@ -1,0 +1,23 @@
+[package]
+name = "rust_packer"
+version = "1.1.2"
+edition = "2021"
+readme = "README.md"
+
+[dependencies]
+# Python bindings
+pyo3 = { version = "0.25.1", features = ["extension-module"] }
+# NumPy support for pyo3
+numpy = "0.25.0"
+# Serialization framework
+serde = { version = "1.0", features = ["derive"] }
+# MessagePack serializer implementation for Serde
+rmp-serde = "1.1"
+
+[dev-dependencies]
+pyo3 = { version = "0.25.1", features = ["auto-initialize"] }
+serde_test = "1.0"
+
+[lib]
+name = "rust_packer"
+crate-type = ["cdylib", "rlib"]
