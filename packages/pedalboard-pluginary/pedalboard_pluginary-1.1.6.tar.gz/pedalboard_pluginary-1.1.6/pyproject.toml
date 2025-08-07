@@ -1,0 +1,122 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pedalboard-pluginary"
+dynamic = ["version"]
+description = "A plugin scanner for Pedalboard"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Adam Twardoch", email = "adam@twardoch.com" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "pedalboard>=0.8.7",
+    "fire>=0.5.0",
+    "python-benedict>=0.33.0",
+    "pyyaml>=6.0.1",
+    "typing-extensions>=4.0.0; python_version < '3.11'",
+    "tqdm>=4.60.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/twardoch/pedalboard-pluginary#readme"
+Source = "https://github.com/twardoch/pedalboard-pluginary"
+Tracker = "https://github.com/twardoch/pedalboard-pluginary/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.4",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.8.0",
+    "flake8>=7.0.0",
+    "black>=24.1.1",
+    "isort>=5.13.2",
+    "psutil>=5.9.0", # Added for memory profiling in tests
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "pyinstaller>=5.0.0",
+]
+
+[project.scripts]
+pbpluginary = "pedalboard_pluginary.__main__:main"
+
+[tool.setuptools]
+packages = ["pedalboard_pluginary"]
+package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+addopts = "--cov=pedalboard_pluginary --cov-report=term-missing"
+testpaths = ["tests"]
+
+[tool.flake8]
+max_line_length = 88
+extend_ignore = "E203,W503"
+exclude = [
+    ".tox",
+    "build",
+    "dist",
+    ".eggs",
+    "docs/conf.py",
+]
+
+[tool.mypy]
+python_version = "3.9"
+mypy_path = "src"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["fire", "benedict"]
+ignore_missing_imports = true
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/pedalboard_pluginary/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pedalboard_pluginary"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/LICENSE.txt",
+    "/CHANGELOG.md",
+]
