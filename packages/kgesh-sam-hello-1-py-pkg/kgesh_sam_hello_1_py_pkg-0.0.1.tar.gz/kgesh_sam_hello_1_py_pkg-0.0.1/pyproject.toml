@@ -1,0 +1,30 @@
+[project]
+name = "kgesh-sam-hello-1-py-pkg"
+version = "0.0.1"
+description = "Say hello to user - Python MCP stdio server"
+authors = [{name = "Deploxy", email = "hello@deploxy.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "mcp>=1.11.1",
+]
+keywords = ["deploxy", "mcp", "stdio-mcp-server", "stdio-mcp-proxy", "stdio-mcp-to-serverless"]
+
+[project.scripts]
+say-hello = "quick_start_py.main:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["quick_start_py*"]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "mypy",
+    "pytest",
+]
