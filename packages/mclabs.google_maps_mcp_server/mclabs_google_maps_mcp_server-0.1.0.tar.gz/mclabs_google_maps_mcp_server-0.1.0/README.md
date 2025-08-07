@@ -1,0 +1,212 @@
+# Google Maps MCP Server
+
+基于 FastMCP 框架的 Google Maps MCP 服务器，提供完整的 Google Maps API 功能。
+
+## 功能特性
+
+- 🗺️ **地理编码**: 地址与坐标相互转换
+- 🔍 **地点搜索**: 使用 Google Places API 搜索地点
+- 📍 **地点详情**: 获取详细的地点信息
+- 📏 **距离计算**: 多点间距离和时间矩阵
+- ⛰️ **海拔数据**: 获取位置海拔信息
+- 🧭 **路线规划**: 多种交通方式的路线指导
+
+## 安装依赖
+
+本项目使用 uv 进行依赖管理：
+
+```bash
+# 安装 uv（如果未安装）
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 同步项目依赖（自动创建虚拟环境）
+uv sync
+```
+
+uv 会自动：
+- 创建 `.venv` 虚拟环境
+- 安装所有生产和开发依赖
+- 生成 `uv.lock` 锁定文件确保可重复的构建
+
+## 配置
+
+### 1. 获取 Google Maps API Key
+
+1. 访问 [Google Cloud Console](https://console.cloud.google.com/)
+2. 创建新项目或选择现有项目
+3. 启用以下 API：
+   - Maps JavaScript API
+   - Geocoding API
+   - Places API
+   - Distance Matrix API
+   - Elevation API
+   - Directions API
+4. 创建 API 密钥并记录
+
+### 2. 设置环境变量
+
+```bash
+export GOOGLE_MAPS_API_KEY="your_api_key_here"
+```
+
+或创建 `.env` 文件：
+
+```bash
+echo "GOOGLE_MAPS_API_KEY=your_api_key_here" > .env
+```
+
+## 运行服务器
+
+### 使用 uv 运行（推荐）
+
+```bash
+# 方式1：使用脚本入口点
+uv run google-maps-mcp
+
+# 方式2：直接运行 Python 文件
+uv run python google_maps_server.py
+
+# 方式3：使用启动脚本
+./start_server.sh
+```
+
+### 不同传输方式
+
+默认使用 STDIO 传输，你也可以使用 HTTP 传输：
+
+```bash
+# STDIO 传输（默认）
+uv run google-maps-mcp
+
+# HTTP 传输
+MCP_TRANSPORT=streamable-http MCP_PORT=8000 uv run google-maps-mcp
+```
+
+## MCP 工具使用示例
+
+### 地理编码
+
+```python
+# 将地址转换为坐标
+await maps_geocode("北京市天安门广场")
+```
+
+### 反向地理编码
+
+```python
+# 将坐标转换为地址
+await maps_reverse_geocode(39.9042, 116.4074)
+```
+
+### 搜索地点
+
+```python
+# 搜索餐厅
+await maps_search_places("北京餐厅", location={"latitude": 39.9042, "longitude": 116.4074}, radius=5000)
+```
+
+### 获取地点详情
+
+```python
+# 获取详细信息
+await maps_place_details("ChIJD3uTd9hfUDERCA0j7L2EMqo")
+```
+
+### 距离矩阵
+
+```python
+# 计算多点间距离
+await maps_distance_matrix(
+    origins=["北京", "上海"],
+    destinations=["广州", "深圳"],
+    mode="driving"
+)
+```
+
+### 海拔数据
+
+```python
+# 获取海拔
+await maps_elevation([
+    {"latitude": 39.9042, "longitude": 116.4074},
+    {"latitude": 31.2304, "longitude": 121.4737}
+])
+```
+
+### 路线规划
+
+```python
+# 获取导航路线
+await maps_directions("北京", "上海", mode="driving")
+```
+
+## 与 Claude Desktop 集成
+
+1. 打开 Claude Desktop 配置文件：
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+2. 添加服务器配置：
+
+```json
+{
+  "mcpServers": {
+    "google-maps": {
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/google-maps-mcp", "google-maps-mcp"],
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+3. 重启 Claude Desktop
+
+## 开发
+
+### 项目结构
+
+```
+google-maps-mcp/
+├── google_maps_server.py  # 主服务器文件
+├── pyproject.toml         # 项目配置
+├── README.md              # 本文档
+└── .env                   # 环境变量（需要创建）
+```
+
+### 代码特性
+
+- ✅ 类型注解完整
+- ✅ 异步操作支持
+- ✅ 错误处理和日志记录
+- ✅ Pydantic 数据模型验证
+- ✅ Context 对象支持 MCP 功能
+
+### 测试
+
+```bash
+# 运行完整测试套件
+uv run python test_server.py
+
+# 运行开发工具
+uv run black .          # 代码格式化
+uv run ruff check .     # 代码检查
+uv run mypy .           # 类型检查
+uv run pytest          # 单元测试（如果有）
+```
+
+## 许可证
+
+MIT License - 详见 LICENSE 文件
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 相关链接
+
+- [FastMCP 文档](https://github.com/jlowin/fastmcp)
+- [Google Maps API 文档](https://developers.google.com/maps/documentation)
+- [Model Context Protocol](https://modelcontextprotocol.io/) 
