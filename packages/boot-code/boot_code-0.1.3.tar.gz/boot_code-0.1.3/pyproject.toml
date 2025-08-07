@@ -1,0 +1,84 @@
+[tool.poetry]
+name = "boot-code"
+version = "0.1.3"
+description = "Spec-driven, build passing code."
+authors = ["Bordumb <bordumbb@gmail.com>"]
+readme = "README.md"
+packages = [{include = "boot"}]
+include = ["configs/"]
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+pydantic = ">=2.7.0"
+pydantic-settings = ">=2.2.0"
+jinja2 = ">=3.1.0"
+httpx = ">=0.27.0"
+pyyaml = ">=6.0"
+python-dotenv = ">=1.0.0"
+typer = {version = "0.9.0", extras = ["all"]}
+pyfiglet = ">=1.0.2"
+rich = "==13.3.5"
+grpcio = "^1.74.0"
+# Pin latest protobuf to a stable version to avoid segfaults with grpcio
+protobuf = "==6.31.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0.0"
+pytest-asyncio = ">=0.21.0"
+black = ">=24.0.0"
+mypy = ">=1.0.0"
+ruff = ">=0.1.0"
+bandit = {extras = ["toml"], version = ">=1.7.5"}
+types-requests = ">=2.31.0"
+types-pyyaml = ">=6.0.0"
+# types-protobuf sem versioning doesn't align with core protobuf 6.31.1
+types-protobuf = "^5.0.0"
+
+# New group for build-time dependencies to isolate them
+respx = "^0.22.0"
+[tool.poetry.group.build.dependencies]
+grpcio-tools = "^1.74.0"
+
+[tool.poetry.scripts]
+boot = "boot.cli:cli" 
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+# Add this line to ignore the generated jobs directory
+norecursedirs = ["generated_jobs", "boot/generated"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "spark: marks tests that require Spark context",
+]
+
+
+[tool.mypy]
+# TODO: think about cleaning this up
+exclude = [
+    "boot/generated",
+    "generated_jobs",
+    "tests",
+    "docs",
+    "scripts"
+]
+# Exclude the auto-generated gRPC directory from all checks.
+[[tool.mypy.overrides]]
+module = "boot.generated.*"
+ignore_errors = true
+
+[tool.ruff]
+# Exclude the auto-generated gRPC directory from all checks.
+exclude = [
+    "boot/generated",
+]
