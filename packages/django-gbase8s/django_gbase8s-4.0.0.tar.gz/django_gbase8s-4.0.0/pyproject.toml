@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=46.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-gbase8s"
+authors = [
+  { name="GBase 8s team"},
+]
+description = "Django backend for GBase 8s database"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 4.0",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8"
+]
+dynamic = ["version"]
+dependencies = [
+    "gbase8sdb",
+    "django>=4.0.0"
+]
+
+[project.urls]
+"Source" = "https://gitee.com/GBase8s/django-gbase8s"
+
+[tool.setuptools]
+packages = ["django_gbase8s"]
+
+[tool.setuptools.dynamic]
+version = {attr = "django_gbase8s.__version__"}
