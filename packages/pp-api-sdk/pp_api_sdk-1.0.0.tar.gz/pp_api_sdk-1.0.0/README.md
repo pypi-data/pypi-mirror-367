@@ -1,0 +1,91 @@
+
+# Getting Started with Orders
+
+## Introduction
+
+An order represents a payment between two or more parties. Use the Orders API to create, update, retrieve, authorize, and capture orders.
+
+Find out more here: [https://developer.paypal.com/docs/api/orders/v2/](https://developer.paypal.com/docs/api/orders/v2/)
+
+## Install the Package
+
+The package is compatible with Python versions `3.7+`.
+Install the package from PyPi using the following pip command:
+
+```bash
+pip install pp-api-sdk==1.0.0
+```
+
+You can also view the package at:
+https://pypi.python.org/pypi/pp-api-sdk/1.0.0
+
+## Initialize the API Client
+
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/client.md)
+
+The following parameters are configurable for the API Client:
+
+| Parameter | Type | Description |
+|  --- | --- | --- |
+| environment | `Environment` | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| http_client_instance | `HttpClient` | The Http Client passed from the sdk user for making requests |
+| override_http_client_configuration | `bool` | The value which determines to override properties of the passed Http Client from the sdk user |
+| http_call_back | `HttpCallBack` | The callback value that is invoked before and after an HTTP call is made to an endpoint |
+| timeout | `float` | The value to use for connection timeout. <br> **Default: 60** |
+| max_retries | `int` | The number of times to retry an endpoint call if it fails. <br> **Default: 0** |
+| backoff_factor | `float` | A backoff factor to apply between attempts after the second try. <br> **Default: 2** |
+| retry_statuses | `Array of int` | The http statuses on which retry is to be done. <br> **Default: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524]** |
+| retry_methods | `Array of string` | The http methods on which retry is to be done. <br> **Default: ['GET', 'PUT']** |
+| client_credentials_auth_credentials | [`ClientCredentialsAuthCredentials`](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/auth/oauth-2-client-credentials-grant.md) | The credential object for OAuth 2 Client Credentials Grant |
+
+The API client can be initialized as follows:
+
+```python
+from orders.configuration import Environment
+from orders.http.auth.o_auth_2 import ClientCredentialsAuthCredentials
+from orders.orders_client import OrdersClient
+
+client = OrdersClient(
+    client_credentials_auth_credentials=ClientCredentialsAuthCredentials(
+        o_auth_client_id='OAuthClientId',
+        o_auth_client_secret='OAuthClientSecret'
+    ),
+    environment=Environment.PRODUCTION
+)
+```
+
+## Environments
+
+The SDK can be configured to use a different environment for making API calls. Available environments are:
+
+### Fields
+
+| Name | Description |
+|  --- | --- |
+| production | **Default** PayPal Sandbox Environment |
+| environment2 | PayPal Live Environment |
+
+## Authorization
+
+This API uses the following authentication schemes.
+
+* [`Oauth2 (OAuth 2 Client Credentials Grant)`](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/auth/oauth-2-client-credentials-grant.md)
+
+## List of APIs
+
+* [Orders](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/controllers/orders.md)
+
+## SDK Infrastructure
+
+### HTTP
+
+* [HttpResponse](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/http-response.md)
+* [HttpRequest](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/http-request.md)
+
+### Utilities
+
+* [ApiHelper](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/api-helper.md)
+* [HttpDateTime](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/http-date-time.md)
+* [RFC3339DateTime](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/rfc3339-date-time.md)
+* [UnixDateTime](https://www.github.com/MuHamza30/paypal-api-python-sdk/tree/1.0.0/doc/unix-date-time.md)
+
