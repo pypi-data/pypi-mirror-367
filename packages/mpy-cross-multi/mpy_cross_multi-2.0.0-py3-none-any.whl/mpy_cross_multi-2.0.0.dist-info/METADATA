@@ -1,0 +1,54 @@
+Metadata-Version: 2.3
+Name: mpy-cross-multi
+Version: 2.0.0
+Summary: MicroPython cross-compiler targeting multiple runtime versions.
+License: MIT
+Author: David Lechner
+Author-email: david@pybricks.com
+Requires-Python: >=3.9
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: mpy-cross-v5 (>=1.1.0)
+Requires-Dist: mpy-cross-v6 (>=1.1.0)
+Requires-Dist: mpy-cross-v6.1 (>=1.0.1)
+Requires-Dist: mpy-cross-v6.2 (>=1.0.0)
+Requires-Dist: mpy-cross-v6.3 (>=1.0.0)
+Requires-Dist: semver (>=3.0.2)
+Project-URL: Homepage, https://github.com/pybricks/python-mpy-cross-multi
+Description-Content-Type: text/markdown
+
+# Python packaging for multi-target mpy-cross
+
+This repository contains Python packaging to distribute the `mpy-cross` tool
+from [MicroPython](https://github.com/micropython/micropython) via PyPI.
+
+This package includes multiple versions of `mpy-cross` to support different
+MicroPython runtime versions.
+
+## Installation
+
+To install the latest version of `mpy-cross-multi`:
+
+    pip install mpy-cross-multi
+
+## Usage
+
+This package can be used programmatically or as a command line script.
+
+### Script
+
+This can be used just like the original `mpy-cross` tool: by substituting
+the name `mpy-cross` with `mpy-cross-multi` in the command line.
+
+    mpy-cross-multi --version
+
+It has an optional extra command line option to target older MicroPython
+runtimes. The oldest support MicroPython runtime is v1.12.
+
+    mpy-cross-multi --micropython 1.22 ...
+
