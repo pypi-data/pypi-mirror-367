@@ -1,0 +1,120 @@
+Metadata-Version: 2.4
+Name: octopi
+Version: 1.2.0
+Summary: Model architecture exploration for cryoET particle picking
+Project-URL: Homepage, https://github.com/chanzuckerberg/octopi
+Project-URL: Documentation, https://chanzuckerberg.github.io/octopi/
+Project-URL: Issues, https://github.com/chanzuckerberg/octopi/issues
+Author: Jonathan Schwartz, Kevin Zhao, Daniel Ji, Utz Ermel
+License: MIT
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: Topic :: Scientific/Engineering :: Image Recognition
+Requires-Python: >=3.9
+Requires-Dist: copick
+Requires-Dist: copick-utils
+Requires-Dist: ipywidgets
+Requires-Dist: kaleido
+Requires-Dist: matplotlib
+Requires-Dist: mlflow
+Requires-Dist: monai
+Requires-Dist: mrcfile
+Requires-Dist: multiprocess
+Requires-Dist: nibabel
+Requires-Dist: optuna
+Requires-Dist: optuna-integration[botorch,pytorch-lightning]
+Requires-Dist: pandas
+Requires-Dist: python-dotenv
+Requires-Dist: requests
+Requires-Dist: torch-ema
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: black>=24.8.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.8.0; extra == 'dev'
+Requires-Dist: pytest>=6.2.3; extra == 'dev'
+Requires-Dist: ruff>=0.6.4; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs; extra == 'docs'
+Requires-Dist: mkdocs-awesome-pages-plugin; extra == 'docs'
+Requires-Dist: mkdocs-git-authors-plugin; extra == 'docs'
+Requires-Dist: mkdocs-git-committers-plugin-2; extra == 'docs'
+Requires-Dist: mkdocs-git-revision-date-localized-plugin; extra == 'docs'
+Requires-Dist: mkdocs-material; extra == 'docs'
+Requires-Dist: mkdocs-minify-plugin; extra == 'docs'
+Requires-Dist: mkdocs-redirects; extra == 'docs'
+Description-Content-Type: text/markdown
+
+# OCTOPI 🐙🐙🐙
+
+[![License](https://img.shields.io/pypi/l/octopi.svg?color=green)](https://github.com/chanzuckerberg/octopi/raw/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/octopi.svg?color=green)](https://pypi.org/project/octopi)
+[![Python Version](https://img.shields.io/pypi/pyversions/octopi.svg?color=green)](https://www.python.org/)
+
+**O**bject dete**CT**ion **O**f **P**rote**I**ns. A deep learning framework for Cryo-ET 3D particle picking with autonomous model exploration capabilities.
+
+## 🚀 Introduction
+
+octopi addresses a critical bottleneck in cryo-electron tomography (cryo-ET) research: the efficient identification and extraction of proteins within complex cellular environments. As advances in cryo-ET enable the collection of thousands of tomograms, the need for automated, accurate particle picking has become increasingly urgent.
+
+Our deep learning-based pipeline streamlines the training and execution of 3D autoencoder models specifically designed for cryo-ET particle picking. Built on [copick](https://github.com/copick/copick), a storage-agnostic API, octopi seamlessly accesses tomograms and segmentations across local and remote environments. 
+
+## 🧩 Core Features
+
+- **3D U-Net Training**: Train and evaluate custom 3D U-Net models for particle segmentation
+- **Automatic Architecture Search**: Explore optimal model configurations using Bayesian optimization via Optuna
+- **Flexible Data Access**: Seamlessly work with tomograms from local storage or remote data portals
+- **HPC Ready**: Built-in support for SLURM-based clusters
+- **Experiment Tracking**: Integrated MLflow support for monitoring training and optimization
+- **Dual Interface**: Use via command-line or Python API
+
+## 🚀 Quick Start
+
+### Installation
+
+Octopi is availableon PyPI and can be installed using pip:
+```bash
+pip install octopi
+```
+
+⚠️ **Note**: One of the current dependencies is currently not working with pip 25. To temporarily reduce the pip version, run:
+```bash
+pip install --upgrade "pip<25"
+```
+
+### Basic Usage
+
+octopi provides two main command-line interfaces:
+
+```bash
+# Main CLI for training, inference, and data processing
+octopi --help
+
+# HPC-specific CLI for submitting jobs to SLURM clusters
+octopi-slurm --help
+```
+
+## 📚 Documentation
+
+For detailed documentation, tutorials, CLI and API reference, visit our [documentation](https://chanzuckerberg.github.io/octopi/).
+
+## 🤝 Contributing
+
+## Code of Conduct
+
+This project adheres to the Contributor Covenant [code of conduct](https://github.com/chanzuckerberg/.github/blob/master/CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code. 
+Please report unacceptable behavior to [opensource@chanzuckerberg.com](mailto:opensource@chanzuckerberg.com).
+
+## 🔒 Security
+
+If you believe you have found a security issue, please responsibly disclose by contacting us at security@chanzuckerberg.com.
+
+
