@@ -1,0 +1,68 @@
+name: Python package
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ['3.9', '3.10']
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      vault:
+        # Docker Hub image
+        image: hashicorp/vault:1.13.3
+        options: --name vault-test
+        ports:
+          # Opens tcp port 8200 on the host and service container
+          - 8200:8200
+        env:
+          VAULT_DISABLE_MLOCK: True
+          VAULT_ADDR: http://localhost:8200
+          VAULT_DEV_ROOT_TOKEN_ID: myroot
+      postgres:
+        # Docker Hub image
+        image: postgres
+        options: --name pg13
+        ports:
+          # Opens tcp port 5432 on the host and service container 
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with: 
+        version: "0.6.9"
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        uv run flake8 gestalt --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        uv run flake8 gestalt --count --exit-zero --max-complexity=15 --max-line-length=127 --statistics
+    - name: Test with pytest
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN }}
+        VAULT_ADDR: http://localhost:8200
+        VAULT_TOKEN: "myroot"
+      run: |
+        uv run pytest -vv -s --cov=gestalt tests/*.py
+    - name: Typecheck with mypy
+      run: |
+        # run mypy strict mode on gestalt
+        uv run mypy --strict gestalt
+    - name: Style check with yapf
+      run: |
+        uv run yapf -d --recursive gestalt tests
