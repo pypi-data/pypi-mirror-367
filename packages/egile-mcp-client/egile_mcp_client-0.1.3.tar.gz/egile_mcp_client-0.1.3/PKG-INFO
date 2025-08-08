@@ -1,0 +1,163 @@
+Metadata-Version: 2.3
+Name: egile-mcp-client
+Version: 0.1.3
+Summary: A comprehensive MCP client with direct connection and AI agent modes, including web interface
+Keywords: mcp,model-context-protocol,client,ai,agent,chat,web
+Author: Jean-Baptiste Poullet
+Author-email: egile@gmail.com
+Requires-Python: >=3.10
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiofiles (>=23.0.0)
+Requires-Dist: anthropic (>=0.8.0)
+Requires-Dist: anyio (>=4.4.0)
+Requires-Dist: asyncio-mqtt (>=0.11.0)
+Requires-Dist: click (>=8.0.0)
+Requires-Dist: fastapi (>=0.115.0)
+Requires-Dist: httpx (>=0.25.0)
+Requires-Dist: jinja2 (>=3.1.0)
+Requires-Dist: openai (>=1.0.0)
+Requires-Dist: pydantic (>=2.0.0)
+Requires-Dist: python-dotenv (>=1.1.1,<2.0.0)
+Requires-Dist: python-multipart (>=0.0.18)
+Requires-Dist: pyyaml (>=6.0.0)
+Requires-Dist: rich (>=13.0.0)
+Requires-Dist: sse-starlette (>=1.6.0)
+Requires-Dist: typer (>=0.9.0)
+Requires-Dist: uvicorn (>=0.24.0)
+Requires-Dist: websockets (>=11.0.0)
+Project-URL: Homepage, https://github.com/jpoullet2000/egile-mcp-client
+Project-URL: Repository, https://github.com/jpoullet2000/egile-mcp-client
+Description-Content-Type: text/markdown
+
+# Egile MCP Client
+
+A comprehensive Model Context Protocol (MCP) client that provides two operational modes and a web interface for interacting with MCP servers.
+
+## Features
+
+- **Two Operation Modes**:
+  - **Direct Mode**: Connect directly to MCP server tools and resources
+  - **Agent Mode**: Use a generic AI agent that works with any MCP server
+- **Multiple Interfaces**:
+  - **Terminal CLI**: Command-line interface for both modes
+  - **Web Chat Interface**: Browser-based chatbot with conversation history
+- **AI Provider Support**: OpenAI, Anthropic Claude, xAI Grok, and extensible for other providers
+- **Conversation History**: Persistent chat history across sessions
+- **Real-time Communication**: WebSocket support for live interactions
+
+## Quick Start
+
+### Installation
+
+```bash
+# Install dependencies
+pip install -e .
+
+# Or using poetry
+poetry install
+```
+
+### Configuration
+
+Create a `config.yaml` file:
+
+```yaml
+# AI Providers (for agent mode)
+ai_providers:
+  openai:
+    api_key: "your-openai-api-key"
+    model: "gpt-4"
+  anthropic:
+    api_key: "your-anthropic-api-key"
+    model: "claude-3-sonnet-20240229"
+  xai:
+    api_key: "your-xai-api-key"
+    model: "grok-3"
+
+# MCP Servers
+mcp_servers:
+  - name: "example_server"
+    url: "http://localhost:8000"
+    type: "http"
+  - name: "local_server"
+    command: ["python", "/path/to/server/main.py"]
+    type: "stdio"
+
+# Default settings
+default_ai_provider: "openai"
+web_interface:
+  host: "localhost"
+  port: 8080
+```
+
+### Usage
+
+#### Terminal Interface
+
+```bash
+# Direct mode - connect directly to MCP server
+egile-mcp-client direct --server example_server
+
+# Agent mode - use AI agent with MCP tools
+egile-mcp-client agent --provider openai
+
+# List available tools from a server
+egile-mcp-client tools --server example_server
+
+# Interactive chat in terminal
+egile-mcp-client chat --mode agent --provider openai
+```
+
+#### Web Interface
+
+```bash
+# Start the web server
+egile-mcp-client web
+
+# Then open http://localhost:8080 in your browser
+```
+
+## Architecture
+
+```
+egile-mcp-client/
+├── egile_mcp_client/
+│   ├── __init__.py
+│   ├── cli.py              # Command-line interface
+│   ├── config.py           # Configuration management
+│   ├── mcp/
+│   │   ├── __init__.py
+│   │   ├── client.py       # MCP client implementation
+│   │   ├── connection.py   # Connection management
+│   │   └── protocol.py     # MCP protocol handling
+│   ├── agents/
+│   │   ├── __init__.py
+│   │   ├── base.py         # Base agent interface
+│   │   ├── openai_agent.py # OpenAI implementation
+│   │   └── anthropic_agent.py # Anthropic implementation
+│   ├── web/
+│   │   ├── __init__.py
+│   │   ├── app.py          # FastAPI web application
+│   │   ├── routes.py       # API routes
+│   │   ├── static/         # Static files (CSS, JS)
+│   │   └── templates/      # HTML templates
+│   └── utils/
+│       ├── __init__.py
+│       ├── history.py      # Conversation history
+│       └── logging.py      # Logging utilities
+├── tests/
+├── config.example.yaml
+└── README.md
+```
+
+## License
+
+MIT License
+
