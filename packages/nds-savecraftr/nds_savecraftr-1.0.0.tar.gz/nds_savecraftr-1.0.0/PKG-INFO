@@ -1,0 +1,191 @@
+Metadata-Version: 2.4
+Name: nds-savecraftr
+Version: 1.0.0
+Summary: Universal Nintendo DS Save File Craftr
+Home-page: https://github.com/tcsenpai/nds-savecraftr
+Author: tcsenpai
+Author-email: tcsenpai <tcsenpai@discus.sh>
+License: MIT
+Project-URL: Homepage, https://github.com/tcsenpai/nds-savecraftr
+Project-URL: Repository, https://github.com/tcsenpai/nds-savecraftr
+Project-URL: Issues, https://github.com/tcsenpai/nds-savecraftr/issues
+Keywords: nintendo,ds,save,converter,twilight,menu,r4,flashcart,craftr
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Games/Entertainment
+Classifier: Topic :: Utilities
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# NDS SaveCraftr
+
+A smart, universal Nintendo DS save file craftr that automatically detects whether to expand or trim save files for different platforms.
+
+## Features
+
+🎮 **Universal Compatibility**: Works with save files from R4 flashcarts, TWiLight Menu++, DeSmuME, NO$GBA, and other DS emulators
+
+🧠 **Smart Auto-Detection**: 
+- Files < 512KB → Automatically expands to 512KB (perfect for TWiLight Menu++)
+- Files = 512KB → Automatically trims trailing zeros (perfect for R4/flashcarts)
+
+⚡ **Fast & Reliable**: Uses efficient algorithms with smart rounding to standard DS save sizes
+
+🧠 **Smart Trimming**: Automatically rounds up to standard sizes (64KB, 128KB, 256KB, 512KB) when close
+
+🛠️ **Manual Override**: Force specific sizes when needed
+
+## Installation
+
+### From PyPI (recommended)
+```bash
+pip install nds-savecraftr
+```
+
+### From source
+```bash
+git clone https://github.com/yourusername/nds-savecraftr
+cd nds-savecraftr
+pip install .
+```
+
+## Usage
+
+### Command Line
+```bash
+# Auto-detect mode (recommended)
+nds-savecraftr game.sav
+
+# Short command alias
+savecraftr game.sav
+
+# Custom output file
+nds-savecraftr game.sav converted.sav
+
+# Force specific size (128KB example)
+nds-savecraftr game.sav converted.sav 128
+
+# Quiet mode
+nds-savecraftr -q game.sav
+```
+
+### Python API
+```python
+from nds_savecraftr import convert_save
+
+# Auto-detect conversion
+convert_save("game.sav")
+
+# Custom output and size
+convert_save("input.sav", "output.sav", target_size_kb=256)
+```
+
+## How It Works
+
+The craftr uses a smart algorithm that:
+
+1. **Scans from the end** of the file backwards to find the last non-zero byte
+2. **Identifies trailing zeros** as padding (safe to remove)  
+3. **Preserves legitimate zeros** in the middle of save data
+4. **Smart rounding**: If close to standard DS sizes (64KB, 128KB, 256KB, 512KB), rounds up to prevent compatibility issues
+5. **Auto-detects the best conversion** based on input file size
+
+### Conversion Modes
+
+| Input Size | Auto Mode | Result | Use Case |
+|------------|-----------|---------|----------|
+| < 512KB | Expansion | → 512KB | TWiLight Menu++, DeSmuME |
+| = 512KB | Smart Trimming | → Actual data size (rounded up if close to standard) | R4, flashcarts |
+| Manual | Force size | → Specified size | Custom requirements |
+
+## Supported Formats
+
+✅ Raw .sav files (R4, flashcarts)  
+✅ DeSmuME .dsv files  
+✅ NO$GBA save files  
+✅ TWiLight Menu++ saves  
+✅ Most DS emulator formats  
+
+## Examples
+
+### R4 to TWiLight Menu++
+```bash
+# Your R4 save (128KB) → TWiLight Menu++ format (512KB)
+nds-savecraftr pokemon.sav
+# Output: pokemon_converted.sav (512KB)
+```
+
+### TWiLight Menu++ to R4
+```bash
+# Your TWiLight save (512KB) → R4 format (smart-trimmed)
+nds-savecraftr pokemon_twilight.sav
+# Output: pokemon_twilight_converted.sav 
+# If data ends at ~127.8KB → rounds to 128KB (safe for R4)
+# If data ends at ~120KB → stays 120KB (natural size)
+```
+
+### Mario Kart DS Example
+```bash
+# Convert Mario Kart DS save (256KB) to TWiLight format
+nds-savecraftr mario_kart_ds.sav
+# Output: mario_kart_ds_converted.sav (512KB)
+
+# Or trim a 512KB version back to minimal size
+nds-savecraftr mario_kart_ds_512kb.sav
+# Output: mario_kart_ds_512kb_converted.sav (256KB, smart-trimmed)
+```
+
+### Manual Size Control
+```bash
+# Force 256KB output
+nds-savecraftr game.sav output.sav 256
+```
+
+## Troubleshooting
+
+### Save doesn't load after conversion
+- Ensure the output filename exactly matches your ROM name
+- Some games require specific save sizes - try the auto-detect mode first
+- Check that your emulator/flashcart supports the output file size
+
+### File not found error
+- Check the file path is correct
+- Ensure you have read permissions for the input file
+- Make sure the output directory exists
+
+## Development
+
+### Running Tests
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+### Building
+```bash
+python -m build
+```
+
+## License
+
+MIT License - feel free to use in your projects!
+
+## Contributing
+
+Pull requests welcome! Please ensure tests pass and follow the existing code style.
+
+## Changelog
+
+### v1.0.0
+- Initial release
+- Smart auto-detection algorithm  
+- Support for all major DS save formats
+- Command line and Python API
+- Comprehensive test suite
+- Mario Kart DS example save included
