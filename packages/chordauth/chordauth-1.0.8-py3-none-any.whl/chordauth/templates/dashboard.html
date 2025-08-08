@@ -1,0 +1,32 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+<h1>ChordAuth Dashboard</h1>
+
+<table style="width:100%">
+<tr>
+    <td><i>UUID</i></td>
+    <td><i>Description</i></td>
+    <td><i>Size</i></td>
+    <td><i>Options</i></td>
+</tr>
+{% for group in data %}
+    <tr>
+        <td>{{ group.identification }}</td>
+        <td>{{ group.description }}</td>
+ 	<td>{{ group.size }}</td>
+	<td>
+	<form action="https://127.0.0.1:5002/delete_group" method="post">
+		<input type="hidden" name="api" value="{{ api }}">
+    		<input type="hidden" name="passkey" value="{{ passkey }}">
+		<input type="hidden" name="group" value="{{ group.identification }}">
+    		<button type="submit">Delete</button>
+	</form>
+	</td>
+    </tr>
+{% endfor %}
+</table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
