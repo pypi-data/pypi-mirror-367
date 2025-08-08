@@ -1,0 +1,101 @@
+oops-wsgi NEWS
+++++++++++++++
+
+Changes and improvements to oops-wsgi, grouped by release.
+
+
+0.1.0
+-----
+
+* Drop Python 2 support. (Ilker Emre Koc)
+* Add Python 3.8 support. (Ilker Emre Koc)
+* Prepare a Makefile for easier development start. (Ilker Emre Koc)
+
+0.0.15
+------
+
+* Add tox testing support. (Colin Watson)
+* Avoid traceback reference cycles. (Colin Watson)
+
+0.0.14
+------
+
+* Fix test compatibility with testtools >= 0.9.17. (Colin Watson)
+* Add Python 3 support. (Colin Watson)
+
+0.0.13
+------
+
+* UTF-8-encode PATH_INFO before attempting to quote it, to work around
+  Django decoding it. (Tom Wardill)
+
+0.0.12
+------
+
+* Copy construct_url from paste, and tweak it to allow SERVER_PORT to be an
+  int. Drop paste dependency. (James Westby)
+
+* Hide sensitive information in HTTP_AUTHORIZATION headers. (Colin Watson)
+
+0.0.11
+------
+
+* fix generator_tracker to behave properly according to WSGI standard
+  
+  according to http://blog.dscpl.com.au/2012/10/obligations-for-calling-close-on.html
+  any iterable returned by a WSGI application needs to have .close() called on it
+  
+  Since django 1.5 this causes connections to be left open as "IDLE in transaction"
+  when the iterator is not closed
+
+0.0.10
+------
+
+* Fix breakage with mod_wsgi. (James Westby, #903573)
+
+0.0.9
+-----
+
+* oops_wsgi.django was not importable due to shadowing the django module.
+  Fixed using absolute imports. (Robert Collins)
+
+0.0.8
+-----
+
+* Added a Django helper to ease integration in older non-WSGI compatible Django
+  versions. (James Henstridge, Robert Collins)
+
+* Passing ``soft_start_timeout`` to ``make_app`` allows the creation of OOPS
+  reports when the wrapped application is slow to start its response.
+  (Robert Collins)
+
+0.0.7
+-----
+
+* Now licensed under LGPL-3. (Robert Collins)
+
+* The req_vars key is now generated as a dict, not a list.
+  (Robert Collins, #888866)
+
+0.0.6
+-----
+
+* Applications which return [] as their body, and do not return a generator,
+  now work correctly. This was broken if the iterator loop never executed,
+  because middleware cannot assume that calling app(environ, start_response)
+  will cause start_response to be triggered. (Robert Collins)
+
+* The wrapping of the application body is now customisable by supplying a
+  tracker factory to make_app. This permits special handling of bodies (e.g. by
+  taking them out of threads and putting them into an event loop, once the type
+  is known). See oops-twisted in the near future for an example of such a thing.
+  (Robert Collins)
+
+0.0.4
+-----
+
+* Integrate with oops-timeline: include the timeline variable in the OOPS context
+  if one was present.
+
+* New parameter to make_app `map_environ` which permits mapping variables from
+  the environment to the OOPS context.
