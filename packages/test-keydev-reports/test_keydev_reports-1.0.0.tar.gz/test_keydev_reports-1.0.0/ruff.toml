@@ -1,0 +1,31 @@
+line-length = 120
+show-fixes = true
+
+exclude = [
+    ".git",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/__pycache__/*",
+    "build/*",
+    "dist/*",
+    "docs/*",
+    "keydev_reports.egg-info/*",
+
+]
+
+[lint]
+select = ["E", "F", "TCH", "Q", "B"]
+
+# 3. Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+[lint.per-file-ignores]
+"**/migrations/*.py" = ["F401", "F403", "E501"]
+"__init__.py" = ["F401", ]
+
+[format]
+quote-style = "single"
+
+[lint.flake8-quotes]
+inline-quotes = "single"

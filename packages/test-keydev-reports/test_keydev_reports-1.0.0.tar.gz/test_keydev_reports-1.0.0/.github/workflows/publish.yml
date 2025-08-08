@@ -1,0 +1,57 @@
+name: Publish Python Package
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine pytest ruff
+
+      # - name: ✅ Run tests
+      #   run: |
+      #     pytest
+
+      - name: 🧹 Run linter
+        run: |
+          ruff check
+
+      - name: 🛠️ Build package
+        run: |
+          python -m build
+
+      - name: 🚀 Publish to TestPyPI (develop)
+        if: github.ref == 'refs/heads/develop'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: |
+          twine upload --repository testpypi dist/*
+
+      - name: 🚀 Publish to PyPI (main + tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          twine upload dist/*
