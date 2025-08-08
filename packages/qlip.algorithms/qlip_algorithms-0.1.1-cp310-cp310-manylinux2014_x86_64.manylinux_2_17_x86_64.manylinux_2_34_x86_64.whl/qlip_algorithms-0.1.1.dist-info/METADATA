@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: qlip.algorithms
+Version: 0.1.1
+Summary: Library with neural networks compression and acceleration algorithms built on QLIP.
+Author-email: TheStage AI team <hello@thestage.ai>
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: numpy
+Requires-Dist: torch
+Requires-Dist: tqdm
+Requires-Dist: streamlit
+Requires-Dist: pandas
+Requires-Dist: streamlit-image-comparison
+Requires-Dist: pillow
+Requires-Dist: plotly
+Dynamic: license-file
+
+# Qlip.Algorithms
+
+**Qlip.Algorithms** is a comprehensive library for neural network compression and acceleration algorithms built on top of [Qlip.Pytorch](https://pypi.org/project/qlip.core/). It provides state-of-the-art quantization, pruning, and optimization techniques with a focus on automated compression analysis.
+
+## 📋 Table of Contents
+
+- [Quantization Algorithms](#quantization-algorithms)
+- [ANNA: Automatic Neural Networks Acceleration](#-anna-automatic-neural-networks-acceleration)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [About](#-about)
+
+
+## Quantization Algorithms
+
+The compression algorithms in QLIP are designed with the following features:
+
+- **State-of-the-Art Algorithms**
+    QLIP implements cutting-edge quantization methods for post-training quantization and quantization-aware training.
+
+- **Unified Interface Design**
+    All QLIP algorithms follow a consistent API pattern that integrates seamlessly into existing workflows. Whether you're doing post-training quantization or quantization-aware training, the interface remains intuitive and requires minimal code changes.
+
+- **Custimizable quantization schemes**
+    - **Multiple data types**: INT4, INT8, FP8, FP16 with both symmetric and asymmetric quantization
+    - **Flexible granularities**: Per-tensor, per-channel, per-token quantization for optimal quality-performance trade-offs
+    - **Advanced observers**: Percentile-based, min-max, and custom observers for accurate scale estimation
+    - **Dynamic quantization**: Runtime quantization for deployment scenarios requiring maximum flexibility
+
+- **Model Architecture Agnostic**
+    QLIP works with any PyTorch model architecture including Transformers (LLaMA, BERT, GPT), Convolutional Neural Networks (ResNet, EfficientNet), and Diffusion Models (Stable Diffusion, DALL-E). The algorithms automatically adapt to different layer types and activation patterns.
+
+## 🧠 ANNA: Automatic Neural Networks Acceleration
+ANNA (Automatic Neural Network Analysis) is a framework designed to automatically identify optimal model compression configurations 
+by exploring various algorithms and hyperparameters, while assessing the trade-offs between model size, performance, and accuracy.
+
+<img src="assets/anna_framework.png" alt="ANNA Framework" width="800">
+
+* **Automatic model compression**: ANNA automatically identifies optimal compression configurations for your model by exploring various algorithms and hyperparameters.
+* **Controlable model size and performance constraints**: ANNA allows you to set exact model size and performance constraints, such as MACs, model size, etc.
+* **Configurable bag of algorithms**: ANNA allows to configure a bag of algorithms to explore for any compression technique, such as quantization, pruning, etc. It will find the best mix of algorithms to satisfy your constraints and minimize the quality degradation of the model.
+* **Flexible model and task support**: ANNA can be configured for any model architecture, task, and deployment device.
+* **Post-training compression**: ANNA operates entirely in a post-training regime, requiring only calibration data for forward passes through the model. It doesn't require any retraining or fine-tuning.
+* **User-friendly**: ANNA provides a user-friendly interface to configure the analysis and visualize the results.
+
+
+## 📦 Installation
+
+```bash
+pip install qlip.core qlip.algorithms
+```
+
+
+## 🛠️ Quick Start
+
+### Applying SmoothQuant for LLM quantization
+
+```python
+from qlip_algorithms.quantization import SmoothQuant
+
+quantized_model, handle = SmoothQuant.setup_model(
+    model=model,
+    weights_scheme={'bits': 8, 'symmetric': True, 'type': 'int'},
+    activations_scheme={'bits': 8, 'symmetric': True, 'type': 'int'},
+    alpha=0.8,
+)
+
+SmoothQuant.configure_equalization(model)
+# Runing model forward pass to collect statistics for equalization
+for i, batch in enumerate(calibration_loader):
+    _ = model(**batch)
+
+SmoothQuant.configure_quantization(model)
+# Runing model forward pass to collect statistics for quantization
+for i, batch in enumerate(calibration_loader):
+    _ = model(**batch)
+
+```
+
+### Constrained optimization with ANNA
+
+Quantize model for NVIDIA hardware to fit your size restrictions:
+
+```python
+from qlip_algorithms.anna import Analyser, PTQBag
+from qlip.deploy.nvidia import NVIDIA_INT_W8A8
+
+# Initialize analyzer with your model
+analyzer = Analyser(
+    model=model,
+    bag_of_algorithms=PTQBag([NVIDIA_INT_W8A8]),
+    train_dataloader=train_dataloader,
+    calibration_iterations=512
+)
+result = analyzer.analyze_constraint_range(
+    constraint_type='size',
+    # size of compressed model will be < 60% of original size
+    constraint_values=[0.6]
+)
+
+# Evaluate best configuration
+result.anna_config.apply(model)
+evaluate(model, val_dataloader)
+
+```
+
+Generate a series of optimal quantized checkpoints with different model sizes to explore quality-performance trade-off:
+
+```python
+results = analyzer.analyze_constraint_range(
+    min_constraint=0.5,  # 50% of original size
+    max_constraint=1.0,  # 100% of original size  
+    num_configs=10
+)
+# Evaluate best configuration
+for result in results:
+    result.anna_config.apply(model)
+    evaluate(model, val_dataloader)
+    result.anna_config.remove()
+```
+
+## 🏢 About
+
+Developed by [TheStage AI](https://thestage.ai) team. For questions and support, contact us at hello@thestage.ai.
+
+Access to this library requires an API token from the `TheStage AI Platform <https://app.thestage.ai/>`  
+and additional access, which can be requested by contacting frameworks@thestage.ai.
