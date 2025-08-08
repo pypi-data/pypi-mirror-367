@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="catalogue">
+  {% set sort_attr = page.meta.pagination.sort_field %}
+  {% set reverse = page.meta.pagination.sort_reverse %}
+  {% set sorted_pages = config.extra.tale_pages | sort(attribute=sort_attr, reverse=reverse) %}
+  
+  {% for page_item in sorted_pages %}
+    {% if page_item.url.split('/') | length > 2 and page_item.url != page.url and page_item.url.startswith(page.url) %}
+      <a href="{{page_item.url|url}}" class="catalogue-item">
+        <div>
+          <!-- <span class="catalogue-pinned">Pinned ·</span> -->
+          <time datetime="{{page_item.date}} 00:00:00 +0000" class="catalogue-time">{{page_item.meta.date| format_date}}</time>
+          <h1 class="catalogue-title">{{page_item.title}}</h1>
+          <div class="catalogue-line"></div>
+          <p>{{page_item.content.split('<!--')[0]}}</p>
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<!--
+<div class="pagination">
+  <a href="/tale/page2" class="right arrow">→</a>
+  <span>1</span>
+</div>
+-->
+{% endblock %}
