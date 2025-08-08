@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools >= 61.0.0"]
+# ^ note: we also require wheel, but apparently that does not have to be specified.
+#         see https://github.com/python/importlib_metadata/commit/aae281a9ff6c9a1fa9daad82c79457e8770a1c7e
+build-backend = "backend"
+backend-path = ["_custom_build"]
+
+[project]
+name = "electrum-ecc"
+authors = [
+    { name = "The Electrum developers" },
+]
+description = "Pure python ctypes wrapper for libsecp256k1"
+keywords = ["libsecp256k1", "ecc"]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE.txt"]
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Security :: Cryptography",
+]
+dynamic = ['version']
+
+
+[project.urls]
+Homepage = "https://github.com/spesmilo/electrum-ecc"
+Repository = "https://github.com/spesmilo/electrum-ecc"
+
+[tool.setuptools.dynamic]
+version = { attr = 'electrum_ecc.__version__' }
