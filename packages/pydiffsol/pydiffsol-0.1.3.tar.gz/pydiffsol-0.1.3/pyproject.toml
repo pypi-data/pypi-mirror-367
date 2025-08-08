@@ -1,0 +1,27 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "pydiffsol"
+dynamic = ["version"]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "numpy",
+]
+readme = { file = "README_PyPI.md", content-type = "text/markdown" }
+license-files = ["LICENSE", "LICENSE.libunwind", "LICENSE.zstd"]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[project.optional-dependencies]
+dev = [
+    "matplotlib",
+    "pytest",
+]
