@@ -1,0 +1,33 @@
+[package]
+name = "stella-rs"
+version = "0.1.1"
+authors = [
+  "Pedro Olivares Chauvet <pedro.olivares@weizmann.ac.il>", 
+]
+edition = "2018"
+readme = "README.md"
+
+[package.metadata.maturin]
+name = "stellars"
+
+[lib]
+name = "stellars"
+crate-type = ["cdylib"]
+
+[dependencies]
+phylo = "2.0.1"
+pyo3 = { version = "0.22.2", features = ["extension-module", "abi3-py38"] }
+rand = "0.8"
+rayon = "1.8"
+polars = "0.43.1"
+polars-core = { version = "0.43.1", features = ["dtype-array"], default-features = false }
+pyo3-polars = { version = "0.17.0", features = ["derive", "dtype-struct", "dtype-decimal", "dtype-array"] }
+fxhash = "0.2"
+
+[features]
+default = []
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
