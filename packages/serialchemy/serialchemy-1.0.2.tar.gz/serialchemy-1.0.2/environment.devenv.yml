@@ -1,0 +1,26 @@
+{% set PY = os.environ['CONDA_PY'] | int %}
+name: serialchemy-py{{ PY }}
+
+dependencies:
+  - black>=19.3b0
+  - mypy
+  - pre-commit
+  - pytest
+  - pytest-cov
+  - pytest-datadir
+  - pytest-mock>=1.10
+  - pytest-regressions>=1.0.0
+  - pytest-freezegun>=0.4.2
+  {% if PY==310 %}
+  - python ==3.10.4  # [win]
+  - python ==3.10.2  # [linux]
+  {% endif %}
+  - setuptools  # [PY==312]
+  - sqlalchemy ==1.4.44  # [PY==310]
+  - sqlalchemy-utc>=0.10
+  - sqlalchemy-utils>=0.33
+  - tox
+
+environment:
+  PYTHONPATH:
+    - {{ root }}/src
