@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dexter-toolkit"
+version = "0.1.0"
+description = "Data Experimentation and Tinkering Kit - A comprehensive Python toolkit for data science, machine learning, optimization, simulation, and visualization experiments"
+readme = "README.md"
+authors = [{ name = "Deniz", email = "denizkurtaran00@gmail.com" }]
+license = "MIT"
+keywords = ["data-science", "machine-learning", "optimization", "simulation", "visualization", "statistics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "dash>=2.17.0",
+    "dash-bootstrap-components>=2.0.3",
+    "hyperopt>=0.2.7",
+    "ipykernel>=6.30.1",
+    "ipython>=8.12.3",
+    "jp-proxy-widget>=1.0.10",
+    "jupyter-dash>=0.4.2",
+    "langchain>=0.3.27",
+    "matplotlib>=3.10.5",
+    "numpy>=1.21,<2.0",
+    "pandas>=2.3.1",
+    "plotly>=5.9.0",
+    "pyomo>=6.9.3",
+    "PyQt5>=5.15.11",
+    "scikit-learn>=1.2.2",
+    "scipy>=1.16.1",
+    "seaborn>=0.13.2",
+    "simpy>=4.1.1",
+    "sympy>=1.12"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/DenizK00/Dexter"
+"Documentation" = "https://github.com/DenizK00/Dexter#readme"
+"Repository" = "https://github.com/DenizK00/Dexter.git"
+"Bug Tracker" = "https://github.com/DenizK00/Dexter/issues"
+"Changelog" = "https://github.com/DenizK00/Dexter/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.yml", "*.yaml"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
