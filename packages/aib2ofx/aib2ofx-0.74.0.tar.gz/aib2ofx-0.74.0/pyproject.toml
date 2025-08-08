@@ -1,0 +1,35 @@
+[project]
+name = "aib2ofx"
+version = "0.74.0"
+description = "Download data from aib.ie in OFX format"
+authors = [{ name = "Jakub Turski", email = "yacoob@gmail.com" }]
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+dependencies = [
+  "mechanicalsoup~=1.4",
+  "python-dateutil>=2.9.0,<3",
+]
+
+[project.urls]
+Repository = "https://github.com/yacoob/aib2ofx"
+
+[dependency-groups]
+dev = [
+    "ipython>=9.4.0,<10",
+    "ipdb>=0.13.13,<0.14",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.2,<0.9.0"]
+build-backend = "uv_build"
+
+[project.scripts]
+aib2ofx = "aib2ofx.cli:main"
+
+[tool.ruff.format]
+quote-style = 'single'
+
+[tool.pyright]
+venvPath = '.'
+venv = ".venv"
