@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyedm4hep"
+version = "0.1.1" # Sync with __init__.py
+authors = [
+  { name="Daniel Murnane", email="daniel.thomas.murnane@cern.ch" },
+]
+description = "A Python library for working with EDM4hep data, providing an object-oriented interface on top of Pandas DataFrames."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License", # Assuming MIT, please change if different
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "pandas>=1.0",
+    "numpy>=1.18",
+    "uproot>=5.0",
+    "networkx>=2.5",
+    "matplotlib>=3.3",
+    "seaborn>=0.11",
+    "scipy" # Often a dependency for numpy/pandas and useful in scientific computing
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6.0",
+    "pytest-cov>=2.10",
+    "uproot>=5.0", # For test data handling
+    "pandas>=1.0",   # For test data handling
+    "numpy>=1.18"    # For test data handling
+]
+
+[project.urls]
+"Homepage" = "https://github.com/murnanedaniel/pyEDM4hep"
+"Bug Tracker" = "https://github.com/murnanedaniel/pyEDM4hep/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pyedm4hep*"]
+exclude = ["dev*", "tests*"] 
