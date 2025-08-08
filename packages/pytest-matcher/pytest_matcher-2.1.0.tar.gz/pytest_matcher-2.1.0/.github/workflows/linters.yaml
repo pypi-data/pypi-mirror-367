@@ -1,0 +1,100 @@
+# SPDX-FileCopyrightText: 2024-now, Alex Turbov <zaufi@pm.me>
+# SPDX-License-Identifier: CC0-1.0
+
+name: Linter Checks
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+env:
+  CLICOLOR: 1
+  CLICOLOR_FORCE: 1
+  FORCE_COLOR: 1
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
+
+jobs:
+  linters:
+    name: Run various linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Get Cache Key
+        run: |
+          echo "CACHE_KEY=$( \
+              yq eval -r .tool.hatch.envs.default.dependencies -oy pyproject.toml \
+            | sha1sum \
+            | cut -f 1 -d ' ' \
+            )" | tee -a "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Prepare Cache
+        uses: actions/cache@v4
+        with:
+          key: py3.12-hatch-${{ env.CACHE_KEY }}-lint
+          path: |
+            ~/.cache/pip
+            ~/.cache/uv
+            ~/.local/share/hatch
+
+      - name: Install `hatch`
+        uses: pypa/hatch@install
+
+      - name: Git Describe
+        id: ghd
+        uses: proudust/gh-describe@v2
+        env:
+          CLICOLOR: 0
+          CLICOLOR_FORCE: 0
+          FORCE_COLOR: 0
+
+      - name: Prepare Version
+        shell: bash
+        # NOTE It's not exactly the same as in the `release.yaml` workflow!
+        # This one don't strips _local version_!
+        run: |
+          echo "SETUPTOOLS_SCM_PRETEND_VERSION=$( \
+              echo '${{ steps.ghd.outputs.describe }}' \
+            | cut -d / -f 2 \
+            | sed -e 's,-,.post,' -e 's,-g,+g,' \
+            )" | tee -a "${GITHUB_ENV}"
+
+      - name: Build a manual
+        run: hatch run doc:build
+
+      - name: Build a package
+        run: hatch build
+
+      - name: Run package check
+        run: hatch run dist-check
+
+      - name: Run linter check
+        run: hatch fmt --linter --check
+        env:
+          RUFF_OUTPUT_FORMAT: github
+
+      - name: Run type check
+        run: hatch run type-check
+
+      - name: Run license check
+        run: hatch run license-check
+
+      - name: Run dead code check
+        run: hatch run dead-check
+
+      - name: Run dead links check
+        if: "!contains(github.event.head_commit.message, 'release:')"
+        run: hatch run doc:link-check
