@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyxml2xpath"
+dynamic = ["version"]
+
+dependencies = [
+  "lxml"
+]
+requires-python = ">=3.9"
+authors = [
+  {name = "Luis Muñoz", email = "south.minds@gmail.com"}
+]
+
+description = "Generate xpath expressions from XML document."
+readme = "README.md"
+license = "GPL-3.0"
+keywords = ["xpath", "xml"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python"
+]
+
+[project.urls]
+Repository = "https://github.com/mluis7/pyxml2xpath.git"
+
+[project.scripts]
+pyxml2xpath = "xml2xpath.xml2xpath:main"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
