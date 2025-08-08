@@ -1,0 +1,347 @@
+Metadata-Version: 2.4
+Name: dexter-toolkit
+Version: 0.1.0
+Summary: Data Experimentation and Tinkering Kit - A comprehensive Python toolkit for data science, machine learning, optimization, simulation, and visualization experiments
+Author-email: Deniz <denizkurtaran00@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/DenizK00/Dexter
+Project-URL: Documentation, https://github.com/DenizK00/Dexter#readme
+Project-URL: Repository, https://github.com/DenizK00/Dexter.git
+Project-URL: Bug Tracker, https://github.com/DenizK00/Dexter/issues
+Project-URL: Changelog, https://github.com/DenizK00/Dexter/blob/main/CHANGELOG.md
+Keywords: data-science,machine-learning,optimization,simulation,visualization,statistics
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dash>=2.17.0
+Requires-Dist: dash-bootstrap-components>=2.0.3
+Requires-Dist: hyperopt>=0.2.7
+Requires-Dist: ipykernel>=6.30.1
+Requires-Dist: ipython>=8.12.3
+Requires-Dist: jp-proxy-widget>=1.0.10
+Requires-Dist: jupyter-dash>=0.4.2
+Requires-Dist: langchain>=0.3.27
+Requires-Dist: matplotlib>=3.10.5
+Requires-Dist: numpy<2.0,>=1.21
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: plotly>=5.9.0
+Requires-Dist: pyomo>=6.9.3
+Requires-Dist: PyQt5>=5.15.11
+Requires-Dist: scikit-learn>=1.2.2
+Requires-Dist: scipy>=1.16.1
+Requires-Dist: seaborn>=0.13.2
+Requires-Dist: simpy>=4.1.1
+Requires-Dist: sympy>=1.12
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Dynamic: license-file
+
+# Dexter Toolkit
+**Data Experimentation and Tinkering Kit**
+
+A comprehensive Python toolkit for data science, machine learning, optimization, simulation, and visualization experiments.
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Overview
+
+Dexter is a modular toolkit designed for rapid prototyping and experimentation in data science and related fields. It provides a collection of specialized modules for different aspects of data analysis, machine learning, optimization, and visualization.
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/DenizK00/Dexter.git
+cd Dexter
+
+# Install in development mode
+make install-dev
+
+# Or install manually
+python install_dev.py
+```
+
+### Basic Usage
+
+```python
+import dexter
+
+# Machine Learning
+from dexter import pick_classifier
+import pandas as pd
+
+df = pd.read_csv('your_data.csv')
+best_model = pick_classifier(df, target='target_column')
+
+# Optimization
+from dexter import Problem
+
+objective = "min 2*x + 3*y"
+constraints = ["x + y >= 10", "x >= 0", "y >= 0"]
+problem = Problem(objective, constraints)
+solution = problem.solve()
+
+# Statistics
+from dexter import Normal, Uniform
+
+normal_dist = Normal(mean=0, var=1)
+rv = normal_dist.draw()
+
+# Simulation
+from dexter import SimManager
+import simpy
+
+env = simpy.Environment()
+sim = SimManager(env)
+sim.run(until=100)
+```
+
+## 📦 Package Structure
+
+```
+dexter/
+├── src/dexter/                    # Main package
+│   ├── __init__.py               # Package initialization
+│   ├── board/                    # Interactive data dashboard
+│   ├── core/                     # Core pipeline utilities
+│   ├── data_wrangling/           # Data transformation tools
+│   ├── environment/              # Environment simulation
+│   ├── language/                 # Language processing
+│   ├── ml/                      # Machine learning
+│   ├── optimization/             # Mathematical optimization
+│   ├── simulation/               # Discrete event simulation
+│   ├── stats/                   # Statistical analysis
+│   └── visualization/            # Visualization tools
+├── tests/                        # Test suite
+├── docs/                         # Documentation
+├── examples/                     # Usage examples
+└── scripts/                      # Utility scripts
+```
+
+## 🎯 Modules
+
+### 🧠 **ML** - Machine Learning
+- **Auto Model Selection**: Automated classifier selection with hyperparameter optimization
+- **Model Comparison**: Cross-validation and performance metrics comparison
+- **Hyperopt Integration**: Bayesian optimization for hyperparameter tuning
+- **Binary/Multiclass Support**: Handles both binary and multiclass classification tasks
+
+```python
+from dexter.ml import pick_classifier
+
+# Automatically find the best classifier
+best_model = pick_classifier(df, target='target_column', mode='extensive')
+```
+
+### ⚡ **Optimization** - Mathematical Optimization
+- **Mathematical Optimization**: Linear and nonlinear optimization problems
+- **Pyomo Integration**: Mathematical modeling with Pyomo framework
+- **Equation Parsing**: Natural language equation parsing and conversion
+- **Solution Management**: Optimal solution extraction and evaluation
+
+```python
+from dexter.optimization import Problem
+
+# Define and solve optimization problem
+problem = Problem("min 2*x + 3*y", ["x + y >= 10", "x >= 0", "y >= 0"])
+solution = problem.solve()
+```
+
+### 🎮 **Simulation** - Discrete Event Simulation
+- **Discrete Event Simulation**: Built on SimPy for event-driven simulations
+- **Resource Management**: Dynamic resource allocation and management
+- **Process Control**: Start, stop, and manage simulation processes
+- **Step Mode**: Step-by-step simulation execution for debugging
+
+```python
+from dexter.simulation import SimManager
+import simpy
+
+env = simpy.Environment()
+sim = SimManager(env)
+sim.add_resource("service", simpy.Resource(env, capacity=2))
+sim.run(until=100)
+```
+
+### 📊 **Stats** - Statistical Analysis
+- **Probability Distributions**: Comprehensive distribution library
+  - Normal, Uniform, Binomial, Geometric, Negative Binomial
+  - Poisson, Exponential, Gamma, Chi-Square distributions
+- **Random Variable Management**: RV and Sample classes for statistical operations
+- **Distribution Operations**: Addition, multiplication, and transformation of distributions
+
+```python
+from dexter.stats import Normal, Uniform, Binomial
+
+# Create and work with distributions
+normal_dist = Normal(mean=0, var=1)
+uniform_dist = Uniform(a=0, b=1)
+binomial_dist = Binomial(n=10, p=0.5)
+
+# Generate random variables
+rv = normal_dist.draw()
+sample = uniform_dist.draw(n=100)
+```
+
+### 🎨 **Visualization** - Interactive Visualization
+- **3D Space Visualization**: Interactive 3D plotting with Plotly
+- **Vector Visualization**: 3D vector representation and manipulation
+- **Surface Plotting**: 3D surface and mesh grid visualization
+- **Interactive Plots**: Web-based interactive visualizations
+
+```python
+from dexter.visualization import Space
+
+# Create 3D visualization space
+space = Space(x_size=10, y_size=10, z_size=10)
+space.add_vector([1, 2, 3], color='red')
+space.show()
+```
+
+### 🌍 **Environment** - Environment Simulation
+- **Grid-based Environment**: 2D grid system for agent-based simulations
+- **Tkinter GUI**: Interactive grid display with agent positioning
+- **Agent Management**: Place and track agents within the grid environment
+
+```python
+from dexter.environment import Grid, GridApp
+
+# Create grid environment
+grid = Grid(nrows=10, ncolumns=10)
+grid.set_agent(5, 5)
+grid.set_cell(3, 3, '#')
+```
+
+### 🎯 **Board** - Interactive Data Dashboard
+- **Interactive Web Dashboard**: Built with Dash and Bootstrap for data visualization
+- **IPython Integration**: Custom kernel management with Jupyter console integration
+- **Real-time Data Viewing**: Live data table updates and interactive components
+
+### 🔧 **Data Wrangling** - Data Transformation
+- **Data Modification**: Tools for data transformation and manipulation
+- **Diffusion Functions**: Data diffusion and spreading utilities
+- **Deviation Functions**: Statistical deviation and error introduction
+
+### 🔄 **Core** - Pipeline Management
+- **Modular Pipeline System**: Extensible pipeline architecture
+- **Process Chaining**: Sequential process execution with result management
+- **Step-by-step Execution**: Individual step execution and monitoring
+
+### 🤖 **Language** - Language Processing
+- **Fine-tuning Framework**: Tools for model fine-tuning and training
+- **RAG Pipeline**: Retrieval-Augmented Generation pipeline components
+- **Chain Management**: Modular chain-based processing architecture
+
+## 🛠️ Development
+
+### Setup Development Environment
+
+```bash
+# Install in development mode
+make install-dev
+
+# Run tests
+make test
+
+# Run linting
+make lint
+
+# Format code
+make format
+
+# Run all checks
+make check
+```
+
+### Project Structure
+
+```
+dexter/
+├── src/dexter/           # Source code
+├── tests/                # Test suite
+├── docs/                 # Documentation
+├── examples/             # Usage examples
+├── scripts/              # Utility scripts
+├── pyproject.toml        # Project configuration
+├── setup.py              # Setup script
+├── Makefile              # Development tasks
+├── install_dev.py        # Development installation
+└── README.md            # This file
+```
+
+## 📋 Dependencies
+
+### Core Dependencies
+- **Data Science**: pandas, numpy, scipy, scikit-learn
+- **Visualization**: matplotlib, seaborn, plotly
+- **Web Dashboard**: dash, dash-bootstrap-components
+- **Optimization**: pyomo
+- **Simulation**: simpy
+- **Machine Learning**: hyperopt
+- **GUI**: PyQt5
+- **Jupyter**: ipykernel, ipython
+
+### Development Dependencies
+- **Testing**: pytest, pytest-cov
+- **Linting**: flake8, mypy
+- **Formatting**: black, isort
+- **Documentation**: sphinx, sphinx-rtd-theme
+
+## 📚 Documentation
+
+For detailed documentation, examples, and API reference, see the [documentation](docs/).
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes and add tests
+4. Run tests: `make test`
+5. Format code: `make format`
+6. Commit your changes: `git commit -m 'Add amazing feature'`
+7. Push to the branch: `git push origin feature/amazing-feature`
+8. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Deniz** - [denizkurtaran00@gmail.com](mailto:denizkurtaran00@gmail.com)
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ for the data science community
+- Inspired by the need for rapid experimentation tools
+- Powered by the amazing Python ecosystem
+
+---
+
+*Dexter Toolkit - Making data experimentation and tinkering easier and more efficient.*
