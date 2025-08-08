@@ -1,0 +1,5 @@
+# Scratchpad
+
+## Code architecture
+
+
