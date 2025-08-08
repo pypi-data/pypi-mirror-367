@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tmdb-cli-enhanced"
+version = "2.0.0"
+description = "A beautiful command-line interface for The Movie Database (TMDB) API with interactive features"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "Hamza Danjaji", email = "bhantsi@gmail.com"}
+]
+maintainers = [
+    {name = "Hamza Danjaji", email = "bhantsi@gmail.com"}
+]
+keywords = ["tmdb", "cli", "movies", "api", "terminal", "interactive", "watchlist"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia",
+    "Topic :: Utilities",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.7.0",
+    "click>=8.1.7",
+]
+
+[project.urls]
+Homepage = "https://github.com/hanzadj/tmdb-cli"
+Repository = "https://github.com/hanzadj/tmdb-cli.git"
+Issues = "https://github.com/hanzadj/tmdb-cli/issues"
+Documentation = "https://github.com/hanzadj/tmdb-cli#readme"
+
+[project.scripts]
+tmdb-cli = "tmdb_cli:cli"
+tmdb = "tmdb_cli:cli"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "mypy>=1.0",
+]
+
+[tool.setuptools]
+packages = ["tmdb_cli"]
+
+[tool.setuptools.package-data]
+tmdb_cli = ["*.md", ".env.example"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true

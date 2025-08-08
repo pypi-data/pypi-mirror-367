@@ -1,0 +1,412 @@
+Metadata-Version: 2.4
+Name: tmdb-cli-enhanced
+Version: 2.0.0
+Summary: A beautiful command-line interface for The Movie Database (TMDB) API with interactive features
+Author-email: Hamza Danjaji <bhantsi@gmail.com>
+Maintainer-email: Hamza Danjaji <bhantsi@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/hanzadj/tmdb-cli
+Project-URL: Repository, https://github.com/hanzadj/tmdb-cli.git
+Project-URL: Issues, https://github.com/hanzadj/tmdb-cli/issues
+Project-URL: Documentation, https://github.com/hanzadj/tmdb-cli#readme
+Keywords: tmdb,cli,movies,api,terminal,interactive,watchlist
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Multimedia
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.31.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: rich>=13.7.0
+Requires-Dist: click>=8.1.7
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: flake8>=6.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Dynamic: license-file
+
+# TMDB CLI Tool
+
+A beautiful command-line interface for The Movie Database (TMDB) API that allows you to search for movies, browse trending content, check upcoming releases, and get detailed movie information.
+
+## 🆕 What's New in v2.0
+
+- **🎮 Interactive Movie Browser**: Browse movies with a beautiful, interactive interface
+- **⭐ Personal Watchlist**: Save, manage, and export your favorite movies
+- **🎯 Smart Recommendations**: Get movie suggestions based on movies you like or by genre
+- **💾 Data Persistence**: Your watchlist is saved locally between sessions
+- **📤 Export Functionality**: Export your watchlist to shareable text files
+- **🎨 Enhanced UI**: Rich, colorful interface with intuitive navigation
+- **⚡ Improved Performance**: Faster API calls and better error handling
+
+## Features
+
+- 🔍 **Search Movies**: Search for movies by title with pagination support
+- 📈 **Trending Movies**: Browse trending movies for today or this week
+- 🎬 **Upcoming Releases**: View upcoming movie releases
+- 📋 **Movie Details**: Get comprehensive information about specific movies
+- � **Interactive Browser**: Browse movies with an interactive interface
+- ⭐ **Personal Watchlist**: Save and manage your favorite movies
+- 🎯 **Smart Recommendations**: Get movie suggestions based on preferences
+- 💾 **Data Export**: Export your watchlist to text files
+- �🎨 **Rich Terminal Output**: Beautiful, colored tables and formatted text
+- ⚡ **Error Handling**: Graceful handling of network issues, invalid input, and API errors
+- 🔧 **Environment Configuration**: Secure API key management with `.env` files
+
+## Installation
+
+### Option 1: Install from PyPI (Recommended)
+
+```bash
+# Install globally
+pip install tmdb-cli-enhanced
+
+# Or install in a virtual environment (recommended)
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install tmdb-cli-enhanced
+```
+
+### Option 2: Install from Source
+
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/hanzadj/tmdb-cli.git
+   cd tmdb-cli
+   ```
+
+2. **Create a virtual environment and install dependencies**:
+   ```bash
+   # Create virtual environment
+   python3 -m venv venv
+   
+   # Activate virtual environment
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   
+   # Install in development mode
+   pip install -e .
+   ```
+
+### Setup Your API Key
+
+3. **Set up your TMDB API key**:
+   - Get a free API key from [The Movie Database](https://www.themoviedb.org/settings/api)
+   - Copy the `.env.example` file to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edit the `.env` file and replace `your_tmdb_api_key_here` with your actual API key:
+     ```
+     API_KEY=your_actual_tmdb_api_key_here
+     ```
+
+## Usage
+
+After installation, you can use the CLI tool in several ways:
+
+### Method 1: Using the command (recommended for PyPI installs)
+```bash
+tmdb-cli search "inception"
+tmdb-cli trending --type week
+tmdb-cli upcoming
+tmdb-cli details 550
+
+# Or using the shorter alias
+tmdb search "inception"
+tmdb trending --type week
+tmdb upcoming
+tmdb details 550
+```
+
+### Method 2: Using the wrapper script (for source installs)
+```bash
+./tmdb search "inception"
+./tmdb trending --type week
+./tmdb upcoming
+./tmdb details 550
+```
+
+### Method 3: Direct Python module execution
+```bash
+# If installed via pip
+python -m tmdb_cli.main search "inception"
+
+# Or if using source install with activated virtual environment
+source venv/bin/activate
+python -m tmdb_cli.main search "inception"
+```
+
+### Basic Commands
+
+#### Search for Movies
+```bash
+tmdb search "inception"
+tmdb search "spider man" --page 2
+```
+
+#### Get Trending Movies
+```bash
+# Trending today (default)
+tmdb trending
+
+# Trending this week
+tmdb trending --type week
+```
+
+#### View Upcoming Releases
+```bash
+tmdb upcoming
+```
+
+#### Get Movie Details
+```bash
+tmdb details 550  # Fight Club
+tmdb details 27205  # Inception
+```
+
+#### Interactive Movie Browser
+```bash
+# Browse popular movies interactively
+tmdb browse
+
+# Browse top rated movies
+tmdb browse --category top_rated
+
+# Browse currently playing movies
+tmdb browse --category now_playing
+```
+
+#### Manage Your Watchlist
+```bash
+# View your personal watchlist
+tmdb watchlist
+
+# Add movies to watchlist using the browse command
+tmdb browse  # then use 'w' command to manage watchlist
+```
+
+#### Get Movie Recommendations
+```bash
+# Get recommendations based on a specific movie
+tmdb recommend --movie-id 27205  # Based on Inception
+
+# Get recommendations by genre
+tmdb recommend --genre "science fiction"
+tmdb recommend --genre "action"
+
+# Get personalized recommendations (requires watchlist)
+tmdb recommend
+```
+
+### Command Reference
+
+| Command | Description | Options |
+|---------|-------------|---------|
+| `search <query>` | Search for movies by title | `--page, -p`: Page number (default: 1) |
+| `trending` | Get trending movies | `--type`: `day` or `week` (default: day) |
+| `upcoming` | Show upcoming movie releases | None |
+| `details <movie_id>` | Get detailed movie information | Movie ID (required) |
+| `browse` | Interactive movie browser | `--category`: `popular`, `top_rated`, `now_playing` |
+| `watchlist` | Manage personal watchlist | Interactive management options |
+| `recommend` | Get movie recommendations | `--movie-id`: Based on movie, `--genre`: By genre |
+
+### Help and Version
+```bash
+# Show help
+tmdb --help
+
+# Show version
+tmdb --version
+
+# Help for specific commands
+tmdb search --help
+```
+
+## Interactive Features
+
+### Movie Browser
+The interactive browser (`./tmdb browse`) provides an immersive way to discover movies:
+
+- **Navigation**: Use `n` (next) and `p` (previous) to browse pages
+- **Movie Details**: Use `d <number>` to view detailed information
+- **Watchlist Management**: Use `w` to add/remove movies from your personal watchlist
+- **Visual Indicators**: Movies in your watchlist are marked with ⭐
+- **Clean Exit**: Use `q` to quit the browser
+
+### Watchlist Management
+Your personal movie watchlist is stored locally and provides:
+
+- **Persistent Storage**: Movies are saved between sessions
+- **Export Functionality**: Export your list to text files
+- **Quick Actions**: Add, remove, view details, and clear entire list
+- **Statistics**: Track when movies were added to your list
+
+### Smart Recommendations
+Get intelligent movie suggestions based on:
+
+- **Similar Movies**: Find movies like ones you've enjoyed
+- **Genre Preferences**: Discover popular movies in specific genres  
+- **Personal Taste**: Recommendations based on your watchlist history
+
+## Output Examples
+
+### Interactive Browser
+```
+🎬 Popular Movies (Page 1/4)
+
+╭─────────────────────────────────────────────────────────────────╮
+│ 1. The Shawshank Redemption ⭐                                  │
+│ 📅 1994-09-23 | ⭐ 8.7/10                                       │
+│ Two imprisoned mates bond over a number of years, finding...    │
+╰─────────────────────────────────────────────────────────────────╯
+
+Commands: next | prev | watchlist | details <num> | quit
+```
+
+### Watchlist Display
+```
+📋 Your Watchlist (3 movies)
+
+┌───┬──────────────────────┬──────────────┬─────────┬─────────────┐
+│ # │ Title                │ Release Date │ Rating  │ Added       │
+├───┼──────────────────────┼──────────────┼─────────┼─────────────┤
+│ 1 │ Inception            │ 2010-07-15   │ 8.4/10  │ 2025-08-07  │
+│ 2 │ The Dark Knight      │ 2008-07-16   │ 8.5/10  │ 2025-08-07  │
+│ 3 │ Interstellar         │ 2014-11-05   │ 8.5/10  │ 2025-08-07  │
+└───┴──────────────────────┴──────────────┴─────────┴─────────────┘
+```
+
+### Search Results
+```
+                              Search Results for 'inception'                               
+┌──────────────────────────────┬──────────────┬────────┬──────────────────────────────────────────────────┐
+│ Title                        │ Release Date │ Rating │ Overview                                         │
+├──────────────────────────────┼──────────────┼────────┼──────────────────────────────────────────────────┤
+│ Inception                    │ 2010-07-16   │ 8.4/10 │ Cobb, a skilled thief who commits corporate     │
+│                              │              │        │ espionage by infiltrating the subconscious...   │
+│ Inception: The Cobol Job     │ 2010-12-07   │ 7.9/10 │ This Inception prequel unfolds courtesy of a... │
+└──────────────────────────────┴──────────────┴────────┴──────────────────────────────────────────────────┘
+```
+
+### Movie Details
+```
+╔══════════════════════════════════════════════════════════════════════╗
+║                               Inception                               ║
+║                 Your mind is the scene of the crime                   ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+Release Date      July 16, 2010
+Rating           8.4/10 (35,275 votes)
+Runtime          148 minutes
+Budget           $160,000,000
+Revenue          $825,532,764
+Genres           Action, Science Fiction, Adventure
+Production       Warner Bros. Pictures, Legendary Entertainment, Syncopy
+
+╭─ Overview ──────────────────────────────────────────────────────────────╮
+│ Cobb, a skilled thief who commits corporate espionage by infiltrating   │
+│ the subconscious of his targets, is offered a chance to regain his old  │
+│ life as payment for a task considered to be impossible: "inception",    │
+│ the implantation of another person's idea into a target's subconscious. │
+╰─────────────────────────────────────────────────────────────────────────╯
+```
+
+## Project Structure
+
+```
+tmdb-cli/
+├── tmdb_cli/            # Main Python package
+│   ├── __init__.py      # Package initialization
+│   └── main.py          # CLI application code
+├── .env.example         # Environment variables template
+├── .gitignore          # Git ignore patterns
+├── LICENSE             # MIT License
+├── MANIFEST.in         # Package manifest for distribution
+├── pyproject.toml      # Modern Python packaging configuration
+├── tmdb                # Wrapper script for development
+├── demo.sh             # Demo script showcasing all features
+├── publish.sh          # PyPI publishing helper script
+├── requirements.txt    # Python dependencies (for development)
+└── README.md          # This file
+
+# User Data (created automatically)
+.env                    # Your personal API key (not in repo)
+venv/                   # Virtual environment (not in repo)
+~/.tmdb_watchlist.json  # Personal watchlist storage
+tmdb_watchlist_*.txt    # Exported watchlist files
+```
+
+## Dependencies
+
+- **requests**: HTTP library for API calls
+- **python-dotenv**: Environment variable management
+- **rich**: Beautiful terminal formatting
+- **click**: Command-line interface framework
+
+## Error Handling
+
+The tool gracefully handles various error scenarios:
+
+- **Invalid API Key**: Clear error message for authentication issues
+- **Network Problems**: Timeout and connection error handling
+- **Invalid Input**: Validation for movie IDs and search queries
+- **No Results**: Friendly messages when searches return empty results
+- **Rate Limiting**: Proper HTTP status code handling
+
+## API Information
+
+This tool uses [The Movie Database (TMDB) API](https://www.themoviedb.org/documentation/api). You need a free API key to use this application.
+
+### Getting an API Key
+
+1. Create an account at [TMDB](https://www.themoviedb.org/signup)
+2. Go to your [API settings](https://www.themoviedb.org/settings/api)
+3. Request an API key
+4. Copy the API key to your `.env` file
+
+## 💡 Tips & Tricks
+
+### Power User Tips
+- **Quick Movie Lookup**: Use `tmdb details <movie_id>` for instant movie information
+- **Genre Discovery**: Try `tmdb recommend --genre "thriller"` to discover new genres
+- **Watchlist Shortcuts**: In the browser, use `w` to quickly manage your watchlist
+- **Export for Sharing**: Use the watchlist export feature to share movie lists with friends
+
+### Workflow Suggestions
+1. **Discovery**: Start with `tmdb browse` to discover popular movies
+2. **Curation**: Add interesting movies to your watchlist using the browser
+3. **Exploration**: Use `tmdb recommend` to find similar movies
+4. **Organization**: Export your watchlist periodically for backup
+
+### Troubleshooting
+- **Virtual Environment**: Make sure to activate your virtual environment with `source venv/bin/activate`
+- **Missing Dependencies**: If commands fail, ensure you've installed requirements with `pip install -r requirements.txt`
+- **API Key Issues**: Make sure you've copied `.env.example` to `.env` and added your actual API key
+- **Network Issues**: The tool handles timeouts gracefully - just retry
+- **Invalid Movie IDs**: Use search to find the correct movie ID first
+- **Empty Watchlist**: Start browsing movies to build your personal collection
+- **API Limits**: The free TMDB API has generous limits for personal use
+
+## Contributing
+
+Feel free to submit issues, feature requests, or pull requests to improve this tool.
+
+## Acknowledgments
+
+This project was inspired by the [TMDB CLI project](https://roadmap.sh/projects/tmdb-cli) from [roadmap.sh](https://roadmap.sh/) - a fantastic resource for learning and building practical development projects. The roadmap.sh community provides excellent project ideas and learning paths for developers of all levels.
+
+## License
+
+This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
