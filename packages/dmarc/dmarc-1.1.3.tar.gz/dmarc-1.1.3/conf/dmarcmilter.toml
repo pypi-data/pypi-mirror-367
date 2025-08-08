@@ -1,0 +1,43 @@
+# myauthserv_id = "localhost.localdomain"
+# trusted_authserv_ids = ["localhost.localdomain"]
+# publicsuffixlist = "/usr/share/publicsuffix/public_suffix_list.dat"
+# syslog = "/dev/log"
+# log_level = "INFO"      # DEBUG INFO WARNING ERROR
+log_ar_header = false
+keep_ar_header = false
+add_ar_header = true
+# ignore_domains = []
+ignore_sasl_authenticated = true
+spf_enabled = true
+mynetworks = ["127.0.0.0/8", "::1/128"]
+bind_host = "127.0.0.1"
+bind_port = 9000
+
+[resolver]
+nameservers = []
+lifetime = 20
+
+[policy.none]
+action = "Accept"         # Reject TempFail Accept
+
+[policy.reject]
+action = "Reject"
+text = "Email rejected per DMARC policy for ${domain}"
+
+[policy.quarantine]
+action = "Accept"
+manipulations = [
+   {action = 'InsertHeader', headername = 'X-Spam-Flag', headertext = 'YES'},
+#   {action = 'Quarantine', reason = 'DMARC'},
+]
+
+[policy.domainerror]
+action = "Accept"
+manipulations = [
+   {action = 'InsertHeader', headername = 'X-Spam-Flag', headertext = 'YES'},
+#   {action = 'Quarantine', reason = 'DMARC'},
+]
+
+[policy.dnserror]
+action = "TempFail"
+text = "DNS error in processing DMARC for ${domain}"

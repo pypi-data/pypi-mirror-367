@@ -1,0 +1,98 @@
+Metadata-Version: 2.4
+Name: dmarc
+Version: 1.1.3
+Summary: DMARC library and milter module implemented in Python.
+Home-page: https://gitlab.com/duobradovic/pydmarc
+Author: Dusan Obradovic
+Author-email: dusan@euracks.net
+License: MIT
+Keywords: dkim,spf,dmarc,email,authentication,milter,rfc7489,rfc8601
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Communications :: Email :: Mail Transport Agents
+Classifier: Topic :: Communications :: Email :: Filters
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: resolver
+Requires-Dist: dnspython; extra == "resolver"
+Provides-Extra: ar
+Requires-Dist: authres; extra == "ar"
+Provides-Extra: psl
+Requires-Dist: publicsuffix2; extra == "psl"
+Provides-Extra: report
+Requires-Dist: xmlschema; extra == "report"
+Provides-Extra: milter
+Requires-Dist: dnspython; extra == "milter"
+Requires-Dist: authres; extra == "milter"
+Requires-Dist: publicsuffix2; extra == "milter"
+Requires-Dist: purepythonmilter; extra == "milter"
+Requires-Dist: click; extra == "milter"
+Requires-Dist: pyspf; extra == "milter"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-python
+Dynamic: summary
+
+# DMARC (Domain-based Message Authentication, Reporting & Conformance)
+
+DMARC email authentication module implemented in Python.
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install dmarc.
+
+```console
+$ pip install dmarc
+```
+
+## Usage
+
+```python
+>>> from dmarc import SPFAuthResult, DKIMAuthResult, SPFResult, DKIMResult, DMARCPolicy
+>>> # Represent verified SPF and DKIM identifiers
+>>> spf = SPFAuthResult('news.example.com', SPFResult('pass'))
+>>> dkim = DKIMAuthResult('example.com', DKIMResult('pass'))
+>>> policy = DMARCPolicy(record='v=DMARC1; p=reject;', domain='example.com')
+>>> policy.verify(auth_results=[spf, dkim])
+>>> 
+>>> # RR resolver example
+>>> from dmarc.resolver import resolve, RecordNotFoundError, RecordMultiFoundError
+>>> from dmarc.psl import get_public_suffix
+>>> domain = 'news.example.com'
+>>> try:
+...     record = resolve(domain)
+... except (RecordNotFoundError, RecordMultiFoundError):
+...     org_domain = get_public_suffix(domain)
+...     if org_domain != domain:
+...         record = resolve(org_domain)
+... 
+>>> # Aggregate report xml document to dict example
+>>> from dmarc.report import DMARCRelaxedSchema
+>>> from dmarc.tests.report.test_report import TEST_XML_DOCUMENT
+>>> adict = DMARCRelaxedSchema.to_dict(TEST_XML_DOCUMENT)
+>>> 
+```
+
+### Milter configuration with Postfix
+
+1. Start `dmarc.milter` module or run via Systemd — see
+   [`contrib/`](contrib/dmarcmilter.service).
+2. Start a Postfix instance with a configuration like
+   `smtpd_milters = inet:127.0.0.1:9000`
+
+Described here 👉 [Run DMARC Milter with Postfix](https://gitlab.com/duobradovic/pydmarc/-/blob/master/dmarc/milter/README.md).
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

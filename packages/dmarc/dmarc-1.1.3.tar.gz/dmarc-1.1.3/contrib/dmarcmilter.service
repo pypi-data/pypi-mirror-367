@@ -1,0 +1,18 @@
+[Unit]
+Description=DMARC Milter
+After=network.target
+
+[Service]
+Type=simple
+User=dmarcmilter
+Group=dmarcmilter
+DynamicUser=yes
+ExecStart=/usr/bin/env python -m dmarc.milter -c /etc/dmarcmilter.toml
+Restart=on-failure
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target
