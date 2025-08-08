@@ -1,0 +1,1 @@
+This packes provides easy function to downlaod the weather data
