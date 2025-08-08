@@ -1,0 +1,543 @@
+/* TanaT Documentation - CSS Clean & Minimal */
+
+/* ========================================
+   FORCER LE MODE LIGHT GLOBALEMENT - VERSION AGRESSIVE
+   ======================================== */
+
+/* FORCER L'ATTRIBUT HTML */
+html {
+    data-theme: light !important;
+}
+
+html[data-theme] {
+    data-theme: light !important;
+}
+
+/* Variables CSS pour forcer le mode light partout - VERSION AGRESSIVE */
+:root,
+html,
+html[data-theme="light"],
+html[data-theme="dark"],
+html[data-theme="auto"],
+body,
+.bd-container,
+.bd-header,
+.bd-navbar,
+.navbar {
+    /* Couleurs principales */
+    --pst-color-primary: #007acc !important;
+    --pst-color-secondary: #6c757d !important;
+    
+    /* Backgrounds */
+    --pst-color-background: #ffffff !important;
+    --pst-color-surface: #f8f9fa !important;
+    --pst-color-on-background: #212529 !important;
+    --pst-color-on-surface: #212529 !important;
+    
+    /* Texte */
+    --pst-color-text-base: #212529 !important;
+    --pst-color-text-muted: #6c757d !important;
+    
+    /* Bordures */
+    --pst-color-border: #dee2e6 !important;
+    
+    /* Navbar spécifique */
+    --pst-color-navbar-bg: #ffffff !important;
+    --pst-color-navbar-text: #212529 !important;
+    
+    /* Forcer le color-scheme */
+    color-scheme: light !important;
+    
+    /* Forcer les couleurs directement */
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* FORCER TOUS LES ÉLÉMENTS NAVBAR */
+.bd-header,
+.bd-navbar,
+.navbar,
+.navbar-nav,
+.navbar-brand,
+.nav-link,
+.dropdown-menu,
+.dropdown-item {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border-color: #dee2e6 !important;
+}
+
+.nav-link:hover,
+.dropdown-item:hover {
+    color: #007acc !important;
+    background-color: #f8f9fa !important;
+}
+
+/* FORCER TOUS LES CONTENUS */
+body,
+.bd-main,
+.bd-content,
+.bd-article,
+.bd-sidebar,
+.bd-sidebar-primary {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* ========================================
+   DÉSACTIVER LE THEME SWITCHER
+   ======================================== */
+
+.theme-switch-button,
+.pst-color-mode-switch,
+button[data-bs-title="Color mode"] {
+    display: none !important;
+}
+
+/* ========================================
+   LOGO
+   ======================================== */
+
+.navbar-brand img {
+    height: 40px !important;
+    width: auto !important;
+}
+
+/* ========================================
+   FORCER PYGMENTS (CODE HIGHLIGHTING)
+   ======================================== */
+
+/* Forcer tous les blocs de code en mode light */
+html[data-theme="dark"] .highlight,
+html[data-theme="auto"] .highlight,
+.highlight {
+    background: #f8f9fa !important;
+    color: #212529 !important;
+}
+
+/* Forcer les couleurs de syntaxe en mode light pour tous les thèmes */
+html[data-theme="dark"] .highlight .c,
+html[data-theme="auto"] .highlight .c { color: #515151 !important; } /* Comments */
+
+html[data-theme="dark"] .highlight .k,
+html[data-theme="auto"] .highlight .k { color: #6730C5 !important; } /* Keywords */
+
+html[data-theme="dark"] .highlight .s,
+html[data-theme="auto"] .highlight .s { color: #00622F !important; } /* Strings */
+
+html[data-theme="dark"] .highlight .n,
+html[data-theme="auto"] .highlight .n { color: #080808 !important; } /* Names */
+
+/* ========================================
+   NOTEBOOKS (NBSPHINX)
+   ======================================== */
+
+.nbinput,
+.nboutput,
+.nbinput .input_area,
+.nboutput .output_area {
+    background-color: #ffffff !important;
+}
+
+.nbinput .input_area .highlight,
+.nboutput .output_area .highlight {
+    background-color: #f8f9fa !important;
+}
+
+/* CORRIGER LES TABLEAUX PANDAS */
+.nboutput table,
+.nboutput .dataframe,
+.output_area table,
+.rendered_html table {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border-collapse: collapse !important;
+}
+
+.nboutput table th,
+.nboutput .dataframe th,
+.output_area table th,
+.rendered_html table th {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+    padding: 8px !important;
+}
+
+.nboutput table td,
+.nboutput .dataframe td,
+.output_area table td,
+.rendered_html table td {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+    padding: 8px !important;
+}
+
+/* Forcer les lignes alternées à être visibles */
+.nboutput table tr:nth-child(even),
+.nboutput .dataframe tr:nth-child(even),
+.output_area table tr:nth-child(even),
+.rendered_html table tr:nth-child(even) {
+    background-color: #f8f9fa !important;
+}
+
+.nboutput table tr:nth-child(odd),
+.nboutput .dataframe tr:nth-child(odd),
+.output_area table tr:nth-child(odd),
+.rendered_html table tr:nth-child(odd) {
+    background-color: #ffffff !important;
+}
+
+/* Forcer le texte des cellules */
+.nboutput table tr td,
+.nboutput .dataframe tr td,
+.output_area table tr td,
+.rendered_html table tr td {
+    color: #212529 !important;
+}
+
+/* ========================================
+   GALERIE SPHINX-GALLERY - VERSION ÉLÉGANTE ET CLIQUABLE
+   ======================================== */
+
+/* Conteneur principal de la galerie */
+.sphx-glr-gallery {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 20px !important;
+    margin: 25px 0 !important;
+}
+
+/* Conteneurs des vignettes - SANS IMAGES */
+.sphx-glr-thumbcontainer {
+    background: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    display: block !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    min-height: 80px !important;
+    height: auto !important;
+    margin-bottom: 15px !important;
+}
+
+.sphx-glr-thumbcontainer:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-1px) !important;
+    border-color: #007acc !important;
+}
+
+/* Liens dans les vignettes */
+.sphx-glr-thumbcontainer a,
+.sphx-glr-thumbcontainer a:hover,
+.sphx-glr-thumbcontainer a:visited {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* MASQUER TOUTES LES IMAGES */
+.sphx-glr-thumbcontainer img {
+    display: none !important;
+}
+
+/* Texte des vignettes - PLUS D'ESPACE */
+.sphx-glr-thumbcontainer p {
+    padding: 15px 18px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #212529 !important;
+    background-color: #ffffff !important;
+    border: none !important;
+    min-height: 70px !important;
+}
+
+/* Titre des exemples */
+.sphx-glr-thumbcontainer .sphx-glr-thumbtitle {
+    font-weight: 600 !important;
+    color: #007acc !important;
+    margin-bottom: 8px !important;
+}
+
+/* Sections de la galerie */
+.sphx-glr-gallery-section {
+    margin: 40px 0 !important;
+}
+
+.sphx-glr-gallery-section h2,
+.sphx-glr-gallery-section h3 {
+    color: #212529 !important;
+    border-bottom: 2px solid #007acc !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Grille responsive pour les vignettes */
+@media (max-width: 768px) {
+    .sphx-glr-gallery {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    .sphx-glr-thumbcontainer {
+        margin: 0 !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sphx-glr-gallery {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (min-width: 1025px) {
+    .sphx-glr-gallery {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+/* Forcer les liens à être cliquables */
+.sphx-glr-thumbcontainer,
+.sphx-glr-thumbcontainer *,
+.sphx-glr-thumbcontainer a,
+.sphx-glr-thumbcontainer a * {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Style pour les figures dans la galerie */
+.sphx-glr-thumbcontainer .figure {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Clear fix pour la galerie */
+.sphx-glr-clear {
+    clear: both !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Navigation dans la galerie */
+.sphx-glr-download-links {
+    text-align: center !important;
+    margin: 20px 0 !important;
+}
+
+.sphx-glr-download-links a {
+    display: inline-block !important;
+    padding: 8px 16px !important;
+    margin: 0 5px !important;
+    background-color: #007acc !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.sphx-glr-download-links a:hover {
+    background-color: #0056b3 !important;
+    color: #ffffff !important;
+}
+
+/* ========================================
+   NOTES ET ADMONITIONS (SPHINX) - VERSION AGRESSIVE
+   ======================================== */
+
+/* FORCER TOUTES LES ADMONITIONS - TRÈS AGRESSIF */
+.admonition,
+.note,
+.warning,
+.tip,
+.important,
+.caution,
+.danger,
+.error,
+.hint,
+.seealso,
+.attention,
+div.admonition,
+div.note,
+div.warning,
+div.tip,
+div.important,
+div.caution,
+div.danger,
+div.error,
+div.hint,
+div.seealso,
+div.attention,
+.admonition *,
+.note *,
+.warning *,
+.tip * {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin: 16px 0 !important;
+}
+
+/* TITRE DES ADMONITIONS - TRÈS AGRESSIF */
+.admonition-title,
+.admonition .admonition-title,
+.note .admonition-title,
+.warning .admonition-title,
+.tip .admonition-title,
+p.admonition-title,
+div.admonition > p.admonition-title,
+div.note > p.admonition-title,
+div.warning > p.admonition-title,
+div.tip > p.admonition-title {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+    font-weight: bold !important;
+    padding: 8px 12px !important;
+    margin: -12px -12px 12px -12px !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    position: relative !important;
+    display: block !important;
+}
+
+/* MASQUER TOUS LES ICÔNES ET PSEUDO-ÉLÉMENTS */
+.admonition-title::before,
+.admonition-title::after,
+.note .admonition-title::before,
+.note .admonition-title::after,
+.warning .admonition-title::before,
+.warning .admonition-title::after,
+.tip .admonition-title::before,
+.tip .admonition-title::after,
+.admonition .admonition-title::before,
+.admonition .admonition-title::after,
+.admonition-title i,
+.note .admonition-title i,
+.warning .admonition-title i,
+.tip .admonition-title i,
+.admonition .admonition-title i,
+.admonition-title .fa,
+.admonition-title .fas,
+.admonition-title .far,
+.admonition-title .fab {
+    display: none !important;
+    content: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* FORCER LES TYPES SPÉCIFIQUES */
+.note,
+div.note {
+    background-color: #e7f3ff !important;
+    border-left: 4px solid #007acc !important;
+    border-color: #007acc !important;
+}
+
+.note .admonition-title,
+div.note > p.admonition-title {
+    background-color: #cce7ff !important;
+    color: #004d7a !important;
+}
+
+.warning,
+div.warning {
+    background-color: #fff3cd !important;
+    border-left: 4px solid #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+
+.warning .admonition-title,
+div.warning > p.admonition-title {
+    background-color: #ffeaa7 !important;
+    color: #856404 !important;
+}
+
+.tip,
+div.tip {
+    background-color: #d4edda !important;
+    border-left: 4px solid #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+.tip .admonition-title,
+div.tip > p.admonition-title {
+    background-color: #c3e6cb !important;
+    color: #155724 !important;
+}
+
+/* FORCER LE CONTENU DES ADMONITIONS */
+.admonition p,
+.note p,
+.warning p,
+.tip p,
+.important p,
+.caution p,
+.danger p,
+.error p,
+.hint p,
+.seealso p,
+.attention p,
+div.admonition p,
+div.note p,
+div.warning p,
+div.tip p {
+    color: #212529 !important;
+    margin: 8px 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* FORCER LES LIENS DANS LES ADMONITIONS */
+.admonition a,
+.note a,
+.warning a,
+.tip a,
+div.admonition a,
+div.note a,
+div.warning a,
+div.tip a {
+    color: #007acc !important;
+    text-decoration: underline !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.admonition a:hover,
+.note a:hover,
+.warning a:hover,
+.tip a:hover {
+    color: #0056b3 !important;
+}
+
+/* FORCER TOUS LES ÉLÉMENTS ENFANTS */
+.admonition *:not(.admonition-title),
+.note *:not(.admonition-title),
+.warning *:not(.admonition-title),
+.tip *:not(.admonition-title) {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ========================================
+   MERMAID DIAGRAMS
+   ======================================== */
+
+.mermaid #A { fill: #971250 !important; stroke: blue !important; }
+.mermaid #B { fill: #136009 !important; stroke: blue !important; }
+.mermaid #C { fill: #df8f17 !important; stroke: blue !important; }
