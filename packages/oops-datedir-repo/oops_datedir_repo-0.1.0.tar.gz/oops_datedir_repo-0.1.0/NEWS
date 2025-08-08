@@ -1,0 +1,197 @@
+oops-datedir-repo NEWS
+++++++++++++++++++++++
+
+Changes and improvements to oops-datedir-repo, grouped by release.
+
+0.1.0
+-----
+
+* Add pre-commit and apply linters. (İlker Emre Koç)
+* Drop support for Python2.7 (İlker Emre Koç)
+* Add Python3.8 support. (İlker Emre Koç)
+* Bump lazr.restfulclient to 0.12.1 to pull in the fix for #1401544, now
+  required by Launchpad when running on gunicorn.
+* Replace zc.buildout with venv, pip, and tox.
+* Fix Python 3 issues in `oops_datedir_repo.bsondump`. (Mitch Burton)
+
+0.0.24
+------
+
+* Fix test failure with recent versions of bson. (Colin Watson)
+* Add Python 3 support. (Colin Watson)
+
+0.0.23
+------
+
+* Ensure OOPS*.tmp file is closed before it's moved. (Matt Goodall)
+
+0.0.22
+------
+
+* Fix race when creating new datedirs. (Matt Goodall)
+
+* Don't crash on oopses with invalid timestamps. (James Westby)
+
+0.0.21
+------
+
+* Conform to the new oops API for publishers, i.e. return a list of ids
+  from publish() rather than a single id. (James Westby)
+
+0.0.20
+------
+
+* prune now supports passing multiple projects and or project groups
+  in one invocation. For API compatibility, the parameters are type inspected,
+  in a future release passing strings will be deprecated or removed.
+  (Robert Collins, #1003627)
+
+* The legacy uniquefileallocator code path has been dropped, fixing
+  the bugs associated with its flawed design. As a result the 
+  instance_id parameter to DateDirRepo.__init__ has been dropped.
+  (Robert Collins, #971255)
+
+0.0.19
+------
+
+* When pruning, look for OOPS references up to now rather than up to
+  prune_until. Otherwise we miss any references created in the last
+  week, probably only finding references within 24 hours of the OOPS
+  occurring. (William Grant, #1050722)
+
+0.0.18
+------
+
+* DateDirRepo.republish will now ignore empty reports. They are not produced
+  by the current stack, but old or third party implementations may create them.
+  (Robert Collins, #960775)
+
+0.0.17
+------
+
+* If the oops being unserialized smells like a .bz2 file (by looking at the
+  magic 'BZh' marker) then it probably is, so bz2.decompress() it.  
+  (Sidnei da Silva)
+
+0.0.16
+------
+
+* New helper script bsondump can dump out a bson file for visual inspection.
+  (Martin Pool)
+* Now supports either http://pypi.python.org/pypi/bson/ or
+  http://pypi.python.org/pypi/pymongo as the bson library. (James Westby)
+
+0.0.15
+------
+
+* serializer.read() will now report an IOError on 0-length files. This is
+  less confusing than a struct.unpack error from deep within bson.
+  (Roman Yepishev, #894682)
+
+0.0.14
+------
+
+* The prune script was broken for first-run cases. Fixed by using a nicer
+  datetime API call. (Robert Collins)
+
+0.0.13
+------
+
+* The date directory created when writing an OOPS with hashed names has its
+  permissions chmodded in the same way that the OOPS report file itself does.
+  (Robert Collins, #891251)
+
+0.0.12
+------
+
+* Repository has a simple generic config API. See the set_config and get_config
+  methods. (Robert Collins)
+
+* Repository can now answer 'what is the oldest date in the repository' which
+  is useful for incremental report pruning. See the oldest_date method.
+  (Robert Collins)
+
+* Repository can perform garbage collection of a date range if a list of
+  references to keep is supplied. See the prune_unreferenced method.
+  (Robert Collins)
+
+* The RFC822 serializer can now handle 5-tuple timelines (which include
+  backtraces on actions) - the backtraces are skipped for backwards
+  compatibility; use a BSON serializer to have the backtraces captured into the
+  serialized report. (Robert Collins)
+
+* There is a new script bin/prune which will prune reports from a repository
+  keeping only those referenced in a given Launchpad project or project group.
+  This adds a dependency on launchpadlib, which should be pypi installable
+  and is included in the Ubuntu default install - so should be a low barrier
+  for use. If this is an issue a future release can split this out into a
+  new addon package. (Robert Collins, #890875)
+
+0.0.11
+------
+
+* Now licensed under LGPL-3. (Robert Collins)
+
+* The req_vars variable in reports is accepted if it is a dict (with simple
+  string keys) and the rfc822 parser will parse into a dict. The bson parser
+  retains the bson structure - new OOPS will serialize differently in bson
+  where they serialize unchanged in the rfc822 structure.
+  (Robert Collins, #888866)
+
+0.0.10
+------
+
+* New files are written to $name.tmp and then renamed to $name, allowing
+  readers to detect whether the file was finished or not.
+  (Robert Collins)
+
+* DateDirRepo.republish(publisher) can be used to treat a DateDirRepo as the
+  source of reports for feeding into a different publisher. This will remove
+  reports that are successfully republished.
+  (Robert Collins, #884551)
+
+0.0.9
+-----
+
+* Permit only generating an OOPS id if the report being published does not
+  already have one. As this can lead to garbage in the system, the default
+  is to always replace it. (Robert Collins)
+
+* Permit storing the filename that the OOPS was written to in the OOPS after
+  publication. This is useful for code building on DateDirRepo as a storage
+  facility for OOPSes. (Robert Collins)
+
+0.0.8
+-----
+
+* Set a specific version for the oops dependency - fixes bootstrapping.
+  (Robert Collins)
+
+* Fix broken code in 0.0.7's hash naming support - only create the target date
+  directory once. (Robert Collins)
+
+0.0.7
+-----
+
+This release adds a bson serializer and changes the default for DateDirRepo to
+use that new serializer. Be sure that any code wanted to read your OOPSes is
+updated to use the new serializer or serializer_bson modules when reading.
+
+* Added a serializer_bson module containing a bson serializer.
+  (Robert Collins)
+
+* Added a serializer module which will autodetect bson or rfc822 OOPSes (needed
+  for legacy situations - recommend using the specific serializer if known.
+  (Robert Collins)
+
+* The DateDirRepo can now generate bson serialized OOPSes. (Robert Collins)
+
+* The DateDirRepo can now assign ids using a hash function rather than the (non
+  concurrent-safe) monotonic-id approach. (Robert Collins)
+
+0.0.6
+-----
+
+Change from using db_statements to using timeline as the key for the 'sequence
+of things that led up to the OOPS'. Prompted by oops and oops-timeline
+standardising on this better label.
