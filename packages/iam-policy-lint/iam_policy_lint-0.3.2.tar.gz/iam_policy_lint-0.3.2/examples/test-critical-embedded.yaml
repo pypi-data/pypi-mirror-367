@@ -1,0 +1,24 @@
+apiVersion: eks.olo.com/v1beta1
+kind: ADMINIRSA
+metadata:
+  name: dangerous-test
+  namespace: default
+spec:
+  resourceConfig:
+    inlinePolicy:
+    - name: dangerous-policy
+      policy: |
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "iam:CreateAccessKey",
+                "iam:AttachUserPolicy",
+                "*"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
