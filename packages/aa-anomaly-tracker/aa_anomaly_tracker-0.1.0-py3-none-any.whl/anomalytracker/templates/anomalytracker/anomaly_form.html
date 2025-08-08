@@ -1,0 +1,16 @@
+{% extends "anomalytracker/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<h2>{{ mode }} Anomaly</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+
+  <button class="btn btn-success" type="submit">Save</button>
+  <button class="btn btn-primary" type="submit" name="add_another" value="1">Save and Add Another</button>
+  <a class="btn btn-secondary" href="{% url 'anomalytracker:manage' %}">Back</a>
+</form>
+
+{% endblock %}
