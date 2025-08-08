@@ -1,0 +1,285 @@
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "appserver-sdk-python-ai"
+version = "0.1.0"
+description = "SDK Python para serviços de IA da AppServer com suporte a contagem de tokens"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "AppServer Team", email = "suporte@appserver.com.br"}
+]
+maintainers = [
+    {name = "AppServer Team", email = "suporte@appserver.com.br"}
+]
+keywords = ["ai", "tokens", "llm", "openai", "huggingface", "sdk", "tokenizer"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+    "Typing :: Typed"
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+openai = ["tiktoken>=0.5.0,<1.0.0"]
+huggingface = [
+    "transformers>=4.30.0,<5.0.0",
+    "torch>=2.0.0,<3.0.0"
+]
+full = [
+    "tiktoken>=0.5.0,<1.0.0",
+    "transformers>=4.30.0,<5.0.0",
+    "torch>=2.0.0,<3.0.0"
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.23.0",
+    "mypy>=1.8.0",
+    "ruff>=0.12.7",
+    "pre-commit>=3.6.0",
+    "types-requests>=2.31.0"
+]
+test = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.23.0"
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=2.0.0",
+    "myst-parser>=2.0.0"
+]
+
+[project.urls]
+Homepage = "https://appserver.com.br"
+Documentation = "https://appserver.com.br/docs"
+
+# Ruff - Configuração baseada no projeto STA Transportes (funcionando)
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+src = ["src", "tests"]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "RUF",  # ruff-specific rules
+    "SIM",  # flake8-simplify
+    "PTH",  # flake8-use-pathlib
+    "S",    # flake8-bandit (security)
+    "D",    # pydocstyle (docstrings)
+    "N",    # pep8-naming
+    "ERA",  # eradicate (commented-out code)
+    "PL",   # pylint
+    "TRY",  # tryceratops (exception handling)
+    "FLY",  # flynt (f-string conversion)
+    "PERF", # perflint (performance)
+    "FURB", # refurb (modernize code)
+    "LOG",  # flake8-logging
+    "G",    # flake8-logging-format
+]
+ignore = [
+    "E501",   # line too long, handled by formatter
+    "B008",   # do not perform function calls in argument defaults
+    "UP007",  # use X | Y for type annotations
+    "D203",   # one-blank-line-before-class (conflicts with D211)
+    "D213",   # multi-line-summary-second-line (conflicts with D212)
+    "D100",   # missing docstring in public module
+    "D101",   # missing docstring in public class
+    "D102",   # missing docstring in public method
+    "D103",   # missing docstring in public function
+    "D104",   # missing docstring in public package
+    "D105",   # missing docstring in magic method
+    "D107",   # missing docstring in __init__
+    "D205",   # missing blank line after summary
+    "PLR0913", # too many arguments
+    "PLR0915", # too many statements
+    "PLR0912", # too many branches
+    "PLR0911", # too many return statements
+    "PLR2004", # magic value used in comparison
+    "PLR1704", # redefined argument from local
+    "TRY003",  # avoid specifying long messages outside the exception class
+    "TRY300",  # try-consider-else
+    "TRY301",  # raise-within-try
+    "TRY401",  # verbose-log-message
+    "S101",    # use of assert detected (allow in tests)
+    "S105",    # hardcoded password string
+    "S311",    # standard pseudo-random generators are not suitable for security/cryptographic purposes
+    "G004",    # logging statement uses f-string
+    "G201",    # logging-exc-info
+    "PLC0415", # import-outside-top-level
+    "E402",    # module-import-not-at-top-of-file
+    "B904",    # raise-without-from-inside-except
+    "E722",    # bare-except
+    "PERF401", # manual-list-comprehension
+    "PTH123",  # builtin-open
+    "E741",    # ambiguous-variable-name
+    "SIM102",  # collapsible-if
+    "SIM105",  # suppressible-exception
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = [
+    "S101", "S105", "S106", "S110", "S113", "S607",  # Security rules for tests
+    "D100", "D101", "D102", "D103", "D205",          # Documentation rules for tests
+    "PLR0913", "PLR0915", "PLR0912", "PLR0911",      # Complexity rules for tests
+    "TRY300", "TRY301", "TRY401",                    # Exception handling rules for tests
+    "PLC0415", "E402",                               # Import rules for tests
+    "B904", "E722", "F401",                          # Other rules for tests
+    "PERF401", "PLR1704", "PTH123",                  # Performance and path rules for tests
+    "E741", "ERA001", "G201", "SIM105", "SIM102",   # Style and simplification rules for tests
+]
+"__init__.py" = ["F401", "F403"]  # unused imports and star imports OK in __init__.py
+"src/**/__init__.py" = ["D104"]   # missing docstring in package
+
+[tool.ruff.lint.isort]
+known-first-party = ["appserver_sdk_python_ai"]
+force-sort-within-sections = true
+split-on-trailing-comma = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 15
+max-returns = 8
+max-statements = 60
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = []
+
+[tool.ruff.lint.flake8-bandit]
+check-typed-exception = true
+
+[tool.ruff.lint.flake8-comprehensions]
+allow-dict-calls-with-keyword-arguments = true
+
+# MyPy - Type checking (corrigido - sem duplicações)
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = false
+warn_no_return = false
+warn_unreachable = true
+strict_equality = false
+ignore_missing_imports = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "tiktoken.*",
+    "transformers.*",
+    "torch.*",
+    "tests.*",
+]
+ignore_missing_imports = true
+
+# Pytest
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/appserver_sdk_python_ai",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml",
+    "--cov-fail-under=80",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "openai: tests that require OpenAI dependencies",
+    "huggingface: tests that require HuggingFace dependencies",
+]
+
+# Coverage
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__init__.py",
+    "*/cli.py",
+    "*/main.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    "TYPE_CHECKING",
+]
+show_missing = true
+precision = 2
