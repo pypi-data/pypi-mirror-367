@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "youtube-ai-resume"
+version = "0.0.15"
+description = "CLI & library that extracts YouTube captions and returns an OpenAI-generated summary"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Fábio Berbert de Paula", email = "fberbert@gmail.com"}]
+dependencies = [
+  "youtube-transcript-api",
+  "beautifulsoup4>=4.12",
+  "requests>=2.32",
+  "openai>=1.15",
+  "rich>=13.7",
+  "prompt_toolkit>=3.0",
+  "google-cloud-texttospeech>=2.16",
+  "playsound>=1.3",
+  "protobuf>=3.20,<4"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/youtube_ai_resume"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "build", "twine"]
+
+[project.scripts]
+youtube-ai-resume = "youtube_ai_resume.cli:app"
