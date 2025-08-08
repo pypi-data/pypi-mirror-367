@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  postgres:
+    container_name: vdl-postgres
+    image: postgres:15.1-alpine
+    ports:
+      - "5555:5432"
+    volumes:
+      - ~/vdl-data/postgres:/var/lib/postgresql/data
+      - ./pg_hba.conf:/var/lib/foo/pg_hba.conf
+    env_file: dockerenv.env
+    restart: on-failure
+    networks:
+      - vdl-net
+    command: ["postgres", "-c", "hba_file=/var/lib/foo/pg_hba.conf"]
+
+  vdl-tools:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vdl-tools
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - vdl-net
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+networks:
+  vdl-net:
