@@ -1,0 +1,50 @@
+[project]
+name = "jupyviv"
+description = "Edit and run Jupyter Notebooks with plain text editors like Neovim while live viewing them with Vivify "
+readme = "README.md"
+authors = [
+    { name = "Jannis Baum" }
+]
+# support from 3.9 but pinned version is at 3.10 because of urllib3 warning on
+# macOS
+requires-python = ">=3.9"
+dependencies = [
+    "jupyter-client>=8.6.3",
+    "jupytext>=1.16.7",
+    "psutil>=7.0.0",
+    "requests>=2.32.3",
+    "websockets>=15.0.1",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+dynamic = [
+    "version"
+]
+
+[project.urls]
+Homepage = "https://github.com/jannis-baum/Jupyviv"
+
+[project.scripts]
+jupyviv = "jupyviv:cli"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest>=8.4.1",
+    "ruff>=0.12.1",
+    "twine>=6.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+
+[tool.ruff.lint]
+# I: import sorting
+extend-select = ["I"]
