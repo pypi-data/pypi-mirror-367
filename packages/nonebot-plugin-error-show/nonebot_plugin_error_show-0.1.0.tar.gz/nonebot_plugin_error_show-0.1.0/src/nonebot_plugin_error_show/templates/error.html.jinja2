@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="./tailwindcss.js"></script>
+    <style>
+        .bg-user {
+            background-image:linear-gradient(135deg,rgba(238,64,99,.08) ,rgba(238,64,99,0) 100%);
+        }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="flex items-center justify-center">
+      <div class="w-full rounded-lg p-8 shadow-xl bg-white">
+        <!-- 异常信息部分 -->
+        <div class="space-y-4">
+          <!-- 异常内容 -->
+          <div class="rounded-lg bg-blue-600 p-4 text-white">
+            <h2 class="text-xl font-semibold">异常内容</h2>
+            <p class="mt-2">{{ e }}</p>
+          </div>
+
+          <!-- 命令内容 -->
+          <div class="rounded-lg bg-gray-100 p-4">
+            <h2 class="text-xl font-semibold text-blue-600">事件内容</h2>
+            <p class="mt-2 text-gray-700">{{ event }}</p>
+          </div>
+
+          <!-- 异常追踪部分 -->
+          <div class="rounded-lg bg-gray-100 p-4">
+            <h2 class="text-xl font-semibold text-blue-600">异常追踪</h2>
+            <pre class="mt-2 whitespace-pre-wrap rounded-md bg-gray-200 p-4">{{ traceback }}</pre>
+          </div>
+        </div>
+
+        <!-- 图片和二维码部分 -->
+        <div class="mt-8 flex items-center justify-between">
+          <!-- 左侧文字 -->
+          <div class="text-left">
+            <p class="text-gray-600">该图片由 {{ nickname }} ({{ bot_id }}) 生成</p>
+            <p class="text-gray-600">{{ time }}</p>
+          </div>
+          <!-- 右侧二维码 -->
+          <div class="rounded-lg bg-gray-100 p-4">
+            <div class="flex justify-between gap-2">
+              {% if bot_link %}
+              <div class="flex flex-col">
+                <img src="{{ bot_link }}" alt="二维码" class="h-24 w-24" />
+                <p class="m-1 text-center text-sm text-gray-500">添加机器人</p>
+              </div>
+              {% endif %}
+              {% if group_link %}
+              <div class="flex flex-col">
+                <img src="{{ group_link }}" alt="二维码" class="h-24 w-24" />
+                <p class="m-1 text-center text-sm text-gray-500">加入用户群</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-gray-200 text-center text-gray-500">
+          <p>请拿着此图加用户交流群反馈({{ group_id }})</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
