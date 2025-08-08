@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: animesub
+Version: 0.2.1
+Summary: Инструмент для автоматического создания субтитров для аниме
+Author-email: Ivan Tyumentsev <ivanfufa184@gmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: demucs[cu126]>=4.0.1
+Requires-Dist: faster-whisper
+Requires-Dist: punctuators==0.0.7
+Requires-Dist: silero-vad
+Requires-Dist: torchaudio
+Requires-Dist: torch
+Requires-Dist: onnxruntime
+Requires-Dist: transformers
+Requires-Dist: accelerate
+Dynamic: license-file
+
+# AnimeSub
+
+Инструмент для автоматического создания субтитров для аниме из видео- или аудиофайлов.
+
+## Установка
+
+```bash
+pip install animesub
+```
+
+## Использование
+Чтобы создать субтитры, используйте следующую команду:
+
+```bash
+animesub input_file.mp4
+```
+
+Это создаст файл input_file.srt в той же директории. ВАЖНО: Для использования cuda, вам нужно установить нужные зависимости (torch, torchaudio) с нужной версией cuda.
+
+Либо запустите ячейку следуя инструкциям в Google Colab:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/liokar/animesub/blob/main/animesub_colab.ipynb)
+
+Дополнительные параметры:
+
+-o, --output: Путь к итоговому .srt файлу.
+
+-m, --model: Имя модели Whisper (например, tiny, base, small, medium, large, kotoba-whisper). По умолчанию: small.
+
+-d, --device: Устройство для вычислений (cpu или cuda). По умолчанию: определяется автоматически.
+
+Пример:
+
+```bash
+animesub my_anime_episode.mkv -o subtitles.srt -m medium -d cuda
+```
