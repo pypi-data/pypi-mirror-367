@@ -1,0 +1,259 @@
+Metadata-Version: 2.4
+Name: aegis-client
+Version: 0.2.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Legal Industry
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Security :: Cryptography
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Requires-Dist: requests>=2.28.0
+Requires-Dist: bitarray>=2.8.0
+Summary: Copyright compliance for AI training via dual-licensed bloom filters
+Keywords: copyright,ai-compliance,bloom-filter,ai-training,legal-tech,dual-licensing
+Author-email: Aegis Testing Technologies LLC <support@aegisprove.com>
+License: Apache-2.0
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: homepage, https://aegisprove.com
+Project-URL: repository, https://github.com/Aegis-Testing-Technologies/aegis-techspike
+Project-URL: documentation, https://github.com/Aegis-Testing-Technologies/aegis-techspike/tree/main/docs
+Project-URL: Bug Tracker, https://github.com/Aegis-Testing-Technologies/aegis-techspike/issues
+
+# AEGIS Client
+
+Zero-knowledge proof client for dataset provenance in machine learning.
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://badge.fury.io/py/aegis-client.svg)](https://badge.fury.io/py/aegis-client)
+
+## Installation
+
+### From TestPyPI (Development)
+
+```bash
+pip install -i https://test.pypi.org/simple aegis-client==0.1.0a0
+```
+
+### From Source
+
+```bash
+git clone https://github.com/matthew-hansen-605/aegis-techspike.git
+cd aegis-techspike/aegis-client
+pip install -e .
+```
+
+## Quick Start
+
+```python
+import aegis
+from pathlib import Path
+
+# Configure logging (optional)
+aegis.configure_logging("INFO")
+
+# Register a dataset
+metadata = aegis.register_dataset(
+    dataset_path="./my_dataset/",
+    name="Medical Training Data",
+    description="Approved medical imaging dataset"
+)
+print(f"Registered dataset: {metadata.id}")
+
+# Create LoRA weight differences (from fine-tuning)
+lora_weights = [
+    aegis.LoRAWeights(
+        layer_name="transformer.layer_0",
+        weights=[0.1, 0.2, 0.3, 0.4],
+        dimension=4
+    ),
+    aegis.LoRAWeights(
+        layer_name="transformer.layer_1", 
+        weights=[0.5, 0.6],
+        dimension=2
+    )
+]
+
+# Generate zero-knowledge proof
+proof = aegis.prove_dataset(
+    dataset_metadata=metadata,
+    lora_weights=lora_weights,
+    mode="mock"  # Use "real" for production Nova SNARKs
+)
+print(f"Generated proof: {proof.proof_id}")
+print(f"Proof type: {proof.metadata.proof_type}")
+print(f"Generation time: {proof.metadata.generation_time_seconds:.3f}s")
+
+# Verify the proof
+result = aegis.verify(proof)
+print(f"Proof valid: {result.is_valid}")
+print(f"Verification time: {result.verification_time_seconds:.3f}s")
+```
+
+## Proof Modes
+
+### Mock Mode (Development)
+- **Fast**: Proof generation in <1 second
+- **No security**: Uses simple SHA-256 hashing
+- **Purpose**: Development and testing
+
+```python
+proof = aegis.prove_dataset(metadata, lora_weights, mode="mock")
+```
+
+### Real Mode (Production)
+- **Secure**: Uses Nova recursive SNARKs on BN254/Grumpkin curves
+- **Slower**: ~80 seconds for 5 layers (demo-ready performance)
+- **Zero-knowledge**: Cryptographically secure proof of provenance
+
+```python
+proof = aegis.prove_dataset(metadata, lora_weights, mode="real")
+```
+
+## Configuration
+
+```python
+from aegis import AegisClient, ProverConfig
+
+# Custom configuration
+config = ProverConfig(
+    mode="real",
+    timeout_seconds=600,        # 10 minute timeout
+    max_layers=5,               # Limit LoRA layers
+    layer_dimension=64,         # Max dimension per layer
+    working_directory=Path("./workspace")
+)
+
+client = AegisClient(config)
+```
+
+## API Reference
+
+### Core Functions
+
+- **`register_dataset(path, ...)`** - Register dataset for provenance tracking
+- **`prove_dataset(metadata, weights, mode)`** - Generate ZK proof of training provenance  
+- **`verify(proof)`** - Verify a cryptographic proof
+
+### Data Models
+
+- **`DatasetMetadata`** - Dataset registration information
+- **`LoRAWeights`** - Fine-tuning weight differences
+- **`DatasetProof`** - Complete cryptographic proof
+- **`VerificationResult`** - Proof verification outcome
+
+### Configuration
+
+- **`ProverConfig`** - Client configuration options
+- **`AegisClient`** - Main client class for advanced usage
+
+## Examples
+
+### Register a File
+
+```python
+metadata = aegis.register_dataset(
+    dataset_path="./dataset.csv",
+    dataset_id="medical_images_v1",
+    name="Medical Images Dataset",
+    attributes={"version": "1.0", "approved": "true"}
+)
+```
+
+### Register a Directory
+
+```python
+metadata = aegis.register_dataset(
+    dataset_path="./training_data/",
+    description="Multi-modal medical training data"
+)
+print(f"Registered {metadata.file_count} files ({metadata.size_bytes} bytes)")
+```
+
+### Generate Real Crypto Proof
+
+```python
+# This calls the Rust prover backend
+proof = aegis.prove_dataset(
+    dataset_metadata=metadata,
+    lora_weights=weights,
+    mode="real"  # Uses Nova SNARKs
+)
+
+print(f"Proof size: {len(proof.proof_data)} bytes")
+print(f"Curve: {proof.metadata.curve_type}")  # "BN254/Grumpkin"
+```
+
+## Error Handling
+
+```python
+try:
+    proof = aegis.prove_dataset(metadata, weights, mode="real")
+except aegis.ProofGenerationError as e:
+    print(f"Proof generation failed: {e}")
+except aegis.DatasetRegistrationError as e:
+    print(f"Dataset registration failed: {e}")
+```
+
+## Performance
+
+| Proof Mode | Generation Time | Verification Time | Security |
+|------------|----------------|-------------------|----------|
+| **Mock** | <1s | <1s | None (testing only) |
+| **Real** | ~80s (5 layers) | ~4s | Full ZK-SNARK |
+
+## Requirements
+
+- Python 3.8+
+- Rust toolchain (for real crypto mode)
+- Available system memory: 2GB+ (for real proofs)
+
+## Development
+
+### Setup
+
+```bash
+cd aegis-client
+pip install -e ".[dev]"
+```
+
+### Run Tests
+
+```bash
+pytest
+pytest -v                    # Verbose output
+pytest -m "not slow"         # Skip slow tests
+pytest --cov=aegis          # Coverage report
+```
+
+### Code Quality
+
+```bash
+black .                      # Format code
+isort .                      # Sort imports  
+ruff check .                 # Lint
+mypy .                       # Type check
+```
+
+## License
+
+Copyright (c) 2025 Aegis Testing Technologies LLC. All rights reserved.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/matthew-hansen-605/aegis-techspike/issues)
+- **Documentation**: [Project Docs](https://github.com/matthew-hansen-605/aegis-techspike/tree/main/docs)
+- **Performance**: See [benchmarks](https://github.com/matthew-hansen-605/aegis-techspike/tree/main/docs/benchmarks)
+
