@@ -1,0 +1,38 @@
+{% extends "survey/base.html" %}
+{% load i18n crispy_forms_tags static %}
+
+{% block title %}{{ survey.name }} - {% trans "Question" %} {{ current_question_index }}{% endblock %}
+
+{% block extra_css%}
+<link href="{% static 'css/validation.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+
+            <!-- Вопрос -->
+            <div class="progress progress-1 progress-sm card-progress mb-4">
+                <div
+                    class="progress-bar"
+                    style="width: {{ progress_percentage }}%"
+                    role="progressbar"
+                    aria-valuenow="{{ progress_percentage }}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-label="{{ progress_percentage }}% Complete">
+                    <span class="visually-hidden">{{ progress_percentage }}% Complete</span>
+                </div>
+            </div>
+
+            <form method="post" id="form-question" class="space-e">
+                {% crispy form %}
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
