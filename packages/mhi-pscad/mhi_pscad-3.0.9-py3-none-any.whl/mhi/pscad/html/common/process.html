@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Process Control &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'common/process';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Remote Objects" href="remote.html" />
+    <link rel="prev" title="Path Expansion" href="path.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MHI Common Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="codec.html">Coders / Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collection.html">Collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path.html">Path Expansion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Process Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.AddressPortPid"><code class="docutils literal notranslate"><span class="pre">AddressPortPid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPid.address"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPid.port"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPid.pid"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.pid</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.AddressPortPidApp"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPidApp.address"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPidApp.port"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPidApp.pid"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.pid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.process.AddressPortPidApp.appname"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.appname</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.MIB_TCPROW_LH"><code class="docutils literal notranslate"><span class="pre">MIB_TCPROW_LH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.MIB_TCPROW_OWNER_PID"><code class="docutils literal notranslate"><span class="pre">MIB_TCPROW_OWNER_PID</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.MIB_TCP6ROW_OWNER_PID"><code class="docutils literal notranslate"><span class="pre">MIB_TCP6ROW_OWNER_PID</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.process_pids"><code class="docutils literal notranslate"><span class="pre">process_pids()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.is_running"><code class="docutils literal notranslate"><span class="pre">is_running()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.host_addresses"><code class="docutils literal notranslate"><span class="pre">host_addresses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.is_local_host"><code class="docutils literal notranslate"><span class="pre">is_local_host()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.host_filter"><code class="docutils literal notranslate"><span class="pre">host_filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.tcp_ports_in_use"><code class="docutils literal notranslate"><span class="pre">tcp_ports_in_use()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.unused_tcp_port"><code class="docutils literal notranslate"><span class="pre">unused_tcp_port()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.listener_ports_by_pid"><code class="docutils literal notranslate"><span class="pre">listener_ports_by_pid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.listener_ports_by_name"><code class="docutils literal notranslate"><span class="pre">listener_ports_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.versions"><code class="docutils literal notranslate"><span class="pre">versions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.find_exe"><code class="docutils literal notranslate"><span class="pre">find_exe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.launch"><code class="docutils literal notranslate"><span class="pre">launch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.common.process.report"><code class="docutils literal notranslate"><span class="pre">report()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="remote.html">Remote Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html">Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="path.html"
+                          title="previous chapter">Path Expansion</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="remote.html"
+                          title="next chapter">Remote Objects</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">MHI Common Library</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Process Control</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="process-control">
+<h1>Process Control<a class="headerlink" href="#process-control" title="Link to this heading">#</a></h1>
+<p id="module-mhi.common.process">Process launching and querying</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">AddressPortPid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.process.AddressPortPid" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPid.address">
+<span class="sig-name descname"><span class="pre">address</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPid.address" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPid.port">
+<span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPid.port" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPid.pid">
+<span class="sig-name descname"><span class="pre">pid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPid.pid" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPidApp">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">AddressPortPidApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">appname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.process.AddressPortPidApp" title="Link to this definition">#</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPidApp.address">
+<span class="sig-name descname"><span class="pre">address</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPidApp.address" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPidApp.port">
+<span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPidApp.port" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPidApp.pid">
+<span class="sig-name descname"><span class="pre">pid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPidApp.pid" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.common.process.AddressPortPidApp.appname">
+<span class="sig-name descname"><span class="pre">appname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#mhi.common.process.AddressPortPidApp.appname" title="Link to this definition">#</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.process.MIB_TCPROW_LH">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">MIB_TCPROW_LH</span></span><a class="headerlink" href="#mhi.common.process.MIB_TCPROW_LH" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.process.MIB_TCPROW_OWNER_PID">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">MIB_TCPROW_OWNER_PID</span></span><a class="headerlink" href="#mhi.common.process.MIB_TCPROW_OWNER_PID" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.process.MIB_TCP6ROW_OWNER_PID">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">MIB_TCP6ROW_OWNER_PID</span></span><a class="headerlink" href="#mhi.common.process.MIB_TCP6ROW_OWNER_PID" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.process_pids">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">process_pids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.process_pids" title="Link to this definition">#</a></dt>
+<dd><p>Return the process id’s of any process with the given executable names.</p>
+<p>Application names may include the <code class="docutils literal notranslate"><span class="pre">%</span></code> wildcard.  For example,
+the following query might find both <code class="docutils literal notranslate"><span class="pre">SkypeApp.exe</span></code> and
+<code class="docutils literal notranslate"><span class="pre">SkypeBackgroundHost.exe</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">process_ids</span><span class="p">(</span><span class="s1">&#39;skype%.exe&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since applications may terminate and can be started at any time,
+the returned value is obsolete immediately upon being returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*names</strong> (<em>str</em>) – application filename patterns, without any path.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of process name &amp; process id pairs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.is_running">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">is_running</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.process.is_running" title="Link to this definition">#</a></dt>
+<dd><p>Determine if there is an <code class="docutils literal notranslate"><span class="pre">app</span></code> process in the list of running processes.</p>
+<p>Application names may include the <code class="docutils literal notranslate"><span class="pre">%</span></code> wildcard.  For example,
+the following query might find both <code class="docutils literal notranslate"><span class="pre">SkypeApp.exe</span></code> and
+<code class="docutils literal notranslate"><span class="pre">SkypeBackgroundHost.exe</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">is_running</span><span class="p">(</span><span class="s1">&#39;skype%.exe&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since applications may terminate and can be started at any time,
+the returned value is obsolete immediately upon being returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app</strong> (<em>str</em>) – application filename, without any path.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>True</cite> if a process can be found, <cite>False</cite> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.host_addresses">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">host_addresses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.host_addresses" title="Link to this definition">#</a></dt>
+<dd><p>Convert a host name into one or more IP address (ie, IPv4 &amp; IPv6)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.is_local_host">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">is_local_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.process.is_local_host" title="Link to this definition">#</a></dt>
+<dd><p>Does the given hostname represent the local host?</p>
+<p>Returns True if the given ‘host’ is a public IP address of the host,
+a loopback address, an IPADDR_ANY-type address, or a symbolic name
+that represents any of these.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.host_filter">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">host_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.process.host_filter" title="Link to this definition">#</a></dt>
+<dd><p>Return a filter function to filter an iterable of <code class="docutils literal notranslate"><span class="pre">AddressPortPid</span></code> or
+<code class="docutils literal notranslate"><span class="pre">AddressPortPidApp</span></code> listeners against the given host</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.tcp_ports_in_use">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">tcp_ports_in_use</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.tcp_ports_in_use" title="Link to this definition">#</a></dt>
+<dd><p>Find all TCP ports in use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Set of all ports in use by the TCP protocol</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.unused_tcp_port">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">unused_tcp_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ports</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">range</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#mhi.common.process.unused_tcp_port" title="Link to this definition">#</a></dt>
+<dd><p>Find an available TCP ports in the specified range.  If no range is
+given, the dynamic/private range (0xC000–0xFFFF) is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>an available TCP port</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.listener_ports_by_pid">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">listener_ports_by_pid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mhi.common.process.AddressPortPid" title="mhi.common.process.AddressPortPid"><span class="pre">AddressPortPid</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.listener_ports_by_pid" title="Link to this definition">#</a></dt>
+<dd><p>Find all listener ports opened by processes with the given PIDs.</p>
+<p>Since applications may terminate and can be started at any time,
+as well as open and close ports at any time,
+the returned value is obsolete immediately upon being returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*pid</strong> (<em>int</em>) – Process ids</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a list of (addr, port, pid) tuples</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.listener_ports_by_name">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">listener_ports_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mhi.common.process.AddressPortPidApp" title="mhi.common.process.AddressPortPidApp"><span class="pre">AddressPortPidApp</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.listener_ports_by_name" title="Link to this definition">#</a></dt>
+<dd><p>Find all listener ports opened by processes with the given executable name.</p>
+<p>Application names may include the <code class="docutils literal notranslate"><span class="pre">%</span></code> wildcard.  For example,
+the following query might find both listener ports opened by both
+<code class="docutils literal notranslate"><span class="pre">SkypeApp.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">SkypeBackgroundHost.exe</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">listener_ports_by_name</span><span class="p">(</span><span class="s1">&#39;skype%.exe&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since applications may terminate and can be started at any time,
+as well as open and close ports at any time,
+the returned value is obsolete immediately upon being returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*names</strong> (<em>str</em>) – application filename patterns, without any path.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a list of (addr, port, pid, name) tuples</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.versions">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">versions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.process.versions" title="Link to this definition">#</a></dt>
+<dd><p>Find the installed versions of an MHI application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of tuples of version and bit-size</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.find_exe">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">find_exe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x64</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.process.find_exe" title="Link to this definition">#</a></dt>
+<dd><p>Find an MHI application executable.</p>
+<p>If no <code class="docutils literal notranslate"><span class="pre">version</span></code> is specified, the highest version available is used,
+with Alpha and Beta versions being considered the highest and second
+highest respectively.
+If no <code class="docutils literal notranslate"><span class="pre">x64</span></code> flag is given, a 32-bit or 64-bit version may be returned,
+with preference given to 64-bit versions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app</strong> (<em>str</em>) – name of the application (without any extension)</p></li>
+<li><p><strong>version</strong> (<em>str</em>) – application version such as ‘5.0.1’ or ‘5.1 (Beta)’</p></li>
+<li><p><strong>x64</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> for 64-bit version, <code class="docutils literal notranslate"><span class="pre">False</span></code> for 32-bit version</p></li>
+<li><p><strong>minimum</strong> (<em>str</em>) – The lowest allowable version, such as ‘5.0’</p></li>
+<li><p><strong>maximum</strong> (<em>str</em>) – The highest allowable version, such as ‘5.0.9’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the path to the executable</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1: </span><code class="docutils literal notranslate"><span class="pre">minimum</span></code>, <code class="docutils literal notranslate"><span class="pre">maximum</span></code>, <code class="docutils literal notranslate"><span class="pre">allow_alpha</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">allow_beta</span></code> parameters.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.4.5: </span><code class="docutils literal notranslate"><span class="pre">allow_alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">allow_beta</span></code> parameters are no longer supported.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.3: </span><code class="docutils literal notranslate"><span class="pre">allow_beta</span></code> parameter is once again supported.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.launch">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.process.launch" title="Link to this definition">#</a></dt>
+<dd><p>Launch an application process.</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">{keyword}</span></code> format codes in the list of <code class="docutils literal notranslate"><span class="pre">args</span></code> strings are
+replaced by the value in the corresponding <code class="docutils literal notranslate"><span class="pre">options</span></code> dictionary and/or
+<code class="docutils literal notranslate"><span class="pre">kwargs</span></code> key-value argument pairs.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">launch</span><span class="p">(</span><span class="s2">&quot;C:\</span><span class="si">{dir}</span><span class="s2">\</span><span class="si">{name}</span><span class="s2">.exe&quot;</span><span class="p">,</span> <span class="s2">&quot;/silent:</span><span class="si">{silent}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/title:</span><span class="si">{title!r}</span><span class="s2">&quot;</span><span class="p">,</span>
+       <span class="nb">dir</span><span class="o">=</span><span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;app&quot;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Hello world&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will launch <code class="docutils literal notranslate"><span class="pre">C:\temp\app.exe</span></code> passing the arguments <code class="docutils literal notranslate"><span class="pre">/silent:True</span></code>
+and <code class="docutils literal notranslate"><span class="pre">/title:'Hello</span> <span class="pre">world'</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>str</em>) – the application and the arguments for the application</p></li>
+<li><p><strong>options</strong> – values which may be substituted in the application arguments</p></li>
+<li><p><strong>**kwargs</strong> – additional substitution values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The subprocess handle</p>
+</dd>
+</dl>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Special keyword arguments</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword=Value</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">minimize=True</span></code></p></td>
+<td><p>process started with <code class="docutils literal notranslate"><span class="pre">SW_SHOWMINNOACTIVE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">minimize=False</span></code></p></td>
+<td><p>process started with <code class="docutils literal notranslate"><span class="pre">SW_SHOWNOACTIVATE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">debug=True</span></code></p></td>
+<td><p>process is not started, command line printed</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.common.process.report">
+<span class="sig-prename descclassname"><span class="pre">mhi.common.process.</span></span><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">installed=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimums=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">running=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file=&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stdout&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='utf-8'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.process.report" title="Link to this definition">#</a></dt>
+<dd><p>Report known, installed MHI products</p>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="path.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Path Expansion</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="remote.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Remote Objects</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPid"><code class="docutils literal notranslate"><span class="pre">AddressPortPid</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPid.address"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.address</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPid.port"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.port</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPid.pid"><code class="docutils literal notranslate"><span class="pre">AddressPortPid.pid</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPidApp"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPidApp.address"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.address</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPidApp.port"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.port</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPidApp.pid"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.pid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.AddressPortPidApp.appname"><code class="docutils literal notranslate"><span class="pre">AddressPortPidApp.appname</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.MIB_TCPROW_LH"><code class="docutils literal notranslate"><span class="pre">MIB_TCPROW_LH</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.MIB_TCPROW_OWNER_PID"><code class="docutils literal notranslate"><span class="pre">MIB_TCPROW_OWNER_PID</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.MIB_TCP6ROW_OWNER_PID"><code class="docutils literal notranslate"><span class="pre">MIB_TCP6ROW_OWNER_PID</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.process_pids"><code class="docutils literal notranslate"><span class="pre">process_pids()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.is_running"><code class="docutils literal notranslate"><span class="pre">is_running()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.host_addresses"><code class="docutils literal notranslate"><span class="pre">host_addresses()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.is_local_host"><code class="docutils literal notranslate"><span class="pre">is_local_host()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.host_filter"><code class="docutils literal notranslate"><span class="pre">host_filter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.tcp_ports_in_use"><code class="docutils literal notranslate"><span class="pre">tcp_ports_in_use()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.unused_tcp_port"><code class="docutils literal notranslate"><span class="pre">unused_tcp_port()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.listener_ports_by_pid"><code class="docutils literal notranslate"><span class="pre">listener_ports_by_pid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.listener_ports_by_name"><code class="docutils literal notranslate"><span class="pre">listener_ports_by_name()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.versions"><code class="docutils literal notranslate"><span class="pre">versions()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.find_exe"><code class="docutils literal notranslate"><span class="pre">find_exe()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.launch"><code class="docutils literal notranslate"><span class="pre">launch()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.process.report"><code class="docutils literal notranslate"><span class="pre">report()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/common/process.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

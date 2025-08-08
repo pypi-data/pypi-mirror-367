@@ -1,0 +1,1932 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Projects &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/project';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Canvas" href="canvas.html" />
+    <link rel="prev" title="The PSCAD Application" href="pscad.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Projects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.filename"><code class="docutils literal notranslate"><span class="pre">Project.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.temp_folder"><code class="docutils literal notranslate"><span class="pre">Project.temp_folder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.parameters"><code class="docutils literal notranslate"><span class="pre">Project.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.parameter_range"><code class="docutils literal notranslate"><span class="pre">Project.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#management">Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#load-save">Load &amp; Save</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#navigation">Navigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scenarios">Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-run">Build &amp; Run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.build"><code class="docutils literal notranslate"><span class="pre">Project.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.run"><code class="docutils literal notranslate"><span class="pre">Project.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.run_status"><code class="docutils literal notranslate"><span class="pre">Project.run_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.pause"><code class="docutils literal notranslate"><span class="pre">Project.pause()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.stop"><code class="docutils literal notranslate"><span class="pre">Project.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.messages"><code class="docutils literal notranslate"><span class="pre">Project.messages()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.output"><code class="docutils literal notranslate"><span class="pre">Project.output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.clean"><code class="docutils literal notranslate"><span class="pre">Project.clean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.compile_library"><code class="docutils literal notranslate"><span class="pre">Project.compile_library()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#definitions">Definitions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.definitions"><code class="docutils literal notranslate"><span class="pre">Project.definitions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.definition"><code class="docutils literal notranslate"><span class="pre">Project.definition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.create_definition"><code class="docutils literal notranslate"><span class="pre">Project.create_definition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.delete_definition"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.delete_definition_instances"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition_instances()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.copy_definitions"><code class="docutils literal notranslate"><span class="pre">PSCAD.copy_definitions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.paste_definitions"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.paste_definitions_with_dependents"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions_with_dependents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.remap_definitions"><code class="docutils literal notranslate"><span class="pre">Project.remap_definitions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#components">Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#finding">Finding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finding-by-id">Finding By Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameter-grid">Parameter Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#names-in-use">Names In Use</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#global-substitutions">Global Substitutions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.global_substitution"><code class="docutils literal notranslate"><span class="pre">Project.global_substitution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sets">Sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Load / Save</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#layers">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.layers"><code class="docutils literal notranslate"><span class="pre">Project.layers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.create_layer"><code class="docutils literal notranslate"><span class="pre">Project.create_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.set_layer_state"><code class="docutils literal notranslate"><span class="pre">Project.set_layer_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.delete_layer"><code class="docutils literal notranslate"><span class="pre">Project.delete_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.layer"><code class="docutils literal notranslate"><span class="pre">Project.layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.layer_states"><code class="docutils literal notranslate"><span class="pre">Project.layer_states()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Properties</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#resources">Resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.resources"><code class="docutils literal notranslate"><span class="pre">Project.resources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.create_resource"><code class="docutils literal notranslate"><span class="pre">Project.create_resource()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.remove_resource"><code class="docutils literal notranslate"><span class="pre">Project.remove_resource()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Project.resource"><code class="docutils literal notranslate"><span class="pre">Project.resource()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pscad.html"
+                          title="previous chapter">The PSCAD Application</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="canvas.html"
+                          title="next chapter">Canvas</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Projects</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="projects">
+<h1>Projects<a class="headerlink" href="#projects" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.Project">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common/remote.html#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project" title="Link to this definition">#</a></dt>
+<dd><p>PSCAD Project</p>
+</dd></dl>
+
+<p>In PSCAD, a <cite>Project</cite> may refer to a <cite>Library</cite> (.pslx) or a <cite>Case</cite> (.pscx).
+A <cite>Library</cite> will contain component definitions and/or code which may be used in
+other libraries and cases.
+A <cite>Case</cite> is a runnable simulation that may reference other libraries.</p>
+<p>The <cite>Master Library</cite> is a library which is automatically loaded into every
+workspace.</p>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Link to this heading">#</a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Project.name">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.Project.name" title="Link to this definition">#</a></dt>
+<dd><p>The name of the project (read-only)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Project.filename">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#mhi.pscad.Project.filename" title="Link to this definition">#</a></dt>
+<dd><p>The project’s file name (read-only)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Project.temp_folder">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">temp_folder</span></span><a class="headerlink" href="#mhi.pscad.Project.temp_folder" title="Link to this definition">#</a></dt>
+<dd><p>The project’s compiler-dependent temporary folder (read-only).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.parameters">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Get or set project parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>dict</em>) – A dictionary of name=value parameters</p></li>
+<li><p><strong>**kwargs</strong> – Zero or more name=value keyword parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of current parameters, if no parameters were given.</p>
+</dd>
+</dl>
+<div class="pst-scrollable-table-container"><table class="table" id="id4">
+<caption><span class="caption-text">Project Parameters</span><a class="headerlink" href="#id4" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Param Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>description</p></td>
+<td><p>str</p></td>
+<td><p>Description</p></td>
+</tr>
+<tr class="row-odd"><td><p>time_step</p></td>
+<td><p>float</p></td>
+<td><p>Solution time step</p></td>
+</tr>
+<tr class="row-even"><td><p>time_duration</p></td>
+<td><p>float</p></td>
+<td><p>Duration of run</p></td>
+</tr>
+<tr class="row-odd"><td><p>sample_step</p></td>
+<td><p>float</p></td>
+<td><p>Channel plot step</p></td>
+</tr>
+<tr class="row-even"><td><p>PlotType</p></td>
+<td><p>choice</p></td>
+<td><p>Save to: <cite>“NONE”</cite>, <cite>“OUT”</cite>, <cite>“PSOUT”</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p>output_filename</p></td>
+<td><p>str</p></td>
+<td><p>Name of data file, with .out extension</p></td>
+</tr>
+<tr class="row-even"><td><p>StartType</p></td>
+<td><p>int</p></td>
+<td><p>Start simulation: 0=Standard,                                     1=From Snapshot File</p></td>
+</tr>
+<tr class="row-odd"><td><p>startup_filename</p></td>
+<td><p>str</p></td>
+<td><p>Start up snapshot file name</p></td>
+</tr>
+<tr class="row-even"><td><p>SnapType</p></td>
+<td><p>int</p></td>
+<td><p>Timed Snapshot: 0=None, 1=Single,                                     2=Incremental (same file),                                     3=Incremental (multiple file)</p></td>
+</tr>
+<tr class="row-odd"><td><p>SnapTime</p></td>
+<td><p>float</p></td>
+<td><p>Snapshot time as a real number</p></td>
+</tr>
+<tr class="row-even"><td><p>snapshot_filename</p></td>
+<td><p>str</p></td>
+<td><p>Save snapshot as text</p></td>
+</tr>
+<tr class="row-odd"><td><p>MrunType</p></td>
+<td><p>int</p></td>
+<td><p>Run config 0=Standalone, 1=Master, 2=Slave</p></td>
+</tr>
+<tr class="row-even"><td><p>Mruns</p></td>
+<td><p>int</p></td>
+<td><p>Number of multiple runs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.parameter_range">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">parameter_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.parameter_range" title="Link to this definition">#</a></dt>
+<dd><p>Get legal values for a parameter</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vdiv</span><span class="o">.</span><span class="n">parameter_range</span><span class="p">(</span><span class="s1">&#39;SnapType&#39;</span><span class="p">)</span>
+<span class="go">frozenset({&#39;ONLY_ONCE&#39;, &#39;NONE&#39;, &#39;INCREMENTAL_SAME_FILE&#39;, &#39;INCREMENTAL_MANY_FILES&#39;})</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="management">
+<h2>Management<a class="headerlink" href="#management" title="Link to this heading">#</a></h2>
+<section id="load-save">
+<h3>Load &amp; Save<a class="headerlink" href="#load-save" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.save">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.save" title="Link to this definition">#</a></dt>
+<dd><p>Save changes made to this project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.save_as">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">save_as</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ver46</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#mhi.pscad.Project.save_as" title="Link to this definition">#</a></dt>
+<dd><p>Save this project under a new name.</p>
+<p>The project will be saved using the appropriate extension depending
+on whether the project is a case (<code class="docutils literal notranslate"><span class="pre">.pscx</span></code>) or library (<code class="docutils literal notranslate"><span class="pre">.pslx</span></code>).</p>
+<p>The filename must conform to PSCAD naming convensions:</p>
+<ul class="simple">
+<li><p>it must start with a letter,</p></li>
+<li><p>remaining characters must be alphanumeric or the underscore <code class="docutils literal notranslate"><span class="pre">_</span></code>,</p></li>
+<li><p>cannot exceed 30 characters.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The name or filename to store project to.</p></li>
+<li><p><strong>ver46</strong> (<em>bool</em>) – Set to true to store as a version 4.6 file. (optional)</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – If provided, the path to the filename is resolved
+relative to this folder. (optional)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>When the project name is changed, all existing Python handles to
+the project and anything within it become invalid and must not be
+used.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Added <code class="docutils literal notranslate"><span class="pre">ver46</span></code> parameter.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.7.2: </span>Added <code class="docutils literal notranslate"><span class="pre">folder</span></code> parameter; returns the new project object.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.is_dirty">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">is_dirty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Project.is_dirty" title="Link to this definition">#</a></dt>
+<dd><p>Check if the project contains unsaved changes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite>, if unsaved changes exist, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.reload">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.reload" title="Link to this definition">#</a></dt>
+<dd><p>Reload this project.</p>
+<p>The project is unloaded, without saving any unsaved modifications,
+and then immediately reloaded.
+This returns the project to the state it was in when it was last
+saved.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.unload">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">unload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.unload" title="Link to this definition">#</a></dt>
+<dd><p>Unload this project.</p>
+<p>The project is unloaded.
+All unsaved changes are lost.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="navigation">
+<h3>Navigation<a class="headerlink" href="#navigation" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.focus">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">focus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.focus" title="Link to this definition">#</a></dt>
+<dd><p>Switch PSCAD’s focus to this project.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.canvas">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">canvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas" title="mhi.pscad.Canvas"><span class="pre">Canvas</span></a></span></span><a class="headerlink" href="#mhi.pscad.Project.canvas" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the drawing canvas of a component definition.</p>
+<p>Only T-Lines, Cables, and module-type user components have a canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Definition name of the component.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corresponding canvas proxy object.</p>
+</dd>
+</dl>
+<p>Getting the main page of a project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">canvas</span><span class="p">(</span><span class="s1">&#39;Main&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">Project.user_canvas(name)</span></code></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="search">
+<h3>Search<a class="headerlink" href="#search" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.branch_search">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">branch_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subsystem_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.branch_search" title="Link to this definition">#</a></dt>
+<dd><p>Perform a ‘Branch Search’ in this project</p>
+<p>Project must be compiled for the search to return useful results.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.node_search">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">node_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subsystem_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="types.html#mhi.pscad.types.LookIn" title="mhi.pscad.types.LookIn"><span class="pre">LookIn</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.node_search" title="Link to this definition">#</a></dt>
+<dd><p>Perform a ‘Node Search’ with this project</p>
+<p>Project must be compiled for the search to return useful results.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="scenarios">
+<h3>Scenarios<a class="headerlink" href="#scenarios" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.scenarios">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">scenarios</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.scenarios" title="Link to this definition">#</a></dt>
+<dd><p>List the scenarios which exist in the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of scenario names.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">ProjectCommands.list_scenarios()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.scenario">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">scenario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.pscad.Project.scenario" title="Link to this definition">#</a></dt>
+<dd><p>Get or set the current scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of scenario to switch to (optional).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The name of the (now) current scenario.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.save_scenario">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">save_scenario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.save_scenario" title="Link to this definition">#</a></dt>
+<dd><p>Save the current scenario.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.save_as_scenario">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">save_as_scenario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.save_as_scenario" title="Link to this definition">#</a></dt>
+<dd><p>Save the current configuration under the given scenario name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of scenario to create or overwrite.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.delete_scenario">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">delete_scenario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.delete_scenario" title="Link to this definition">#</a></dt>
+<dd><p>Delete the named scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of scenario to delete.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="build-run">
+<h2>Build &amp; Run<a class="headerlink" href="#build-run" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.build">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.build" title="Link to this definition">#</a></dt>
+<dd><p>Clean &amp; Build this project, and any dependencies</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.run">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consumer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.run" title="Link to this definition">#</a></dt>
+<dd><p>Build and run this project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>consumer</strong> – handler for events generated by the build/run (optional).</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A library cannot be run; only a case can be run.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.run_status">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">run_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.run_status" title="Link to this definition">#</a></dt>
+<dd><p>Get the run status of the project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns <cite>(“Build”, None)</cite> if building, <cite>(“Run”, percent)</cite> if running,
+or <cite>(None, None)</cite> otherwise.</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">ProjectCommands.get_run_status()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.pause">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.pause" title="Link to this definition">#</a></dt>
+<dd><p>Pause the currently running projects.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All projects being run will be paused, not just this project.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.stop">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.stop" title="Link to this definition">#</a></dt>
+<dd><p>Terminate a running execution of this project.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.messages">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">messages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Message</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.messages" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the load/build messages</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of messages associated with the project.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Message]</p>
+</dd>
+</dl>
+<p>Each message is a named tuple composed of:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>text</p></td>
+<td><p>The message text</p></td>
+</tr>
+<tr class="row-even"><td><p>label</p></td>
+<td><p>Kind of message, such as build or load</p></td>
+</tr>
+<tr class="row-odd"><td><p>status</p></td>
+<td><p>Type of messages, such as normal, warning, or error.</p></td>
+</tr>
+<tr class="row-even"><td><p>scope</p></td>
+<td><p>Project to which the message applies</p></td>
+</tr>
+<tr class="row-odd"><td><p>name</p></td>
+<td><p>Component which caused the message</p></td>
+</tr>
+<tr class="row-even"><td><p>link</p></td>
+<td><p>Id of the component which caused the message</p></td>
+</tr>
+<tr class="row-odd"><td><p>group</p></td>
+<td><p>Group id of the message</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pscad</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tutorial/vdiv.pscx&#39;</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="n">pscad</span><span class="o">.</span><span class="n">examples_folder</span><span class="p">)</span>
+<span class="n">vdiv</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="s1">&#39;vdiv&#39;</span><span class="p">)</span>
+<span class="n">vdiv</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">vdiv</span><span class="o">.</span><span class="n">messages</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.output">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.pscad.Project.output" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the output (run messages) for the project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output messages</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pscad</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tutorial/vdiv.pscx&#39;</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="n">pscad</span><span class="o">.</span><span class="n">examples_folder</span><span class="p">)</span>
+<span class="n">vdiv</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="s1">&#39;vdiv&#39;</span><span class="p">)</span>
+<span class="n">vdiv</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vdiv</span><span class="o">.</span><span class="n">output</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">ProjectCommands.get_output_text()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.clean">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.clean" title="Link to this definition">#</a></dt>
+<dd><p>Clean the project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.compile_library">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">compile_library</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.compile_library" title="Link to this definition">#</a></dt>
+<dd><p>Compile all resources linked in this library into a single compiled
+<code class="docutils literal notranslate"><span class="pre">*.lib</span></code> file.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.definitions">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.definitions" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a list of all definitions contained in the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all of the <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a> names.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">ProjectCommands.list_definitions()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.definition">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><span class="pre">Definition</span></a></span></span><a class="headerlink" href="#mhi.pscad.Project.definition" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the given named definition from the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the definition.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The named <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a>.</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">ProjectCommands.get_definition()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.create_definition">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">create_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xml</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ET.Element</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><span class="pre">Definition</span></a></span></span><a class="headerlink" href="#mhi.pscad.Project.create_definition" title="Link to this definition">#</a></dt>
+<dd><p>Add a new definition to the project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xml</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>ET.Element</em><em>]</em>) – The definition XML</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.delete_definition">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">delete_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.delete_definition" title="Link to this definition">#</a></dt>
+<dd><p>Delete the given named <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the definition to delete.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.delete_definition_instances">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">delete_definition_instances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.delete_definition_instances" title="Link to this definition">#</a></dt>
+<dd><p>Delete the given named <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a>, along with all instances
+of the that definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a> whose definition                and instances are to be deleted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.copy_definitions">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">copy_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">defns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><span class="pre">Definition</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.copy_definitions" title="Link to this definition">#</a></dt>
+<dd><p>Copy a definition to the clipboard</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.paste_definitions">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">paste_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.paste_definitions" title="Link to this definition">#</a></dt>
+<dd><p>Paste definitions from the clipboard into this project.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.paste_definitions_with_dependents">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">paste_definitions_with_dependents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.paste_definitions_with_dependents" title="Link to this definition">#</a></dt>
+<dd><p>Paste definitions and their dependents from the clipboard
+into this project.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.remap_definitions">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">remap_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">definitions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.remap_definitions" title="Link to this definition">#</a></dt>
+<dd><p>Remap definitions from one namespace to another namespace.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.2.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading">#</a></h2>
+<section id="finding">
+<h3>Finding<a class="headerlink" href="#finding" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.find">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.find" title="Link to this definition">#</a></dt>
+<dd><p>Find the (singular) component that matches the given criteria,
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no matching component can be found.
+Raises an exception if more than one component matches
+the given criteria.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.find_first">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">find_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.find_first" title="Link to this definition">#</a></dt>
+<dd><p>Find the first component that matches the given criteria,
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no matching component can be found.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.find_all">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">find_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.find_all" title="Link to this definition">#</a></dt>
+<dd><p>Find all components that match the given criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>definition</strong> (<em>str</em>) – One of “Bus”, “TLine”, “Cable”, “GraphFrame”,
+“Sticky”, or a colon-seperated definition name, such as
+“master:source3” (optional)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – the component’s name, as given by a parameter
+called “name”, “Name”, or “NAME”.
+If no definition was given, and if the provided name is
+“Bus”, “TLine”, “Cable”, “GraphFrame”, “Sticky”, or
+contains a colon, it is treated as the definition name.
+(optional)</p></li>
+<li><p><strong>layer</strong> (<em>str</em>) – only return components on the given layer (optional)</p></li>
+<li><p><strong>key=value</strong> – A keyword list specifying additional parameters
+which must be matched.  Parameter names and values must match
+exactly. For example, Voltage=”230 [kV]” will not match
+components with a Voltage parameter value of “230.0 [kV]”.
+(optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of matching components,
+or an empty list if no matching components are found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[ZComponent]</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span>                <span class="c1"># all Bus components</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus10&#39;</span><span class="p">)</span>             <span class="c1"># all components named &quot;Bus10&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span><span class="p">,</span> <span class="s1">&#39;Bus10&#39;</span><span class="p">)</span>      <span class="c1"># all Bus component named &quot;Bus10&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span><span class="p">,</span> <span class="n">BaseKV</span><span class="o">=</span><span class="s1">&#39;138&#39;</span><span class="p">)</span> <span class="c1"># all Buses with BaseKV=&quot;138&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="n">BaseKV</span><span class="o">=</span><span class="s1">&#39;138&#39;</span><span class="p">)</span>        <span class="c1"># all components with BaseKV=&quot;138&quot;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="finding-by-id">
+<h3>Finding By Id<a class="headerlink" href="#finding-by-id" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.component">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.Project.component" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a component by ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iid</strong> (<em>int</em>) – The ID attribute of the component.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0: </span>This command replaces all of the type specific versions.</p>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is often easier to use <a class="reference internal" href="#mhi.pscad.Project.find" title="mhi.pscad.Project.find"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.find()</span></code></a>, <a class="reference internal" href="#mhi.pscad.Project.find_first" title="mhi.pscad.Project.find_first"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.find_first()</span></code></a>
+or <a class="reference internal" href="#mhi.pscad.Project.find_all" title="mhi.pscad.Project.find_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.find_all()</span></code></a> methods (or the Canvas variants <a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find" title="mhi.pscad.Canvas.find"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find()</span></code></a>,
+<a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find_first" title="mhi.pscad.Canvas.find_first"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find_first()</span></code></a> or <a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find_all" title="mhi.pscad.Canvas.find_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find_all()</span></code></a>) to find a component of
+interest, rather than using a component Id for locating the component.</p>
+<p>For example, in <code class="docutils literal notranslate"><span class="pre">pm_machine.pscx</span></code> case:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare finding a component by name ...</span>
+<span class="n">pm</span> <span class="o">=</span> <span class="n">prj</span><span class="o">.</span><span class="n">canvas</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;PMMachine&#39;</span><span class="p">)</span>
+
+<span class="c1"># with finding a component by ID.</span>
+<span class="n">pm</span> <span class="o">=</span> <span class="n">prj</span><span class="o">.</span><span class="n">component</span><span class="p">(</span><span class="mi">1551087554</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="parameter-grid">
+<h3>Parameter Grid<a class="headerlink" href="#parameter-grid" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.export_parameter_grid">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">export_parameter_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.export_parameter_grid" title="Link to this definition">#</a></dt>
+<dd><p>Export parameters to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file to write.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Directory where the CSV file will be stored (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.import_parameter_grid">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">import_parameter_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.import_parameter_grid" title="Link to this definition">#</a></dt>
+<dd><p>Import parameters from a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file to read.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Directory to read the CSV file from (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="names-in-use">
+<h3>Names In Use<a class="headerlink" href="#names-in-use" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.names_in_use">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">names_in_use</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.names_in_use" title="Link to this definition">#</a></dt>
+<dd><p>Return the set of “Name” parameter values, for all components on the
+canvas that have a “Name” parameter.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="global-substitutions">
+<h2>Global Substitutions<a class="headerlink" href="#global-substitutions" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Project.global_substitution">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">global_substitution</span></span><a class="headerlink" href="#mhi.pscad.Project.global_substitution" title="Link to this definition">#</a></dt>
+<dd><p>The global substitution container for the project.
+Can be referenced as a dictionary of dictionaries.
+<code class="docutils literal notranslate"><span class="pre">Dict[SetName,</span> <span class="pre">Dict[VariableName,</span> <span class="pre">Value]]</span></code></p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="o">.</span><span class="n">create_sets</span><span class="p">(</span><span class="s1">&#39;Set1&#39;</span><span class="p">,</span> <span class="s1">&#39;Set2&#39;</span><span class="p">)</span>
+<span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">&#39;freq&#39;</span><span class="p">,</span> <span class="s1">&#39;VBase&#39;</span><span class="p">)</span>
+<span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">][</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;60.0 [Hz]&quot;</span>      <span class="c1"># Default set</span>
+<span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="p">[</span><span class="s1">&#39;Set1&#39;</span><span class="p">][</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;50.0 [Hz]&quot;</span>
+<span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="p">[</span><span class="s1">&#39;Set2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="s2">&quot;60.0 [Hz]&quot;</span><span class="p">,</span> <span class="s1">&#39;VBase&#39;</span><span class="p">:</span> <span class="s1">&#39;13.8 [kV]&#39;</span> <span class="p">}</span>
+<span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="o">.</span><span class="n">active_set</span> <span class="o">=</span> <span class="s2">&quot;Set1&quot;</span>
+
+<span class="c1"># List all global substitution sets</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span><span class="p">))</span>
+<span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+
+<span class="c1"># Print active global substitutions:</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">gs</span> <span class="o">=</span> <span class="n">prj</span><span class="o">.</span><span class="n">global_substitution</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">gs</span><span class="p">[</span><span class="n">gs</span><span class="o">.</span><span class="n">active_set</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="n">freq</span> <span class="o">=</span> <span class="mf">50.0</span> <span class="p">[</span><span class="n">Hz</span><span class="p">]</span>
+<span class="n">VBase</span> <span class="o">=</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="sets">
+<h3>Sets<a class="headerlink" href="#sets" title="Link to this heading">#</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.active_set">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">active_set</span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.active_set" title="Link to this definition">#</a></dt>
+<dd><p>The currently active global substitution set.</p>
+<p>Returns the name of the currently active substitution set,
+or <cite>None</cite> for the default set</p>
+<p>Set to the desired global substitution set name to change
+the active global substitution set.
+Setting this to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code> reverts to the default set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.create_sets">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">create_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">set_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.create_sets" title="Link to this definition">#</a></dt>
+<dd><p>Creates 1 or more named global substitution sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*set_names</strong> (<em>str</em>) – One or more names for the new sets</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.remove_sets">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">remove_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">set_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.remove_sets" title="Link to this definition">#</a></dt>
+<dd><p>Removes 1 or more named global substitution sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*set_names</strong> (<em>str</em>) – One or more names of sets to be deleted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.rename_set">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">rename_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.rename_set" title="Link to this definition">#</a></dt>
+<dd><p>Rename a global substitution set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_name</strong> (<em>str</em>) – Current name of the substitution set</p></li>
+<li><p><strong>new_name</strong> (<em>str</em>) – Desired name of the substitution set</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.create">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">val_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.create" title="Link to this definition">#</a></dt>
+<dd><p>Creates 1 or more named global substitution variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*val_names</strong> (<em>str</em>) – One or more new variable names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.remove">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">val_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.remove" title="Link to this definition">#</a></dt>
+<dd><p>Removes 1 or more named global substitution variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*val_names</strong> (<em>str</em>) – One or more names of variables to be deleted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.rename">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.rename" title="Link to this definition">#</a></dt>
+<dd><p>Rename a global substitution variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_name</strong> (<em>str</em>) – Current name of the substitution variable</p></li>
+<li><p><strong>new_name</strong> (<em>str</em>) – Desired name of the substitution variable</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id1">
+<h3>Load / Save<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.save_set">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">save_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.save_set" title="Link to this definition">#</a></dt>
+<dd><p>Save global substitution set to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename for the CSV file</p></li>
+<li><p><strong>set_name</strong> (<em>str</em>) – Set name to save (default is currently active set)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.load_set">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">load_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.load_set" title="Link to this definition">#</a></dt>
+<dd><p>Load global substitution set from a CSV file, replacing current values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file</p></li>
+<li><p><strong>set_name</strong> (<em>str</em>) – Set name to load (default is currently active set)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.append_set">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">append_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.append_set" title="Link to this definition">#</a></dt>
+<dd><p>Load global substitution set from a CSV file, without clear old values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file</p></li>
+<li><p><strong>set_name</strong> (<em>str</em>) – Set name to load (default is currently active set)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.save_all_sets">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">save_all_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.save_all_sets" title="Link to this definition">#</a></dt>
+<dd><p>Save all global substitution sets to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename for the CSV file</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.load_all_sets">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">load_all_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.load_all_sets" title="Link to this definition">#</a></dt>
+<dd><p>Load all global substitution sets from a CSV file, replacing all
+current values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GlobalSubstitution.append_all_sets">
+<span class="sig-prename descclassname"><span class="pre">GlobalSubstitution.</span></span><span class="sig-name descname"><span class="pre">append_all_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.GlobalSubstitution.append_all_sets" title="Link to this definition">#</a></dt>
+<dd><p>Load global substitution sets from a CSV file, creating new sets when
+a set name already exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="layers">
+<h2>Layers<a class="headerlink" href="#layers" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.layers">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">layers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.layers" title="Link to this definition">#</a></dt>
+<dd><p>Fetch the state of all of the layers</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.create_layer">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">create_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Enabled'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Layer</span></span></span><a class="headerlink" href="#mhi.pscad.Project.create_layer" title="Link to this definition">#</a></dt>
+<dd><p>Create a new layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the layer to create.</p></li>
+<li><p><strong>state</strong> (<em>str</em>) – Initial state of layer (optional, default=’Enabled’)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.set_layer_state">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">set_layer_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.set_layer_state" title="Link to this definition">#</a></dt>
+<dd><p>Set the state of a layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the layer to alter.</p></li>
+<li><p><strong>state</strong> (<em>str</em>) – “Enabled”, “Disabled”, “Invisible” or a custom state.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Renamed from <code class="docutils literal notranslate"><span class="pre">.set_layer(state)</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.delete_layer">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">delete_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Project.delete_layer" title="Link to this definition">#</a></dt>
+<dd><p>Delete an existing layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the layer to delete.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.layer">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Layer</span></span></span><a class="headerlink" href="#mhi.pscad.Project.layer" title="Link to this definition">#</a></dt>
+<dd><p>Fetch the given layer</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.layer_states">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">layer_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.layer_states" title="Link to this definition">#</a></dt>
+<dd><p>Fetch all valid states for the given layer</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<section id="id2">
+<h3>Properties<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<p>After a layer has been retrieved with <a class="reference internal" href="#mhi.pscad.Project.layer" title="mhi.pscad.Project.layer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.layer()</span></code></a>,
+the following attributes and methods may be accessed:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.project">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">project</span></span><a class="headerlink" href="#mhi.pscad.Layer.project" title="Link to this definition">#</a></dt>
+<dd><p>The project this layer belongs to (read-only)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.id">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#mhi.pscad.Layer.id" title="Link to this definition">#</a></dt>
+<dd><p>The ID of this layer (read-only)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.name">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.Layer.name" title="Link to this definition">#</a></dt>
+<dd><p>The name of this layer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.state">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#mhi.pscad.Layer.state" title="Link to this definition">#</a></dt>
+<dd><p>The current state of this layer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.parameters">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Layer.parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Get or set layer parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>dict</em>) – A dictionary of name=value parameters</p></li>
+<li><p><strong>**kwargs</strong> – Zero or more name=value keyword parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of current parameters, if no parameters were given.</p>
+</dd>
+</dl>
+<div class="pst-scrollable-table-container"><table class="table" id="id5">
+<caption><span class="caption-text">Layer Properties</span><a class="headerlink" href="#id5" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Param Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>disabled_color</p></td>
+<td><p>Color</p></td>
+<td><p>Disabled Colour</p></td>
+</tr>
+<tr class="row-odd"><td><p>disabled_opacity</p></td>
+<td><p>int</p></td>
+<td><p>Diabled Opacity</p></td>
+</tr>
+<tr class="row-even"><td><p>highlight_color</p></td>
+<td><p>Color</p></td>
+<td><p>Highlight Colour</p></td>
+</tr>
+<tr class="row-odd"><td><p>highlight_opacity</p></td>
+<td><p>int</p></td>
+<td><p>Highlight Opacity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.add_state">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">add_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.add_state" title="Link to this definition">#</a></dt>
+<dd><p>Create a new custom configuration name for list layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_name</strong> (<em>str</em>) – Name of the new configuration to create.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.remove_state">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">remove_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.remove_state" title="Link to this definition">#</a></dt>
+<dd><p>Remove an existing custom state from this layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>state_name</strong> (<em>str</em>) – The name of the custom configuration state to remove.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.rename_state">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">rename_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.rename_state" title="Link to this definition">#</a></dt>
+<dd><p>Rename an existing custom state in this layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_name</strong> (<em>str</em>) – The name of the custom configuration state to rename.</p></li>
+<li><p><strong>new_name</strong> (<em>str</em>) – The new name to rename the custom configuration state to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.set_custom_state">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">set_custom_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.set_custom_state" title="Link to this definition">#</a></dt>
+<dd><p>Set the state of a component when the layer is set to the state name provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_name</strong> (<em>str</em>) – The name of the custom configuration state to configure.</p></li>
+<li><p><strong>component</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – The component to set the state to</p></li>
+<li><p><strong>component_state</strong> (<em>str</em>) – One of the strings (‘Enabled’, ‘Disabled’, ‘Invisible’)                 for the state of the provided component when the provided state is set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.move_up">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">move_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.move_up" title="Link to this definition">#</a></dt>
+<dd><p>Move the layer up the list by 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.move_down">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">move_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.move_down" title="Link to this definition">#</a></dt>
+<dd><p>Move the layer down the list by 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.to_top">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">to_top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.to_top" title="Link to this definition">#</a></dt>
+<dd><p>Move the layer to top of list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Layer.to_bottom">
+<span class="sig-prename descclassname"><span class="pre">Layer.</span></span><span class="sig-name descname"><span class="pre">to_bottom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Layer.to_bottom" title="Link to this definition">#</a></dt>
+<dd><p>Move the layer to bottom of list</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<p>Resources are additional files</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.resources">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Resource</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Project.resources" title="Link to this definition">#</a></dt>
+<dd><p>Fetch list of all resources in project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.create_resource">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">create_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Resource</span></span></span><a class="headerlink" href="#mhi.pscad.Project.create_resource" title="Link to this definition">#</a></dt>
+<dd><p>Add a new resource to the Project’s resource folder</p>
+<dl class="simple">
+<dt>Parameter:</dt><dd><p>path (str): Pathname of the resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.remove_resource">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">remove_resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Resource</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Project.remove_resource" title="Link to this definition">#</a></dt>
+<dd><p>Remove a resource</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Project.resource">
+<span class="sig-prename descclassname"><span class="pre">Project.</span></span><span class="sig-name descname"><span class="pre">resource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Resource</span></span></span><a class="headerlink" href="#mhi.pscad.Project.resource" title="Link to this definition">#</a></dt>
+<dd><p>Find a resource by path</p>
+</dd></dl>
+
+<section id="id3">
+<h3>Properties<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>After a resource has been retrieved with <a class="reference internal" href="#mhi.pscad.Project.resource" title="mhi.pscad.Project.resource"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.resource()</span></code></a>,
+the following attributes and methods may be accessed:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.project">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">project</span></span><a class="headerlink" href="#mhi.pscad.Resource.project" title="Link to this definition">#</a></dt>
+<dd><p>The project this resource belongs to (read-only)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.id">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#mhi.pscad.Resource.id" title="Link to this definition">#</a></dt>
+<dd><p>The ID of this resource (read-only)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.name">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.Resource.name" title="Link to this definition">#</a></dt>
+<dd><p>The name of the this resource.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.path">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#mhi.pscad.Resource.path" title="Link to this definition">#</a></dt>
+<dd><p>The path of the this resource, relative to the project.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.abspath">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">abspath</span></span><a class="headerlink" href="#mhi.pscad.Resource.abspath" title="Link to this definition">#</a></dt>
+<dd><p>The absolute path of the this resource.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Resource.parameters">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Resource.parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Resource.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Get/Set Resource parameters</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pscad.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The PSCAD Application</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="canvas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Canvas</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.filename"><code class="docutils literal notranslate"><span class="pre">Project.filename</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.temp_folder"><code class="docutils literal notranslate"><span class="pre">Project.temp_folder</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.parameters"><code class="docutils literal notranslate"><span class="pre">Project.parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.parameter_range"><code class="docutils literal notranslate"><span class="pre">Project.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#management">Management</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-save">Load &amp; Save</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.save"><code class="docutils literal notranslate"><span class="pre">Project.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.save_as"><code class="docutils literal notranslate"><span class="pre">Project.save_as()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.is_dirty"><code class="docutils literal notranslate"><span class="pre">Project.is_dirty()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.reload"><code class="docutils literal notranslate"><span class="pre">Project.reload()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.unload"><code class="docutils literal notranslate"><span class="pre">Project.unload()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.focus"><code class="docutils literal notranslate"><span class="pre">Project.focus()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.canvas"><code class="docutils literal notranslate"><span class="pre">Project.canvas()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search">Search</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.branch_search"><code class="docutils literal notranslate"><span class="pre">Project.branch_search()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.node_search"><code class="docutils literal notranslate"><span class="pre">Project.node_search()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenarios">Scenarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.scenarios"><code class="docutils literal notranslate"><span class="pre">Project.scenarios()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.scenario"><code class="docutils literal notranslate"><span class="pre">Project.scenario()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.save_scenario"><code class="docutils literal notranslate"><span class="pre">Project.save_scenario()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.save_as_scenario"><code class="docutils literal notranslate"><span class="pre">Project.save_as_scenario()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.delete_scenario"><code class="docutils literal notranslate"><span class="pre">Project.delete_scenario()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-run">Build &amp; Run</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.build"><code class="docutils literal notranslate"><span class="pre">Project.build()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.run"><code class="docutils literal notranslate"><span class="pre">Project.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.run_status"><code class="docutils literal notranslate"><span class="pre">Project.run_status()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.pause"><code class="docutils literal notranslate"><span class="pre">Project.pause()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.stop"><code class="docutils literal notranslate"><span class="pre">Project.stop()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.messages"><code class="docutils literal notranslate"><span class="pre">Project.messages()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.output"><code class="docutils literal notranslate"><span class="pre">Project.output()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.clean"><code class="docutils literal notranslate"><span class="pre">Project.clean()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.compile_library"><code class="docutils literal notranslate"><span class="pre">Project.compile_library()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">Definitions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.definitions"><code class="docutils literal notranslate"><span class="pre">Project.definitions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.definition"><code class="docutils literal notranslate"><span class="pre">Project.definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.create_definition"><code class="docutils literal notranslate"><span class="pre">Project.create_definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.delete_definition"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.delete_definition_instances"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition_instances()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.copy_definitions"><code class="docutils literal notranslate"><span class="pre">PSCAD.copy_definitions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.paste_definitions"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.paste_definitions_with_dependents"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions_with_dependents()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.remap_definitions"><code class="docutils literal notranslate"><span class="pre">Project.remap_definitions()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#components">Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding">Finding</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.find"><code class="docutils literal notranslate"><span class="pre">Project.find()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.find_first"><code class="docutils literal notranslate"><span class="pre">Project.find_first()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.find_all"><code class="docutils literal notranslate"><span class="pre">Project.find_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-by-id">Finding By Id</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.component"><code class="docutils literal notranslate"><span class="pre">Project.component()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-grid">Parameter Grid</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.export_parameter_grid"><code class="docutils literal notranslate"><span class="pre">Project.export_parameter_grid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.import_parameter_grid"><code class="docutils literal notranslate"><span class="pre">Project.import_parameter_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#names-in-use">Names In Use</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.names_in_use"><code class="docutils literal notranslate"><span class="pre">Project.names_in_use()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-substitutions">Global Substitutions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.global_substitution"><code class="docutils literal notranslate"><span class="pre">Project.global_substitution</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sets">Sets</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.active_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.active_set</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.create_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.create_sets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.remove_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.remove_sets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.rename_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.rename_set()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables">Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.create"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.create()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.remove"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.remove()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.rename"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.rename()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Load / Save</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.save_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.save_set()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.load_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.load_set()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.append_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.append_set()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.save_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.save_all_sets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.load_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.load_all_sets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GlobalSubstitution.append_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.append_all_sets()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.layers"><code class="docutils literal notranslate"><span class="pre">Project.layers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.create_layer"><code class="docutils literal notranslate"><span class="pre">Project.create_layer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.set_layer_state"><code class="docutils literal notranslate"><span class="pre">Project.set_layer_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.delete_layer"><code class="docutils literal notranslate"><span class="pre">Project.delete_layer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.layer"><code class="docutils literal notranslate"><span class="pre">Project.layer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.layer_states"><code class="docutils literal notranslate"><span class="pre">Project.layer_states()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.project"><code class="docutils literal notranslate"><span class="pre">Layer.project</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.id"><code class="docutils literal notranslate"><span class="pre">Layer.id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.name"><code class="docutils literal notranslate"><span class="pre">Layer.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.state"><code class="docutils literal notranslate"><span class="pre">Layer.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.parameters"><code class="docutils literal notranslate"><span class="pre">Layer.parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.add_state"><code class="docutils literal notranslate"><span class="pre">Layer.add_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.remove_state"><code class="docutils literal notranslate"><span class="pre">Layer.remove_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.rename_state"><code class="docutils literal notranslate"><span class="pre">Layer.rename_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.set_custom_state"><code class="docutils literal notranslate"><span class="pre">Layer.set_custom_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.move_up"><code class="docutils literal notranslate"><span class="pre">Layer.move_up()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.move_down"><code class="docutils literal notranslate"><span class="pre">Layer.move_down()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.to_top"><code class="docutils literal notranslate"><span class="pre">Layer.to_top()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Layer.to_bottom"><code class="docutils literal notranslate"><span class="pre">Layer.to_bottom()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.resources"><code class="docutils literal notranslate"><span class="pre">Project.resources()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.create_resource"><code class="docutils literal notranslate"><span class="pre">Project.create_resource()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.remove_resource"><code class="docutils literal notranslate"><span class="pre">Project.remove_resource()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Project.resource"><code class="docutils literal notranslate"><span class="pre">Project.resource()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.project"><code class="docutils literal notranslate"><span class="pre">Resource.project</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.id"><code class="docutils literal notranslate"><span class="pre">Resource.id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.name"><code class="docutils literal notranslate"><span class="pre">Resource.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.path"><code class="docutils literal notranslate"><span class="pre">Resource.path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.abspath"><code class="docutils literal notranslate"><span class="pre">Resource.abspath</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Resource.parameters"><code class="docutils literal notranslate"><span class="pre">Resource.parameters()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/project.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

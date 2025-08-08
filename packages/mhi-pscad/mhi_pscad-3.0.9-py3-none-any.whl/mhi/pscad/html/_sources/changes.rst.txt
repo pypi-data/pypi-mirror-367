@@ -1,0 +1,422 @@
+.. py:currentmodule:: mhi.pscad
+
+.. |ss| raw:: html
+
+   <strike>
+
+.. |se| raw:: html
+
+   </strike>
+
+
+=======
+Changes
+=======
+
+
+What's new in 3.0
+=================
+
+3.0.9
+-----
+
+* Support for external subpackages
+* Fixed issue with TLine/Cable when namespace is changed in PSCAD 5.1.0 and earlier.
+* Added :attr:`.UserCanvas.definition`
+* Added :class:`ContentType<.types.ContentType>`, :class:`HelpMode<.types.HelpMode>`,
+  :class:`Intent<.types.Intent>` types
+* Added :meth:`.UserDefnWizard.Category.complex`
+* Added more configuration arguments to :meth:`logical <.UserDefnWizard.Category.logical>`,
+  :meth:`boolean <.UserDefnWizard.Category.boolean>`, :meth:`choice <.UserDefnWizard.Category.choice>`,
+  :meth:`integer <.UserDefnWizard.Category.integer>`, and :meth:`real <.UserDefnWizard.Category.real>`
+  methods of :class:`.UserDefnWizard.Category`
+* Added :attr:`animate_condition <.UserDefnWizard.Parameter.animate_condition>`,
+  :attr:`animated <.UserDefnWizard.Parameter.animated>`,
+  :attr:`dimension <.UserDefnWizard.Parameter.dimension>`,
+  :attr:`intent <.UserDefnWizard.Parameter.intent>` attributes to
+  :class:`.UserDefnWizard.Parameter`
+
+3.0.8
+-----
+
+* Updated tutorial
+* ``LCP_MaxConcurrentExec`` now returned as an ``int`` in :meth:`.PSCAD.settings`
+* The ``active_graphics`` setting is no longer encoded with a trailing underscore
+* Fixed ``KeyError`` in codec for "C/Linker"
+* Fixed typing error (missing ``from typing import Set``)
+
+3.0.7
+-----
+
+* Starting with PSCAD 5.1, codecs for Fortran and Matlab versions are retrieved from PSCAD
+* ``@deprecated`` :func:`mhi.pscad.fortran_versions` and :func:`mhi.pscad.matlab_versions`
+* Documentation improvements
+
+3.0.6
+-----
+
+* Embedded documentation is now formatted as `html`
+* Corrected 5.0 fallback for :meth:`.Canvas.names_in_use`
+* 'Choice' parameters with sequential integer values,
+  such as the `master:cable_interface`'s ``NCAB`` parameter,
+  are now returned as integers instead of strings.
+* Add ``@deprecated`` :meth:`.Switch.value` and :meth:`.Selector.value` methods,
+  as aliases for :meth:`.Switch.set_state` and :meth:`.Selector.position` methods
+  to support incorrect method names use in PSCAD's script recording.
+
+3.0.5
+-----
+
+* :meth:`~mhi.pscad.launch`
+
+  * permits ``allow_beta=`` argument again
+  * supports ``edition=`` argument (either ``"PRO"`` or ``"EDU"``)
+  * rejects unknown argument names
+
+* Improved IPv4/IPv6 host support in :meth:`~mhi.pscad.launch` & :meth:`~mhi.pscad.connect`
+
+3.0.4
+-----
+
+* Fixed crash in :meth:`.PSCAD.get_current_certificate`.
+* Removed :meth:`.TLine.split` and :meth:`.Cable.split`. They will be
+  re-introduced in version 3.1
+
+3.0.3
+-----
+
+* |ss| Added :meth:`.TLine.split` and :meth:`.Cable.split` that split transmission
+  lines and cables at a defined length |se|
+* Added :attr:`.content_type` to :class:`.UserDefnWizard.Parameter`.
+* Fixed crash in :meth:`.Canvas.components`, introduced by 3.0.2
+
+3.0.2
+-----
+
+* :meth:`~mhi.pscad.launch` now accepts
+
+  * a port ``range``
+  * an network ``address`` for PSCAD to bind the automation server to
+
+* Added Proxy object caching to speed up automation queries
+* Support recorded scripts with improper create_wire vertices argument
+* Support find with parameter encoding when definition specified
+* Removed unnecessary ``Mixin`` Classes
+* Added fallback impmentation for :meth:`.UserCanvas.create_connection`
+* Added :meth:`.Project.remap_definitions`
+
+3.0.1
+-----
+
+* Removed debug print statements
+
+3.0.0
+-----
+
+* Drops support for Python 3.5 and 3.6
+* Added :meth:`.Project.names_in_use` and :meth:`.Canvas.names_in_use`
+
+
+What's New in 2.9
+=================
+
+2.9.7
+-----
+
+* Fixed error fetched Project parameters with PSCAD 5.0.x
+
+2.9.6
+-----
+
+* :mod:`mhi.common` dependency updated.
+* Support additional compiler options in :meth:`.Project.parameters`
+* Added :meth:`.Project.branch_search` and :meth:`.Project.node_search`
+* Added :meth:`.PSCAD.search_results`, :meth:`.PSCAD.project_names`
+* `PSCAD.settings(bb_target_namespace='project_name')` is now supported
+* Added :meth:`.Canvas.bounds`, :attr:`.Canvas.size`
+* Added :meth:`.Canvas.get_empty_rects` and :meth:`.Canvas.closest_empty_rect`
+  for finding empty spaces on the canvas
+* :meth:`.Canvas.bounds` and :attr:`.Canvas.bounds` output the newly added
+  :class:`.types.Rect` instead of tuple.
+* Added ``create_leads`` parameter to :meth:`.wizard.UserDefnWizard.create_definition`
+
+2.9.5
+-----
+
+* Auto-retry of RMI commands, if `SystemError: Could not queue task`
+  occurs.
+* Add ``py -m mhi.pscad help`` command, to open the module's help file.
+
+2.9.4
+-----
+
+* Fixed backward-incompatible Python 3.10+ type-union syntax
+* Added :attr:`.Component.orient` property (PSCAD 5.1+ only).
+
+2.9.3
+-----
+
+* :meth:`.utilities.file.OutFile.toCSV` no longer adds a space after commas.
+* Better error reporting in :meth:`.utilities.mail.Mail.send_outlook_mail`.
+
+2.9.2
+-----
+
+* `master:sequencer_wait` component's `CrossDir` parameter now
+  allows `'FROM_POS_TO_NEG'` and `'FROM_NEG_TO_POS'`.
+
+2.9.1
+-----
+
+* Corrected :class:`.wizard.UserDefnWizard` port name parameter.
+* :mod:`mhi.common` dependency updated.
+
+2.9.0
+-----
+
+* Added support for :class:`GroupBox` components.
+* New :meth:`.UserCanvas.create_group_box` method.
+* New :meth:`.Project.paste_definitions` and
+  :meth:`.Project.paste_definitions_with_dependents`  methods.
+
+
+What's New in 2.8
+=================
+
+2.8.4
+-----
+
+* added :meth:`.PSCAD.wait_for_idle` after launch, to allow loading of a prior workspace
+  to complete if "Reload the last session" is present in the user profile.
+* added `load` option to :meth:`mhi.pscad.launch` to automatically load a workspace,
+  or individual projects & libraries at startup.
+
+2.8.3
+-----
+
+* Fixed bug preventing :meth:`.UserCmp.blackbox` working in PSCAD 5.0.1
+
+2.8.2
+-----
+
+* Removed `f"{strings"}` to restore Python 3.5 compatibility.
+* Fixed incorrectly escaped characters.
+
+2.8.1
+-----
+
+* New :meth:`.PSCAD.save_settings` method.
+* New :attr:`.PSCAD.parameter_grid` attribute for viewing, loading and saving
+  the parameter grid.
+* New :attr:`Project.global_substitution` attribute for loading and saving
+  substitutions sets.
+* New :attr:`Component.enabled` attribute.
+* Allow :meth:`.Project.save_as` to a path in PSCAD 5.0.2
+* Fixed bug preventing reading of ProductList.xml.
+
+2.8.0
+-----
+
+* New :meth:`.Project.compile_library` method.
+* :attr:`.UserCmp.definition` is now read/write.  Setting a new definition is equivalent
+  to specifying a new definition using "Edit Reference ..." in the PSCAD GUI.
+* New :meth:`.Definition.parameters` method.
+* New :attr:`.Definition.instances` attribute.
+* New :meth:`.OutFile.values_at` method.
+* Fixed bug causing ``RealCodec`` to sometimes return the Python ``str`` class.
+* :meth:`.Project.create_definition` now also accepts an `ElementTree.Element`.
+* Fixed bug preventing project bitfield parameters from being set.
+
+
+What's New in 2.7
+=================
+
+2.7.2
+-----
+
+* In PSCAD 5.1, :meth:`.Project.save_as` can save the project to a directory
+  other than the project's current directory.  In PSCAD 5.0, a filename with
+  a path may be given instead of just a new project name, but it must resolve
+  to the current project directory.
+* Minor documentation improvements
+
+2.7.1
+-----
+
+* `cl_use_advanced` may once again be set to `True` or `False` and be queried via
+  :meth:`.PSCAD.settings`.
+* :meth:`.PSCAD.get_certificate` properly switches to from lock-based to certificate licensing.
+
+2.7.0
+-----
+
+* :meth:`.UserCmp.blackbox` accepts `x`, `y`, `sub_prefix` & `instance_data` parameters.
+* New :meth:`.UserCmp.blackbox_defn` method.
+
+
+What's New in 2.6
+=================
+
+2.6.0
+-----
+
+* New :meth:`.PSCAD.cases` and :meth:`.PSCAD.libraries` methods.
+* :meth:`.Project.parameters` accept and return boolean flags for project settings,
+  in place of `Advanced`, `Build`, `Check`, `Debug`, `Options` and `Warn`
+  bit-encoded integers.
+
+
+What's New in 2.5
+=================
+
+2.5.1
+-----
+
+* :class:`~.mhi.pscad.utilities.mail.Mail` methods
+
+  * take lists for `recipients` and `attachments`,
+  * automatically resolve attachment filenames to absolute pathnames,
+  * use the log facility instead of printing to the console,
+  * no longer suppress exceptions
+
+2.5.0
+-----
+
+* Added :attr:`~.UserDefnWizard.module` property to :class:`.UserDefnWizard`
+
+
+What's New in 2.4
+=================
+
+2.4.1
+-----
+
+* `PlotType` parameter in :meth:`Project.parameters()`
+  now accepts `"NONE"`, `"OUT"`, `"PSOUT"` and the aliases
+  `"NO"`, `"LEGACY"` and `"ADVANCED"` instead of yes/no options
+  (`0`, `1`, `False`, `True`, `"NO"`, and `"YES"`).
+
+2.4.0
+-----
+
+* `extra_args` option added to :meth:`mhi.pscad.launch()`
+
+
+What's New in 2.3
+=================
+
+2.3.4
+-----
+
+* `mhi.common` dependency updated.
+
+2.3.3
+-----
+
+* Documentation updates.
+* `mhi.common` dependency updated.
+
+2.3.2
+-----
+
+* Minimum number of rows/columns when writing table parameters
+  reduced from 2 to 1.
+* Added :meth:`.Canvas.selection` to retrieve selected components.
+* Added :meth:`.Project.current_canvas` to retrieve currently focused canvas.
+* Support setting Integer/Real parameters with context_type of 'Variable' or
+  'Constant' to variable names.
+
+2.3.1
+-----
+
+* License attribute has been added for `pip show` commands.
+* Added support for reading and writing table parameters, such as the
+  ``datatable`` of the ``master:xy_table`` component.
+
+2.3.0
+-----
+
+* `mhi.pscad.common` has been moved to an external dependency: `mhi.common`.
+* `mhi.pscad.application.*` has been flatten to `mhi.pscad.*`.
+
+
+What's New in 2.2
+=================
+
+2.2.2
+-----
+
+* Fixed :meth:`.Project.settings` to accept full range of values for bitmask
+  parameters (``Advanced``, ``Build``, ``Check``, ``Debug``, and ``Options``)
+  and not return or accept removed parameters.
+
+* Fixed :meth:`.Canvas.settings` to no longer accept or return removed parameters.
+  Added missing documentation.
+
+2.2.1
+-----
+
+* New Classes & Methods
+
+  :meth:`.PSCAD.substitute`
+  :attr:`.PSCAD.workspace_dir`
+  :attr:`.PSCAD.workspace_name`
+  :attr:`.PSCAD.workspace_path`
+
+2.2.0
+-----
+
+* New Classes & Methods
+
+  :class:`.UserDefnWizard`
+  :class:`.GfxCanvas`
+  :meth:`.Definition.graphics`
+  :attr:`.Definition.script`
+
+
+What's New in 2.1
+=================
+
+2.1.1
+-----
+
+* New Classes & Methods
+
+  :meth:`.PSCAD.release_all_certificates`
+  :meth:`.PlotFrame.create_curve`
+  :meth:`.PlotFrame.create_curves`
+  :class:`.Oscilloscope`
+  :class:`.PhasorMeter`
+  :class:`.PolyMeter`
+
+2.1.0
+-----
+
+Summary
+-------
+
+* New namespace
+
+  :mod:`mhi.pscad` replaces `mhrc.automation`
+
+* Embedding of Python inside PSCAD
+
+  * An external Python environment is no longer required.
+
+    Python scripts may be executed from within the PSCAD application itself.
+    External execution of scripts remains supported,
+    and remains essential for debugging.
+
+* Communication with PSCAD is no longer using XML fragments
+
+  * Commands returning XML fragments as results have been removed
+
+Deprecations
+------------
+
+* The `Workspace`, `KeyStroke` and `Mouse` proxies have been removed;
+  and their methods moved into the :class:`PSCAD <reference/PSCAD>` class.
+
+* All commands which returned XML fragments from the communication protocol
+  between PSCAD and the Automation Library have been removed,
+  since that communication protocol has been replaced.

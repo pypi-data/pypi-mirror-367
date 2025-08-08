@@ -1,0 +1,1751 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The PSCAD Application &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/pscad';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Projects" href="project.html" />
+    <link rel="prev" title="Connection Methods" href="launching.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The PSCAD Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.PSCAD"><code class="docutils literal notranslate"><span class="pre">PSCAD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#application-settings">Application Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-flags">Application Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.version"><code class="docutils literal notranslate"><span class="pre">PSCAD.version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.examples_folder"><code class="docutils literal notranslate"><span class="pre">PSCAD.examples_folder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.is_busy"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_busy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#licensing">Licensing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#certificate">Certificate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#legacy">Legacy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#workspace-commands">Workspace Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.new_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.new_workspace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.save_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.save_workspace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.workspace_dir"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.workspace_name"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.workspace_path"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.is_dirty"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_dirty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.load"><code class="docutils literal notranslate"><span class="pre">PSCAD.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.projects"><code class="docutils literal notranslate"><span class="pre">PSCAD.projects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.project_names"><code class="docutils literal notranslate"><span class="pre">PSCAD.project_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.cases"><code class="docutils literal notranslate"><span class="pre">PSCAD.cases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.libraries"><code class="docutils literal notranslate"><span class="pre">PSCAD.libraries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.project"><code class="docutils literal notranslate"><span class="pre">PSCAD.project()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.create_library"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_library()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.create_case"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_case()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-run-commands">Build &amp; Run Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.build_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.build_modified"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_modified()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.build_current"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_current()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.pause_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.pause_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.stop_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.stop_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.clean_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.clean_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-sets">Simulation Sets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.create_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_simulation_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.remove_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.remove_simulation_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.run_all_simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.run_all_simulation_sets()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-grid">Parameter Grid</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.parameter_grid"><code class="docutils literal notranslate"><span class="pre">PSCAD.parameter_grid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_cases"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_cases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_libraries"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_libraries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_sets"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_tasks"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_tasks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_overrides"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_overrides()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_layers"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_layers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.save"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.parameter_grid.ParameterGrid.load"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#search-results">Search Results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.search_results"><code class="docutils literal notranslate"><span class="pre">PSCAD.search_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#navigation">Navigation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.navigate"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.navigate_to"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_to()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.navigate_up"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_up()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.navigate_dismiss"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_dismiss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.focused"><code class="docutils literal notranslate"><span class="pre">PSCAD.focused()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#subscriptions">Subscriptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.subscriptions"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscriptions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.subscribed"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.subscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.unsubscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.unsubscribe_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.subscription"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscription()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#keys-mouse">Keys &amp; Mouse</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#keystroke-events">Keystroke Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mouse-events">Mouse Events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#termination">Termination</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.PSCAD.quit"><code class="docutils literal notranslate"><span class="pre">PSCAD.quit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="launching.html"
+                          title="previous chapter">Connection Methods</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="project.html"
+                          title="next chapter">Projects</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The PSCAD Application</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="the-pscad-application">
+<h1>The PSCAD Application<a class="headerlink" href="#the-pscad-application" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">PSCAD</span></span><a class="headerlink" href="#mhi.pscad.PSCAD" title="Link to this definition">#</a></dt>
+<dd><p>The PSCAD Application</p>
+<p>This proxy is used to communicate with a running PSCAD Application,
+and may only be created via one of the following methods:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="launching.html#mhi.pscad.launch" title="mhi.pscad.launch"><code class="xref py py-func docutils literal notranslate"><span class="pre">mhi.pscad.launch()</span></code></a></p></li>
+<li><p><a class="reference internal" href="launching.html#mhi.pscad.connect" title="mhi.pscad.connect"><code class="xref py py-func docutils literal notranslate"><span class="pre">mhi.pscad.connect()</span></code></a></p></li>
+<li><p><a class="reference internal" href="launching.html#mhi.pscad.application" title="mhi.pscad.application"><code class="xref py py-func docutils literal notranslate"><span class="pre">mhi.pscad.application()</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
+<section id="application-settings">
+<h3>Application Settings<a class="headerlink" href="#application-settings" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.settings">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.settings" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Set or retrieve PSCAD’s settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<em>dict</em>) – A dictionary of setting key-values pairs</p></li>
+<li><p><strong>**kwargs</strong> – individual setting key-value pairs</p></li>
+</ul>
+</dd>
+</dl>
+<p>If called without providing any key-value pairs, the current settings
+are returned.  Otherwise, the given key-value pairs are set in the
+application’s settings.</p>
+<p>Any unknown keys are silently ignored.  The effect of setting an known
+key to an invalid value is undefined.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.setting_range">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">setting_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.setting_range" title="Link to this definition">#</a></dt>
+<dd><p>Get legal values for a setting.</p>
+<p>The function may return:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span></code>, or a <code class="docutils literal notranslate"><span class="pre">frozenset</span></code> of legal values,</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">range()</span></code> of legal values (integer settings),</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">Tuple[float,</span> <span class="pre">float]</span></code> representing minimum and maximum values             (real &amp; complex settings),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> if the setting does not have a defined range</p></li>
+<li><p>an exception if no such setting exists</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>setting</strong> (<em>str</em>) – A PSCAD setting name</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The valid values or range the setting may take on.</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;agent_show&#39;</span><span class="p">)</span>
+<span class="go">(False, True)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;autosave_interval&#39;</span><span class="p">)</span>
+<span class="go">{&#39;15_MINUTES&#39;, &#39;1_HOUR&#39;, &#39;NO_ACTION&#39;, &#39;5_MINUTES&#39;}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;SocketPortBase&#39;</span><span class="p">)</span>
+<span class="go">range(30000, 40000, 1000)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;backup_folder&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;python_version&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="gr">ValueError</span>: <span class="n">No such setting</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="application-flags">
+<h3>Application Flags<a class="headerlink" href="#application-flags" title="Link to this heading">#</a></h3>
+<p>The following flags are supported:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 15.8%" />
+<col style="width: 84.2%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>silence</p></td>
+<td><p>Suppress popup dialogs which may interfere with automation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>load-meta-files</p></td>
+<td><p>Controls loading of additional project state information, such as build messages from a previous session.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.flags">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">flags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.flags" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Retrieve or set application flags</p>
+<p>If no flags are given, the value of all flags is returned.
+Otherwise, the specified flags are set or cleared.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> (<em>dict</em>) – The flags to set or clear (optional).</p></li>
+<li><p><strong>**kwargs</strong> – Flags to set or clear as key=value pairs (optional)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pscad</span><span class="o">.</span><span class="n">flags</span><span class="p">({</span><span class="s2">&quot;silence&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;load-meta-files&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">pscad</span><span class="o">.</span><span class="n">flags</span><span class="p">(</span><span class="n">silence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">load_meta_files</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.substitute">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">substitute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.substitute" title="Link to this definition">#</a></dt>
+<dd><p>Substitute PSCAD workspace and environment variables in the given
+string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The string with known variables substituted.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="s1">&#39;Running PSCAD version $(Version)&#39;</span><span class="p">)</span>
+<span class="go">&#39;Running PSCAD version 5.0&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.version">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.version" title="Link to this definition">#</a></dt>
+<dd><p>The PSCAD version string. (Read-only)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.examples_folder">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">examples_folder</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.examples_folder" title="Link to this definition">#</a></dt>
+<dd><p>The PSCAD “Examples Directory”. (Read-only)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.is_busy">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">is_busy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.is_busy" title="Link to this definition">#</a></dt>
+<dd><p>Determine whether the PSCAD application is “busy” or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the application is presently busy, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="licensing">
+<h2>Licensing<a class="headerlink" href="#licensing" title="Link to this heading">#</a></h2>
+<section id="certificate">
+<h3>Certificate<a class="headerlink" href="#certificate" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.login">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remember</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.login" title="Link to this definition">#</a></dt>
+<dd><p>Attempt to log in to a MyCentre account, for licensing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>) – The account’s MyCentre user name</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – The account’s MyCentre password</p></li>
+<li><p><strong>remember</strong> (<em>bool</em>) – Set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to check the “Remember me” checkbox</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.logout">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">logout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.logout" title="Link to this definition">#</a></dt>
+<dd><p>Log out of the MyCentre account</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.logged_in">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">logged_in</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.logged_in" title="Link to this definition">#</a></dt>
+<dd><p>Returns whether or not the user is “Logged in”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the user is logged in, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">logged_in</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.licensed">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">licensed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.licensed" title="Link to this definition">#</a></dt>
+<dd><p>Determine whether a valid license is being held.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the a license is held, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">licensed</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.get_available_certificates">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">get_available_certificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.certificate.Certificate"><span class="pre">Certificate</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.get_available_certificates" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a list of license certificates available to the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of <a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.Certificate"><code class="xref py py-class docutils literal notranslate"><span class="pre">certificates</span></code></a>,
+keyed by <a class="reference internal" href="licensing.html#mhi.pscad.Certificate.id" title="mhi.pscad.Certificate.id"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Certificate.id()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.get_current_certificate">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">get_current_certificate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.certificate.Certificate"><span class="pre">Certificate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.get_current_certificate" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve the Certificate currently being held.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.Certificate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Certificate</span></code></a> being held, or <cite>None</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.get_certificate">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">get_certificate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">certificate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.certificate.Certificate"><span class="pre">Certificate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.get_certificate" title="Link to this definition">#</a></dt>
+<dd><p>Attempt to acquire the given license certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>certificate</strong> – the <a class="reference internal" href="licensing.html#mhi.pscad.Certificate" title="mhi.pscad.Certificate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Certificate</span></code></a> to be acquired.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.release_certificate">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">release_certificate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.release_certificate" title="Link to this definition">#</a></dt>
+<dd><p>Releases the currently held certificate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.release_all_certificates">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">release_all_certificates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.release_all_certificates" title="Link to this definition">#</a></dt>
+<dd><p>Releases all currently held certificates.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.set_license_host">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">set_license_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.set_license_host" title="Link to this definition">#</a></dt>
+<dd><p>Set license host</p>
+</dd></dl>
+
+</section>
+<section id="legacy">
+<h3>Legacy<a class="headerlink" href="#legacy" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.activate_edu_license">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">activate_edu_license</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.activate_edu_license" title="Link to this definition">#</a></dt>
+<dd><p>Activate Educational Legacy License</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.activate_pro_license">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">activate_pro_license</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.activate_pro_license" title="Link to this definition">#</a></dt>
+<dd><p>Activate Professional Legacy License</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="workspace-commands">
+<h2>Workspace Commands<a class="headerlink" href="#workspace-commands" title="Link to this heading">#</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>These methods used to be under the <code class="docutils literal notranslate"><span class="pre">Workspace</span></code> object</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.new_workspace">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">new_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'~\\Documents\\NewWorkspace.pswx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.new_workspace" title="Link to this definition">#</a></dt>
+<dd><p>Unload the current workspace, and create a new one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – filename of new workspace</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – If provided, the path to the filename is resolved
+relative to this folder.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If popup dialogs are being silenced,
+<strong>all unsaved changes will be unconditionally lost</strong>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Added <code class="docutils literal notranslate"><span class="pre">filename</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">folder</span></code> parameters.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.save_workspace">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">save_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_projects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.save_workspace" title="Link to this definition">#</a></dt>
+<dd><p>Save the current workspace, possibly as a new workspace.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.workspace_dir">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">workspace_dir</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.workspace_dir" title="Link to this definition">#</a></dt>
+<dd><p>Return the current workspace directory</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.workspace_name">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">workspace_name</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.workspace_name" title="Link to this definition">#</a></dt>
+<dd><p>Return the current workspace name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.workspace_path">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">workspace_path</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.workspace_path" title="Link to this definition">#</a></dt>
+<dd><p>Return the current workspace path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.is_dirty">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">is_dirty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.is_dirty" title="Link to this definition">#</a></dt>
+<dd><p>Determine whether the workspace has been modified since the last time
+it was saved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the workspace has unsaved changes, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.load">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.load" title="Link to this definition">#</a></dt>
+<dd><p>Load a workspace, or one or more projects into the current workspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*filenames</strong> (<em>str</em>) – a list of filenames to load.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – If provided, the path to the filenames are resolved
+relative to this folder.</p></li>
+<li><p><strong>handler</strong> – If provided, the given handler is automatically added for                the duration of the load operation.  Defaults to <cite>None</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>If a workspace file (<cite>*.pswx</cite>) is given, it must be the only file.
+Otherwise, more than one library (<cite>*.pslx</cite>) and/or case (<cite>*.pscx</cite>) may
+be given.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;tutorial\vdiv.pscx&#39;</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="n">pscad</span><span class="o">.</span><span class="n">examples_folder</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vdiv</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="s1">&#39;vdiv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vdiv</span><span class="o">.</span><span class="n">parameters</span><span class="p">()[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+<span class="go">&#39;Single Phase Voltage Divider&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the common case of loading a workspace immediately after
+launching PSCAD, it is better to pass that workspace to the
+<a class="reference internal" href="launching.html#mhi.pscad.launch" title="mhi.pscad.launch"><code class="xref py py-meth docutils literal notranslate"><span class="pre">launch()</span></code></a> command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pscad</span> <span class="pre">=</span> <span class="pre">mhi.pscad.launch(load=r'c:\path\to\workspace.pswx')</span></code></p>
+<p>This avoids restoring a previous workspace, which then must be
+unloaded prior to loading the desired one.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Added <code class="docutils literal notranslate"><span class="pre">folder</span></code> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.projects">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">projects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.projects" title="Link to this definition">#</a></dt>
+<dd><p>List all currently loaded libraries and cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code> and <code class="docutils literal notranslate"><span class="pre">description</span></code> of each
+project in the workspace.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[dict]</p>
+</dd>
+</dl>
+<p>With only the master library loaded:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">projects</span><span class="p">()</span>
+<span class="go">[{&#39;name&#39;: &#39;master&#39;, &#39;type&#39;: &#39;Library&#39;, &#39;description&#39;: &#39;Master Library&#39;}]</span>
+</pre></div>
+</div>
+<p>Instead of a <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">type</span></code>, and <code class="docutils literal notranslate"><span class="pre">description</span></code> dictionary,
+<a class="reference internal" href="#mhi.pscad.PSCAD.cases" title="mhi.pscad.PSCAD.cases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cases()</span></code></a> may be used to retrieve all the case projects,
+and <a class="reference internal" href="#mhi.pscad.PSCAD.libraries" title="mhi.pscad.PSCAD.libraries"><code class="xref py py-meth docutils literal notranslate"><span class="pre">libraries()</span></code></a> to retrieve all the library projects.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Was <code class="docutils literal notranslate"><span class="pre">PSCAD.list_projects()</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.project_names">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">project_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.project_names" title="Link to this definition">#</a></dt>
+<dd><p>List all currently loaded library and case names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> of each project in the workspace.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<p>With only the master library loaded:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pscad</span><span class="o">.</span><span class="n">project_names</span><span class="p">()</span>
+<span class="go">[&#39;master&#39;]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.cases">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">cases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.cases" title="Link to this definition">#</a></dt>
+<dd><p>List all currently loaded cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of case projects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.Project">Project</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.libraries">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">libraries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.libraries" title="Link to this definition">#</a></dt>
+<dd><p>List all currently loaded libraries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of library projects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.Project">Project</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.project">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.project" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a controller for a named project in the workspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the library or case.                 The directory and filename extension must not be included.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">project</span></code> controller.</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">master</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="s1">&#39;master&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">master</span><span class="o">.</span><span class="n">parameters</span><span class="p">()[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+<span class="go">&#39;Master Library&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.create_library">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">create_library</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.create_library" title="Link to this definition">#</a></dt>
+<dd><p>Create a new library project in the workspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Name or filename of the library.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Folder where library will be stored. (optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created library.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0: </span>Replaces <code class="docutils literal notranslate"><span class="pre">PSCAD.create_project(2,</span> <span class="pre">name,</span> <span class="pre">folder)</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.create_case">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">create_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.create_case" title="Link to this definition">#</a></dt>
+<dd><p>Create a new project case in the workspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Name or filename of the project.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Folder where project will be stored. (optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly created project case.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0: </span>Replaces <code class="docutils literal notranslate"><span class="pre">PSCAD.create_project(1,</span> <span class="pre">name,</span> <span class="pre">folder)</span></code></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="build-run-commands">
+<h2>Build &amp; Run Commands<a class="headerlink" href="#build-run-commands" title="Link to this heading">#</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>These methods used to be under the <code class="docutils literal notranslate"><span class="pre">Workspace</span></code> object</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.build_all">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">build_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.build_all" title="Link to this definition">#</a></dt>
+<dd><p>Build all projects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.build_modified">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">build_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.build_modified" title="Link to this definition">#</a></dt>
+<dd><p>Build any modified projects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.build_current">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">build_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.build_current" title="Link to this definition">#</a></dt>
+<dd><p>Build only the current project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.pause_run">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">pause_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.pause_run" title="Link to this definition">#</a></dt>
+<dd><p>Pause the currently running projects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.stop_run">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">stop_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.stop_run" title="Link to this definition">#</a></dt>
+<dd><p>End the currently running projects.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.clean_all">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">clean_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.clean_all" title="Link to this definition">#</a></dt>
+<dd><p>Remove all temporary files used to build the case.</p>
+</dd></dl>
+
+</section>
+<section id="simulation-sets">
+<h2>Simulation Sets<a class="headerlink" href="#simulation-sets" title="Link to this heading">#</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>These methods used to be under the <code class="docutils literal notranslate"><span class="pre">Workspace</span></code> object</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.simulation_sets">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">simulation_sets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.simulation_sets" title="Link to this definition">#</a></dt>
+<dd><p>List all simulations set names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A names of all simulation sets in the workspace.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Replaces <code class="docutils literal notranslate"><span class="pre">Workspace.list_simulation_sets()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.create_simulation_set">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">create_simulation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet" title="mhi.pscad.simset.SimulationSet"><span class="pre">SimulationSet</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.create_simulation_set" title="Link to this definition">#</a></dt>
+<dd><p>Create a new simulation set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>set_name</strong> (<em>str</em>) – Name of the new simulation set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.simulation_set">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">simulation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet" title="mhi.pscad.simset.SimulationSet"><span class="pre">SimulationSet</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.simulation_set" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a controller proxy for the given simulation set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>set_name</strong> (<em>str</em>) – Name of the simulation set.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The named simulation set.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet" title="mhi.pscad.SimulationSet">SimulationSet</a></p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Replaces <code class="docutils literal notranslate"><span class="pre">Workspace.simulation_set(set_name)</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.remove_simulation_set">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">remove_simulation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.remove_simulation_set" title="Link to this definition">#</a></dt>
+<dd><p>Remove an existing simulation set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>set_name</strong> (<em>str</em>) – Name of the simulation set to remove.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.run_all_simulation_sets">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">run_all_simulation_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.run_all_simulation_sets" title="Link to this definition">#</a></dt>
+<dd><p>Run all simulations sets.</p>
+<p>Any modified projects will be built as necessary.</p>
+</dd></dl>
+
+</section>
+<section id="parameter-grid">
+<h2>Parameter Grid<a class="headerlink" href="#parameter-grid" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.8.1.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.parameter_grid">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">parameter_grid</span></span><a class="headerlink" href="#mhi.pscad.PSCAD.parameter_grid" title="Link to this definition">#</a></dt>
+<dd><p>The Parameter Grid interface object.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load simulations sets into parameter grid, &amp; export the grid to a file</span>
+<span class="n">pscad</span><span class="o">.</span><span class="n">parameter_grid</span><span class="o">.</span><span class="n">view_simulation_sets</span><span class="p">()</span>
+<span class="n">pscad</span><span class="o">.</span><span class="n">parameter_grid</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;sim_sets.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>The following methods are defined on the interface object</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.component.Component"><span class="pre">Component</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.definition.Definition"><span class="pre">Definition</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view" title="Link to this definition">#</a></dt>
+<dd><p>Load subject into the parameter grid.</p>
+<p>The property grid is able to view and modify several components at
+once.</p>
+<p>If the subject is a component or component definition, all of the
+instances of that component are loaded into the parameter grid.</p>
+<p>If the subject is a project, all of the corresponding project types
+(libraries or cases) are loaded into the parameter grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_cases">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_cases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_cases" title="Link to this definition">#</a></dt>
+<dd><p>Load all project cases into the parameter grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_libraries">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_libraries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_libraries" title="Link to this definition">#</a></dt>
+<dd><p>Load all libraries into the parameter grid.</p>
+<p>Note: The ‘master’ library is always omitted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_simulation_sets">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_simulation_sets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_sets" title="Link to this definition">#</a></dt>
+<dd><p>Load all simulation sets into the property grid.</p>
+<p>This allows for viewing / editing multiple simulation sets in the
+workspace at once.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_simulation_tasks">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_simulation_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_tasks" title="Link to this definition">#</a></dt>
+<dd><p>Load all simulation tasks into the property grid.</p>
+<p>This allows for viewing / editing multiple simulation tasks in the
+workspace at once.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_overrides">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_simulation_task_overrides</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_overrides" title="Link to this definition">#</a></dt>
+<dd><p>Load simulation tasks’ project overrides into the property grid.</p>
+<p>This allows for viewing / editing multiple sets of project overrides
+in the workspace at once.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_layers">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">view_simulation_task_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_layers" title="Link to this definition">#</a></dt>
+<dd><p>Load simulation tasks’ layers configurations into the property grid.</p>
+<p>This allows for viewing / editing multiple sets of layers
+configurations in the workspace at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scope</strong> – The project object or a project name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.save">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.save" title="Link to this definition">#</a></dt>
+<dd><p>Write parameter grid to a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file to write.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Directory where the CSV file will be stored (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.parameter_grid.ParameterGrid.load">
+<span class="sig-prename descclassname"><span class="pre">ParameterGrid.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.parameter_grid.ParameterGrid.load" title="Link to this definition">#</a></dt>
+<dd><p>Load parameter grid from a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Filename of the CSV file to read.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Directory to read the CSV file from (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="search-results">
+<h2>Search Results<a class="headerlink" href="#search-results" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.search_results">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">search_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.search_results" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve components in PSCAD’s search result pane</p>
+<p>Presently, only Node Search and Branch Search results are supported.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.navigate">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">navigate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Message</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.navigate" title="Link to this definition">#</a></dt>
+<dd><p>Navigate to a component, highlight it, and show a message next to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> – A message returned from Project.messages()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.navigate_to">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">navigate_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'normal'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.navigate_to" title="Link to this definition">#</a></dt>
+<dd><p>Navigate to a component, highlight it, and show a message next to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scope</strong> (<em>str</em>) – The project component is in.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The canvas the component is on.</p></li>
+<li><p><strong>link</strong> (<em>int</em>) – The component Id number</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Message to display</p></li>
+<li><p><strong>status</strong> (<em>str</em>) – <cite>‘normal’</cite>, <cite>‘warning’</cite>, or <cite>‘error’</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.navigate_up">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">navigate_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.navigate_up" title="Link to this definition">#</a></dt>
+<dd><p>Return to the page which contains the object currently
+being viewed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.navigate_dismiss">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">navigate_dismiss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.navigate_dismiss" title="Link to this definition">#</a></dt>
+<dd><p>Dismiss a popup message shown for a previous navigate command</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.focused">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">focused</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.project.Project"><span class="pre">Project</span></a></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.focused" title="Link to this definition">#</a></dt>
+<dd><p>Return the currently focused project</p>
+</dd></dl>
+
+</section>
+<section id="subscriptions">
+<h2>Subscriptions<a class="headerlink" href="#subscriptions" title="Link to this heading">#</a></h2>
+<p>These methods are used to get asynchronous events from the PSCAD application.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.subscriptions">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">subscriptions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.subscriptions" title="Link to this definition">#</a></dt>
+<dd><p>Returns the set of event-names which can be
+<a class="reference internal" href="#mhi.pscad.PSCAD.subscribe" title="mhi.pscad.PSCAD.subscribe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subscribed</span></code></a> to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Event names which can be subscribed to.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.subscribed">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">subscribed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.subscribed" title="Link to this definition">#</a></dt>
+<dd><p>Determine if the given event is being subscribed to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the given event is subscribed to, <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.subscribe">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">subscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.subscribe" title="Link to this definition">#</a></dt>
+<dd><p>Start receiving <cite>name</cite> events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of event being subscribed to, such as
+<cite>“load-events”</cite> or <cite>“build-events”</cite></p></li>
+<li><p><strong>handler</strong> – Function to call when event is received.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.unsubscribe">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">unsubscribe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.unsubscribe" title="Link to this definition">#</a></dt>
+<dd><p>Stop receiving and processing <cite>name</cite> events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of event being unsubscribed from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.unsubscribe_all">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">unsubscribe_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.unsubscribe_all" title="Link to this definition">#</a></dt>
+<dd><p>Stop receiving all events</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.subscription">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">subscription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.subscription" title="Link to this definition">#</a></dt>
+<dd><p>Subscription context manager</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pscad</span><span class="o">.</span><span class="n">subscription</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+    <span class="c1"># subscription is active in this &quot;with-statement&quot;</span>
+
+<span class="c1"># handler is auto-unsubscribed when &quot;with-statement&quot; exits</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="keys-mouse">
+<h2>Keys &amp; Mouse<a class="headerlink" href="#keys-mouse" title="Link to this heading">#</a></h2>
+<section id="keystroke-events">
+<h3>Keystroke Events<a class="headerlink" href="#keystroke-events" title="Link to this heading">#</a></h3>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>These methods used to be under the <code class="docutils literal notranslate"><span class="pre">KeyStrokes</span></code> object</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.key_down">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">key_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vkcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.key_down" title="Link to this definition">#</a></dt>
+<dd><p>Simulate keyboard key press</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.key_up">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">key_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vkcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.key_up" title="Link to this definition">#</a></dt>
+<dd><p>Simulate keyboard key release</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.stroke">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">stroke</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vkcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.stroke" title="Link to this definition">#</a></dt>
+<dd><p>Simulate keyboard keystroke</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.keystrokes">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">keystrokes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">strokes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.keystrokes" title="Link to this definition">#</a></dt>
+<dd><p>Type a series of strings and/or virtual key strokes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.typing">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">typing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cooked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.typing" title="Link to this definition">#</a></dt>
+<dd><p>Send a series of keystrokes to type in the application.</p>
+<p>Since pressing and holding certain keys will change the meaning of other
+keypresses, modifier prefixes are used to indicate which keys must be
+pressed and released around another key: ‘!’ is for SHIFT, ‘&#64;’ is
+for ALT, and ‘#’ is for CTRL.</p>
+<p>By default, this method will “cook” strings, adding the appropriate
+modifiers to turn a character into a series of modified keypress.
+If <cite>cooked=True</cite> is specified, the given string must already contain
+the required modifiers.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Raw</p></th>
+<th class="head"><p>Cooked</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>He said, ‘How &amp; why?’</p></td>
+<td><p>!he said, ‘!how !7 why!/’</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+</section>
+<section id="mouse-events">
+<h3>Mouse Events<a class="headerlink" href="#mouse-events" title="Link to this heading">#</a></h3>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>These methods used to be under the <code class="docutils literal notranslate"><span class="pre">MouseEvents</span></code> object</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.move">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.move" title="Link to this definition">#</a></dt>
+<dd><p>Simulate mouse movement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.leftdown">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">leftdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.leftdown" title="Link to this definition">#</a></dt>
+<dd><p>Simulate left mouse button press</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.leftup">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">leftup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.leftup" title="Link to this definition">#</a></dt>
+<dd><p>Simulate left mouse button release</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.leftclick">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">leftclick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.leftclick" title="Link to this definition">#</a></dt>
+<dd><p>Simulate left mouse button click</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.middledown">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">middledown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.middledown" title="Link to this definition">#</a></dt>
+<dd><p>Simulate middle mouse button press</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.middleup">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">middleup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.middleup" title="Link to this definition">#</a></dt>
+<dd><p>Simulate middle mouse button release</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.middleclick">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">middleclick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.middleclick" title="Link to this definition">#</a></dt>
+<dd><p>Simulate middle mouse button click</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.rightdown">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">rightdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.rightdown" title="Link to this definition">#</a></dt>
+<dd><p>Simulate right mouse button press</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.rightup">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">rightup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.rightup" title="Link to this definition">#</a></dt>
+<dd><p>Simulate right mouse button release</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.rightclick">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">rightclick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.rightclick" title="Link to this definition">#</a></dt>
+<dd><p>Simulate right mouse button click</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.wheel">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">wheel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.PSCAD.wheel" title="Link to this definition">#</a></dt>
+<dd><p>Simulate mouse scroll wheel movement</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="termination">
+<h2>Termination<a class="headerlink" href="#termination" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.PSCAD.quit">
+<span class="sig-prename descclassname"><span class="pre">PSCAD.</span></span><span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.PSCAD.quit" title="Link to this definition">#</a></dt>
+<dd><p>Terminate the remote application.</p>
+<p>Note: The local side of the socket connection to the remote
+application may not be closed.  The client is responsible
+for explicitly closing the connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">application</span><span class="o">.</span><span class="n">close_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>or by using a context manager:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="o">...</span> <span class="k">as</span> <span class="n">application</span><span class="p">:</span>
+    <span class="c1"># interact with the application</span>
+    <span class="c1">#</span>
+    <span class="c1"># application.close_connection() is automatically called</span>
+    <span class="c1"># when the `with` statement block exits.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="launching.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Connection Methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="project.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Projects</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD"><code class="docutils literal notranslate"><span class="pre">PSCAD</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-settings">Application Settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.settings"><code class="docutils literal notranslate"><span class="pre">PSCAD.settings()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.setting_range"><code class="docutils literal notranslate"><span class="pre">PSCAD.setting_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-flags">Application Flags</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.flags"><code class="docutils literal notranslate"><span class="pre">PSCAD.flags()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.substitute"><code class="docutils literal notranslate"><span class="pre">PSCAD.substitute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.version"><code class="docutils literal notranslate"><span class="pre">PSCAD.version</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.examples_folder"><code class="docutils literal notranslate"><span class="pre">PSCAD.examples_folder</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.is_busy"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_busy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#licensing">Licensing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#certificate">Certificate</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.login"><code class="docutils literal notranslate"><span class="pre">PSCAD.login()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.logout"><code class="docutils literal notranslate"><span class="pre">PSCAD.logout()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.logged_in"><code class="docutils literal notranslate"><span class="pre">PSCAD.logged_in()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.licensed"><code class="docutils literal notranslate"><span class="pre">PSCAD.licensed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.get_available_certificates"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_available_certificates()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.get_current_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_current_certificate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.get_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_certificate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.release_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.release_certificate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.release_all_certificates"><code class="docutils literal notranslate"><span class="pre">PSCAD.release_all_certificates()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.set_license_host"><code class="docutils literal notranslate"><span class="pre">PSCAD.set_license_host()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy">Legacy</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.activate_edu_license"><code class="docutils literal notranslate"><span class="pre">PSCAD.activate_edu_license()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.activate_pro_license"><code class="docutils literal notranslate"><span class="pre">PSCAD.activate_pro_license()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workspace-commands">Workspace Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.new_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.new_workspace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.save_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.save_workspace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.workspace_dir"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_dir</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.workspace_name"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.workspace_path"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.is_dirty"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_dirty()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.load"><code class="docutils literal notranslate"><span class="pre">PSCAD.load()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.projects"><code class="docutils literal notranslate"><span class="pre">PSCAD.projects()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.project_names"><code class="docutils literal notranslate"><span class="pre">PSCAD.project_names()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.cases"><code class="docutils literal notranslate"><span class="pre">PSCAD.cases()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.libraries"><code class="docutils literal notranslate"><span class="pre">PSCAD.libraries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.project"><code class="docutils literal notranslate"><span class="pre">PSCAD.project()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.create_library"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_library()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.create_case"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_case()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-run-commands">Build &amp; Run Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.build_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.build_modified"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_modified()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.build_current"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_current()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.pause_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.pause_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.stop_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.stop_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.clean_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.clean_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-sets">Simulation Sets</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_sets()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.create_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_simulation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.remove_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.remove_simulation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.run_all_simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.run_all_simulation_sets()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-grid">Parameter Grid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.parameter_grid"><code class="docutils literal notranslate"><span class="pre">PSCAD.parameter_grid</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_cases"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_cases()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_libraries"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_libraries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_sets"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_sets()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_tasks"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_tasks()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_overrides"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_overrides()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_layers"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_layers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.save"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.parameter_grid.ParameterGrid.load"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-results">Search Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.search_results"><code class="docutils literal notranslate"><span class="pre">PSCAD.search_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.navigate"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.navigate_to"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_to()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.navigate_up"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_up()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.navigate_dismiss"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_dismiss()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.focused"><code class="docutils literal notranslate"><span class="pre">PSCAD.focused()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subscriptions">Subscriptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.subscriptions"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscriptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.subscribed"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.subscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.unsubscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.unsubscribe_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.subscription"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscription()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keys-mouse">Keys &amp; Mouse</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keystroke-events">Keystroke Events</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.key_down"><code class="docutils literal notranslate"><span class="pre">PSCAD.key_down()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.key_up"><code class="docutils literal notranslate"><span class="pre">PSCAD.key_up()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.stroke"><code class="docutils literal notranslate"><span class="pre">PSCAD.stroke()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.keystrokes"><code class="docutils literal notranslate"><span class="pre">PSCAD.keystrokes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.typing"><code class="docutils literal notranslate"><span class="pre">PSCAD.typing()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mouse-events">Mouse Events</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.move"><code class="docutils literal notranslate"><span class="pre">PSCAD.move()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.leftdown"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftdown()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.leftup"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.leftclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftclick()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.middledown"><code class="docutils literal notranslate"><span class="pre">PSCAD.middledown()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.middleup"><code class="docutils literal notranslate"><span class="pre">PSCAD.middleup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.middleclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.middleclick()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.rightdown"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightdown()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.rightup"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.rightclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightclick()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.wheel"><code class="docutils literal notranslate"><span class="pre">PSCAD.wheel()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#termination">Termination</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.PSCAD.quit"><code class="docutils literal notranslate"><span class="pre">PSCAD.quit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/pscad.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

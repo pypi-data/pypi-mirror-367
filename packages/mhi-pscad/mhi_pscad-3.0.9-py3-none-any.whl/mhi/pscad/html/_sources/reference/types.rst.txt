@@ -1,0 +1,124 @@
+.. testsetup::
+
+    from mhi.pscad.types import Point, Rect
+
+#########
+Types
+#########
+
+.. py:currentmodule:: mhi.pscad.types
+
+Point
+=====
+
+.. autoclass:: Point
+
+    .. automethod:: distance
+
+    .. py:property:: x
+        :type: int
+
+        x coordinate of point on canvas
+
+    .. py:property:: y
+        :type: int
+
+        y coordinate of point on canvas
+
+
+Port
+====
+
+.. autoclass::  mhi.pscad.types.Port
+
+    .. py:property:: x
+        :type: int
+
+        x coordinate of the port
+
+    .. py:property:: y
+        :type: int
+
+        y coordinate of the port
+
+    .. autoproperty:: location
+
+    .. py:property:: name
+        :type: str
+
+        name of the port
+
+    .. py:property:: dim
+        :type: int
+
+        dimension of the port (0 = conforming)
+
+    .. py:property:: type
+        :type: NodeType
+
+        type of node (ELECTRICAL, INPUT, OUTPUT)
+
+    .. py:property:: electrical
+        :type: Electrical
+
+        type of electrical nodes (FIXED, REMOVABLE, SWITCHED, GROUND)
+
+    .. py:property:: signal
+        :type: Signal
+
+        type for data (non-electrical) nodes (LOGICAL, INTEGER, REAL, COMPLEX)
+
+
+Any Point
+=========
+
+.. class:: AnyPoint
+
+   Either a :class:`Point`, a :class:`Port`, or a ``Tuple[int, int]``
+
+Rect
+====
+
+.. autoclass:: Rect
+
+    .. automethod:: from_mid
+
+    .. py:property:: left
+        :type: int
+
+        Left bound
+
+    .. py:property:: top
+        :type: int
+
+        Top bound
+
+    .. py:property:: right
+        :type: int
+
+        Right bound
+
+    .. py:property:: bottom
+        :type: int
+
+        Bottom bound
+
+    .. autoproperty:: width
+    .. autoproperty:: height
+    .. autoproperty:: mid
+
+Enums
+=====
+
+.. autointenum:: mhi.pscad.types.NodeType()
+.. autointenum:: mhi.pscad.types.Electrical()
+.. autointenum:: mhi.pscad.types.Signal()
+.. autointenum:: mhi.pscad.types.Align()
+.. autointenum:: mhi.pscad.types.Side()
+.. autointenum:: mhi.pscad.types.LineStyle()
+.. autointenum:: mhi.pscad.types.FillStyle()
+.. autointenum:: mhi.pscad.types.ProjectType()
+.. autointenum:: mhi.pscad.types.LookIn()
+.. autointenum:: mhi.pscad.types.ContentType()
+.. autointenum:: mhi.pscad.types.HelpMode()
+.. autointenum:: mhi.pscad.types.Intent()

@@ -1,0 +1,617 @@
+========
+Tutorial
+========
+
+------------
+Requirements
+------------
+
+Applications
+============
+
+The PSCAD Automation Library requires that the following tools are installed:
+
+* PSCAD (such as PSCAD 5.0)
+
+* Python 3.x (such as Python 3.12.4)
+
+  * PIP - Python's package manager (included with Python 3.7 and later)
+  * PyWin32 - Python extensions for Microsoft Windows
+
+Installation of the above programs is beyond the scope of this tutorial.
+
+
+Automation Library
+==================
+
+You can check which version of the PSCAD Automation Library is installed by executing::
+
+	py -m mhi.pscad
+
+If multiple versions of Python have been installed, each installation could have its
+own copy of the Automation Library, so you may need to specify the Python version being queried::
+
+	py -3.7 -m mhi.pscad
+
+PSCAD's "Update Client" will automatically install the Automation Library
+into the latest Python 3.x installation.
+If you wish to add the Automation Library to a different Python 3.x installation,
+you could execute a ``PIP install`` command similar to the following
+from the ``C:\Users\Public\Documents\Manitoba Hydro International\Python\Packages`` directory:
+
+.. parsed-literal::
+
+    py -3.7 -m pip install mhi_pscad-|release|-py3-none-any.whl
+
+If the the Python Package Index (https://pypi.org/) is not blocked by firewall rules,
+the latest version of the Automation Library may be installed with::
+
+	py -m pip install --upgrade mhi.pscad
+
+.. note::
+
+	Beginning with PSCAD 5.1, the "Update Python Library" on the "Tools" ribbon
+	may be used to install or update the Automation Library.
+
+--------------------------
+My First Automation Script
+--------------------------
+
+Running the Tutorial
+====================
+
+The following :download:`script <step-00.py>` is the "simplest" PSCAD
+automation script that does something useful.
+It:
+
+* launches PSCAD,
+* loads the "Tutorial" workspace,
+* runs all simulation sets in the "Tutorial" workspace, and
+* quits PSCAD.
+
+To keep this first example simple, no error checking of any kind is done.
+Also, no feedback from the simulation is retrieved for the same reason.
+
+.. literalinclude:: step-00.py
+
+Many assumptions are being made here.
+
+#.	PSCAD 5.0 or later is installed.
+#.	Certificate licensing is used, and a license certificate can be automatically acquired.
+
+	Ensure "Retain certificate" is selected under "Certificate Licensing ➭ Termination Behaviour"
+	and ensure you hold a valid certificate when you exit PSCAD before running the above script.
+
+#.	The "Public Documents" directory is located at ``C:\\Users\\Public\\Documents``.
+#.	PSCAD 5.1.0 Examples are installed.
+
+If the last two assumptions are not correct, the script will fail.
+Don't worry; this will be corrected in the next step.
+
+Finding the Tutorial
+====================
+
+We can relax the last restriction by retrieving the location of "Examples" directory
+from PSCAD, and retrieving the "Tutorial" workspace relative to that.
+Doing so will allow the scripts in this tutorial to be downloaded and executed
+without modification by the reader.
+
+First, add ``import os`` above the other imports
+so we can use the ``os.path.join()`` function.
+Then, before the ``pscad.load()`` statement,
+retrieve the ``examples_folder`` from PSCAD,
+and then append ``tutorial`` to that folder to get the tutorial folder path.
+Finally, change the ``pscad.load()`` statement to load ``"Tutorial.pscx"``,
+but with a ``folder=tutorial_folder`` option:
+
+.. literalinclude:: step-01.py
+	:start-at: # Locate the tutorial
+	:end-at: pscad.load
+
+.. only:: builder_html
+
+See :download:`the resulting script <step-01.py>`.
+
+Logging
+=======
+
+Add ``import logging`` to the list of script's imports,
+and add the ``logging.basicConfig`` statement below:
+
+.. literalinclude:: step-02.py
+	:start-at: basicConfig
+	:end-at: format
+
+If you now run the :download:`script <step-02.py>`,
+you should see something similar to following output.
+The paths, port numbers, and process ID's may be different:
+
+.. literalinclude:: step-02.out
+
+In the next steps, we’ll be adding additional logging to our script.
+The logging already built into the Automation Library can be squelched to warnings and above,
+so it is easier to see our own log messages.
+After the ``logging.basicConfig( … )`` line, add the following:
+
+.. literalinclude:: step-03.py
+	:start-at: Ignore INFO msgs
+	:end-at: getLogger('main')
+
+Next, add logging lines to print out the location of the "tutorial" directory::
+
+	LOG.info("Tutorial directory: %s", tutorial_dir)
+
+If you now run the :download:`script <step-03.py>`,
+you should see something similar to following output.
+Again, the path may be different, which is of course the whole point of this exercise:
+
+.. literalinclude:: step-03.out
+
+
+Error Handling
+==============
+
+If the Automation Library cannot launch PSCAD,
+it will log the reason why to the console and return the value ``None``.
+Other problems may be signalled by an “Exception” being raised.
+A well behaved script must catch these exceptions, and properly clean up.
+This cleanup should include closing PSCAD.
+
+Replace the commands following the launch of PSCAD with the following,
+to create a more fault-tolerant :download:`script <step-04.py>`:
+
+.. literalinclude:: step-04.py
+	:start-at: if pscad
+	:end-at: Failed to launch PSCAD
+
+Whether or not an exception occurs during the loading of the workspace
+or running all simulation sets, due to the ``try: ... finally: ...`` block,
+PSCAD will always be terminated before the script terminates.
+
+
+Launch Options
+==============
+
+Minimize PSCAD
+--------------
+
+When PSCAD is started, it normally opens the PSCAD window.
+During automation, it is sometimes desirable to launch PSCAD with its window
+“minimized”, reducing the amount “screen flickering”,
+as well as the chance a stray mouse click could “poison” a running automation.
+
+Add ``minimized=True`` to the ``launch()`` call:
+
+.. literalinclude:: step-05.py
+	:start-at: Launch PSCAD
+	:end-at: minimize=True
+
+Run this new :download:`script <step-05.py>`.
+You should still see log messages in the Python Shell, and PSCAD appear in the Task Bar,
+but no PSCAD window should open.
+
+.. .. note::
+
+	PSCAD remembers where it is on the screen, including whether or not it is “maximized”.
+	When it is launched, it restores itself to that position and, if required, maximized state.
+	The Automation Library cannot override the remembered “maximized” state.
+	If PSCAD remembers that it was last “maximized”, it will maximize itself,
+	regardless of whether it was launched in a “minimized” state by the Automation Library.
+	Manually launching PSCAD, de-maximizing it, and quitting it will fix this issue.
+
+
+PSCAD Version
+-------------
+
+The :meth:`~mhi.pscad.launch()` method does a bit of work behind the scenes.
+If more than one version of PSCAD is installed, it tries to pick the best version to run.
+"Best" in this context means:
+
+* not a "Beta" version
+* not a 4.x version
+* not a 32-bit version, if other choices exist
+* the "lexically largest" version of the choices that remain.
+
+Instead of letting :meth:`.launch` choose the version,
+the script can specify the exact version to use with the
+``version=...`` and/or ``x64=...`` parameters.
+For example, to launch the 64-bit version of PSCAD 5.1.0, use::
+
+	pscad = mhi.pscad.launch(version='5.1.0', x64=True)
+
+The Automation Library may be queried to determine which versions of PSCAD are installed,
+using :func:`mhi.pscad.versions`.
+Replacing the ``launch()`` statement with the following will mimic
+its selection process:
+
+.. literalinclude:: step-06.py
+	:start-at: mhi.pscad.versions()
+	:end-at: mhi.pscad.launch
+
+With the above changes to the :download:`script <step-06.py>`, the output may be:
+
+.. literalinclude:: step-06.out
+
+
+User Profile
+------------
+
+To ensure reliable, repeatable tests, the Automation Library may instruct PSCAD
+to launch using "default settings", ignoring any settings stored in the user profile::
+
+	pscad = mhi.pscad.launch(load_user_profile=False)
+
+Regardless of whether or not default settings are used,
+the :meth:`pscad.settings() <mhi.pscad.PSCAD.settings()>` method
+may be used to change any application settings to the desired value,
+as demonstrated in the next section.
+
+
+PSCAD Settings
+==============
+
+Fortran Version
+---------------
+
+Not every Fortran compiler is compatible with every version of PSCAD.
+As PSCAD evolves, support for some compilers is can be added,
+and support of other compilers may be dropped.
+
+Instead of consulting the ``ProductsList.xml`` file, to determine which compilers are installed,
+and then trying to determine which are supported in some version of PSCAD,
+it is best to directly ask a running instance of PSCAD what Fortran compilers it supports.
+
+After the ``if pscad:`` line, where it is known PSCAD has been successfully launched,
+add the following:
+
+.. literalinclude:: step-06a.py
+	:start-at: # Create a dictionary of new settings to apply
+	:end-at: Fortran versions:
+
+Once we have the list of supported Fortran compilers,
+we can choose the desired one according to some metric:
+
+.. literalinclude:: step-06a.py
+	:start-at: # Skip 'GFortran' compilers
+	:end-at: Selected Fortran version:
+
+Starting at PSCAD 5.1, if an Intel compiler is selected,
+we must also choose the version of Visual Studios to use as a linker (``c_version``)
+if more than one option exists.
+(When only one linker option exists, such as with the GFortran compilers,
+no selection is required.)
+
+.. literalinclude:: step-06a.py
+	:start-at: if pscad.version_number
+	:end-at: pscad.settings(**new_settings)
+
+With the above changes to the :download:`script <step-06a.py>`, the output may be:
+
+.. literalinclude:: step-06a.out
+
+
+Matlab Version
+--------------
+
+In a similar fashion, the PSCAD may be queried for which versions of Matlab are installed and supported.
+Unlike Fortran, Matlab is not required for PSCAD to run, so there may be no versions of Matlab installed.
+
+
+Before the code to apply the new settings, add the following:
+
+.. literalinclude:: step-06b.py
+	:start-at: Get all installed Matlab versions
+	:end-at: Selected Matlab version
+
+With the above changes to the :download:`script <step-06b.py>`, the output may be:
+
+.. literalinclude:: step-06b.out
+
+All Settings
+------------
+
+.. .. include:: <isonum.txt>
+.. .. |vertical-ellipsis|    unicode:: U+022EE .. VERTICAL ELLIPSIS
+
+The following :download:`script <settings.py>` may be used to determine
+what settings exist, and their current values:
+
+.. literalinclude:: settings.py
+
+And produces output similar to:
+
+.. literalinclude:: settings.out
+	:end-at: backup_freq
+	:append: ⋮               ⋮               ⋮               ⋮
+
+
+To change settings from their defaults, pass one or more ``key=value`` arguments
+to the :meth:`pscad.settings() <mhi.pscad.PSCAD.settings()>` method::
+
+	pscad.settings(MaxConcurrentSim=8, LCP_MaxConcurrentExec=8)
+
+Some settings only allow values from a highly restricted set.
+For example, in PSCAD's Application Options, in the "Enviroment" category,
+there is a "Modification Tracking" section with an "Auto-save interval" option.
+At the time of this writing, there are 4 choices for that option.
+This is also known as the ``autosave_interval`` setting.
+From Python, to get the set of valid values for that setting, the
+:meth:`pscad.setting_range(param_name) <.PSCAD.setting_range>` method is useful::
+
+	>>> pscad.setting_range('autosave_interval')
+	{'15_MINUTES', '1_HOUR', 'NO_ACTION', '5_MINUTES'}
+
+.. note::
+
+	All settings are automatically converted to strings before passing to PSCAD.
+	There is no functional difference between ``pscad.settings(MaxConcurrentSim=8)``
+	and ``pscad.settings(MaxConcurrentSim="8")``.
+
+	Internally, PSCAD stores and returns all settings as strings.
+	The PSCAD Automation Library will attempt a 'best effort' conversion of the strings
+	back to the appropriate type.
+	Unfortunately, the PSCAD Automation Library does not have complete knowledge of
+	all PSCAD setting types and their ranges.
+	In the event of an new and unknown parameter type, the PSCAD Automation Library
+	will simply return the value as a string.
+	If a numeric setting is expected, the Python script is responsible for converting
+	the string into a numeric type.
+	Booleans may be returned as ``"true"`` or ``"false"``, without the first letter
+	capitalized; again the Python script must accept responsibility for converting
+	the strings into Python boolean values ``True`` and ``False`` if required.
+
+
+Projects
+========
+
+To run all loaded projects one at a time, we first obtain a list of all projects.
+From this list, we filter out any libraries, which are not runnable.
+Then, for the remaining :class:`~.Project` cases,
+we call the :meth:`Project.run() <.Project.run>` method on each one,
+in succession.
+
+Replace the ``pscad.run_all_simulation_sets()`` line with the following:
+
+.. literalinclude:: step-07.py
+	:start-at: For each tutorial case
+	:end-at: Run '%s' complete
+
+This :download:`script <step-07.py>` would produce:
+
+.. literalinclude:: step-07.out
+
+
+Simulation Sets
+===============
+
+When a workspace contains multiple projects,
+they may be required to run together or in a particular sequence.
+A simulation set is often used to control the collection of projects.
+
+Instead of blindly running all projects in the workspace, or simply all simulation sets,
+we may retrieve the list of simulations sets and run each simulation set individually,
+under the control of our script.
+If no simulation sets are found, we can fall back to running each project separately.
+
+Replace the code we just added, with this code instead:
+
+.. literalinclude:: step-08.py
+	:start-at: # Get the list of simulation sets
+	:end-at: Run '%s' complete
+
+This version of the :download:`script <step-08.py>` runs all projects simultaneously,
+producing the following output:
+
+.. literalinclude:: step-08.out
+
+If, instead of loading ``"Tutorial.pswx"``,
+we only loaded the ``"vdiv.pscx"`` project:
+
+.. literalinclude:: step-09.py
+	:start-at: # Load only the 'voltage divider' project
+	:end-at: "vdiv.pscx"
+
+there are no simulation sets,
+so the ``else:`` path is taken in our :download:`script <step-09.py>`,
+and the ``vdiv`` project is run:
+
+.. literalinclude:: step-09.out
+
+----------------
+Event Monitoring
+----------------
+
+Event Handlers
+==============
+
+The Automation Library will allow you to observe the communications between
+the Automation Library and the PSCAD process.
+
+At the top of the file, add the following “Handler” class:
+
+.. literalinclude:: step-10.py
+	:start-at: class Handler
+	:end-at: pass
+
+Following the successful launch of PSCAD, we can create an instance of our ``Handler`` class,
+and attach it to the PSCAD instance.  After the ``if pscad:``, add the following three lines:
+
+.. literalinclude:: step-10.py
+	:start-at: if pscad
+	:end-at: build-events
+
+
+After downgrading some of the earlier ``LOG.info(...)`` messages to ``LOG.debug(...)`` message,
+if we run this :download:`script <step-10.py>`, we might see:
+
+.. literalinclude:: step-10.out
+
+
+As messages are received from PSCAD, the Automation Library sends the message to each registered handler,
+by calling ``handler.send(msg)``.
+The handler can do pretty much whatever it wants with the message.
+If it consumes the message, and doesn’t want any subsequent handler from seeing it,
+the handler should return ``True``.
+
+After a period of time when no messages have been sent back from PSCAD,
+the Automation Library also sends a blank message to the handler, by calling ``handler.send(None)``.
+This allows the handler a chance to do additional processing.
+For instance, the Automated Test Suite’s ``ProgressHandler`` uses those opportunities
+to send a ``get-run-status`` command to the various projects, in order to track ``% complete``.
+
+
+Removing Handlers
+=================
+
+If the script decides a certain handler is no longer required,
+the script can remove it by calling ``pscad.unsubscribe( eventname )``.
+
+.. literalinclude:: step-11.py
+	:start-at: finally
+	:end-at: pscad.quit()
+
+
+Automatic Removal
+=================
+
+Since the handler is receiving messages from PSCAD,
+it is usually in the best position to determine when a particular process is complete.
+The handler can indicate this to the Automation Library, by returning the special value ``StopIteration``,
+or by raising the ``StopIteration`` exception.
+When this happens, the Automation Library will automatically remove the handler.
+
+For example, the ``Load`` process is complete when a load event is found
+with a ``file-type`` of ``files`` and a ``status`` of ``END``.
+Change the Handler’s ``send()`` method to the following code:
+
+.. literalinclude:: step-12.py
+	:pyobject: Handler.send
+
+When this new :download:`script <step-12.py>` is run, this output results:
+
+.. literalinclude:: step-12.out
+
+The "Not currently subscribed to load-events events" message is generated
+because we are still trying to unsubscribe to "load-events",
+but the handler uninstalled itself.
+
+
+Build Events
+============
+
+Build Events are generated when PSCAD builds and runs cases.
+A build event handler might be installed just before executing the run command,
+and removed just after the run command finished.
+Code to do thing might look like this::
+
+	handler = BuildEventHandler()
+	pscad.subscribe("build-events", handler)
+	project.run()
+	pscad.unsubscribe("build-events")
+
+This is a lot of boiler-plate code.
+As a convenience, the Automation Library will perform the ``subscribe`` and ``unsubscribe`` calls itself,
+if the handler is passed to the ``run( )`` command directly::
+
+	project.run( BuildEventHandler() )
+
+Add an import for ``mhi.pscad.handler``:
+
+.. literalinclude:: step-13.py
+	:start-at: import
+	:end-at: mhi.pscad.handler
+
+Replace the ``Handler`` code from the previous section with the following:
+
+.. literalinclude:: step-13.py
+	:pyobject: BuildEventHandler
+
+Here, we are extending a standard ``BuildEvent`` handler.
+Its ``send()`` method already looks for build event messages, and forwards them to the ``_build_event()`` method,
+as well as looks for  matching ``BEGIN`` and ``END`` messages,
+and returns ``StopIteration`` when the final ``END`` message is found.
+This standard ``BuildEvent`` handler in turn extends an ``AbstractHandler``,
+which implements the required do-nothing ``close()`` method.
+As such, most of the required work has already been done for us.
+We just need to override ``_build_event()``.
+
+Remove the previous ``pscad.subscribe( )`` call,
+and replace the ``project.run()`` call with:
+
+.. literalinclude:: step-13.py
+	:start-at: project.run
+	:end-at: project.run
+
+When this :download:`script <step-13.py>` is run, the following output is produced:
+
+.. literalinclude:: step-13.out
+
+
+Our handler is just displaying the events as they occur.
+It could do more interesting things.
+For instance, when it receives a ``BEGIN`` message, it could record the ``elapsed`` time;
+when it receives a matching ``END`` message,
+it could subtract the ``elapsed`` time from the time it recorded earlier,
+giving the time required for each task:
+
+.. literalinclude:: step-14.py
+	:pyobject: BuildEventHandler
+
+Running this revised :download:`script <step-14.py>` script would produce:
+
+.. literalinclude:: step-14.out
+
+
+The handler can store information collected during the run, that may be accessed afterwards.
+Of course, to do so, you would need to hold onto a reference to the handler::
+
+	handler = BuildEventHandler()
+	project.run( handler )
+	info = handler.get_interesting_data()
+
+
+--------------------
+Build & Run Messages
+--------------------
+
+Build Messages
+==============
+
+When PSCAD builds a project, the build messages are recorded.
+The script can retrieve these build messages.
+
+After the ``project.run(…)`` line, add the following:
+
+.. literalinclude:: step-20.py
+	:start-at: project.run
+	:end-at: msg.status
+
+
+This :download:`script <step-20.py>` would produce:
+
+.. literalinclude:: step-20.out
+	:prepend: ⋮               ⋮               ⋮               ⋮
+	:start-at: Run 'vdiv' complete
+
+Here, we are just extracting the scope, status, and text of the messages.
+Other fields, such as label and component references could also be extracted.
+
+
+Run Messages
+============
+
+After EMTDC has run the project, the run messages may also be retrieved.
+Unlike the build messages, the run messages are returned as an unstructured blob of text.
+
+Immediately after the above code, add the following lines:
+
+.. literalinclude:: step-21.py
+	:start-at: "-"*60
+	:end-at: print(output)
+
+When run, this change to the :download:`script <step-21.py>` adds the run messages to the output:
+
+.. literalinclude:: step-21.out
+	:prepend: ⋮               ⋮               ⋮               ⋮
+	:start-after: Creating EMTDC executable
+

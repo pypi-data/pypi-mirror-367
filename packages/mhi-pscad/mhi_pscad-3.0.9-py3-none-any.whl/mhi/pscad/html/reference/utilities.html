@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Utilities &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/utilities';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Types" href="types.html" />
+    <link rel="prev" title="Component Wizard" href="wizard.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clipboard">Clipboard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.utilities.clipboard.Clipboard"><code class="docutils literal notranslate"><span class="pre">Clipboard</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#file">File</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.utilities.file.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.utilities.file.OutFile"><code class="docutils literal notranslate"><span class="pre">OutFile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mhi.pscad.utilities.mail">Mail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.utilities.mail.Mail"><code class="docutils literal notranslate"><span class="pre">Mail</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mhi.pscad.utilities.word">Word</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.utilities.word.Word"><code class="docutils literal notranslate"><span class="pre">Word</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="wizard.html"
+                          title="previous chapter">Component Wizard</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="types.html"
+                          title="next chapter">Types</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Utilities</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h1>
+<section id="clipboard">
+<h2>Clipboard<a class="headerlink" href="#clipboard" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.clipboard.Clipboard">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.utilities.clipboard.</span></span><span class="sig-name descname"><span class="pre">Clipboard</span></span><a class="headerlink" href="#mhi.pscad.utilities.clipboard.Clipboard" title="Link to this definition">#</a></dt>
+<dd><p>This Clipboard class allows saving Device Independent Bitmaps (DIBs)
+to a file</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.clipboard.Clipboard.getFormatName">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">getFormatName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.clipboard.Clipboard.getFormatName" title="Link to this definition">#</a></dt>
+<dd><p>Convert a format identifier (integer) to a readable name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.clipboard.Clipboard.saveBitmap">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">saveBitmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.clipboard.Clipboard.saveBitmap" title="Link to this definition">#</a></dt>
+<dd><p>Save the clipboard contents as a Device Independent Bitmap (DIB)</p>
+<p>Returns True if successful, or False if the clipboard does not
+contain DIB content.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="file">
+<h2>File<a class="headerlink" href="#file" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.utilities.file.</span></span><span class="sig-name descname"><span class="pre">File</span></span><a class="headerlink" href="#mhi.pscad.utilities.file.File" title="Link to this definition">#</a></dt>
+<dd><p>Useful File utilities</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File.compare_files">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compare_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.File.compare_files" title="Link to this definition">#</a></dt>
+<dd><p>Compares two text files.  Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the contents match.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File.move_files">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">move_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">exts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.File.move_files" title="Link to this definition">#</a></dt>
+<dd><p>Copies files from the source directory to a destination directory.</p>
+<p>The destination directory must not exist; it will be created.
+Only files which match the given extension(s) are copied.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File.copy_files">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">exts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.File.copy_files" title="Link to this definition">#</a></dt>
+<dd><p>Copies files from the source directory to a destination directory.</p>
+<p>Only files matching the given extensions are copied.  If no
+extensions are given, all files are copied.</p>
+<p>If recursive is True, subdirectories are copied.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File.copy_file">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.File.copy_file" title="Link to this definition">#</a></dt>
+<dd><p>Copies a file to the destination directory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.File.convert_out_to_csv">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_out_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.File.convert_out_to_csv" title="Link to this definition">#</a></dt>
+<dd><p>Converts PSCAD output file into a csv file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.utilities.file.</span></span><span class="sig-name descname"><span class="pre">OutFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile" title="Link to this definition">#</a></dt>
+<dd><p>PSCAD Output files utility class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Construct an instance which can manipulate a set of PSCAD output
+files (<code class="docutils literal notranslate"><span class="pre">&lt;basename&gt;.inf</span></code>, &amp; <code class="docutils literal notranslate"><span class="pre">&lt;basename&gt;_##.out</span></code>)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.open" title="Link to this definition">#</a></dt>
+<dd><p>Open all of the internal data files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.close" title="Link to this definition">#</a></dt>
+<dd><p>Close all of the internal data files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.read_values">
+<span class="sig-name descname"><span class="pre">read_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.read_values" title="Link to this definition">#</a></dt>
+<dd><p>Return next row of data, read from all <code class="docutils literal notranslate"><span class="pre">*.out</span></code> data files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.columns">
+<span class="sig-name descname"><span class="pre">columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.columns" title="Link to this definition">#</a></dt>
+<dd><p>All of the columns in the datafile</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.column">
+<span class="sig-name descname"><span class="pre">column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.column" title="Link to this definition">#</a></dt>
+<dd><p>Turn a column name into a number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.column_name">
+<span class="sig-name descname"><span class="pre">column_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.column_name" title="Link to this definition">#</a></dt>
+<dd><p>Turn a column number into a column name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.toCSV">
+<span class="sig-name descname"><span class="pre">toCSV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.toCSV" title="Link to this definition">#</a></dt>
+<dd><p>Convert OutFile into a Comma Separated Value (CSV) file</p>
+<p>If no csv file is specified, defaults to “&lt;basename&gt;.csv”.
+If no column names are specified, defaults to all columns.
+If no start time is given, defaults to start of file.
+If no end time is given, defaults to end of file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.file.OutFile.values_at">
+<span class="sig-name descname"><span class="pre">values_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.utilities.file.OutFile.values_at" title="Link to this definition">#</a></dt>
+<dd><p>Fetch one or more values from a specific moment in time.</p>
+<p>Values from the row in the datafile closest to the given time
+are returned.  If no column names are specified, all columns are
+returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>float</em>) – The desired time to retrieve the column values at</p></li>
+<li><p><strong>columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – the columns to retrieve the values for
+(optional)</p></li>
+<li><p><strong>as_dict</strong> (<em>bool</em>) – Set to true to return a column name=value dictionary
+(optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list or a dictionary of column values, as indicated by <code class="docutils literal notranslate"><span class="pre">as_dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mhi.pscad.utilities.mail">
+<span id="mail"></span><h2>Mail<a class="headerlink" href="#module-mhi.pscad.utilities.mail" title="Link to this heading">#</a></h2>
+<p>E-Mail Helper Utility</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.mail.Mail">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.utilities.mail.</span></span><span class="sig-name descname"><span class="pre">Mail</span></span><a class="headerlink" href="#mhi.pscad.utilities.mail.Mail" title="Link to this definition">#</a></dt>
+<dd><p>E-Mail Helper Utility</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.mail.Mail.send_gmail">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_gmail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.utilities.mail.Mail.send_gmail" title="Link to this definition">#</a></dt>
+<dd><p>Sends a document using a GMail account</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.mail.Mail.send_outlook_mail">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_outlook_mail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.utilities.mail.Mail.send_outlook_mail" title="Link to this definition">#</a></dt>
+<dd><p>Sends a document using a Microsoft Outlook account</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mhi.pscad.utilities.word">
+<span id="word"></span><h2>Word<a class="headerlink" href="#module-mhi.pscad.utilities.word" title="Link to this heading">#</a></h2>
+<p>Microsoft Word Document Helper</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.utilities.word.</span></span><span class="sig-name descname"><span class="pre">Word</span></span><a class="headerlink" href="#mhi.pscad.utilities.word.Word" title="Link to this definition">#</a></dt>
+<dd><p>Microsoft Word Document helper</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.addPageBreak">
+<span class="sig-name descname"><span class="pre">addPageBreak</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.addPageBreak" title="Link to this definition">#</a></dt>
+<dd><p>Adds a Page Break to the current document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.textParagraph">
+<span class="sig-name descname"><span class="pre">textParagraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.textParagraph" title="Link to this definition">#</a></dt>
+<dd><p>Adds a paragraph to the current document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.pasteImage">
+<span class="sig-name descname"><span class="pre">pasteImage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.pasteImage" title="Link to this definition">#</a></dt>
+<dd><p>Adds an image from the clipboard to the current document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.save" title="Link to this definition">#</a></dt>
+<dd><p>Save (and possibly close) the current document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.close" title="Link to this definition">#</a></dt>
+<dd><p>Close the current document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.open_document">
+<span class="sig-name descname"><span class="pre">open_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">document</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.open_document" title="Link to this definition">#</a></dt>
+<dd><p>Opens the given document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.utilities.word.Word.new_document">
+<span class="sig-name descname"><span class="pre">new_document</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.utilities.word.Word.new_document" title="Link to this definition">#</a></dt>
+<dd><p>Creates a new document</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="wizard.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Component Wizard</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="types.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Types</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipboard">Clipboard</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.clipboard.Clipboard"><code class="docutils literal notranslate"><span class="pre">Clipboard</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.clipboard.Clipboard.getFormatName"><code class="docutils literal notranslate"><span class="pre">Clipboard.getFormatName()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.clipboard.Clipboard.saveBitmap"><code class="docutils literal notranslate"><span class="pre">Clipboard.saveBitmap()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file">File</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File.compare_files"><code class="docutils literal notranslate"><span class="pre">File.compare_files()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File.move_files"><code class="docutils literal notranslate"><span class="pre">File.move_files()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File.copy_files"><code class="docutils literal notranslate"><span class="pre">File.copy_files()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File.copy_file"><code class="docutils literal notranslate"><span class="pre">File.copy_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.File.convert_out_to_csv"><code class="docutils literal notranslate"><span class="pre">File.convert_out_to_csv()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile"><code class="docutils literal notranslate"><span class="pre">OutFile</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.__init__"><code class="docutils literal notranslate"><span class="pre">OutFile.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.open"><code class="docutils literal notranslate"><span class="pre">OutFile.open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.close"><code class="docutils literal notranslate"><span class="pre">OutFile.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.read_values"><code class="docutils literal notranslate"><span class="pre">OutFile.read_values()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.columns"><code class="docutils literal notranslate"><span class="pre">OutFile.columns()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.column"><code class="docutils literal notranslate"><span class="pre">OutFile.column()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.column_name"><code class="docutils literal notranslate"><span class="pre">OutFile.column_name()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.toCSV"><code class="docutils literal notranslate"><span class="pre">OutFile.toCSV()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.file.OutFile.values_at"><code class="docutils literal notranslate"><span class="pre">OutFile.values_at()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mhi.pscad.utilities.mail">Mail</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.mail.Mail"><code class="docutils literal notranslate"><span class="pre">Mail</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.mail.Mail.send_gmail"><code class="docutils literal notranslate"><span class="pre">Mail.send_gmail()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.mail.Mail.send_outlook_mail"><code class="docutils literal notranslate"><span class="pre">Mail.send_outlook_mail()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-mhi.pscad.utilities.word">Word</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word"><code class="docutils literal notranslate"><span class="pre">Word</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.addPageBreak"><code class="docutils literal notranslate"><span class="pre">Word.addPageBreak()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.textParagraph"><code class="docutils literal notranslate"><span class="pre">Word.textParagraph()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.pasteImage"><code class="docutils literal notranslate"><span class="pre">Word.pasteImage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.save"><code class="docutils literal notranslate"><span class="pre">Word.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.close"><code class="docutils literal notranslate"><span class="pre">Word.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.open_document"><code class="docutils literal notranslate"><span class="pre">Word.open_document()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.utilities.word.Word.new_document"><code class="docutils literal notranslate"><span class="pre">Word.new_document()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/utilities.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

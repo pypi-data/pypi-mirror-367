@@ -1,0 +1,879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Types &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/types';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unit" href="unit.html" />
+    <link rel="prev" title="Utilities" href="utilities.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#point">Point</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#port">Port</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#any-point">Any Point</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.AnyPoint"><code class="docutils literal notranslate"><span class="pre">AnyPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rect">Rect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Rect"><code class="docutils literal notranslate"><span class="pre">Rect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#enums">Enums</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.NodeType"><code class="docutils literal notranslate"><span class="pre">NodeType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Electrical"><code class="docutils literal notranslate"><span class="pre">Electrical</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Signal"><code class="docutils literal notranslate"><span class="pre">Signal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Align"><code class="docutils literal notranslate"><span class="pre">Align</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Side"><code class="docutils literal notranslate"><span class="pre">Side</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.LineStyle"><code class="docutils literal notranslate"><span class="pre">LineStyle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.FillStyle"><code class="docutils literal notranslate"><span class="pre">FillStyle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.ProjectType"><code class="docutils literal notranslate"><span class="pre">ProjectType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.LookIn"><code class="docutils literal notranslate"><span class="pre">LookIn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.ContentType"><code class="docutils literal notranslate"><span class="pre">ContentType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.HelpMode"><code class="docutils literal notranslate"><span class="pre">HelpMode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.types.Intent"><code class="docutils literal notranslate"><span class="pre">Intent</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="utilities.html"
+                          title="previous chapter">Utilities</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="unit.html"
+                          title="next chapter">Unit</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Types</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="types">
+<h1>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h1>
+<section id="point">
+<h2>Point<a class="headerlink" href="#point" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Point">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.types.Point" title="Link to this definition">#</a></dt>
+<dd><p>Point class that supports Euclidean distance calculation.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="go">Point(x=15, y=27)</span>
+</pre></div>
+</div>
+<p>It also works with tuple coordinates.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+<span class="go">(2, 3)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.9.6: </span>Now support addition, substraction, and calculation of Euclidian
+distance between points.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.types.Point.distance">
+<span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><span class="pre">Point</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#mhi.pscad.types.Point.distance" title="Link to this definition">#</a></dt>
+<dd><p>Measures the Euclidean distance to a given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><em>Point</em></a><em>]</em>) – The point to which the Euclidean distance is measured.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Euclidean Distance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+<span class="go">5.0</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Point.x">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Point.x" title="Link to this definition">#</a></dt>
+<dd><p>x coordinate of point on canvas</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Point.y">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Point.y" title="Link to this definition">#</a></dt>
+<dd><p>y coordinate of point on canvas</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="port">
+<h2>Port<a class="headerlink" href="#port" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.pscad.types.NodeType" title="mhi.pscad.types.NodeType"><span class="pre">NodeType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">electrical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.pscad.types.Electrical" title="mhi.pscad.types.Electrical"><span class="pre">Electrical</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.pscad.types.Signal" title="mhi.pscad.types.Signal"><span class="pre">Signal</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.types.Port" title="Link to this definition">#</a></dt>
+<dd><p>A named Port (input, output, or electrical connection) for a Component</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.x">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Port.x" title="Link to this definition">#</a></dt>
+<dd><p>x coordinate of the port</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.y">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Port.y" title="Link to this definition">#</a></dt>
+<dd><p>y coordinate of the port</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.location">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><span class="pre">Point</span></a></em><a class="headerlink" href="#mhi.pscad.types.Port.location" title="Link to this definition">#</a></dt>
+<dd><p>Location of the Port.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#mhi.pscad.types.Port.name" title="Link to this definition">#</a></dt>
+<dd><p>name of the port</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.dim">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Port.dim" title="Link to this definition">#</a></dt>
+<dd><p>dimension of the port (0 = conforming)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.NodeType" title="mhi.pscad.types.NodeType"><span class="pre">NodeType</span></a></em><a class="headerlink" href="#mhi.pscad.types.Port.type" title="Link to this definition">#</a></dt>
+<dd><p>type of node (ELECTRICAL, INPUT, OUTPUT)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.electrical">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">electrical</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Electrical" title="mhi.pscad.types.Electrical"><span class="pre">Electrical</span></a></em><a class="headerlink" href="#mhi.pscad.types.Port.electrical" title="Link to this definition">#</a></dt>
+<dd><p>type of electrical nodes (FIXED, REMOVABLE, SWITCHED, GROUND)</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Port.signal">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">signal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Signal" title="mhi.pscad.types.Signal"><span class="pre">Signal</span></a></em><a class="headerlink" href="#mhi.pscad.types.Port.signal" title="Link to this definition">#</a></dt>
+<dd><p>type for data (non-electrical) nodes (LOGICAL, INTEGER, REAL, COMPLEX)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="any-point">
+<h2>Any Point<a class="headerlink" href="#any-point" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.AnyPoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">AnyPoint</span></span><a class="headerlink" href="#mhi.pscad.types.AnyPoint" title="Link to this definition">#</a></dt>
+<dd><p>Either a <a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><code class="xref py py-class docutils literal notranslate"><span class="pre">Point</span></code></a>, a <a class="reference internal" href="#mhi.pscad.types.Port" title="mhi.pscad.types.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a>, or a <code class="docutils literal notranslate"><span class="pre">Tuple[int,</span> <span class="pre">int]</span></code></p>
+</dd></dl>
+
+</section>
+<section id="rect">
+<h2>Rect<a class="headerlink" href="#rect" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bottom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.types.Rect" title="Link to this definition">#</a></dt>
+<dd><p>A class to represent rectangles on the canvas that supports mid-point
+calculation.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rect</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rect</span>
+<span class="go">Rect(left=10, top=10, right=20, bottom=20)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rect</span><span class="o">.</span><span class="n">mid</span>
+<span class="go">Point(x=15, y=15)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.from_mid">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mid_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><span class="pre">Point</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect"><span class="pre">Rect</span></a></span></span><a class="headerlink" href="#mhi.pscad.types.Rect.from_mid" title="Link to this definition">#</a></dt>
+<dd><blockquote>
+<div><p>Initializes a rectangle given mid-point, width and height.
+For even <code class="docutils literal notranslate"><span class="pre">w</span></code> and/or <code class="docutils literal notranslate"><span class="pre">h</span></code>, mid-point would not be exactly at the
+centre but closer to top left corner.</p>
+</div></blockquote>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Rect</span><span class="o">.</span><span class="n">from_mid</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">Rect(left=8, top=9, right=13, bottom=12)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.left">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">left</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.left" title="Link to this definition">#</a></dt>
+<dd><p>Left bound</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.top">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.top" title="Link to this definition">#</a></dt>
+<dd><p>Top bound</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.right">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">right</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.right" title="Link to this definition">#</a></dt>
+<dd><p>Right bound</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.bottom">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.bottom" title="Link to this definition">#</a></dt>
+<dd><p>Bottom bound</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.width">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.width" title="Link to this definition">#</a></dt>
+<dd><p>Width of the rectangle</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.height">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#mhi.pscad.types.Rect.height" title="Link to this definition">#</a></dt>
+<dd><p>Height of the rectangle</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.types.Rect.mid">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><span class="pre">Point</span></a></em><a class="headerlink" href="#mhi.pscad.types.Rect.mid" title="Link to this definition">#</a></dt>
+<dd><p>Returns the mid-point of rectangle. For even <code class="docutils literal notranslate"><span class="pre">w</span></code> and/or <code class="docutils literal notranslate"><span class="pre">h</span></code>,
+mid-point would not be exactly at the centre but closer to top left corner.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.NodeType">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">NodeType</span></span><a class="headerlink" href="#mhi.pscad.types.NodeType" title="Link to this definition">#</a></dt>
+<dd><p>Node Input/Output/Electrical Type</p>
+<p><strong>UNKNOWN</strong>: 0</p>
+<p><strong>INPUT</strong>: 1</p>
+<p><strong>OUTPUT</strong>: 2</p>
+<p><strong>ELECTRICAL</strong>: 3</p>
+<p><strong>SHORT</strong>: 4</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Electrical">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Electrical</span></span><a class="headerlink" href="#mhi.pscad.types.Electrical" title="Link to this definition">#</a></dt>
+<dd><p>Electrical Node Types</p>
+<p><strong>FIXED</strong>: 0</p>
+<p><strong>REMOVABLE</strong>: 1</p>
+<p><strong>SWITCHED</strong>: 2</p>
+<p><strong>GROUND</strong>: 3</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Signal">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Signal</span></span><a class="headerlink" href="#mhi.pscad.types.Signal" title="Link to this definition">#</a></dt>
+<dd><p>Data Signal Types</p>
+<p><strong>ELECTRICAL</strong>: 0</p>
+<p><strong>LOGICAL</strong>: 1</p>
+<p><strong>INTEGER</strong>: 2</p>
+<p><strong>REAL</strong>: 3</p>
+<p><strong>COMPLEX</strong>: 4</p>
+<p><strong>UNKNOWN</strong>: 15</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Align">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Align</span></span><a class="headerlink" href="#mhi.pscad.types.Align" title="Link to this definition">#</a></dt>
+<dd><p>Text Alignment</p>
+<p><strong>LEFT</strong>: 0</p>
+<p><strong>CENTER</strong>: 1</p>
+<p><strong>RIGHT</strong>: 2</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Side">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Side</span></span><a class="headerlink" href="#mhi.pscad.types.Side" title="Link to this definition">#</a></dt>
+<dd><p>Annotation Side</p>
+<p><strong>NONE</strong>: 0</p>
+<p><strong>LEFT</strong>: 1</p>
+<p><strong>TOP</strong>: 2</p>
+<p><strong>RIGHT</strong>: 3</p>
+<p><strong>BOTTOM</strong>: 4</p>
+<p><strong>AUTO</strong>: 5</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.LineStyle">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">LineStyle</span></span><a class="headerlink" href="#mhi.pscad.types.LineStyle" title="Link to this definition">#</a></dt>
+<dd><p>Line Styles</p>
+<p><strong>SOLID</strong>: 0</p>
+<p><strong>DASH</strong>: 1</p>
+<p><strong>DOT</strong>: 2</p>
+<p><strong>DASHDOT</strong>: 3</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.FillStyle">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">FillStyle</span></span><a class="headerlink" href="#mhi.pscad.types.FillStyle" title="Link to this definition">#</a></dt>
+<dd><p>Fill Styles</p>
+<p><strong>HOLLOW</strong>: 0</p>
+<p><strong>SOLID</strong>: 1</p>
+<p><strong>BACKWARD_DIAGONAL</strong>: 2</p>
+<p><strong>FORWARD_DIAGONAL</strong>: 3</p>
+<p><strong>CROSS</strong>: 4</p>
+<p><strong>DIAGONAL_CROSS</strong>: 5</p>
+<p><strong>HORIZONTAL</strong>: 6</p>
+<p><strong>VERTICAL</strong>: 7</p>
+<p><strong>GRADIENT_HORZ</strong>: 8</p>
+<p><strong>GRADIENT_VERT</strong>: 9</p>
+<p><strong>GRADIENT_BACK_DIAG</strong>: 10</p>
+<p><strong>GRADIENT_FORE_DIAG</strong>: 11</p>
+<p><strong>GRADIENT_RADIAL</strong>: 12</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.ProjectType">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">ProjectType</span></span><a class="headerlink" href="#mhi.pscad.types.ProjectType" title="Link to this definition">#</a></dt>
+<dd><p>Project Types</p>
+<p><strong>CASE</strong>: 1</p>
+<p><strong>LIBRARY</strong>: 2</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.LookIn">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">LookIn</span></span><a class="headerlink" href="#mhi.pscad.types.LookIn" title="Link to this definition">#</a></dt>
+<dd><p>Look In - for search</p>
+<p><strong>MODULE</strong>: 0</p>
+<p><strong>PROJECT</strong>: 1</p>
+<p><strong>WORKSPACE</strong>: 2</p>
+<p><strong>WORKSPACE_NO_MASTER_LIBRARY</strong>: 3</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.ContentType">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">ContentType</span></span><a class="headerlink" href="#mhi.pscad.types.ContentType" title="Link to this definition">#</a></dt>
+<dd><p>Content type</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+<p><strong>LITERAL</strong>: Literal</p>
+<p><strong>CONSTANT</strong>: Constant</p>
+<p><strong>VARIABLE</strong>: Variable</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.HelpMode">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">HelpMode</span></span><a class="headerlink" href="#mhi.pscad.types.HelpMode" title="Link to this definition">#</a></dt>
+<dd><p>Help mode</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+<p><strong>APPEND</strong>: Append</p>
+<p><strong>OVERWRITE</strong>: Overwrite</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.types.Intent">
+<em class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.types.</span></span><span class="sig-name descname"><span class="pre">Intent</span></span><a class="headerlink" href="#mhi.pscad.types.Intent" title="Link to this definition">#</a></dt>
+<dd><p>Parameter intent</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+<p><strong>INPUT</strong>: Input</p>
+<p><strong>OUTPUT</strong>: Output</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="utilities.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Utilities</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="unit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Unit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point">Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Point.distance"><code class="docutils literal notranslate"><span class="pre">Point.distance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Point.x"><code class="docutils literal notranslate"><span class="pre">Point.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Point.y"><code class="docutils literal notranslate"><span class="pre">Point.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port">Port</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.x"><code class="docutils literal notranslate"><span class="pre">Port.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.y"><code class="docutils literal notranslate"><span class="pre">Port.y</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.location"><code class="docutils literal notranslate"><span class="pre">Port.location</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.name"><code class="docutils literal notranslate"><span class="pre">Port.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.dim"><code class="docutils literal notranslate"><span class="pre">Port.dim</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.type"><code class="docutils literal notranslate"><span class="pre">Port.type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.electrical"><code class="docutils literal notranslate"><span class="pre">Port.electrical</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Port.signal"><code class="docutils literal notranslate"><span class="pre">Port.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#any-point">Any Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.AnyPoint"><code class="docutils literal notranslate"><span class="pre">AnyPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rect">Rect</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect"><code class="docutils literal notranslate"><span class="pre">Rect</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.from_mid"><code class="docutils literal notranslate"><span class="pre">Rect.from_mid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.left"><code class="docutils literal notranslate"><span class="pre">Rect.left</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.top"><code class="docutils literal notranslate"><span class="pre">Rect.top</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.right"><code class="docutils literal notranslate"><span class="pre">Rect.right</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.bottom"><code class="docutils literal notranslate"><span class="pre">Rect.bottom</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.width"><code class="docutils literal notranslate"><span class="pre">Rect.width</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.height"><code class="docutils literal notranslate"><span class="pre">Rect.height</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Rect.mid"><code class="docutils literal notranslate"><span class="pre">Rect.mid</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enums">Enums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.NodeType"><code class="docutils literal notranslate"><span class="pre">NodeType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Electrical"><code class="docutils literal notranslate"><span class="pre">Electrical</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Signal"><code class="docutils literal notranslate"><span class="pre">Signal</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Align"><code class="docutils literal notranslate"><span class="pre">Align</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Side"><code class="docutils literal notranslate"><span class="pre">Side</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.LineStyle"><code class="docutils literal notranslate"><span class="pre">LineStyle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.FillStyle"><code class="docutils literal notranslate"><span class="pre">FillStyle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.ProjectType"><code class="docutils literal notranslate"><span class="pre">ProjectType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.LookIn"><code class="docutils literal notranslate"><span class="pre">LookIn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.ContentType"><code class="docutils literal notranslate"><span class="pre">ContentType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.HelpMode"><code class="docutils literal notranslate"><span class="pre">HelpMode</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.types.Intent"><code class="docutils literal notranslate"><span class="pre">Intent</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/types.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

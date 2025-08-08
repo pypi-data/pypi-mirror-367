@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Remote Objects &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'common/remote';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changes" href="changes.html" />
+    <link rel="prev" title="Process Control" href="process.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MHI Common Library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="codec.html">Coders / Decoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collection.html">Collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path.html">Path Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="process.html">Process Control</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Remote Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#remotable">Remotable</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.remote.Remotable"><code class="docutils literal notranslate"><span class="pre">Remotable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application">Application</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#decorators">Decorators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rmi">&#64;rmi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rmi-property">&#64;rmi_property</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#context">Context</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.remote.Context"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#socket-context">Socket Context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#queue-context">Queue Context</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exceptions">Exceptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.remote.RemoteException"><code class="docutils literal notranslate"><span class="pre">RemoteException</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html">Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="process.html"
+                          title="previous chapter">Process Control</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="changes.html"
+                          title="next chapter">Changes</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">MHI Common Library</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Remote Objects</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-mhi.common.remote">
+<span id="remote-objects"></span><h1>Remote Objects<a class="headerlink" href="#module-mhi.common.remote" title="Link to this heading">#</a></h1>
+<p>Remote method invocation from Python scripts to MHI application entities.</p>
+<section id="remotable">
+<h2>Remotable<a class="headerlink" href="#remotable" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.Remotable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">Remotable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Remotable" title="Link to this definition">#</a></dt>
+<dd><p>Base class for Remote Method Invocation (RMI) enabled objects</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.common.remote.Remotable.main">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">main</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mhi.common.remote.Application" title="mhi.common.remote.Application"><span class="pre">Application</span></a></em><a class="headerlink" href="#mhi.common.remote.Remotable.main" title="Link to this definition">#</a></dt>
+<dd><p>A reference to the <a class="reference internal" href="#mhi.common.remote.Application" title="mhi.common.remote.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code></a> object that returned this
+<code class="docutils literal notranslate"><span class="pre">Remotable</span></code> object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="application">
+<h3>Application<a class="headerlink" href="#application" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.Application">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Application" title="Link to this definition">#</a></dt>
+<dd><p>A Remote Application object.</p>
+<p>This object represents the running application.  It implements the
+“context manager” protocol, allowing a Python script to automatically
+close the communication channel when the application object goes out of
+scope.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.silence">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">silence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#mhi.common.remote.Application.silence" title="Link to this definition">#</a></dt>
+<dd><p>When set to <cite>True</cite>, silence all popup dialogs, using the dialog’s
+“default” action.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.remote.Application.is_alive" title="Link to this definition">#</a></dt>
+<dd><p>Tests whether the application process is still running, and the
+communication socket to the application is still open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> is the application communication channel is open,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.quit">
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.Application.quit" title="Link to this definition">#</a></dt>
+<dd><p>Terminate the remote application.</p>
+<p>Note: The local side of the socket connection to the remote
+application may not be closed.  The client is responsible
+for explicitly closing the connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">application</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">application</span><span class="o">.</span><span class="n">close_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>or by using a context manager:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="o">...</span> <span class="k">as</span> <span class="n">application</span><span class="p">:</span>
+    <span class="c1"># interact with the application</span>
+    <span class="c1">#</span>
+    <span class="c1"># application.close_connection() is automatically called</span>
+    <span class="c1"># when the `with` statement block exits.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.close_connection">
+<span class="sig-name descname"><span class="pre">close_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.Application.close_connection" title="Link to this definition">#</a></dt>
+<dd><p>Terminate connection to remote application.</p>
+<p>Note: The remote application will not be terminated.
+The “silence all dialog and message boxes” flag is cleared.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#mhi.common.remote.Application.version" title="Link to this definition">#</a></dt>
+<dd><p>Application Version</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.minimum_version">
+<span class="sig-name descname"><span class="pre">minimum_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Version</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.remote.Application.minimum_version" title="Link to this definition">#</a></dt>
+<dd><p>Test if the remote application version is the given version or later.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version</strong> (<em>str</em>) – The version number to test against.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">True</span></code> if the remote application version is greater than</dt><dd><p>or equal to <code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.requires">
+<span class="sig-name descname"><span class="pre">requires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Feature'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.Application.requires" title="Link to this definition">#</a></dt>
+<dd><p>Verify the remote application is the given version or later.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code> is raised if the remote application version
+is less than the required version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>version</strong> (<em>str</em>) – The required version number.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.is_embedded">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_embedded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#mhi.common.remote.Application.is_embedded" title="Link to this definition">#</a></dt>
+<dd><p>Return whether an internal Python environment is being used</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.server_address">
+<span class="sig-name descname"><span class="pre">server_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.remote.Application.server_address" title="Link to this definition">#</a></dt>
+<dd><p>Return the host/port address for the application server, which
+may be used to open additional connections to the application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.4.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.secondary_connection">
+<span class="sig-name descname"><span class="pre">secondary_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#mhi.common.remote.Application" title="mhi.common.remote.Application"><span class="pre">Application</span></a></span></span><a class="headerlink" href="#mhi.common.remote.Application.secondary_connection" title="Link to this definition">#</a></dt>
+<dd><p>Open a secondary connection to the application server</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.map_call">
+<span class="sig-name descname"><span class="pre">map_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Application.map_call" title="Link to this definition">#</a></dt>
+<dd><p>Call the same RMI method on a list of components, without using
+a round-trip to the server for each component.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.4.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Application.map_property">
+<span class="sig-name descname"><span class="pre">map_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Application.map_property" title="Link to this definition">#</a></dt>
+<dd><p>Fetch the same RMI property from a list of components, without using
+a round-trip to the server for each component.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.4.5.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="decorators">
+<h2>Decorators<a class="headerlink" href="#decorators" title="Link to this heading">#</a></h2>
+<section id="rmi">
+<h3>&#64;rmi<a class="headerlink" href="#rmi" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.rmi">
+<span class="sig-prename descclassname"><span class="pre">remote.</span></span><span class="sig-name descname"><span class="pre">rmi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.rmi" title="Link to this definition">#</a></dt>
+<dd><p>Remote Method Invocation</p>
+<p>Applying this decorator to a method of a <a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Remotable</span></code></a> object causes
+the method invocation to be forwarded to the remote application object.</p>
+<p>If the remote application object’s method does not exist and <code class="docutils literal notranslate"><span class="pre">fallback</span></code>
+is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the body of the decorated method is used as an client-side
+(and likely slower) implementation of the remote method.  Otherwise,
+the body of the decorated method is ignored.</p>
+</dd></dl>
+
+</section>
+<section id="rmi-property">
+<h3>&#64;rmi_property<a class="headerlink" href="#rmi-property" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.rmi_property">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">rmi_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.rmi_property" title="Link to this definition">#</a></dt>
+<dd><p>A property which is stored in a remote object</p>
+<p>Apply this decorator to a property of a <a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Remotable</span></code></a> object causes
+the property access attempts to be forwarded to the remote application
+object.</p>
+<p>Remote properties may never be deleted.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="context">
+<h2>Context<a class="headerlink" href="#context" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.Context">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">Context</span></span><a class="headerlink" href="#mhi.common.remote.Context" title="Link to this definition">#</a></dt>
+<dd><p>A Remote Context object</p>
+<p>This class is responsible for communications between the Python script
+and the remote application objects.</p>
+<p>Calls to <code class="xref py py-class docutils literal notranslate"><span class="pre">rmi</span></code> methods and access to <code class="xref py py-class docutils literal notranslate"><span class="pre">rmi_properties</span></code>
+are pickled, and sent over a communication channel.  The results of
+these operations are received from the communication channel, depickled,
+and returned to the caller.  Any exception generated by the remote
+operation is also transfered over the communication channel and raised
+locally.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.server_address">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.remote.Context.server_address" title="Link to this definition">#</a></dt>
+<dd><p>Return the first host/port address for the application server, which
+may be used to open additional connections to the application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.4.5.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.2: </span>Returns the first address, if listening on more than one address.
+Multiple addresses are possible when both IPv4 and IPv6 are
+supported.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.server_addresses">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.remote.Context.server_addresses" title="Link to this definition">#</a></dt>
+<dd><p>Return the host/port addresses for the application server, which
+may be used to open additional connections to the application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.lookup">
+<span class="sig-name descname"><span class="pre">lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">_Remotable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">identity</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">_Remotable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.Context.lookup" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a Remote Proxy object, if it can be found in the cache</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.forget">
+<span class="sig-name descname"><span class="pre">forget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Context.forget" title="Link to this definition">#</a></dt>
+<dd><p>Remove a Remote Proxy object from the cache</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.remote.Context.is_alive" title="Link to this definition">#</a></dt>
+<dd><p>Is a connection to the server still active?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.Context.close" title="Link to this definition">#</a></dt>
+<dd><p>Close communication</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rcvr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Context.call" title="Link to this definition">#</a></dt>
+<dd><p>Make a remote call to the application method</p>
+<p>If the application returns an exception object,
+the exception is raised here.</p>
+<p>The <a class="reference internal" href="#mhi.common.remote.rmi" title="mhi.common.remote.rmi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhi.common.remote.rmi</span></code></a> decorator is more convenient.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.get_prop">
+<span class="sig-name descname"><span class="pre">get_prop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rcvr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.remote.Context.get_prop" title="Link to this definition">#</a></dt>
+<dd><p>Fetch a remote property</p>
+<p>If the application returns an exception object,
+the exception is raised here.</p>
+<p>The <a class="reference internal" href="#mhi.common.remote.rmi_property" title="mhi.common.remote.rmi_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhi.common.remote.rmi_property</span></code></a> decorator is more
+convenient.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.Context.set_prop">
+<span class="sig-name descname"><span class="pre">set_prop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rcvr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mhi.common.remote.Remotable" title="mhi.common.remote.Remotable"><span class="pre">Remotable</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.Context.set_prop" title="Link to this definition">#</a></dt>
+<dd><p>Set a remote property</p>
+<p>If the application returns an exception object,
+the exception is raised here.</p>
+<p>The <a class="reference internal" href="#mhi.common.remote.rmi_property" title="mhi.common.remote.rmi_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mhi.common.remote.rmi_property</span></code></a> decorator is more
+convenient.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.5.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<section id="socket-context">
+<h3>Socket Context<a class="headerlink" href="#socket-context" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.SocketContext">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">SocketContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.SocketContext" title="Link to this definition">#</a></dt>
+<dd><p>A context object with the communication channel implemented as a TCP/IP
+socket.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.SocketContext.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.remote.SocketContext.is_alive" title="Link to this definition">#</a></dt>
+<dd><p>Is a connection to the server still active?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.SocketContext.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.SocketContext.close" title="Link to this definition">#</a></dt>
+<dd><p>Close communication</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="queue-context">
+<h3>Queue Context<a class="headerlink" href="#queue-context" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.QueueContext">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">QueueContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.QueueContext" title="Link to this definition">#</a></dt>
+<dd><p>A context object with the communication channel implemented with a Queue</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.QueueContext.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.remote.QueueContext.is_alive" title="Link to this definition">#</a></dt>
+<dd><p>Is a connection to the server still active?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.QueueContext.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.remote.QueueContext.close" title="Link to this definition">#</a></dt>
+<dd><p>Close communication</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.remote.QueueContext.reply">
+<span class="sig-name descname"><span class="pre">reply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reply</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.QueueContext.reply" title="Link to this definition">#</a></dt>
+<dd><p>Accept a message reply, for client</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.remote.RemoteException">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.remote.</span></span><span class="sig-name descname"><span class="pre">RemoteException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.remote.RemoteException" title="Link to this definition">#</a></dt>
+<dd><p>Indication of an API error communicating with remote objects</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="process.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Process Control</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="changes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Changes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remotable">Remotable</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Remotable"><code class="docutils literal notranslate"><span class="pre">Remotable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Remotable.main"><code class="docutils literal notranslate"><span class="pre">Remotable.main</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application">Application</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application"><code class="docutils literal notranslate"><span class="pre">Application</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.silence"><code class="docutils literal notranslate"><span class="pre">Application.silence</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.is_alive"><code class="docutils literal notranslate"><span class="pre">Application.is_alive()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.quit"><code class="docutils literal notranslate"><span class="pre">Application.quit()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.close_connection"><code class="docutils literal notranslate"><span class="pre">Application.close_connection()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.version"><code class="docutils literal notranslate"><span class="pre">Application.version</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.minimum_version"><code class="docutils literal notranslate"><span class="pre">Application.minimum_version()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.requires"><code class="docutils literal notranslate"><span class="pre">Application.requires()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.is_embedded"><code class="docutils literal notranslate"><span class="pre">Application.is_embedded</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.server_address"><code class="docutils literal notranslate"><span class="pre">Application.server_address()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.secondary_connection"><code class="docutils literal notranslate"><span class="pre">Application.secondary_connection()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.map_call"><code class="docutils literal notranslate"><span class="pre">Application.map_call()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Application.map_property"><code class="docutils literal notranslate"><span class="pre">Application.map_property()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decorators">Decorators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rmi">@rmi</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.rmi"><code class="docutils literal notranslate"><span class="pre">remote.rmi()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rmi-property">@rmi_property</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.rmi_property"><code class="docutils literal notranslate"><span class="pre">rmi_property</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#context">Context</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.server_address"><code class="docutils literal notranslate"><span class="pre">Context.server_address()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.server_addresses"><code class="docutils literal notranslate"><span class="pre">Context.server_addresses()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.lookup"><code class="docutils literal notranslate"><span class="pre">Context.lookup()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.forget"><code class="docutils literal notranslate"><span class="pre">Context.forget()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.is_alive"><code class="docutils literal notranslate"><span class="pre">Context.is_alive()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.close"><code class="docutils literal notranslate"><span class="pre">Context.close()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.call"><code class="docutils literal notranslate"><span class="pre">Context.call()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.get_prop"><code class="docutils literal notranslate"><span class="pre">Context.get_prop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.Context.set_prop"><code class="docutils literal notranslate"><span class="pre">Context.set_prop()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#socket-context">Socket Context</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.SocketContext"><code class="docutils literal notranslate"><span class="pre">SocketContext</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.SocketContext.is_alive"><code class="docutils literal notranslate"><span class="pre">SocketContext.is_alive()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.SocketContext.close"><code class="docutils literal notranslate"><span class="pre">SocketContext.close()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#queue-context">Queue Context</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.QueueContext"><code class="docutils literal notranslate"><span class="pre">QueueContext</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.QueueContext.is_alive"><code class="docutils literal notranslate"><span class="pre">QueueContext.is_alive()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.QueueContext.close"><code class="docutils literal notranslate"><span class="pre">QueueContext.close()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.QueueContext.reply"><code class="docutils literal notranslate"><span class="pre">QueueContext.reply()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.remote.RemoteException"><code class="docutils literal notranslate"><span class="pre">RemoteException</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/common/remote.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

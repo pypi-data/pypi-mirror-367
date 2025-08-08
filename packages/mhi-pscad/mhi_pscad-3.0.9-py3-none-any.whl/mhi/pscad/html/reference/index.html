@@ -1,0 +1,1445 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reference Manual &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/index';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Connection Methods" href="launching.html" />
+    <link rel="prev" title="Tutorial" href="../tutorial/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../tutorial/index.html"
+                          title="previous chapter">Tutorial</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="launching.html"
+                          title="next chapter">Connection Methods</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Reference Manual</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="reference-manual">
+<h1>Reference Manual<a class="headerlink" href="#reference-manual" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="launching.html">Connection Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#new-instance">New Instance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.launch"><code class="docutils literal notranslate"><span class="pre">launch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#existing-instance">Existing Instance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#existing-or-new">Existing or New</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.application"><code class="docutils literal notranslate"><span class="pre">application()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="launching.html#product-versions">Product Versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#pscad">PSCAD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.versions"><code class="docutils literal notranslate"><span class="pre">versions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#fortran-matlab">Fortran &amp; Matlab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.fortran_versions"><code class="docutils literal notranslate"><span class="pre">fortran_versions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="launching.html#mhi.pscad.matlab_versions"><code class="docutils literal notranslate"><span class="pre">matlab_versions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pscad.html">The PSCAD Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD"><code class="docutils literal notranslate"><span class="pre">PSCAD</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#application-settings">Application Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.settings"><code class="docutils literal notranslate"><span class="pre">PSCAD.settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.setting_range"><code class="docutils literal notranslate"><span class="pre">PSCAD.setting_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#application-flags">Application Flags</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.flags"><code class="docutils literal notranslate"><span class="pre">PSCAD.flags()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.substitute"><code class="docutils literal notranslate"><span class="pre">PSCAD.substitute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#properties">Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.version"><code class="docutils literal notranslate"><span class="pre">PSCAD.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.examples_folder"><code class="docutils literal notranslate"><span class="pre">PSCAD.examples_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.is_busy"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_busy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#licensing">Licensing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#certificate">Certificate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.login"><code class="docutils literal notranslate"><span class="pre">PSCAD.login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.logout"><code class="docutils literal notranslate"><span class="pre">PSCAD.logout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.logged_in"><code class="docutils literal notranslate"><span class="pre">PSCAD.logged_in()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.licensed"><code class="docutils literal notranslate"><span class="pre">PSCAD.licensed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.get_available_certificates"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_available_certificates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.get_current_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_current_certificate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.get_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.get_certificate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.release_certificate"><code class="docutils literal notranslate"><span class="pre">PSCAD.release_certificate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.release_all_certificates"><code class="docutils literal notranslate"><span class="pre">PSCAD.release_all_certificates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.set_license_host"><code class="docutils literal notranslate"><span class="pre">PSCAD.set_license_host()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#legacy">Legacy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.activate_edu_license"><code class="docutils literal notranslate"><span class="pre">PSCAD.activate_edu_license()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.activate_pro_license"><code class="docutils literal notranslate"><span class="pre">PSCAD.activate_pro_license()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#workspace-commands">Workspace Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.new_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.new_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.save_workspace"><code class="docutils literal notranslate"><span class="pre">PSCAD.save_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.workspace_dir"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_dir</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.workspace_name"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.workspace_path"><code class="docutils literal notranslate"><span class="pre">PSCAD.workspace_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.is_dirty"><code class="docutils literal notranslate"><span class="pre">PSCAD.is_dirty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.load"><code class="docutils literal notranslate"><span class="pre">PSCAD.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.projects"><code class="docutils literal notranslate"><span class="pre">PSCAD.projects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.project_names"><code class="docutils literal notranslate"><span class="pre">PSCAD.project_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.cases"><code class="docutils literal notranslate"><span class="pre">PSCAD.cases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.libraries"><code class="docutils literal notranslate"><span class="pre">PSCAD.libraries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.project"><code class="docutils literal notranslate"><span class="pre">PSCAD.project()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.create_library"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_library()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.create_case"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_case()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#build-run-commands">Build &amp; Run Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.build_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.build_modified"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_modified()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.build_current"><code class="docutils literal notranslate"><span class="pre">PSCAD.build_current()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.pause_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.pause_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.stop_run"><code class="docutils literal notranslate"><span class="pre">PSCAD.stop_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.clean_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.clean_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#simulation-sets">Simulation Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_sets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.create_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.create_simulation_set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.simulation_set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.remove_simulation_set"><code class="docutils literal notranslate"><span class="pre">PSCAD.remove_simulation_set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.run_all_simulation_sets"><code class="docutils literal notranslate"><span class="pre">PSCAD.run_all_simulation_sets()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#parameter-grid">Parameter Grid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.parameter_grid"><code class="docutils literal notranslate"><span class="pre">PSCAD.parameter_grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_cases"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_cases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_libraries"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_libraries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_sets"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_sets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_tasks"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_overrides"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_overrides()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.view_simulation_task_layers"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.view_simulation_task_layers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.save"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.parameter_grid.ParameterGrid.load"><code class="docutils literal notranslate"><span class="pre">ParameterGrid.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#search-results">Search Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.search_results"><code class="docutils literal notranslate"><span class="pre">PSCAD.search_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#navigation">Navigation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.navigate"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.navigate_to"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.navigate_up"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.navigate_dismiss"><code class="docutils literal notranslate"><span class="pre">PSCAD.navigate_dismiss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.focused"><code class="docutils literal notranslate"><span class="pre">PSCAD.focused()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#subscriptions">Subscriptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.subscriptions"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscriptions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.subscribed"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.subscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscribe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.unsubscribe"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.unsubscribe_all"><code class="docutils literal notranslate"><span class="pre">PSCAD.unsubscribe_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.subscription"><code class="docutils literal notranslate"><span class="pre">PSCAD.subscription()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#keys-mouse">Keys &amp; Mouse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#keystroke-events">Keystroke Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.key_down"><code class="docutils literal notranslate"><span class="pre">PSCAD.key_down()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.key_up"><code class="docutils literal notranslate"><span class="pre">PSCAD.key_up()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.stroke"><code class="docutils literal notranslate"><span class="pre">PSCAD.stroke()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.keystrokes"><code class="docutils literal notranslate"><span class="pre">PSCAD.keystrokes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.typing"><code class="docutils literal notranslate"><span class="pre">PSCAD.typing()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mouse-events">Mouse Events</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.move"><code class="docutils literal notranslate"><span class="pre">PSCAD.move()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.leftdown"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.leftup"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.leftclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.leftclick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.middledown"><code class="docutils literal notranslate"><span class="pre">PSCAD.middledown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.middleup"><code class="docutils literal notranslate"><span class="pre">PSCAD.middleup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.middleclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.middleclick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.rightdown"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.rightup"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.rightclick"><code class="docutils literal notranslate"><span class="pre">PSCAD.rightclick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.wheel"><code class="docutils literal notranslate"><span class="pre">PSCAD.wheel()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html#termination">Termination</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.quit"><code class="docutils literal notranslate"><span class="pre">PSCAD.quit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="project.html">Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="project.html#mhi.pscad.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#properties">Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.name"><code class="docutils literal notranslate"><span class="pre">Project.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.filename"><code class="docutils literal notranslate"><span class="pre">Project.filename</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.temp_folder"><code class="docutils literal notranslate"><span class="pre">Project.temp_folder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.parameters"><code class="docutils literal notranslate"><span class="pre">Project.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.parameter_range"><code class="docutils literal notranslate"><span class="pre">Project.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#management">Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#load-save">Load &amp; Save</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.save"><code class="docutils literal notranslate"><span class="pre">Project.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.save_as"><code class="docutils literal notranslate"><span class="pre">Project.save_as()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.is_dirty"><code class="docutils literal notranslate"><span class="pre">Project.is_dirty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.reload"><code class="docutils literal notranslate"><span class="pre">Project.reload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.unload"><code class="docutils literal notranslate"><span class="pre">Project.unload()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#navigation">Navigation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.focus"><code class="docutils literal notranslate"><span class="pre">Project.focus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.canvas"><code class="docutils literal notranslate"><span class="pre">Project.canvas()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#search">Search</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.branch_search"><code class="docutils literal notranslate"><span class="pre">Project.branch_search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.node_search"><code class="docutils literal notranslate"><span class="pre">Project.node_search()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#scenarios">Scenarios</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.scenarios"><code class="docutils literal notranslate"><span class="pre">Project.scenarios()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.scenario"><code class="docutils literal notranslate"><span class="pre">Project.scenario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.save_scenario"><code class="docutils literal notranslate"><span class="pre">Project.save_scenario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.save_as_scenario"><code class="docutils literal notranslate"><span class="pre">Project.save_as_scenario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.delete_scenario"><code class="docutils literal notranslate"><span class="pre">Project.delete_scenario()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#build-run">Build &amp; Run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.build"><code class="docutils literal notranslate"><span class="pre">Project.build()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.run"><code class="docutils literal notranslate"><span class="pre">Project.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.run_status"><code class="docutils literal notranslate"><span class="pre">Project.run_status()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.pause"><code class="docutils literal notranslate"><span class="pre">Project.pause()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.stop"><code class="docutils literal notranslate"><span class="pre">Project.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.messages"><code class="docutils literal notranslate"><span class="pre">Project.messages()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.output"><code class="docutils literal notranslate"><span class="pre">Project.output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.clean"><code class="docutils literal notranslate"><span class="pre">Project.clean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.compile_library"><code class="docutils literal notranslate"><span class="pre">Project.compile_library()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#definitions">Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.definitions"><code class="docutils literal notranslate"><span class="pre">Project.definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.definition"><code class="docutils literal notranslate"><span class="pre">Project.definition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.create_definition"><code class="docutils literal notranslate"><span class="pre">Project.create_definition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.delete_definition"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.delete_definition_instances"><code class="docutils literal notranslate"><span class="pre">Project.delete_definition_instances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.PSCAD.copy_definitions"><code class="docutils literal notranslate"><span class="pre">PSCAD.copy_definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.paste_definitions"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.paste_definitions_with_dependents"><code class="docutils literal notranslate"><span class="pre">Project.paste_definitions_with_dependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.remap_definitions"><code class="docutils literal notranslate"><span class="pre">Project.remap_definitions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#finding">Finding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.find"><code class="docutils literal notranslate"><span class="pre">Project.find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.find_first"><code class="docutils literal notranslate"><span class="pre">Project.find_first()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.find_all"><code class="docutils literal notranslate"><span class="pre">Project.find_all()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#finding-by-id">Finding By Id</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.component"><code class="docutils literal notranslate"><span class="pre">Project.component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#parameter-grid">Parameter Grid</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.export_parameter_grid"><code class="docutils literal notranslate"><span class="pre">Project.export_parameter_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.import_parameter_grid"><code class="docutils literal notranslate"><span class="pre">Project.import_parameter_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#names-in-use">Names In Use</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Project.names_in_use"><code class="docutils literal notranslate"><span class="pre">Project.names_in_use()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#global-substitutions">Global Substitutions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.global_substitution"><code class="docutils literal notranslate"><span class="pre">Project.global_substitution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#sets">Sets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.active_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.active_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.create_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.create_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.remove_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.remove_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.rename_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.rename_set()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.create"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.remove"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.remove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.rename"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.rename()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#id1">Load / Save</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.save_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.save_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.load_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.load_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.append_set"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.append_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.save_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.save_all_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.load_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.load_all_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.GlobalSubstitution.append_all_sets"><code class="docutils literal notranslate"><span class="pre">GlobalSubstitution.append_all_sets()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#layers">Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.layers"><code class="docutils literal notranslate"><span class="pre">Project.layers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.create_layer"><code class="docutils literal notranslate"><span class="pre">Project.create_layer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.set_layer_state"><code class="docutils literal notranslate"><span class="pre">Project.set_layer_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.delete_layer"><code class="docutils literal notranslate"><span class="pre">Project.delete_layer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.layer"><code class="docutils literal notranslate"><span class="pre">Project.layer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.layer_states"><code class="docutils literal notranslate"><span class="pre">Project.layer_states()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#id2">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.project"><code class="docutils literal notranslate"><span class="pre">Layer.project</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.id"><code class="docutils literal notranslate"><span class="pre">Layer.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.name"><code class="docutils literal notranslate"><span class="pre">Layer.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.state"><code class="docutils literal notranslate"><span class="pre">Layer.state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.parameters"><code class="docutils literal notranslate"><span class="pre">Layer.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.add_state"><code class="docutils literal notranslate"><span class="pre">Layer.add_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.remove_state"><code class="docutils literal notranslate"><span class="pre">Layer.remove_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.rename_state"><code class="docutils literal notranslate"><span class="pre">Layer.rename_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.set_custom_state"><code class="docutils literal notranslate"><span class="pre">Layer.set_custom_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.move_up"><code class="docutils literal notranslate"><span class="pre">Layer.move_up()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.move_down"><code class="docutils literal notranslate"><span class="pre">Layer.move_down()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.to_top"><code class="docutils literal notranslate"><span class="pre">Layer.to_top()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Layer.to_bottom"><code class="docutils literal notranslate"><span class="pre">Layer.to_bottom()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html#resources">Resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.resources"><code class="docutils literal notranslate"><span class="pre">Project.resources()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.create_resource"><code class="docutils literal notranslate"><span class="pre">Project.create_resource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.remove_resource"><code class="docutils literal notranslate"><span class="pre">Project.remove_resource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#mhi.pscad.Project.resource"><code class="docutils literal notranslate"><span class="pre">Project.resource()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="project.html#id3">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.project"><code class="docutils literal notranslate"><span class="pre">Resource.project</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.id"><code class="docutils literal notranslate"><span class="pre">Resource.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.name"><code class="docutils literal notranslate"><span class="pre">Resource.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.path"><code class="docutils literal notranslate"><span class="pre">Resource.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.abspath"><code class="docutils literal notranslate"><span class="pre">Resource.abspath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="project.html#mhi.pscad.Resource.parameters"><code class="docutils literal notranslate"><span class="pre">Resource.parameters()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canvas.html">Canvas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas"><code class="docutils literal notranslate"><span class="pre">Canvas</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#properties">Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.scope"><code class="docutils literal notranslate"><span class="pre">Canvas.scope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.name"><code class="docutils literal notranslate"><span class="pre">Canvas.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.parameters"><code class="docutils literal notranslate"><span class="pre">Canvas.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">Canvas.parameter_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.size"><code class="docutils literal notranslate"><span class="pre">Canvas.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#finding-components">Finding Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find"><code class="docutils literal notranslate"><span class="pre">Canvas.find()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find_first"><code class="docutils literal notranslate"><span class="pre">Canvas.find_first()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.find_all"><code class="docutils literal notranslate"><span class="pre">Canvas.find_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.components"><code class="docutils literal notranslate"><span class="pre">Canvas.components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.bounds"><code class="docutils literal notranslate"><span class="pre">Canvas.bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#finding-by-id">Finding By Id</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.component"><code class="docutils literal notranslate"><span class="pre">Canvas.component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#names-in-use">Names In Use</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.names_in_use"><code class="docutils literal notranslate"><span class="pre">Canvas.names_in_use()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#finding-empty-spaces-on-canvas">Finding Empty Spaces on Canvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.get_empty_rects"><code class="docutils literal notranslate"><span class="pre">Canvas.get_empty_rects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.closest_empty_rect"><code class="docutils literal notranslate"><span class="pre">Canvas.closest_empty_rect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#creating-components">Creating Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.create_component"><code class="docutils literal notranslate"><span class="pre">Canvas.create_component()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.add_component"><code class="docutils literal notranslate"><span class="pre">Canvas.add_component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#clipboard-operations">Clipboard Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.select"><code class="docutils literal notranslate"><span class="pre">Canvas.select()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.select_components"><code class="docutils literal notranslate"><span class="pre">Canvas.select_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.clear_selection"><code class="docutils literal notranslate"><span class="pre">Canvas.clear_selection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.copy"><code class="docutils literal notranslate"><span class="pre">Canvas.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.cut"><code class="docutils literal notranslate"><span class="pre">Canvas.cut()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.paste"><code class="docutils literal notranslate"><span class="pre">Canvas.paste()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.delete"><code class="docutils literal notranslate"><span class="pre">Canvas.delete()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#transformations">Transformations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.mirror"><code class="docutils literal notranslate"><span class="pre">Canvas.mirror()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.flip"><code class="docutils literal notranslate"><span class="pre">Canvas.flip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.rotate_right"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_right()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.rotate_left"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_left()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.rotate_180"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_180()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#navigation">Navigation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.Canvas.navigate_up"><code class="docutils literal notranslate"><span class="pre">Canvas.navigate_up()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas"><code class="docutils literal notranslate"><span class="pre">UserCanvas</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#definition">Definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.definition"><code class="docutils literal notranslate"><span class="pre">UserCanvas.definition</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#parameters">Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.parameters"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#smart-clipboard">Smart Clipboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.paste_transfer"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_transfer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.paste_rename"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_rename()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#composition">Composition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.group"><code class="docutils literal notranslate"><span class="pre">UserCanvas.group()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.compose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.compose_wires()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.decompose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.decompose_wires()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#creating">Creating …</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#wires">Wires</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_wire"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_wire()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_bus"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_bus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_sticky_wire"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_sticky_wire()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#connections">Connections</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_connection"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_connection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#annotations">Annotations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_annotation"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_annotation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_sticky_note"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_sticky_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_divider"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_divider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_group_box"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_group_box()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_file"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_hyper_link"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_hyper_link()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_bookmark_link"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_bookmark_link()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#graphs">Graphs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_graph_frame"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_graph_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_graph"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_polygraph"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_polygraph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_xy_plot"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_xy_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_poly_meter"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_poly_meter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_phasor_meter"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_phasor_meter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_oscilloscope"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_oscilloscope()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#controls">Controls</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canvas.html#mhi.pscad.UserCanvas.create_control_frame"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_control_frame()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas"><code class="docutils literal notranslate"><span class="pre">GfxCanvas</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.create_component"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.create_component()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_port"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_port()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_input"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_output"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_electrical"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_electrical()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_line"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_line()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_rectangle"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_rectangle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="canvas.html#mhi.pscad.GfxCanvas.add_text"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="component.html">Components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="component.html#common">Common</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Component"><code class="docutils literal notranslate"><span class="pre">Component</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#properties">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.project_name"><code class="docutils literal notranslate"><span class="pre">Component.project_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.iid"><code class="docutils literal notranslate"><span class="pre">Component.iid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.defn_name"><code class="docutils literal notranslate"><span class="pre">Component.defn_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.parameters"><code class="docutils literal notranslate"><span class="pre">Component.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.range"><code class="docutils literal notranslate"><span class="pre">Component.range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.view_parameter_grid"><code class="docutils literal notranslate"><span class="pre">Component.view_parameter_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.import_parameters"><code class="docutils literal notranslate"><span class="pre">Component.import_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.export_parameters"><code class="docutils literal notranslate"><span class="pre">Component.export_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#location">Location</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.parent"><code class="docutils literal notranslate"><span class="pre">Component.parent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.location"><code class="docutils literal notranslate"><span class="pre">Component.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.get_location"><code class="docutils literal notranslate"><span class="pre">Component.get_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.set_location"><code class="docutils literal notranslate"><span class="pre">Component.set_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.bounds"><code class="docutils literal notranslate"><span class="pre">Component.bounds</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#layers">Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.layer"><code class="docutils literal notranslate"><span class="pre">Component.layer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.add_to_layer"><code class="docutils literal notranslate"><span class="pre">Component.add_to_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.remove_from_layer"><code class="docutils literal notranslate"><span class="pre">Component.remove_from_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.custom_state"><code class="docutils literal notranslate"><span class="pre">Component.custom_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.enable"><code class="docutils literal notranslate"><span class="pre">Component.enable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.disable"><code class="docutils literal notranslate"><span class="pre">Component.disable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.enabled"><code class="docutils literal notranslate"><span class="pre">Component.enabled</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.is_module"><code class="docutils literal notranslate"><span class="pre">Component.is_module()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#clipboard">Clipboard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.copy"><code class="docutils literal notranslate"><span class="pre">Component.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.cut"><code class="docutils literal notranslate"><span class="pre">Component.cut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.delete"><code class="docutils literal notranslate"><span class="pre">Component.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.clone"><code class="docutils literal notranslate"><span class="pre">Component.clone()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#z-ordering">Z-Ordering</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.to_front"><code class="docutils literal notranslate"><span class="pre">Component.to_front()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.to_back"><code class="docutils literal notranslate"><span class="pre">Component.to_back()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.to_next"><code class="docutils literal notranslate"><span class="pre">Component.to_next()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Component.to_prev"><code class="docutils literal notranslate"><span class="pre">Component.to_prev()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#user-components">User Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.UserCmp"><code class="docutils literal notranslate"><span class="pre">UserCmp</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#id1">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.definition"><code class="docutils literal notranslate"><span class="pre">UserCmp.definition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.parameters"><code class="docutils literal notranslate"><span class="pre">UserCmp.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.range"><code class="docutils literal notranslate"><span class="pre">UserCmp.range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.view_parameter_grid"><code class="docutils literal notranslate"><span class="pre">UserCmp.view_parameter_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#ports">Ports</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.ports"><code class="docutils literal notranslate"><span class="pre">UserCmp.ports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.port"><code class="docutils literal notranslate"><span class="pre">UserCmp.port()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#id2">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.canvas"><code class="docutils literal notranslate"><span class="pre">UserCmp.canvas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.navigate_in"><code class="docutils literal notranslate"><span class="pre">UserCmp.navigate_in()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.compile"><code class="docutils literal notranslate"><span class="pre">UserCmp.compile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.blackbox"><code class="docutils literal notranslate"><span class="pre">UserCmp.blackbox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.UserCmp.blackbox_defn"><code class="docutils literal notranslate"><span class="pre">UserCmp.blackbox_defn()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#connections">Connections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Wire.vertices"><code class="docutils literal notranslate"><span class="pre">Wire.vertices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Wire.endpoints"><code class="docutils literal notranslate"><span class="pre">Wire.endpoints()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#wires">Wires</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Wire"><code class="docutils literal notranslate"><span class="pre">Wire</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#sticky-wire">Sticky Wire</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.StickyWire"><code class="docutils literal notranslate"><span class="pre">StickyWire</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#bus">Bus</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Bus"><code class="docutils literal notranslate"><span class="pre">Bus</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#t-line">T-Line</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.TLine"><code class="docutils literal notranslate"><span class="pre">TLine</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#cable">Cable</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Cable"><code class="docutils literal notranslate"><span class="pre">Cable</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#output-channels">Output Channels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#graph-frame">Graph Frame</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.GraphFrame"><code class="docutils literal notranslate"><span class="pre">GraphFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#overlay-graph">Overlay Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.OverlayGraph"><code class="docutils literal notranslate"><span class="pre">OverlayGraph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id3">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#position">Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#zoom">Zoom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#curves">Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id4">Clipboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#polygraph">Polygraph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PolyGraph"><code class="docutils literal notranslate"><span class="pre">PolyGraph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id5">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id6">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id7">Position</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id8">Zoom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id9">Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id10">Clipboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#xy-plot-frame">XY Plot Frame</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PlotFrame"><code class="docutils literal notranslate"><span class="pre">PlotFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id11">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id12">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#appearence">Appearence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id13">Zoom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id14">Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id15">Clipboard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#curve">Curve</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Curve"><code class="docutils literal notranslate"><span class="pre">Curve</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#id16">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#instruments">Instruments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument"><code class="docutils literal notranslate"><span class="pre">Instrument</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument.link_id"><code class="docutils literal notranslate"><span class="pre">Instrument.link_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument.linked"><code class="docutils literal notranslate"><span class="pre">Instrument.linked</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument.title"><code class="docutils literal notranslate"><span class="pre">Instrument.title</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument.parameters"><code class="docutils literal notranslate"><span class="pre">Instrument.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#mhi.pscad.Instrument.range"><code class="docutils literal notranslate"><span class="pre">Instrument.range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#oscilloscope">Oscilloscope</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Oscilloscope"><code class="docutils literal notranslate"><span class="pre">Oscilloscope</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Oscilloscope.frequency"><code class="docutils literal notranslate"><span class="pre">Oscilloscope.frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Oscilloscope.cycles"><code class="docutils literal notranslate"><span class="pre">Oscilloscope.cycles</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#phasor-meter">Phasor Meter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter"><code class="docutils literal notranslate"><span class="pre">PhasorMeter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter.degrees"><code class="docutils literal notranslate"><span class="pre">PhasorMeter.degrees</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter.radians"><code class="docutils literal notranslate"><span class="pre">PhasorMeter.radians</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter.index"><code class="docutils literal notranslate"><span class="pre">PhasorMeter.index</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#poly-meter">Poly Meter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PolyMeter"><code class="docutils literal notranslate"><span class="pre">PolyMeter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PolyMeter.labels"><code class="docutils literal notranslate"><span class="pre">PolyMeter.labels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PolyMeter.scrollable"><code class="docutils literal notranslate"><span class="pre">PolyMeter.scrollable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.PolyMeter.colour"><code class="docutils literal notranslate"><span class="pre">PolyMeter.colour</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#input-controls">Input Controls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#control-frame">Control Frame</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.ControlFrame"><code class="docutils literal notranslate"><span class="pre">ControlFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.ControlFrame.create_control"><code class="docutils literal notranslate"><span class="pre">ControlFrame.create_control()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.ControlFrame.create_controls"><code class="docutils literal notranslate"><span class="pre">ControlFrame.create_controls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.ControlFrame.reset"><code class="docutils literal notranslate"><span class="pre">ControlFrame.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#general">General</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Control"><code class="docutils literal notranslate"><span class="pre">Control</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#button">Button</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#switch">Switch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Switch"><code class="docutils literal notranslate"><span class="pre">Switch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#selector">Selector</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#slider">Slider</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Slider"><code class="docutils literal notranslate"><span class="pre">Slider</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html#annotations">Annotations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="component.html#sticky">Sticky</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Sticky"><code class="docutils literal notranslate"><span class="pre">Sticky</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Sticky.parameters"><code class="docutils literal notranslate"><span class="pre">Sticky.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Sticky.range"><code class="docutils literal notranslate"><span class="pre">Sticky.range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Sticky.arrows"><code class="docutils literal notranslate"><span class="pre">Sticky.arrows()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#divider">Divider</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider"><code class="docutils literal notranslate"><span class="pre">Divider</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.parameters"><code class="docutils literal notranslate"><span class="pre">Divider.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.range"><code class="docutils literal notranslate"><span class="pre">Divider.range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.horizontal"><code class="docutils literal notranslate"><span class="pre">Divider.horizontal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.vertical"><code class="docutils literal notranslate"><span class="pre">Divider.vertical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.flat"><code class="docutils literal notranslate"><span class="pre">Divider.flat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.solid"><code class="docutils literal notranslate"><span class="pre">Divider.solid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.dashed"><code class="docutils literal notranslate"><span class="pre">Divider.dashed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.dotted"><code class="docutils literal notranslate"><span class="pre">Divider.dotted()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.dot_dash"><code class="docutils literal notranslate"><span class="pre">Divider.dot_dash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.Divider.raised"><code class="docutils literal notranslate"><span class="pre">Divider.raised()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="component.html#group-box">Group Box</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.GroupBox"><code class="docutils literal notranslate"><span class="pre">GroupBox</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.GroupBox.parameters"><code class="docutils literal notranslate"><span class="pre">GroupBox.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="component.html#mhi.pscad.GroupBox.range"><code class="docutils literal notranslate"><span class="pre">GroupBox.range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="definition.html">Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="definition.html#mhi.pscad.Definition"><code class="docutils literal notranslate"><span class="pre">Definition</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.project_name"><code class="docutils literal notranslate"><span class="pre">Definition.project_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.scope"><code class="docutils literal notranslate"><span class="pre">Definition.scope</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.name"><code class="docutils literal notranslate"><span class="pre">Definition.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.scoped_name"><code class="docutils literal notranslate"><span class="pre">Definition.scoped_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.instances"><code class="docutils literal notranslate"><span class="pre">Definition.instances</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.xml"><code class="docutils literal notranslate"><span class="pre">Definition.xml</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.form_codec"><code class="docutils literal notranslate"><span class="pre">Definition.form_codec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.is_module"><code class="docutils literal notranslate"><span class="pre">Definition.is_module()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.parameters"><code class="docutils literal notranslate"><span class="pre">Definition.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.compile"><code class="docutils literal notranslate"><span class="pre">Definition.compile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.navigate_to"><code class="docutils literal notranslate"><span class="pre">Definition.navigate_to()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.set_view"><code class="docutils literal notranslate"><span class="pre">Definition.set_view()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.canvas"><code class="docutils literal notranslate"><span class="pre">Definition.canvas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.graphics"><code class="docutils literal notranslate"><span class="pre">Definition.graphics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.copy"><code class="docutils literal notranslate"><span class="pre">Definition.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="definition.html#mhi.pscad.Definition.script"><code class="docutils literal notranslate"><span class="pre">Definition.script</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet"><code class="docutils literal notranslate"><span class="pre">SimulationSet</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#management">Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.name"><code class="docutils literal notranslate"><span class="pre">SimulationSet.name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.tasks"><code class="docutils literal notranslate"><span class="pre">SimulationSet.tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.list_tasks"><code class="docutils literal notranslate"><span class="pre">SimulationSet.list_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.add_tasks"><code class="docutils literal notranslate"><span class="pre">SimulationSet.add_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.remove_tasks"><code class="docutils literal notranslate"><span class="pre">SimulationSet.remove_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.task"><code class="docutils literal notranslate"><span class="pre">SimulationSet.task()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#build-run">Build &amp; Run</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.SimulationSet.run"><code class="docutils literal notranslate"><span class="pre">SimulationSet.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#project-task">Project Task</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask"><code class="docutils literal notranslate"><span class="pre">ProjectTask</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.name"><code class="docutils literal notranslate"><span class="pre">ProjectTask.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.namespace"><code class="docutils literal notranslate"><span class="pre">ProjectTask.namespace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.simulation_set"><code class="docutils literal notranslate"><span class="pre">ProjectTask.simulation_set</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.parameters"><code class="docutils literal notranslate"><span class="pre">ProjectTask.parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.layers"><code class="docutils literal notranslate"><span class="pre">ProjectTask.layers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ProjectTask.overrides"><code class="docutils literal notranslate"><span class="pre">ProjectTask.overrides()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#external-task">External Task</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simulation_sets.html#mhi.pscad.ExternalTask"><code class="docutils literal notranslate"><span class="pre">ExternalTask</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="licensing.html">Licensing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html#license-certificate">License Certificate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate"><code class="docutils literal notranslate"><span class="pre">Certificate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#identification">Identification</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.id"><code class="docutils literal notranslate"><span class="pre">Certificate.id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.name"><code class="docutils literal notranslate"><span class="pre">Certificate.name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.account"><code class="docutils literal notranslate"><span class="pre">Certificate.account()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.available"><code class="docutils literal notranslate"><span class="pre">Certificate.available()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.total"><code class="docutils literal notranslate"><span class="pre">Certificate.total()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#features">Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.features"><code class="docutils literal notranslate"><span class="pre">Certificate.features()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.feature"><code class="docutils literal notranslate"><span class="pre">Certificate.feature()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#requirements">Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.meets"><code class="docutils literal notranslate"><span class="pre">Certificate.meets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.meet"><code class="docutils literal notranslate"><span class="pre">Certificate.meet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Certificate.cost"><code class="docutils literal notranslate"><span class="pre">Certificate.cost()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html#license-features">License Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#mhi.pscad.Feature"><code class="docutils literal notranslate"><span class="pre">Feature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="licensing.html#id1">Identification</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Feature.id"><code class="docutils literal notranslate"><span class="pre">Feature.id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Feature.name"><code class="docutils literal notranslate"><span class="pre">Feature.name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Feature.value"><code class="docutils literal notranslate"><span class="pre">Feature.value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="licensing.html#mhi.pscad.Feature.cost"><code class="docutils literal notranslate"><span class="pre">Feature.cost()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wizard.html">Component Wizard</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.name"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.module"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.description"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.port"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.port</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.graphics"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.graphics</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_caption"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_caption</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_width</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_height"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_height</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_splitter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_splitter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_category_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_category_width</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.form_help_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_help_width</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.category"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.parameter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.parameter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.script"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.script</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.create_definition"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.create_definition()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html#ports">Ports</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Ports"><code class="docutils literal notranslate"><span class="pre">Ports</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Ports.electrical"><code class="docutils literal notranslate"><span class="pre">Ports.electrical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Ports.input"><code class="docutils literal notranslate"><span class="pre">Ports.input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Ports.output"><code class="docutils literal notranslate"><span class="pre">Ports.output()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#port">Port</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html#graphics">Graphics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Graphics"><code class="docutils literal notranslate"><span class="pre">Graphics</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Graphics.arrow"><code class="docutils literal notranslate"><span class="pre">Graphics.arrow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Graphics.line"><code class="docutils literal notranslate"><span class="pre">Graphics.line()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle"><code class="docutils literal notranslate"><span class="pre">Graphics.rectangle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Graphics.text"><code class="docutils literal notranslate"><span class="pre">Graphics.text()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#text">Text</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Text"><code class="docutils literal notranslate"><span class="pre">Text</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#line">Line</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Line"><code class="docutils literal notranslate"><span class="pre">Line</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#rectangle">Rectangle</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Rectangle"><code class="docutils literal notranslate"><span class="pre">Rectangle</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html#parameter-form">Parameter Form</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Parameters"><code class="docutils literal notranslate"><span class="pre">Parameters</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Parameters.keys"><code class="docutils literal notranslate"><span class="pre">Parameters.keys()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#categories">Categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#category">Category</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Category"><code class="docutils literal notranslate"><span class="pre">Category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#properties">Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#parameters">Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Categories"><code class="docutils literal notranslate"><span class="pre">Categories</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#parameter">Parameter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Scripts"><code class="docutils literal notranslate"><span class="pre">Scripts</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Scripts.items"><code class="docutils literal notranslate"><span class="pre">Scripts.items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="wizard.html#mhi.pscad.wizard.UserDefnWizard.Scripts.keys"><code class="docutils literal notranslate"><span class="pre">Scripts.keys()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#clipboard">Clipboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.clipboard.Clipboard"><code class="docutils literal notranslate"><span class="pre">Clipboard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.clipboard.Clipboard.getFormatName"><code class="docutils literal notranslate"><span class="pre">Clipboard.getFormatName()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.clipboard.Clipboard.saveBitmap"><code class="docutils literal notranslate"><span class="pre">Clipboard.saveBitmap()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#file">File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File.compare_files"><code class="docutils literal notranslate"><span class="pre">File.compare_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File.move_files"><code class="docutils literal notranslate"><span class="pre">File.move_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File.copy_files"><code class="docutils literal notranslate"><span class="pre">File.copy_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File.copy_file"><code class="docutils literal notranslate"><span class="pre">File.copy_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.File.convert_out_to_csv"><code class="docutils literal notranslate"><span class="pre">File.convert_out_to_csv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile"><code class="docutils literal notranslate"><span class="pre">OutFile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.__init__"><code class="docutils literal notranslate"><span class="pre">OutFile.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.open"><code class="docutils literal notranslate"><span class="pre">OutFile.open()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.close"><code class="docutils literal notranslate"><span class="pre">OutFile.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.read_values"><code class="docutils literal notranslate"><span class="pre">OutFile.read_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.columns"><code class="docutils literal notranslate"><span class="pre">OutFile.columns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.column"><code class="docutils literal notranslate"><span class="pre">OutFile.column()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.column_name"><code class="docutils literal notranslate"><span class="pre">OutFile.column_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.toCSV"><code class="docutils literal notranslate"><span class="pre">OutFile.toCSV()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.file.OutFile.values_at"><code class="docutils literal notranslate"><span class="pre">OutFile.values_at()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#module-mhi.pscad.utilities.mail">Mail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.mail.Mail"><code class="docutils literal notranslate"><span class="pre">Mail</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.mail.Mail.send_gmail"><code class="docutils literal notranslate"><span class="pre">Mail.send_gmail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.mail.Mail.send_outlook_mail"><code class="docutils literal notranslate"><span class="pre">Mail.send_outlook_mail()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html#module-mhi.pscad.utilities.word">Word</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word"><code class="docutils literal notranslate"><span class="pre">Word</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.addPageBreak"><code class="docutils literal notranslate"><span class="pre">Word.addPageBreak()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.textParagraph"><code class="docutils literal notranslate"><span class="pre">Word.textParagraph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.pasteImage"><code class="docutils literal notranslate"><span class="pre">Word.pasteImage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.save"><code class="docutils literal notranslate"><span class="pre">Word.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.close"><code class="docutils literal notranslate"><span class="pre">Word.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.open_document"><code class="docutils literal notranslate"><span class="pre">Word.open_document()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utilities.html#mhi.pscad.utilities.word.Word.new_document"><code class="docutils literal notranslate"><span class="pre">Word.new_document()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#point">Point</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Point"><code class="docutils literal notranslate"><span class="pre">Point</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Point.distance"><code class="docutils literal notranslate"><span class="pre">Point.distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Point.x"><code class="docutils literal notranslate"><span class="pre">Point.x</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Point.y"><code class="docutils literal notranslate"><span class="pre">Point.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#port">Port</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.x"><code class="docutils literal notranslate"><span class="pre">Port.x</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.y"><code class="docutils literal notranslate"><span class="pre">Port.y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.location"><code class="docutils literal notranslate"><span class="pre">Port.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.name"><code class="docutils literal notranslate"><span class="pre">Port.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.dim"><code class="docutils literal notranslate"><span class="pre">Port.dim</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.type"><code class="docutils literal notranslate"><span class="pre">Port.type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.electrical"><code class="docutils literal notranslate"><span class="pre">Port.electrical</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Port.signal"><code class="docutils literal notranslate"><span class="pre">Port.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#any-point">Any Point</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint"><code class="docutils literal notranslate"><span class="pre">AnyPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#rect">Rect</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Rect"><code class="docutils literal notranslate"><span class="pre">Rect</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.from_mid"><code class="docutils literal notranslate"><span class="pre">Rect.from_mid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.left"><code class="docutils literal notranslate"><span class="pre">Rect.left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.top"><code class="docutils literal notranslate"><span class="pre">Rect.top</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.right"><code class="docutils literal notranslate"><span class="pre">Rect.right</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.bottom"><code class="docutils literal notranslate"><span class="pre">Rect.bottom</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.width"><code class="docutils literal notranslate"><span class="pre">Rect.width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.height"><code class="docutils literal notranslate"><span class="pre">Rect.height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="types.html#mhi.pscad.types.Rect.mid"><code class="docutils literal notranslate"><span class="pre">Rect.mid</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#enums">Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.NodeType"><code class="docutils literal notranslate"><span class="pre">NodeType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Electrical"><code class="docutils literal notranslate"><span class="pre">Electrical</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Signal"><code class="docutils literal notranslate"><span class="pre">Signal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Align"><code class="docutils literal notranslate"><span class="pre">Align</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Side"><code class="docutils literal notranslate"><span class="pre">Side</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.LineStyle"><code class="docutils literal notranslate"><span class="pre">LineStyle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.FillStyle"><code class="docutils literal notranslate"><span class="pre">FillStyle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.ProjectType"><code class="docutils literal notranslate"><span class="pre">ProjectType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.LookIn"><code class="docutils literal notranslate"><span class="pre">LookIn</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.ContentType"><code class="docutils literal notranslate"><span class="pre">ContentType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.HelpMode"><code class="docutils literal notranslate"><span class="pre">HelpMode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html#mhi.pscad.types.Intent"><code class="docutils literal notranslate"><span class="pre">Intent</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="unit.html">Unit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unit.html#unit-system">Unit System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unit.html#mhi.pscad.unit.UnitSystem"><code class="docutils literal notranslate"><span class="pre">UnitSystem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.UnitSystem.parse"><code class="docutils literal notranslate"><span class="pre">UnitSystem.parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.UnitSystem.convert"><code class="docutils literal notranslate"><span class="pre">UnitSystem.convert()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html#value">Value</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unit.html#mhi.pscad.unit.Value"><code class="docutils literal notranslate"><span class="pre">Value</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.Value.normalized"><code class="docutils literal notranslate"><span class="pre">Value.normalized()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.Value.units"><code class="docutils literal notranslate"><span class="pre">Value.units</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html#complex-value">Complex Value</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unit.html#mhi.pscad.unit.ComplexValue"><code class="docutils literal notranslate"><span class="pre">ComplexValue</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.ComplexValue.normalized"><code class="docutils literal notranslate"><span class="pre">ComplexValue.normalized()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unit.html#mhi.pscad.unit.ComplexValue.units"><code class="docutils literal notranslate"><span class="pre">ComplexValue.units</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../tutorial/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="launching.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Connection Methods</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

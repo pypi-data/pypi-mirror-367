@@ -1,0 +1,599 @@
+.. py:currentmodule:: mhi.pscad
+
+==========
+Components
+==========
+
+---------
+Common
+---------
+
+.. autoclass:: Component
+
+Properties
+==========
+
+.. autoattribute:: Component.project_name
+.. autoattribute:: Component.iid
+.. autoattribute:: Component.defn_name
+
+.. automethod:: Component.parameters
+.. automethod:: Component.range
+.. automethod:: Component.view_parameter_grid
+
+.. automethod:: Component.import_parameters
+.. automethod:: Component.export_parameters
+
+
+Location
+========
+
+.. autoattribute:: Component.parent
+.. autoattribute:: Component.location
+.. automethod:: Component.get_location
+.. automethod:: Component.set_location
+.. autoattribute:: Component.bounds
+
+Layers
+======
+
+.. autoattribute:: Component.layer
+.. automethod:: Component.add_to_layer
+.. automethod:: Component.remove_from_layer
+.. automethod:: Component.custom_state
+.. automethod:: Component.enable
+.. automethod:: Component.disable
+.. autoattribute:: Component.enabled
+
+
+Modules
+=======
+
+.. automethod:: Component.is_module
+
+Clipboard
+=========
+
+.. automethod:: Component.copy
+.. automethod:: Component.cut
+.. automethod:: Component.delete
+.. automethod:: Component.clone
+
+Z-Ordering
+==========
+
+.. automethod:: Component.to_front
+.. automethod:: Component.to_back
+.. automethod:: Component.to_next
+.. automethod:: Component.to_prev
+
+
+---------------
+User Components
+---------------
+
+.. autoclass:: UserCmp
+
+
+Properties
+==========
+
+.. autoattribute:: UserCmp.definition
+
+.. automethod:: UserCmp.parameters
+.. automethod:: UserCmp.range
+.. automethod:: UserCmp.view_parameter_grid
+
+Ports
+=====
+
+.. automethod:: UserCmp.ports
+.. automethod:: UserCmp.port
+
+
+Modules
+=======
+
+.. automethod:: UserCmp.canvas
+.. automethod:: UserCmp.navigate_in
+.. automethod:: UserCmp.compile
+.. automethod:: UserCmp.blackbox
+.. automethod:: UserCmp.blackbox_defn
+
+
+---------------
+Connections
+---------------
+
+:class:`Wires <.Wire>`, :class:`sticky wires <.StickyWire>`, :class:`buses <.Bus>`,
+and :class:`transmission-lines <.TLine>` & :class:`cables <.Cable>`
+are formed from one or more line segments.
+The line segments are specified by vertices.
+The entire component may be moved by changing the component's location,
+or by changing the location of the vertices.
+
+.. automethod:: Wire.vertices
+.. automethod:: Wire.endpoints
+
+
+Wires
+=====
+
+.. autoclass:: Wire
+
+
+.. .. Orthogonal Wire
+.. .. ===============
+
+
+Sticky Wire
+===========
+
+.. autoclass:: StickyWire
+
+
+Bus
+====
+
+.. autoclass:: Bus
+
+
+T-Line
+======
+
+.. autoclass:: TLine
+
+
+Cable
+=====
+
+.. autoclass:: Cable
+
+
+---------------
+Output Channels
+---------------
+
+Graph Frame
+===========
+.. autoclass:: GraphFrame
+    :members:
+
+Overlay Graph
+=============
+
+.. py:class:: OverlayGraph
+
+Parameters
+----------
+
+.. automethod:: OverlayGraph.parameters
+.. automethod:: OverlayGraph.range
+
+
+Properties
+----------
+
+.. autoproperty:: OverlayGraph.crosshair
+.. autoproperty:: OverlayGraph.glyphs
+.. autoproperty:: OverlayGraph.grid
+.. autoproperty:: OverlayGraph.height
+.. autoproperty:: OverlayGraph.ticks
+.. autoproperty:: OverlayGraph.x_intercept
+.. autoproperty:: OverlayGraph.y_intercept
+
+.. automethod:: OverlayGraph.show_glyphs
+.. automethod:: OverlayGraph.show_grid
+.. automethod:: OverlayGraph.show_ticks
+.. automethod:: OverlayGraph.show_x_intercept
+.. automethod:: OverlayGraph.show_y_intercept
+
+.. automethod:: OverlayGraph.toggle_curve_glyphs
+.. automethod:: OverlayGraph.toggle_grid_lines
+.. automethod:: OverlayGraph.toggle_tick_marks
+.. automethod:: OverlayGraph.toggle_x_intercept
+.. automethod:: OverlayGraph.toggle_y_intercept
+
+Position
+--------
+
+.. automethod:: OverlayGraph.move_up
+.. automethod:: OverlayGraph.move_down
+.. automethod:: OverlayGraph.to_top
+.. automethod:: OverlayGraph.to_bottom
+
+Zoom
+----
+
+.. automethod:: OverlayGraph.zoom
+.. automethod:: OverlayGraph.zoom_extents
+.. automethod:: OverlayGraph.zoom_limits
+.. automethod:: OverlayGraph.zoom_in
+.. automethod:: OverlayGraph.zoom_out
+.. automethod:: OverlayGraph.zoom_previous
+.. automethod:: OverlayGraph.zoom_next
+.. automethod:: OverlayGraph.zoom_x_extents
+.. automethod:: OverlayGraph.zoom_x_limits
+.. automethod:: OverlayGraph.zoom_y_extents
+.. automethod:: OverlayGraph.zoom_y_limits
+.. automethod:: OverlayGraph.reset_extents
+.. automethod:: OverlayGraph.reset_limits
+.. automethod:: OverlayGraph.synchronize_channel_limits
+
+
+Curves
+------
+
+.. automethod:: OverlayGraph.curve
+.. automethod:: OverlayGraph.curves
+.. automethod:: OverlayGraph.create_curve
+.. automethod:: OverlayGraph.move_curve
+
+Clipboard
+---------
+
+.. automethod:: OverlayGraph.copy_data_all
+.. automethod:: OverlayGraph.copy_data_between_markers
+.. automethod:: OverlayGraph.copy_data_visible
+
+
+
+Polygraph
+=============
+
+.. py:class:: PolyGraph
+
+Parameters
+----------
+
+.. automethod:: PolyGraph.parameters
+.. automethod:: PolyGraph.range
+
+
+Properties
+----------
+
+.. autoproperty:: PolyGraph.crosshair
+.. autoproperty:: PolyGraph.glyphs
+.. autoproperty:: PolyGraph.grid
+.. autoproperty:: PolyGraph.ticks
+.. autoproperty:: PolyGraph.x_intercept
+.. autoproperty:: PolyGraph.y_intercept
+
+.. automethod:: PolyGraph.show_glyphs
+.. automethod:: PolyGraph.show_grid
+.. automethod:: PolyGraph.show_ticks
+.. automethod:: PolyGraph.show_x_intercept
+.. automethod:: PolyGraph.show_y_intercept
+
+.. automethod:: PolyGraph.toggle_curve_glyphs
+.. automethod:: PolyGraph.toggle_grid_lines
+.. automethod:: PolyGraph.toggle_tick_marks
+.. automethod:: PolyGraph.toggle_x_intercept
+.. automethod:: PolyGraph.toggle_y_intercept
+
+Position
+--------
+
+.. automethod:: PolyGraph.move_up
+.. automethod:: PolyGraph.move_down
+.. automethod:: PolyGraph.to_top
+.. automethod:: PolyGraph.to_bottom
+
+Zoom
+----
+
+.. automethod:: PolyGraph.zoom
+.. automethod:: PolyGraph.zoom_extents
+.. automethod:: PolyGraph.zoom_limits
+.. automethod:: PolyGraph.zoom_in
+.. automethod:: PolyGraph.zoom_out
+.. automethod:: PolyGraph.zoom_previous
+.. automethod:: PolyGraph.zoom_next
+.. automethod:: PolyGraph.zoom_x_extents
+.. automethod:: PolyGraph.zoom_x_limits
+.. automethod:: PolyGraph.zoom_y_extents
+.. automethod:: PolyGraph.zoom_y_limits
+.. automethod:: PolyGraph.reset_extents
+.. automethod:: PolyGraph.reset_limits
+
+
+Curves
+------
+
+.. automethod:: PolyGraph.curve
+.. automethod:: PolyGraph.curves
+.. automethod:: PolyGraph.create_curve
+.. automethod:: PolyGraph.move_curve
+
+
+Clipboard
+---------
+
+.. automethod:: PolyGraph.copy_data_all
+.. automethod:: PolyGraph.copy_data_between_markers
+.. automethod:: PolyGraph.copy_data_visible
+
+
+XY Plot Frame
+=============
+
+.. autoclass:: PlotFrame
+
+Parameters
+----------
+
+.. automethod:: PlotFrame.parameters
+.. automethod:: PlotFrame.range
+
+
+Properties
+----------
+
+.. autoproperty:: PlotFrame.crosshair
+.. autoproperty:: PlotFrame.glyphs
+.. autoproperty:: PlotFrame.grid
+.. autoproperty:: PlotFrame.ticks
+.. autoproperty:: PlotFrame.markers
+.. autoproperty:: PlotFrame.x_intercept
+.. autoproperty:: PlotFrame.y_intercept
+
+.. automethod:: PlotFrame.show_glyphs
+.. automethod:: PlotFrame.show_grid
+.. automethod:: PlotFrame.show_ticks
+.. automethod:: PlotFrame.show_x_intercept
+.. automethod:: PlotFrame.show_y_intercept
+
+.. automethod:: PlotFrame.toggle_curve_glyphs
+.. automethod:: PlotFrame.toggle_grid_lines
+.. automethod:: PlotFrame.toggle_tick_marks
+.. automethod:: PlotFrame.toggle_x_intercept
+.. automethod:: PlotFrame.toggle_y_intercept
+
+
+Appearence
+----------
+
+.. autoproperty:: PlotFrame.title
+.. automethod:: PlotFrame.minimize
+.. automethod:: PlotFrame.restore
+.. automethod:: PlotFrame.toggle_minimize
+
+
+Zoom
+----
+
+.. automethod:: PlotFrame.zoom
+.. automethod:: PlotFrame.zoom_extents
+.. automethod:: PlotFrame.zoom_limits
+.. automethod:: PlotFrame.zoom_in
+.. automethod:: PlotFrame.zoom_out
+.. automethod:: PlotFrame.zoom_previous
+.. automethod:: PlotFrame.zoom_next
+.. automethod:: PlotFrame.zoom_x_extents
+.. automethod:: PlotFrame.zoom_x_limits
+.. automethod:: PlotFrame.zoom_y_extents
+.. automethod:: PlotFrame.zoom_y_limits
+.. automethod:: PlotFrame.reset_extents
+.. automethod:: PlotFrame.reset_limits
+
+.. automethod:: PlotFrame.aperture
+
+
+Curves
+------
+
+.. automethod:: PlotFrame.curves
+.. automethod:: PlotFrame.curve
+.. automethod:: PlotFrame.create_curve
+.. automethod:: PlotFrame.create_curves
+
+
+Clipboard
+---------
+
+.. automethod:: PlotFrame.copy_data_all
+.. automethod:: PlotFrame.copy_data_visible
+
+
+Curve
+=====
+
+.. autoclass:: Curve
+
+Properties
+----------
+
+.. autoproperty:: Curve.traces
+
+.. autoproperty:: Curve.samples
+
+.. attribute:: Curve.active
+
+   The "active" trace in the set of curve traces.
+
+   The active trace will be the default focus in tracking cross-hair mode.
+   It may be displayed in a custom style.
+
+   :type: int
+
+.. attribute:: Curve.bold
+
+   A list of "Bold" flags, one per trace.
+
+   Analog curve traces are drawn with thicker lines when bold;
+   digital curve traces are drawn thick when ``True`` and thin when ``False``,
+   instead of as a square-wave.
+
+   :type: List[bool]
+
+   Examples::
+
+       curve.bold = [True, False, False]   # Set the A-phase of a 3-phase curve to bold
+       curve.bold[0] = True                # Set the A-phase to bold, other traces unaffected
+       curve.bold = True                   # Set all traces in curve to bold
+
+.. attribute:: Curve.digital
+
+   A list of "Digital" flags, one per trace.
+
+   In a polygraph, when this flag is ``True``, the trace is drawn as two-state signal,
+   either as a square-wave (``bold=False``) or a thick/thin trace (``bold=True``).
+
+   :type: List[bool]
+
+.. attribute:: Curve.visible
+
+   Visibility flags, one per trace
+
+   When ``False``, the trace is hidden.
+
+   :type: List[bool]
+
+Methods
+-------
+
+.. automethod:: Curve.to_start
+.. automethod:: Curve.to_end
+
+.. automethod:: Curve.domain
+.. automethod:: Curve.trace
+
+
+-----------
+Instruments
+-----------
+
+.. autoclass:: Instrument
+
+   .. versionadded:: 2.1.1
+
+.. autoattribute:: Instrument.link_id
+.. autoattribute:: Instrument.linked
+.. autoattribute:: Instrument.title
+
+.. automethod:: Instrument.parameters
+.. automethod:: Instrument.range
+
+Oscilloscope
+=============
+
+.. autoclass:: Oscilloscope
+
+.. autoattribute:: Oscilloscope.frequency
+.. autoattribute:: Oscilloscope.cycles
+
+
+Phasor Meter
+=============
+
+.. autoclass:: PhasorMeter
+
+.. autoattribute:: PhasorMeter.degrees
+.. autoattribute:: PhasorMeter.radians
+.. autoattribute:: PhasorMeter.index
+
+
+
+Poly Meter
+=============
+
+.. autoclass:: PolyMeter
+
+.. autoattribute:: PolyMeter.labels
+.. autoattribute:: PolyMeter.scrollable
+.. autoattribute:: PolyMeter.colour
+
+
+---------------
+Input Controls
+---------------
+
+Control Frame
+=============
+
+.. autoclass:: ControlFrame
+
+.. automethod:: ControlFrame.create_control
+.. automethod:: ControlFrame.create_controls
+.. automethod:: ControlFrame.reset
+
+
+General
+=======
+
+.. autoclass:: Control
+    :members:
+
+    All controls share some common :meth:`parameters <.parameters>`,
+    to identify the control to the user.
+    The control subclasses will add additional parameters specific to each:
+
+    .. table:: Common Control Properties
+
+       ============ ===== ============================================
+       Param Name   Type  Description
+       ============ ===== ============================================
+       Name         str   Name of input
+       Group        str   Name of logical group input belongs to
+       Display      bool  Show the Name on the control
+       ============ ===== ============================================
+
+
+Button
+======
+.. autoclass:: Button
+    :members:
+
+Switch
+======
+.. autoclass:: Switch
+    :members:
+
+Selector
+========
+.. autoclass:: Selector
+    :members:
+
+Slider
+======
+.. autoclass:: Slider
+    :members:
+
+-----------
+Annotations
+-----------
+
+Sticky
+======
+
+.. autoclass:: Sticky
+
+.. automethod:: Sticky.parameters
+.. automethod:: Sticky.range
+.. automethod:: Sticky.arrows
+
+Divider
+=======
+
+.. autoclass:: Divider
+
+.. automethod:: Divider.parameters
+.. automethod:: Divider.range
+.. automethod:: Divider.horizontal
+.. automethod:: Divider.vertical
+.. automethod:: Divider.flat
+.. automethod:: Divider.solid
+.. automethod:: Divider.dashed
+.. automethod:: Divider.dotted
+.. automethod:: Divider.dot_dash
+.. automethod:: Divider.raised
+
+
+Group Box
+=========
+
+.. autoclass:: GroupBox
+
+.. automethod:: GroupBox.parameters
+.. automethod:: GroupBox.range

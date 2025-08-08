@@ -1,0 +1,215 @@
+.. py:currentmodule:: mhi.pscad
+
+======
+Canvas
+======
+
+.. autoclass:: Canvas
+
+----------
+Properties
+----------
+
+.. autoattribute:: Canvas.scope
+.. autoattribute:: Canvas.name
+.. automethod:: Canvas.parameters
+.. automethod:: Canvas.parameter_range
+.. autoattribute:: Canvas.size
+
+
+------------------
+Finding Components
+------------------
+
+The :meth:`.Canvas.find()`, :meth:`.Canvas.find_first()` and
+:meth:`.Canvas.find_all()` methods are improvements over the original methods which
+found components by Id attribute.
+These methods automatically detect the type of the found component(s),
+and return a control proxy of the correct type.
+
+.. automethod:: Canvas.find
+.. automethod:: Canvas.find_first
+.. automethod:: Canvas.find_all
+
+.. automethod:: Canvas.components
+
+.. automethod:: Canvas.bounds
+
+
+Finding By Id
+-------------
+
+These methods are the original methods which find components by Id attribute.
+Care must be taken to ensure the correct method is used for the type
+of component, or an incorrect control proxy will be returned.
+
+In almost every case, it is simplier to use the newer `find()`, `find_first()`,
+or `find_all()` methods.
+
+.. automethod:: Canvas.component
+
+.. .. automethod:: Canvas.bus
+.. .. automethod:: Canvas.tline
+.. .. automethod:: Canvas.cable
+.. .. automethod:: Canvas.graph_frame
+.. .. automethod:: Canvas.overlay_graph
+.. .. automethod:: Canvas.slider
+.. .. automethod:: Canvas.switch
+.. .. automethod:: Canvas.button
+.. .. automethod:: Canvas.selector
+
+
+Names In Use
+------------
+
+.. automethod:: Canvas.names_in_use
+
+
+------------------------------
+Finding Empty Spaces on Canvas
+------------------------------
+
+.. automethod:: Canvas.get_empty_rects
+.. automethod:: Canvas.closest_empty_rect
+
+
+-------------------
+Creating Components
+-------------------
+
+See also the User Canvas's :ref:`user-canvas-create-components` section
+for creating wires, buses, annotations, graphs and controls.
+
+.. automethod:: Canvas.create_component
+.. automethod:: Canvas.add_component
+.. .. automethod:: Canvas.add_wire
+
+
+--------------------
+Clipboard Operations
+--------------------
+
+.. automethod:: Canvas.select
+.. automethod:: Canvas.select_components
+.. automethod:: Canvas.clear_selection
+
+.. automethod:: Canvas.copy
+.. automethod:: Canvas.cut
+.. automethod:: Canvas.paste
+.. automethod:: Canvas.delete
+
+
+---------------
+Transformations
+---------------
+
+.. versionadded:: 2.0
+
+.. automethod:: Canvas.mirror
+.. automethod:: Canvas.flip
+.. automethod:: Canvas.rotate_right
+.. automethod:: Canvas.rotate_left
+.. automethod:: Canvas.rotate_180
+
+
+
+--------------------
+Navigation
+--------------------
+
+.. automethod:: Canvas.navigate_up
+
+===========
+User Canvas
+===========
+
+.. autoclass:: UserCanvas
+
+----------
+Definition
+----------
+
+.. autoattribute:: UserCanvas.definition
+
+----------
+Parameters
+----------
+
+.. automethod:: UserCanvas.parameters
+.. automethod:: UserCanvas.parameter_range
+
+
+---------------
+Smart Clipboard
+---------------
+
+.. automethod:: UserCanvas.paste_transfer
+.. automethod:: UserCanvas.paste_rename
+
+
+----------------
+Composition
+----------------
+
+.. automethod:: UserCanvas.group
+.. automethod:: UserCanvas.compose_wires
+.. automethod:: UserCanvas.decompose_wires
+
+
+.. _user-canvas-create-components:
+
+-------------
+Creating ...
+-------------
+
+Methods for creating various components.
+
+.. versionadded:: 2.0
+
+
+Wires
+-----
+
+.. automethod:: UserCanvas.create_wire
+.. automethod:: UserCanvas.create_bus
+.. automethod:: UserCanvas.create_sticky_wire
+
+Connections
+-----------
+
+.. automethod:: UserCanvas.create_connection
+
+Annotations
+-----------
+
+.. automethod:: UserCanvas.create_annotation
+.. automethod:: UserCanvas.create_sticky_note
+.. automethod:: UserCanvas.create_divider
+.. automethod:: UserCanvas.create_group_box
+.. automethod:: UserCanvas.create_file
+.. .. automethod:: UserCanvas.create_case_link
+.. automethod:: UserCanvas.create_hyper_link
+.. automethod:: UserCanvas.create_bookmark_link
+
+Graphs
+------
+
+.. automethod:: UserCanvas.create_graph_frame
+.. automethod:: UserCanvas.create_graph
+.. automethod:: UserCanvas.create_polygraph
+.. automethod:: UserCanvas.create_xy_plot
+.. automethod:: UserCanvas.create_poly_meter
+.. automethod:: UserCanvas.create_phasor_meter
+.. automethod:: UserCanvas.create_oscilloscope
+
+Controls
+--------
+
+.. automethod:: UserCanvas.create_control_frame
+
+===============
+Graphics Canvas
+===============
+
+.. autoclass:: GfxCanvas
+    :members:

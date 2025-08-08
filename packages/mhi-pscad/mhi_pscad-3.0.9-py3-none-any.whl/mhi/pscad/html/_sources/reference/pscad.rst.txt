@@ -1,0 +1,227 @@
+.. testsetup:: *
+
+    import mhi.pscad, os.path
+
+    pscad = mhi.pscad.launch()
+
+.. testcleanup:: *
+
+    pscad.quit()
+
+    del pscad
+
+
+*********************
+The PSCAD Application
+*********************
+
+.. py:currentmodule:: mhi.pscad
+
+
+.. autoclass:: PSCAD()
+
+
+Configuration
+=============
+
+Application Settings
+--------------------
+
+.. automethod:: PSCAD.settings
+.. automethod:: PSCAD.setting_range
+
+
+Application Flags
+-----------------
+The following flags are supported:
+
+.. table::
+    :widths: 15 80
+
+    =============== ===========================================================
+    Flag Name       Description
+    =============== ===========================================================
+    silence         Suppress popup dialogs which may interfere with automation.
+    load-meta-files Controls loading of additional project state information, \
+                    such as build messages from a previous session.
+    =============== ===========================================================
+
+.. automethod:: PSCAD.flags
+.. automethod:: PSCAD.substitute
+
+
+Properties
+==========
+
+.. versionadded:: 2.0
+
+.. autoattribute:: PSCAD.version
+.. autoattribute:: PSCAD.examples_folder
+.. automethod:: PSCAD.is_busy
+
+
+Licensing
+=========
+
+Certificate
+-----------
+
+.. automethod:: PSCAD.login
+.. automethod:: PSCAD.logout
+.. automethod:: PSCAD.logged_in
+.. automethod:: PSCAD.licensed
+.. automethod:: PSCAD.get_available_certificates
+.. automethod:: PSCAD.get_current_certificate
+.. automethod:: PSCAD.get_certificate
+.. automethod:: PSCAD.release_certificate
+.. automethod:: PSCAD.release_all_certificates
+.. automethod:: PSCAD.set_license_host
+
+Legacy
+------
+
+.. automethod:: PSCAD.activate_edu_license
+.. automethod:: PSCAD.activate_pro_license
+
+
+Workspace Commands
+==================
+
+.. versionchanged:: 2.0
+   These methods used to be under the ``Workspace`` object
+
+.. automethod:: PSCAD.new_workspace
+.. automethod:: PSCAD.save_workspace
+.. autoattribute:: PSCAD.workspace_dir
+.. autoattribute:: PSCAD.workspace_name
+.. autoattribute:: PSCAD.workspace_path
+.. automethod:: PSCAD.is_dirty
+.. automethod:: PSCAD.load
+.. automethod:: PSCAD.projects
+.. automethod:: PSCAD.project_names
+.. automethod:: PSCAD.cases
+.. automethod:: PSCAD.libraries
+.. automethod:: PSCAD.project
+.. automethod:: PSCAD.create_library
+.. automethod:: PSCAD.create_case
+
+
+Build & Run Commands
+====================
+
+.. versionchanged:: 2.0
+   These methods used to be under the ``Workspace`` object
+
+.. automethod:: PSCAD.build_all
+.. automethod:: PSCAD.build_modified
+.. automethod:: PSCAD.build_current
+.. automethod:: PSCAD.pause_run
+.. automethod:: PSCAD.stop_run
+.. automethod:: PSCAD.clean_all
+
+
+
+Simulation Sets
+===============
+
+.. versionchanged:: 2.0
+   These methods used to be under the ``Workspace`` object
+
+.. automethod:: PSCAD.simulation_sets
+.. automethod:: PSCAD.create_simulation_set
+.. automethod:: PSCAD.simulation_set
+.. automethod:: PSCAD.remove_simulation_set
+.. automethod:: PSCAD.run_all_simulation_sets
+
+Parameter Grid
+==============
+
+.. versionadded:: 2.8.1
+.. autoattribute:: PSCAD.parameter_grid
+
+The following methods are defined on the interface object
+
+.. py:currentmodule:: mhi.pscad.parameter_grid
+.. automethod:: ParameterGrid.view
+.. automethod:: ParameterGrid.view_cases
+.. automethod:: ParameterGrid.view_libraries
+.. automethod:: ParameterGrid.view_simulation_sets
+.. automethod:: ParameterGrid.view_simulation_tasks
+.. automethod:: ParameterGrid.view_simulation_task_overrides
+.. automethod:: ParameterGrid.view_simulation_task_layers
+.. automethod:: ParameterGrid.save
+.. automethod:: ParameterGrid.load
+
+.. py:currentmodule:: mhi.pscad
+
+Search Results
+==============
+
+.. automethod:: PSCAD.search_results
+
+Navigation
+==========
+
+.. automethod:: PSCAD.navigate
+.. automethod:: PSCAD.navigate_to
+.. automethod:: PSCAD.navigate_up
+.. automethod:: PSCAD.navigate_dismiss
+.. automethod:: PSCAD.focused
+
+
+Subscriptions
+=============
+
+These methods are used to get asynchronous events from the PSCAD application.
+
+.. automethod:: PSCAD.subscriptions
+.. automethod:: PSCAD.subscribed
+.. automethod:: PSCAD.subscribe
+.. automethod:: PSCAD.unsubscribe
+.. automethod:: PSCAD.unsubscribe_all
+.. automethod:: PSCAD.subscription
+
+
+Keys & Mouse
+============
+
+Keystroke Events
+----------------
+
+.. versionchanged:: 2.0
+   These methods used to be under the ``KeyStrokes`` object
+
+.. automethod:: PSCAD.key_down
+.. automethod:: PSCAD.key_up
+.. automethod:: PSCAD.stroke
+.. automethod:: PSCAD.keystrokes
+.. automethod:: PSCAD.typing
+
+
+Mouse Events
+------------
+
+.. versionchanged:: 2.0
+   These methods used to be under the ``MouseEvents`` object
+
+.. automethod:: PSCAD.move
+
+.. automethod:: PSCAD.leftdown
+.. automethod:: PSCAD.leftup
+.. automethod:: PSCAD.leftclick
+
+.. automethod:: PSCAD.middledown
+.. automethod:: PSCAD.middleup
+.. automethod:: PSCAD.middleclick
+
+.. automethod:: PSCAD.rightdown
+.. automethod:: PSCAD.rightup
+.. automethod:: PSCAD.rightclick
+
+.. automethod:: PSCAD.wheel
+
+
+Termination
+===========
+
+.. automethod:: PSCAD.quit

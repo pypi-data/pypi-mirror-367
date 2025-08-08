@@ -1,0 +1,247 @@
+.. testsetup::
+
+    import mhi.pscad
+
+    pscad = mhi.pscad.launch()
+
+.. testcleanup::
+
+    pscad.quit()
+    
+    del pscad
+
+
+========
+Projects
+========
+
+.. py:currentmodule:: mhi.pscad
+
+.. autoclass:: Project
+
+In PSCAD, a `Project` may refer to a `Library` (.pslx) or a `Case` (.pscx).
+A `Library` will contain component definitions and/or code which may be used in
+other libraries and cases.
+A `Case` is a runnable simulation that may reference other libraries.
+
+The `Master Library` is a library which is automatically loaded into every
+workspace.
+
+
+
+Properties
+==========
+
+.. autoattribute:: Project.name
+.. autoattribute:: Project.filename
+.. autoattribute:: Project.temp_folder
+
+.. automethod:: Project.parameters
+.. automethod:: Project.parameter_range
+
+
+Management
+==========
+
+Load & Save
+-----------
+.. automethod:: Project.save
+.. automethod:: Project.save_as
+.. automethod:: Project.is_dirty
+.. automethod:: Project.reload
+.. automethod:: Project.unload
+
+
+Navigation
+----------
+
+.. automethod:: Project.focus
+.. automethod:: Project.canvas
+
+
+Search
+------
+
+.. automethod:: Project.branch_search
+.. automethod:: Project.node_search
+
+
+Scenarios
+---------
+
+.. automethod:: Project.scenarios
+.. automethod:: Project.scenario
+.. automethod:: Project.save_scenario
+.. automethod:: Project.save_as_scenario
+.. automethod:: Project.delete_scenario
+
+
+Build & Run
+===========
+
+.. automethod:: Project.build
+.. automethod:: Project.run
+.. automethod:: Project.run_status
+.. automethod:: Project.pause
+.. automethod:: Project.stop
+.. automethod:: Project.messages
+.. automethod:: Project.output
+.. automethod:: Project.clean
+.. automethod:: Project.compile_library
+
+
+
+Definitions
+===========
+
+.. automethod:: Project.definitions
+.. automethod:: Project.definition
+.. automethod:: Project.create_definition
+.. automethod:: Project.delete_definition
+.. automethod:: Project.delete_definition_instances
+
+.. automethod:: PSCAD.copy_definitions
+.. automethod:: Project.paste_definitions
+.. automethod:: Project.paste_definitions_with_dependents
+
+.. automethod:: Project.remap_definitions
+
+
+Components
+==========
+
+Finding
+-------
+
+.. automethod:: Project.find
+.. automethod:: Project.find_first
+.. automethod:: Project.find_all
+
+Finding By Id
+-------------
+
+.. automethod:: Project.component
+
+.. note::
+
+    It is often easier to use :meth:`.Project.find`, :meth:`.Project.find_first`
+    or :meth:`.Project.find_all` methods (or the Canvas variants :meth:`.Canvas.find`,
+    :meth:`.Canvas.find_first` or :meth:`.Canvas.find_all`) to find a component of
+    interest, rather than using a component Id for locating the component.
+
+    For example, in ``pm_machine.pscx`` case::
+
+        # Compare finding a component by name ...
+        pm = prj.canvas('main').find('PMMachine')
+
+        # with finding a component by ID.
+        pm = prj.component(1551087554)
+
+
+Parameter Grid
+--------------
+
+.. automethod:: Project.export_parameter_grid
+.. automethod:: Project.import_parameter_grid
+
+
+Names In Use
+------------
+
+.. automethod:: Project.names_in_use
+
+
+Global Substitutions
+====================
+
+.. versionadded:: 2.0
+
+.. autoattribute:: Project.global_substitution
+
+Sets
+----
+
+.. autoattribute:: GlobalSubstitution.active_set
+.. automethod:: GlobalSubstitution.create_sets
+.. automethod:: GlobalSubstitution.remove_sets
+.. automethod:: GlobalSubstitution.rename_set
+
+
+Variables
+---------
+
+.. automethod:: GlobalSubstitution.create
+.. automethod:: GlobalSubstitution.remove
+.. automethod:: GlobalSubstitution.rename
+
+Load / Save
+-----------
+
+.. automethod:: GlobalSubstitution.save_set
+.. automethod:: GlobalSubstitution.load_set
+.. automethod:: GlobalSubstitution.append_set
+
+.. automethod:: GlobalSubstitution.save_all_sets
+.. automethod:: GlobalSubstitution.load_all_sets
+.. automethod:: GlobalSubstitution.append_all_sets
+
+
+Layers
+======
+
+.. automethod:: Project.layers
+.. automethod:: Project.create_layer
+.. automethod:: Project.set_layer_state
+.. automethod:: Project.delete_layer
+.. automethod:: Project.layer
+.. automethod:: Project.layer_states
+
+Properties
+----------
+
+.. versionadded:: 2.0
+
+After a layer has been retrieved with :meth:`.Project.layer`,
+the following attributes and methods may be accessed:
+
+.. autoattribute:: Layer.project
+.. autoattribute:: Layer.id
+.. autoattribute:: Layer.name
+.. autoattribute:: Layer.state
+.. automethod:: Layer.parameters
+.. automethod:: Layer.add_state
+.. automethod:: Layer.remove_state
+.. automethod:: Layer.rename_state
+.. automethod:: Layer.set_custom_state
+.. automethod:: Layer.move_up
+.. automethod:: Layer.move_down
+.. automethod:: Layer.to_top
+.. automethod:: Layer.to_bottom
+
+
+Resources
+=========
+
+.. versionadded:: 2.0
+
+Resources are additional files 
+
+.. automethod:: Project.resources
+.. automethod:: Project.create_resource
+.. automethod:: Project.remove_resource
+
+.. automethod:: Project.resource
+
+Properties
+----------
+
+After a resource has been retrieved with :meth:`.Project.resource`,
+the following attributes and methods may be accessed:
+
+.. autoattribute:: Resource.project
+.. autoattribute:: Resource.id
+.. autoattribute:: Resource.name
+.. autoattribute:: Resource.path
+.. autoattribute:: Resource.abspath
+.. automethod:: Resource.parameters
+

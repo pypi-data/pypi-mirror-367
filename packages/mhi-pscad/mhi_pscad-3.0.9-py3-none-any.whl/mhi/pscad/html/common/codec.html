@@ -1,0 +1,1382 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Coders / Decoders &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'common/codec';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Collection" href="collection.html" />
+    <link rel="prev" title="MHI Common Library" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference Manual</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MHI Common Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coders / Decoders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general">General</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#codec">Codec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boolean-codec">Boolean Codec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#map-codec">Map Codec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#keyword-codec">Keyword Codec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#simple-codec">Simple Codec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fuzzy-codec">Fuzzy Codec</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#arrows">Arrows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.arrow.Arrow"><code class="docutils literal notranslate"><span class="pre">Arrow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#colours">Colours</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.common.colour.Colour"><code class="docutils literal notranslate"><span class="pre">Colour</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collection.html">Collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="path.html">Path Expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="process.html">Process Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote.html">Remote Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html">Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">MHI Common Library</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="collection.html"
+                          title="next chapter">Collection</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">MHI Common Library</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Coders / Decoders</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="coders-decoders">
+<h1>Coders / Decoders<a class="headerlink" href="#coders-decoders" title="Link to this heading">#</a></h1>
+<p id="module-mhi.common.codec">Encode user-friendly values into internal formats used by the application,
+and decoder the values back into user-friendly values.</p>
+<section id="general">
+<h2>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h2>
+<section id="codec">
+<h3>Codec<a class="headerlink" href="#codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.Codec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">Codec</span></span><a class="headerlink" href="#mhi.common.codec.Codec" title="Link to this definition">#</a></dt>
+<dd><p>Codec: Coder / Decoder</p>
+<p>Encode from user-friendly values into an internal value format,
+and decode from the internal format into (ideally) a user-friendly
+value.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.Codec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.codec.Codec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a user-friendly value into an internal format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.Codec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.codec.Codec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode an internal format value into a more user-friendly format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.Codec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.Codec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.Codec.encode" title="mhi.common.codec.Codec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by <a class="reference internal" href="#mhi.common.codec.Codec.decode" title="mhi.common.codec.Codec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="boolean-codec">
+<h3>Boolean Codec<a class="headerlink" href="#boolean-codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.BooleanCodec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">BooleanCodec</span></span><a class="headerlink" href="#mhi.common.codec.BooleanCodec" title="Link to this definition">#</a></dt>
+<dd><p>Boolean Coder / Decoder</p>
+<p>Convert Python boolean values to/from the strings <cite>“true”</cite> and <cite>“false”</cite>,
+used by MHI application serialization.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.BooleanCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.codec.BooleanCodec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a boolean into an MHI serialization string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>bool</em>) – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the “encoded” string <cite>“true”</cite> or <cite>“false”</cite></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.BooleanCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.codec.BooleanCodec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode a boolean from an MHI serialization string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – the string <cite>“true”</cite> or <cite>“false”</cite></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.BooleanCodec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.BooleanCodec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.BooleanCodec.encode" title="mhi.common.codec.BooleanCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by <a class="reference internal" href="#mhi.common.codec.BooleanCodec.decode" title="mhi.common.codec.BooleanCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">{False,</span> <span class="pre">True}</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="map-codec">
+<h3>Map Codec<a class="headerlink" href="#map-codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.MapCodec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">MapCodec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">extras</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.MapCodec" title="Link to this definition">#</a></dt>
+<dd><p>Map Coder / Decoder</p>
+<p>Convert Python values to/from the strings,
+used by MHI application serialization.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.MapCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.codec.MapCodec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a value into an MHI serialization string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.MapCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.codec.MapCodec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode a value from an MHI serialization string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – the value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.MapCodec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.MapCodec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.MapCodec.encode" title="mhi.common.codec.MapCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by  <a class="reference internal" href="#mhi.common.codec.MapCodec.decode" title="mhi.common.codec.MapCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value which can be encoded by the codec.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>frozenset</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="keyword-codec">
+<h3>Keyword Codec<a class="headerlink" href="#keyword-codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">KeywordCodec</span></span><a class="headerlink" href="#mhi.common.codec.KeywordCodec" title="Link to this definition">#</a></dt>
+<dd><p>Keyword Codec</p>
+<p>Encode values for specific keys of a dictionary from user-friendly values
+into an internal value format, and decode values for those specific keys
+from the internal format into (ideally) a user-friendly value.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.encodes">
+<span class="sig-name descname"><span class="pre">encodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.encodes" title="Link to this definition">#</a></dt>
+<dd><p>Predicate, indicating whether or not this keyword codec will encode
+and decode a particular keyword</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyword</strong> (<em>str</em>) – keyword to test</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if this codec handles the <code class="docutils literal notranslate"><span class="pre">keyword</span></code>,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.encode_all">
+<span class="sig-name descname"><span class="pre">encode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.encode_all" title="Link to this definition">#</a></dt>
+<dd><p>Encode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing encoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.decode_all">
+<span class="sig-name descname"><span class="pre">decode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.decode_all" title="Link to this definition">#</a></dt>
+<dd><p>Decode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing decoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode an internal format value into a more user-friendly format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a user-friendly value into an internal format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.KeywordCodec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.KeywordCodec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.KeywordCodec.encode" title="mhi.common.codec.KeywordCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by <a class="reference internal" href="#mhi.common.codec.KeywordCodec.decode" title="mhi.common.codec.KeywordCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="simple-codec">
+<h3>Simple Codec<a class="headerlink" href="#simple-codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">SimpleCodec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">codes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.SimpleCodec" title="Link to this definition">#</a></dt>
+<dd><p>Keyword Codec</p>
+<p>Encode values for specific keys of a dictionary from user-friendly values
+into an internal value format, and decode values for those specific keys
+from the internal format into (ideally) a user-friendly value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code_dict</strong> (<em>dict</em>) – A dictionary used to translate user-friendly values
+into internal values.</p></li>
+<li><p><strong>**codes</strong> – additional keyword-value translation pairs.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>A codec which converts fruit names into integers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span> <span class="o">=</span> <span class="n">SimpleCodec</span><span class="p">(</span><span class="n">apple</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">banana</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pear</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">keywords</span><span class="p">(</span><span class="s1">&#39;fruit&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;banana&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">encode_all</span><span class="p">({</span><span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="s1">&#39;lion&#39;</span><span class="p">,</span> <span class="s1">&#39;fruit&#39;</span><span class="p">:</span> <span class="s1">&#39;pear&#39;</span><span class="p">})</span>
+<span class="go">{&#39;animal&#39;: &#39;lion&#39;, &#39;fruit&#39;: 3}</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.alternates">
+<span class="sig-name descname"><span class="pre">alternates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">codes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.alternates" title="Link to this definition">#</a></dt>
+<dd><p>Provide additional encodings aliases for the codec.
+These additional options must not duplicate any existing user-friendly
+keywords, and must not introduce any new values to the mapping.</p>
+<p>For instance, a codec may defined the mapping ‘EMTPY’ =&gt; 0.
+An alternate mapping ‘BLANK’ =&gt; 0 may be provided, allowing either
+‘EMPTY’ or ‘BLANK’ to be encoded as 0, but 0 will always be decoded
+as ‘EMPTY’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code_dict</strong> (<em>dict</em>) – A dictionary of additional translation aliases.</p></li>
+<li><p><strong>**codes</strong> – additional keyword-value translation alias pairs.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a user-friendly value into an internal format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode an internal format value into a more user-friendly format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.keywords">
+<span class="sig-name descname"><span class="pre">keywords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">keywords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.keywords" title="Link to this definition">#</a></dt>
+<dd><p>Add keywords which will be recognized by this codec when
+<a class="reference internal" href="#mhi.common.codec.SimpleCodec.encode_all" title="mhi.common.codec.SimpleCodec.encode_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode_all()</span></code></a> or <a class="reference internal" href="#mhi.common.codec.SimpleCodec.decode_all" title="mhi.common.codec.SimpleCodec.decode_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode_all()</span></code></a> is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*keywords</strong> (<em>str</em>) – List of keywords to associate to this codec</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.encodes">
+<span class="sig-name descname"><span class="pre">encodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.encodes" title="Link to this definition">#</a></dt>
+<dd><p>Predicate, indicating whether or not this keyword codec will encode
+and decode a particular keyword</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyword</strong> (<em>str</em>) – keyword to test</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if this codec handles the <code class="docutils literal notranslate"><span class="pre">keyword</span></code>,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.SimpleCodec.encode" title="mhi.common.codec.SimpleCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by <a class="reference internal" href="#mhi.common.codec.SimpleCodec.decode" title="mhi.common.codec.SimpleCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.decode_all">
+<span class="sig-name descname"><span class="pre">decode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.decode_all" title="Link to this definition">#</a></dt>
+<dd><p>Decode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing decoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.SimpleCodec.encode_all">
+<span class="sig-name descname"><span class="pre">encode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.SimpleCodec.encode_all" title="Link to this definition">#</a></dt>
+<dd><p>Encode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing encoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="fuzzy-codec">
+<h3>Fuzzy Codec<a class="headerlink" href="#fuzzy-codec" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.codec.</span></span><span class="sig-name descname"><span class="pre">FuzzyCodec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decode_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec" title="Link to this definition">#</a></dt>
+<dd><p>A fuzzy-match codec</p>
+<p>This codec matches the value given to <a class="reference internal" href="#mhi.common.codec.FuzzyCodec.encode" title="mhi.common.codec.FuzzyCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> against the set
+of expected inputs, and uses the best match from the expected inputs
+to determine the correct encoded value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unlike the <a class="reference internal" href="#mhi.common.codec.MapCodec" title="mhi.common.codec.MapCodec"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapCodec</span></code></a> and <a class="reference internal" href="#mhi.common.codec.SimpleCodec" title="mhi.common.codec.SimpleCodec"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleCodec</span></code></a>, the
+“encoded” values are passed as the keys of the mapping dictionary.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span> <span class="o">=</span> <span class="n">FuzzyCodec</span><span class="p">({</span><span class="s1">&#39;ABC&#39;</span><span class="p">:</span> <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;DEF&#39;</span><span class="p">:</span> <span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;GHI&#39;</span><span class="p">:</span> <span class="s1">&#39;cherry&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;Bnana&#39;</span><span class="p">,</span> <span class="n">warn</span><span class="p">)</span>
+<span class="go">&#39;DEF&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">codec</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;DEF&#39;</span><span class="p">)</span>
+<span class="go">&#39;banana&#39;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a value into an MHI serialization string</p>
+<p>A warning is generated if the given value is only an approximate
+match to the values in the encoding map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the value to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.encode_to">
+<span class="sig-name descname"><span class="pre">encode_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.encode_to" title="Link to this definition">#</a></dt>
+<dd><p>Encode a value into an MHI serialization string using a
+restricted set of possible output options.</p>
+<p>A warning is generated if the given value is only an approximate
+match to the values in the active set of the encoding map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – the value to encode</p></li>
+<li><p><strong>active</strong> – a set of ‘enabled’ conversion codes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the encoded string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.equivalent">
+<span class="sig-name descname"><span class="pre">equivalent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.equivalent" title="Link to this definition">#</a></dt>
+<dd><p>If a value can <code class="docutils literal notranslate"><span class="pre">encode_to()</span></code> to multiple codes, distinguished by
+which codes are in the <code class="docutils literal notranslate"><span class="pre">active</span></code> set, then a code may be mapped
+to a different code with a different active set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode a value from an MHI serialization string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – the value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the decoded value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.FuzzyCodec.encode" title="mhi.common.codec.FuzzyCodec.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by  <a class="reference internal" href="#mhi.common.codec.FuzzyCodec.decode" title="mhi.common.codec.FuzzyCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>values which can be encoded by the codec.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.codec.FuzzyCodec.active_range">
+<span class="sig-name descname"><span class="pre">active_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.codec.FuzzyCodec.active_range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.codec.FuzzyCodec.encode_to" title="mhi.common.codec.FuzzyCodec.encode_to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode_to()</span></code></a> and will
+be returned by  <a class="reference internal" href="#mhi.common.codec.FuzzyCodec.decode" title="mhi.common.codec.FuzzyCodec.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> – a set of ‘enabled’ output values</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>values which can be encoded by the codec.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="arrows">
+<h2>Arrows<a class="headerlink" href="#arrows" title="Link to this heading">#</a></h2>
+<p id="module-mhi.common.arrow">This module is used to encode and decode between a <code class="docutils literal notranslate"><span class="pre">set</span></code> of compass directions
+<code class="docutils literal notranslate"><span class="pre">{&quot;N&quot;,</span> <span class="pre">&quot;E&quot;,</span> <span class="pre">&quot;SW&quot;</span> <span class="pre">}</span></code> and bit encoded values (<code class="docutils literal notranslate"><span class="pre">0b001001001</span></code>).</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Arrow directions</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Direction</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>N</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>S</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>W</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>E</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p>NW</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-odd"><td><p>NE</p></td>
+<td><p>32</p></td>
+</tr>
+<tr class="row-even"><td><p>SW</p></td>
+<td><p>64</p></td>
+</tr>
+<tr class="row-odd"><td><p>SE</p></td>
+<td><p>128</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.arrow.</span></span><span class="sig-name descname"><span class="pre">Arrow</span></span><a class="headerlink" href="#mhi.common.arrow.Arrow" title="Link to this definition">#</a></dt>
+<dd><p>Coder/Decoder for compass directions into PSCAD integer representation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.encodes">
+<span class="sig-name descname"><span class="pre">encodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.encodes" title="Link to this definition">#</a></dt>
+<dd><p>Predicate, indicating whether or not this keyword codec will encode
+and decode a particular keyword</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyword</strong> (<em>str</em>) – keyword to test</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">keyword</span></code> is <code class="docutils literal notranslate"><span class="pre">'arrows'</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode one or more directions into an bit-encoded integer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arrow</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;N S&quot;</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arrow</span><span class="o">.</span><span class="n">encode</span><span class="p">([</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">])</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dirs</strong> – the directions to encode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a bit-encoded direction value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode a bit-encoded integer string into a direction string:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arrow</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;15&quot;</span><span class="p">)</span>
+<span class="go">&#39;N S W E&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dirs</strong> (<em>str</em>) – the direction value to decode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a space-separated list of compass directions</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.range" title="Link to this definition">#</a></dt>
+<dd><p>Returns the range of values that this codec will encode,
+as in, maybe passed to <a class="reference internal" href="#mhi.common.arrow.Arrow.encode" title="mhi.common.arrow.Arrow.encode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">encode()</span></code></a> and will
+be returned by <a class="reference internal" href="#mhi.common.arrow.Arrow.decode" title="mhi.common.arrow.Arrow.decode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">decode()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.decode_all">
+<span class="sig-name descname"><span class="pre">decode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.decode_all" title="Link to this definition">#</a></dt>
+<dd><p>Decode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing decoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.arrow.Arrow.encode_all">
+<span class="sig-name descname"><span class="pre">encode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.arrow.Arrow.encode_all" title="Link to this definition">#</a></dt>
+<dd><p>Encode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing encoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="colours">
+<h2>Colours<a class="headerlink" href="#colours" title="Link to this heading">#</a></h2>
+<p id="module-mhi.common.colour">This module is used to encode and decode between common colour names
+and RGB integer values.  Standard Windows and CSS colour names are recognized.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.common.colour.</span></span><span class="sig-name descname"><span class="pre">Colour</span></span><a class="headerlink" href="#mhi.common.colour.Colour" title="Link to this definition">#</a></dt>
+<dd><p>Colour Coder / Decoder</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.colour_to_argb">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">colour_to_argb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.colour_to_argb" title="Link to this definition">#</a></dt>
+<dd><p>Convert a colour to an ARGB string (#ff_RR_GG_BB)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.argb_to_colour">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">argb_to_colour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.argb_to_colour" title="Link to this definition">#</a></dt>
+<dd><p>Convert an ARGB (#ff_RR_GG_BB) colour to a named colour,
+if possible.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.encodes">
+<span class="sig-name descname"><span class="pre">encodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.encodes" title="Link to this definition">#</a></dt>
+<dd><p>Predicate, indicating whether or not this keyword codec will encode
+and decode a particular keyword</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyword</strong> (<em>str</em>) – keyword to test</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">keyword</span></code> is <code class="docutils literal notranslate"><span class="pre">'fg_color'</span></code>, <code class="docutils literal notranslate"><span class="pre">'bg_color'</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">'true-color'</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.encode" title="Link to this definition">#</a></dt>
+<dd><p>Encode a named colour into an #ARGB value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;RED&quot;</span><span class="p">)</span>
+<span class="go">#ffff0000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">encode</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+<span class="go">#ff0000ff</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;#FA8800&quot;</span><span class="p">)</span>
+<span class="go">#fffa8800</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>colour</strong> – the colour to encoded</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the #ARGB value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.decode" title="Link to this definition">#</a></dt>
+<dd><p>Decode an ARGB value into a named colour, if possible:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mh">0xFF_FF_FF</span><span class="p">))</span>
+<span class="go">&#39;white&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mh">0x9A_FA_00</span><span class="p">))</span>
+<span class="go">&#39;mediumspringgreen&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;#00FA9A&#39;</span><span class="p">))</span>
+<span class="go">&#39;mediumspringgreen&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">colour</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mi">16418816</span><span class="p">))</span>
+<span class="go">&#39;#ff0088fa&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>colour</strong> (<em>str</em>) – an #ARGB colour value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the name of the colour</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.range">
+<span class="sig-name descname"><span class="pre">range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.range" title="Link to this definition">#</a></dt>
+<dd><p>Return the set of known colour names</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.decode_all">
+<span class="sig-name descname"><span class="pre">decode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.decode_all" title="Link to this definition">#</a></dt>
+<dd><p>Decode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing decoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.common.colour.Colour.encode_all">
+<span class="sig-name descname"><span class="pre">encode_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.common.colour.Colour.encode_all" title="Link to this definition">#</a></dt>
+<dd><p>Encode all values in the given dictionary which are handled by this
+codec.  Values for unrecognized keywords are unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – a dictionary of keyword-value pairs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing encoded values, where supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MHI Common Library</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="collection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Collection</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codec">Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.Codec"><code class="docutils literal notranslate"><span class="pre">Codec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.Codec.encode"><code class="docutils literal notranslate"><span class="pre">Codec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.Codec.decode"><code class="docutils literal notranslate"><span class="pre">Codec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.Codec.range"><code class="docutils literal notranslate"><span class="pre">Codec.range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-codec">Boolean Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.BooleanCodec"><code class="docutils literal notranslate"><span class="pre">BooleanCodec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.BooleanCodec.encode"><code class="docutils literal notranslate"><span class="pre">BooleanCodec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.BooleanCodec.decode"><code class="docutils literal notranslate"><span class="pre">BooleanCodec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.BooleanCodec.range"><code class="docutils literal notranslate"><span class="pre">BooleanCodec.range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#map-codec">Map Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.MapCodec"><code class="docutils literal notranslate"><span class="pre">MapCodec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.MapCodec.encode"><code class="docutils literal notranslate"><span class="pre">MapCodec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.MapCodec.decode"><code class="docutils literal notranslate"><span class="pre">MapCodec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.MapCodec.range"><code class="docutils literal notranslate"><span class="pre">MapCodec.range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keyword-codec">Keyword Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec"><code class="docutils literal notranslate"><span class="pre">KeywordCodec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.encodes"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.encodes()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.encode_all"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.encode_all()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.decode_all"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.decode_all()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.decode"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.encode"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.KeywordCodec.range"><code class="docutils literal notranslate"><span class="pre">KeywordCodec.range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-codec">Simple Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec"><code class="docutils literal notranslate"><span class="pre">SimpleCodec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.alternates"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.alternates()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.encode"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.decode"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.keywords"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.keywords()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.encodes"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.encodes()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.range"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.range()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.decode_all"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.decode_all()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.SimpleCodec.encode_all"><code class="docutils literal notranslate"><span class="pre">SimpleCodec.encode_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-codec">Fuzzy Codec</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.encode"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.encode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.encode_to"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.encode_to()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.equivalent"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.equivalent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.decode"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.decode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.range"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.range()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.codec.FuzzyCodec.active_range"><code class="docutils literal notranslate"><span class="pre">FuzzyCodec.active_range()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arrows">Arrows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow"><code class="docutils literal notranslate"><span class="pre">Arrow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.encodes"><code class="docutils literal notranslate"><span class="pre">Arrow.encodes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.encode"><code class="docutils literal notranslate"><span class="pre">Arrow.encode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.decode"><code class="docutils literal notranslate"><span class="pre">Arrow.decode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.range"><code class="docutils literal notranslate"><span class="pre">Arrow.range()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.decode_all"><code class="docutils literal notranslate"><span class="pre">Arrow.decode_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.arrow.Arrow.encode_all"><code class="docutils literal notranslate"><span class="pre">Arrow.encode_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#colours">Colours</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour"><code class="docutils literal notranslate"><span class="pre">Colour</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.colour_to_argb"><code class="docutils literal notranslate"><span class="pre">Colour.colour_to_argb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.argb_to_colour"><code class="docutils literal notranslate"><span class="pre">Colour.argb_to_colour()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.encodes"><code class="docutils literal notranslate"><span class="pre">Colour.encodes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.encode"><code class="docutils literal notranslate"><span class="pre">Colour.encode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.decode"><code class="docutils literal notranslate"><span class="pre">Colour.decode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.range"><code class="docutils literal notranslate"><span class="pre">Colour.range()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.decode_all"><code class="docutils literal notranslate"><span class="pre">Colour.decode_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.common.colour.Colour.encode_all"><code class="docutils literal notranslate"><span class="pre">Colour.encode_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/common/codec.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

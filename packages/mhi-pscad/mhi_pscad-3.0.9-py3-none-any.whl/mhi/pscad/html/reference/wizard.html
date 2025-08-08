@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Component Wizard &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/wizard';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Licensing" href="licensing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Component Wizard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.name"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.module"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.module</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.description"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.port"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.port</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.graphics"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.graphics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_caption"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_caption</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_height"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_splitter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_splitter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_category_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_category_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.form_help_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_help_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.category"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.parameter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.parameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.script"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.script</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.create_definition"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.create_definition()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ports">Ports</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Ports"><code class="docutils literal notranslate"><span class="pre">Ports</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#port">Port</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#graphics">Graphics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Graphics"><code class="docutils literal notranslate"><span class="pre">Graphics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#text">Text</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#line">Line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rectangle">Rectangle</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-form">Parameter Form</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Parameters"><code class="docutils literal notranslate"><span class="pre">Parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#categories">Categories</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#category">Category</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameter">Parameter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Scripts"><code class="docutils literal notranslate"><span class="pre">Scripts</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="licensing.html"
+                          title="previous chapter">Licensing</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="utilities.html"
+                          title="next chapter">Utilities</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Component Wizard</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="component-wizard">
+<h1>Component Wizard<a class="headerlink" href="#component-wizard" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.</span></span><span class="sig-name descname"><span class="pre">UserDefnWizard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard" title="Link to this definition">#</a></dt>
+<dd><p>User Definition construction wizard</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wizard</span> <span class="o">=</span> <span class="n">UserDefnWizard</span><span class="p">(</span><span class="s2">&quot;definition_name&quot;</span><span class="p">)</span>
+<span class="n">wizard</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;A multiplicative gain factor component&quot;</span>
+<span class="n">wizard</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;In&quot;</span><span class="p">,</span> <span class="n">Signal</span><span class="o">.</span><span class="n">REAL</span><span class="p">)</span>
+<span class="n">wizard</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Out&quot;</span><span class="p">,</span> <span class="n">Signal</span><span class="o">.</span><span class="n">REAL</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">wizard</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;Configuration&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="s1">&#39;Gain&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Gain factor&quot;</span><span class="p">)</span>
+<span class="n">wizard</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Gain&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">wizard</span><span class="o">.</span><span class="n">script</span><span class="p">[</span><span class="s1">&#39;Fortran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;      $Out = $In * $Gain&quot;</span>
+
+<span class="n">defn</span> <span class="o">=</span> <span class="n">wizard</span><span class="o">.</span><span class="n">create_definition</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+
+<span class="n">canvas</span><span class="o">.</span><span class="n">create_component</span><span class="p">(</span><span class="n">defn</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.2.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.name" title="Link to this definition">#</a></dt>
+<dd><p>Definition name (hint)</p>
+<p>When the definition is created, PSCAD may change the definition
+name to ensure it is unique.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.module">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.module" title="Link to this definition">#</a></dt>
+<dd><p>Flag indicating this definition will be a module with a user canvas.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.description" title="Link to this definition">#</a></dt>
+<dd><p>Component definition description</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.port">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.port" title="Link to this definition">#</a></dt>
+<dd><p>Port container.</p>
+<p>Use</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Ports.input" title="mhi.pscad.wizard.UserDefnWizard.Ports.input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.port.input(X,</span> <span class="pre">Y,</span> <span class="pre">&quot;port_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Ports.output" title="mhi.pscad.wizard.UserDefnWizard.Ports.output"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.port.output(X,</span> <span class="pre">Y,</span> <span class="pre">&quot;port_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Ports.electrical" title="mhi.pscad.wizard.UserDefnWizard.Ports.electrical"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.port.electrical(X,</span> <span class="pre">Y,</span> <span class="pre">&quot;port_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+</ul>
+<p>to add new inputs, outputs, and electrical connection ports.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">wizard.port[&quot;name&quot;]</span></code> to access a <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Port" title="mhi.pscad.wizard.UserDefnWizard.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a> by name.</p>
+<p>Since the same port name may exist multiple times with different
+<code class="docutils literal notranslate"><span class="pre">enable</span></code> condtions, use <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">port</span> <span class="pre">in</span> <span class="pre">wizard.port:</span></code> to iterate over
+all defined ports.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.graphics">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">graphics</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.graphics" title="Link to this definition">#</a></dt>
+<dd><p>Graphics container.</p>
+<p>The current defined graphic shapes (excluding port lines &amp; arrows)
+may be iterated over using <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">shape</span> <span class="pre">in</span> <span class="pre">wizard.graphics:</span></code></p>
+<p>Use</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.text" title="mhi.pscad.wizard.UserDefnWizard.Graphics.text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.graphics.text(...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.line" title="mhi.pscad.wizard.UserDefnWizard.Graphics.line"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.graphics.line(...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.arrow" title="mhi.pscad.wizard.UserDefnWizard.Graphics.arrow"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.graphics.arrow(...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle" title="mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.graphics.rectangle(...)</span></code></a>,</p></li>
+</ul>
+<p>to add new text, lines, arrows, and rectangles.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Lines &amp; arrows will be created for ports automatically.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_caption">
+<span class="sig-name descname"><span class="pre">form_caption</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_caption" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form’s Caption</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_width">
+<span class="sig-name descname"><span class="pre">form_width</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_width" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form’s width</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_height">
+<span class="sig-name descname"><span class="pre">form_height</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_height" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form height</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_splitter">
+<span class="sig-name descname"><span class="pre">form_splitter</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_splitter" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form default splitter position</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_category_width">
+<span class="sig-name descname"><span class="pre">form_category_width</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_category_width" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form’s category tree width</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.form_help_width">
+<span class="sig-name descname"><span class="pre">form_help_width</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.form_help_width" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Form’s dynamic help panel width</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.category">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">category</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.category" title="Link to this definition">#</a></dt>
+<dd><p>Component parameter form category container</p>
+<p>Use <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add" title="mhi.pscad.wizard.UserDefnWizard.Categories.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.category.add(&quot;category_name&quot;,</span> <span class="pre">...)</span></code></a>,
+to add categories to the form.
+Parameters may then be added to that category object.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">wizard.category[&quot;name&quot;]</span></code> to access a <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category" title="mhi.pscad.wizard.UserDefnWizard.Category"><code class="xref py py-class docutils literal notranslate"><span class="pre">category</span></code></a>
+by name.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.parameter">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameter</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.parameter" title="Link to this definition">#</a></dt>
+<dd><p>Component parameter container</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">wizard.parameter[&quot;name&quot;]</span></code> to access an existing parameter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Parameters can only be added to a category object.
+Use <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add" title="mhi.pscad.wizard.UserDefnWizard.Categories.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.category.add(...)</span></code></a> to create the
+category, then add parameters to that category object.</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.script">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">script</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.script" title="Link to this definition">#</a></dt>
+<dd><p>Component scripts container</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">wizard.script['Fortran']</span> <span class="pre">=</span> <span class="pre">'''...'''</span></code> to set a script section.</p>
+<p>Valid sections are: Branch, Checks, Computations, Dsdyn, Dsout,
+Fortran, MANA, Matrix-Fill, Model-Data, T-Lines, Transformers
+Help, FlyBy, and Comments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.create_definition">
+<span class="sig-name descname"><span class="pre">create_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="project.html#mhi.pscad.Project" title="mhi.pscad.Project"><span class="pre">Project</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_leads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><span class="pre">Definition</span></a></span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.create_definition" title="Link to this definition">#</a></dt>
+<dd><p>Create the definition in the given project.</p>
+<p>Once the desired ports, graphics, and form parameters &amp; categories
+have been added to the wizard, this method will create the required
+component definition in the given project, which may then be used
+to create instances of the component.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The definition name configured in the wizard is only a hint.
+When PSCAD creates the definition, it may change the definition
+name, so refer to the returned definition for the actual
+definition name.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.9.6: </span><code class="docutils literal notranslate"><span class="pre">create_leads</span></code> parameter may be set to <code class="docutils literal notranslate"><span class="pre">False</span></code> to prevent
+creation of default “port lead” graphics.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<section id="ports">
+<h2>Ports<a class="headerlink" href="#ports" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Ports">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Ports</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Ports" title="Link to this definition">#</a></dt>
+<dd><p>Port Container, accessed using the
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.port" title="mhi.pscad.wizard.UserDefnWizard.port"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.port</span></code></a> property.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">wizard.port[&quot;name&quot;]</span></code> to access a <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Port" title="mhi.pscad.wizard.UserDefnWizard.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a> by name.</p>
+<p>Since the same port name may exist multiple times with different
+<code class="docutils literal notranslate"><span class="pre">enable</span></code> condtions, use <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">port</span> <span class="pre">in</span> <span class="pre">wizard.port:</span></code> to iterate over
+all defined ports.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Ports.electrical">
+<span class="sig-name descname"><span class="pre">electrical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electrical_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.Electrical" title="mhi.pscad.types.Electrical"><span class="pre">Electrical</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'FIXED'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Ports.electrical" title="Link to this definition">#</a></dt>
+<dd><p>Create a new electrical connection port</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Ports.input">
+<span class="sig-name descname"><span class="pre">input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.Signal" title="mhi.pscad.types.Signal"><span class="pre">Signal</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Ports.input" title="Link to this definition">#</a></dt>
+<dd><p>Create a new control signal input port</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Ports.output">
+<span class="sig-name descname"><span class="pre">output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.Signal" title="mhi.pscad.types.Signal"><span class="pre">Signal</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Ports.output" title="Link to this definition">#</a></dt>
+<dd><p>Create a new control signal output port</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="port">
+<h3>Port<a class="headerlink" href="#port" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Port</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port" title="Link to this definition">#</a></dt>
+<dd><p>Component Input/Output/Electrical connections</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.data_type">
+<span class="sig-name descname"><span class="pre">data_type</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.data_type" title="Link to this definition">#</a></dt>
+<dd><p>I/O port data type (BOOLEAN, INTEGER, REAL, COMPLEX)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.dim">
+<span class="sig-name descname"><span class="pre">dim</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.dim" title="Link to this definition">#</a></dt>
+<dd><p>Port dimension.</p>
+<p>A dimension of 1 indicates a scalar wire connection.
+A dimension greater than 1 indicates an array wire connection.
+A dimension of 0 inherits the dimesion of the connected wire.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.electrical_type">
+<span class="sig-name descname"><span class="pre">electrical_type</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.electrical_type" title="Link to this definition">#</a></dt>
+<dd><p>Electrical port type (FIXED, SWITCHED, REMOVABLE)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.enable" title="Link to this definition">#</a></dt>
+<dd><p>Port enable condition</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.internal">
+<span class="sig-name descname"><span class="pre">internal</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.internal" title="Link to this definition">#</a></dt>
+<dd><p>Used to create electrical nodes with no outside connection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.mode" title="Link to this definition">#</a></dt>
+<dd><p>Port node type (ELECTRICAL, INPUT, OUTPUT)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.name" title="Link to this definition">#</a></dt>
+<dd><p>Port name</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.side">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">side</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.side" title="Link to this definition">#</a></dt>
+<dd><p>Port label location (NONE, LEFT, ABOVE, BELOW, RIGHT, AUTO)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.x" title="Link to this definition">#</a></dt>
+<dd><p>Port X coordinate</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Port.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Port.y" title="Link to this definition">#</a></dt>
+<dd><p>Port Y coordinate</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="graphics">
+<h2>Graphics<a class="headerlink" href="#graphics" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Graphics">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Graphics</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Graphics" title="Link to this definition">#</a></dt>
+<dd><p>Container for graphical elements, accessed using the
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.graphics" title="mhi.pscad.wizard.UserDefnWizard.graphics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.graphics</span></code></a> property.</p>
+<p>The current defined graphic shapes (excluding port lines &amp; arrows)
+may be iterated over using <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">shape</span> <span class="pre">in</span> <span class="pre">wizard.graphics:</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Graphics.arrow">
+<span class="sig-name descname"><span class="pre">arrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.LineStyle" title="mhi.pscad.types.LineStyle"><span class="pre">LineStyle</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LineStyle.SOLID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.arrow" title="Link to this definition">#</a></dt>
+<dd><p>Create an arrow from [x1,y1] to [x2,y2].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Graphics.line">
+<span class="sig-name descname"><span class="pre">line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.LineStyle" title="mhi.pscad.types.LineStyle"><span class="pre">LineStyle</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LineStyle.SOLID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.line" title="Link to this definition">#</a></dt>
+<dd><p>Create a line between [x1,y1] and [x2,y2].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle">
+<span class="sig-name descname"><span class="pre">rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.LineStyle" title="mhi.pscad.types.LineStyle"><span class="pre">LineStyle</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LineStyle.SOLID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foreground</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'White'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle" title="Link to this definition">#</a></dt>
+<dd><p>Create a rectangle between corners [x1,y1] and [x2,y2].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Graphics.text">
+<span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anchor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.Align" title="mhi.pscad.types.Align"><span class="pre">Align</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Align.CENTER</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Tahoma,</span> <span class="pre">12world'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.text" title="Link to this definition">#</a></dt>
+<dd><p>Create a text label.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="text">
+<h3>Text<a class="headerlink" href="#text" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Text</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text" title="Link to this definition">#</a></dt>
+<dd><p>A text label</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.anchor">
+<span class="sig-name descname"><span class="pre">anchor</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.anchor" title="Link to this definition">#</a></dt>
+<dd><p>Text anchor (LEFT, CENTER, RIGHT)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.angle">
+<span class="sig-name descname"><span class="pre">angle</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.angle" title="Link to this definition">#</a></dt>
+<dd><p>Text angle (degrees)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.color" title="Link to this definition">#</a></dt>
+<dd><p>Color</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.enable" title="Link to this definition">#</a></dt>
+<dd><p>Text visibility condition</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.full_font">
+<span class="sig-name descname"><span class="pre">full_font</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.full_font" title="Link to this definition">#</a></dt>
+<dd><p>Text Font</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.text" title="Link to this definition">#</a></dt>
+<dd><p>Text label</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.x" title="Link to this definition">#</a></dt>
+<dd><p>X coordinate</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Text.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Text.y" title="Link to this definition">#</a></dt>
+<dd><p>Y coordinate</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="line">
+<h3>Line<a class="headerlink" href="#line" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Line</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line" title="Link to this definition">#</a></dt>
+<dd><p>A straight line</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.color" title="Link to this definition">#</a></dt>
+<dd><p>Color</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.enable" title="Link to this definition">#</a></dt>
+<dd><p>Visibility condition</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.line_style">
+<span class="sig-name descname"><span class="pre">line_style</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.line_style" title="Link to this definition">#</a></dt>
+<dd><p>Line style (SOLID, DOT, DASH, DOTDASH)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.port">
+<span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.port" title="Link to this definition">#</a></dt>
+<dd><p>Associated port name (for line thickness)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.thickness">
+<span class="sig-name descname"><span class="pre">thickness</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.thickness" title="Link to this definition">#</a></dt>
+<dd><p>Line thickness</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0.2pt</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.4pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0.6pt</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0.8pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>1.0pt</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>1.2pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>1.4pt</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Associated Port</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.x" title="Link to this definition">#</a></dt>
+<dd><p>X coordinate</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Line.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Line.y" title="Link to this definition">#</a></dt>
+<dd><p>Y coordinate</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="rectangle">
+<h3>Rectangle<a class="headerlink" href="#rectangle" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Rectangle</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle" title="Link to this definition">#</a></dt>
+<dd><p>An axis-aligned rectangle.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.background">
+<span class="sig-name descname"><span class="pre">background</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.background" title="Link to this definition">#</a></dt>
+<dd><p>Background fill color</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.color" title="Link to this definition">#</a></dt>
+<dd><p>Color</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.enable" title="Link to this definition">#</a></dt>
+<dd><p>Visibility condition</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.fill_style">
+<span class="sig-name descname"><span class="pre">fill_style</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.fill_style" title="Link to this definition">#</a></dt>
+<dd><p>Fill style (SOLID, HOLLOW, CROSS, HORIZONTAL, VERTICAL, …)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.foreground">
+<span class="sig-name descname"><span class="pre">foreground</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.foreground" title="Link to this definition">#</a></dt>
+<dd><p>Foreground fill color</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.height">
+<span class="sig-name descname"><span class="pre">height</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.height" title="Link to this definition">#</a></dt>
+<dd><p>Height</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.line_style">
+<span class="sig-name descname"><span class="pre">line_style</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.line_style" title="Link to this definition">#</a></dt>
+<dd><p>Line style (SOLID, DOT, DASH, DOTDASH)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.port">
+<span class="sig-name descname"><span class="pre">port</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.port" title="Link to this definition">#</a></dt>
+<dd><p>Associated port name (for line thickness)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.thickness">
+<span class="sig-name descname"><span class="pre">thickness</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.thickness" title="Link to this definition">#</a></dt>
+<dd><p>Line thickness</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>0.2pt</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>0.4pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0.6pt</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0.8pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>1.0pt</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>1.2pt</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>1.4pt</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Associated Port</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.width">
+<span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.width" title="Link to this definition">#</a></dt>
+<dd><p>Width</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.x" title="Link to this definition">#</a></dt>
+<dd><p>X coordinate</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Rectangle.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.y" title="Link to this definition">#</a></dt>
+<dd><p>Y coordinate</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="parameter-form">
+<h2>Parameter Form<a class="headerlink" href="#parameter-form" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameters">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Parameters</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameters" title="Link to this definition">#</a></dt>
+<dd><p>Parameters container, accessed using the
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.parameter" title="mhi.pscad.wizard.UserDefnWizard.parameter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.parameter</span></code></a> property.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Parameters can only be added to a category object.
+Use <a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add" title="mhi.pscad.wizard.UserDefnWizard.Categories.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.category.add(...)</span></code></a> to create the
+category, then add parameters to that category object.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameters.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameters.keys" title="Link to this definition">#</a></dt>
+<dd><p>List of parameter names</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="categories">
+<h3>Categories<a class="headerlink" href="#categories" title="Link to this heading">#</a></h3>
+</section>
+<section id="category">
+<h3>Category<a class="headerlink" href="#category" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Category</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category" title="Link to this definition">#</a></dt>
+<dd><p>Component parameter form category, accessed using the
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.category" title="mhi.pscad.wizard.UserDefnWizard.category"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.category</span></code></a> property.</p>
+<p>After creating a category using
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add" title="mhi.pscad.wizard.UserDefnWizard.Categories.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category</span> <span class="pre">=</span> <span class="pre">wizard.category.add(&quot;category_name&quot;,</span> <span class="pre">...)</span></code></a>,
+use</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.text" title="mhi.pscad.wizard.UserDefnWizard.Category.text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.text(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.logical" title="mhi.pscad.wizard.UserDefnWizard.Category.logical"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.logical(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.boolean" title="mhi.pscad.wizard.UserDefnWizard.Category.boolean"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.boolean(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.choice" title="mhi.pscad.wizard.UserDefnWizard.Category.choice"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.choice(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.integer" title="mhi.pscad.wizard.UserDefnWizard.Category.integer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.integer(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.real" title="mhi.pscad.wizard.UserDefnWizard.Category.real"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.real(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+<li><p><a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.Category.complex" title="mhi.pscad.wizard.UserDefnWizard.Category.complex"><code class="xref py py-meth docutils literal notranslate"><span class="pre">category.complex(&quot;param_name&quot;,</span> <span class="pre">...)</span></code></a>,</p></li>
+</ul>
+<p>to add parameters to that category.</p>
+</dd></dl>
+
+<section id="properties">
+<h4>Properties<a class="headerlink" href="#properties" title="Link to this heading">#</a></h4>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.name">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.name" title="Link to this definition">#</a></dt>
+<dd><p>Category Name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.level">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">level</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.level" title="Link to this definition">#</a></dt>
+<dd><p>Category Level, for indenting category tree nodes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.enable">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.enable" title="Link to this definition">#</a></dt>
+<dd><p>Category enable condition</p>
+</dd></dl>
+
+</section>
+<section id="methods">
+<h4>Methods<a class="headerlink" href="#methods" title="Link to this heading">#</a></h4>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.text">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_empty_strings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.text" title="Link to this definition">#</a></dt>
+<dd><p>Add a text parameter to the category</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.logical">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">logical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animate_condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Literal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.TRUE.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.logical" title="Link to this definition">#</a></dt>
+<dd><p>Add a logical parameter to the category</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.9: </span>Added <code class="docutils literal notranslate"><span class="pre">animate_condition</span></code>, <code class="docutils literal notranslate"><span class="pre">animated</span></code>, <code class="docutils literal notranslate"><span class="pre">content_type</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dimension</span></code>, and <code class="docutils literal notranslate"><span class="pre">intent</span></code> arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.boolean">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">boolean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Show'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">false_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Hide'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.boolean" title="Link to this definition">#</a></dt>
+<dd><p>Add a boolean parameter to the category.</p>
+<p>By default, boolean parameters display <code class="docutils literal notranslate"><span class="pre">Show</span></code> or <code class="docutils literal notranslate"><span class="pre">Hide</span></code> when
+true or false, but these may be changed using the
+<code class="docutils literal notranslate"><span class="pre">true_text=&quot;...&quot;,</span> <span class="pre">false_text=&quot;...&quot;</span></code> parameters.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.9: </span>Added <code class="docutils literal notranslate"><span class="pre">animated</span></code> argument; default <code class="docutils literal notranslate"><span class="pre">value</span></code> changed from
+<code class="docutils literal notranslate"><span class="pre">'.TRUE.'</span></code> to <code class="docutils literal notranslate"><span class="pre">'true'</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.choice">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.choice" title="Link to this definition">#</a></dt>
+<dd><p>Add a choice parameter to the category.</p>
+<p>The choices must be specified by passing a dictionary to the
+<code class="docutils literal notranslate"><span class="pre">choices={...}</span></code> parameter.  Dictionary keys should be integers,
+and the values the text to display for each key.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.9: </span>Added <code class="docutils literal notranslate"><span class="pre">animated</span></code> argument.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.integer">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animate_condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Literal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-2147483648</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2147483647</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.integer" title="Link to this definition">#</a></dt>
+<dd><p>Add an integer parameter to the category.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.9: </span>Added <code class="docutils literal notranslate"><span class="pre">animate_condition</span></code>, <code class="docutils literal notranslate"><span class="pre">animated</span></code>, <code class="docutils literal notranslate"><span class="pre">content_type</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dimension</span></code>, and <code class="docutils literal notranslate"><span class="pre">intent</span></code> arguments; default <code class="docutils literal notranslate"><span class="pre">minimum</span></code>
+changed from <code class="docutils literal notranslate"><span class="pre">-2147483647</span></code> to <code class="docutils literal notranslate"><span class="pre">-2147483648</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.real">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">real</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animate_condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Literal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.real" title="Link to this definition">#</a></dt>
+<dd><p>Add a real parameter to the category.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.9: </span>Added <code class="docutils literal notranslate"><span class="pre">animate_condition</span></code>, <code class="docutils literal notranslate"><span class="pre">animated</span></code>, <code class="docutils literal notranslate"><span class="pre">dimension</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">intent</span></code> arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Category.complex">
+<span class="sig-prename descclassname"><span class="pre">Category.</span></span><span class="sig-name descname"><span class="pre">complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animate_condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Literal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Input'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e+308</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0.0,</span> <span class="pre">0.0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Category.complex" title="Link to this definition">#</a></dt>
+<dd><p>Add a complex parameter to the category.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Categories">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Categories</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Categories" title="Link to this definition">#</a></dt>
+<dd><p>Component parameter form category container, accessed using the
+<a class="reference internal" href="#mhi.pscad.wizard.UserDefnWizard.category" title="mhi.pscad.wizard.UserDefnWizard.category"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wizard.category</span></code></a> property.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Categories.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add" title="Link to this definition">#</a></dt>
+<dd><p>Add a new category</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Categories.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Categories.keys" title="Link to this definition">#</a></dt>
+<dd><p>List of Form Category names</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="parameter">
+<h3>Parameter<a class="headerlink" href="#parameter" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter" title="Link to this definition">#</a></dt>
+<dd><p>Component parameter</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.allow_empty_strings">
+<span class="sig-name descname"><span class="pre">allow_empty_strings</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.allow_empty_strings" title="Link to this definition">#</a></dt>
+<dd><p>Is Text Parameter allowed to be empty?</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.animate_condition">
+<span class="sig-name descname"><span class="pre">animate_condition</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.animate_condition" title="Link to this definition">#</a></dt>
+<dd><p>Condition in which this property is actively animating</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.animated">
+<span class="sig-name descname"><span class="pre">animated</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.animated" title="Link to this definition">#</a></dt>
+<dd><p>Whether this value could be animated while running</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.choices">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">choices</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.choices" title="Link to this definition">#</a></dt>
+<dd><p>Choice parameter choices</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.content_type">
+<span class="sig-name descname"><span class="pre">content_type</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.content_type" title="Link to this definition">#</a></dt>
+<dd><p>Parameter content_type (<code class="docutils literal notranslate"><span class="pre">'Literal'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Constant'</span></code> or
+<code class="docutils literal notranslate"><span class="pre">'Variable'</span></code>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.description" title="Link to this definition">#</a></dt>
+<dd><p>Parameter description</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.dimension">
+<span class="sig-name descname"><span class="pre">dimension</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.dimension" title="Link to this definition">#</a></dt>
+<dd><p>Parameter dimension. If this parameter is to carry an array signal,
+then this input specifies the dimension of the array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.enable">
+<span class="sig-name descname"><span class="pre">enable</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.enable" title="Link to this definition">#</a></dt>
+<dd><p>Parameter enable condition</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.error_message">
+<span class="sig-name descname"><span class="pre">error_message</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.error_message" title="Link to this definition">#</a></dt>
+<dd><p>Text Parameter invalid input error message</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.group">
+<span class="sig-name descname"><span class="pre">group</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.group" title="Link to this definition">#</a></dt>
+<dd><p>Parameter group</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.help_mode">
+<span class="sig-name descname"><span class="pre">help_mode</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.help_mode" title="Link to this definition">#</a></dt>
+<dd><p>Parameter help mode (<code class="docutils literal notranslate"><span class="pre">'Append'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Overwrite'</span></code>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.help_text">
+<span class="sig-name descname"><span class="pre">help_text</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.help_text" title="Link to this definition">#</a></dt>
+<dd><p>Parameter Help text</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.intent">
+<span class="sig-name descname"><span class="pre">intent</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.intent" title="Link to this definition">#</a></dt>
+<dd><p>Parameter intent (<code class="docutils literal notranslate"><span class="pre">'Input'</span></code> or <code class="docutils literal notranslate"><span class="pre">'Output'</span></code>)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.maximum">
+<span class="sig-name descname"><span class="pre">maximum</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.maximum" title="Link to this definition">#</a></dt>
+<dd><p>Parameter maximum limit</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.minimum">
+<span class="sig-name descname"><span class="pre">minimum</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.minimum" title="Link to this definition">#</a></dt>
+<dd><p>Parameter minimum limit</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.name" title="Link to this definition">#</a></dt>
+<dd><p>Parameter name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.regex">
+<span class="sig-name descname"><span class="pre">regex</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.regex" title="Link to this definition">#</a></dt>
+<dd><p>Text Parameter regular-expression filter</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.type" title="Link to this definition">#</a></dt>
+<dd><p>Type of the Parameter</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.units">
+<span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.units" title="Link to this definition">#</a></dt>
+<dd><p>Parameter units</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.value" title="Link to this definition">#</a></dt>
+<dd><p>Parameter value</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Parameter.visible">
+<span class="sig-name descname"><span class="pre">visible</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.visible" title="Link to this definition">#</a></dt>
+<dd><p>Parameter visibility condition</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Scripts">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.wizard.UserDefnWizard.</span></span><span class="sig-name descname"><span class="pre">Scripts</span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Scripts" title="Link to this definition">#</a></dt>
+<dd><p>Script Section container</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Scripts.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Scripts.items" title="Link to this definition">#</a></dt>
+<dd><p>Generator of script name/value pairs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.wizard.UserDefnWizard.Scripts.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.wizard.UserDefnWizard.Scripts.keys" title="Link to this definition">#</a></dt>
+<dd><p>Currently defined script section names</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="licensing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Licensing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="utilities.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utilities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.name"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.module"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.module</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.description"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.description</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.port"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.port</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.graphics"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.graphics</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_caption"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_caption</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_width</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_height"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_height</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_splitter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_splitter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_category_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_category_width</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.form_help_width"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.form_help_width</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.category"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.category</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.parameter"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.parameter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.script"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.script</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.create_definition"><code class="docutils literal notranslate"><span class="pre">UserDefnWizard.create_definition()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ports">Ports</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Ports"><code class="docutils literal notranslate"><span class="pre">Ports</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Ports.electrical"><code class="docutils literal notranslate"><span class="pre">Ports.electrical()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Ports.input"><code class="docutils literal notranslate"><span class="pre">Ports.input()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Ports.output"><code class="docutils literal notranslate"><span class="pre">Ports.output()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#port">Port</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.data_type"><code class="docutils literal notranslate"><span class="pre">Port.data_type</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.dim"><code class="docutils literal notranslate"><span class="pre">Port.dim</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.electrical_type"><code class="docutils literal notranslate"><span class="pre">Port.electrical_type</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.enable"><code class="docutils literal notranslate"><span class="pre">Port.enable</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.internal"><code class="docutils literal notranslate"><span class="pre">Port.internal</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.mode"><code class="docutils literal notranslate"><span class="pre">Port.mode</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.name"><code class="docutils literal notranslate"><span class="pre">Port.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.side"><code class="docutils literal notranslate"><span class="pre">Port.side</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.x"><code class="docutils literal notranslate"><span class="pre">Port.x</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Port.y"><code class="docutils literal notranslate"><span class="pre">Port.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphics">Graphics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Graphics"><code class="docutils literal notranslate"><span class="pre">Graphics</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.arrow"><code class="docutils literal notranslate"><span class="pre">Graphics.arrow()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.line"><code class="docutils literal notranslate"><span class="pre">Graphics.line()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.rectangle"><code class="docutils literal notranslate"><span class="pre">Graphics.rectangle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Graphics.text"><code class="docutils literal notranslate"><span class="pre">Graphics.text()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text">Text</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text"><code class="docutils literal notranslate"><span class="pre">Text</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.anchor"><code class="docutils literal notranslate"><span class="pre">Text.anchor</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.angle"><code class="docutils literal notranslate"><span class="pre">Text.angle</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.color"><code class="docutils literal notranslate"><span class="pre">Text.color</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.enable"><code class="docutils literal notranslate"><span class="pre">Text.enable</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.full_font"><code class="docutils literal notranslate"><span class="pre">Text.full_font</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.text"><code class="docutils literal notranslate"><span class="pre">Text.text</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.x"><code class="docutils literal notranslate"><span class="pre">Text.x</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Text.y"><code class="docutils literal notranslate"><span class="pre">Text.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#line">Line</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line"><code class="docutils literal notranslate"><span class="pre">Line</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.color"><code class="docutils literal notranslate"><span class="pre">Line.color</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.enable"><code class="docutils literal notranslate"><span class="pre">Line.enable</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.line_style"><code class="docutils literal notranslate"><span class="pre">Line.line_style</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.port"><code class="docutils literal notranslate"><span class="pre">Line.port</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.thickness"><code class="docutils literal notranslate"><span class="pre">Line.thickness</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.x"><code class="docutils literal notranslate"><span class="pre">Line.x</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Line.y"><code class="docutils literal notranslate"><span class="pre">Line.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rectangle">Rectangle</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle"><code class="docutils literal notranslate"><span class="pre">Rectangle</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.background"><code class="docutils literal notranslate"><span class="pre">Rectangle.background</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.color"><code class="docutils literal notranslate"><span class="pre">Rectangle.color</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.enable"><code class="docutils literal notranslate"><span class="pre">Rectangle.enable</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.fill_style"><code class="docutils literal notranslate"><span class="pre">Rectangle.fill_style</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.foreground"><code class="docutils literal notranslate"><span class="pre">Rectangle.foreground</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.height"><code class="docutils literal notranslate"><span class="pre">Rectangle.height</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.line_style"><code class="docutils literal notranslate"><span class="pre">Rectangle.line_style</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.port"><code class="docutils literal notranslate"><span class="pre">Rectangle.port</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.thickness"><code class="docutils literal notranslate"><span class="pre">Rectangle.thickness</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.width"><code class="docutils literal notranslate"><span class="pre">Rectangle.width</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.x"><code class="docutils literal notranslate"><span class="pre">Rectangle.x</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Rectangle.y"><code class="docutils literal notranslate"><span class="pre">Rectangle.y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-form">Parameter Form</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameters"><code class="docutils literal notranslate"><span class="pre">Parameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameters.keys"><code class="docutils literal notranslate"><span class="pre">Parameters.keys()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#categories">Categories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#category">Category</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category"><code class="docutils literal notranslate"><span class="pre">Category</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.name"><code class="docutils literal notranslate"><span class="pre">Category.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.level"><code class="docutils literal notranslate"><span class="pre">Category.level</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.enable"><code class="docutils literal notranslate"><span class="pre">Category.enable</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.text"><code class="docutils literal notranslate"><span class="pre">Category.text()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.logical"><code class="docutils literal notranslate"><span class="pre">Category.logical()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.boolean"><code class="docutils literal notranslate"><span class="pre">Category.boolean()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.choice"><code class="docutils literal notranslate"><span class="pre">Category.choice()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.integer"><code class="docutils literal notranslate"><span class="pre">Category.integer()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.real"><code class="docutils literal notranslate"><span class="pre">Category.real()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Category.complex"><code class="docutils literal notranslate"><span class="pre">Category.complex()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Categories"><code class="docutils literal notranslate"><span class="pre">Categories</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Categories.add"><code class="docutils literal notranslate"><span class="pre">Categories.add()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Categories.keys"><code class="docutils literal notranslate"><span class="pre">Categories.keys()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter">Parameter</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.allow_empty_strings"><code class="docutils literal notranslate"><span class="pre">Parameter.allow_empty_strings</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.animate_condition"><code class="docutils literal notranslate"><span class="pre">Parameter.animate_condition</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.animated"><code class="docutils literal notranslate"><span class="pre">Parameter.animated</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.choices"><code class="docutils literal notranslate"><span class="pre">Parameter.choices</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.content_type"><code class="docutils literal notranslate"><span class="pre">Parameter.content_type</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.description"><code class="docutils literal notranslate"><span class="pre">Parameter.description</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.dimension"><code class="docutils literal notranslate"><span class="pre">Parameter.dimension</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.enable"><code class="docutils literal notranslate"><span class="pre">Parameter.enable</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.error_message"><code class="docutils literal notranslate"><span class="pre">Parameter.error_message</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.group"><code class="docutils literal notranslate"><span class="pre">Parameter.group</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.help_mode"><code class="docutils literal notranslate"><span class="pre">Parameter.help_mode</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.help_text"><code class="docutils literal notranslate"><span class="pre">Parameter.help_text</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.intent"><code class="docutils literal notranslate"><span class="pre">Parameter.intent</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.maximum"><code class="docutils literal notranslate"><span class="pre">Parameter.maximum</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.minimum"><code class="docutils literal notranslate"><span class="pre">Parameter.minimum</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.name"><code class="docutils literal notranslate"><span class="pre">Parameter.name</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.regex"><code class="docutils literal notranslate"><span class="pre">Parameter.regex</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.type"><code class="docutils literal notranslate"><span class="pre">Parameter.type</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.units"><code class="docutils literal notranslate"><span class="pre">Parameter.units</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.value"><code class="docutils literal notranslate"><span class="pre">Parameter.value</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Parameter.visible"><code class="docutils literal notranslate"><span class="pre">Parameter.visible</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scripts">Scripts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Scripts"><code class="docutils literal notranslate"><span class="pre">Scripts</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Scripts.items"><code class="docutils literal notranslate"><span class="pre">Scripts.items()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.wizard.UserDefnWizard.Scripts.keys"><code class="docutils literal notranslate"><span class="pre">Scripts.keys()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/wizard.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

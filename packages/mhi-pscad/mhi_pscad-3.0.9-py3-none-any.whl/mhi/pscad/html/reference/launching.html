@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Connection Methods &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/launching';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The PSCAD Application" href="pscad.html" />
+    <link rel="prev" title="Reference Manual" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Connection Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new-instance">New Instance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.launch"><code class="docutils literal notranslate"><span class="pre">launch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#existing-instance">Existing Instance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#existing-or-new">Existing or New</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.application"><code class="docutils literal notranslate"><span class="pre">application()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#product-versions">Product Versions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pscad">PSCAD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.versions"><code class="docutils literal notranslate"><span class="pre">versions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#fortran-matlab">Fortran &amp; Matlab</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.fortran_versions"><code class="docutils literal notranslate"><span class="pre">fortran_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.matlab_versions"><code class="docutils literal notranslate"><span class="pre">matlab_versions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html">Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#user-canvas">User Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="canvas.html#graphics-canvas">Graphics Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Reference Manual</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pscad.html"
+                          title="next chapter">The PSCAD Application</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Connection Methods</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="connection-methods">
+<span id="module-mhi.pscad"></span><h1>Connection Methods<a class="headerlink" href="#connection-methods" title="Link to this heading">#</a></h1>
+<p>The PSCAD Automation Library provides three methods of connecting to the PSCAD
+Application:</p>
+<ol class="arabic simple">
+<li><p>Launching a new instance of PSCAD</p></li>
+<li><p>Connect to an existing PSCAD instance</p></li>
+<li><p>Connect to an existing PSCAD instance if any, or launch a new instance of PSCAD otherwise.</p></li>
+</ol>
+<section id="new-instance">
+<h2>New Instance<a class="headerlink" href="#new-instance" title="Link to this heading">#</a></h2>
+<p>To launch and connect to new PSCAD instance, use the following command:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.launch">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">launch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_user_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5.0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.pscad.PSCAD"><span class="pre">PSCAD</span></a></span></span><a class="headerlink" href="#mhi.pscad.launch" title="Link to this definition">#</a></dt>
+<dd><p>Launch a new PSCAD instance and return a connection to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>int</em><em>|</em><em>range</em>) – The port to connect to.  Required if running multiple
+PSCAD instances.</p></li>
+<li><p><strong>silence</strong> (<em>bool</em>) – Suppresses dialogs which can block automation.</p></li>
+<li><p><strong>minimize</strong> (<em>bool</em>) – <cite>True</cite> to minimize PSCAD to an icon.</p></li>
+<li><p><strong>splash</strong> (<em>bool</em>) – <cite>False</cite> to disable the startup splash/logo window.</p></li>
+<li><p><strong>timeout</strong> (<em>int</em>) – Time (seconds) to wait for the connection to be
+accepted.</p></li>
+<li><p><strong>version</strong> (<em>str</em>) – Specific version to launch if multiple versions present.</p></li>
+<li><p><strong>x64</strong> (<em>bool</em>) – <cite>True</cite> for 64-bit version, <cite>False</cite> for 32-bit version.</p></li>
+<li><p><strong>settings</strong> (<em>dict</em>) – Setting values to set immediately upon startup.</p></li>
+<li><p><strong>load_user_profile</strong> (<em>bool</em>) – Set to False to disable loading user profile.</p></li>
+<li><p><strong>minimum</strong> (<em>str</em>) – Minimum allowed PSCAD version to run (default ‘5.0’)</p></li>
+<li><p><strong>maximum</strong> (<em>str</em>) – Maximum allowed PSCAD version to run (default: unlimited)</p></li>
+<li><p><strong>load</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Projects &amp; libraries, or workspace to load at startup.
+Relative paths are interpreted relative to the current working
+directory.</p></li>
+<li><p><strong>extra_args</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Additional command-line arguments</p></li>
+<li><p><strong>address</strong> (<em>str</em>) – Interface address to bind PSCAD’s automation server on</p></li>
+<li><p><strong>**options</strong> – Additional keyword=value options</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The PSCAD application proxy object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.PSCAD">PSCAD</a></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mhi.pscad</span>
+<span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">load</span><span class="o">=</span><span class="s1">&#39;myproject.pscx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.4: </span>added <cite>extra_args</cite> parameter.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.8.4: </span>added <cite>load</cite> parameter.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.9.6: </span><code class="docutils literal notranslate"><span class="pre">allow_alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">allow_beta</span></code> parameters are no longer supported.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.2: </span>added <cite>address</cite> parameter.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.5: </span><code class="docutils literal notranslate"><span class="pre">allow_beta</span></code> parameter is supported again.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="existing-instance">
+<h2>Existing Instance<a class="headerlink" href="#existing-instance" title="Link to this heading">#</a></h2>
+<p>To connect to already running PSCAD instance, use the following command:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.connect">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.pscad.PSCAD"><span class="pre">PSCAD</span></a></span></span><a class="headerlink" href="#mhi.pscad.connect" title="Link to this definition">#</a></dt>
+<dd><p>This method will find try to find a currently running PSCAD application,
+and connect to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>str</em>) – The host the PSCAD application is running on
+(defaults to the local host)</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – The port to connect to.  Required if running multiple
+PSCAD instances, or attempting to connect to a remote host.</p></li>
+<li><p><strong>timeout</strong> (<em>int</em>) – Seconds to wait for the connection to be accepted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The PSCAD application proxy object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.PSCAD">PSCAD</a></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mhi.pscad</span>
+<span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">pscad</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;myproject.pscx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<p>If multiple instances are running, the Automation Library will connect
+to one of them.
+If the port which the desired instance of PSCAD is listening on is known,
+the <code class="docutils literal notranslate"><span class="pre">port=#</span></code> option may be given in <code class="docutils literal notranslate"><span class="pre">connect()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">54321</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the desired PSCAD instance is running on another machine,
+the <code class="docutils literal notranslate"><span class="pre">host=&quot;...&quot;</span></code> parameter must be given as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;192.168.0.123&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">54321</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="existing-or-new">
+<h2>Existing or New<a class="headerlink" href="#existing-or-new" title="Link to this heading">#</a></h2>
+<p>To connect to any running PSCAD instance,
+or launch &amp; connect to a new PSCAD instance if there are no existing instances,
+or if running the script from inside PSCAD itself, use the following command:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.application">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">application</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.pscad.PSCAD"><span class="pre">PSCAD</span></a></span></span><a class="headerlink" href="#mhi.pscad.application" title="Link to this definition">#</a></dt>
+<dd><p>This method will find try to find a currently running PSCAD application,
+and connect to it.  If no running PSCAD application can be found, or
+if it is unable to connect to that application, a new PSCAD application
+will be launched and a connection will be made to it.</p>
+<p>If running inside a Python environment embedded within an PSCAD
+application, the containing application instance is always returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The PSCAD application proxy object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="pscad.html#mhi.pscad.PSCAD" title="mhi.pscad.PSCAD">PSCAD</a></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mhi.pscad</span>
+<span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">application</span><span class="p">()</span>
+<span class="n">pscad</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;myproject.pscx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="product-versions">
+<h1>Product Versions<a class="headerlink" href="#product-versions" title="Link to this heading">#</a></h1>
+<section id="pscad">
+<h2>PSCAD<a class="headerlink" href="#pscad" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.versions">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">versions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.versions" title="Link to this definition">#</a></dt>
+<dd><p>Find the installed versions of PSCAD</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of tuples of version and bit-size</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[Tuple]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fortran-matlab">
+<h2>Fortran &amp; Matlab<a class="headerlink" href="#fortran-matlab" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Prior to PSCAD 5.1, the Automation Library retrieves the list of installed
+Fortran and Matlab versions from the <cite>ProductsList.xml</cite> file.
+When any version of Fortran or Matlab is installed or uninstalled, run the
+<cite>Generate installed products list</cite> command from the Environment Medic
+utility in the PSCAD “Tools” menu.</p>
+<p>Starting with PSCAD 5.1, the Automation Library will retrieve the list of
+installed versions of Fortran and Matlab that are <strong>compatible</strong> with
+the PSCAD version directly from the PSCAD application itself.
+The <code class="docutils literal notranslate"><span class="pre">ProductsList.xml</span></code> is not consulted.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.fortran_versions">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">fortran_versions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.fortran_versions" title="Link to this definition">#</a></dt>
+<dd><p>Return a list of all installed versions of Fortran from the
+<code class="docutils literal notranslate"><span class="pre">ProductList.xml</span></code> file, regardless of whether support for the
+versions exists within a particular version of PSCAD.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As different versions of PSCAD can support different subsets of
+Fortran, it is recommended to retrieve the list directly from
+PSCAD itself using <a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.setting_range" title="mhi.pscad.PSCAD.setting_range"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PSCAD.setting_range()</span></code></a></p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mhi.pscad</span>
+
+<span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">application</span><span class="p">()</span>
+<span class="n">fortran_versions</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;fortran_version&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all Fortran versions from <code class="docutils literal notranslate"><span class="pre">ProductList.xml</span></code></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mhi.pscad.matlab_versions">
+<span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">matlab_versions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.matlab_versions" title="Link to this definition">#</a></dt>
+<dd><p>Return a list of all installed versions of Matlab from the
+<code class="docutils literal notranslate"><span class="pre">ProductList.xml</span></code> file, regardless of whether support for the
+versions exists within a particular version of PSCAD.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As different versions of PSCAD can support different subsets of
+Matlab, it is recommended to retrieve the list directly from
+PSCAD itself using <a class="reference internal" href="pscad.html#mhi.pscad.PSCAD.setting_range" title="mhi.pscad.PSCAD.setting_range"><code class="xref py py-meth docutils literal notranslate"><span class="pre">PSCAD.setting_range()</span></code></a></p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mhi.pscad</span>
+
+<span class="n">pscad</span> <span class="o">=</span> <span class="n">mhi</span><span class="o">.</span><span class="n">pscad</span><span class="o">.</span><span class="n">application</span><span class="p">()</span>
+<span class="n">matlab_versions</span> <span class="o">=</span> <span class="n">pscad</span><span class="o">.</span><span class="n">setting_range</span><span class="p">(</span><span class="s1">&#39;matlab_version&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all Matlab versions from <code class="docutils literal notranslate"><span class="pre">ProductList.xml</span></code></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Reference Manual</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pscad.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The PSCAD Application</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Connection Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-instance">New Instance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.launch"><code class="docutils literal notranslate"><span class="pre">launch()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#existing-instance">Existing Instance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#existing-or-new">Existing or New</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.application"><code class="docutils literal notranslate"><span class="pre">application()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#product-versions">Product Versions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pscad">PSCAD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.versions"><code class="docutils literal notranslate"><span class="pre">versions()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fortran-matlab">Fortran &amp; Matlab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.fortran_versions"><code class="docutils literal notranslate"><span class="pre">fortran_versions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.matlab_versions"><code class="docutils literal notranslate"><span class="pre">matlab_versions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/launching.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

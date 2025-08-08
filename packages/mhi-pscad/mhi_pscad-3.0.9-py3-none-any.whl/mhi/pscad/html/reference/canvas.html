@@ -1,0 +1,1902 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Canvas &#8212; MHI PSCAD Automation Library 3.0.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=984ce01b" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=2b2cf8e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=35a8b989"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/canvas';</script>
+    <script src="../_static/toggle_code_output.js?v=7f763afa"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Components" href="component.html" />
+    <link rel="prev" title="Projects" href="project.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pscad_logo.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/pscad_logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">MHI PSCAD Automation Library v3.0.9</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><div></div></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item"><div></div></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">Upgrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launching.html">Connection Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="launching.html#product-versions">Product Versions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pscad.html">The PSCAD Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">Projects</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Canvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.Canvas"><code class="docutils literal notranslate"><span class="pre">Canvas</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">Properties</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.scope"><code class="docutils literal notranslate"><span class="pre">Canvas.scope</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.name"><code class="docutils literal notranslate"><span class="pre">Canvas.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.parameters"><code class="docutils literal notranslate"><span class="pre">Canvas.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">Canvas.parameter_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.size"><code class="docutils literal notranslate"><span class="pre">Canvas.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-components">Finding Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.find"><code class="docutils literal notranslate"><span class="pre">Canvas.find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.find_first"><code class="docutils literal notranslate"><span class="pre">Canvas.find_first()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.find_all"><code class="docutils literal notranslate"><span class="pre">Canvas.find_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.components"><code class="docutils literal notranslate"><span class="pre">Canvas.components()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.bounds"><code class="docutils literal notranslate"><span class="pre">Canvas.bounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finding-by-id">Finding By Id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#names-in-use">Names In Use</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-empty-spaces-on-canvas">Finding Empty Spaces on Canvas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.get_empty_rects"><code class="docutils literal notranslate"><span class="pre">Canvas.get_empty_rects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.closest_empty_rect"><code class="docutils literal notranslate"><span class="pre">Canvas.closest_empty_rect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-components">Creating Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.create_component"><code class="docutils literal notranslate"><span class="pre">Canvas.create_component()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.add_component"><code class="docutils literal notranslate"><span class="pre">Canvas.add_component()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clipboard-operations">Clipboard Operations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.select"><code class="docutils literal notranslate"><span class="pre">Canvas.select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.select_components"><code class="docutils literal notranslate"><span class="pre">Canvas.select_components()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.clear_selection"><code class="docutils literal notranslate"><span class="pre">Canvas.clear_selection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.copy"><code class="docutils literal notranslate"><span class="pre">Canvas.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.cut"><code class="docutils literal notranslate"><span class="pre">Canvas.cut()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.paste"><code class="docutils literal notranslate"><span class="pre">Canvas.paste()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.delete"><code class="docutils literal notranslate"><span class="pre">Canvas.delete()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transformations">Transformations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.mirror"><code class="docutils literal notranslate"><span class="pre">Canvas.mirror()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.flip"><code class="docutils literal notranslate"><span class="pre">Canvas.flip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.rotate_right"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_right()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.rotate_left"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_left()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.rotate_180"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_180()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#navigation">Navigation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.Canvas.navigate_up"><code class="docutils literal notranslate"><span class="pre">Canvas.navigate_up()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-canvas">User Canvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.UserCanvas"><code class="docutils literal notranslate"><span class="pre">UserCanvas</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#definition">Definition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.definition"><code class="docutils literal notranslate"><span class="pre">UserCanvas.definition</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.parameters"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#smart-clipboard">Smart Clipboard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.paste_transfer"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_transfer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.paste_rename"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_rename()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#composition">Composition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.group"><code class="docutils literal notranslate"><span class="pre">UserCanvas.group()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.compose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.compose_wires()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.UserCanvas.decompose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.decompose_wires()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating">Creating …</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wires">Wires</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connections">Connections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#annotations">Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#graphs">Graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controls">Controls</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#graphics-canvas">Graphics Canvas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mhi.pscad.GfxCanvas"><code class="docutils literal notranslate"><span class="pre">GfxCanvas</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.create_component"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.create_component()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_port"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_port()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_input"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_output"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_electrical"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_electrical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_line"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_line()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_rectangle"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_rectangle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mhi.pscad.GfxCanvas.add_text"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="component.html">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definition.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html">Simulation Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation_sets.html#simulation-tasks">Simulation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wizard.html">Component Wizard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit.html">Unit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">MHI Common Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">Changes</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="project.html"
+                          title="previous chapter">Projects</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="component.html"
+                          title="next chapter">Components</a></p>
+  </div></div>
+        <div class="sidebar-primary-item">
+<div id="searchbox"></div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Reference Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Canvas</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="canvas">
+<h1>Canvas<a class="headerlink" href="#canvas" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">Canvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common/remote.html#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas" title="Link to this definition">#</a></dt>
+<dd><p>A canvas is a surface where components can be placed and arranged.
+A “user canvas” is the most general version of a canvas.
+(T-Line and Cable canvases are more restrictive, permitting only certain
+types of components.)</p>
+<p>The main page of a project is typically retrieved with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">canvas</span><span class="p">(</span><span class="s1">&#39;Main&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Link to this heading">#</a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.scope">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">scope</span></span><a class="headerlink" href="#mhi.pscad.Canvas.scope" title="Link to this definition">#</a></dt>
+<dd><p>The name of the project (read-only)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.name">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#mhi.pscad.Canvas.name" title="Link to this definition">#</a></dt>
+<dd><p>The name of the definition (read-only)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.parameters">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Get or set canvas parameters</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Canvas Parameters</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Param Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>auto_sequence</p></td>
+<td><p>str</p></td>
+<td><p>‘MANUAL’, ‘AUTOMATIC’</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_border</p></td>
+<td><p>bool</p></td>
+<td><p>Display re-sizing border</p></td>
+</tr>
+<tr class="row-even"><td><p>monitor_bus_voltage</p></td>
+<td><p>bool</p></td>
+<td><p>Display dynamic voltage levels on buses</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_grid</p></td>
+<td><p>bool</p></td>
+<td><p>Show connection grid</p></td>
+</tr>
+<tr class="row-even"><td><p>show_signal</p></td>
+<td><p>bool</p></td>
+<td><p>Show all locations tracked in signal table</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_terminals</p></td>
+<td><p>bool</p></td>
+<td><p>Show where equipment ports are terminated</p></td>
+</tr>
+<tr class="row-even"><td><p>show_sequence</p></td>
+<td><p>bool</p></td>
+<td><p>Display sequence order numbers</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_virtual</p></td>
+<td><p>bool</p></td>
+<td><p>Show virtual wired signal relations</p></td>
+</tr>
+<tr class="row-even"><td><p>virtual_filter</p></td>
+<td><p>str</p></td>
+<td><p>Comma separated signal names to show</p></td>
+</tr>
+<tr class="row-odd"><td><p>animation_freq</p></td>
+<td><p>int</p></td>
+<td><p>How often components are redrawn (msec)</p></td>
+</tr>
+<tr class="row-even"><td><p>orient</p></td>
+<td><p>str</p></td>
+<td><p>‘LANDSCAPE’, ‘PORTRAIT’</p></td>
+</tr>
+<tr class="row-odd"><td><p>size</p></td>
+<td><p>str</p></td>
+<td><p>‘85X11’, ‘11X17’, ‘17X22’, ‘22X34’,
+‘34X44’, ‘100X100’</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.parameter_range">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">parameter_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.parameter_range" title="Link to this definition">#</a></dt>
+<dd><p>Get legal values for a setting</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.size">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#mhi.pscad.Canvas.size" title="Link to this definition">#</a></dt>
+<dd><p>Canvas size, in grid units</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="finding-components">
+<h2>Finding Components<a class="headerlink" href="#finding-components" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="#mhi.pscad.Canvas.find" title="mhi.pscad.Canvas.find"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find()</span></code></a>, <a class="reference internal" href="#mhi.pscad.Canvas.find_first" title="mhi.pscad.Canvas.find_first"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find_first()</span></code></a> and
+<a class="reference internal" href="#mhi.pscad.Canvas.find_all" title="mhi.pscad.Canvas.find_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.find_all()</span></code></a> methods are improvements over the original methods which
+found components by Id attribute.
+These methods automatically detect the type of the found component(s),
+and return a control proxy of the correct type.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.find">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.find" title="Link to this definition">#</a></dt>
+<dd><p>Find the (singular) component that matches the given criteria,
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no matching component can be found.
+Raises an exception if more than one component matches
+the given criteria.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.find_first">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">find_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.find_first" title="Link to this definition">#</a></dt>
+<dd><p>Find the first component that matches the given criteria,
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no matching component can be found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.find_all">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">find_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">[[definition,]</span> <span class="pre">name,]</span> <span class="pre">[layer=name,]</span> <span class="pre">[key=value,</span> <span class="pre">...]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.find_all" title="Link to this definition">#</a></dt>
+<dd><p>Find all components that match the given criteria.
+If no criteria is given, all components on the canvas are returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>definition</strong> (<em>str</em>) – One of “Bus”, “TLine”, “Cable”, “GraphFrame”,
+“Sticky”, or a colon-seperated definition name, such as
+“master:source3” (optional)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – the component’s name, as given by a parameter
+called “name”, “Name”, or “NAME”.
+If no definition was given, and if the provided name is
+“Bus”, “TLine”, “Cable”, “GraphFrame”, “Sticky”, or
+contains a colon, it is treated as the definition name.
+(optional)</p></li>
+<li><p><strong>layer</strong> (<em>str</em>) – only return components on the given layer (optional)</p></li>
+<li><p><strong>key=value</strong> – A keyword list specifying additional parameters
+which must be matched.  Parameter names and values must match
+exactly. For example, Voltage=”230 [kV]” will not match
+components with a Voltage parameter value of “230.0 [kV]”.
+(optional)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list of matching components,
+or an empty list if no matching components are found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a>]</p>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span>                <span class="c1"># all Bus components</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus10&#39;</span><span class="p">)</span>             <span class="c1"># all components named &quot;Bus10&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span><span class="p">,</span> <span class="s1">&#39;Bus10&#39;</span><span class="p">)</span>      <span class="c1"># all Bus component named &quot;Bus10&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;Bus&#39;</span><span class="p">,</span> <span class="n">BaseKV</span><span class="o">=</span><span class="s1">&#39;138&#39;</span><span class="p">)</span> <span class="c1"># all Buses with BaseKV=&quot;138&quot;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">find_all</span><span class="p">(</span><span class="n">BaseKV</span><span class="o">=</span><span class="s1">&#39;138&#39;</span><span class="p">)</span>        <span class="c1"># all components with BaseKV=&quot;138&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.components">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.components" title="Link to this definition">#</a></dt>
+<dd><p>Get a list of all components on the canvas.</p>
+<p>This is equivalent to calling <code class="docutils literal notranslate"><span class="pre">Project.find_all()</span></code>,
+where no filter criteria is used to select a subset of components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of components</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.bounds">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="types.html#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect"><span class="pre">Rect</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.bounds" title="Link to this definition">#</a></dt>
+<dd><p>Return a list of the bounds of the given components.</p>
+<p>Equivalent to <code class="docutils literal notranslate"><span class="pre">[cmp.bounds</span> <span class="pre">for</span> <span class="pre">cmp</span> <span class="pre">in</span> <span class="pre">components]</span></code> but without
+the round trip to the server for each component.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+<section id="finding-by-id">
+<h3>Finding By Id<a class="headerlink" href="#finding-by-id" title="Link to this heading">#</a></h3>
+<p>These methods are the original methods which find components by Id attribute.
+Care must be taken to ensure the correct method is used for the type
+of component, or an incorrect control proxy will be returned.</p>
+<p>In almost every case, it is simplier to use the newer <cite>find()</cite>, <cite>find_first()</cite>,
+or <cite>find_all()</cite> methods.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.component">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iid</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.Canvas.component" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve a component by ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iid</strong> (<em>int</em>) – The ID attribute of the component.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0: </span>This command replaces all of the type specific versions.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="names-in-use">
+<h3>Names In Use<a class="headerlink" href="#names-in-use" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.names_in_use">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">names_in_use</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.names_in_use" title="Link to this definition">#</a></dt>
+<dd><p>Return the set of “Name” parameter values, for all components on the
+canvas that have a “Name” parameter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="finding-empty-spaces-on-canvas">
+<h2>Finding Empty Spaces on Canvas<a class="headerlink" href="#finding-empty-spaces-on-canvas" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.get_empty_rects">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">get_empty_rects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="types.html#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect"><span class="pre">Rect</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.get_empty_rects" title="Link to this definition">#</a></dt>
+<dd><p>Returns empty rectangle spaces on the canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>w</strong> (<em>int</em>) – Width of the empty rectangles.</p></li>
+<li><p><strong>h</strong> (<em>int</em>) – Height of the empty rectangles.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of empty rectangles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="types.html#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect">Rect</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.closest_empty_rect">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">closest_empty_rect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="types.html#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><span class="pre">Point</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="types.html#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect"><span class="pre">Rect</span></a></span></span><a class="headerlink" href="#mhi.pscad.Canvas.closest_empty_rect" title="Link to this definition">#</a></dt>
+<dd><p>Returns an empty rectangle with the size provided, closest to
+the given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>w</strong> (<em>int</em>) – Width of the empty rectangle.</p></li>
+<li><p><strong>h</strong> (<em>int</em>) – Height of the empty rectangle.</p></li>
+<li><p><strong>point</strong> (<em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><a class="reference internal" href="types.html#mhi.pscad.types.Point" title="mhi.pscad.types.Point"><em>Point</em></a><em>]</em>) – The point to which the nearest empty rectangle is found.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Closest empty rectangle to the given point.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="types.html#mhi.pscad.types.Rect" title="mhi.pscad.types.Rect">Rect</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="creating-components">
+<h2>Creating Components<a class="headerlink" href="#creating-components" title="Link to this heading">#</a></h2>
+<p>See also the User Canvas’s <a class="reference internal" href="#user-canvas-create-components"><span class="std std-ref">Creating …</span></a> section
+for creating wires, buses, annotations, graphs and controls.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.create_component">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">create_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><span class="pre">Definition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.Canvas.create_component" title="Link to this definition">#</a></dt>
+<dd><p>Create a new component and add it to the canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>defn</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><em>Definition</em></a><em>]</em>) – Type of component to create</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the component (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the component (in grid units).</p></li>
+<li><p><strong>orient</strong> (<em>int</em>) – Rotation/mirroring of the component</p></li>
+<li><p><strong>parameters</strong> – key=value pairs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created <a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code></a>.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.2: </span><code class="docutils literal notranslate"><span class="pre">defn</span></code> accepts a <a class="reference internal" href="definition.html#mhi.pscad.Definition" title="mhi.pscad.Definition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Definition</span></code></a> or a string.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.add_component">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">add_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.Canvas.add_component" title="Link to this definition">#</a></dt>
+<dd><p>Create a new user component and add it to the canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>library</strong> (<em>str</em>) – Library the definition may be found in.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of the component definition in the library.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the component (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the component (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created <a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><code class="xref py py-class docutils literal notranslate"><span class="pre">Component</span></code></a>.</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Added <code class="docutils literal notranslate"><span class="pre">orient</span></code> and <code class="docutils literal notranslate"><span class="pre">**parameters</span></code></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="clipboard-operations">
+<h2>Clipboard Operations<a class="headerlink" href="#clipboard-operations" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.select">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.select" title="Link to this definition">#</a></dt>
+<dd><p>Place specific components in the current selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>components</strong> (<em>list</em>) – the components to be selected.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.select_components">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">select_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.select_components" title="Link to this definition">#</a></dt>
+<dd><p>Select components in a rectangular area.</p>
+<p>If width and height are used, the x1,y1 values are interpreted as the
+lower-left corner of the region.  If both x1,y1 and x2,y2 are given,
+any opposite corners may be used and the rectangle will be normalized
+for the user automatically.</p>
+<p>All values are in grid coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>int</em>) – lower left corner of the selection region</p></li>
+<li><p><strong>y1</strong> (<em>int</em>) – lower left corner of the selection region</p></li>
+<li><p><strong>x2</strong> (<em>int</em>) – upper right corner of the selection region (optional)</p></li>
+<li><p><strong>y2</strong> (<em>int</em>) – upper right corner of the selection region (optional)</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the selection region (optional)</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the selection region (optional)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.clear_selection">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">clear_selection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.Canvas.clear_selection" title="Link to this definition">#</a></dt>
+<dd><p>Reset the selection so that no components are selected.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.copy">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.copy" title="Link to this definition">#</a></dt>
+<dd><p>Copy the given list of components, or currently selected components
+if no components are given, to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be copied (optional)</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added optional list of <code class="docutils literal notranslate"><span class="pre">components</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.cut">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">cut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.cut" title="Link to this definition">#</a></dt>
+<dd><p>Cut the given list of components, or currently selected components
+if no components are given, to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be cut (optional)</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added optional list of <code class="docutils literal notranslate"><span class="pre">components</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.paste">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">paste</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mouse_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.paste" title="Link to this definition">#</a></dt>
+<dd><p>Paste the contents of the clipboard into this canvas at the
+indicated mouse location.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added <code class="docutils literal notranslate"><span class="pre">mouse_x</span></code> and <code class="docutils literal notranslate"><span class="pre">mouse_y</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.delete">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.delete" title="Link to this definition">#</a></dt>
+<dd><p>Delete the given list of components, or currently selected components
+if no components are given.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be deleted (optional)</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added optional list of <code class="docutils literal notranslate"><span class="pre">components</span></code></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Link to this heading">#</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.mirror">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.mirror" title="Link to this definition">#</a></dt>
+<dd><p>Mirror the given list of components, or the currently selected
+components if no components are given, along the horizontal axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be mirrored (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.flip">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">flip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.flip" title="Link to this definition">#</a></dt>
+<dd><p>Flip the given list of components, or the currently selected
+components if no components are given, along the vertical axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be flipped (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.rotate_right">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">rotate_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.rotate_right" title="Link to this definition">#</a></dt>
+<dd><p>Rotate the given list of components, or the currently selected
+components if no components are given, 90 degrees clockwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be rotated (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.rotate_left">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">rotate_left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.rotate_left" title="Link to this definition">#</a></dt>
+<dd><p>Rotate the given list of components, or the currently selected
+components if no components are given, 90 degrees counter-clockwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be rotated (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.rotate_180">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">rotate_180</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.rotate_180" title="Link to this definition">#</a></dt>
+<dd><p>Rotate the given list of components, or the currently selected
+components if no components are given, 180 degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be rotated (optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.Canvas.navigate_up">
+<span class="sig-prename descclassname"><span class="pre">Canvas.</span></span><span class="sig-name descname"><span class="pre">navigate_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.Canvas.navigate_up" title="Link to this definition">#</a></dt>
+<dd><p>Navigate to parent page</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="user-canvas">
+<h1>User Canvas<a class="headerlink" href="#user-canvas" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">UserCanvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common/remote.html#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.UserCanvas" title="Link to this definition">#</a></dt>
+<dd><p>A user canvas is a surface where components can be placed and arranged.</p>
+<p>The main page of a project is typically retrieved with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">canvas</span><span class="p">(</span><span class="s1">&#39;Main&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<section id="definition">
+<h2>Definition<a class="headerlink" href="#definition" title="Link to this heading">#</a></h2>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.definition">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">definition</span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.definition" title="Link to this definition">#</a></dt>
+<dd><p>The definition which this canvas belongs to.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.0.9.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.parameters">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Get or set User Canvas parameters</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-text">User Canvas Settings</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Param Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>auto_sequence</p></td>
+<td><p>Choice</p></td>
+<td><p>Sequence Ordering: MANUAL, AUTOMATIC</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_border</p></td>
+<td><p>Boolean</p></td>
+<td><p>Bounds</p></td>
+</tr>
+<tr class="row-even"><td><p>monitor_bus_voltage</p></td>
+<td><p>Boolean</p></td>
+<td><p>Bus Monitoring</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_grid</p></td>
+<td><p>Boolean</p></td>
+<td><p>Grids</p></td>
+</tr>
+<tr class="row-even"><td><p>show_signal</p></td>
+<td><p>Boolean</p></td>
+<td><p>Signals</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_terminals</p></td>
+<td><p>Boolean</p></td>
+<td><p>Terminals</p></td>
+</tr>
+<tr class="row-even"><td><p>show_sequence</p></td>
+<td><p>Boolean</p></td>
+<td><p>Sequence Order Numbers</p></td>
+</tr>
+<tr class="row-odd"><td><p>show_virtual</p></td>
+<td><p>Boolean</p></td>
+<td><p>Virtual Wires</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>Choice</p></td>
+<td><p>Size: 85X11, 11X17, 17X22, 22X34, 34X44, 100X100</p></td>
+</tr>
+<tr class="row-odd"><td><p>orient</p></td>
+<td><p>Choice</p></td>
+<td><p>Orientation: PORTRAIT, LANDSCAPE</p></td>
+</tr>
+<tr class="row-even"><td><p>virtual_filter</p></td>
+<td><p>Text</p></td>
+<td><p>Virtual Wires Filter</p></td>
+</tr>
+<tr class="row-odd"><td><p>animation_freq</p></td>
+<td><p>Integer</p></td>
+<td><p>Animation Update Frequency</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.parameter_range">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">parameter_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.UserCanvas.parameter_range" title="Link to this definition">#</a></dt>
+<dd><p>Get legal values for a setting</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="smart-clipboard">
+<h2>Smart Clipboard<a class="headerlink" href="#smart-clipboard" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.paste_transfer">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">paste_transfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mouse_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.paste_transfer" title="Link to this definition">#</a></dt>
+<dd><p>Paste a component and its definition from the clipboard,
+so it can be used in this project.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span><code class="docutils literal notranslate"><span class="pre">Component.copy_transfer()</span></code> is deprecated; simply
+<a class="reference internal" href="#mhi.pscad.Canvas.copy" title="mhi.pscad.Canvas.copy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Canvas.copy()</span></code></a> the component(s) to the smart clipboard.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.paste_rename">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">paste_rename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mouse_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.paste_rename" title="Link to this definition">#</a></dt>
+<dd><p>Paste the contents of the clipboard and rename all the components
+to unique names.  All references to the original name will be</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+</dd></dl>
+
+</section>
+<section id="composition">
+<h2>Composition<a class="headerlink" href="#composition" title="Link to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.group">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.group" title="Link to this definition">#</a></dt>
+<dd><p>Group the given list of components into one group component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*components</strong> (<em>List</em><em>[</em><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a><em>]</em>) – Components to be grouped</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the Aggregate component</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.compose_wires">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">compose_wires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">wires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Wire" title="mhi.pscad.Wire"><span class="pre">Wire</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.compose_wires" title="Link to this definition">#</a></dt>
+<dd><p>Join connected wire segments into multisegment wires</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.decompose_wires">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">decompose_wires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">wires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Wire" title="mhi.pscad.Wire"><span class="pre">Wire</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.decompose_wires" title="Link to this definition">#</a></dt>
+<dd><p>Split all of the segments of the wires into multiple simple wires</p>
+</dd></dl>
+
+</section>
+<section id="creating">
+<span id="user-canvas-create-components"></span><h2>Creating …<a class="headerlink" href="#creating" title="Link to this heading">#</a></h2>
+<p>Methods for creating various components.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.</span></p>
+</div>
+<section id="wires">
+<h3>Wires<a class="headerlink" href="#wires" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_wire">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_wire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2)</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">...</span> <span class="pre">(xn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yn)</span> <span class="pre">...</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_wire" title="Link to this definition">#</a></dt>
+<dd><p>Create a new wire and add it to the canvas.</p>
+<p>If more than two vertices are given, a multi-vertex wire will be
+created.
+If any segment is neither horizontal or vertical, additional vertices
+will be inserted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*vertices</strong> – A series of (X, Y) pairs, in grid units</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created wire.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Wire" title="mhi.pscad.Wire">Wire</a></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use <a class="reference internal" href="component.html#mhi.pscad.UserCmp.port" title="mhi.pscad.UserCmp.port"><code class="xref py py-meth docutils literal notranslate"><span class="pre">UserCmp.port()</span></code></a> to determine the locations to connect
+the wires to.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>Replaces <code class="docutils literal notranslate"><span class="pre">UserCanvas.add_wire(...)</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_bus">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_bus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2)</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">...</span> <span class="pre">(xn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yn)</span> <span class="pre">...</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_bus" title="Link to this definition">#</a></dt>
+<dd><p>Create a new bus and add it to the canvas.</p>
+<p>If more than two vertices are given, a multi-vertex bus will be
+created.
+If any segment is neither horizontal or vertical, additional vertices
+will be inserted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*vertices</strong> – A series of (X, Y) pairs, in grid units</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created bus.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Bus" title="mhi.pscad.Bus">Bus</a></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use <a class="reference internal" href="component.html#mhi.pscad.UserCmp.port" title="mhi.pscad.UserCmp.port"><code class="xref py py-meth docutils literal notranslate"><span class="pre">UserCmp.port()</span></code></a> to determine the locations to connect
+the wires to.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_sticky_wire">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_sticky_wire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2)</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">...</span> <span class="pre">(xn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yn)</span> <span class="pre">...</span></span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_sticky_wire" title="Link to this definition">#</a></dt>
+<dd><p>Create a sticky wire between two or more vertices.</p>
+<p>All vertices will be connected to a central point via a short
+one grid unit horizontal or vertical segment, followed by a
+diagonal segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*vertices</strong> – A series of (X, Y) pairs, in grid units</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created sticky wire.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.StickyWire" title="mhi.pscad.StickyWire">StickyWire</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="connections">
+<h3>Connections<a class="headerlink" href="#connections" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_connection">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><span class="pre">AnyPoint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><span class="pre">AnyPoint</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_connection" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><span class="pre">AnyPoint</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><span class="pre">AnyPoint</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electrical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span></dt>
+<dd><p>Creates a connection between two points. If <code class="docutils literal notranslate"><span class="pre">label</span></code> is not
+provided (default), the connection is made using wires; otherwise,
+<code class="docutils literal notranslate"><span class="pre">electrical</span></code> must be set to True/False to create electrical/data
+labels to connect points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p1</strong> (<a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><em>AnyPoint</em></a>) – One of the two ends of connection</p></li>
+<li><p><strong>p2</strong> (<a class="reference internal" href="types.html#mhi.pscad.types.AnyPoint" title="mhi.pscad.types.AnyPoint"><em>AnyPoint</em></a>) – The other end of connection</p></li>
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies the node label. A suffix, starting from “_2” is added to
+<code class="docutils literal notranslate"><span class="pre">label</span></code> until it is unique on canvas. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>electrical</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set <code class="docutils literal notranslate"><span class="pre">True</span></code>, for electrical and <code class="docutils literal notranslate"><span class="pre">False</span></code> for data node labels.
+Must be provided if <code class="docutils literal notranslate"><span class="pre">label</span></code> is specified. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the node labels created if <code class="docutils literal notranslate"><span class="pre">label</span></code> is provided;
+otherwise, <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.6.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.2: </span>PSCAD 5.1 requirement is removed.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="annotations">
+<h3>Annotations<a class="headerlink" href="#annotations" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_annotation">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_annotation" title="Link to this definition">#</a></dt>
+<dd><p>Create a two-line annotation component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the annotation (in grid units)</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the annotation (in grid units)</p></li>
+<li><p><strong>line1</strong> (<em>str</em>) – first line of text</p></li>
+<li><p><strong>line2</strong> (<em>str</em>) – second line of text</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the created annotation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a></p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added <code class="docutils literal notranslate"><span class="pre">line1</span></code> and <code class="docutils literal notranslate"><span class="pre">line2</span></code> parameters</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_sticky_note">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_sticky_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Sticky" title="mhi.pscad.Sticky"><span class="pre">Sticky</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_sticky_note" title="Link to this definition">#</a></dt>
+<dd><p>Create a sticky note.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the sticky note (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the sticky note (in grid units).</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Content of sticky note.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created sticky note.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Sticky" title="mhi.pscad.Sticky">Sticky</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_divider">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_divider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Divider" title="mhi.pscad.Divider"><span class="pre">Divider</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_divider" title="Link to this definition">#</a></dt>
+<dd><p>Create a divider component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the divider (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the divider (in grid units).</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – horizontal length of the divider, or</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – vertical height of the divider</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the divider component</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Divider" title="mhi.pscad.Divider">Divider</a></p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Added <code class="docutils literal notranslate"><span class="pre">line1</span></code> and <code class="docutils literal notranslate"><span class="pre">line2</span></code> parameters</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_group_box">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_group_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.GroupBox" title="mhi.pscad.GroupBox"><span class="pre">GroupBox</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_group_box" title="Link to this definition">#</a></dt>
+<dd><p>Create a group box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the group box (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the group box (in grid units).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name (or caption) of group box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created group box.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.GroupBox" title="mhi.pscad.GroupBox">GroupBox</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.9.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_file">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_file" title="Link to this definition">#</a></dt>
+<dd><p>Create a file link component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the file link (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the file link (in grid units).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name to display on the file link</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – path to the linked file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the file link component</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="project.html#mhi.pscad.Project.create_resource" title="mhi.pscad.Project.create_resource"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.create_resource()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_hyper_link">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_hyper_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperlink</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_hyper_link" title="Link to this definition">#</a></dt>
+<dd><p>Create a hyper-link component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the hyper-link (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the hyper-link (in grid units).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name to display on the hyper-link</p></li>
+<li><p><strong>hyperlink</strong> (<em>str</em>) – URL to the linked resource</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the hyper-link component</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_bookmark_link">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_bookmark_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bookmark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_bookmark_link" title="Link to this definition">#</a></dt>
+<dd><p>Create a bookmark link, which can be used to navigate to a bookmarked
+location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bookmark</strong> – value returned from <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.bookmark()</span></code></p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x-coordinate of the bookmark link (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y-coordinate of the bookmark link (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the bookmark link component</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component">Component</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="graphs">
+<h3>Graphs<a class="headerlink" href="#graphs" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_graph_frame">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_graph_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame"><span class="pre">GraphFrame</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_graph_frame" title="Link to this definition">#</a></dt>
+<dd><p>Create an empty Graph Frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – X location of the graph frame (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the graph frame (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The graph frame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame">GraphFrame</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_graph">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PGB</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame"><span class="pre">GraphFrame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="component.html#mhi.pscad.OverlayGraph" title="mhi.pscad.OverlayGraph"><span class="pre">OverlayGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="component.html#mhi.pscad.Curve" title="mhi.pscad.Curve"><span class="pre">Curve</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_graph" title="Link to this definition">#</a></dt>
+<dd><p>Create an Graph Frame containing an Overlay Graph with a Signal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pgb</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – the PGB for the signal to add to the graph.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the graph frame (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the graph frame (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new graph frame,             Overlay Graph, and Curve.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame">GraphFrame</a>,<a class="reference internal" href="component.html#mhi.pscad.OverlayGraph" title="mhi.pscad.OverlayGraph">OverlayGraph</a>,<a class="reference internal" href="component.html#mhi.pscad.Curve" title="mhi.pscad.Curve">Curve</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_polygraph">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_polygraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PGB</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digital</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame"><span class="pre">GraphFrame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="component.html#mhi.pscad.PolyGraph" title="mhi.pscad.PolyGraph"><span class="pre">PolyGraph</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="component.html#mhi.pscad.Curve" title="mhi.pscad.Curve"><span class="pre">Curve</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_polygraph" title="Link to this definition">#</a></dt>
+<dd><p>Create an Stacked PolyGraph with a Signal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pgb</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – the PGB for the signal to add to the graph.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the graph frame (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the graph frame (in grid units).</p></li>
+<li><p><strong>digital</strong> (<em>bool</em>) – Set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to create a digital polygraph</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new graph frame,             PolyGraph, and Curve.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="component.html#mhi.pscad.GraphFrame" title="mhi.pscad.GraphFrame">GraphFrame</a>,<a class="reference internal" href="component.html#mhi.pscad.PolyGraph" title="mhi.pscad.PolyGraph">PolyGraph</a>,<a class="reference internal" href="component.html#mhi.pscad.Curve" title="mhi.pscad.Curve">Curve</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_xy_plot">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_xy_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.PlotFrame" title="mhi.pscad.PlotFrame"><span class="pre">PlotFrame</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_xy_plot" title="Link to this definition">#</a></dt>
+<dd><p>Create an XY PlotFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – X location of the plot frame (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the plot frame (in grid units).</p></li>
+<li><p><strong>polar</strong> (<em>bool</em>) – Set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to for the polar variant.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The plot frame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.PlotFrame" title="mhi.pscad.PlotFrame">PlotFrame</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_poly_meter">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_poly_meter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.PolyMeter" title="mhi.pscad.PolyMeter"><span class="pre">PolyMeter</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_poly_meter" title="Link to this definition">#</a></dt>
+<dd><p>Create a polymeter from a PGB component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pgb</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – a PGB component.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the polymeter (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the polymeter (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the polymeter component.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.PolyMeter" title="mhi.pscad.PolyMeter">PolyMeter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_phasor_meter">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_phasor_meter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PGB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter" title="mhi.pscad.PhasorMeter"><span class="pre">PhasorMeter</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_phasor_meter" title="Link to this definition">#</a></dt>
+<dd><p>Create a phasor meter from a PGB component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pgb</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – a PGB component.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the phasor meter (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the phasor meter (in grid units).</p></li>
+<li><p><strong>angle</strong> (<em>str</em>) – The input angle format <code class="docutils literal notranslate"><span class="pre">&quot;degrees&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;radians&quot;</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the phasor meter component.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.PhasorMeter" title="mhi.pscad.PhasorMeter">PhasorMeter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_oscilloscope">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_oscilloscope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PGB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="component.html#mhi.pscad.Oscilloscope" title="mhi.pscad.Oscilloscope"><span class="pre">Oscilloscope</span></a></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_oscilloscope" title="Link to this definition">#</a></dt>
+<dd><p>Create an oscilloscope from a PGB component</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pgb</strong> (<a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><em>Component</em></a>) – a PGB component.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – X location of the oscilloscope (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the oscilloscope (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the oscilloscope component.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="component.html#mhi.pscad.Oscilloscope" title="mhi.pscad.Oscilloscope">Oscilloscope</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="controls">
+<h3>Controls<a class="headerlink" href="#controls" title="Link to this heading">#</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.UserCanvas.create_control_frame">
+<span class="sig-prename descclassname"><span class="pre">UserCanvas.</span></span><span class="sig-name descname"><span class="pre">create_control_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">control_components</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="component.html#mhi.pscad.Component" title="mhi.pscad.Component"><span class="pre">Component</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.ControlFrame" title="mhi.pscad.ControlFrame"><span class="pre">ControlFrame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="component.html#mhi.pscad.Control" title="mhi.pscad.Control"><span class="pre">Control</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#mhi.pscad.UserCanvas.create_control_frame" title="Link to this definition">#</a></dt>
+<dd><p>Create a control frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – X location of the control frame (in grid units).</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Y location of the control frame (in grid units).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the control frame &amp; any controls</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[<a class="reference internal" href="component.html#mhi.pscad.ControlFrame" title="mhi.pscad.ControlFrame">ControlFrame</a>,List[Controls]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="graphics-canvas">
+<h1>Graphics Canvas<a class="headerlink" href="#graphics-canvas" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mhi.pscad.</span></span><span class="sig-name descname"><span class="pre">GfxCanvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../common/remote.html#mhi.common.remote.Context" title="mhi.common.remote.Context"><span class="pre">Context</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_ident</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas" title="Link to this definition">#</a></dt>
+<dd><p>A graphics canvas is a surface where graphic components can be placed and
+arranged.</p>
+<p>The graphic canvas is accessed with
+<a class="reference internal" href="definition.html#mhi.pscad.Definition.graphics" title="mhi.pscad.Definition.graphics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">defn.graphics</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.2.</span></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.create_component">
+<span class="sig-name descname"><span class="pre">create_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Gfx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.create_component" title="Link to this definition">#</a></dt>
+<dd><p>Create a new graphic object on a Graphics canvas.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_port">
+<span class="sig-name descname"><span class="pre">add_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_port" title="Link to this definition">#</a></dt>
+<dd><p>Add a port to the component definition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_input">
+<span class="sig-name descname"><span class="pre">add_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'REAL'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_input" title="Link to this definition">#</a></dt>
+<dd><p>Add a control signal input port to the component definition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_output">
+<span class="sig-name descname"><span class="pre">add_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'REAL'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_output" title="Link to this definition">#</a></dt>
+<dd><p>Add a control signal output port to the component definition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_electrical">
+<span class="sig-name descname"><span class="pre">add_electrical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'FIXED'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_electrical" title="Link to this definition">#</a></dt>
+<dd><p>Add an electrical connection port to the component definition.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_line">
+<span class="sig-name descname"><span class="pre">add_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dasharray</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'SOLID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'02_PT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_head</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_line" title="Link to this definition">#</a></dt>
+<dd><p>Add a line to the component graphics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_rectangle">
+<span class="sig-name descname"><span class="pre">add_rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dasharray</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'SOLID'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'02_PT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'HOLLOW'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_fg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_bg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_rectangle" title="Link to this definition">#</a></dt>
+<dd><p>Add a rectangle to the component graphics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mhi.pscad.GfxCanvas.add_text">
+<span class="sig-name descname"><span class="pre">add_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'true'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anchor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'LEFT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Tahoma,</span> <span class="pre">10pt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mhi.pscad.GfxCanvas.add_text" title="Link to this definition">#</a></dt>
+<dd><p>Add a text label to the component graphics.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="project.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Projects</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="component.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Components</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Canvas</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas"><code class="docutils literal notranslate"><span class="pre">Canvas</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties">Properties</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.scope"><code class="docutils literal notranslate"><span class="pre">Canvas.scope</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.name"><code class="docutils literal notranslate"><span class="pre">Canvas.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.parameters"><code class="docutils literal notranslate"><span class="pre">Canvas.parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">Canvas.parameter_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.size"><code class="docutils literal notranslate"><span class="pre">Canvas.size</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-components">Finding Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.find"><code class="docutils literal notranslate"><span class="pre">Canvas.find()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.find_first"><code class="docutils literal notranslate"><span class="pre">Canvas.find_first()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.find_all"><code class="docutils literal notranslate"><span class="pre">Canvas.find_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.components"><code class="docutils literal notranslate"><span class="pre">Canvas.components()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.bounds"><code class="docutils literal notranslate"><span class="pre">Canvas.bounds()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-by-id">Finding By Id</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.component"><code class="docutils literal notranslate"><span class="pre">Canvas.component()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#names-in-use">Names In Use</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.names_in_use"><code class="docutils literal notranslate"><span class="pre">Canvas.names_in_use()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-empty-spaces-on-canvas">Finding Empty Spaces on Canvas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.get_empty_rects"><code class="docutils literal notranslate"><span class="pre">Canvas.get_empty_rects()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.closest_empty_rect"><code class="docutils literal notranslate"><span class="pre">Canvas.closest_empty_rect()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-components">Creating Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.create_component"><code class="docutils literal notranslate"><span class="pre">Canvas.create_component()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.add_component"><code class="docutils literal notranslate"><span class="pre">Canvas.add_component()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipboard-operations">Clipboard Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.select"><code class="docutils literal notranslate"><span class="pre">Canvas.select()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.select_components"><code class="docutils literal notranslate"><span class="pre">Canvas.select_components()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.clear_selection"><code class="docutils literal notranslate"><span class="pre">Canvas.clear_selection()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.copy"><code class="docutils literal notranslate"><span class="pre">Canvas.copy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.cut"><code class="docutils literal notranslate"><span class="pre">Canvas.cut()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.paste"><code class="docutils literal notranslate"><span class="pre">Canvas.paste()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.delete"><code class="docutils literal notranslate"><span class="pre">Canvas.delete()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.mirror"><code class="docutils literal notranslate"><span class="pre">Canvas.mirror()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.flip"><code class="docutils literal notranslate"><span class="pre">Canvas.flip()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.rotate_right"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_right()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.rotate_left"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_left()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.rotate_180"><code class="docutils literal notranslate"><span class="pre">Canvas.rotate_180()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation">Navigation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.Canvas.navigate_up"><code class="docutils literal notranslate"><span class="pre">Canvas.navigate_up()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#user-canvas">User Canvas</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas"><code class="docutils literal notranslate"><span class="pre">UserCanvas</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.definition"><code class="docutils literal notranslate"><span class="pre">UserCanvas.definition</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.parameters"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.parameter_range"><code class="docutils literal notranslate"><span class="pre">UserCanvas.parameter_range()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smart-clipboard">Smart Clipboard</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.paste_transfer"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_transfer()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.paste_rename"><code class="docutils literal notranslate"><span class="pre">UserCanvas.paste_rename()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composition">Composition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.group"><code class="docutils literal notranslate"><span class="pre">UserCanvas.group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.compose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.compose_wires()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.decompose_wires"><code class="docutils literal notranslate"><span class="pre">UserCanvas.decompose_wires()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating">Creating …</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wires">Wires</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_wire"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_wire()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_bus"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_bus()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_sticky_wire"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_sticky_wire()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connections">Connections</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_connection"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_connection()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annotations">Annotations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_annotation"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_annotation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_sticky_note"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_sticky_note()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_divider"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_divider()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_group_box"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_group_box()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_file"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_hyper_link"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_hyper_link()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_bookmark_link"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_bookmark_link()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graphs">Graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_graph_frame"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_graph_frame()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_graph"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_graph()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_polygraph"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_polygraph()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_xy_plot"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_xy_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_poly_meter"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_poly_meter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_phasor_meter"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_phasor_meter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_oscilloscope"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_oscilloscope()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controls">Controls</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.UserCanvas.create_control_frame"><code class="docutils literal notranslate"><span class="pre">UserCanvas.create_control_frame()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#graphics-canvas">Graphics Canvas</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas"><code class="docutils literal notranslate"><span class="pre">GfxCanvas</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.create_component"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.create_component()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_port"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_port()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_input"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_input()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_output"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_output()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_electrical"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_electrical()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_line"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_rectangle"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_rectangle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mhi.pscad.GfxCanvas.add_text"><code class="docutils literal notranslate"><span class="pre">GfxCanvas.add_text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/reference/canvas.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, Manitoba Hydro International Ltd..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,215 @@
+Changes
+=======
+
+3.1.5
+-----
+
+- Fixed :meth:`~mhi.common.remote.Application.server_address` for IPv6 addresses
+
+3.1.4
+-----
+
+- Automatically close the connection in response to an application quit request.
+
+3.1.3
+-----
+
+- Type-hint corrections for :class:`~mhi.common.cache.TimedCachedProperty`
+
+3.1.2
+-----
+
+- Added :class:`~mhi.common.codec.FuzzyCodec`
+- ``@deprecated`` now works on functions, instead of just methods.
+
+3.1.1
+-----
+
+- Launching applications with ``minimized=False`` no longer uses
+  ``SW_SHOWNOACTIVATE``, which no longer seems to be obeyed,
+  and was preventing the application window position from being
+  preserved between launches.
+
+3.1.0
+-----
+
+- Added :meth:`~mhi.common.process.host_addresses`,
+  :meth:`~mhi.common.process.is_local_host`, and
+  :meth:`~mhi.common.process.host_filter` to simplify connect() functions
+
+
+3.0.3
+-----
+
+- :class:`~mhi.common.version.Version` now treats ` (Beta)` as `.99`
+- Reintroduce support for 'allow_beta' in :meth:`~mhi.common.process.find_exe`
+
+
+3.0.2
+-----
+
+- :meth:`~mhi.common.process.unused_tcp_port` now allows restricted port ranges
+- Added :class:`~mhi.common.lingering_cache.LingeringCache`
+- Live proxy objects are cached and returned where possible.
+- Improved IPv4/IPv6 support
+
+
+3.0.1
+-----
+
+- Fix: Cached exceptions needed to be raised, not returned.
+
+
+3.0.0
+-----
+
+- Drops support for Python 3.5 and 3.6
+- Add ``@rmi(fallback=True)`` option for remote methods.
+
+
+2.5.1
+-----
+
+- Corrected handling of exceptions in :meth:`~mhi.common.remote.Application.map_call`
+  and :meth:`~mhi.common.remote.Application.map_property`.
+
+
+2.5.0
+-----
+
+- Added :meth:`~mhi.common.remote.Context.call` method.
+- Added :meth:`~mhi.common.remote.Context.get_prop` method.
+- Added :meth:`~mhi.common.remote.Context.set_prop` method.
+
+
+2.4.5
+-----
+
+- Added :meth:`~mhi.common.remote.Context.server_address` method.
+- Added :meth:`~mhi.common.remote.Application.map_call` method.
+- Added :meth:`~mhi.common.remote.Application.map_property` method.
+- Fixed :meth:`~mhi.common.colour.Colour.argb_to_colour` when negative value is decoded.
+- ``allow_alpha`` and ``allow_beta`` are no longer supported in :meth:`~mhi.common.process.find_exe`
+
+
+2.4.4
+-----
+
+- When listener is bound to port 0, expose actual port number used.
+
+
+2.4.3
+-----
+
+- Replaced `set[bool]` with `Set[bool]` to restore Python 3.5 compatibility.
+
+2.4.2
+-----
+
+- (recalled)
+
+2.4.1
+-----
+
+- Added default module help command subprocessor
+- Only retry `SystemError('Could not queue task')`
+  instead of all `SystemError` exceptions.
+
+2.4.0
+-----
+- Add support for auto-retry of RMI requestes
+- Add `CodecMap`
+
+2.3.11
+------
+- Version class is now hashable
+- `py -m mhi.common.process` show PIDs, etc.
+- Removed `Thread.isAlive` call (deprecated in 3.8)
+
+2.3.10
+------
+- Version class is now hashable
+
+2.3.9
+-----
+- Added `Application.is_embedded()` method
+- Fixed crash when an uncomparible version identifier is found.
+- Fixed packaging module requirement
+
+2.3.8
+-----
+- Added `Application.server_address()` method
+- Added `Application.secondary_connection()` method
+
+2.3.7
+-----
+- Replaced deprecated `distutils` package.
+
+2.3.6
+-----
+- Corrected Windows pathname accidently resulting in illegal escapes.
+- Replaced f-strings, to restore Python 3.5 compatibility.
+
+2.3.5
+-----
+- Added `requires` attribute for rmi_properties.
+- Added `shell_folder(...)` function.
+
+2.3.4
+-----
+- Fix Enerplot 1.0.0 legacy communication issue.
+
+2.3.3
+-----
+- Optimized communication memory buffer usage.
+
+2.3.2
+-----
+- Python server kept awake one additional task cycle, to improve responsiveness.
+
+2.3.1
+-----
+- Removed Python 3.9 specific typehint syntax from `LibraryZipper`.
+
+2.3.0
+-----
+- Added `mhi.common.zipper.LibraryZipper` to support updating embedded libraries
+  with versions downloaded from PyPI.
+
+2.2.1
+-----
+- Added type-hints for mypy type checking.
+- Allow `Remotable` objects to override their persistent id module name.
+- Clear the linecache after each program execution, to avoid tracebacks from showing
+  old file contents.
+
+2.2.0
+-----
+- Renamed from `mhi.*.common` namespace submodules to `mhi.common`.
+
+2.1.3
+-----
+- Input to BooleanCodec restricted to booleans, integers `0` and `1`, and the strings
+  `"true"`, `"false"`, `"0"`, `"1"`, `"yes"`, `"no"`.  Additionally, emits a warning
+  if the input is not a boolean.
+- Update rmi_property to work with newer versions of Sphinx
+
+2.1.2
+-----
+- Added ``repr`` to MapCodec
+
+2.1.1
+-----
+
+2.1.0
+-----
+
+- Added ``minimum``, ``maximum``, ``allow_alpha`` and ``allow_beta`` to ``find_exe``.
+- Added user configuration readers
+
+2.0.1
+-----
+
+- Added Application.minimum_version(version) and Application.requires(version) methods
+- Added @requires(version) and @deprecated decorators
+- Increased socket throughput (disable Nagling, use MSG_WAITALL flag with recv())

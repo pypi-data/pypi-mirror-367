@@ -1,0 +1,55 @@
+.. testsetup::
+
+    from mhi.pscad.unit import UnitSystem, Value, ComplexValue
+    UnitSystem.parse("""
+        <unit_system>
+            <Domain name="Time">
+                <Unit name="Second" symbol="s" base="s" alias="" inverse="Hz" multiplier="1.0" />
+                <Unit name="Hour" symbol="hr" base="s" alias="" inverse="Hz" multiplier="0.00027777777777778" offset="0.0" />
+                <Unit name="Day" symbol="day" base="s" alias="" inverse="Hz" multiplier="0.000011574074074074" offset="0.0" />
+            </Domain>
+            <Domain name="Space">
+                <Unit name="Meter" symbol="m" base="m" alias="" inverse="" multiplier="1.0" />
+                <Unit name="Inch" symbol="in" base="m" alias="" inverse="" multiplier="39.3700787401575" offset="0.0" />
+                <Unit name="Feet" symbol="ft" base="m" alias="" inverse="" multiplier="3.28083989501312" offset="0.0" />
+                <Unit name="Yard" symbol="yd" base="m" alias="" inverse="" multiplier="1.09361329833771" offset="0.0" />
+                <Unit name="Mile" symbol="mi" base="m" alias="" inverse="" multiplier="0.000621371192237334" offset="0.0" />
+            </Domain>
+            <Domain name="Energy">
+                <Unit name="Voltage" symbol="V" base="V" alias="" inverse="" multiplier="1.0" offset="0.0" />
+            </Domain>
+        </unit_system>
+    """)
+
+
+
+#####
+Unit
+#####
+
+.. py:currentmodule:: mhi.pscad.unit
+
+This module contains utilities for working with dimensioned real and complex
+numbers, as in numbers with units. By default, PSCAD Automation Library obtains
+the unit system from a running PSCAD application, hence PSCAD must be running
+when using the classes provided here for unit conversions. Alternatively, the
+user can provide their own unit system in an XML file using :meth:`UnitSystem.parse`.
+
+
+Unit System
+===========
+
+.. autoclass:: UnitSystem
+    :members: parse, convert
+
+Value
+=====
+
+.. autoclass:: Value
+    :members:
+
+Complex Value
+=============
+
+.. autoclass:: ComplexValue
+    :members:
