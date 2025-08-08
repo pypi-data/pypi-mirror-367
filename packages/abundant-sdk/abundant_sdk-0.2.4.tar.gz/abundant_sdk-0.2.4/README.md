@@ -1,0 +1,120 @@
+# Simulation Environment API
+
+FastAPI-based API service for managing simulation environments for RL agent training. Currently supports Salesforce scratch orgs with browser automation via Browserbase.
+
+**Production API**: `https://api.abundant.systems/`
+
+## Overview
+
+This API provides:
+- Isolated browser instances of simulated websites
+- Direct CDP access for agent control
+- Clean separation between simulated environment and test harness controls
+- Realistic environment URLs
+
+## V1 API Endpoints
+
+### Environment Discovery
+- `GET /v1/environments` - List available simulation environments
+
+### Instance Lifecycle
+- `POST /v1/instances` - Create new environment instance
+- `GET /v1/instances/{id}` - Get instance details with CDP URL
+- `DELETE /v1/instances/{id}` - Terminate instance
+
+### Control Operations
+- `POST /v1/instances/{id}/reset` - Reset instance to clean state
+- `POST /v1/instances/{id}/verify` - Run verification function
+- `GET /v1/instances/{id}/state` - Get current state
+
+## TODO
+
+### High Priority
+- [ ] Implement Salesforce-specific verification functions
+
+### Medium Priority
+- [ ] Update authentication to support Bearer token format
+- [ ] Create Python client SDK
+
+### Low Priority
+- [ ] Remove or deprecate old /salesforce endpoints
+- [ ] Add WebSocket support for real-time state updates
+- [ ] Multi-region support
+
+## Installation
+
+```bash
+uv sync
+```
+
+This will install all dependencies including the Foundry SDK from Test PyPI.
+
+## Usage
+
+1. Set up environment variables in .env:
+   ```
+   API_SECRET_KEY=your_secret_key
+   FOUNDRY_API_KEY=your_foundry_api_key
+   BROWSERBASE_API_KEY=your_browserbase_api_key
+   BROWSERBASE_PROJECT_ID=your_browserbase_project_id
+   ```
+
+2. Run the server:
+   ```bash
+   uv run simulation-env-api
+   ```
+   Customize server settings in src/simulation_env_api/uvicorn_config.py if needed.
+
+3. Access docs at http://localhost:8000/docs
+
+## Example Usage
+
+### List available environments
+```bash
+curl -X GET "http://localhost:8000/v1/environments"
+```
+
+### Create an instance
+```bash
+curl -X POST "http://localhost:8000/v1/instances" \
+     -H "x-api-key: your_secret_key" \
+     -H "Content-Type: application/json" \
+     -d '{"environment": "salesforce_sales"}'
+```
+
+### Get instance details (includes CDP URL)
+```bash
+curl -X GET "http://localhost:8000/v1/instances/{instance_id}" \
+     -H "x-api-key: your_secret_key"
+```
+
+### Reset instance
+```bash
+curl -X POST "http://localhost:8000/v1/instances/{instance_id}/reset" \
+     -H "x-api-key: your_secret_key"
+```
+
+## Python SDK
+
+A Python SDK is included for easier integration:
+
+```python
+import asyncio
+from abundant_sdk import Client
+
+async def main():
+    async with Client(api_key="your_secret_key") as client:
+        # Create and use an instance
+        instance = await client.create_instance("salesforce_sales")
+        print(f"CDP URL: {instance.cdp_url}")
+
+        # Verify task completion
+        result = await instance.verify("opportunity_created")
+
+        # Clean up
+        await instance.terminate()
+
+asyncio.run(main())
+```
+
+See `examples/` directory for more detailed examples.
