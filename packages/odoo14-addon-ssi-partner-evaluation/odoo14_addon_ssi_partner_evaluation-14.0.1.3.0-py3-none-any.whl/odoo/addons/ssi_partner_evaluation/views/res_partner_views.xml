@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.education.level.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority" eval="10" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page
+                    name="evaluation"
+                    string="Evaluations"
+                    groups="ssi_partner_evaluation.partner_evaluation_viewer_group"
+                >
+                    <group name="evaluation_1" colspan="4" col="2">
+                        <field name="evaluation_tag_ids" widget="many2many_tags" />
+                    </group>
+                    <separator string="Results" />
+                    <field name="partner_evaluation_result_ids">
+                        <tree>
+                            <field name="type_id" />
+                            <field name="previous_evaluation_id" />
+                            <field name="previous_date" />
+                            <field name="previous_result_id" />
+                            <field name="latest_evaluation_id" />
+                            <field name="date" />
+                            <field name="result_id" />
+                            <field name="diff_evaluation" optional="hide" />
+                        </tree>
+                        <form>
+                            <group name="evaluation_1" colspan="4" col="2">
+                                <field name="type_id" />
+                                <field name="diff_evaluation" />
+                            </group>
+                            <group name="evaluation_2" colspan="4" col="2">
+                                <group name="evaluation_2_1" colspan="1" col="2">
+                                    <field name="previous_evaluation_id" />
+                                    <field name="previous_date" />
+                                    <field name="previous_result_id" />
+                                </group>
+                                <group name="evaluation_2_1" colspan="1" col="2">
+                                    <field name="latest_evaluation_id" />
+                                    <field name="date" />
+                                    <field name="result_id" />
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                    <separator string="Evaluations" />
+                    <field name="partner_evaluation_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,46 @@
+# Copyright 2024 OpenSynergy Indonesia
+# Copyright 2024 PT. Simetri Sinergi Indonesia
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# pylint: disable=C8101
+{
+    "name": "Partner Evaluation",
+    "version": "14.0.1.3.0",
+    "website": "https://simetri-sinergi.id",
+    "author": "PT. Simetri Sinergi Indonesia, OpenSynergy Indonesia",
+    "license": "AGPL-3",
+    "installable": True,
+    "depends": [
+        "ssi_partner",
+        "ssi_master_data_mixin",
+        "ssi_transaction_confirm_mixin",
+        "ssi_transaction_done_mixin",
+        "ssi_transaction_cancel_mixin",
+        "ssi_transaction_open_mixin",
+        "ssi_transaction_date_duration_mixin",
+        "ssi_m2o_configurator_mixin",
+        "ssi_localdict_mixin",
+        "ssi_transaction_partner_mixin",
+    ],
+    "data": [
+        "security/ir_module_category_data.xml",
+        "security/res_groups_data.xml",
+        "security/res_groups/partner_evaluation.xml",
+        "security/ir.model.access.csv",
+        "security/ir_model_access/partner_evaluation.xml",
+        "security/ir_rule/partner_evaluation.xml",
+        "data/ir_sequence/partner_evaluation.xml",
+        "data/sequence_template/partner_evaluation.xml",
+        "data/policy_template/partner_evaluation.xml",
+        "data/approval_template/partner_evaluation.xml",
+        "menu.xml",
+        "views/partner_evaluation_type_views.xml",
+        "views/partner_evaluation_result_views.xml",
+        "views/partner_evaluation_value_item_views.xml",
+        "views/partner_evaluation_value_set_views.xml",
+        "views/partner_evaluation_question_type_views.xml",
+        "views/partner_evaluation_views.xml",
+        "views/res_partner_views.xml",
+    ],
+    "demo": [],
+    "images": [],
+}

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Copyright 2024 OpenSynergy Indonesia-->
+<!--Copyright 2024 PT. Simetri Sinergi Indonesia-->
+<!--License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).-->
+<odoo>
+<record id="partner_evaluation_view_tree" model="ir.ui.view">
+    <field name="name">partner_evaluation - Tree</field>
+    <field name="model">partner_evaluation</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='company_id']" position="after">
+            <field name="type_id" />
+            <field name="partner_id" />
+            <field name="date" />
+            <field name="date_start" />
+            <field name="date_end" />
+            <field name="automatic_result_id" optional="hide" />
+            <field name="manual_result_id" optional="hide" />
+            <field name="final_result_id" />
+        </xpath>
+    </field>
+</record>
+
+<record id="partner_evaluation_view_search" model="ir.ui.view">
+    <field name="name">partner_evaluation - Search</field>
+    <field name="model">partner_evaluation</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="type_id" />
+                <field name="partner_id" />
+                <field name="date" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="automatic_result_id" />
+                <field name="manual_result_id" />
+                <field name="final_result_id" />
+            </xpath>
+            <xpath expr="//filter[@name='grp_responsible']" position="after">
+                <filter
+                        name="grp_type_id"
+                        string="Type"
+                        context="{'group_by':'type_id'}"
+                    />
+                <filter
+                        name="grp_partner_id"
+                        string="Partner"
+                        context="{'group_by':'partner_id'}"
+                    />
+                <filter name="grp_date" string="Date" context="{'group_by':'date'}" />
+                <filter
+                        name="grp_date_start"
+                        string="Date Start"
+                        context="{'group_by':'date_start'}"
+                    />
+                <filter
+                        name="grp_date_end"
+                        string="Date End"
+                        context="{'group_by':'date_end'}"
+                    />
+                <filter
+                        name="grp_automatic_result_id"
+                        string="Automatic Result"
+                        context="{'group_by':'automatic_result_id'}"
+                    />
+                <filter
+                        name="grp_manual_result_id"
+                        string="Manual Result"
+                        context="{'group_by':'manual_result_id'}"
+                    />
+                <filter
+                        name="grp_final_result_id"
+                        string="Final Result"
+                        context="{'group_by':'final_result_id'}"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="partner_evaluation_view_form" model="ir.ui.view">
+    <field name="name">partner_evaluation - Form</field>
+    <field name="model">partner_evaluation</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='user_id']" position="after">
+            <field name="type_id" />
+            <field name="partner_id" />
+            <field name="allowed_contact_ids" invisible="1" />
+            <field name="contact_partner_id" />
+        </xpath>
+        <xpath expr="//group[@name='header_right']" position="inside">
+            <field name="date" />
+            <field name="date_start" />
+            <field name="date_end" />
+        </xpath>
+        <xpath expr="//page[1]" position="before">
+            <page name="question" string="Questions">
+                <field name="question_ids">
+                    <tree create="0" delete="0">
+                        <field name="sequence" widget="handle" />
+                        <field name="question_type_id" />
+                        <field name="value" />
+                    </tree>
+                    <form>
+                        <group name="question_form_1" colspan="4">
+                            <field name="question_type_id" />
+                            <field name="mode" />
+                            <field name="type" />
+                            <field
+                                    name="manual_qualitative_value_id"
+                                    string="Value"
+                                    attrs="{'invisible':['|',('type','=','quantitative'),('mode','=','auto')], 'required': [('type','=','qualitative'),('mode','=','manual')]}"
+                                />
+                            <field
+                                    name="manual_quantitative_value"
+                                    string="Value"
+                                    attrs="{'invisible':['|',('type','=','qualitative'),('mode','=','auto')], 'required': [('type','=','quantitative'),('mode','=','manual')]}"
+                                />
+                            <field
+                                    name="automatic_qualitative_value_id"
+                                    string="Value"
+                                    attrs="{'invisible':['|',('type','=','quantitative'),('mode','=','manual')]}"
+                                />
+                            <field
+                                    name="automatic_quantitative_value"
+                                    string="Value"
+                                    attrs="{'invisible':['|',('type','=','qualitative'),('mode','=','manual')]}"
+                                />
+                        </group>
+                    </form>
+                </field>
+            </page>
+        </xpath>
+        <xpath expr="//group[@name='footer_left']" position="attributes">
+            <attribute name="string">Result</attribute>
+        </xpath>
+        <xpath expr="//group[@name='footer_left']" position="inside">
+            <field name="automatic_result_id" string="Automatic" />
+            <field name="manual_result_id" string="Manual" />
+            <field name="final_result_id" string="Final" />
+            <field
+                    name="dissenting_opinion"
+                    attrs="{'required':[('manual_result_id','!=',False)]}"
+                />
+        </xpath>
+    </field>
+</record>
+
+<record id="partner_evaluation_action" model="ir.actions.act_window">
+    <field name="name">Partner Evaluations</field>
+    <field name="res_model">partner_evaluation</field>
+    <field name="view_mode">tree,form</field>
+    <field name="search_view_id" ref="partner_evaluation_view_search" />
+</record>
+
+<menuitem
+        id="partner_evaluation_menu"
+        name="Evaluations"
+        parent="menu_partner_evaluation_header"
+        action="partner_evaluation_action"
+        groups="partner_evaluation_viewer_group"
+        sequence="110"
+    />
+</odoo>

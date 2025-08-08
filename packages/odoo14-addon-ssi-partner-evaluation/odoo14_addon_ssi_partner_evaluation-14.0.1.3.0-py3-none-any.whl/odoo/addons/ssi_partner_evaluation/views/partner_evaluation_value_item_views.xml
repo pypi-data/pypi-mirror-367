@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Copyright 2024 OpenSynergy Indonesia-->
+<!--Copyright 2024 PT. Simetri Sinergi Indonesia-->
+<!--License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).-->
+<odoo>
+<record id="partner_evaluation_value_item_view_tree" model="ir.ui.view">
+    <field name="name">partner_evaluation_value_item - Tree</field>
+    <field name="model">partner_evaluation_value_item</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="partner_evaluation_value_item_view_search" model="ir.ui.view">
+    <field name="name">partner_evaluation_value_item - Search</field>
+    <field name="model">partner_evaluation_value_item</field>
+    <field name="mode">primary</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="arch" type="xml">
+        <data />
+    </field>
+</record>
+
+<record id="partner_evaluation_value_item_view_form" model="ir.ui.view">
+    <field name="name">partner_evaluation_value_item - Form</field>
+    <field name="model">partner_evaluation_value_item</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="arch" type="xml">
+        <data>
+        </data>
+    </field>
+</record>
+
+<record id="partner_evaluation_value_item_action" model="ir.actions.act_window">
+    <field name="name">Partner Evaluation Value Items</field>
+    <field name="res_model">partner_evaluation_value_item</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="partner_evaluation_value_item_menu"
+        name="Value Items"
+        parent="menu_partner_evaluation_config"
+        action="partner_evaluation_value_item_action"
+        groups="partner_evaluation_value_item_group"
+        sequence="130"
+    />
+</odoo>
