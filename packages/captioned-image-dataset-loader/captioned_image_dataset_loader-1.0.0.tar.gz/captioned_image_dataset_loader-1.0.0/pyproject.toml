@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "captioned-image-dataset-loader"
+description = "Flexible dataset tool for creating a 🤗 Datasets dataset from image-caption pairs."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Alex Senden" }]
+dependencies = ["datasets==4.0.0", "pillow==11.3.0"]
+
+# Version is automatically provided by hatch-vcs
+dynamic = ["version"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.sdist]
+include = ["captioned-image-dataset-loader/**", "README.md"]
+
+[tool.hatch.build.targets.wheel]
+include = ["captioned-image-dataset-loader/**"]
