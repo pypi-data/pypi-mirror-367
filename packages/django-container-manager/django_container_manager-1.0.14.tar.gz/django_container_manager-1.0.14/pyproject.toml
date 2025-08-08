@@ -1,0 +1,252 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-container-manager"
+dynamic = ["version"]
+description = "Django app for container orchestration with multi-executor support (Docker, Google Cloud Run, AWS Fargate)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Sam Texas", email = "dev@simplecto.com"},
+]
+maintainers = [
+    {name = "Sam Texas", email = "dev@simplecto.com"},
+]
+keywords = [
+    "django",
+    "containers", 
+    "docker",
+    "orchestration",
+    "cloud-run",
+    "aws-fargate",
+    "job-queue",
+    "task-runner"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1", 
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: System :: Systems Administration",
+]
+
+dependencies = [
+    "django>=4.2,<6.0",
+    "docker>=6.0.0",
+    "psutil>=5.9.0",
+    "google-cloud-logging>=3.12.1",
+    "coverage>=7.10.0",
+]
+
+[project.optional-dependencies]
+cloud = [
+    "google-cloud-run>=0.10.0",
+    "boto3>=1.26.0",
+    "google-auth>=2.0.0",
+]
+dev = [
+    "ruff>=0.1.0",
+    "django-stubs>=4.2.0",
+    "types-requests>=2.0.0",
+    "build>=1.3.0",
+    "coverage>=7.10.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/heysamtexas/django-container-manager"
+Documentation = "https://github.com/heysamtexas/django-container-manager/tree/main/docs"
+Repository = "https://github.com/heysamtexas/django-container-manager.git"
+Issues = "https://github.com/heysamtexas/django-container-manager/issues"
+Changelog = "https://github.com/heysamtexas/django-container-manager/blob/main/CHANGELOG.md"
+
+
+
+[tool.hatch.version]
+path = "container_manager/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["container_manager"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/container_manager",
+    "/README.md",
+    "/LICENSE",
+    "/CHANGELOG.md",
+]
+exclude = [
+    "*.pyc",
+    "__pycache__",
+    ".pytest_cache",
+    "*.egg-info",
+]
+
+# Ruff configuration for modern Python linting and formatting
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+extend-exclude = [
+    "migrations",
+    "*.egg-info",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings  
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "SIM",  # flake8-simplify
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "DJ",   # flake8-django
+    "PIE",  # flake8-pie
+    "T20",  # flake8-print
+    "RUF",  # Ruff-specific rules
+    "C90",  # mccabe complexity
+    "PLR",  # pylint refactor (complexity, too many arguments, etc.)
+    "TRY",  # tryceratops (exception handling)
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "DJ001",  # django model string representation
+    "T201",   # print statements (useful for management commands)
+    "PLR0913", # too many arguments (Django views often need many args)
+    "SIM117", 
+    "TRY003", # long exception messages (standard practice in this codebase)
+    "PLR2004", # magic values (constants would be overkill for single-use values)
+    "TRY300", # try-else blocks (often cleaner to have return in try)
+    "TRY400", # Use logging.exception vs logging.error (sometimes error is preferred)
+    "TRY401", # redundant exception object (useful for context)
+    "SIM105", # contextlib.suppress (try/except is clearer in this codebase)
+    "C901",   # complex function (managed via per-file ignores for specific cases)
+    "PLR0911", # too many return statements (sometimes clearer than nested logic)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["T201", "S101", "TRY002", "TRY003", "PLR2004", "F841"]  # Allow prints, asserts, test exceptions, magic values, unused variables in tests
+"*/tests/*.py" = ["T201", "S101", "TRY002", "TRY003", "PLR2004", "F841"]  # Allow unused variables in test subdirectories
+"test_*.py" = ["F841", "PLR0915", "PLR0911"]  # Allow unused variables and complex test functions
+"*/migrations/*.py" = ["N806", "N999"]  # Ignore naming in migrations
+"*/management/commands/*.py" = ["T201"]  # Allow prints in management commands
+"manage.py" = ["TRY003"]  # Allow Django's standard manage.py exception message
+"simple_test.py" = ["PLR0915", "PLR0911"]  # Allow complex test functions
+"*/test_cloudrun_executor.py" = ["F821"]  # Allow undefined ContainerTemplate (deprecated model references)
+"*/mock.py" = ["PLR0915"]  # Allow complex mock implementation functions
+
+# Complexity limits
+[tool.ruff.lint.mccabe]
+max-complexity = 8  # Lower than default 10
+
+[tool.ruff.lint.pylint]
+max-args = 6  # Lower than default 8
+max-branches = 10  # Default 12
+max-statements = 40  # Lower than default 50
+
+[tool.ruff.lint.isort]
+known-first-party = ["container_manager"]
+known-third-party = ["django"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+
+# MyPy configuration for type checking
+[tool.mypy]
+python_version = "3.10"
+plugins = ["mypy_django_plugin.main"]
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.django-stubs]
+django_settings_module = "tests.settings"
+
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/migrations/*",
+    "*/venv/*",
+    "*/env/*",
+    "manage.py",
+    "*/settings.py", 
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/node_modules/*",
+    "*/static/*",
+    "*/media/*",
+    "*/htmlcov/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+    
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    
+    # Don't complain about Django admin auto-generated methods
+    "class .*Admin.*:",
+    "def get_.*_display",
+]
+show_missing = true
+skip_covered = false
+precision = 1
+fail_under = 75
+
+[tool.coverage.html]
+directory = "htmlcov"
+title = "Container Manager Coverage Report"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "scm"
+version_files = [
+    "container_manager/__init__.py:__version__"
+]
+update_changelog_on_bump = true
+major_version_zero = false
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.8.3",
+]
