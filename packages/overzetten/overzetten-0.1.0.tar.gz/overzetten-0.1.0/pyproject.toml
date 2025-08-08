@@ -1,0 +1,38 @@
+[project]
+name = "overzetten"
+version = "0.1.0"
+description = "Instantly create pydantic schemas from your sqlalchemy models"
+readme = "README.md"
+authors = [
+    { name = "Matt LeMay", email = "mplemay@users.noreply.github.com" }
+]
+requires-python = ">=3.11,<3.15"
+dependencies = [
+    "pydantic>=2,<3",
+    "sqlalchemy>=2,<3",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.5,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.8",
+    "ty>=0.0.1a17",
+]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "double"
+multiline-quotes = "double"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
