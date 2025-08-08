@@ -1,0 +1,35 @@
+[package]
+name = "lafs"
+version = "0.0.5"
+edition = "2021"
+description = "Least-Authority File Store utils"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/crwood/lafs"
+keywords = [
+    "allmydata",
+    "tahoe-lafs",
+    "tahoe",
+    "lafs",
+]
+categories = ["cryptography"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "lafs"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bitcoin_hashes = "0.16.0"
+data-encoding = "2.8.0"
+pyo3 = "0.23.5"
+rsa = "0.9.7"
+
+[build-dependencies]
+pyo3-build-config = "0.23.5"
+
+[dev-dependencies]
+# rsa does not yet support rand 0.9: https://github.com/RustCrypto/RSA/issues/466
+rand = "<0.9.0"
+serde = "1.0.218"
+serde_yaml = "0.9.34"
