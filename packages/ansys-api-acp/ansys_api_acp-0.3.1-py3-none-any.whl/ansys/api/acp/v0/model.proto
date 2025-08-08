@@ -1,0 +1,202 @@
+// Copyright (C) 2022 - 2025 ANSYS, Inc. and/or its affiliates.
+// SPDX-License-Identifier: MIT
+//
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+package ansys.api.acp.v0.model;
+option go_package = "github.com/ansys/ansys-api-acp/ansys/api/acp/v0/model";
+
+import "ansys/api/acp/v0/base.proto";
+import "ansys/api/acp/v0/unit_system.proto";
+import "ansys/api/acp/v0/enum_types.proto";
+
+// Default CRUD messages
+
+message Properties {
+    bool use_nodal_thicknesses = 1;
+    bool draping_offset_correction = 2;
+    // Note dgresch Jul'22: The 'use_default_section_tolerances' value is
+    // stored in the backend, but getting the default values is implemented
+    // in the ACP GUI Python code. As such, it doesn't make sense to include
+    // it here unless / until PyACP also has a method of implementing defaults.
+    // bool use_default_section_tolerances = 3;
+    double angle_tolerance = 4;
+    double relative_thickness_tolerance = 5;
+    optional double minimum_analysis_ply_thickness =
+        6; // when not set, keep the previous value (potentially unit-converted)
+    unit_system.UnitSystemType unit_system = 7;
+    optional bool force_disable_result_extrapolation = 9;
+
+    // read-only
+    double average_element_size = 8;
+}
+
+message ObjectInfo {
+    base.BasicInfo info = 1;
+    Properties properties = 2;
+}
+
+message ListReply { repeated ObjectInfo objects = 1; }
+
+message LoadFromFileRequest { string path = 1; }
+
+// Special Model messages
+
+message LoadFromFEFileRequest {
+    string path = 1;
+    enum_types.FileFormat format = 2;
+    enum IgnorableEntity {
+        MESH = 0;
+        ELEMENT_SETS = 1;
+        MATERIALS = 2;
+        COORDINATE_SYSTEMS = 3;
+        SHELL_SECTIONS = 4;
+    }
+    repeated IgnorableEntity ignored_entities = 3;
+    bool convert_section_data = 4;
+    unit_system.UnitSystemType unit_system = 5;
+}
+
+message UpdateRequest {
+    base.ResourcePath resource_path = 1;
+    bool relations_only = 2;
+}
+
+message SaveToFileRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    bool save_cache = 3;
+}
+
+message SaveAnalysisModelRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+}
+
+message SaveShellCompositeDefinitionsRequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+}
+
+message ExportHDF5CompositeCAERequest {
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+
+    // GENERAL PROPERTIES
+    bool remove_midside_nodes = 3;
+    bool layup_representation_3d = 4;
+    enum_types.OffsetType offset_type = 5;
+    bool ascii_encoding = 6;
+
+    // SCOPE PROPERTIES
+    bool all_elements = 7;
+    repeated base.ResourcePath element_sets =
+        8; // can be Oriented Selection Set or Element Set
+    bool all_plies = 9;
+    repeated base.ResourcePath plies =
+        10; // can be Modeling Group or Modeling Ply
+};
+
+enum ImportMode {
+    APPEND = 0;
+    OVERWRITE = 1;
+}
+
+enum ProjectionMode {
+    SHELL = 0;
+    SOLID = 1;
+}
+
+message ShellMappingProperties {
+    // MAPPING SCOPE
+    bool all_elements = 1;
+    repeated base.ResourcePath element_sets = 2;
+
+    // PLY AREA MAPPING
+    double relative_thickness_tolerance = 3;
+    double relative_in_plane_tolerance = 4;
+    double angle_tolerance = 5;
+    double small_hole_threshold = 6;
+}
+
+message SolidMappingProperties { enum_types.OffsetType offset_type = 1; }
+
+message CoordinateTransformation {
+    // all angles are in degrees
+    double rotation_angle_x = 1;
+    double rotation_angle_y = 2;
+    double rotation_angle_z = 3;
+    double translation_x = 4;
+    double translation_y = 5;
+    double translation_z = 6;
+}
+
+message ImportHDF5CompositeCAERequest {
+    // GENERAL PROPERTIES
+    base.ResourcePath resource_path = 1;
+    string path = 2;
+    ImportMode import_mode = 3;
+    ProjectionMode projection_mode = 4;
+
+    // PLY ANGLES
+    double minimum_angle_tolerance = 5;
+    bool recompute_reference_directions = 6;
+
+    // MAPPIG PROPERTIES
+    oneof mapping_properties {
+        ShellMappingProperties shell_mapping_properties = 7;
+        SolidMappingProperties solid_mapping_properties = 8;
+    }
+
+    // COORDINATE TRANSFORMATION
+    CoordinateTransformation coordinate_transformation = 9;
+}
+
+service ObjectService {
+    rpc List(base.ListRequest) returns (ListReply);
+
+    rpc Get(base.GetRequest) returns (ObjectInfo);
+
+    rpc Put(ObjectInfo) returns (ObjectInfo);
+
+    rpc Delete(base.DeleteRequest) returns (base.Empty);
+
+    rpc Update(UpdateRequest) returns (ObjectInfo);
+
+    rpc LoadFromFile(LoadFromFileRequest) returns (ObjectInfo);
+
+    rpc LoadFromFEFile(LoadFromFEFileRequest) returns (ObjectInfo);
+
+    rpc SaveToFile(SaveToFileRequest) returns (base.Empty);
+
+    rpc SaveAnalysisModel(SaveAnalysisModelRequest) returns (base.Empty);
+
+    rpc SaveShellCompositeDefinitions(SaveShellCompositeDefinitionsRequest)
+        returns (base.Empty);
+
+    rpc ExportHDF5CompositeCAE(ExportHDF5CompositeCAERequest)
+        returns (base.Empty);
+
+    rpc ImportHDF5CompositeCAE(ImportHDF5CompositeCAERequest)
+        returns (base.Empty);
+
+    // TODO: reload mesh
+}
