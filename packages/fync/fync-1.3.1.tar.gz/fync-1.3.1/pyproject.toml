@@ -1,0 +1,39 @@
+[project]
+name = "fync"
+dynamic = []
+description = "Automatically trigger command on directory update"
+authors = [{ name = "Fanuware", email = "fanuware@gmail.com" }]
+license = "MIT"
+repository = "https://github.com/fanuware/fync"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+packages = [
+    { include = "fync", from = "src" },
+]
+dependencies = [
+  "watchdog (>=6.0.0,<7.0.0)",
+]
+version = "1.3.1"
+
+[tool.poetry]
+
+[tool.poetry-dynamic-versioning]
+enable = false
+
+[project.scripts]
+fync = 'fync:fync.cli'
+fync-get = 'fync:get.cli'
+
+[build-system]
+requires = ["poetry>=0.12", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.4"
+poetry-dynamic-versioning = "^1.7.1"
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "single"
