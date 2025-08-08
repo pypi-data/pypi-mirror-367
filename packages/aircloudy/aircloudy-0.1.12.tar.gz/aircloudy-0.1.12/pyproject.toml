@@ -1,0 +1,97 @@
+[project]
+name = "aircloudy"
+requires-python = ">=3.13"
+
+[tool.poetry]
+version = "0.1.12"
+description = "A library to pilot hitachi aircloud AC"
+keywords = ["aircloud", "SPX-WFG"]
+authors = ["Yann Le Moigne <ylemoigne@javatic.fr>"]
+readme = "README.md"
+#license = {file = "LICENSE.txt"}
+homepage = "https://github.com/ylemoigne/aircloudy"
+repository = "https://github.com/ylemoigne/aircloudy"
+classifiers = [
+    "Intended Audience :: Developers",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.13.5"
+websockets = "^15.0.1"
+aiohttp = "^3.12.15"
+aiodns = "^3.5.0"
+pyjwt = "^2.10.1"
+tzlocal = "^5.3.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.4.1"
+pytest-httpserver = "^1.1.3"
+trustme = "^1.2.1"
+coverage = "^7.10.2"
+pytest-asyncio = "^1.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.12.7"
+taskipy = "^1.14.1"
+mypy = "^1.17.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = ["--import-mode=importlib", ]
+pythonpath = [".", ]
+
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# https://docs.astral.sh/ruff/rules/
+select = [
+    "F",
+    "E", "W",
+    "I",
+    "UP",
+    "ANN",
+    "ASYNC",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "FA",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PT", #pytest
+    "SIM",
+    "RSE",
+    "RET",
+    "SIM",
+    "ARG",
+    "TD",
+    "FIX",
+    "ERA",
+    "PL",
+    "LOG"
+    ]
+ignore=["PLR2004", "PLR0912", "PLR0913", "TD003", "UP007", "COM812"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.taskipy.tasks]
+types = "mypy ./aircloudy"
+
+format = "ruff format ./aircloudy"
+check = "ruff check ./aircloudy"
+lint = "task format && task check"
+
+test = "pytest tests/**/test_*.py"
+test-with-log = "pytest tests/**/test_*.py --log-cli-level=debug"
+coverage = "coverage run -m pytest"
+quality = "task types && task lint && task test"
