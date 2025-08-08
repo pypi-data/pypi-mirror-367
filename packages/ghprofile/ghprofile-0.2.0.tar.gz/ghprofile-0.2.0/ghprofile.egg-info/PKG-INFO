@@ -1,0 +1,117 @@
+Metadata-Version: 2.4
+Name: ghprofile
+Version: 0.2.0
+Summary: A lightweight library to fetch and summarize GitHub user data
+Author-email: Ujjwal Baunthiyal <baunthiyalujjwal52@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Ujjwal Baunthiyal
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/ujjwaluzu/ghprofile
+Project-URL: Source, https://github.com/ujjwaluzu/ghprofile
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: beautifulsoup4
+Dynamic: license-file
+
+# 🧑‍💻 ghprofile
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+A lightweight Python library to fetch and summarize a GitHub user's public profile and repository stats, including followers, bio, starred repos, and pinned repositories.
+
+## 🚀 Features
+
+- ✅ Get user bio, followers, and following count  
+- ✅ List all public repositories  
+- ✅ Count total stars across repositories  
+- ✅ Fetch pinned repositories (via scraping)  
+- ✅ Custom error handling for failed API calls  
+- ✅ Simple to use and extend
+
+## 📦 Installation
+
+```bash
+pip install ghprofile
+```
+## 🔑 Authentication (Optional)
+You can pass a GitHub personal access token to increase your rate limits and access private data.
+
+✅ Token is optional
+
+🕒 Without token: ~60 API calls/hour (public data only)
+
+🔐 With token: ~5000 API calls/hour
+
+## 🧑‍💻 Usage
+With Token
+```bash
+from ghprofile.core import Ghprofile
+
+gh = Ghprofile("octocat", "your_github_token")
+
+print(gh.get_bio())         # → "A mysterious octocat."
+print(gh.get_followers())   # → 5400
+print(gh.get_repo())        # → ['hello-world', 'test-repo']
+print(gh.get_stars())       # → 42
+print(gh.get_pinned_repos())# → ['hello-world', 'octo-repo']
+```
+Without Token
+```bash
+from ghprofile.core import Ghprofile
+
+gh = Ghprofile("octocat")
+```
+## 📁 Project Structure
+```bash
+ghprofile/
+├── core.py          # Main class Ghprofile
+├── __init__.py
+tests/
+├── test_core.py     # Unit tests using pytest
+pyproject.toml       # Build and tool config
+README.md
+```
+## 📋 Error Handling
+All exceptions are wrapped under a custom exception class:
+```bash
+from ghprofile.core import GhprofileError
+
+try:
+    gh = Ghprofile("unknownuser", "badtoken")
+except GhprofileError as e:
+    print("Something went wrong:", e)
+```
+## 🤝 Contributing
+Contributions are welcome! If you’d like to:
+
+Add new features (e.g. commit history, language breakdown)
+Improve error handling or test coverage
+Refactor or optimize the code
+Just fork the repo, create a new branch, and open a pull request.
+Don't forget to write or update tests for your changes.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).  
+You are free to use, modify, and distribute this software with proper attribution.
