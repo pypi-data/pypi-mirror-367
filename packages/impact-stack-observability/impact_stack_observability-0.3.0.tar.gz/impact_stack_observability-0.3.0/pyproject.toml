@@ -1,0 +1,93 @@
+[project]
+name = "impact-stack-observability"
+version = "0.3.0"
+description = "Observability for Impact Stack"
+dependencies = [
+  "flask",
+  "requests",
+  "opentelemetry-api>=1.35.0",
+  "opentelemetry-sdk>=1.35.0",
+]
+authors = [
+  { name = "Alex Berger", email = "alex@more-onion.com" },
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Flask",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python",
+  "Topic :: Software Development",
+]
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "celery[redis]",
+  "flask-sqlalchemy",
+  "isort",
+  "pre-commit",
+  "pydocstyle[toml]>=6",
+  "pylint",
+  "pytest",
+  "pytest-cov",
+  "pytest-flask",
+]
+celery = [
+  "opentelemetry-instrumentation-celery>=0.56b0"
+]
+flask = [
+  "opentelemetry-instrumentation-flask>=0.56b0"
+]
+logging = [
+  "opentelemetry-instrumentation-logging>=0.56b0"
+]
+requests = [
+  "opentelemetry-instrumentation-requests>=0.56b0"
+]
+sqlalchemy = [
+  "opentelemetry-instrumentation-sqlalchemy>=0.56b0"
+]
+
+[build-system]
+requires = [
+  "setuptools>=66",
+  "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+
+[tool.coverage.run]
+source = ["impact_stack"]
+relative_files = true
+
+[tool.coverage.report]
+fail_under = 90
+
+[tool.isort]
+profile = "black"
+line_length = 100
+combine_as_imports = true
+
+[tool.pydocstyle]
+convention = "google"
+
+[tool.pylint.basic]
+good-names = ["db"]
+
+[tool.pylint.format]
+max-line-length = "100"
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report=term --cov-report=xml --junitxml=pytest-junit.xml"
+python_classes = [
+  "*Test",
+  "Test*",
+]
