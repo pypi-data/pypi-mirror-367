@@ -1,0 +1,55 @@
+{% extends "base.html" %} 
+
+{% block htmltitle %}
+  {{page.title}}
+{% endblock %}
+
+
+{% block main %}
+
+<div class="post">
+  <div class="post-info">
+    <span>Written by</span>
+    {{config.site_author}}
+    <br />
+    <span>on</span>
+    <time datetime="{{page.meta.date}} 00:00:00 +0000">
+      {{ page.meta.date | format_date }}
+    </time>
+  </div>
+
+  <h1 class="post-title">{{page.title}}</h1>
+
+  <div class="post-line"></div>
+
+  <div class="post-container">
+    <div class="post-content">
+      {{page.content}}
+    
+      <div style="margin-top: 4rem;">
+        <script src="https://giscus.app/client.js"
+          data-repo="{{ config.extra.giscus.repo }}"
+          data-repo-id="{{ config.extra.giscus.repo_id }}"
+          data-category="{{ config.extra.giscus.category }}"
+          data-category-id="{{ config.extra.giscus.category_id }}"
+          data-mapping="{{ config.extra.giscus.mapping | default('pathname') }}"
+          data-strict="0"
+          data-reactions-enabled="{{ config.extra.giscus.reactions_enabled | default('1') }}"
+          data-emit-metadata="0"
+          data-input-position="{{ config.extra.giscus.input_position | default('bottom') }}"
+          data-theme="{{ config.extra.giscus.theme | default('light') }}"
+          data-lang="en"
+          crossorigin="anonymous"
+          async>
+        </script>
+      </div>
+    </div>
+    {% from "macros/toc.html" import render_toc %}
+    {% if page.toc %}
+    <aside class="toc">
+      {{ render_toc(page.toc) }}
+    </aside>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
