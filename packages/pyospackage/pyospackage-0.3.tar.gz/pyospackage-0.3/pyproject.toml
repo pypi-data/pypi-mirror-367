@@ -1,0 +1,84 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyospackage"
+description = "A package that adds numbers together"
+readme = "README.md"
+# version = "0.1.11" # Delete this line and add the line below to tell hatch to use dynamic versioning
+dynamic = ["version"]
+requires-python = ">=3.10"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Leah Wasser", email = "leah@pyopensci.org" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = []
+
+[project.urls]
+Homepage = "https://pypi.org/project/pyospackage/"
+Documentation = "https://pyospackage.readthedocs.io/en/latest/"
+Issues = "https://github.com/pyopensci/pyospackage/issues"
+Source = "https://github.com/pyopensci/pyospackage"
+
+[project.optional-dependencies]
+docs = [
+  "sphinx",
+  "sphinx-autobuild",
+  "sphinx-inline-tabs",
+  # Note that the tool you install has dashes- between the name, vs _underscores
+  # when you call the theme in sphinx's conf.py
+  "pydata-sphinx-theme",
+  "sphinx-design",
+  "sphinx-copybutton",
+  "myst-nb",
+  "myst-parser",
+  # Create beautiful api docs automatically
+  "sphinx-autoapi",
+]
+
+# ******* Hatch configuration here ******* #
+
+# Setup dynamic versioning (this uses setuptools_scm on the backend)
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "src/pyospackage/_version.py"
+
+[tool.hatch.envs.docs]
+# https://hatch.pypa.io/1.12/config/environment/overview/#features
+features = ["docs"]
+
+[tool.hatch.envs.docs.scripts]
+# Build your docs statically - html output
+# hatch run docs:docs-html
+docs-html = "sphinx-build docs/ docs/_build"
+# hatch run docs:docs-html
+# TODO: when i run this with hatch autobuild gets stuck in a loop of building
+# When i run it in a terminal without hatch it doesn't do that
+docs-live = "sphinx-autobuild docs/ docs/_build"
+# TODO: add step to clean docs directory
+
+
+[tool.hatch.envs.test]
+dependencies = [
+  "pytest",
+  "pytest-cov"
+]
+
+
+[tool.ruff]
+lint.select = [
+  "F", # pyflakes
+  "I", # isort
+]
+lint.ignore = ["F841"]
+line-length = 79
