@@ -1,0 +1,198 @@
+Metadata-Version: 2.4
+Name: deltaapply
+Version: 0.0.2
+Summary: Change Data Capture und Anwendung von Inserts, Updates und Deletes
+License: MIT
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: polars>=1.32.0
+Requires-Dist: pyarrow>=21.0.0
+Requires-Dist: sqlalchemy>=2.0.42
+Dynamic: license-file
+
+# 🔄 DeltaApply
+
+**Change Data Capture (CDC) with automatic application of inserts, updates, and deletes**
+
+DeltaApply is a Python package that simplifies Change Data Capture operations by comparing two data sources and automatically applying the differences (inserts, updates, deletes) to synchronize them.
+
+## ✨ Features
+
+- **Flexible Data Sources**: CSV files ↔ pandas DataFrames ↔ Polars DataFrames ↔ Database tables
+- **Configurable Operations**: Choose which CDC operations to apply (insert, update, delete, or combinations)
+- **Type Preservation**: Maintains input/output data types consistently
+- **Database Integration**: Full SQLAlchemy support for database operations
+- **High Performance**: Uses Polars internally for fast data processing
+- **Type Safe**: Complete type hints and comprehensive test coverage
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+uv add deltaapply
+# or
+pip install deltaapply
+```
+
+### Basic Usage
+
+```python
+from deltaapply import DeltaApply
+import pandas as pd
+
+# Sample data
+source_df = pd.DataFrame({
+    'id': [1, 2, 3, 4],
+    'name': ['Alice', 'Bob Updated', 'Charlie', 'David'],
+    'value': [10, 25, 30, 40]
+})
+
+target_df = pd.DataFrame({
+    'id': [1, 2, 5],
+    'name': ['Alice', 'Bob', 'Eve'],
+    'value': [10, 20, 50]
+})
+
+# Initialize CDC
+cdc = DeltaApply(
+    source=source_df,
+    target=target_df,
+    key_columns=['id']
+)
+
+# Apply all changes
+result = cdc.apply()
+print(result)
+# Result: DataFrame with synchronized data
+```
+
+## 📊 Data Source Support
+
+DeltaApply supports multiple data source combinations:
+
+```python
+# DataFrame to DataFrame
+cdc = DeltaApply(source=df1, target=df2, key_columns=['id'])
+
+# CSV files
+cdc = DeltaApply(source='source.csv', target='target.csv', key_columns=['id'])
+
+# Database tables
+cdc = DeltaApply(
+    source='source_table', 
+    target='target_table',
+    key_columns=['id'],
+    source_connection='postgresql://user:pass@host/db',
+    target_connection='postgresql://user:pass@host/db'
+)
+
+# Mixed sources
+cdc = DeltaApply(
+    source=df,                    # pandas DataFrame
+    target='target_table',        # Database table
+    key_columns=['id'],
+    target_connection=engine
+)
+```
+
+## 🔧 Configuration Options
+
+### Selective Operations
+
+```python
+# Apply only inserts
+result = cdc.apply(operations=['insert'])
+
+# Apply only updates
+result = cdc.apply(operations=['update'])
+
+# Apply inserts and updates (no deletes)
+result = cdc.apply(operations=['insert', 'update'])
+
+# Convenience methods
+result = cdc.apply_inserts_only()
+result = cdc.apply_updates_only()
+result = cdc.apply_deletes_only()
+```
+
+### Dry Run & Summary
+
+```python
+# Preview changes without applying
+changes = cdc.apply(dry_run=True)
+print(f"Inserts: {len(changes.inserts)}")
+print(f"Updates: {len(changes.updates)}")
+print(f"Deletes: {len(changes.deletes)}")
+
+# Get summary statistics
+summary = cdc.get_summary()
+print(summary)
+# Output: {'inserts': 2, 'updates': 1, 'deletes': 1, 'unchanged': 1, ...}
+```
+
+### Composite Keys
+
+```python
+# Multiple column primary key
+cdc = DeltaApply(
+    source=df1,
+    target=df2,
+    key_columns=['dept_id', 'emp_id']  # Composite key
+)
+```
+
+## 🏗️ Architecture
+
+DeltaApply consists of four main components:
+
+1. **`DataSource`** - Unified abstraction for different input types
+2. **`CDCOperations`** - Logic for detecting changes between datasets
+3. **`TargetWriter`** - Handles applying changes to different output formats
+4. **`DeltaApply`** - Main orchestration class that ties everything together
+
+## 📋 Requirements
+
+- Python ≥ 3.12
+- polars ≥ 1.32.0
+- pandas ≥ 2.3.1
+- sqlalchemy ≥ 2.0.42
+- pyarrow ≥ 21.0.0
+
+## 🧪 Development
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/deltaapply.git
+cd deltaapply
+
+# Install dependencies
+uv sync --dev
+
+# Run tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=src/deltaapply --cov-report=html
+```
+
+### Testing
+
+The package includes comprehensive tests covering:
+- Unit tests for all components
+- Integration tests for end-to-end workflows
+- Database integration tests
+- CSV file handling tests
+- Edge cases and error conditions
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
