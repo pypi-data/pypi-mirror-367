@@ -1,0 +1,104 @@
+################################################################################
+# Copyright (c) 2024, National Research Foundation (SARAO)
+#
+# Licensed under the BSD 3-Clause License (the "License"); you may not use
+# this file except in compliance with the License. You may obtain a copy
+# of the License at
+#
+#   https://opensource.org/licenses/BSD-3-Clause
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+
+[build-system]
+requires = ["setuptools", "setuptools-rust", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "katcp-codec"
+dynamic = ["version"]
+authors = [{name = "Bruce Merry", email = "bmerry@sarao.ac.za"}]
+description = "Fast encoding and decoding of katcp messages"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["katcp"]
+# TODO: replace license classifier with PEP 639 metadata once Python 3.8
+# support is dropped.
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+]
+dependencies = ["typing-extensions"]
+
+[project.urls]
+Homepage = "https://github.com/ska-sa/katcp-codec"
+
+[project.optional-dependencies]
+dev = ["pre-commit", "pytest", "build"]
+doc = ["sphinx", "sphinxcontrib-tikz", "sphinx-rtd-theme"]
+
+[tool.setuptools.packages.find]
+# Pure Python packages/modules
+where = ["python"]
+include = ["katcp_codec*"]
+
+[tool.setuptools_scm]
+# This section is needed to have setuptools_scm provide the version
+
+[[tool.setuptools-rust.ext-modules]]
+target = "katcp_codec._lib"
+debug = false
+strip = "All"
+
+[tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",  # pycodestyle
+    "F",       # pyflakes
+    "I",       # isort
+    "UP",      # pyupgrade
+    "RUF100",  # Unnecessary noqa directives
+]
+[tool.ruff.lint.isort]
+
+known-first-party = ["katcp_codec"]
+
+[tool.mypy]
+python_version = "3.8"
+files = "python"
+
+[[tool.mypy.overrides]]
+# The Rust module doesn't have type hints
+module = "katcp_codec._lib"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = "python/tests"
+
+[tool.cibuildwheel]
+build-frontend = "build"
+test-command = "pip install -r {project}/requirements.txt && pytest -v -ra {project}"
+[tool.cibuildwheel.linux]
+environment = "PATH=$HOME/.cargo/bin:$PATH"
+environment-pass = ["RUST_VERSION"]
+archs = ["aarch64", "x86_64"]
+before-all = ".ci/before_all_linux.sh"
+# Pyo3 only supports buffer objects with the limited ABI from Python 3.11. So
+# we need to handle that differently to older Pythons.
+[[tool.cibuildwheel.overrides]]
+select = "cp311-*"
+config-settings = { "--build-option" = "--py-limited-api=cp311" }
+linux.repair-wheel-command = [
+    "auditwheel repair -w {dest_dir} {wheel}",
+    "pipx run abi3audit --strict --report {wheel}",
+]
+macos.repair-wheel-command = [
+    "delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}",
+    "pipx run abi3audit --strict --report {wheel}",
+]

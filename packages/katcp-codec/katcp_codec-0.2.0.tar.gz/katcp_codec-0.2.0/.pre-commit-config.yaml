@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+      - id: fmt
+      - id: clippy
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.5
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        # Passing filenames to mypy can do odd things.
+        # pyproject.toml determines the set of files that will actually be checked.
+        pass_filenames: false
+        # The pre-commit hook passes some options, but we set options in pyproject.toml.
+        args: []
+        additional_dependencies:
+          - pytest==8.3.5
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.8.5
+    hooks:
+      - id: pip-compile
+        args: ["--output-file=requirements.txt", "--python-version=3.8", "--extra=dev", "pyproject.toml"]
+        files: '^(pyproject\.toml|requirements\.txt)$'
+      - id: pip-compile
+        name: pip-compile doc-requirements
+        args: ["--output-file=doc-requirements.txt", "--python-version=3.8", "--extra=doc", "pyproject.toml"]
+        files: '^(pyproject\.toml|doc-requirements\.txt)$'

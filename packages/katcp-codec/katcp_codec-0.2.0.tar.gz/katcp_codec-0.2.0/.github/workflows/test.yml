@@ -1,0 +1,197 @@
+name: Unit tests
+on: [push, pull_request]
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  RUST_VERSION: '1.88.0'
+  MIN_PYTHON_VERSION: '3.8'
+  MAX_PYTHON_VERSION: '3.12'
+jobs:
+  pre-commit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
+          cache: 'pip'
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Install pre-commit
+        run: pip install -c requirements.txt pre-commit
+      - name: Run pre-commit checks
+        run: pre-commit run --all-files
+
+  docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
+          cache: 'pip'
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Build Rust docs
+        # Document private items to validate their doc formatting.
+        run: RUSTDOCFLAGS="-D warnings" cargo doc --no-deps --document-private-items --locked
+      - name: Install Python doc dependencies
+        run: pip install -r doc-requirements.txt
+      - name: Install Python package
+        run: pip install .
+      - name: Build Python docs
+        run: SPHINX_OPTS="-W --keep-going" make -C doc html
+
+  rust-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version:  ${{ env.MAX_PYTHON_VERSION }}
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Run Rust tests
+        run: RUSTFLAGS="-D warnings" cargo test --locked
+      - name: Run Rust benchmarks
+        run: cargo bench --locked
+
+  python-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: 'pip'
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install package
+        run: pip install .
+      - name: Run Python tests
+        run: pytest -v -ra
+
+  linux-wheels:
+    needs: [pre-commit, python-tests, rust-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86_64, aarch64]
+        python: [cp38, cp39, cp310, cp311]  # From 3.11 we can use the limited ABI
+        # Set os based on arch
+        include:
+          - arch: x86_64
+            os: ubuntu-24.04
+          - arch: aarch64
+            os: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - uses: pypa/cibuildwheel@v3.1.3
+        env:
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_BUILD: ${{ matrix.python }}-manylinux*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel_linux-${{ matrix.arch }}-${{ matrix.python }}
+          path: ./wheelhouse/*.whl
+
+  macos-wheels:
+    needs: [pre-commit, python-tests, rust-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86_64, arm64]
+        python: [cp38, cp39, cp310, cp311]  # From 3.11 we can use the limited ABI
+    env:
+      MACOSX_DEPLOYMENT_TARGET: "10.12"  # Seems to be needed due to Rust version
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
+      - uses: Swatinem/rust-cache@v2
+      - name: Install x86_64 Rust compiler
+        run: rustup target add x86_64-apple-darwin
+        if: matrix.arch == 'x86_64'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.MAX_PYTHON_VERSION }}
+          cache: 'pip'
+      - name: Install pipx
+        run: pip install pipx
+      - uses: pypa/cibuildwheel@v3.1.3
+        env:
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_BUILD: ${{ matrix.python }}-macos*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel_macos-${{ matrix.arch }}-${{ matrix.python }}
+          path: ./wheelhouse/*.whl
+
+  sdist:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
+          cache: 'pip'
+      - name: install build tool
+        run: pip install -c requirements.txt build
+      - name: build sdist
+        run: python -m build --sdist .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: ./dist/*.tar.gz
+
+  combine-wheels:
+    needs: [linux-wheels, macos-wheels, sdist]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Create paths
+        run: mkdir -p dist wheelhouse
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel_*
+          path: wheelhouse/
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: sdist
+          path: dist/
+          merge-multiple: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: |
+            dist/
+            wheelhouse/
