@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ImageFile.load &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ImageFile.max" href="Stoner.Image.ImageFile.max.html" />
+    <link rel="prev" title="ImageFile.level_image" href="Stoner.Image.ImageFile.level_image.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.ImageFile.level_image.html" title="Previous document">ImageFile.level_image</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.max.html" title="Next document">ImageFile.max</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li>
+      <li>
+        <a href="Stoner.Image.ImageFile.html">Stoner.Image.ImageFile</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="imagefile-load">
+<h1>ImageFile.load<a class="headerlink" href="#imagefile-load" title="Link to this heading">¶</a></h1>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.load">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ImageFile.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/core.html#ImageFile.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.ImageFile.load" title="Link to this definition">¶</a></dt>
+<dd><p>Create a <a class="reference internal" href="Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> from file abnd guessing a better subclass if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string or None</em>) – path to file to load</p>
+</dd>
+<dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>auto_load</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If True (default) then the load routine tries all the subclasses of <a class="reference internal" href="Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> in turn to
+load the file</p></li>
+<li><p><strong>filetype</strong> (<a class="reference internal" href="Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a>, str) – If not none then tries using filetype as the loader.</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Turn on debugging when running autoload. Default <em>False</em></p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>(ImageFile)</em> –     A a new <a class="reference internal" href="Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-data docutils literal notranslate"><span class="pre">ImageFile</span></code></a> (or subclass thereof) instance</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <em>filetupe</em> is a string, then it is first tried as an exact match to a subclass name, otherwise it
+is used as a partial match and the first class in priority order is that matches is used.</p>
+<p>Some subclasses can be found in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner.formats</span></code> package.</p>
+<p>Each subclass is scanned in turn for a class attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">Stoner.ImnageFile.priority</span></code> which governs
+the order in which they are tried. Subclasses which can make an early positive determination that a
+file has the correct format can have higher priority levels. Classes should return a suitable exception
+if they fail to load the file.</p>
+<p>If no class can load a file successfully then a RunttimeError exception is raised.</p>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ImageFile.load</a><ul>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.load"><code class="docutils literal notranslate"><span class="pre">ImageFile.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.Image.ImageFile.level_image.html"
+                          title="previous chapter">ImageFile.level_image</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.Image.ImageFile.max.html"
+                          title="next chapter">ImageFile.max</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.Image.ImageFile.load.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.ImageFile.level_image.html" title="Previous document">ImageFile.level_image</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.max.html" title="Next document">ImageFile.max</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li>
+      <li>
+        <a href="Stoner.Image.ImageFile.html">Stoner.Image.ImageFile</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

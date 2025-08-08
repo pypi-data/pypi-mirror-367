@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stoner.Image.util &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../../../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../../../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../../index.html">Module code</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Stoner.Image.util</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Code adapted from skimage module.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">division</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sign_loss&quot;</span><span class="p">,</span> <span class="s2">&quot;prec_loss&quot;</span><span class="p">,</span> <span class="s2">&quot;dtype_range&quot;</span><span class="p">,</span> <span class="s2">&quot;_dtype&quot;</span><span class="p">,</span> <span class="s2">&quot;_dtype2&quot;</span><span class="p">]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..tools.classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Options</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..compat</span><span class="w"> </span><span class="kn">import</span> <span class="n">np_version</span>
+
+<span class="n">dtype_range</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">65535</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">128</span><span class="p">,</span> <span class="mi">127</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">32768</span><span class="p">,</span> <span class="mi">32767</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">63</span><span class="p">),</span> <span class="mi">2</span><span class="o">**</span><span class="mi">63</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">),</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="n">np_version</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">np_version</span><span class="o">.</span><span class="n">minor</span> <span class="o">&lt;</span> <span class="mi">24</span><span class="p">:</span>
+    <span class="n">dtype_range</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">bool8</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">integer_types</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+
+<span class="n">_supported_types</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">dtype_range</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">_supported_types</span> <span class="o">+=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,)</span>
+
+
+<div class="viewcode-block" id="sign_loss">
+<a class="viewcode-back" href="../../../classes/Stoner.Image.util.sign_loss.html#Stoner.Image.util.sign_loss">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sign_loss</span><span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warn over loss of sign information when converting image.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;Possible sign loss when converting negative image of type &quot;</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> to positive image of type </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prec_loss">
+<a class="viewcode-back" href="../../../classes/Stoner.Image.util.prec_loss.html#Stoner.Image.util.prec_loss">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">prec_loss</span><span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warn over precision loss when converting image.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Possible precision loss when converting from &quot;</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="_dtype">
+<a class="viewcode-back" href="../../../classes/Stoner.Image.util._dtype.html#Stoner.Image.util._dtype">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_dtype</span><span class="p">(</span><span class="n">itemsize</span><span class="p">,</span> <span class="o">*</span><span class="n">dtypes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return first of `dtypes` with itemsize greater than `itemsize.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">dt</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dtypes</span> <span class="k">if</span> <span class="n">itemsize</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">dtypes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
+
+
+
+<div class="viewcode-block" id="_dtype2">
+<a class="viewcode-back" href="../../../classes/Stoner.Image.util._dtype2.html#Stoner.Image.util._dtype2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">itemsize</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return dtype of `kind` that can store a `bits` wide unsigned int.&quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;u&quot;</span> <span class="k">else</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="n">itemsize</span><span class="p">,)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="p">(</span><span class="n">bits</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">kind</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">src_bits</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scale unsigned/positive integers from src_bitsto dest_bits_bits.</span>
+
+<span class="sd">    Numbers can be represented exactly only if dest_bits_is a multiple of n</span>
+<span class="sd">    Output array is of same kind as input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">src_bits</span> <span class="o">==</span> <span class="n">dest_bits</span><span class="p">:</span>  <span class="c1"># Trivial case no scale necessary</span>
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="n">copy</span> <span class="k">else</span> <span class="n">image</span>
+
+    <span class="k">if</span> <span class="n">src_bits</span> <span class="o">&gt;</span> <span class="n">dest_bits</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_down_scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">src_bits</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_up_scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">src_bits</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_down_scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">src_bits</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Downscale and image from src_bits to dest_bits.&quot;&quot;&quot;</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="o">**</span><span class="n">dest_bits</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;uint&quot;</span><span class="p">,</span> <span class="s2">&quot;int&quot;</span><span class="p">][</span><span class="n">dest_bits</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">dest_bits</span> <span class="o">+=</span> <span class="n">dest_bits</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">dest_bits</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">src_bits</span> <span class="o">+=</span> <span class="n">src_bits</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">Options</span><span class="p">()</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Downcasting </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> without scaling&quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;because max value </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2"> fits in </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">))</span>
+    <span class="n">prec_loss</span><span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="n">image2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">image2</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">floor_divide</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">src_bits</span> <span class="o">-</span> <span class="n">dest_bits</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">image2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s2">&quot;unsafe&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image2</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_up_scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">src_bits</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upscale an image from src_bits to dest_bits.&quot;&quot;&quot;</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span>
+    <span class="k">if</span> <span class="n">dest_bits</span> <span class="o">%</span> <span class="n">src_bits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># exact upscale to a multiple of src_bitsbits</span>
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="n">image2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">image2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">dest_bits</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">),</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">dest_bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">src_bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">image2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">image2</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">image2</span>
+    <span class="c1"># upscale to a multiple of src_bitsbits,</span>
+    <span class="c1"># then downscale with precision loss</span>
+    <span class="n">prec_loss</span><span class="p">(</span><span class="n">dtypeobj_in</span><span class="p">,</span> <span class="n">dtypeobj</span><span class="p">)</span>
+    <span class="n">upscale_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">dest_bits</span> <span class="o">//</span> <span class="n">src_bits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">src_bits</span>
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="n">image2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">_dtype2</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">upscale_factor</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">image2</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">upscale_factor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">src_bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">image2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">image2</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">image2</span> <span class="o">//=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">upscale_factor</span> <span class="o">-</span> <span class="n">dest_bits</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image2</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+<form class="search" action="../../../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../../../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../../index.html">Module code</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DiskBasedFolderMixin &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DataMethodsMixin" href="Stoner.folders.mixins.DataMethodsMixin.html" />
+    <link rel="prev" title="BaseFolder" href="Stoner.folders.core.BaseFolder.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.folders.core.BaseFolder.html" title="Previous document">BaseFolder</a>
+        </li>
+        <li>
+          <a href="Stoner.folders.mixins.DataMethodsMixin.html" title="Next document">DataMethodsMixin</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="diskbasedfoldermixin">
+<h1>DiskBasedFolderMixin<a class="headerlink" href="#diskbasedfoldermixin" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Stoner.folders.mixins.</span></span><span class="sig-name descname"><span class="pre">DiskBasedFolderMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A Mixin class that implements reading metadataObjects from disc.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.type" title="Link to this definition">¶</a></dt>
+<dd><p>the type ob object to store in the folder (defaults to <code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Core.Data</span></code>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Core.metadataObject</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.extra_args">
+<span class="sig-name descname"><span class="pre">extra_args</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.extra_args" title="Link to this definition">¶</a></dt>
+<dd><p>Extra arguments to use when instantiatoing the contents of the folder from a file on disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.pattern">
+<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.pattern" title="Link to this definition">¶</a></dt>
+<dd><p>A filename globbing pattern that matches the contents of the folder. If a regular expression is provided
+then any named groups are used to construct additional metadata entryies from the filename. Default
+is <em>.</em> to match all files with an extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> or regexp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.exclude">
+<span class="sig-name descname"><span class="pre">exclude</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.exclude" title="Link to this definition">¶</a></dt>
+<dd><p>A filename globbing pattern that matches files to exclude from the folder.  Default is <a href="#id1"><span class="problematic" id="id2">*</span></a>.tdms_index to
+exclude all tdms index files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a> or regexp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.read_means">
+<span class="sig-name descname"><span class="pre">read_means</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.read_means" title="Link to this definition">¶</a></dt>
+<dd><p>If true, additional metadata keys are added that return the mean value of each column of the data.
+This can hep in grouping files where one column of data contains a constant value for the experimental
+state. Default is False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.recursive">
+<span class="sig-name descname"><span class="pre">recursive</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.recursive" title="Link to this definition">¶</a></dt>
+<dd><p>Specifies whether to search recursively in a whole directory tree. Default is True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.flatten">
+<span class="sig-name descname"><span class="pre">flatten</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.flatten" title="Link to this definition">¶</a></dt>
+<dd><p>Specify where to present subdirectories as separate groups in the folder (False) or as a single group
+(True). Default is False. The <a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.flatten" title="Stoner.folders.mixins.DiskBasedFolderMixin.flatten"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.flatten()</span></code></a> method has the equivalent effect
+and <code class="xref py py-meth docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.unflatten()</span></code> reverses it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.discard_earlier">
+<span class="sig-name descname"><span class="pre">discard_earlier</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.discard_earlier" title="Link to this definition">¶</a></dt>
+<dd><p>If there are several files with the same filename apart from !#### being appended just before the
+extension, then discard all except the one with the largest value of #### when collecting the list of
+files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.directory">
+<span class="sig-name descname"><span class="pre">directory</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.directory" title="Link to this definition">¶</a></dt>
+<dd><p>The root directory on disc for the folder - by default this is the current working directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.multifile">
+<span class="sig-name descname"><span class="pre">multifile</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.multifile" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to select individual files manually that are not (necessarily) in  a common directory structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>boo</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.readlist">
+<span class="sig-name descname"><span class="pre">readlist</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.readlist" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to read the directory immediately on creation. Default is True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.basenames" title="Stoner.folders.mixins.DiskBasedFolderMixin.basenames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">basenames</span></code></a></p></td>
+<td><p>Return a list of just the filename parts of the objectFolder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id0" title="Stoner.folders.mixins.DiskBasedFolderMixin.directory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory</span></code></a></p></td>
+<td><p>Just alias directory to root now.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.key" title="Stoner.folders.mixins.DiskBasedFolderMixin.key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">key</span></code></a></p></td>
+<td><p>Override the parent class <em>key</em> to use the <em>directory</em> attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.not_loaded" title="Stoner.folders.mixins.DiskBasedFolderMixin.not_loaded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">not_loaded</span></code></a></p></td>
+<td><p>Return an array of True/False for whether we've loaded a metadataObject yet.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id3" title="Stoner.folders.mixins.DiskBasedFolderMixin.pattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pattern</span></code></a></p></td>
+<td><p>Provide support for getting the pattern attribute.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.fetch" title="Stoner.folders.mixins.DiskBasedFolderMixin.fetch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch</span></code></a>()</p></td>
+<td><p>Preload the contents of the DiskBasedFolderMixin.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.getlist" title="Stoner.folders.mixins.DiskBasedFolderMixin.getlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getlist</span></code></a>(**kargs)</p></td>
+<td><p>Scan the current directory, optionally recursively to build a list of filenames.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.keep_latest" title="Stoner.folders.mixins.DiskBasedFolderMixin.keep_latest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keep_latest</span></code></a>()</p></td>
+<td><p>Filter out earlier revisions of files with the same name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.on_load_process" title="Stoner.folders.mixins.DiskBasedFolderMixin.on_load_process"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_load_process</span></code></a>(tmp)</p></td>
+<td><p>Carry out processing on a newly loaded file to set means and extra metadata.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.save" title="Stoner.folders.mixins.DiskBasedFolderMixin.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([root])</p></td>
+<td><p>Save the entire data folder out to disc using the groups as a directory tree.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.unload" title="Stoner.folders.mixins.DiskBasedFolderMixin.unload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unload</span></code></a>([name])</p></td>
+<td><p>Remove the instance from memory without losing the name in the Folder.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.basenames">
+<span class="sig-name descname"><span class="pre">basenames</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.basenames" title="Link to this definition">¶</a></dt>
+<dd><p>Return a list of just the filename parts of the objectFolder.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">directory</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>Just alias directory to root now.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.key">
+<span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.key" title="Link to this definition">¶</a></dt>
+<dd><p>Override the parent class <em>key</em> to use the <em>directory</em> attribute.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.not_loaded">
+<span class="sig-name descname"><span class="pre">not_loaded</span></span><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.not_loaded" title="Link to this definition">¶</a></dt>
+<dd><p>Return an array of True/False for whether we’ve loaded a metadataObject yet.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd><p>Provide support for getting the pattern attribute.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.fetch">
+<span class="sig-name descname"><span class="pre">fetch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.fetch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.fetch" title="Link to this definition">¶</a></dt>
+<dd><p>Preload the contents of the DiskBasedFolderMixin.</p>
+<p>With multiprocess enabled this will parallel load the contents of the folder into memory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.getlist">
+<span class="sig-name descname"><span class="pre">getlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.getlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.getlist" title="Link to this definition">¶</a></dt>
+<dd><p>Scan the current directory, optionally recursively to build a list of filenames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recursive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Do a walk through all the directories for files</p></li>
+<li><p><strong>directory</strong> (<em>string</em><em> or </em><em>False</em>) – Either a string path to a new directory or False to open a dialog box or not set in which case existing
+directory is used.</p></li>
+<li><p><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – After scanning the directory tree, flaten all the subgroupos to make a flat file list. (this is the
+previous behaviour of <code class="xref py py-meth docutils literal notranslate"><span class="pre">objectFolder.getlist()</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A copy of the current DataFoder directory with the files stored in the files attribute</p>
+</dd>
+</dl>
+<p>getlist() scans a directory tree finding files that match the pattern. By default it will recurse through
+the entire directory tree finding sub directories and creating groups in the data folder for each sub
+directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.keep_latest">
+<span class="sig-name descname"><span class="pre">keep_latest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.keep_latest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.keep_latest" title="Link to this definition">¶</a></dt>
+<dd><p>Filter out earlier revisions of files with the same name.</p>
+<p>The CM group LabVIEW software will avoid overwriting files when measuring by inserting !#### where #### is an
+integer revision number just before the filename extension. This method will look for instances of several
+files which differ in name only by the presence of the revision number and will kepp only the highest revision
+number. This is useful if several measurements of the same experiment have been carried out, but only the
+last file is the correct one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the DataFolder.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.on_load_process">
+<span class="sig-name descname"><span class="pre">on_load_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.on_load_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.on_load_process" title="Link to this definition">¶</a></dt>
+<dd><p>Carry out processing on a newly loaded file to set means and extra metadata.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.save" title="Link to this definition">¶</a></dt>
+<dd><p>Save the entire data folder out to disc using the groups as a directory tree.</p>
+<p>Calls the save method for each file in turn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<em>string</em>) – The root directory to start creating files and subdirectories under. If set to None or not specified,
+the current folder’s directory attribute will be used.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of the saved files</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.folders.mixins.DiskBasedFolderMixin.unload">
+<span class="sig-name descname"><span class="pre">unload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/folders/mixins.html#DiskBasedFolderMixin.unload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.folders.mixins.DiskBasedFolderMixin.unload" title="Link to this definition">¶</a></dt>
+<dd><p>Remove the instance from memory without losing the name in the Folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>string,int or None</em>) – Specifies the entry to unload from memory. If set to None all loaded entries are unloaded.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>(DataFolder)</em> – returns a copy of itself.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DiskBasedFolderMixin</a><ul>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin</span></code></a><ul>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.type"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.type</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.extra_args"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.extra_args</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.pattern"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.pattern</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.exclude"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.exclude</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.read_means"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.read_means</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.recursive"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.recursive</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.flatten"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.flatten</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.discard_earlier"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.discard_earlier</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.directory"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.directory</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.multifile"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.multifile</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.readlist"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.readlist</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.basenames"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.basenames</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.directory</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.key"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.key</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.not_loaded"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.not_loaded</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.pattern</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.fetch"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.fetch()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.getlist"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.getlist()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.keep_latest"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.keep_latest()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.on_load_process"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.on_load_process()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.save"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.save()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.folders.mixins.DiskBasedFolderMixin.unload"><code class="docutils literal notranslate"><span class="pre">DiskBasedFolderMixin.unload()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.folders.core.BaseFolder.html"
+                          title="previous chapter">BaseFolder</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.folders.mixins.DataMethodsMixin.html"
+                          title="next chapter">DataMethodsMixin</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.folders.mixins.DiskBasedFolderMixin.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.folders.core.BaseFolder.html" title="Previous document">BaseFolder</a>
+        </li>
+        <li>
+          <a href="Stoner.folders.mixins.DataMethodsMixin.html" title="Next document">DataMethodsMixin</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

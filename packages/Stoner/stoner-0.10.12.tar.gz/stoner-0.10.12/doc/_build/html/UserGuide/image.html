@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with Images &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cookbook" href="cookbook.html" />
+    <link rel="prev" title="Working with Lots of Files" href="datafolder.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="datafolder.html" title="Previous document">Working with Lots of Files</a>
+        </li>
+        <li>
+          <a href="cookbook.html" title="Next document">Cookbook</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="ugindex.html">The Stoner Python Package User Guide</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="working-with-images">
+<h1>Working with Images<a class="headerlink" href="#working-with-images" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="../Stoner.html#module-Stoner.Image" title="Stoner.Image"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner.Image</span></code></a> package provides a means to carry out image processing functions in a smilar way that <code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner.Core</span></code> and <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> and
+<a class="reference internal" href="../classes/Stoner.DataFolder.html#Stoner.DataFolder" title="Stoner.DataFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.DataFolder</span></code></a> do.</p>
+<section id="imagefile">
+<h3><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a><a class="headerlink" href="#imagefile" title="Link to this heading">¶</a></h3>
+<p>In the Stoner package, a <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> represent a single image along with associated metadata from when the image was taken.
+The actual image data is stored in the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a> as a 2D numpy array. This is actually a masked array - the mask is
+useful for ignoring certain portions of the image when carrying out operations. As well as the image data, a <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> also
+has a <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.metadata" title="Stoner.Image.ImageFile.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.metadata</span></code></a> attribute that stores the associated image metadata as a set of key-value pairs in a dictionary.</p>
+<p>As with <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a>, <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> has a rich array of methods that can carry out different image analysis tasks -
+in common with the philosophy of the Stoner package, these methods operate <em>in place</em> and also return the modified <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a>
+allowing a sequence of operations to be completed by chaining the method calls together.</p>
+<p>The array of methods available to a <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> is particularly rich as the class automatically wraps functions from the
+popular scikit-image package (<a class="reference external" href="https://scikit-image.org/docs/stable/api/skimage.html#module-skimage" title="(in skimage v0.25.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage</span></code></a>) as well as the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/ndimage.html#module-scipy.ndimage" title="(in SciPy v1.15.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy.ndimage</span></code></a> module. In general such functions take an image as their first argument
+and <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> passes its own image data as that argument to whatever function is being wrapped. If the function Returns
+image data of the same size that the original image, then the wrapper replaces the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a>’s image data with the new
+image data.</p>
+<p>As well as the wrapped scikit-image and scipy.ndimage functions, <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> provides a set of its own functions for
+carrying out some common image processing operations.</p>
+<p>By default <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> can load and save both .tiff and .png files and will embed its metadata into custom tags in those
+formats.</p>
+<p>Subclasses of the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> are provided for reading the .png files produced by the CM group’s Evico Kerr Microscopes as well as
+a <a class="reference internal" href="../classes/Stoner.HDF5.STXMImage.html#Stoner.HDF5.STXMImage" title="Stoner.HDF5.STXMImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.HDF5.STXMImage</span></code></a> class that reads the SLS Pollux Beamline’s STXM images.</p>
+</section>
+<section id="loading-an-image">
+<h3>Loading an Image<a class="headerlink" href="#loading-an-image" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> constructor supports taking a string argument which is interpreted as a filename of an image format recognised by PIL. The resulting
+image data is used to form the contents of the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a> which holds the image data.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Stoner</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageFile</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">ImageFile</span><span class="p">(</span><span class="s2">&quot;kermit.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit.png" src="../_images/kermit.png" />
+<p>Like <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> supports image metadata. Where this can be stored in the file, e.g. in png and tiff images, this is read in
+automatically. This metadata is stored as a <code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Core.typeHintedDict</span></code> dictionary. This metadata can be set directly in the
+construction of the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span> <span class="o">=</span> <span class="n">ImageFile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;myarray&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="examining-and-manipulating-the-imagefile">
+<h3>Examining and manipulating the ImageFile<a class="headerlink" href="#examining-and-manipulating-the-imagefile" title="Link to this heading">¶</a></h3>
+<p>IF you are using an ipython console or Jupyter Notebook, then the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> supports rich format outputs and
+it will show you a picture of the image data as its default representation.</p>
+<section id="imagefile-attributes-and-properties">
+<h4>ImageFile Attributes and Properties<a class="headerlink" href="#imagefile-attributes-and-properties" title="Link to this heading">¶</a></h4>
+<p>The key attributes and properties of the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a>:</dt><dd><p>This is the actual numpy array of data that is the image.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.metadata" title="Stoner.Image.ImageFile.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.metadata</span></code></a>:</dt><dd><p>This is the dictionary that contains the metadata associated with the image. This is normally parameters and
+information about the measurement or data that is encoded within the the measurement file, but can be supplemented
+by information added by the user directly or by methods and functions. Each item of metadata is normally referred to by a string <em>key</em>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.filename" title="Stoner.Image.ImageFile.filename"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.filename</span></code></a>:</dt><dd><p>This is the name of the file from which the image was loaded (as a string). It is also used as a default title when
+displaying the image.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.mask" title="Stoner.Image.ImageFile.mask"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.mask</span></code></a>:</dt><dd><p>This represents the mask data for an image file. By default it is entirely False, meaning all parts of the image
+are visible. It supports a variety of different ways of manipulating which parts of the image are masked - see the section
+below.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.draw" title="Stoner.Image.ImageFile.draw"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.draw</span></code></a>:</dt><dd><p>THis is a special attribute that lets you draw simple geometric shapes on the image.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>ImageFile`s use the appropriate data type for the underlying image format - integers for png and either integers or
+floating point numbers for tiffs (STXM files are always floating point).</p>
+<p>The <a class="reference internal" href="../classes/Stoner.Image.ImageFile.convert.html#Stoner.Image.ImageFile.convert" title="Stoner.Image.ImageFile.convert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.convert()</span></code></a> method can be used to convert the data to a more appropriate format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">im</span><span class="o">.</span><span class="n">asfloat</span><span class="p">()</span>
+<span class="n">im</span><span class="o">.</span><span class="n">asint</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It also has simpler <a class="reference internal" href="../classes/Stoner.Image.ImageFile.asfloat.html#Stoner.Image.ImageFile.asfloat" title="Stoner.Image.ImageFile.asfloat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.asfloat()</span></code></a> and <a class="reference internal" href="../classes/Stoner.Image.ImageFile.asint.html#Stoner.Image.ImageFile.asint" title="Stoner.Image.ImageFile.asint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.asint()</span></code></a> methods for converting to floating point or integer
+formats as required.</p>
+<p>There are a number of other attributes that can tell you information about the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.centre" title="Stoner.Image.ImageFile.centre"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.centre</span></code></a>:</dt><dd><p>the coordinates of the centre of the image</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.aspect" title="Stoner.Image.ImageFile.aspect"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.aspect</span></code></a>:</dt><dd><p>the image aspect ratio</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.shape" title="Stoner.Image.ImageFile.shape"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.shape</span></code></a>:</dt><dd><p>the size of the underlying numpy array for the image.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>To make it easier to quickly get a rotated image, the attributes <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.CW" title="Stoner.Image.ImageFile.CW"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.CW</span></code></a> and <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.CCW" title="Stoner.Image.ImageFile.CCW"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.CCW</span></code></a> return
+copies of the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> that are rotate 90 degrees clockwise and counter-clockwise.</p>
+<p>In many cases the default behaviour of modifying the image data in place may not be desired - to get a copy of the
+<a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> you use the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.clone" title="Stoner.Image.ImageFile.clone"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.clone</span></code></a> attribute:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new_im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">clone</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span> <span class="c1"># create a copy of im and then apply a gaussian blur</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit-blurred.png" src="../_images/kermit-blurred.png" />
+<p>An <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> can be indexed like an array to return a new <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> object which contains only a subset
+of the original image data.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="p">[:,</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span> <span class="c1"># Return a vertical section of the image</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit_vslice.png" src="../_images/kermit_vslice.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="c1"># Flip the image vertically</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit_flipped.png" src="../_images/kermit_flipped.png" />
+<p>Indexing an <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> with a string will instead access the metadata stored with the object.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="p">[</span><span class="s2">&quot;Loaded as&quot;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;KermitPNGFile&#39;</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> inherits from a dictionary like class - so all the usual Python dictionary methods work on the
+metadata of the image.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">metadata_key</span> <span class="ow">in</span> <span class="n">im</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">im</span><span class="p">[</span><span class="n">keuy</span><span class="p">}</span><span class="s2">&quot;)</span>
+
+<span class="n">averages</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;Averages&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">if</span> <span class="s2">&quot;Message&quot;</span> <span class="ow">in</span> <span class="n">im</span><span class="p">:</span>
+    <span class="n">orint</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message = </span><span class="si">{</span><span class="n">im</span><span class="p">[</span><span class="s1">&#39;Message&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Like the <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> class, the metadata dictionary  will fall back to matching keys with regular expressions
+if not exact match is found. In this case, if multiple metadata items match then the result of indexing with a string
+may return a dictionary with all the matching keys.</p>
+<p>The metadata associated with an image will always be stored in the best Python type that can be found - where possible
+metadata is stored in files with a hint as to the native type of that data and this type hint is used to map to an
+appropriate Python type. Unmappable types are retained as a string representation.</p>
+</section>
+</section>
+<section id="common-functions">
+<h3>Common Functions<a class="headerlink" href="#common-functions" title="Link to this heading">¶</a></h3>
+<p>It is not possible to provide an exhaustive guid to all the functions made available from scikit-image, scipy.ndimage and
+opencv2, but this section will cover some of the commonly used functionality.</p>
+<section id="specify-a-box">
+<h4>Specify a box<a class="headerlink" href="#specify-a-box" title="Link to this heading">¶</a></h4>
+<p>Many of the functions can be used with a <em>_box</em> parameter to limit their operation to a specified region of the image.
+Additionally the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.crop.html#Stoner.Image.ImageFile.crop" title="Stoner.Image.ImageFile.crop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.crop()</span></code></a> method will discard the image outside a region specified in a similar way. The
+working box can be given as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>A single integer:</dt><dd><p>This is interpreted to exclude a region of n pixels from all sides of the image.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A single floating point number between 0.0 and 0.5:</dt><dd><p>This is interpreted to exclude this corresponding fraction of the width and height from each side of the image</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A tuple of 4 numbers, or 4 arguments:</dt><dd><p>This is interpreeted as a sequence of pxiel coordinates for (left-x, right-x, top-y, bottom-y). If any of the
+numbers are None, then this is take as the minimum or maximum extents of the width or height (depending on whether
+the None value substitutes for the left, right top or bottom coordinate).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A single string:</dt><dd><p>The argument is interpreted as the name of a metadata item that will define the box to be used.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A sigle value False:</dt><dd><p>This is equivalent to the whole image (i.e. to not specify a box)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A single None value:</dt><dd><p>In this case a copy of the image is shown to the user and they are invited to draw the box with the mouse and
+then press the &lt;Enter&gt; key to confirm their selection.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<img alt="../_images/kermit-crop.png" src="../_images/kermit-crop.png" />
+</section>
+<section id="aligning-two-images">
+<h4>Aligning Two Images<a class="headerlink" href="#aligning-two-images" title="Link to this heading">¶</a></h4>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Stoner.ImageFile.align()</span></code> method can ve used to align an image to a reference image. It offers a variety of different
+algorithms which may be better or worse depending on the nature of the image. The options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>chi2_shift:</dt><dd><p>this uses the image-registration module to carry out a chi-squared analysis of shifting the two images
+relative to each other.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>imreg_dft:</dt><dd><p>this uses the imreg_dft module to carry out the image registration. In essence it takes a fourier transform
+of the two images and then compares the phases within the fourier transforms to calculate the necessary shift.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>scharr:</dt><dd><p>this is the default method used. It first of all applies a Scharr edge detection filter and uses the
+imreg_dft method to find the translation vector.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>cv2:</dt><dd><p>this method uses the opencv2 package’s alignment algorithm.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Align also takes a <em>_box</em> keyword parameter to confine the section of the image used for the alignment to a specific region
+(this can make the operation more efficient  if much of the images are featureless), and a <em>scale</em> parameter that will upscale
+the image before attempting to do the alignment. This may improve sub-pixel alignment corrections.</p>
+<p>As well as returning the shifted images, <a class="reference internal" href="../classes/Stoner.Image.ImageFile.align.html#Stoner.Image.ImageFile.align" title="Stoner.Image.ImageFile.align"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.align()</span></code></a> will record the translation vector used in the metadata item <em>tvec</em>.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;imreg_dft&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Translation Vector=</span><span class="si">{</span><span class="n">im</span><span class="p">[</span><span class="s1">&#39;tvec&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Align also calculates a <em>translation-limits</em> metadata item that represents the maximum extent of the image where the pixels
+have not been added to accommodate the translation for the alignment.</p>
+</section>
+<section id="cropping-an-image">
+<h4>Cropping an Image<a class="headerlink" href="#cropping-an-image" title="Link to this heading">¶</a></h4>
+<p>The <a class="reference internal" href="../classes/Stoner.Image.ImageFile.crop.html#Stoner.Image.ImageFile.crop" title="Stoner.Image.ImageFile.crop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.crop()</span></code></a> will crop the image to the box you specify. If called with no parameters, then it will show the current
+image and allow you to draw the crop box on it. Pressing return will select the region to crop.</p>
+<p>The combination of the <em>translation_limits</em> metadata item from the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.align.html#Stoner.Image.ImageFile.align" title="Stoner.Image.ImageFile.align"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.align()</span></code></a> method and the specification of the box
+for cropping allows images to be aligned and then cropped to match.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;imreg_dft&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1"># Crop the image according to the translation limits worked out be align.</span>
+<span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="s2">&quot;translation_limits&quot;</span><span class="p">)</span>
+
+<span class="c1"># Now crop the reference image, using the revsed translation limits</span>
+<span class="n">ref</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">translation_limits</span><span class="p">(</span><span class="s2">&quot;tvec&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="contrast-normalisation">
+<h4>Contrast Normalisation<a class="headerlink" href="#contrast-normalisation" title="Link to this heading">¶</a></h4>
+<p>If the absolute value of the image data is not important, then normalising the image can improve the contrast. The
+<a class="reference internal" href="../classes/Stoner.Image.ImageFile.normalise.html#Stoner.Image.ImageFile.normalise" title="Stoner.Image.ImageFile.normalise"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.normalise()</span></code></a> will do this.By default it will remap the image intensity values to the range -1 to +1. This
+can be changed with the <em>limits</em> keyword parameter. The area of the image used to calculate the mapping between the old and
+new intensity values can be set with the <em>sample</em>  parameter. If there are a few pixels with extreme values in the image then
+this can reduce the contrast for the bulk of the image. By using the <em>limits</em> parameter you can restrict the portion
+of the input range to be rescaled over. For example, <em>limits=(0.1,0.9)</em> will map the first 10% and the last 10% of the
+pixels to -1 or +1 and the middle 80% between the two extremes.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">normalise</span><span class="p">(</span><span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="image-filtering">
+<h4>Image Filtering<a class="headerlink" href="#image-filtering" title="Link to this heading">¶</a></h4>
+<p>Filtering is frequently used to remove npise and other artefacts from images. Most of the filters that can be applied are
+functions within the sckit-image.filters module. A good general purpose option is to use a gaussian filter - this will
+convolute the image with a 2-D gaussian function with a user-definable width. This is effective for removing high frequency
+noise and speckle.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For band-pass filt4ering the scikit-image.filters method <em>difference_of_gaussians</em> can be used. This filters the image with two
+different gaussian blurs and then takes the difference between them - the smaller gaussian blur removes high frequency noise
+whilst the large gaussian removes low spatial frequency variations.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="o">.</span><span class="n">difference_of_gaussians</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit-bandpass.png" src="../_images/kermit-bandpass.png" />
+<p>Another filtering approach is to us a Savitsky-Golay filter - this fits a polynomial surface locally over the data to smooth
+or differentiate the date. This sort of filtering is good for preserving feature sizes in the original data set.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">im</span><span class="p">:</span><span class="n">sgolay2d</span><span class="p">(</span><span class="n">pints</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="fourier-transforms">
+<h4>Fourier transforms<a class="headerlink" href="#fourier-transforms" title="Link to this heading">¶</a></h4>
+<p>Fast Fourier transforms are oftern used when we need to examain the frequency spectra of image data. The <a class="reference internal" href="../classes/Stoner.Image.ImageFile.fft.html#Stoner.Image.ImageFile.fft" title="Stoner.Image.ImageFile.fft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.fft()</span></code></a>
+method provides a convenient one-stop method for generating the fft that can also take care of some of the artefacts that
+can result.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fft</span><span class="o">=</span><span class="n">im</span><span class="o">.</span><span class="n">clone</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">replace_dc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s2">&quot;hamming&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit-fft.png" src="../_images/kermit-fft.png" />
+<p>In this example, a copy of the image is transformed to the mangitude of its fourier transform. THe fourier transform is shifted
+so that the central pixels are the 0-ffrequency componennts. The optional keywrod <em>remove_dc</em> replaces the 0 frequency data with the
+mean value of the FFT to avoid a large spike int he FFT from the mean value of the image. The <em>window</em> parameter tells the method
+to multiply the image by the corresponding window function (from scikit-image.filters.window) before calculating the FFT. This
+avoids artefacts caused by the discontinuities at the edges of the image.</p>
+<p>The shifting of the FFT to align the dc componentns to the centre of the image can be controlled with the <em>shift</em> keyword
+parameter, whilst the output is controlled by the <em>phase</em> parameter - False gives the magnitude, True returns the phase angle in radians
+and None returns the full complex FFT.</p>
+<p>To aid with analyhsing radial distributions in FFTs (or images), the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.radial_profile.html#Stoner.Image.ImageFile.radial_profile" title="Stoner.Image.ImageFile.radial_profile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageFile.radial_profile()</span></code></a> method can be used.
+This will compute a profile from a given centre outwards - either integrating over all angles, or restricting to specific angles.
+At its simpletst one can just do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">profile</span><span class="o">=</span><span class="n">fft</span><span class="o">.</span><span class="n">radial_profile</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Which will return a <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> object with columns for the radial distance, mean pixel value at the corresponding radius,
+standard deviation and number of pixels counted. The optional <em>angle</em> keyword parameter will select either one angle (float) or a
+rangle of angles (tuple of two floats). This can be easily plotted since the <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> object is created with the
+appropriate columns setup as x oand y data columns.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fft</span><span class="o">.</span><span class="n">radial_profile</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.04</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plotter</span><span class="o">=</span><span class="n">semilogy</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/kermit-fft-profile.png" src="../_images/kermit-fft-profile.png" />
+</section>
+<section id="further-functions">
+<h4>Further functions<a class="headerlink" href="#further-functions" title="Link to this heading">¶</a></h4>
+<p>Further functions that could be useful:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>im.threshold_minmax(0.2,0.8)</dt><dd><p>Returns a binary image</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>im.plot_histogram()</dt><dd><p>Plot a histogram of the pixel intensities</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>im.level_image()</dt><dd><p>Flatten a skewed image background</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>im.subtract_image(otherim)</dt><dd><p>Subtract another image and enhance contrast</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>im.align(otherim)</dt><dd><p>Translate image to line up with other im</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="scikit-image-scipy-ndimage-functions">
+<h4>Scikit-Image &amp; scipy.ndimage Functions<a class="headerlink" href="#scikit-image-scipy-ndimage-functions" title="Link to this heading">¶</a></h4>
+<p>While many local analysis functions have been added to ImageFile one of the big benefits is that function proxy methods have been added to make the entire
+scikit-image library and scipy routines available. Function requests will first search local image functions and secondly look up any function from the external
+libraries. The proxy will pass the <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a> attribute as the first argument to any external call to a scikit-image or scipy function. The return value for such
+calls is handled a bit carefully:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><dl class="simple">
+<dt>If the return value is a 2d numpy.ndarray like type that has the same size as the original, or if the <em>_</em> keyword argument is set to <strong>True</strong> then the original</dt><dd><p><a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a> is replaced with the returned result.</p>
+</dd>
+</dl>
+</li>
+<li><p>If the return value is anything else then it is simply passed back to the calling program.</p></li>
+</ol>
+</div></blockquote>
+<p>In this way, many operations can be carried out ‘in-place’ on a <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a>. For example:</p>
+</section>
+</section>
+<section id="imagefile-representation">
+<h3>ImageFile Representation<a class="headerlink" href="#imagefile-representation" title="Link to this heading">¶</a></h3>
+<p>By default, the representation of an ImageFile is just a short textual description, however if the <em>short_repr&amp; and *short_img_repr</em> options
+are both set to False and a graphical console is in use with an ipython kernel, then th special _repr_png_ method will show a picture of the
+contents of the ImageFile instead.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>i = Stopner.Image.ImageFile(&quot;kermit.png&quot;)
+i
+&gt;&gt;&gt; kermit.png(&lt;class &#39;Stoner.Image.core.ImageFile&#39;&gt;) of shape (479, 359) (uint16) and 53 items of metadata
+from Stoner import Options
+Options.short_repr=False
+Options.shoft_img_repr=False
+i
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<img alt="../_images/kermit.png" src="../_images/kermit.png" />
+<p>Alternatively the <a class="reference internal" href="../classes/Stoner.Image.ImageArray.html#Stoner.Image.ImageArray.imshow" title="Stoner.Image.ImageArray.imshow"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ImageArray.imshow()</span></code></a> method (accessible to <code class="xref py py-class docutils literal notranslate"><span class="pre">ImagerFile</span></code>) will show the image data in a matplotlib window.</p>
+</section>
+</section>
+<section id="imagearray-a-numpy-array-like-class">
+<h2><a class="reference internal" href="../classes/Stoner.Image.ImageArray.html#Stoner.Image.ImageArray" title="Stoner.Image.ImageArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageArray</span></code></a>: A numpy array like class<a class="headerlink" href="#imagearray-a-numpy-array-like-class" title="Link to this heading">¶</a></h2>
+<p>Somewhat analogous to <code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Core.DataArray</span></code>, the <a class="reference internal" href="../classes/Stoner.Image.ImageArray.html#Stoner.Image.ImageArray" title="Stoner.Image.ImageArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageArray</span></code></a> is a specialised subclass of <a class="reference external" href="https://numpy.org/doc/stable/reference/maskedarray.baseclass.html#numpy.ma.MaskedArray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ma.MaskedArray</span></code></a> used to
+store the image data in ImageFile. The numpy.ndarray like data can be accessed at any point via either <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a> or <code class="xref py py-attr docutils literal notranslate"><span class="pre">ImageFile.data</span></code>
+and will be accepted by functions that take an numpy.ndarray as an argument.</p>
+</section>
+<section id="working-with-lots-of-images-imagefolder-and-imagestack">
+<h2>Working with Lots of Images: <a class="reference internal" href="../classes/Stoner.Image.ImageFolder.html#Stoner.Image.ImageFolder" title="Stoner.Image.ImageFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFolder</span></code></a> and <a class="reference internal" href="../classes/Stoner.Image.ImageStack.html#Stoner.Image.ImageStack" title="Stoner.Image.ImageStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageStack</span></code></a><a class="headerlink" href="#working-with-lots-of-images-imagefolder-and-imagestack" title="Link to this heading">¶</a></h2>
+<p>Just as <a class="reference internal" href="../classes/Stoner.DataFolder.html#Stoner.DataFolder" title="Stoner.DataFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.DataFolder</span></code></a> allows you to efficiently process lots of separate <a class="reference internal" href="../classes/Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a> files, <a class="reference internal" href="../classes/Stoner.Image.ImageFolder.html#Stoner.Image.ImageFolder" title="Stoner.Image.ImageFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFolder</span></code></a> does the same for lots
+of <a class="reference internal" href="../classes/Stoner.Image.ImageFile.html#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> files. It is based on the same parent <code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Fodlers.baseFolder</span></code> class - so has similar abilities to iterate, form into
+sub-folders and so on. In addition, an <code class="xref py py-class docutils literal notranslate"><span class="pre">Imagefolder</span></code> has additional attributes and methods for working with multiple images.</p>
+<p>Due to the potentially large amount of data involved in processing images it is good to take advantage of native numpy’s speed wherever possible. To this end
+<a class="reference internal" href="../classes/Stoner.Image.ImageStack.html#Stoner.Image.ImageStack" title="Stoner.Image.ImageStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Image.ImageStack</span></code></a> is now available. This works very similarly to ImageFolder but internally represents the image stack as a 3d numpy array.
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">imst</span> <span class="o">=</span> <span class="n">ImageStack</span><span class="p">(</span><span class="s1">&#39;pathtomyfolder&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;*.tif&#39;</span><span class="p">)</span> <span class="c1">#directory is held in memory but images are not loaded yet</span>
+<span class="n">imst</span> <span class="o">=</span> <span class="n">imst</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">]</span> <span class="c1">#take advantage of :class:`DiskBasedFolder` grouping abilities</span>
+<span class="n">imst</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#instantiate the stack and translate all images</span>
+</pre></div>
+</div>
+<p>You can request and manipulate this 3d array directly with the imarray property, alternatively you can ask for any function accepted by the underlying ImageFile
+(including the scikit-image and scipy library).</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Working with Images</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#imagefile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a></li>
+<li><a class="reference internal" href="#loading-an-image">Loading an Image</a></li>
+<li><a class="reference internal" href="#examining-and-manipulating-the-imagefile">Examining and manipulating the ImageFile</a><ul>
+<li><a class="reference internal" href="#imagefile-attributes-and-properties">ImageFile Attributes and Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-functions">Common Functions</a><ul>
+<li><a class="reference internal" href="#specify-a-box">Specify a box</a></li>
+<li><a class="reference internal" href="#aligning-two-images">Aligning Two Images</a></li>
+<li><a class="reference internal" href="#cropping-an-image">Cropping an Image</a></li>
+<li><a class="reference internal" href="#contrast-normalisation">Contrast Normalisation</a></li>
+<li><a class="reference internal" href="#image-filtering">Image Filtering</a></li>
+<li><a class="reference internal" href="#fourier-transforms">Fourier transforms</a></li>
+<li><a class="reference internal" href="#further-functions">Further functions</a></li>
+<li><a class="reference internal" href="#scikit-image-scipy-ndimage-functions">Scikit-Image &amp; scipy.ndimage Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#imagefile-representation">ImageFile Representation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#imagearray-a-numpy-array-like-class"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageArray</span></code>: A numpy array like class</a></li>
+<li><a class="reference internal" href="#working-with-lots-of-images-imagefolder-and-imagestack">Working with Lots of Images: <code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFolder</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">ImageStack</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="datafolder.html"
+                          title="previous chapter">Working with Lots of Files</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cookbook.html"
+                          title="next chapter">Cookbook</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/UserGuide/image.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="datafolder.html" title="Previous document">Working with Lots of Files</a>
+        </li>
+        <li>
+          <a href="cookbook.html" title="Next document">Cookbook</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="ugindex.html">The Stoner Python Package User Guide</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

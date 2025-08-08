@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stoner.tools.decorators &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../../../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../../../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../../index.html">Module code</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for Stoner.tools.decorators</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Provide some decorators and associated functions for modifying package classes and functions.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">isproperty</span>
+
+<span class="n">_RTD</span> <span class="o">=</span> <span class="s2">&quot;READTHEDOCS&quot;</span> <span class="ow">in</span> <span class="n">environ</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">image_file_adaptor</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make wrappers for ImageFile functions.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        The wrapped functions take additional keyword arguments that are stripped off from the call.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        _box(:py:meth:`Stoner.ImageArray.crop` arguments):</span>
+<span class="sd">            Crops the image first before calling the parent method.</span>
+<span class="sd">        _(bool, None):</span>
+<span class="sd">            Controls whether a :py:class:`ImageArray` return will be substituted for the current</span>
+<span class="sd">            :py:class:`ImageArray`.</span>
+
+<span class="sd">            * True: - all ImageArray return types are substituted.</span>
+<span class="sd">            * False (default) - Imagearray return types are substituted if they are the same size as the original</span>
+<span class="sd">            * None - A copy of the current object is taken and the returned ImageArray provides the data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Avoid PEP257/black issue</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gen_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap a called method to capture the result back into the calling object.&quot;&quot;&quot;</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_box&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">transpose</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">box</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="n">im</span><span class="o">.</span><span class="n">_box</span><span class="p">(</span><span class="n">box</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">image</span>
+
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;changes_size&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;_&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
+            <span class="c1"># special case for common function crop which will change the array shape</span>
+            <span class="n">force</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">force</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;keep_class&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>  <span class="c1"># 1D Array</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">make_Data</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">column_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>  <span class="c1"># make sure we return a ImageArray</span>
+            <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">shares_memory</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">im</span><span class="p">):</span>  <span class="c1"># Assume everything was inplace</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span>
+
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">im</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">clone</span>  <span class="c1"># We&#39;re going to need to clone the return data because we can do fast copies.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span> <span class="k">else</span> <span class="bp">self</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r</span>
+
+    <span class="k">return</span> <span class="n">fix_signature</span><span class="p">(</span><span class="n">gen_func</span><span class="p">,</span> <span class="n">workingfunc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">image_file_raw_adaptor</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make wrappers for ImageFile functions.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        The wrapped functions take additional keyword arguments that are stripped off from the call.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        _box(:py:meth:`Stoner.ImageArray.crop` arguments):</span>
+<span class="sd">            Crops the image first before calling the parent method.</span>
+<span class="sd">        _(bool, None):</span>
+<span class="sd">            Controls whether a :py:class:`ImageArray` return will be substituted for the current</span>
+<span class="sd">            :py:class:`ImageArray`.</span>
+
+<span class="sd">            * True: - all ImageArray return types are substituted.</span>
+<span class="sd">            * False (default) - Imagearray return types are substituted if they are the same size as the original</span>
+<span class="sd">            * None - A copy of the current object is taken and the returned ImageArray provides the data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Avoid PEP257/black issue</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gen_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap a called method to capture the result back into the calling object.&quot;&quot;&quot;</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_box&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">transpose</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">clones</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;clones&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">box</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="n">im</span><span class="o">.</span><span class="n">_box</span><span class="p">(</span><span class="n">box</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">image</span>
+
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;changes_size&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;_&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
+            <span class="c1"># special case for common function crop which will change the array shape</span>
+            <span class="n">force</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">force</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;keep_class&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># 1D Array goes back straight</span>
+            <span class="k">return</span> <span class="n">r</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>  <span class="c1"># make sure we return a ImageArray</span>
+            <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">clones</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">shares_memory</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">im</span><span class="p">):</span>  <span class="c1"># Assume everything was inplace</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span>
+                <span class="k">return</span> <span class="n">ret</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">ret</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">image</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">ret</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span> <span class="k">else</span> <span class="bp">self</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">im</span><span class="p">))</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="k">return</span> <span class="n">fix_signature</span><span class="p">(</span><span class="n">gen_func</span><span class="p">,</span> <span class="n">workingfunc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">array_file_property</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap an arbitrary callbable to make it a bound method of this class.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        workingfunc (callable):</span>
+<span class="sd">            The callable object to be wrapped.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (function):</span>
+<span class="sd">            A function with enclosure that holds additional information about this object.</span>
+
+<span class="sd">    The function object returned simply calls the working function having got the _image property.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">workingfunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># We may not in fact be wrapping anything here!</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gen_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap magic proxy function call.&quot;&quot;&quot;</span>
+        <span class="n">transpose</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">clones</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;clones&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">clones</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="o">.</span><span class="n">image</span>
+        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">image</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="c1"># This shouldn&#39;t in fact be returning anything</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">return</span> <span class="n">fix_signature</span><span class="p">(</span><span class="n">gen_func</span><span class="p">,</span> <span class="n">workingfunc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">array_file_attr</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a property that will handle getting setting ande deleting the name attribute.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">deleter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter</span><span class="p">,</span> <span class="n">setter</span><span class="p">,</span> <span class="n">deleter</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Pass thrpough for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">image_array_adaptor</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap an arbitrary callbable to make it a bound method of this class.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        workingfunc (callable):</span>
+<span class="sd">            The callable object to be wrapped.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (function):</span>
+<span class="sd">            A function with enclosure that holds additional information about this object.</span>
+
+<span class="sd">    The function returned from here will call workingfunc with the first argument being a clone of this</span>
+<span class="sd">    ImageArray. If the meothd returns an ndarray, it is wrapped back to our own class and the metadata dictionary</span>
+<span class="sd">    is updated. If the function returns a :py:class:`Stoner.Data` object then this is also updated with our</span>
+<span class="sd">    metadata.</span>
+
+<span class="sd">    This method also updates the name and documentation strings for the wrapper to match the wrapped function -</span>
+<span class="sd">    thus ensuring that Spyder&#39;s help window can generate useful information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Avoid PEP257/black issue</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gen_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap magic proxy function call.&quot;&quot;&quot;</span>
+        <span class="n">transpose</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+            <span class="n">change</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">change</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># send copy of self as the first arg</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">make_Data</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+            <span class="k">pass</span>  <span class="c1"># Data return is ok</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>  <span class="c1"># 1D Array</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">make_Data</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">column_headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">workingfunc</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>  <span class="c1"># make sure we return a ImageArray</span>
+            <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">shares_memory</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>  <span class="c1"># Assume everything was inplace</span>
+                <span class="k">return</span> <span class="n">r</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="n">sm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Copy the currently metadata</span>
+            <span class="n">sm</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>  <span class="c1"># merge in any new metadata from the call</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">sm</span>  <span class="c1"># and put the returned metadata as the merged data</span>
+        <span class="c1"># NB we might not be returning an ndarray at all here !</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="n">gen_func</span><span class="o">.</span><span class="n">keep_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">workingfunc</span><span class="p">,</span> <span class="s2">&quot;keep_class&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fix_signature</span><span class="p">(</span><span class="n">gen_func</span><span class="p">,</span> <span class="n">workingfunc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">class_modifier</span><span class="p">(</span>
+    <span class="n">module</span><span class="p">,</span>
+    <span class="n">adaptor</span><span class="o">=</span><span class="n">image_array_adaptor</span><span class="p">,</span>
+    <span class="n">transpose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">overload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">proxy_cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">RTD_restrictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">no_long_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">alias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorate  a class by addiding member functions from module.</span>
+
+<span class="sd">    The purpose of this is to incorporate the functions within a module into being methods of the class being</span>
+<span class="sd">    defined here.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cls (class):</span>
+<span class="sd">            The class being defined</span>
+<span class="sd">        module (imported module):</span>
+<span class="sd">            The module whose functions members should be added to the class.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        adaptor (callable):</span>
+<span class="sd">            The factor function that takes the module function and produces a method that will call the function and</span>
+<span class="sd">            take care of adapting the result.</span>
+<span class="sd">        transpose (bool):</span>
+<span class="sd">            Whether ther functions in the module need to have their data transposed to work.</span>
+<span class="sd">        overload (bool):</span>
+<span class="sd">            If False, don&#39;t overwrite the existing method.&#39;</span>
+<span class="sd">        proxy (class,None):</span>
+<span class="sd">            If not None, the class whose attributes we are being augmented with these functions - need to check for</span>
+<span class="sd">            clashing names.</span>
+<span class="sd">        RTD_Restrictions (bool):</span>
+<span class="sd">            If True (default), do not add members from outside our own package when on ReadTheDocs.</span>
+<span class="sd">        no_long_names (bool):</span>
+<span class="sd">            To avoid name collision the default is to create two entries in the class __dict__ - one for the standard name</span>
+<span class="sd">            and one to include the full module path. This disables the latter.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (class):</span>
+<span class="sd">            The class with the additional methods added to it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">actual_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">proxy_class</span> <span class="o">=</span> <span class="bp">cls</span> <span class="k">if</span> <span class="n">proxy_cls</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">proxy_cls</span>
+        <span class="n">mods</span> <span class="o">=</span> <span class="n">module</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">module</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">mods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alias</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mod_name</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\.&quot;</span><span class="p">)</span>
+                <span class="n">mod_name</span> <span class="o">=</span> <span class="s2">&quot;^&quot;</span> <span class="o">+</span> <span class="n">mod_name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mod_name</span> <span class="o">=</span> <span class="n">alias</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">RTD_restrictions</span> <span class="ow">and</span> <span class="n">_RTD</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s2">&quot;__package__&quot;</span><span class="p">,</span> <span class="s2">&quot;Stoner&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Stoner&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>  <span class="c1"># Do not bind all the external functions if we&#39;re in ReadTheDocs</span>
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">mod</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">fname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># This shouldn&#39;t happen, but it did for scipy.ndimage!</span>
+                        <span class="k">continue</span>
+                    <span class="n">fmod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__class__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fmod</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">mod_name</span><span class="p">,</span> <span class="n">fmod</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+                            <span class="n">func</span><span class="o">.</span><span class="n">transpose</span> <span class="o">=</span> <span class="n">transpose</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fmod</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">adaptor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">proxy</span> <span class="o">=</span> <span class="n">adaptor</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">proxy</span> <span class="o">=</span> <span class="n">func</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span> <span class="s2">&quot;_src_mod&quot;</span><span class="p">,</span> <span class="n">fmod</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">no_long_names</span><span class="p">:</span>
+                            <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">overload</span> <span class="ow">or</span> <span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">proxy_class</span><span class="p">):</span>
+                            <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">actual_decorator</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">class_wrapper</span><span class="p">(</span>
+    <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">adaptor</span><span class="o">=</span><span class="n">image_file_raw_adaptor</span><span class="p">,</span>
+    <span class="n">getter_adaptor</span><span class="o">=</span><span class="n">image_file_raw_adaptor</span><span class="p">,</span>
+    <span class="n">setter_adaptor</span><span class="o">=</span><span class="n">array_file_property</span><span class="p">,</span>
+    <span class="n">deleter_adaptor</span><span class="o">=</span><span class="n">array_file_property</span><span class="p">,</span>
+    <span class="n">attr_pass</span><span class="o">=</span><span class="n">array_file_attr</span><span class="p">,</span>
+    <span class="n">exclude_below</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create entries in the current class for all attributes of klass that are not already defined.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        target (type):</span>
+<span class="sd">            The target class whose attributes we&#39;re going to link through to.</span>
+<span class="sd">        adaptor (callable):</span>
+<span class="sd">            A factory function to make methods to the the connection to the underlying attributes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        class:</span>
+<span class="sd">            Modified class definition.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        We exclude attributes with which have the attribute _src_mod as these are being patched already.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">actual_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isproperty</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+                <span class="n">proxy</span> <span class="o">=</span> <span class="n">adaptor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">isproperty</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;fget&quot;</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">exclude_below</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="n">fget</span> <span class="o">=</span> <span class="n">getter_adaptor</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;fget&quot;</span><span class="p">))</span>
+                <span class="n">fset</span> <span class="o">=</span> <span class="n">setter_adaptor</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;fset&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+                <span class="n">fdel</span> <span class="o">=</span> <span class="n">deleter_adaptor</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;fdel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="p">,</span> <span class="n">fset</span><span class="p">,</span> <span class="n">fdel</span><span class="p">,</span> <span class="n">doc</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isproperty</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr_pass</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">actual_decorator</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">changes_size</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark a function as one that changes the size of the ImageArray.&quot;&quot;&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">changes_size</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">keep_return_type</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark a function as one that Should not be converted from an array to an ImageFile.&quot;&quot;&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">keep_class</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clones</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark the method as one that expects it&#39;s input to be cloned.&quot;&quot;&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">clones</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+
+<div class="viewcode-block" id="fix_signature">
+<a class="viewcode-back" href="../../../classes/Stoner.tools.fix_signature.html#Stoner.tools.fix_signature">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fix_signature</span><span class="p">(</span><span class="n">proxy_func</span><span class="p">,</span> <span class="n">wrapped_func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update proxy_func to have a signature that matches the wrapped func.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">proxy_func</span><span class="o">.</span><span class="n">__wrapped__</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>  <span class="c1"># Non-critical error</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">proxy_func</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">pass</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">,</span> <span class="s2">&quot;changes_size&quot;</span><span class="p">):</span>
+        <span class="n">proxy_func</span><span class="o">.</span><span class="n">changes_size</span> <span class="o">=</span> <span class="n">wrapped_func</span><span class="o">.</span><span class="n">changes_size</span>
+    <span class="k">return</span> <span class="n">proxy_func</span></div>
+
+
+
+<div class="viewcode-block" id="make_Data">
+<a class="viewcode-back" href="../../../classes/Stoner.tools.make_Data.html#Stoner.tools.make_Data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_Data</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an instance of Stoner.Data passig through constructor arguments.</span>
+
+<span class="sd">    Calling make_Data(None) is a special case to return the Data class ratther than an instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Stoner.core.data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Data</span>
+    <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Stoner.core.data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_Image</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an instance of Stoner.Data passig through constructor arguments.</span>
+
+<span class="sd">    Calling make_Data(None) is a special case to return the Data class ratther than an instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Stoner.Image.core&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ImageFile</span>
+    <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Stoner.Image.core&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ImageFile</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+<form class="search" action="../../../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../../../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../../index.html">Module code</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

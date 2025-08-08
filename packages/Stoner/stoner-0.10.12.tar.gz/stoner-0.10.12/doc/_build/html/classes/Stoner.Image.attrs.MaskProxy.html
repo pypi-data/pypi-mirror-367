@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MaskProxy &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stoner.formats.attocube.AttocubeScan" href="Stoner.formats.attocube.AttocubeScan.html" />
+    <link rel="prev" title="DrawProxy" href="Stoner.Image.attrs.DrawProxy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.attrs.DrawProxy.html" title="Previous document">DrawProxy</a>
+        </li>
+        <li>
+          <a href="Stoner.formats.attocube.AttocubeScan.html" title="Next document">Stoner.formats.attocube.AttocubeScan</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="maskproxy">
+<h1>MaskProxy<a class="headerlink" href="#maskproxy" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Stoner.Image.attrs.</span></span><span class="sig-name descname"><span class="pre">MaskProxy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/attrs.html#MaskProxy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Provides a wrapper to support manipulating the image mask easily.</p>
+<p>The actual mask of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Stonmer.ImageFile</span></code> is held by the mask attribute of the underlying
+<a class="reference external" href="https://numpy.org/doc/stable/reference/maskedarray.baseclass.html#numpy.ma.MaskedArray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ma.MaskedArray</span></code></a>, but this class implements an attribute for an ImageFile that not only
+provides a means to index into the mask data, but supported other operations too.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.color">
+<span class="sig-name descname"><span class="pre">color</span></span><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.color" title="Link to this definition">¶</a></dt>
+<dd><p>This defines the colour of the mask that is used when showing a masked image in a window. It can be a
+named colour - such as <em>red</em>, <em>blue</em> etc. or a tuple of 3 or 4 numbers between 0 and 1 - which define an
+RGB(Alpha) colour. Note that the Alpha channel is actually an opacity channel = so 1.0 is solid and 0 is
+transparent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib colour</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.data" title="Link to this definition">¶</a></dt>
+<dd><p>This accesses the actual boolean masked array if it is necessary to get at the full array. It is equivalent
+to .mask[:]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array of <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.image" title="Link to this definition">¶</a></dt>
+<dd><p>This is a synonym for <a class="reference internal" href="#id0" title="Stoner.Image.attrs.MaskProxy.data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">MaskProxy.data</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpoy array of <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.draw" title="Link to this definition">¶</a></dt>
+<dd><p>This allows the mask to drawn on like the image. This is particularly useful as it provides a convenient
+programmatic way to define regions of interest in the mask with simply geometric shapes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Stoner.Image.attrs.DrawProxy.html#Stoner.Image.attrs.DrawProxy" title="Stoner.Image.attrs.DrawProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">DrawProxy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Indexing of the MaskProxy simply passes through to the underlying mask data - thus getting, setting and deleting
+element directly changes the mask data.</p>
+<p>The string representation of the mask is an ascii art version of the mask where . is unmasked and X is masked.</p>
+<p>Conversion to a boolean is equaivalent to testing whether <strong>any</strong> elements of the mask are True.</p>
+<p>The mask also supports the invert and negate operators which both return the inverse of the mask (but do not
+change the mask itself - unlike <a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.invert" title="Stoner.Image.attrs.MaskProxy.invert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MaskProxy.invert()</span></code></a>).</p>
+<p>For rich displays, the class also supports a png representation which is simply a black and white version of the
+mask with black pixels being masked elements and white unmasked elements.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.colour" title="Stoner.Image.attrs.MaskProxy.colour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">colour</span></code></a></p></td>
+<td><p>Get the colour of the mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id0" title="Stoner.Image.attrs.MaskProxy.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>Get the underlying data as an array - compatibility accessor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id1" title="Stoner.Image.attrs.MaskProxy.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a></p></td>
+<td><p>Access the draw proxy object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id2" title="Stoner.Image.attrs.MaskProxy.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a></p></td>
+<td><p>Get the underlying data as an array - compatibility accessor.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.clear" title="Stoner.Image.attrs.MaskProxy.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p>Clear a mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.invert" title="Stoner.Image.attrs.MaskProxy.invert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert</span></code></a>()</p></td>
+<td><p>Invert the mask.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.select" title="Stoner.Image.attrs.MaskProxy.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a>(**kargs)</p></td>
+<td><p>Interactive selection mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.threshold" title="Stoner.Image.attrs.MaskProxy.threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code></a>([thresh])</p></td>
+<td><p>Mask based on a threshold.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.colour">
+<span class="sig-name descname"><span class="pre">colour</span></span><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.colour" title="Link to this definition">¶</a></dt>
+<dd><p>Get the colour of the mask.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>Get the underlying data as an array - compatibility accessor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">draw</span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd><p>Access the draw proxy object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd><p>Get the underlying data as an array - compatibility accessor.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/attrs.html#MaskProxy.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.clear" title="Link to this definition">¶</a></dt>
+<dd><p>Clear a mask.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.invert">
+<span class="sig-name descname"><span class="pre">invert</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/attrs.html#MaskProxy.invert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.invert" title="Link to this definition">¶</a></dt>
+<dd><p>Invert the mask.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/attrs.html#MaskProxy.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.select" title="Link to this definition">¶</a></dt>
+<dd><p>Interactive selection mode.</p>
+<p>This method allows the user to interactively choose a mask region on the image. It will require the
+Matplotlib backen to be set to Qt or other non-inline backend that supports a user vent loop.</p>
+<p>The image is displayed in the window and athe user can interact with it with the mouse and keyboard.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>left-clicking the mouse sets a new vertex</p></li>
+<li><p>right-clicking the mouse removes the last set vertex</p></li>
+<li><p>pressing “i” inverts the mask (i.e. controls whether the shape the user is drawing is masked or clear)</p></li>
+<li><p>pressing “p” sets polygon mode (the default) - each vertex is then the corener of a polygon. The
+polygon
+vertices are defined in order going around the shape.</p></li>
+<li><p>pressing “r” sets rectangular mode. The first vertex defined is one corner. With only two vertices the
+rectangle is not-rotated and the two vertices define opposite corners. If three vertices are defined
+then the first two form one side and then third vertex controls the extent of the rectangle in the
+direction perpendicular to the side defined.</p></li>
+<li><p>pressing “c” sets circle/ellipse mode. The first vertex defines one point on the circumference of the
+circle, the next point will define a point on the opposite side of the circumference. If three
+vertices are defined then a circle that passes through all three of them is used. Defining 4
+vertices causes the mode to attempt to find the non-rotated ellipse through the points and further
+vertices allows the ellipse to be rotated.</p></li>
+</ul>
+</div></blockquote>
+<p>This method directly sets the mask and then returns a copy of the parent <code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.ImageFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.attrs.MaskProxy.threshold">
+<span class="sig-name descname"><span class="pre">threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/attrs.html#MaskProxy.threshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.attrs.MaskProxy.threshold" title="Link to this definition">¶</a></dt>
+<dd><p>Mask based on a threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>thresh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Threshold to apply to the current image - default is to calculate using threshold_otsu</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">MaskProxy</a><ul>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy"><code class="docutils literal notranslate"><span class="pre">MaskProxy</span></code></a><ul>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.color"><code class="docutils literal notranslate"><span class="pre">MaskProxy.color</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.data"><code class="docutils literal notranslate"><span class="pre">MaskProxy.data</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.image"><code class="docutils literal notranslate"><span class="pre">MaskProxy.image</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.draw"><code class="docutils literal notranslate"><span class="pre">MaskProxy.draw</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.colour"><code class="docutils literal notranslate"><span class="pre">MaskProxy.colour</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">MaskProxy.data</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">MaskProxy.draw</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">MaskProxy.image</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.clear"><code class="docutils literal notranslate"><span class="pre">MaskProxy.clear()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.invert"><code class="docutils literal notranslate"><span class="pre">MaskProxy.invert()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.select"><code class="docutils literal notranslate"><span class="pre">MaskProxy.select()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.attrs.MaskProxy.threshold"><code class="docutils literal notranslate"><span class="pre">MaskProxy.threshold()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.Image.attrs.DrawProxy.html"
+                          title="previous chapter">DrawProxy</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.formats.attocube.AttocubeScan.html"
+                          title="next chapter">Stoner.formats.attocube.AttocubeScan</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.Image.attrs.MaskProxy.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.attrs.DrawProxy.html" title="Previous document">DrawProxy</a>
+        </li>
+        <li>
+          <a href="Stoner.formats.attocube.AttocubeScan.html" title="Next document">Stoner.formats.attocube.AttocubeScan</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

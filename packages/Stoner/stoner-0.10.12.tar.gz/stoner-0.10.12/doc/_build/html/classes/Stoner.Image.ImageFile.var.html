@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ImageFile.var &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ImageFile.view" href="Stoner.Image.ImageFile.view.html" />
+    <link rel="prev" title="ImageFile.values" href="Stoner.Image.ImageFile.values.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.ImageFile.values.html" title="Previous document">ImageFile.values</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.view.html" title="Next document">ImageFile.view</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li>
+      <li>
+        <a href="Stoner.Image.ImageFile.html">Stoner.Image.ImageFile</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="imagefile-var">
+<h1>ImageFile.var<a class="headerlink" href="#imagefile-var" title="Link to this heading">¶</a></h1>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.var">
+<span class="sig-prename descclassname"><span class="pre">ImageFile.</span></span><span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keepdims=&lt;no</span> <span class="pre">value&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean=&lt;no</span> <span class="pre">value&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.Image.ImageFile.var" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the variance along the specified axis.</p>
+<p>Returns the variance of the array elements, a measure of the spread of a
+distribution.  The variance is computed for the flattened array by
+default, otherwise over the specified axis.</p>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<dl>
+<dt>a<span class="classifier">array_like</span></dt><dd><p>Array containing numbers whose variance is desired.  If <cite>a</cite> is not an
+array, a conversion is attempted.</p>
+</dd>
+<dt>axis<span class="classifier">None or int or tuple of ints, optional</span></dt><dd><p>Axis or axes along which the variance is computed.  The default is to
+compute the variance of the flattened array.
+If this is a tuple of ints, a variance is performed over multiple axes,
+instead of a single axis or all the axes as before.</p>
+</dd>
+<dt>dtype<span class="classifier">data-type, optional</span></dt><dd><p>Type to use in computing the variance.  For arrays of integer type
+the default is <cite>float64</cite>; for arrays of float types it is the same as
+the array type.</p>
+</dd>
+<dt>out<span class="classifier">ndarray, optional</span></dt><dd><p>Alternate output array in which to place the result.  It must have
+the same shape as the expected output, but the type is cast if
+necessary.</p>
+</dd>
+<dt>ddof<span class="classifier">{int, float}, optional</span></dt><dd><p>“Delta Degrees of Freedom”: the divisor used in the calculation is
+<code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">-</span> <span class="pre">ddof</span></code>, where <code class="docutils literal notranslate"><span class="pre">N</span></code> represents the number of elements. By
+default <cite>ddof</cite> is zero. See notes for details about use of <cite>ddof</cite>.</p>
+</dd>
+<dt>keepdims<span class="classifier">bool, optional</span></dt><dd><p>If this is set to True, the axes which are reduced are left
+in the result as dimensions with size one. With this option,
+the result will broadcast correctly against the input array.</p>
+<p>If the default value is passed, then <cite>keepdims</cite> will not be
+passed through to the <cite>var</cite> method of sub-classes of
+<cite>ndarray</cite>, however any non-default value will be.  If the
+sub-class’ method does not implement <cite>keepdims</cite> any
+exceptions will be raised.</p>
+</dd>
+<dt>where<span class="classifier">array_like of bool, optional</span></dt><dd><p>Elements to include in the variance. See <cite>~numpy.ufunc.reduce</cite> for
+details.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 1.20.0.</span></p>
+</div>
+</dd>
+<dt>mean<span class="classifier">array like, optional</span></dt><dd><p>Provide the mean to prevent its recalculation. The mean should have
+a shape as if it was calculated with <code class="docutils literal notranslate"><span class="pre">keepdims=True</span></code>.
+The axis for the calculation of the mean should be the same as used in
+the call to this var function.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.0.</span></p>
+</div>
+</dd>
+<dt>correction<span class="classifier">{int, float}, optional</span></dt><dd><p>Array API compatible name for the <code class="docutils literal notranslate"><span class="pre">ddof</span></code> parameter. Only one of them
+can be provided at the same time.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0.0.</span></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>variance<span class="classifier">ndarray, see dtype parameter above</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">out=None</span></code>, returns a new array containing the variance;
+otherwise, a reference to the output array is returned.</p>
+</dd>
+</dl>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<p>std, mean, nanmean, nanstd, nanvar
+<a class="reference external" href="https://numpy.org/doc/stable/user/basics.ufuncs.html#ufuncs-output-type" title="(in NumPy v2.2)"><span>Output type determination</span></a></p>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h2>
+<p>There are several common variants of the array variance calculation.
+Assuming the input <cite>a</cite> is a one-dimensional NumPy array and <code class="docutils literal notranslate"><span class="pre">mean</span></code> is
+either provided as an argument or computed as <code class="docutils literal notranslate"><span class="pre">a.mean()</span></code>, NumPy
+computes the variance of an array as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># abs is for complex `a`</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">d2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">ddof</span><span class="p">)</span>  <span class="c1"># note use of `ddof`</span>
+</pre></div>
+</div>
+<p>Different values of the argument <cite>ddof</cite> are useful in different
+contexts. NumPy’s default <code class="docutils literal notranslate"><span class="pre">ddof=0</span></code> corresponds with the expression:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\sum_i{|a_i - \bar{a}|^2 }}{N}\]</div>
+<p>which is sometimes called the “population variance” in the field of
+statistics because it applies the definition of variance to <cite>a</cite> as if <cite>a</cite>
+were a complete population of possible observations.</p>
+<p>Many other libraries define the variance of an array differently, e.g.:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\sum_i{|a_i - \bar{a}|^2}}{N - 1}\]</div>
+<p>In statistics, the resulting quantity is sometimes called the “sample
+variance” because if <cite>a</cite> is a random sample from a larger population,
+this calculation provides an unbiased estimate of the variance of the
+population.  The use of <span class="math notranslate nohighlight">\(N-1\)</span> in the denominator is often called
+“Bessel’s correction” because it corrects for bias (toward lower values)
+in the variance estimate introduced when the sample mean of <cite>a</cite> is used
+in place of the true mean of the population. For this quantity, use
+<code class="docutils literal notranslate"><span class="pre">ddof=1</span></code>.</p>
+<p>Note that for complex numbers, the absolute value is taken before
+squaring, so that the result is always real and nonnegative.</p>
+<p>For floating-point input, the variance is computed using the same
+precision the input has.  Depending on the input data, this can cause
+the results to be inaccurate, especially for <cite>float32</cite> (see example
+below).  Specifying a higher-accuracy accumulator using the <code class="docutils literal notranslate"><span class="pre">dtype</span></code>
+keyword can alleviate this issue.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">1.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([1.,  1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([0.25,  0.25])</span>
+</pre></div>
+</div>
+<p>In single precision, var() can be inaccurate:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">512</span><span class="o">*</span><span class="mi">512</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">np.float32(0.20250003)</span>
+</pre></div>
+</div>
+<p>Computing the variance in float64 is more accurate:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="go">0.20249999932944759 # may vary</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.55</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.1</span><span class="o">-</span><span class="mf">0.55</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<span class="go">0.2025</span>
+</pre></div>
+</div>
+<p>Specifying a where argument:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">6.833333333333333 # may vary</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="p">[[</span><span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">False</span><span class="p">]])</span>
+<span class="go">4.0</span>
+</pre></div>
+</div>
+<p>Using the mean keyword to save computation time:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">timeit</span><span class="w"> </span><span class="kn">import</span> <span class="n">timeit</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t1</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;var = np.var(a, axis=1, mean=mean)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="n">g</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t2</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;var = np.var(a, axis=1)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="n">g</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percentage execution time saved </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">t2</span><span class="o">-</span><span class="n">t1</span><span class="p">)</span><span class="o">/</span><span class="n">t2</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+
+<span class="go">Percentage execution time saved 32%</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ImageFile.var</a><ul>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.var"><code class="docutils literal notranslate"><span class="pre">ImageFile.var()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.Image.ImageFile.values.html"
+                          title="previous chapter">ImageFile.values</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.Image.ImageFile.view.html"
+                          title="next chapter">ImageFile.view</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.Image.ImageFile.var.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.Image.ImageFile.values.html" title="Previous document">ImageFile.values</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.view.html" title="Next document">ImageFile.view</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li>
+      <li>
+        <a href="Stoner.Image.ImageFile.html">Stoner.Image.ImageFile</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

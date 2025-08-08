@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TypeHintedDict &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="metadataObject" href="Stoner.core.base.metadataObject.html" />
+    <link rel="prev" title="RegexpDict" href="Stoner.core.base.RegexpDict.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.core.base.RegexpDict.html" title="Previous document">RegexpDict</a>
+        </li>
+        <li>
+          <a href="Stoner.core.base.metadataObject.html" title="Next document">metadataObject</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="typehinteddict">
+<h1>TypeHintedDict<a class="headerlink" href="#typehinteddict" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Stoner.core.base.</span></span><span class="sig-name descname"><span class="pre">TypeHintedDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Stoner.core.base.RegexpDict.html#Stoner.core.base.RegexpDict" title="Stoner.core.base.RegexpDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegexpDict</span></code></a></p>
+<p>Extends a <code class="xref py py-class docutils literal notranslate"><span class="pre">blist.sorteddict</span></code> to include type hints of what each key contains.</p>
+<p>The CM Physics Group at Leeds makes use of a standard file format that closely matches
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFile</span></code> data structure. However, it is convenient for this file format
+to be ASCII text for ease of use with other programs. In order to represent metadata which
+can have arbitrary types, the LabVIEW code that generates the data file from our measurements
+adds a type hint string. The Stoner Python code can then make use of this type hinting to
+choose the correct representation for the metadata. The type hinting information is retained
+so that files output from Python will retain type hints to permit them to be loaded into
+strongly typed languages (sch as LabVIEW).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict._typehints">
+<span class="sig-name descname"><span class="pre">_typehints</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict._typehints" title="Link to this definition">¶</a></dt>
+<dd><p>The backing store for the type hint information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexGetType">
+<span class="sig-name descname"><span class="pre">__regexGetType</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexGetType" title="Link to this definition">¶</a></dt>
+<dd><p>Used to extract the type hint from a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexSignedInt">
+<span class="sig-name descname"><span class="pre">__regexSignedInt</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexSignedInt" title="Link to this definition">¶</a></dt>
+<dd><p>matches type hint strings for signed integers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexUnsignedInt">
+<span class="sig-name descname"><span class="pre">__regexUnsignedInt</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexUnsignedInt" title="Link to this definition">¶</a></dt>
+<dd><p>matches the type hint string for unsigned integers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexFloat">
+<span class="sig-name descname"><span class="pre">__regexFloat</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexFloat" title="Link to this definition">¶</a></dt>
+<dd><p>matches the type hint strings for floats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexBoolean">
+<span class="sig-name descname"><span class="pre">__regexBoolean</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexBoolean" title="Link to this definition">¶</a></dt>
+<dd><p>matches the type hint string for a boolean</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexStrng">
+<span class="sig-name descname"><span class="pre">__regexStrng</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexStrng" title="Link to this definition">¶</a></dt>
+<dd><p>matches the type hint string for a string variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__regexEvaluatable">
+<span class="sig-name descname"><span class="pre">__regexEvaluatable</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__regexEvaluatable" title="Link to this definition">¶</a></dt>
+<dd><p>matches the type hint string for a compoind data type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>re</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__types">
+<span class="sig-name descname"><span class="pre">__types</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__types" title="Link to this definition">¶</a></dt>
+<dd><p>mapping of type hinted types to actual Python types</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.__tests">
+<span class="sig-name descname"><span class="pre">__tests</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.__tests" title="Link to this definition">¶</a></dt>
+<dd><p>mapping of the regex patterns to actual python types</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>Rather than subclassing a plain dict, this is a subclass of a <code class="xref py py-class docutils literal notranslate"><span class="pre">blist.sorteddict</span></code> which stores the
+entries in a binary list structure. This makes accessing the keys much faster and also ensures that keys are
+always returned in alphabetical order.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.allowed_keys" title="Stoner.core.base.TypeHintedDict.allowed_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">allowed_keys</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.types" title="Stoner.core.base.TypeHintedDict.types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">types</span></code></a></p></td>
+<td><p>Return the dictionary of value types.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.clear" title="Stoner.core.base.TypeHintedDict.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.copy" title="Stoner.core.base.TypeHintedDict.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Provide a copy method that is aware of the type hinting strings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.export" title="Stoner.core.base.TypeHintedDict.export"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export</span></code></a>(key)</p></td>
+<td><p>Export a single metadata value to a string representation with type hint.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.export_all" title="Stoner.core.base.TypeHintedDict.export_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_all</span></code></a>()</p></td>
+<td><p>Return all the entries in the TypeHintedDict as a list of exported lines.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.filter" title="Stoner.core.base.TypeHintedDict.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a>(name)</p></td>
+<td><p>Filter the dictionary keys by name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.findtype" title="Stoner.core.base.TypeHintedDict.findtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">findtype</span></code></a>(value)</p></td>
+<td><p>Determine the correct string type to return for common python classes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.fromkeys" title="Stoner.core.base.TypeHintedDict.fromkeys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromkeys</span></code></a>(iterable[, value])</p></td>
+<td><p>Create a new ordered dictionary with keys from iterable and values set to value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.get" title="Stoner.core.base.TypeHintedDict.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(key[, default])</p></td>
+<td><p>Return the value for key if key is in the dictionary, else default.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.has_key" title="Stoner.core.base.TypeHintedDict.has_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_key</span></code></a>(name)</p></td>
+<td><p>Key is definitely in dictionary as literal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.import_all" title="Stoner.core.base.TypeHintedDict.import_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_all</span></code></a>(lines)</p></td>
+<td><p>Read multiple lines of strings and tries to import keys from them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.import_key" title="Stoner.core.base.TypeHintedDict.import_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_key</span></code></a>(line)</p></td>
+<td><p>Import a single key from a string like key{type hint} = value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.items" title="Stoner.core.base.TypeHintedDict.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.keys" title="Stoner.core.base.TypeHintedDict.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.move_to_end" title="Stoner.core.base.TypeHintedDict.move_to_end"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to_end</span></code></a>(key[, last])</p></td>
+<td><p>Move an existing element to the end (or beginning if last is false).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.pop" title="Stoner.core.base.TypeHintedDict.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code></a>(key[,default])</p></td>
+<td><p>If the key is not found, return the default if given; otherwise, raise a KeyError.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.popitem" title="Stoner.core.base.TypeHintedDict.popitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code></a>([last])</p></td>
+<td><p>Remove and return a (key, value) pair from the dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.setdefault" title="Stoner.core.base.TypeHintedDict.setdefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code></a>(key[, default])</p></td>
+<td><p>Insert key with a value of default if key is not in the dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.type" title="Stoner.core.base.TypeHintedDict.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a>(key)</p></td>
+<td><p>Return the typehint for the given k(s).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.update" title="Stoner.core.base.TypeHintedDict.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>([E, ]**F)</p></td>
+<td><p>If E is present and has a .keys() method, then does:  for k in E.keys(): D[k] = E[k] If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v In either case, this is followed by: for k in F:  D[k] = F[k]</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.values" title="Stoner.core.base.TypeHintedDict.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.allowed_keys">
+<span class="sig-name descname"><span class="pre">allowed_keys</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(&lt;class</span> <span class="pre">'str'&gt;,)</span></em><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.allowed_keys" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.types">
+<span class="sig-name descname"><span class="pre">types</span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.types" title="Link to this definition">¶</a></dt>
+<dd><p>Return the dictionary of value types.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">od.</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.clear" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Stoner.core.base.TypeHintedDict" title="Stoner.core.base.TypeHintedDict"><span class="pre">TypeHintedDict</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.copy" title="Link to this definition">¶</a></dt>
+<dd><p>Provide a copy method that is aware of the type hinting strings.</p>
+<p>This produces a flat dictionary with the type hint embedded in the key name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the current TypeHintedDict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern" title="(in Python v3.13)"><span class="pre">Pattern</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.export" title="Link to this definition">¶</a></dt>
+<dd><p>Export a single metadata value to a string representation with type hint.</p>
+<p>In the ASCII based file format, the type hinted metadata is represented
+in the first column of a tab delimited text file as a series of lines
+with format keyname{typhint}=string_value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>string</em>) – The metadata key to export</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>A string of the format</em> – key{type hint} = value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.export_all">
+<span class="sig-name descname"><span class="pre">export_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.export_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.export_all" title="Link to this definition">¶</a></dt>
+<dd><p>Return all the entries in the TypeHintedDict as a list of exported lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>(list of str)</em> – A list of exported strings</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The keys are returned in sorted order as a result of the underlying blist.sorteddict meothd.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern" title="(in Python v3.13)"><span class="pre">Pattern</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.filter" title="Link to this definition">¶</a></dt>
+<dd><p>Filter the dictionary keys by name.</p>
+<p>Reduce the metadata dictionary leaving only keys satisfied by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><em>callable</em>) – either a str to match or a callable function that takes metadata key-value
+as an argument and returns True or False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.findtype">
+<span class="sig-name descname"><span class="pre">findtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.findtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.findtype" title="Link to this definition">¶</a></dt>
+<dd><p>Determine the correct string type to return for common python classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>any</em>) – The data value to determine the type hint for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A type hint string</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Understands booleans, strings, integers, floats and np
+arrays(as arrays), and dictionaries (as clusters).</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.fromkeys">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromkeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.fromkeys" title="Link to this definition">¶</a></dt>
+<dd><p>Create a new ordered dictionary with keys from iterable and values set to value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.get" title="Link to this definition">¶</a></dt>
+<dd><p>Return the value for key if key is in the dictionary, else default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.has_key">
+<span class="sig-name descname"><span class="pre">has_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.has_key" title="Link to this definition">¶</a></dt>
+<dd><p>Key is definitely in dictionary as literal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.import_all">
+<span class="sig-name descname"><span class="pre">import_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.import_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.import_all" title="Link to this definition">¶</a></dt>
+<dd><p>Read multiple lines of strings and tries to import keys from them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list of str</em>) – The lines of metadata values to import.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.import_key">
+<span class="sig-name descname"><span class="pre">import_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.import_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.import_key" title="Link to this definition">¶</a></dt>
+<dd><p>Import a single key from a string like key{type hint} = value.</p>
+<p>This is the inverse of the <a class="reference internal" href="#Stoner.core.base.TypeHintedDict.export" title="Stoner.core.base.TypeHintedDict.export"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TypeHintedDict.export()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – he string line to be interpreted as a key-value pair.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">items</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.items" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">keys</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.keys" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.move_to_end">
+<span class="sig-name descname"><span class="pre">move_to_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.move_to_end" title="Link to this definition">¶</a></dt>
+<dd><p>Move an existing element to the end (or beginning if last is false).</p>
+<p>Raise KeyError if the element does not exist.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">v,</span> <span class="pre">remove</span> <span class="pre">specified</span> <span class="pre">key</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">corresponding</span> <span class="pre">value.</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.pop" title="Link to this definition">¶</a></dt>
+<dd><p>If the key is not found, return the default if given; otherwise,
+raise a KeyError.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.popitem">
+<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.popitem" title="Link to this definition">¶</a></dt>
+<dd><p>Remove and return a (key, value) pair from the dictionary.</p>
+<p>Pairs are returned in LIFO order if last is true or FIFO order if false.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.setdefault">
+<span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.setdefault" title="Link to this definition">¶</a></dt>
+<dd><p>Insert key with a value of default if key is not in the dictionary.</p>
+<p>Return the value for key if key is in the dictionary, else default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.type">
+<span class="sig-name descname"><span class="pre">type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern" title="(in Python v3.13)"><span class="pre">Pattern</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.13)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern" title="(in Python v3.13)"><span class="pre">Pattern</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/Stoner/core/base.html#TypeHintedDict.type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.type" title="Link to this definition">¶</a></dt>
+<dd><p>Return the typehint for the given k(s).</p>
+<p>This simply looks up the type hinting dictionary for each key it is given.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>string or sequence of strings</em>) – Either a single string key or a iterable type containing keys</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The string type hint (or a list of string type hints)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">**F</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Update</span> <span class="pre">D</span> <span class="pre">from</span> <span class="pre">mapping/iterable</span> <span class="pre">E</span> <span class="pre">and</span> <span class="pre">F.</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.update" title="Link to this definition">¶</a></dt>
+<dd><p>If E is present and has a .keys() method, then does:  for k in E.keys(): D[k] = E[k]
+If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
+In either case, this is followed by: for k in F:  D[k] = F[k]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.core.base.TypeHintedDict.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">an</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">values</span></span></span><a class="headerlink" href="#Stoner.core.base.TypeHintedDict.values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TypeHintedDict</a><ul>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict</span></code></a><ul>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict._typehints"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict._typehints</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexGetType"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexGetType</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexSignedInt"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexSignedInt</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexUnsignedInt"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexUnsignedInt</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexFloat"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexFloat</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexBoolean"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexBoolean</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexStrng"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexStrng</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__regexEvaluatable"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__regexEvaluatable</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__types"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__types</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.__tests"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.__tests</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.allowed_keys"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.allowed_keys</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.types"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.types</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.clear"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.clear()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.copy"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.copy()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.export"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.export()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.export_all"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.export_all()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.filter"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.filter()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.findtype"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.findtype()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.fromkeys"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.fromkeys()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.get"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.get()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.has_key"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.has_key()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.import_all"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.import_all()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.import_key"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.import_key()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.items"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.items()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.keys"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.keys()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.move_to_end"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.move_to_end()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.pop"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.pop()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.popitem"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.popitem()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.setdefault"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.setdefault()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.type"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.type()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.update"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.update()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.core.base.TypeHintedDict.values"><code class="docutils literal notranslate"><span class="pre">TypeHintedDict.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.core.base.RegexpDict.html"
+                          title="previous chapter">RegexpDict</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.core.base.metadataObject.html"
+                          title="next chapter">metadataObject</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.core.base.TypeHintedDict.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.core.base.RegexpDict.html" title="Previous document">RegexpDict</a>
+        </li>
+        <li>
+          <a href="Stoner.core.base.metadataObject.html" title="Next document">metadataObject</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

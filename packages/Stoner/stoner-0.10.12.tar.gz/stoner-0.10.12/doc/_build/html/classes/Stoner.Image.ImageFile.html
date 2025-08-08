@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stoner.Image.ImageFile &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ImageFile.Stoner__Image__imagefuncs__adjust_contrast" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast.html" />
+    <link rel="prev" title="DataFolder.zip_groups" href="Stoner.DataFolder.zip_groups.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.DataFolder.zip_groups.html" title="Previous document">DataFolder.zip_groups</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast.html" title="Next document">ImageFile.Stoner__Image__imagefuncs__adjust_contrast</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="stoner-image-imagefile">
+<h1>Stoner.Image.ImageFile<a class="headerlink" href="#stoner-image-imagefile" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Stoner.Image.</span></span><span class="sig-name descname"><span class="pre">ImageFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/Image/core.html#ImageFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.Image.ImageFile" title="Link to this definition">¶</a></dt>
+<dd><p>An Image file type that is analogous to <a class="reference internal" href="Stoner.Data.html#Stoner.Data" title="Stoner.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Data</span></code></a>.</p>
+<p>This contains metadata and an image attribute which
+is an <a class="reference internal" href="Stoner.Image.ImageArray.html#Stoner.Image.ImageArray" title="Stoner.Image.ImageArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Image.ImageArray</span></code></a> type which subclasses numpy ndarray and
+adds lots of extra image specific processing functions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.image" title="Link to this definition">¶</a></dt>
+<dd><p>A <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> subclass that stores the actual image data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Stoner.Image.ImageArray.html#Stoner.Image.ImageArray" title="Stoner.Image.ImageArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Image.ImageArray</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.metadata" title="Link to this definition">¶</a></dt>
+<dd><p>A dictionary of metadata items associated with this image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.core.RegexpDict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.filename" title="Link to this definition">¶</a></dt>
+<dd><p>The name of the file from which this image was loaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.title" title="Link to this definition">¶</a></dt>
+<dd><p>The title of the image (defaults to the filename).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.mask">
+<span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.mask" title="Link to this definition">¶</a></dt>
+<dd><p>A special object that allows manipulation of the image’s mask - thius allows the
+user to selectively disable regions of the image from rpocessing functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Stoner.Image.attrs.MaskProxy.html#Stoner.Image.attrs.MaskProxy" title="Stoner.Image.attrs.MaskProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Image.attrs.MaskProxy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.draw" title="Link to this definition">¶</a></dt>
+<dd><p>A special object that allows the user to manipulate the image data by making use of
+<a class="reference external" href="https://scikit-image.org/docs/stable/api/skimage.draw.html#module-skimage.draw" title="(in skimage v0.25.2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.draw</span></code></a> functions as well as some additional drawing functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="Stoner.Image.attrs.DrawProxy.html#Stoner.Image.attrs.DrawProxy" title="Stoner.Image.attrs.DrawProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.Image.attrs.DrawProxy</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.clone" title="Link to this definition">¶</a></dt>
+<dd><p>Return a duplicate copy of the current image - this allows subsequent methods to
+modify the cloned version rather than the original version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Stoner.ImageFile</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.centre">
+<span class="sig-name descname"><span class="pre">centre</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.centre" title="Link to this definition">¶</a></dt>
+<dd><p>The coordinates of the centre of the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a> of (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>,<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.aspect">
+<span class="sig-name descname"><span class="pre">aspect</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.aspect" title="Link to this definition">¶</a></dt>
+<dd><p>The aspect ratio (width/height) of the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.max_box">
+<span class="sig-name descname"><span class="pre">max_box</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.max_box" title="Link to this definition">¶</a></dt>
+<dd><p>The extent of the image size in a form suitable for use in defining a box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a> (0,x-size,0-y-size)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.flip_h">
+<span class="sig-name descname"><span class="pre">flip_h</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.flip_h" title="Link to this definition">¶</a></dt>
+<dd><p>Clone the current image and then flip it horizontally (left-right).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile">ImageFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.flip_v">
+<span class="sig-name descname"><span class="pre">flip_v</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.flip_v" title="Link to this definition">¶</a></dt>
+<dd><p>Clone the current image and then flip it vertically (top-bottom).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile">ImageFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.CW">
+<span class="sig-name descname"><span class="pre">CW</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.CW" title="Link to this definition">¶</a></dt>
+<dd><p>Clone the current image and then rotate it 90 degrees clockwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile">ImageFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.CCW">
+<span class="sig-name descname"><span class="pre">CCW</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.CCW" title="Link to this definition">¶</a></dt>
+<dd><p>Clone the current image and then rotate it 90 degrees counter-clockwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile">ImageFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.T">
+<span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.T" title="Link to this definition">¶</a></dt>
+<dd><p>Transpose the current image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile">ImageFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.shape">
+<span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current shape of the image (rows, columns)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)">tuple</a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>,<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.Image.ImageFile.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#Stoner.Image.ImageFile.dtype" title="Link to this definition">¶</a></dt>
+<dd><p>The current dtype of the elements of the image data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.dtype</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The ImageFile owned attribute is image. All other calls including metadata
+are passed through to ImageArray (so no need to inherit from metadataObject).</p>
+<p>Almost all calls to ImageFile are passed through to the underlying ImageArray
+logic and ImageArray can be used as a standalone class.
+However because ImageArray subclasses an ndarray it is not possible to enter
+it in place. All attributes return an array instance which needs to be reassigned.
+ImageFile owns image and so can change in place.
+The penalty is that numpy ufuncs don’t return ImageFile type</p>
+<p>so can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">imfile</span><span class="o">.</span><span class="n">asfloat</span><span class="p">()</span> <span class="c1">#imagefile.image is updated to float type however need to do:</span>
+<span class="n">imfile</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">imfile</span><span class="o">.</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>whereas for imarray need to do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">imarray</span> <span class="o">=</span> <span class="n">imagearray</span><span class="o">.</span><span class="n">asfloat</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>but:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">imarray</span><span class="p">)</span> <span class="c1">#returns ImageArray type</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__adjust_contrast</span></code></a>([...])</p></td>
+<td><p>Rescale the intensity of the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__align.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__align" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__align"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__align</span></code></a>(ref[, method])</p></td>
+<td><p>Use one of a variety of algroithms to align two images.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asarray.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asarray" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__asarray</span></code></a>()</p></td>
+<td><p>Provide a consistent way to get at the underlying array data in both ImageArray and ImageFile objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asfloat.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asfloat" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asfloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__asfloat</span></code></a>([...])</p></td>
+<td><p>Return the image converted to floating point type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asint.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asint" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__asint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__asint</span></code></a>([dtype])</p></td>
+<td><p>Convert the image to unsigned integer format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_intensity.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_intensity" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__clip_intensity</span></code></a>([...])</p></td>
+<td><p>Clip intensity outside the range -1,1 or 0,1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_neg.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_neg" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__clip_neg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__clip_neg</span></code></a>()</p></td>
+<td><p>Clip negative pixels to 0.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__convert.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__convert" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__convert</span></code></a>(dtype[, ...])</p></td>
+<td><p>Convert an image to the requested data-type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__correct_drift.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__correct_drift" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__correct_drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__correct_drift</span></code></a>(...)</p></td>
+<td><p>Align images to correct for image drift.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__crop.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__crop" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__crop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__crop</span></code></a>(*args, **kargs)</p></td>
+<td><p>Crop the image according to a box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__denoise.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__denoise" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__denoise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__denoise</span></code></a>([weight])</p></td>
+<td><p>Rename the skimage restore function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__do_nothing.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__do_nothing" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__do_nothing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__do_nothing</span></code></a>()</p></td>
+<td><p>Nulop function for testing the integration into ImageArray.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__dtype_limits.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__dtype_limits" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__dtype_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__dtype_limits</span></code></a>([...])</p></td>
+<td><p>Return intensity limits, i.e. (min, max) tuple, of the image's dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__fft.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__fft" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__fft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__fft</span></code></a>([shift, ...])</p></td>
+<td><p>Perform a 2d fft of the image and shift the result to get zero frequency in the centre.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__filter_image.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__filter_image" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__filter_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__filter_image</span></code></a>([sigma])</p></td>
+<td><p>Alias for skimage.filters.gaussian.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__gridimage.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__gridimage" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__gridimage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__gridimage</span></code></a>([...])</p></td>
+<td><p>Use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.griddata.html#scipy.interpolate.griddata" title="(in SciPy v1.15.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.interpolate.griddata()</span></code></a> to shift the image to a regular grid of coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__hist.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__hist" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__hist</span></code></a>(*args, **kargs)</p></td>
+<td><p>Pass through to <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist" title="(in Matplotlib v3.10.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist()</span></code></a> function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__imshow.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__imshow" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__imshow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__imshow</span></code></a>(**kwargs)</p></td>
+<td><p>Quickly plot of image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__level_image.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__level_image" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__level_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__level_image</span></code></a>([...])</p></td>
+<td><p>Subtract a polynomial background from image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__normalise.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__normalise" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__normalise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__normalise</span></code></a>([...])</p></td>
+<td><p>Norm alise the data to a fixed scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__plot_histogram.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__plot_histogram" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__plot_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__plot_histogram</span></code></a>([bins])</p></td>
+<td><p>Plot the histogram and cumulative distribution for the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__profile_line.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__profile_line" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__profile_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__profile_line</span></code></a>([...])</p></td>
+<td><p>Wrap sckit-image method of the same name to get a line_profile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__quantize.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__quantize" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__quantize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__quantize</span></code></a>(output)</p></td>
+<td><p>Quantise the image data into fixed levels given by a mapping.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_coordinates.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_coordinates" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__radial_coordinates</span></code></a>([...])</p></td>
+<td><p>Rerurn a map of the radial coordinates of an image from a given centre, with adjustments for pixel size.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_profile.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_profile" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__radial_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__radial_profile</span></code></a>([...])</p></td>
+<td><p>Extract a radial  profile line from an image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__remove_outliers.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__remove_outliers" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__remove_outliers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__remove_outliers</span></code></a>([...])</p></td>
+<td><p>Find values of the data that are beyond a percentile of the overall distribution and replace them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__rotate.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__rotate" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__rotate</span></code></a>(angle[, ...])</p></td>
+<td><p>Rotate image by a certain angle around its center.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__save</span></code></a>([filename])</p></td>
+<td><p>Save the image into the file 'filename'.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_npy.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_npy" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_npy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__save_npy</span></code></a>(filename)</p></td>
+<td><p>Save the ImageArray as a numpy array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_png.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_png" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_png"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__save_png</span></code></a>(filename)</p></td>
+<td><p>Save the ImageArray with metadata in a png file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_tiff.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_tiff" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__save_tiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__save_tiff</span></code></a>(filename)</p></td>
+<td><p>Save the ImageArray as a tiff image with metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__sgolay2d.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__sgolay2d" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__sgolay2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__sgolay2d</span></code></a>([...])</p></td>
+<td><p>Implements a 2D Savitsky Golay Filter for a 2D array (e.g. image).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__span.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__span" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__span</span></code></a>()</p></td>
+<td><p>Return the minimum and maximum values in the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__subtract_image.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__subtract_image" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__subtract_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__subtract_image</span></code></a>(...)</p></td>
+<td><p>Subtract a background image from the ImageArray.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__threshold_minmax.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__threshold_minmax" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__threshold_minmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__threshold_minmax</span></code></a>([...])</p></td>
+<td><p>Return a boolean array which is thresholded between threshmin and  threshmax.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__translate</span></code></a>(translation)</p></td>
+<td><p>Translate the image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate_limits.html#Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate_limits" title="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__translate_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Stoner__Image__imagefuncs__translate_limits</span></code></a>(...)</p></td>
+<td><p>Find the limits of an image after a translation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.__init__.html#Stoner.Image.ImageFile.__init__" title="Stoner.Image.ImageFile.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kargs)</p></td>
+<td><p>Mostly a pass through to ImageArray constructor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.adjust_contrast.html#Stoner.Image.ImageFile.adjust_contrast" title="Stoner.Image.ImageFile.adjust_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_contrast</span></code></a>([lims, percent])</p></td>
+<td><p>Rescale the intensity of the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.align.html#Stoner.Image.ImageFile.align" title="Stoner.Image.ImageFile.align"><code class="xref py py-obj docutils literal notranslate"><span class="pre">align</span></code></a>(ref[, method])</p></td>
+<td><p>Use one of a variety of algroithms to align two images.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.all.html#Stoner.Image.ImageFile.all" title="Stoner.Image.ImageFile.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>([axis, out, keepdims])</p></td>
+<td><p>Returns True if all elements evaluate to True.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.anom.html#Stoner.Image.ImageFile.anom" title="Stoner.Image.ImageFile.anom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">anom</span></code></a>([axis, dtype])</p></td>
+<td><p>Compute the anomalies (deviations from the arithmetic mean) along the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.any.html#Stoner.Image.ImageFile.any" title="Stoner.Image.ImageFile.any"><code class="xref py py-obj docutils literal notranslate"><span class="pre">any</span></code></a>([axis, out, keepdims])</p></td>
+<td><p>Returns True if any of the elements of <cite>a</cite> evaluate to True.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.argmax.html#Stoner.Image.ImageFile.argmax" title="Stoner.Image.ImageFile.argmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmax</span></code></a>([axis, fill_value, out, keepdims])</p></td>
+<td><p>Returns array of indices of the maximum values along the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.argmin.html#Stoner.Image.ImageFile.argmin" title="Stoner.Image.ImageFile.argmin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argmin</span></code></a>([axis, fill_value, out, keepdims])</p></td>
+<td><p>Return array of indices to the minimum values along the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.argpartition.html#Stoner.Image.ImageFile.argpartition" title="Stoner.Image.ImageFile.argpartition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argpartition</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.argsort.html#Stoner.Image.ImageFile.argsort" title="Stoner.Image.ImageFile.argsort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argsort</span></code></a>([axis, kind, order, endwith, ...])</p></td>
+<td><p>Return an ndarray of indices that sort the array along the specified axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.asarray.html#Stoner.Image.ImageFile.asarray" title="Stoner.Image.ImageFile.asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asarray</span></code></a>()</p></td>
+<td><p>Provide a consistent way to get at the underlying array data in both ImageArray and ImageFile objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.asfloat.html#Stoner.Image.ImageFile.asfloat" title="Stoner.Image.ImageFile.asfloat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asfloat</span></code></a>([normalise, clip, clip_negative])</p></td>
+<td><p>Return the image converted to floating point type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.asint.html#Stoner.Image.ImageFile.asint" title="Stoner.Image.ImageFile.asint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asint</span></code></a>([dtype])</p></td>
+<td><p>Convert the image to unsigned integer format.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.astype.html#Stoner.Image.ImageFile.astype" title="Stoner.Image.ImageFile.astype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">astype</span></code></a>(dtype[, order, casting, subok, copy])</p></td>
+<td><p>Copy of the array, cast to a specified type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.byteswap.html#Stoner.Image.ImageFile.byteswap" title="Stoner.Image.ImageFile.byteswap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">byteswap</span></code></a>([inplace])</p></td>
+<td><p>Swap the bytes of the array elements</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.choose.html#Stoner.Image.ImageFile.choose" title="Stoner.Image.ImageFile.choose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose</span></code></a>(choices[, out, mode])</p></td>
+<td><p>Use an index array to construct a new array from a set of choices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.clear.html#Stoner.Image.ImageFile.clear" title="Stoner.Image.ImageFile.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.clip.html#Stoner.Image.ImageFile.clip" title="Stoner.Image.ImageFile.clip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clip</span></code></a>([min, max, out])</p></td>
+<td><p>Return an array whose values are limited to <code class="docutils literal notranslate"><span class="pre">[min,</span> <span class="pre">max]</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.clip_intensity.html#Stoner.Image.ImageFile.clip_intensity" title="Stoner.Image.ImageFile.clip_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clip_intensity</span></code></a>([clip_negative, limits])</p></td>
+<td><p>Clip intensity outside the range -1,1 or 0,1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.clip_neg.html#Stoner.Image.ImageFile.clip_neg" title="Stoner.Image.ImageFile.clip_neg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clip_neg</span></code></a>()</p></td>
+<td><p>Clip negative pixels to 0.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.compress.html#Stoner.Image.ImageFile.compress" title="Stoner.Image.ImageFile.compress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress</span></code></a>(condition[, axis, out])</p></td>
+<td><p>Return <cite>a</cite> where condition is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.compressed.html#Stoner.Image.ImageFile.compressed" title="Stoner.Image.ImageFile.compressed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compressed</span></code></a>()</p></td>
+<td><p>Return all the non-masked data as a 1-D array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.conj.html#Stoner.Image.ImageFile.conj" title="Stoner.Image.ImageFile.conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conj</span></code></a>()</p></td>
+<td><p>Complex-conjugate all elements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.conjugate.html#Stoner.Image.ImageFile.conjugate" title="Stoner.Image.ImageFile.conjugate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conjugate</span></code></a>()</p></td>
+<td><p>Return the complex conjugate, element-wise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.convert.html#Stoner.Image.ImageFile.convert" title="Stoner.Image.ImageFile.convert"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert</span></code></a>(dtype[, force_copy, uniform, normalise])</p></td>
+<td><p>Convert an image to the requested data-type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.copy.html#Stoner.Image.ImageFile.copy" title="Stoner.Image.ImageFile.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([order])</p></td>
+<td><p>Return a copy of the array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.correct_drift.html#Stoner.Image.ImageFile.correct_drift" title="Stoner.Image.ImageFile.correct_drift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_drift</span></code></a>(ref, **kargs)</p></td>
+<td><p>Align images to correct for image drift.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.count.html#Stoner.Image.ImageFile.count" title="Stoner.Image.ImageFile.count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code></a>([axis, keepdims])</p></td>
+<td><p>Count the non-masked elements of the array along the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.crop.html#Stoner.Image.ImageFile.crop" title="Stoner.Image.ImageFile.crop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crop</span></code></a>(*args, **kargs)</p></td>
+<td><p>Crop the image according to a box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.cumprod.html#Stoner.Image.ImageFile.cumprod" title="Stoner.Image.ImageFile.cumprod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumprod</span></code></a>([axis, dtype, out])</p></td>
+<td><p>Return the cumulative product of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.cumsum.html#Stoner.Image.ImageFile.cumsum" title="Stoner.Image.ImageFile.cumsum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumsum</span></code></a>([axis, dtype, out])</p></td>
+<td><p>Return the cumulative sum of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.denoise.html#Stoner.Image.ImageFile.denoise" title="Stoner.Image.ImageFile.denoise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">denoise</span></code></a>([weight])</p></td>
+<td><p>Rename the skimage restore function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.diagonal.html#Stoner.Image.ImageFile.diagonal" title="Stoner.Image.ImageFile.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>([offset, axis1, axis2])</p></td>
+<td><p>Return specified diagonals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.do_nothing.html#Stoner.Image.ImageFile.do_nothing" title="Stoner.Image.ImageFile.do_nothing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_nothing</span></code></a>()</p></td>
+<td><p>Nulop function for testing the integration into ImageArray.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.dot.html#Stoner.Image.ImageFile.dot" title="Stoner.Image.ImageFile.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(b[, out])</p></td>
+<td><p>Masked dot product of two arrays.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.dtype_limits.html#Stoner.Image.ImageFile.dtype_limits" title="Stoner.Image.ImageFile.dtype_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype_limits</span></code></a>([clip_negative])</p></td>
+<td><p>Return intensity limits, i.e. (min, max) tuple, of the image's dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.dump.html#Stoner.Image.ImageFile.dump" title="Stoner.Image.ImageFile.dump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump</span></code></a>(file)</p></td>
+<td><p>Dump a pickle of the array to the specified file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.dumps.html#Stoner.Image.ImageFile.dumps" title="Stoner.Image.ImageFile.dumps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dumps</span></code></a>()</p></td>
+<td><p>Returns the pickle of the array as a string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.fft.html#Stoner.Image.ImageFile.fft" title="Stoner.Image.ImageFile.fft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft</span></code></a>([shift, phase, remove_dc, gaussian, window])</p></td>
+<td><p>Perform a 2d fft of the image and shift the result to get zero frequency in the centre.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.fill.html#Stoner.Image.ImageFile.fill" title="Stoner.Image.ImageFile.fill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></a>(value)</p></td>
+<td><p>Fill the array with a scalar value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.filled.html#Stoner.Image.ImageFile.filled" title="Stoner.Image.ImageFile.filled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filled</span></code></a>([fill_value])</p></td>
+<td><p>Return a copy of self, with masked values filled with a given value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.filter_image.html#Stoner.Image.ImageFile.filter_image" title="Stoner.Image.ImageFile.filter_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_image</span></code></a>([sigma])</p></td>
+<td><p>Alias for skimage.filters.gaussian.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.flatten.html#Stoner.Image.ImageFile.flatten" title="Stoner.Image.ImageFile.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>([order])</p></td>
+<td><p>Return a copy of the array collapsed into one dimension.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.get.html#Stoner.Image.ImageFile.get" title="Stoner.Image.ImageFile.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(k[,d])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.get_filename.html#Stoner.Image.ImageFile.get_filename" title="Stoner.Image.ImageFile.get_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_filename</span></code></a>(mode)</p></td>
+<td><p>Force the user to choose a new filename using a system dialog box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.get_fill_value.html#Stoner.Image.ImageFile.get_fill_value" title="Stoner.Image.ImageFile.get_fill_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fill_value</span></code></a>()</p></td>
+<td><p>The filling value of the masked array is a scalar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.get_imag.html#Stoner.Image.ImageFile.get_imag" title="Stoner.Image.ImageFile.get_imag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_imag</span></code></a>()</p></td>
+<td><p>The imaginary part of the masked array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.get_real.html#Stoner.Image.ImageFile.get_real" title="Stoner.Image.ImageFile.get_real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_real</span></code></a>()</p></td>
+<td><p>The real part of the masked array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.getfield.html#Stoner.Image.ImageFile.getfield" title="Stoner.Image.ImageFile.getfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getfield</span></code></a>(dtype[, offset])</p></td>
+<td><p>Returns a field of the given array as a certain type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.gridimage.html#Stoner.Image.ImageFile.gridimage" title="Stoner.Image.ImageFile.gridimage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gridimage</span></code></a>([points, xi, method, fill_value, ...])</p></td>
+<td><p>Use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.griddata.html#scipy.interpolate.griddata" title="(in SciPy v1.15.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.interpolate.griddata()</span></code></a> to shift the image to a regular grid of coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.harden_mask.html#Stoner.Image.ImageFile.harden_mask" title="Stoner.Image.ImageFile.harden_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">harden_mask</span></code></a>()</p></td>
+<td><p>Force the mask to hard, preventing unmasking by assignment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.hist.html#Stoner.Image.ImageFile.hist" title="Stoner.Image.ImageFile.hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hist</span></code></a>(*args, **kargs)</p></td>
+<td><p>Pass through to <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html#matplotlib.pyplot.hist" title="(in Matplotlib v3.10.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist()</span></code></a> function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.ids.html#Stoner.Image.ImageFile.ids" title="Stoner.Image.ImageFile.ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ids</span></code></a>()</p></td>
+<td><p>Return the addresses of the data and mask areas.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.imshow.html#Stoner.Image.ImageFile.imshow" title="Stoner.Image.ImageFile.imshow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imshow</span></code></a>(**kwargs)</p></td>
+<td><p>Quickly plot of image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.iscontiguous.html#Stoner.Image.ImageFile.iscontiguous" title="Stoner.Image.ImageFile.iscontiguous"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iscontiguous</span></code></a>()</p></td>
+<td><p>Return a boolean indicating whether the data is contiguous.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.item.html#Stoner.Image.ImageFile.item" title="Stoner.Image.ImageFile.item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">item</span></code></a>(*args)</p></td>
+<td><p>Copy an element of an array to a standard Python scalar and return it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.items.html#Stoner.Image.ImageFile.items" title="Stoner.Image.ImageFile.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>()</p></td>
+<td><p>Make sure we implement an items that doesn't just iterate over self.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.keys.html#Stoner.Image.ImageFile.keys" title="Stoner.Image.ImageFile.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a>()</p></td>
+<td><p>Return the keys of the metadata dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.level_image.html#Stoner.Image.ImageFile.level_image" title="Stoner.Image.ImageFile.level_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">level_image</span></code></a>([poly_vert, poly_horiz, box, ...])</p></td>
+<td><p>Subtract a polynomial background from image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.load.html#Stoner.Image.ImageFile.load" title="Stoner.Image.ImageFile.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(*args, **kargs)</p></td>
+<td><p>Create a <a class="reference internal" href="#Stoner.Image.ImageFile" title="Stoner.Image.ImageFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFile</span></code></a> from file abnd guessing a better subclass if necessary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.max.html#Stoner.Image.ImageFile.max" title="Stoner.Image.ImageFile.max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max</span></code></a>([axis, out, fill_value, keepdims])</p></td>
+<td><p>Return the maximum along a given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.mean.html#Stoner.Image.ImageFile.mean" title="Stoner.Image.ImageFile.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>([axis, dtype, out, keepdims])</p></td>
+<td><p>Returns the average of the array elements along given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.min.html#Stoner.Image.ImageFile.min" title="Stoner.Image.ImageFile.min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min</span></code></a>([axis, out, fill_value, keepdims])</p></td>
+<td><p>Return the minimum along a given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.nonzero.html#Stoner.Image.ImageFile.nonzero" title="Stoner.Image.ImageFile.nonzero"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonzero</span></code></a>()</p></td>
+<td><p>Return the indices of unmasked elements that are not zero.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.normalise.html#Stoner.Image.ImageFile.normalise" title="Stoner.Image.ImageFile.normalise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalise</span></code></a>([scale, sample, limits, scale_masked])</p></td>
+<td><p>Norm alise the data to a fixed scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.partition.html#Stoner.Image.ImageFile.partition" title="Stoner.Image.ImageFile.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.plot_histogram.html#Stoner.Image.ImageFile.plot_histogram" title="Stoner.Image.ImageFile.plot_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_histogram</span></code></a>([bins])</p></td>
+<td><p>Plot the histogram and cumulative distribution for the image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.pop.html#Stoner.Image.ImageFile.pop" title="Stoner.Image.ImageFile.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code></a>(k[,d])</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.popitem.html#Stoner.Image.ImageFile.popitem" title="Stoner.Image.ImageFile.popitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code></a>()</p></td>
+<td><p>as a 2-tuple; but raise KeyError if D is empty.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.prod.html#Stoner.Image.ImageFile.prod" title="Stoner.Image.ImageFile.prod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prod</span></code></a>([axis, dtype, out, keepdims])</p></td>
+<td><p>Return the product of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.product.html#Stoner.Image.ImageFile.product" title="Stoner.Image.ImageFile.product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">product</span></code></a>([axis, dtype, out, keepdims])</p></td>
+<td><p>Return the product of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.profile_line.html#Stoner.Image.ImageFile.profile_line" title="Stoner.Image.ImageFile.profile_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile_line</span></code></a>([src, dst, linewidth, order, ...])</p></td>
+<td><p>Wrap sckit-image method of the same name to get a line_profile.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.ptp.html#Stoner.Image.ImageFile.ptp" title="Stoner.Image.ImageFile.ptp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ptp</span></code></a>([axis, out, fill_value, keepdims])</p></td>
+<td><p>Return (maximum - minimum) along the given dimension (i.e. peak-to-peak value).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.put.html#Stoner.Image.ImageFile.put" title="Stoner.Image.ImageFile.put"><code class="xref py py-obj docutils literal notranslate"><span class="pre">put</span></code></a>(indices, values[, mode])</p></td>
+<td><p>Set storage-indexed locations to corresponding values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.quantize.html#Stoner.Image.ImageFile.quantize" title="Stoner.Image.ImageFile.quantize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantize</span></code></a>(output[, levels])</p></td>
+<td><p>Quantise the image data into fixed levels given by a mapping.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.radial_coordinates.html#Stoner.Image.ImageFile.radial_coordinates" title="Stoner.Image.ImageFile.radial_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_coordinates</span></code></a>([centre, pixel_size, angle])</p></td>
+<td><p>Rerurn a map of the radial coordinates of an image from a given centre, with adjustments for pixel size.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.radial_profile.html#Stoner.Image.ImageFile.radial_profile" title="Stoner.Image.ImageFile.radial_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_profile</span></code></a>([angle, r, centre, pixel_size])</p></td>
+<td><p>Extract a radial  profile line from an image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.ravel.html#Stoner.Image.ImageFile.ravel" title="Stoner.Image.ImageFile.ravel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel</span></code></a>([order])</p></td>
+<td><p>Returns a 1D version of self, as a view.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.remove_outliers.html#Stoner.Image.ImageFile.remove_outliers" title="Stoner.Image.ImageFile.remove_outliers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_outliers</span></code></a>([percentiles, replace])</p></td>
+<td><p>Find values of the data that are beyond a percentile of the overall distribution and replace them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.repeat.html#Stoner.Image.ImageFile.repeat" title="Stoner.Image.ImageFile.repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat</span></code></a>(repeats[, axis])</p></td>
+<td><p>Repeat elements of an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.reshape.html#Stoner.Image.ImageFile.reshape" title="Stoner.Image.ImageFile.reshape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape</span></code></a>(*s, **kwargs)</p></td>
+<td><p>Give a new shape to the array without changing its data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.resize.html#Stoner.Image.ImageFile.resize" title="Stoner.Image.ImageFile.resize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resize</span></code></a>(newshape[, refcheck, order])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.rotate.html#Stoner.Image.ImageFile.rotate" title="Stoner.Image.ImageFile.rotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate</span></code></a>(angle[, resize, center, order, mode, ...])</p></td>
+<td><p>Rotate image by a certain angle around its center.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.round.html#Stoner.Image.ImageFile.round" title="Stoner.Image.ImageFile.round"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round</span></code></a>([decimals, out])</p></td>
+<td><p>Return each element rounded to the given number of decimals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.save.html#Stoner.Image.ImageFile.save" title="Stoner.Image.ImageFile.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([filename])</p></td>
+<td><p>Save the image into the file 'filename'.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.save_npy.html#Stoner.Image.ImageFile.save_npy" title="Stoner.Image.ImageFile.save_npy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_npy</span></code></a>(filename)</p></td>
+<td><p>Save the ImageArray as a numpy array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.save_png.html#Stoner.Image.ImageFile.save_png" title="Stoner.Image.ImageFile.save_png"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_png</span></code></a>(filename)</p></td>
+<td><p>Save the ImageArray with metadata in a png file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.save_tiff.html#Stoner.Image.ImageFile.save_tiff" title="Stoner.Image.ImageFile.save_tiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_tiff</span></code></a>(filename[, forcetype])</p></td>
+<td><p>Save the ImageArray as a tiff image with metadata.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.searchsorted.html#Stoner.Image.ImageFile.searchsorted" title="Stoner.Image.ImageFile.searchsorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">searchsorted</span></code></a>(v[, side, sorter])</p></td>
+<td><p>Find indices where elements of v should be inserted in a to maintain order.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.set_fill_value.html#Stoner.Image.ImageFile.set_fill_value" title="Stoner.Image.ImageFile.set_fill_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_fill_value</span></code></a>([value])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.setdefault.html#Stoner.Image.ImageFile.setdefault" title="Stoner.Image.ImageFile.setdefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code></a>(k[,d])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.setfield.html#Stoner.Image.ImageFile.setfield" title="Stoner.Image.ImageFile.setfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setfield</span></code></a>(val, dtype[, offset])</p></td>
+<td><p>Put a value into a specified place in a field defined by a data-type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.setflags.html#Stoner.Image.ImageFile.setflags" title="Stoner.Image.ImageFile.setflags"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setflags</span></code></a>([write, align, uic])</p></td>
+<td><p>Set array flags WRITEABLE, ALIGNED, WRITEBACKIFCOPY, respectively.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.sgolay2d.html#Stoner.Image.ImageFile.sgolay2d" title="Stoner.Image.ImageFile.sgolay2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sgolay2d</span></code></a>([points, poly, derivative])</p></td>
+<td><p>Implements a 2D Savitsky Golay Filter for a 2D array (e.g. image).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.shrink_mask.html#Stoner.Image.ImageFile.shrink_mask" title="Stoner.Image.ImageFile.shrink_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shrink_mask</span></code></a>()</p></td>
+<td><p>Reduce a mask to nomask when possible.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.soften_mask.html#Stoner.Image.ImageFile.soften_mask" title="Stoner.Image.ImageFile.soften_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soften_mask</span></code></a>()</p></td>
+<td><p>Force the mask to soft (default), allowing unmasking by assignment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.sort.html#Stoner.Image.ImageFile.sort" title="Stoner.Image.ImageFile.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([axis, kind, order, endwith, ...])</p></td>
+<td><p>Sort the array, in-place</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.span.html#Stoner.Image.ImageFile.span" title="Stoner.Image.ImageFile.span"><code class="xref py py-obj docutils literal notranslate"><span class="pre">span</span></code></a>()</p></td>
+<td><p>Return the minimum and maximum values in the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.squeeze.html#Stoner.Image.ImageFile.squeeze" title="Stoner.Image.ImageFile.squeeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squeeze</span></code></a>([axis])</p></td>
+<td><p>Remove axes of length one from <cite>a</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.std.html#Stoner.Image.ImageFile.std" title="Stoner.Image.ImageFile.std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std</span></code></a>([axis, dtype, out, ddof, keepdims, mean])</p></td>
+<td><p>Returns the standard deviation of the array elements along given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.subtract_image.html#Stoner.Image.ImageFile.subtract_image" title="Stoner.Image.ImageFile.subtract_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract_image</span></code></a>(background[, contrast, clip, ...])</p></td>
+<td><p>Subtract a background image from the ImageArray.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.sum.html#Stoner.Image.ImageFile.sum" title="Stoner.Image.ImageFile.sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sum</span></code></a>([axis, dtype, out, keepdims])</p></td>
+<td><p>Return the sum of the array elements over the given axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.swapaxes.html#Stoner.Image.ImageFile.swapaxes" title="Stoner.Image.ImageFile.swapaxes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapaxes</span></code></a>(axis1, axis2)</p></td>
+<td><p>Return a view of the array with <cite>axis1</cite> and <cite>axis2</cite> interchanged.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.take.html#Stoner.Image.ImageFile.take" title="Stoner.Image.ImageFile.take"><code class="xref py py-obj docutils literal notranslate"><span class="pre">take</span></code></a>(indices[, axis, out, mode])</p></td>
+<td><p>Take elements from a masked array along an axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.threshold_minmax.html#Stoner.Image.ImageFile.threshold_minmax" title="Stoner.Image.ImageFile.threshold_minmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_minmax</span></code></a>([threshmin, threshmax])</p></td>
+<td><p>Return a boolean array which is thresholded between threshmin and  threshmax.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.to_device.html#Stoner.Image.ImageFile.to_device" title="Stoner.Image.ImageFile.to_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_device</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.tobytes.html#Stoner.Image.ImageFile.tobytes" title="Stoner.Image.ImageFile.tobytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tobytes</span></code></a>([fill_value, order])</p></td>
+<td><p>Return the array data as a string containing the raw bytes in the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.tofile.html#Stoner.Image.ImageFile.tofile" title="Stoner.Image.ImageFile.tofile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tofile</span></code></a>(fid[, sep, format])</p></td>
+<td><p>Save a masked array to a file in binary format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.toflex.html#Stoner.Image.ImageFile.toflex" title="Stoner.Image.ImageFile.toflex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toflex</span></code></a>()</p></td>
+<td><p>Transforms a masked array into a flexible-type array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.tolist.html#Stoner.Image.ImageFile.tolist" title="Stoner.Image.ImageFile.tolist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tolist</span></code></a>([fill_value])</p></td>
+<td><p>Return the data portion of the masked array as a hierarchical Python list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.torecords.html#Stoner.Image.ImageFile.torecords" title="Stoner.Image.ImageFile.torecords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torecords</span></code></a>()</p></td>
+<td><p>Transforms a masked array into a flexible-type array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.tostring.html#Stoner.Image.ImageFile.tostring" title="Stoner.Image.ImageFile.tostring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tostring</span></code></a>([fill_value, order])</p></td>
+<td><p>A compatibility alias for <cite>tobytes</cite>, with exactly the same behavior.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.trace.html#Stoner.Image.ImageFile.trace" title="Stoner.Image.ImageFile.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>([offset, axis1, axis2, dtype, out])</p></td>
+<td><p>Return the sum along diagonals of the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.translate.html#Stoner.Image.ImageFile.translate" title="Stoner.Image.ImageFile.translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate</span></code></a>(translation[, add_metadata, ...])</p></td>
+<td><p>Translate the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.translate_limits.html#Stoner.Image.ImageFile.translate_limits" title="Stoner.Image.ImageFile.translate_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate_limits</span></code></a>(translation[, reverse])</p></td>
+<td><p>Find the limits of an image after a translation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.transpose.html#Stoner.Image.ImageFile.transpose" title="Stoner.Image.ImageFile.transpose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transpose</span></code></a>(*axes)</p></td>
+<td><p>Returns a view of the array with axes transposed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.unshare_mask.html#Stoner.Image.ImageFile.unshare_mask" title="Stoner.Image.ImageFile.unshare_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unshare_mask</span></code></a>()</p></td>
+<td><p>Copy the mask and set the <cite>sharedmask</cite> flag to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.update.html#Stoner.Image.ImageFile.update" title="Stoner.Image.ImageFile.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>([E, ]**F)</p></td>
+<td><p>If E present and has a .keys() method, does:     for k in E.keys(): D[k] = E[k] If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v In either case, this is followed by: for k, v in F.items(): D[k] = v</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.values.html#Stoner.Image.ImageFile.values" title="Stoner.Image.ImageFile.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>()</p></td>
+<td><p>Return the values of the metadata dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.var.html#Stoner.Image.ImageFile.var" title="Stoner.Image.ImageFile.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>([axis, dtype, out, ddof, keepdims, mean])</p></td>
+<td><p>Compute the variance along the specified axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="Stoner.Image.ImageFile.view.html#Stoner.Image.ImageFile.view" title="Stoner.Image.ImageFile.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a>([dtype, type, fill_value])</p></td>
+<td><p>Return a view of the MaskedArray data.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.CCW" title="Stoner.Image.ImageFile.CCW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CCW</span></code></a></p></td>
+<td><p>Clone the image and then rotate the imaage 90 degrees counter clockwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.CW" title="Stoner.Image.ImageFile.CW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CW</span></code></a></p></td>
+<td><p>Clone the image and then rotate the imaage 90 degrees clockwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.T" title="Stoner.Image.ImageFile.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.aspect" title="Stoner.Image.ImageFile.aspect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aspect</span></code></a></p></td>
+<td><p>Return the aspect ratio (width/height) of the image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base</span></code></p></td>
+<td><p>Pass thrpough for base</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">baseclass</span></code></p></td>
+<td><p>Class of the underlying data (read-only).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.centre" title="Stoner.Image.ImageFile.centre"><code class="xref py py-obj docutils literal notranslate"><span class="pre">centre</span></code></a></p></td>
+<td><p>Return the coordinates of the centre of the image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.clone" title="Stoner.Image.ImageFile.clone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone</span></code></a></p></td>
+<td><p>Make a copy of this ImageFile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes</span></code></p></td>
+<td><p>Pass thrpough for ctypes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></p></td>
+<td><p>].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">debug</span></code></p></td>
+<td><p>Pass thrpough for debug</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">device</span></code></p></td>
+<td><p>Pass thrpough for device</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.draw" title="Stoner.Image.ImageFile.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a></p></td>
+<td><p>Access the DrawProxy object for accessing the skimage draw sub module.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.dtype" title="Stoner.Image.ImageFile.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.filename" title="Stoner.Image.ImageFile.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></p></td>
+<td><p>Pass thrpough for filename</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_value</span></code></p></td>
+<td><p>The filling value of the masked array is a scalar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">flags</span></code></p></td>
+<td><p>Pass thrpough for flags</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">flat</span></code></p></td>
+<td><p>Return the numpy.ndarray.flat rather than a MaskedIterator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.flip_h" title="Stoner.Image.ImageFile.flip_h"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_h</span></code></a></p></td>
+<td><p>Clone the image and then mirror the image horizontally.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.flip_v" title="Stoner.Image.ImageFile.flip_v"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flip_v</span></code></a></p></td>
+<td><p>Clone the image and then mirror the image vertically.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fmts</span></code></p></td>
+<td><p>Pass thrpough for fmts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">hardmask</span></code></p></td>
+<td><p>Specifies whether values can be unmasked through assignments.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">imag</span></code></p></td>
+<td><p>The imaginary part of the masked array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.image" title="Stoner.Image.ImageFile.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a></p></td>
+<td><p>Access the image data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemset</span></code></p></td>
+<td><p>Pass thrpough for itemset</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">itemsize</span></code></p></td>
+<td><p>Pass thrpough for itemsize</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mT</span></code></p></td>
+<td><p>Return the matrix-transpose of the masked array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.mask" title="Stoner.Image.ImageFile.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
+<td><p>Get the mask of the underlying IamgeArray.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.max_box" title="Stoner.Image.ImageFile.max_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_box</span></code></a></p></td>
+<td><p>Return the maximum coordinate extent (xmin,xmax,ymin,ymax).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.metadata" title="Stoner.Image.ImageFile.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
+<td><p>Read the metadata dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mime_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbytes</span></code></p></td>
+<td><p>Pass thrpough for nbytes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim</span></code></p></td>
+<td><p>Pass thrpough for ndim</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">newbyteorder</span></code></p></td>
+<td><p>Pass thrpough for newbyteorder</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">priority</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">real</span></code></p></td>
+<td><p>The real part of the masked array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">recordmask</span></code></p></td>
+<td><p>Get or set the mask of the array if it has no named fields.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.shape" title="Stoner.Image.ImageFile.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sharedmask</span></code></p></td>
+<td><p>Share status of the mask (read-only).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></p></td>
+<td><p>Pass thrpough for size</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></p></td>
+<td><p>Pass thrpough for strides</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.Image.ImageFile.title" title="Stoner.Image.ImageFile.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>Get a title for this image.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Stoner.Image.ImageFile</a><ul>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile"><code class="docutils literal notranslate"><span class="pre">ImageFile</span></code></a><ul>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.image"><code class="docutils literal notranslate"><span class="pre">ImageFile.image</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.metadata"><code class="docutils literal notranslate"><span class="pre">ImageFile.metadata</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.filename"><code class="docutils literal notranslate"><span class="pre">ImageFile.filename</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.title"><code class="docutils literal notranslate"><span class="pre">ImageFile.title</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.mask"><code class="docutils literal notranslate"><span class="pre">ImageFile.mask</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.draw"><code class="docutils literal notranslate"><span class="pre">ImageFile.draw</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.clone"><code class="docutils literal notranslate"><span class="pre">ImageFile.clone</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.centre"><code class="docutils literal notranslate"><span class="pre">ImageFile.centre</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.aspect"><code class="docutils literal notranslate"><span class="pre">ImageFile.aspect</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.max_box"><code class="docutils literal notranslate"><span class="pre">ImageFile.max_box</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.flip_h"><code class="docutils literal notranslate"><span class="pre">ImageFile.flip_h</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.flip_v"><code class="docutils literal notranslate"><span class="pre">ImageFile.flip_v</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.CW"><code class="docutils literal notranslate"><span class="pre">ImageFile.CW</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.CCW"><code class="docutils literal notranslate"><span class="pre">ImageFile.CCW</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.T"><code class="docutils literal notranslate"><span class="pre">ImageFile.T</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.shape"><code class="docutils literal notranslate"><span class="pre">ImageFile.shape</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.Image.ImageFile.dtype"><code class="docutils literal notranslate"><span class="pre">ImageFile.dtype</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.DataFolder.zip_groups.html"
+                          title="previous chapter">DataFolder.zip_groups</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast.html"
+                          title="next chapter">ImageFile.Stoner__Image__imagefuncs__adjust_contrast</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.Image.ImageFile.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.DataFolder.zip_groups.html" title="Previous document">DataFolder.zip_groups</a>
+        </li>
+        <li>
+          <a href="Stoner.Image.ImageFile.Stoner__Image__imagefuncs__adjust_contrast.html" title="Next document">ImageFile.Stoner__Image__imagefuncs__adjust_contrast</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>JTBPlotStyle &#8212; Stoner Pacakge API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/better.css?v=58ad701a" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=0b74bb8b" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="JTBinsetStyle" href="Stoner.plot.formats.JTBinsetStyle.html" />
+    <link rel="prev" title="GBPlotStyle" href="Stoner.plot.formats.GBPlotStyle.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head><body>
+    <header id="pageheader"><h1><a href="../index.html ">
+        Stoner Pacakge API Documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.plot.formats.GBPlotStyle.html" title="Previous document">GBPlotStyle</a>
+        </li>
+        <li>
+          <a href="Stoner.plot.formats.JTBinsetStyle.html" title="Next document">JTBinsetStyle</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="jtbplotstyle">
+<h1>JTBPlotStyle<a class="headerlink" href="#jtbplotstyle" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Stoner.plot.formats.</span></span><span class="sig-name descname"><span class="pre">JTBPlotStyle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/plot/formats.html#JTBPlotStyle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Stoner.plot.formats.DefaultPlotStyle.html#Stoner.plot.formats.DefaultPlotStyle" title="Stoner.plot.formats.DefaultPlotStyle"><code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultPlotStyle</span></code></a></p>
+<p>Template class for Joe’s Plot settings.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Example plot using Joe Batley&#39;s plot style.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">Stoner</span><span class="w"> </span><span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">__home__</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Stoner.plot.formats</span><span class="w"> </span><span class="kn">import</span> <span class="n">JTBPlotStyle</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__home__</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;doc&quot;</span><span class="p">,</span> <span class="s2">&quot;samples&quot;</span><span class="p">,</span> <span class="s2">&quot;sample.txt&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">setas</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">JTBPlotStyle</span><span class="p">)</span>
+<span class="n">d</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../samples/plotstyles/jtbstyle.png">png</a>, <a class="reference external" href="../samples/plotstyles/jtbstyle.hires.png">hires.png</a>, <a class="reference external" href="../samples/plotstyles/jtbstyle.pdf">pdf</a>)</p>
+<figure class="align-default">
+<img alt="../_images/jtbstyle.png" src="../_images/jtbstyle.png" />
+</figure>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_legend" title="Stoner.plot.formats.JTBPlotStyle.show_legend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_legend</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_title" title="Stoner.plot.formats.JTBPlotStyle.show_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_title</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_xlabel" title="Stoner.plot.formats.JTBPlotStyle.show_xlabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_xlabel</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_ylabel" title="Stoner.plot.formats.JTBPlotStyle.show_ylabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_ylabel</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_zlabel" title="Stoner.plot.formats.JTBPlotStyle.show_zlabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_zlabel</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.stylename" title="Stoner.plot.formats.JTBPlotStyle.stylename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stylename</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.stylesheet" title="Stoner.plot.formats.JTBPlotStyle.stylesheet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stylesheet</span></code></a></p></td>
+<td><p>Horribly hacky method to traverse over the class hierarchy for style sheet names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.subplot_settings" title="Stoner.plot.formats.JTBPlotStyle.subplot_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subplot_settings</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.__call__" title="Stoner.plot.formats.JTBPlotStyle.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(**kargs)</p></td>
+<td><p>Call the template object can manipulate the rcParams that will be set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.annotate" title="Stoner.plot.formats.JTBPlotStyle.annotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotate</span></code></a>(ix, multiple, plot, **kargs)</p></td>
+<td><p>Call all the routines necessary to annotate the axes etc.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.apply" title="Stoner.plot.formats.JTBPlotStyle.apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code></a>()</p></td>
+<td><p>Update matplotlib rc parameters from any attributes starting <a href="#id1"><span class="problematic" id="id2">template_</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.clear" title="Stoner.plot.formats.JTBPlotStyle.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>()</p></td>
+<td><p>Reset everything back o defaults.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.customise" title="Stoner.plot.formats.JTBPlotStyle.customise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">customise</span></code></a>()</p></td>
+<td><p>Implement hook to customise plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.customise_axes" title="Stoner.plot.formats.JTBPlotStyle.customise_axes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">customise_axes</span></code></a>(ax, plot)</p></td>
+<td><p>Override the default axis configuration (or not).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.get" title="Stoner.plot.formats.JTBPlotStyle.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(k[,d])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.items" title="Stoner.plot.formats.JTBPlotStyle.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.keys" title="Stoner.plot.formats.JTBPlotStyle.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.new_figure" title="Stoner.plot.formats.JTBPlotStyle.new_figure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_figure</span></code></a>([figure])</p></td>
+<td><p>Create a new figure.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.pop" title="Stoner.plot.formats.JTBPlotStyle.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code></a>(k[,d])</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.popitem" title="Stoner.plot.formats.JTBPlotStyle.popitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code></a>()</p></td>
+<td><p>as a 2-tuple; but raise KeyError if D is empty.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.setdefault" title="Stoner.plot.formats.JTBPlotStyle.setdefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code></a>(k[,d])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.update" title="Stoner.plot.formats.JTBPlotStyle.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>(other)</p></td>
+<td><p>Update the template with new attributes from keyword arguments.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.values" title="Stoner.plot.formats.JTBPlotStyle.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.show_legend">
+<span class="sig-name descname"><span class="pre">show_legend</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.show_legend" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.show_title">
+<span class="sig-name descname"><span class="pre">show_title</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.show_title" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.show_xlabel">
+<span class="sig-name descname"><span class="pre">show_xlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.show_xlabel" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.show_ylabel">
+<span class="sig-name descname"><span class="pre">show_ylabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.show_ylabel" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.show_zlabel">
+<span class="sig-name descname"><span class="pre">show_zlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.show_zlabel" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.stylename">
+<span class="sig-name descname"><span class="pre">stylename</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'JTB'</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.stylename" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.stylesheet">
+<span class="sig-name descname"><span class="pre">stylesheet</span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.stylesheet" title="Link to this definition">¶</a></dt>
+<dd><p>Horribly hacky method to traverse over the class hierarchy for style sheet names.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.subplot_settings">
+<span class="sig-name descname"><span class="pre">subplot_settings</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'panels':</span> <span class="pre">{'title':</span> <span class="pre">(True,</span> <span class="pre">False,</span> <span class="pre">False),</span> <span class="pre">'xlabel':</span> <span class="pre">(False,</span> <span class="pre">False,</span> <span class="pre">True),</span> <span class="pre">'ylabel':</span> <span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True),</span> <span class="pre">'zlabel':</span> <span class="pre">(False,</span> <span class="pre">False,</span> <span class="pre">False)},</span> <span class="pre">'subplots':</span> <span class="pre">{'title':</span> <span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True),</span> <span class="pre">'xlabel':</span> <span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True),</span> <span class="pre">'ylabel':</span> <span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True),</span> <span class="pre">'zlabel':</span> <span class="pre">(False,</span> <span class="pre">False,</span> <span class="pre">False)},</span> <span class="pre">'y2':</span> <span class="pre">{'title':</span> <span class="pre">(True,</span> <span class="pre">False,</span> <span class="pre">False),</span> <span class="pre">'xlabel':</span> <span class="pre">(True,</span> <span class="pre">False,</span> <span class="pre">False),</span> <span class="pre">'ylabel':</span> <span class="pre">(True,</span> <span class="pre">True,</span> <span class="pre">True),</span> <span class="pre">'zlabel':</span> <span class="pre">(False,</span> <span class="pre">False,</span> <span class="pre">False)}}</span></em><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.subplot_settings" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.__call__" title="Link to this definition">¶</a></dt>
+<dd><p>Call the template object can manipulate the rcParams that will be set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.annotate">
+<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.annotate" title="Link to this definition">¶</a></dt>
+<dd><p>Call all the routines necessary to annotate the axes etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ix</strong> (<em>integer</em>) – Index of current subplot</p></li>
+<li><p><strong>multiple</strong> (<em>string</em>) – how to handle multiple subplots</p></li>
+<li><p><strong>plot</strong> (<em>Stoner.plot.PlotMixin</em>) – The PlotMixin boject we’re working with</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.apply" title="Link to this definition">¶</a></dt>
+<dd><p>Update matplotlib rc parameters from any attributes starting <a href="#id3"><span class="problematic" id="id4">template_</span></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.clear" title="Link to this definition">¶</a></dt>
+<dd><p>Reset everything back o defaults.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.customise">
+<span class="sig-name descname"><span class="pre">customise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.customise" title="Link to this definition">¶</a></dt>
+<dd><p>Implement hook to customise plot.</p>
+<p>This method is supplied for sub classes to override to provide additional
+plot customisation after the rc parameters are updated from the class and
+instance attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.customise_axes">
+<span class="sig-name descname"><span class="pre">customise_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Stoner/plot/formats.html#JTBPlotStyle.customise_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.customise_axes" title="Link to this definition">¶</a></dt>
+<dd><p>Override the default axis configuration (or not).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">D[k]</span> <span class="pre">if</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">D,</span> <span class="pre">else</span> <span class="pre">d.</span>&#160; <span class="pre">d</span> <span class="pre">defaults</span> <span class="pre">to</span> <span class="pre">None.</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.get" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">items</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.items" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">keys</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.keys" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.new_figure">
+<span class="sig-name descname"><span class="pre">new_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.new_figure" title="Link to this definition">¶</a></dt>
+<dd><p>Create a new figure.</p>
+<p>This is called by PlotMixin to setup a new figure before we do anything.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">v,</span> <span class="pre">remove</span> <span class="pre">specified</span> <span class="pre">key</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">corresponding</span> <span class="pre">value.</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.pop" title="Link to this definition">¶</a></dt>
+<dd><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.popitem">
+<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">(k,</span> <span class="pre">v),</span> <span class="pre">remove</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">some</span> <span class="pre">(key,</span> <span class="pre">value)</span> <span class="pre">pair</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.popitem" title="Link to this definition">¶</a></dt>
+<dd><p>as a 2-tuple; but raise KeyError if D is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.setdefault">
+<span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">D.get(k,d),</span> <span class="pre">also</span> <span class="pre">set</span> <span class="pre">D[k]=d</span> <span class="pre">if</span> <span class="pre">k</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">D</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.setdefault" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.update" title="Link to this definition">¶</a></dt>
+<dd><p>Update the template with new attributes from keyword arguments.</p>
+<p>Up to one positional argument may be supplied</p>
+<p>Keyword arguments may be supplied to set default parameters. Any Matplotlib rc parameter
+may be specified, with .’s replaced with _ and )_ replaced with __.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Stoner.plot.formats.JTBPlotStyle.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">an</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">values</span></span></span><a class="headerlink" href="#Stoner.plot.formats.JTBPlotStyle.values" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/StonerLogo2.png" alt="Logo of Stoner Package"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">JTBPlotStyle</a><ul>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle</span></code></a><ul>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_legend"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.show_legend</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_title"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.show_title</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_xlabel"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.show_xlabel</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_ylabel"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.show_ylabel</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.show_zlabel"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.show_zlabel</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.stylename"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.stylename</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.stylesheet"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.stylesheet</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.subplot_settings"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.subplot_settings</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.__call__"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.__call__()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.annotate"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.annotate()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.apply"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.apply()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.clear"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.clear()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.customise"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.customise()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.customise_axes"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.customise_axes()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.get"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.get()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.items"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.items()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.keys"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.keys()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.new_figure"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.new_figure()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.pop"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.pop()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.popitem"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.popitem()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.setdefault"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.setdefault()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.update"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.update()</span></code></a></li>
+<li><a class="reference internal" href="#Stoner.plot.formats.JTBPlotStyle.values"><code class="docutils literal notranslate"><span class="pre">JTBPlotStyle.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Stoner.plot.formats.GBPlotStyle.html"
+                          title="previous chapter">GBPlotStyle</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Stoner.plot.formats.JTBinsetStyle.html"
+                          title="next chapter">JTBinsetStyle</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/Stoner.plot.formats.JTBPlotStyle.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="../search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="Stoner.plot.formats.GBPlotStyle.html" title="Previous document">GBPlotStyle</a>
+        </li>
+        <li>
+          <a href="Stoner.plot.formats.JTBinsetStyle.html" title="Next document">JTBinsetStyle</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="../index.html">Stoner Package</a></li>
+      <li>
+        <a href="../Stoner.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Stoner</span></code> Package</a>
+      </li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; 2013-15, Gavin Burnell et al.Last updated on Apr 16, 2025.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      8.2.3
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>
