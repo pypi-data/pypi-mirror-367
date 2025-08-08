@@ -1,0 +1,226 @@
+Metadata-Version: 2.3
+Name: django-survey-axsapronov
+Version: 2.0.1
+Summary: Мощное Django приложение для создания и управления опросами, анкетами и тестами с поддержкой различных типов вопросов, категорий и аналитики
+License: AGPL-3.0
+Keywords: django,survey,poll,questionnaire,quiz,forms,data-collection,analytics,statistics,web-application
+Author: Pierre SASSOULAS
+Author-email: pierre.sassoulas@gmail.com
+Maintainer: Alexander Sapronov
+Maintainer-email: axsapronov@gmail.com
+Requires-Python: >=3.12,<3.15
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.0
+Classifier: Framework :: Django :: 5.1
+Classifier: Framework :: Django :: 5.2
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Russian
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Dist: crispy-bootstrap5 (>=2024.2,<2025.0)
+Requires-Dist: django (>=4.2,<5.0)
+Requires-Dist: django-crispy-forms (>=2.4)
+Requires-Dist: django-meta (>=2.5.0,<3.0.0)
+Requires-Dist: django-pluralize-ru (>=0.1.2,<0.2.0)
+Requires-Dist: pytz (>=2025.1,<2026.0)
+Requires-Dist: pyyaml (>=6.0.1,<7.0.0)
+Project-URL: Documentation, https://github.com/Pierre-Sassoulas/django-survey#readme
+Project-URL: Homepage, https://github.com/Pierre-Sassoulas/django-survey
+Project-URL: Repository, https://github.com/Pierre-Sassoulas/django-survey
+Description-Content-Type: text/markdown
+
+# Django Survey
+
+Мощное Django приложение для создания и управления опросами, анкетами и тестами с поддержкой различных типов вопросов, категорий и аналитики.
+
+## Возможности
+
+- Создание опросов с различными типами вопросов
+- Поддержка категорий вопросов
+- Аналитика и статистика ответов
+- Многоязычность (русский/английский)
+- Интеграция с Django Admin
+- REST API
+- **Новое: Выделение правильных ответов в формах с использованием Crispy Forms**
+
+## Новые возможности
+
+### Выделение правильных ответов
+
+Приложение теперь поддерживает отображение правильных ответов в формах с использованием Crispy Forms. Когда пользователь отвечает на вопрос с заданным правильным ответом, система:
+
+1. Показывает правильный ответ в красивом alert-блоке
+2. Отображает ответ пользователя для сравнения
+3. Использует анимации для плавного появления результатов
+4. Поддерживает различные типы вопросов (radio, select, multiple choice, text)
+
+#### Как это работает
+
+1. **Настройка вопроса**: Добавьте правильный ответ в поле `correct_answer` модели Question
+2. **Отображение**: После отправки формы система автоматически покажет правильный ответ
+3. **Стилизация**: Используются Bootstrap 5 классы и Font Awesome иконки
+
+#### Пример использования
+
+```python
+# Создание вопроса с правильным ответом
+question = Question.objects.create(
+    text="Столица России?",
+    type=Question.RADIO,
+    choices="Москва, Санкт-Петербург, Новосибирск",
+    correct_answer="Москва",
+    order=1,
+)
+```
+
+#### Настройка
+
+Для работы с правильными ответами убедитесь, что у вас установлены:
+
+```toml
+[tool.poetry.dependencies]
+django-crispy-forms = ">=2.4"
+crispy-bootstrap5 = "^2024.2"
+```
+
+И добавьте в настройки Django:
+
+```python
+INSTALLED_APPS = [
+    # ...
+    "crispy_forms",
+    "crispy_bootstrap5",
+    # ...
+]
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bootstrap5",)
+```
+
+## Установка
+
+```bash
+pip install django-survey-axsapronov
+```
+
+## Быстрый старт
+
+1. Добавьте `survey` в `INSTALLED_APPS`
+2. Выполните миграции: `python manage.py migrate`
+3. Создайте суперпользователя: `python manage.py createsuperuser`
+4. Запустите сервер: `python manage.py runserver`
+
+## Настройка миграций
+
+Для корректной работы миграций убедитесь, что в вашем проекте настроены следующие параметры:
+
+### Обязательные настройки
+
+```python
+# settings.py
+
+# Настройка для миграции 0011_survey_publish_duration
+DEFAULT_SURVEY_PUBLISHING_DURATION = 7
+
+# Рекомендуемая настройка для избежания предупреждений
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+```
+
+### Проверка миграций
+
+Для проверки доступных миграций используйте:
+
+```bash
+python manage.py showmigrations survey
+```
+
+Для применения миграций:
+
+```bash
+python manage.py migrate survey
+```
+
+### Устранение проблем
+
+Если миграции не находятся при установке пакета в другом проекте:
+
+1. Убедитесь, что используется последняя версия пакета
+2. Проверьте, что в `INSTALLED_APPS` указано `"survey"`
+3. Убедитесь, что все обязательные настройки добавлены в `settings.py`
+
+## Документация
+
+Подробная документация доступна в [документации проекта](https://github.com/Pierre-Sassoulas/django-survey#readme).
+
+## Лицензия
+
+AGPL-3.0
+
+## CSS Classes for Forms
+
+The `QuestionAnswerForm` now supports custom CSS classes through crispy forms integration:
+
+### Available CSS Classes
+
+- `.question-field` - Base class for all question fields
+- `.readonly-field` - Applied when the form is in read-only mode
+- `.validation-field` - Applied when showing correct answers for validation
+
+### Usage Example
+
+```python
+from survey.forms import QuestionAnswerForm
+
+# Create a form with validation
+form = QuestionAnswerForm(
+    question=question,
+    response=response,
+    show_correct_answer=True,
+    correct_answer="Correct answer here",
+)
+
+# The form will automatically apply CSS classes:
+# - question-field (always applied)
+# - validation-field (when show_correct_answer=True)
+# - readonly-field (when read_only=True or show_correct_answer=True)
+```
+
+### Custom Styling
+
+You can customize the appearance by adding CSS rules:
+
+```css
+.question-field {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.validation-field {
+    border-left: 4px solid #007bff;
+    background-color: #f0f8ff;
+}
+
+.readonly-field {
+    opacity: 0.8;
+    pointer-events: none;
+}
+```
+
