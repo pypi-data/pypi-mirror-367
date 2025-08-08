@@ -1,0 +1,80 @@
+[project]
+name = "pgscatalog.match"
+version = "0.4.0"
+description = "Tools for matching variants in PGS scoring files and target variant information files"
+license = "Apache-2.0"
+authors = [
+    {name = "Benjamin Wingfield", email = "bwingfield@ebi.ac.uk"},
+    {name = "Samuel Lambert", email = "sl925@medschl.cam.ac.uk"},
+    {name = "Laurent Gil", email = "lg10@sanger.ac.uk"},
+    {name = "Florent Yvon", email = "fy279@cam.ac.uk"}
+]
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+requires-python = ">=3.10"
+dependencies = [
+    "pgscatalog-core>=0.3.3",
+    "polars==0.20.30",
+    "pyarrow>=15.0.0",
+]
+
+# https://peps.python.org/pep-0621/
+[project.scripts]
+pgscatalog-match = 'pgscatalog.match.cli.match_cli:run_match'
+pgscatalog-matchmerge = 'pgscatalog.match.cli.merge_cli:run_merge'
+pgscatalog-intersect = 'pgscatalog.match.cli.intersect_cli:run_intersect'
+
+# https://peps.python.org/pep-0735/
+[dependency-groups]
+lint = [
+    "ruff>=0.9.4",
+    "mypy>=1.14.1"
+    ]
+test = [
+    "pytest>=8.3.4",
+    "coverage>=7.8.0",
+]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "--doctest-modules"
+filterwarnings = ["error"]
+pythonpath = [
+  "src"
+]
+consider_namespace_packages = true
+
+[tool.coverage.run]
+source = ["src/pgscatalog/match", "tests"]
+concurrency = ["multiprocessing"]
+parallel = true
+sigterm = true
+
+[tool.mypy]
+files = ["src/**/*.py"]
+exclude = "tests/"
+warn_unused_configs = true
+ignore_missing_imports = true
+follow_imports = "silent"
+disallow_untyped_calls = false
+disallow_incomplete_defs = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
