@@ -1,0 +1,1 @@
+import{O as s,g as r}from"./index-DV9Li2cg.js";import{a as c}from"./admin-CJVLMHh9.js";const l=s("global",()=>{const t=r([]);async function i(){const o=await c.getNotifications();t.value=o.data}function n(o){return t.value.find(e=>e.id===o)}async function a(){t.value=[]}return{notifications:t,fetchNotifications:i,getNotificationById:n,$reset:a}});export{l as u};
