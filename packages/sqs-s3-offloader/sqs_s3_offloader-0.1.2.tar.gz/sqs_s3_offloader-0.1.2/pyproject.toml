@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=67.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sqs-s3-offloader"
+version = "0.1.2"
+description = "A utility to offload large messages to S3 and use SQS seamlessly"
+readme = "README.md"
+authors = [
+    { name="Aniket Gavali", email="aniket.dg25@gmail.com" }
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "boto3>=1.28.0",
+    "celery>=5.3.0"
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = ["pytest", "moto", "coverage"]
