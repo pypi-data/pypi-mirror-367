@@ -1,0 +1,211 @@
+Metadata-Version: 2.4
+Name: pyla-linter
+Version: 1.3.1
+Summary: Flake8 linting plugins to handle common AI code agent issues
+Author: LangAdventure LLC
+License: GPL-3.0
+Project-URL: Homepage, https://github.com/langadventurellc/pyla-linter
+Project-URL: Repository, https://github.com/langadventurellc/pyla-linter
+Project-URL: Issues, https://github.com/langadventurellc/pyla-linter/issues
+Keywords: linting,flake8,python,langadventure
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: pyla-logger>=1.0.0
+Requires-Dist: flake8>=7.0.0
+Requires-Dist: tomli>=2.0.0
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8-pyproject; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: poethepoet; extra == "dev"
+Requires-Dist: pyright; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+
+# pyla-linter
+
+A collection of Python linting tools designed to be used with flake8.
+
+## Features
+
+### Length Checker Plugin
+
+A flake8 plugin that enforces configurable statement limits for classes and functions using AST-based analysis, excluding docstrings and comments from the count.
+
+#### Installation
+
+Install using Poetry:
+
+```bash
+poetry add pyla-linter
+```
+
+Or using pip:
+
+```bash
+pip install pyla-linter
+```
+
+#### Usage
+
+The length checker integrates with flake8 as a plugin. Run it using:
+
+```bash
+# Check all Python files in current directory with our plugin
+flake8 --select=EL
+
+# Check specific files or directories
+flake8 --select=EL src/
+flake8 --select=EL myfile.py
+
+# Use with all flake8 checks
+flake8
+
+# Use only our length checker plugin
+flake8 --select=EL001,EL002
+```
+
+#### Configuration
+
+Configure the length checker in your `pyproject.toml` file:
+
+```toml
+[tool.pyla-linters]
+# Maximum statements for functions (default: 40)
+max_function_length = 40
+
+# Maximum statements for classes (default: 200)
+max_class_length = 200
+```
+
+You can also configure via command line arguments using flake8's standard option system:
+
+```bash
+# Use with flake8 ignore/select options
+flake8 --select=EL001  # Only check function length
+flake8 --select=EL002  # Only check class length
+flake8 --ignore=EL001  # Ignore function length violations
+```
+
+#### Error Codes
+
+The length checker uses the following error codes:
+
+- **EL001**: Function exceeds maximum statement limit (error at 2x threshold)
+- **EL002**: Class exceeds maximum statement limit (error at 2x threshold)
+- **WL001**: Function exceeds warning statement threshold
+- **WL002**: Class exceeds warning statement threshold
+
+#### Statement Counting Logic
+
+The plugin uses AST-based analysis to count logical statements rather than physical lines, providing a more accurate measure of code complexity. It counts executable statements while excluding:
+
+- Docstrings
+- Comments
+- Empty lines
+- Pure whitespace
+
+For nested structures:
+- Nested functions/classes are excluded from their parent's statement count
+- Each code element is evaluated independently
+- Decorators are included in the decorated element's line span but don't count as statements
+
+The plugin implements a two-tier threshold system:
+- **Warning**: Issued when statement count exceeds the configured threshold
+- **Error**: Issued when statement count exceeds 2x the configured threshold
+
+#### Examples
+
+**Function that would trigger EL001:**
+
+```python
+def long_function():  # Function definition
+    """This is a docstring (not counted as a statement)."""
+    
+    # This is a comment (not counted)
+    
+    x = 1  # Statement 1
+    y = 2  # Statement 2
+    # ... more code statements
+    return x + y  # Statement 41 (exceeds default limit of 40)
+```
+
+**Class that would trigger EL002:**
+
+```python
+class LargeClass:  # Class definition
+    """Class docstring (not counted as a statement)."""
+    
+    def method1(self):  # Method definitions don't count toward class statements
+        self.value = 1  # Statement 1 (counts toward method, not class)
+        return self.value  # Statement 2 (counts toward method, not class)
+    
+    def __init__(self):  # Init method
+        self.data = []  # Statement 1 of class body
+        # ... many more statements in class body
+    
+    # Class with 201 statements in its direct body (exceeds default limit of 200)
+```
+
+#### Integration with Existing Workflow
+
+The length checker works seamlessly with other flake8 plugins:
+
+```bash
+# Run with multiple checks (flake8 automatically includes all installed plugins)
+flake8
+
+# Run only our length checker with other specific checks
+flake8 --select=E,F,EL
+
+# Include in existing CI/CD pipelines
+poetry run flake8 src/
+```
+
+## Development
+
+### Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd pyla-linter
+
+# Install dependencies
+poetry install
+
+# Run tests
+poetry run pytest
+
+# Run linting and formatting
+poetry run poe autolint
+```
+
+### Quality Checks
+
+Before submitting changes, ensure all quality checks pass:
+
+```bash
+# Format code
+poetry run poe format
+
+# Run linting
+poetry run poe lint
+
+# Type checking
+poetry run pyright
+
+# Run tests
+poetry run pytest
+```
+
+## License
+
+[License information would go here]

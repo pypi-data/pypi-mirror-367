@@ -1,0 +1,121 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools-scm>=8", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyla-linter"
+dynamic = ["version"]
+description = "Flake8 linting plugins to handle common AI code agent issues"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "GPL-3.0"}
+authors = [
+    {name = "LangAdventure LLC"}
+]
+keywords = ["linting", "flake8", "python", "langadventure"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+dependencies = [
+    "pyla-logger>=1.0.0",
+    "flake8>=7.0.0",
+    "tomli>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8-pyproject",
+    "isort",
+    "poethepoet",
+    "pyright",
+    "pytest",
+    "pytest-mock",
+]
+
+[project.urls]
+Homepage = "https://github.com/langadventurellc/pyla-linter"
+Repository = "https://github.com/langadventurellc/pyla-linter"
+Issues = "https://github.com/langadventurellc/pyla-linter/issues"
+
+[project.entry-points."flake8.extension"]
+EL0 = "linters.length_checker.plugin:LengthCheckerPlugin"
+EL1 = "linters.multiple_public_items.plugin:MultiplePublicItemsPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["*"]
+exclude = ["tests*"]
+
+[dependency-groups]
+dev = [
+    "black>=23.1.0",
+    "build>=1.2.2.post1",
+    "flake8>=7.0.0",
+    "flake8-pyproject>=1.2.3",
+    "isort>=5.12.0",
+    "poethepoet>=0.21.0",
+    "pyright>=1.1.402",
+    "pytest>=8.4.0",
+    "pytest-mock>=3.14.1",
+    "setuptools>=75.8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+filterwarnings = "ignore::DeprecationWarning"
+addopts = "--ignore=temp"
+testpaths = ["src/tests"]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+ensure_newline_before_comments = true
+split_on_trailing_comma = true
+force_grid_wrap = 0
+line_length = 100
+src_paths = ["src"]
+
+[tool.black]
+line-length = 100
+
+[tool.flake8]
+exclude = ["bin", "temp", ".venv"]
+max-line-length = 100
+per-file-ignores = ["src/tests/*/*.py:WL,EL"]
+
+[tool.pyright]
+include = ["src"]
+exclude = ["bin", "temp", ".venv"]
+
+[tool.poe.tasks]
+black = "black ."
+isort = "isort ."
+lint_smells = "flake8 --exit-zero --ignore=E,W,F --select=WL"
+lint = "flake8"
+type-check = "pyright"
+test = "pytest -q"
+format = ["black", "isort"]
+autolint = ["black", "isort", "lint_smells", "lint"]
+quality = [
+    "black",
+    "isort",
+    "lint",
+    "type-check",
+]
+build = "python -m build"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+
+[tool.pyla-linters]
+max_function_length = 40
+max_class_length = 200
