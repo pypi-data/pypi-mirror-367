@@ -1,0 +1,32 @@
+---
+services:
+  zk_seed:
+    build:
+      context: .
+      dockerfile: ./docker/zookeeper.dockerfile
+    container_name: aiozk_zk_seed  # prevent scaling seed zk
+    image: fan_zookeeper:latest
+
+  zk:
+    image: fan_zookeeper:latest
+    environment:
+      - ZK_SEED=zk_seed
+    #  - ZOO_LOG4J_PROP=DEBUG,ROLLINGFILE
+
+  diag:
+    build: .
+    command: bash -c 'fan_wait zk 2181 && ./diag.py'
+    volumes:
+      - .:/code
+    depends_on:
+      - zk
+
+  aiozk:
+    build: .
+    command: /bin/bash -c 'uv run fan_wait zk 2181 && uv run pytest --cov=aiozk --cov-config=.coveragerc && coverage xml'
+    environment:
+      - PYTHONPATH=.
+    volumes:
+      - .:/code
+    depends_on:
+      - zk
