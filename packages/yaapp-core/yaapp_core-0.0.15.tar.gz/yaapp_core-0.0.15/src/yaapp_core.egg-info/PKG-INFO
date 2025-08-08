@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: yaapp-core
+Version: 0.0.15
+Summary: yaapp-core - Minimal core functionality for yaapp framework
+Author: yaapp Team
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/yaapp-team/yaapp-core
+Project-URL: Repository, https://github.com/yaapp-team/yaapp-core
+Project-URL: Issues, https://github.com/yaapp-team/yaapp-core/issues
+Keywords: cli,framework,plugin,core
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.0.0
+Requires-Dist: docker>=7.1.0
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: httpx>=0.28.1
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: vulture>=2.14
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Requires-Dist: vulture>=2.3; extra == "dev"
+Dynamic: license-file
+
+# yaapp-core
+
+**Universal function interface** - write once, use everywhere
+
+yaapp transforms Python functions into multiple interfaces. Currently generates CLI from function signatures, with web APIs planned.
+
+## Value Proposition
+
+Instead of writing separate CLI scripts and web endpoints, write functions once and expose them through any interface. yaapp handles argument parsing, validation, and execution - you focus on business logic.
+
+## Implementation Status
+
+**Working**: CLI generation via Click ([`src/yaapp/`](src/yaapp/))  
+**Planned**: FastAPI web APIs, enhanced plugins, additional runners
+
+## Resources
+
+- **[`docs/`](docs/)** - Architecture and design documentation
+- **[`src/yaapp/`](src/yaapp/)** - Core implementation
+- **[Current state](docs/current-state.md)** - What works vs what's planned
+
+## Quick Setup
+
+```bash
+uv sync && python -m yaapp --help
+```
