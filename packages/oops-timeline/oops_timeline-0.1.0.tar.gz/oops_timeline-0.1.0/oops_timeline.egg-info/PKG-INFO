@@ -1,0 +1,114 @@
+Metadata-Version: 2.4
+Name: oops_timeline
+Version: 0.1.0
+Summary: Integrate timelines with OOPS error reports.
+Home-page: https://launchpad.net/python-oops-timeline
+Maintainer: Launchpad Developers
+Maintainer-email: launchpad-dev@lists.launchpad.net
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: oops
+Requires-Dist: timeline
+Provides-Extra: test
+Requires-Dist: testtools; extra == "test"
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+*************************************************************
+python-oops-timeline: Error report integration with timelines
+*************************************************************
+
+    Copyright (c) 2010, 2011, Canonical Ltd
+   
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, version 3 only.
+   
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+   
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+The oops_timeline package provides integration glue between timeline objects
+(http://pypi.python.org/pypi/timeline) and the oops error reporting system
+(http://pypi.python.org/pypi/oops).
+
+Dependencies
+============
+
+* Python 3.8+
+
+* oops (http://pypi.python.org/pypi/oops)
+
+* timeline (http://pypi.python.org/pypi/timeline)
+
+Testing Dependencies
+====================
+
+* subunit (http://pypi.python.org/pypi/python-subunit) (optional)
+
+* testtools (http://pypi.python.org/pypi/testtools)
+
+Usage
+=====
+
+oops_timeline provides an oops on_create hook to extract timeline data from
+oops_context['timeline'] and inject it into the oops report as primitive data.
+
+* Setup your configuration::
+
+  >>> from oops import Config
+  >>> config = Config()
+
+Note that you will probably want at least one publisher, or your reports will
+be discarded.
+
+* Add in the timeline hook to the config::
+
+  >>> oops_timeline.install_hooks(config)
+
+This is a convenience function in case additional hooks are needed in future.
+
+For more information see pydoc oops_timeline.
+
+Installation
+============
+
+python-oops-timeline can be installed into an existing Python environment in
+the usual way using ``pip``, or it can be installed as a standalone package.
+To install it as a standalone package, run ``make`` to create a suitable virtual
+environment.
+
+Development
+===========
+
+Upstream development takes place at https://launchpad.net/python-oops-timeline.
+To setup a working area for development, if the dependencies are not
+immediately available, you can use `make` to create a virtual environment, then
+env/bin/python3 to get a python interpreter with the dependencies available.
+
+To run the tests use tox.
+
+For instance::
+
+  $ tox
