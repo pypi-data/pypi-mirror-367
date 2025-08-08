@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pypatch_url"
+version = "1.0.4"
+description = "Utility to apply unified diff patches (possibly from URLs) to installed python modules (with --strip support)."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "sfinktah", email = "sfinktah@github.spamtrak.org"}
+]
+keywords = ["build", "tool", "patch", "unified", "diff"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Utilities",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "six"  # For Python 2/3 compatibility
+]
+requires-python = ">=3.6"
+
+[project.urls]
+Homepage = "http://sitkatech.com"
+
+[project.scripts]
+pypatch-url = "pypatch_url.command:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["pypatch*"]
+
+[tool.setuptools.package-data]
+"*" = ["*"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+log_cli = true
+log_cli_level = "INFO"
+
+[tool.coverage.run]
+source = ["pypatch_url"]
