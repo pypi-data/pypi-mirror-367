@@ -1,0 +1,105 @@
+oops-amqp NEWS
+++++++++++++++
+
+Changes and improvements to oops-amqp, grouped by release.
+
+0.3.0
+-----
+
+- Drop support for Python 2. (İlker Emre Koç)
+- Add a requirements.txt (İlker Emre Koç)
+- Add a Makefile for enviroment creation (İlker Emre Koç)
+- Add pre-commit linters (İlker Emre Koç)
+- Add lpci integration with .launchpad.yaml (İlker Emre Koç)
+
+0.2.0
+-----
+
+- Switch from buildout to tox. (Colin Watson)
+- Switch to declarative setup.cfg. (Colin Watson)
+- Port test suite to pytest. (Colin Watson)
+- Accept connection factories that return ``kombu`` connections, as an
+  alternative to ``amqp``. (Colin Watson)
+
+0.1.0
+-----
+
+* Dropped dependency on pymongo in favor of bson. This avoids having
+  to depend both on bson and pymongo when installing in conjunction
+  with oops-datedir-repo. (Ricardo Kirkner)
+* Port from amqplib to amqp. (Colin Watson)
+* Add Python 3 support. (Colin Watson)
+
+0.0.7
+-----
+
+* New script 'oops-amqp-trace' which will trace oops reports received on an
+  AMQP exchange. (Robert Collins)
+
+* Updated to support the new publisher API in oops 0.0.11 and above. This is
+  incompatible with older versions of oops. (Robert Collins)
+
+0.0.6
+-----
+
+* Support either http://pypi.python.org/pypi/bson/ or
+  http://pypi.python.org/pypi/pymongo as the bson library. (James Westby)
+
+0.0.5
+-----
+
+* Add a .testr.conf for running tests (Robert Collins)
+
+* Relicense under LGPL-3. (Robert Collins)
+
+* Catch a wider range of errors when calling close() on channels: they may be
+  in a disconnected/pseudo closed state already. (Robert Collins, #901497)
+
+0.0.4
+-----
+
+* Do not attempt operations on closed amqplib channels.
+  (Robert Collins, #884539)
+
+* Catch AMQPConnectionException in addition to IOError and socket.error as that
+  is raised by amqplib when it has the chance to read the broker shutdown
+  warning in wait(). (Robert Collins, #884540)
+
+0.0.3
+-----
+
+* ampqlib raised IOError errors are now caught as well. This is plumbing
+  dependent and thus may need updating when working with different amqplib
+  versions. (Robert Collins, #882346)
+
+0.0.2
+-----
+
+* Fix documentation warts from initial release, updated to 0.0.2 and prepare
+  for making the receiver deal with interrupted services.
+  (Robert Collins, #875976, #875984)
+
+* Fix Receiver.run_forever to actually run forever. (Robert Collins)
+
+* Change API for constructing Receiver to take a connection factory rather than
+  a channel. This will permit handling transient faults internally rather than
+  forcing a restart. (Robert Collins)
+
+* Implement resiliency for the Receiver: automatically reconnect if a socket
+  error is received from rabbit, for up to two minutes of downtime.
+  (Robert Collins)
+
+* The publisher can honour any existing oops id if desired (set
+  inherit_id=True). This is useful if using a chain of publishers where
+  AMQP is the last stage rather than the primary mechanism.
+  (Robert Collins)
+
+* Receiver.sentinel may be set and used to cause the run_forever loop to exit
+  when a crafted message is received. This is useful for testing, and defaults
+  to None (so cannot be used to shutdown a normally running service).
+  (Robert Collins)
+
+0.0.1
+-----
+
+* Initial creation.
