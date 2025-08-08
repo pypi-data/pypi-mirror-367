@@ -1,0 +1,38 @@
+[project]
+name = "mkdocs-tale"
+version = "0.1.6"
+description = "A simple theme of mkdocs"
+readme = "README.md"
+license = { text = "MIT" }
+keywords = ["mkdocs", "plugin", "theme"]
+authors = [
+  { name = "Your Name", email = "your@email.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "build>=1.2.2.post1",
+    "mkdocs>=1.6.1",
+]
+
+[project.urls]
+Source = 'https://github.com/RyanPoy/mkdocs-tale'
+Issues = 'https://github.com/RyanPoy/mkdocs-tale/issues'
+
+[project.entry-points."mkdocs.plugins"]
+tale = "tale.plugins:TalePlugin"
+
+[project.entry-points."mkdocs.themes"]
+tale = "tale.templates"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+tale = ["templates/*", "templates/**/*"]
+
+[tool.setuptools.exclude-package-data]
+tale = ["**/*.pyc", "**/__pycache__/*"]
