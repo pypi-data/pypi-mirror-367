@@ -1,0 +1,172 @@
+Metadata-Version: 2.4
+Name: undoom-sketch-mcp
+Version: 0.1.3
+Summary: A MCP server for converting images to sketch effects with multiple styles and batch processing capabilities
+Project-URL: Homepage, https://github.com/undoom/undoom-sketch-mcp
+Project-URL: Repository, https://github.com/undoom/undoom-sketch-mcp
+Project-URL: Issues, https://github.com/undoom/undoom-sketch-mcp/issues
+Author-email: Undoom <kaikaihuhu666@163.com>
+License: MIT
+License-File: LICENSE
+Keywords: ai,computer-vision,image-processing,mcp,opencv,sketch
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Multimedia :: Graphics :: Graphics Conversion
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.8
+Requires-Dist: mcp[cli]>=1.12.3
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: opencv-python>=4.8.0
+Description-Content-Type: text/markdown
+
+# MCP 图片素描转换器
+
+一个基于 MCP (Model Context Protocol) 的图片素描化服务器，可以将普通图片转换为素描效果。
+
+## 功能特性
+
+- 🎨 **多种素描风格**：支持经典、详细、柔和三种不同的素描风格
+- 📁 **批量处理**：支持批量转换文件夹中的所有图片
+- 🖼️ **多格式支持**：支持 JPG、PNG、BMP、GIF、TIFF、WEBP 等常见图片格式
+- 🌏 **中文路径支持**：完美支持中文文件名和路径
+- ⚙️ **参数可调**：可自定义模糊程度和对比度参数
+- 📊 **图片信息查看**：提供图片基本信息和推荐参数
+
+## 安装要求
+
+- Python >= 3.13
+- 依赖包：
+  - mcp[cli] >= 1.12.3
+  - opencv-python >= 4.8.0
+  - numpy >= 1.24.0
+
+## 安装方法
+
+1. 克隆项目：
+```bash
+git clone <repository-url>
+cd mcp-test
+```
+
+2. 安装依赖：
+```bash
+pip install -e .
+```
+
+或使用 uv：
+```bash
+uv sync
+```
+
+## 使用方法
+
+### 启动服务器
+
+```bash
+python main.py
+```
+
+### 可用工具
+
+#### 1. 单张图片转换
+```python
+convert_image_to_sketch(
+    image_path="/path/to/image.jpg",
+    blur_size=21,
+    contrast=256.0,
+    style="classic"
+)
+```
+
+#### 2. 批量图片转换
+```python
+batch_convert_images(
+    folder_path="/path/to/folder",
+    blur_size=21,
+    contrast=256.0,
+    style="detailed"
+)
+```
+
+#### 3. 获取图片信息
+```python
+get_image_info(image_path="/path/to/image.jpg")
+```
+
+### 素描风格说明
+
+- **classic**：经典素描风格，平衡的线条和对比度
+- **detailed**：详细素描风格，更清晰的线条和细节
+- **soft**：柔和素描风格，更柔和的效果，适合风景图
+
+### 参数说明
+
+- `image_path`：图片文件的完整路径（必需）
+- `blur_size`：高斯模糊核大小（3-101，必须为奇数，默认21）
+- `contrast`：对比度参数（50-500，默认256.0）
+- `style`：素描风格（classic/detailed/soft，默认classic）
+
+### 参数建议
+
+- **大图片**（>200万像素）：blur_size=31-51，contrast=200-300
+- **中等图片**（50万-200万像素）：blur_size=21-31，contrast=256
+- **小图片**（<50万像素）：blur_size=11-21，contrast=300-400
+
+## 输出文件
+
+转换后的素描图片会保存在原图片相同目录下，文件名格式为：
+```
+Sketch_{style}_{原文件名}.jpg
+```
+
+例如：`Sketch_classic_photo.jpg`
+
+## 支持的图片格式
+
+- JPG / JPEG
+- PNG
+- BMP
+- GIF
+- TIFF
+- WEBP
+
+## 技术实现
+
+本项目使用以下技术：
+
+- **OpenCV**：图像处理和计算机视觉
+- **NumPy**：数值计算
+- **MCP (Model Context Protocol)**：与AI模型的通信协议
+- **FastMCP**：快速MCP服务器实现
+
+## 核心算法
+
+素描效果通过以下步骤实现：
+1. 将彩色图片转换为灰度图
+2. 创建反转的灰度图
+3. 对反转图像应用高斯模糊
+4. 使用颜色减淡混合模式生成素描效果
+5. 根据风格进行后处理优化
+
+## 注意事项
+
+- 确保图片文件存在且可读
+- 处理大图片时可能需要较长时间
+- 建议在处理前备份原图片
+- 支持中文路径和文件名
+
+## 许可证
+
+本项目采用开源许可证，具体请查看 LICENSE 文件。
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request 来改进这个项目！
