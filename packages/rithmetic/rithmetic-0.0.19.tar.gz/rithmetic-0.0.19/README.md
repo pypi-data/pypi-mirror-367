@@ -1,0 +1,915 @@
+**\__’rithmetic__**
+
+**V-0.0.19**
+
+“rithmetic” is a budding python library which aims to provide arithmetic and math assistance to students using python to build math related functionality or apps.
+
+rithmetic can also be useful to data analysts to evaluate string expressions if found in data sets
+
+**How to Install:**
+
+_Prerequisite: You must have Python 3+ installed_
+
+Run the following command in Terminal/CLI –
+
+- pip install rithmetic
+
+If you are updating to a new version of rithmetic:
+
+- pip install rithmetic --force-reinstall
+
+After installation completes, run the following command in Terminal/CLI to see the welcome message –
+
+- rith
+
+To check the version of rithmetic, run the following command in Terminal/CLI –
+
+- rith-version
+
+**License and terms of use:**
+
+rithmetic comes with the OSI approved MIT license which means that anyone, anywhere can use it for any open source or even closed source application.
+
+**Current functionality:**
+
+1. Convert a number from one base to another (Converters)
+2. Check/Verify if a number is from a specified base (Verifiers)
+3. Add, Subtract, Multiply, Divide and find powers of numbers in desired base (Operators)
+4. Evaluate expressions with multiple arithmetic operations in desired base (Calculators)
+5. Get values from basic mathematical functions like trigonometric functions and log (Math funcs)
+6. Basic utility functions like removing negative sign, limiting decimal points without rounding etc that help in extending the functionality provided by rithmetic (Utility)
+
+**Best way to import:**
+
+Import all the functions from rithmetic at once
+
+from rithmetic import \*
+
+**Functions:**
+
+Converters
+
+**base(num, fromB, toB)**
+
+Converts any number from one base to another. (supported bases are base-2 to base-16)
+
+num – any number | can be **int** or **float** or **str** type
+
+fromB – base of ‘num’ | can be both **int** and **str** type
+
+toB – ‘num’ gets converted to this base | can be both **int** and **str** type
+
+Returns – The converted number in **int** or **str** or **float** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>number = base(1111,2,16)  
+print(number)
+
+This will print ‘F’. As 1111 in binary gets converted to F in hexadecimal.
+
+**dectosub(num, toB)**
+
+Converts any number from Decimal to any other sub-decimal base. (supported bases are base-2 to base-9)
+
+num – any number | can be **int** or **float** or **str** type
+
+toB – ‘num’ gets converted to this base | can be both **int** and **str** type
+
+Returns – The converted number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>number = dectosub(23,5)  
+print(number)
+
+This will print 43. As 23 in decimal gets converted to 43 in base-5.
+
+**subtodec(num, fromB)**
+
+Converts any number from any sub-decimal base to Decimal. (supported bases are base-2 to base-9)
+
+num – any number | can be **int** or **float** or **str** type
+
+fromB – base of ‘num’ | can be both **int** and **str** type
+
+Returns – The converted number in **int** or **float** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>number = subtodec(25,6)  
+print(number)
+
+This will print 17. As 25 in base-6 gets converted to 17 in decimal.
+
+Quick single parameter converters
+
+- **_Decimal to another base:_**
+
+| dectob2(num)     | dectob9(num) |
+|------------------| --- |
+| **dectob3(num)** | **dectob11(num)** |
+| **dectob4(num)** | **dectob12(num)** |
+| **dectob5(num)** | **dectob13(num)** |
+| **dectob6(num)** | **dectob14(num)** |
+| **dectob7(num)** | **dectob15(num)** |
+| **dectob8(num)** | **dectob16(num)** |
+
+num – any number in base-10 | can be **int** or **float** or **str** type
+
+Return – The converted number in **int** or **str** type OR ‘Invalid number’
+
+- **_Any base to Decimal_**
+
+| b2todec(num)     | b9todec(num) |
+|------------------| --- |
+| **b3todec(num)** | **b11todec(num)** |
+| **b4todec(num)** | **b12todec(num)** |
+| **b5todec(num)** | **b13todec(num)** |
+| **b6todec(num)** | **b14todec(num)** |
+| **b7todec(num)** | **b15todec(num)** |
+| **b8todec(num)** | **b16todec(num)** |
+
+num – any number in desired base | can be **int** or **float** or **str** type
+
+Return – The converted number in **int** or **float** type OR ‘Invalid number’
+
+Verifiers
+
+**chkbase(num, base)**
+
+Checks if a number is from a specified base. (supported bases are base-2 to base-16)
+
+num – any number | can be **int** or **float** or **str** type
+
+base – base of ‘num’ to be checked | can be both **int** and **str** type
+
+Returns – True OR False OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>check = chkbase('23F',16)  
+print(check)
+
+This will print True. As 23F is from base-16.
+
+Quick single parameter verifiers
+
+| chk2(num)     | chk9(num) |
+|---------------| --- |
+| **chk3(num)** | **chk10(num)** |
+| **chk4(num)** | **chk11(num)** |
+| **chk5(num)** | **chk12(num)** |
+| **chk6(num)** | **chk13(num)** |
+| **chk7(num)** | **chk14(num)** |
+| **chk8(num)** | **chk15(num)** |
+|               | **chk16(num)** |
+
+num – any number | can be **int** or **float** or **str** type
+
+Return – True OR False OR ‘Invalid number’
+
+Operators
+
+**add(num1, num2, Base)**
+
+Adds two numbers in desired base. (supported bases are base-2 to base-16)
+
+num1 – any number | can be **int** or **float** or **str** type
+
+num2 – any number, which will be added to ‘num1’ | can be **int** or **float** or **str** type
+
+Base– base of num1 and num2 | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>sum = add('2a',12,11)  
+print(sum)
+
+This will print 41. As (2a + 12) in base-11 is 41.
+
+**sub(num1, num2, Base)**
+
+Subtracts one number from another in desired base. (supported bases are base-2 to base-16)
+
+num1 – any number | can be **int** or **float** or **str** type
+
+num2 – any number, which will be subtracted from ‘num1’ | can be **int** or **float** or **str** type
+
+Base– base of num1 and num2 | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>diff = sub(23,'6e',16)  
+print(diff)
+
+This will print -4B. As (23 – 6E) in base-16 is -4B.
+
+**mul(num1, num2, Base)**
+
+Multiplies two numbers in desired base. (supported bases are base-2 to base-16)
+
+num1 – any number | can be **int** or **float** or **str** type
+
+num2 – any number, which will be multiplied with ‘num1’ | can be **int** or **float** or **str** type
+
+Base– base of num1 and num2 | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>prod = mul(12,24,11)  
+print(prod)
+
+This will print 288. As (12 \* 24) in base-11 is 288.
+
+**div(num1, num2, Base)**
+
+Divides a number by another in desired base. (supported bases are base-2 to base-16)
+
+num1 – any number | can be **int** or **float** or **str** type
+
+num2 – any number, ‘num1’ will be divided by this | can be **int** or **float** or **str** type
+
+Base– base of num1 and num2 | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’ OR ‘Cannot divide by zero’
+
+Example:
+
+from rithmetic import \*  
+<br/>quo = div(22,13,13)  
+print(quo)
+
+This will print 1.99999999999999. AS (22 / 13) in base-13 is 1.99999999999999
+
+**addmany(\*nums, Base)**
+
+Adds multiple numbers together in desired base. (supported bases are base-2 to base-16)
+
+\*nums – a list or stream of numbers to be added together | can be **int** or **float** or **str** type
+
+Base– base of \*nums | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>nums = \[12, 11, 14, 15, 12\]  
+res = addmany(\*nums, Base=6)  
+print(res)
+
+This will print 112. As sum of the numbers in the list ‘nums’ is 112 in base-6
+
+**mulmany(\*nums, Base)**
+
+Multiplies multiple numbers together in desired base. (supported bases are base-2 to base-16)
+
+\*nums – a list or stream of numbers to be multiplied together | can be **int** or **float** or **str** type
+
+Base– base of \*nums | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’
+
+Example:
+
+from rithmetic import \*  
+<br/>nums = \[1.2, 1.1, 1.4, 1.5, 1.2\]  
+res = mulmany(\*nums, Base=6)  
+print(res)
+
+This will print 10.200515555555555555524. As product of the numbers in the list ‘nums’ is 10.200515555555555555524 in base-6
+
+**power(num1, num2, Base)**
+
+Calculates the exponent result of two numbers in desired base. (supported bases are base-2 to base-16)
+
+num1 – any number | can be **int** or **float** or **str** type
+
+num2 – any number, which will be the power of ‘num1’ | can be **int** or **float** or **str** type
+
+Base– base of num1 and num2 | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’ OR ‘Undefined’
+
+Example:
+
+from rithmetic import \*  
+<br/>res = power(12,2,10)  
+print(res)
+
+This will print 144. As 12 to the power of 2 is 144 in base-10.
+
+Calculators
+
+**exp(expression, Base)**
+
+Parses through a string expression and calculates it’s result in desired base. (supported bases are base-2 to base-16)
+
+expression – any arithmetical expression | should be **str** type
+
+Base– base of calculation and numbers in the expression | can be both **int** and **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’ OR ‘Invalid brackets’ OR ‘Undefined power operation’ OR ‘Cannot divide by zero’ OR ‘Operator missing operand’ OR ‘Invalid operators’ OR ‘Empty brackets’ OR ‘Brackets without any number’
+
+Example:
+
+from rithmetic import \*  
+<br/>res = exp('((101+101)11-10)/10^10-100',2)  
+print(res)
+
+This will print 11. As the result of the entered expression is 11 in base-2.
+
+**exp10(expression)**
+
+Parses through a string expression and calculates it’s result in base-10.
+
+expression – any arithmetical expression | should be **str** type
+
+Returns – The resultant number in **int** or **str** type OR ‘Invalid number’ OR ‘Invalid base value’ OR ‘Invalid brackets’ OR ‘Undefined power operation’ OR ‘Cannot divide by zero’ OR ‘Operator missing operand’ OR ‘Invalid operators’ OR ‘Empty brackets’ OR ‘Brackets without any number’
+
+Example:
+
+from rithmetic import \*  
+<br/>res = exp10('13.2((12.5-1.2\*4)\*3.12+7)-5.16/4\*2.1')  
+print(res)
+
+This will print 406.8078. As the result of the entered expression is 406.8078 in base-10.
+
+Math funcs
+
+**pi()**
+
+Returns the value of pi to 15 decimal places.
+
+Example:
+
+from rithmetic import \*  
+<br/>val = pi()  
+print(val)  
+
+This will print 3.141592653589793.
+
+**e()**
+
+Returns the value of ‘e’ (Euler’s number) to 15 decimal places.
+
+Example:
+
+From rithmetic import \*  
+<br/>val = e()  
+print(val)
+
+This will print 2.718281828459045.
+
+**fac(num)**
+
+Calculates the factorial of a given positive integer.
+
+num – any positive integer | should be of **int** type
+
+Returns – The resultant number in **int** type OR ‘Math Error’
+
+Example:
+
+from rithmetic import \*  
+<br/>num = 8  
+ans = fac(num)  
+<br/>print(ans)
+
+This will print 40320. As factorial 8 is 40320.
+
+**degtorad(deg)**
+
+Converts an angle from degrees to radians.
+
+deg – any angle in degrees | should be of **int** or **float** type
+
+Returns – The resultant angle in radians in **int** or **float** type
+
+Example:
+
+from rithmetic import \*  
+<br/>angle_deg = 180  
+angle_rad = degtorad(angle_deg)  
+<br/>print(angle_rad)
+
+This will print 3.141592653589793. As 180 degrees is 3.141592653589793 radians approximated to 15 decimal spaces.
+
+**radtodeg(rad)**
+
+Converts an angle from radians to degrees.
+
+rad – any angle in radians | should be of **int** or **float** type
+
+Returns – The resultant angle in degrees in **int** or **float** type
+
+Example:
+
+from rithmetic import \*  
+<br/>angle_rad = pi()  
+angle_deg = radtodeg(angle_rad)  
+<br/>print(angle_deg)
+
+This will print 180.0. As pi radians is 180.0 degrees.
+
+**co_terminal(angle, mode, direction, length)**
+
+Returns a list of specified length containing co-terminal angles of the given angle as per the specified mode and direction
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+direction – ‘**default**’ for a list of co-terminal angles starting from the given angle till the co-terminal angle within the range 0 – 2pi radians OR 0 – 360 degrees, ‘**pos**’ for a list of co-terminal angles of the specified length starting from the given angle with next elements in the positive direction, ‘**neg**’ for a list of co-terminal angles of the specified length starting from the given angle with next elements in the negative direction | should be of **str** type
+
+direction is set to ‘**default**’ by default.
+
+When direction is ‘**default**’, length is None and is not considered.
+
+length – length of the output list containing the co-terminal angles | should be of **int** type
+
+length is set to 10 by default.
+
+length is None and will not be considered if direction is ‘**default**’.
+
+Returns – The resultant list with the given angle and its co-terminal angles OR ‘Invalid Mode’ OR ‘Invalid direction’ OR ‘Invalid length for the list’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>co_list = co_terminal(15)  
+<br/>print(co_list)
+
+This will print \[15, 8.716814692820414, 2.4336293856408275\]. As angle entered is 15 and is in ‘rad’(radians) with ‘default’ direction and None length which is not considered.
+
+from rithmetic import \*  
+<br/>co_list = co_terminal(500, 'deg')  
+<br/>print(co_list)
+
+This will print \[500, 140\]. As angle entered is 500 and is in ‘deg’(degrees) with ‘default’ direction and None length which is not considered.
+
+from rithmetic import \*  
+<br/>co_list = co_terminal(500, 'deg', 'neg')  
+<br/>print(co_list)
+
+This will print \[500, 140, -220, -580, -940, -1300, -1660, -2020, -2380, -2740\]. As angle entered is 500 and is in ‘deg’(degrees) with ‘neg’(negative) direction and length of 10 by default.
+
+from rithmetic import \*  
+<br/>co_list = co_terminal(30, 'deg', 'pos', 5)  
+<br/>print(co_list)
+
+This will print \[30, 390, 750, 1110, 1470\]. As angle entered is 30 and is in ‘deg’(degrees) with ‘pos’(positive) direction and length of 5.
+
+**sin(angle, mode)**
+
+Calculates the sine of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant sine value of the given angle in **float** type OR ‘Invalid Mode’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = sin(pi()/2)  
+<br/>print(res)
+
+This will print 1.0. As sine of the angle pi/2 radians is 1.
+
+from rithmetic import \*  
+<br/>res = sin(30, 'deg')  
+<br/>print(res)
+
+This will print 0.5. As sine of the angle 30 degrees is 0.5.
+
+**cos(angle, mode)**
+
+Calculates the cosine of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant cosine value of the given angle in **float** type OR ‘Invalid Mode’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = cos(pi()/2)  
+<br/>print(res)
+
+This will print 0.0. As cosine of angle pi/2 radians is 0.
+
+from rithmetic import \*  
+<br/>res = cos(30, 'deg')  
+<br/>print(res)
+
+This will print 0.866025403784. As cosine of angle 30 degrees is 0.866025403.
+
+**tan(angle, mode)**
+
+Calculates the tangent of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant tangent value of the given angle in **float** type OR ‘Invalid Mode’ OR ‘Undefined’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = tan(pi())  
+<br/>print(res)
+
+This will print 0.0. As tangent of angle pi radians is 0.
+
+from rithmetic import \*  
+<br/>res = tan(30, 'deg')  
+<br/>print(res)
+
+This will print 0.57735026919. As tangent of angle 30 degrees is 0.577350269.
+
+**csc(angle, mode)**
+
+Calculates the cosecant of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant cosecant value of the given angle in **float** type OR ‘Invalid Mode’ OR ‘Undefined’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = csc(pi()/2)  
+<br/>print(res)
+
+This will print 1.0. As cosecant of angle pi/2 radians is 1.
+
+from rithmetic import \*  
+<br/>res = csc(30, 'deg')  
+<br/>print(res)
+
+This will print 2.0. As cosecant of angle 30 degrees is 2.
+
+**sec(angle, mode)**
+
+Calculates the secant of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant secant value of the given angle in **float** type OR ‘Invalid Mode’ OR ‘Undefined’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = sec(pi())  
+<br/>print(res)
+
+This will print -1.0. As secant of angle pi radians is -1.
+
+from rithmetic import \*  
+<br/>res = sec(0, 'deg')  
+<br/>print(res)
+
+This will print 1.0. As secant of angle 0 degrees is 1.
+
+**cot(angle, mode)**
+
+Calculates the cotangent of the given angle as per the specified mode
+
+angle – any angle in radians or degrees | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ if angle entered in radians, ‘**deg**’ if angle entered in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant cotangent value of the given angle in **float** type OR ‘Invalid Mode’ OR ‘Undefined’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = cot(pi()/4)  
+<br/>print(res)
+
+This will print 1.0. As cotangent of angle pi/4 radians is 1.
+
+from rithmetic import \*  
+<br/>res = cot(90, 'deg')  
+<br/>print(res)
+
+This will print 0.0. As cotangent of angle 90 degrees is 0.
+
+**arcsin(val, mode)**
+
+Calculates the inverse sine angle of the given sine value as per the specified mode
+
+val – any valid sine value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’ OR ‘Invalid value’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arcsin(1)  
+<br/>print(res)
+
+This will print 1.5707963267948966. As angle 1.570796327 radians results in a sine value of 1.
+
+from rithmetic import \*  
+<br/>res = arcsin(0.5, 'deg')  
+<br/>print(res)
+
+This will print 30. As angle 30 degrees results in a sine value of 0.5.
+
+**arccos(val, mode)**
+
+Calculates the inverse cosine angle of the given cosine value as per the specified mode
+
+val – any valid cosine value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’ OR ‘Invalid value’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arccos(1)  
+<br/>print(res)
+
+This will print 0. As angle 0 radian results in a cosine value of 1.
+
+from rithmetic import \*  
+<br/>res = arccos(0.5, 'deg')  
+<br/>print(res)
+
+This will print 60. As angle 60 degrees results in a cosine value of 0.5.
+
+**arctan(val, mode)**
+
+Calculates the inverse tangent angle of the given tangent value as per the specified mode
+
+val – any valid tangent value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arctan(1)  
+<br/>print(res)
+
+This will print 0.7853981633974483. As angle 0.785398163 radians results in a tangent value of 1.
+
+from rithmetic import \*  
+<br/>res = arctan(-1, 'deg')  
+<br/>print(res)
+
+This will print -45. As angle -45 degrees results in a tangent value of -1.
+
+**arccsc(val, mode)**
+
+Calculates the inverse cosecant angle of the given cosecant value as per the specified mode
+
+val – any valid cosecant value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’ OR ‘Invalid value’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arccsc(11)  
+<br/>print(res)
+
+This will print 0.09103477803740903. As angle 0.91035 radians results in a cosecant value of 11.
+
+from rithmetic import \*  
+<br/>res = arccsc(1, 'deg')  
+<br/>print(res)
+
+This will print 90. As angle 90 degrees results in a cosecant value of 1.
+
+**arcsec(val, mode)**
+
+Calculates the inverse secant angle of the given secant value as per the specified mode
+
+val – any valid secant value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’ OR ‘Invalid value’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arcsec(20)  
+<br/>print(res)
+
+This will print 1.520775469989. As angle 1.520775 radians results in a secant value of 20.
+
+from rithmetic import \*  
+<br/>res = arcsec(-1, 'deg')  
+<br/>print(res)
+
+This will print 180. As angle 180 degrees results in a secant value of -1.
+
+**arccot(val, mode)**
+
+Calculates the inverse cotangent angle of the given tangent value as per the specified mode
+
+val – any valid cotangent value | should be of **int** or **float** type
+
+mode (optional) – ‘**rad**’ for resultant angle in radians, ‘**deg**’ for resultant angle in degrees | should be of **str** type
+
+mode is set to ‘**rad**’ by default.
+
+Returns – The resultant angle in **int** or **float** type OR ‘Invalid mode’.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = arccot(30)  
+<br/>print(res)
+
+This will print 0.03332099587794551. As angle 0.33321 radians results in a cotangent value of 30.
+
+from func import \*  
+<br/>res = arccot(1, 'deg')  
+<br/>print(res)
+
+This will print 45. As angle 45 degrees results in a cotangent value of 1.
+
+**ln(num)**
+
+Calculates the natural log of the given positive number.
+
+num – any positive number | should be of **int** or **float** type
+
+Returns – The resultant value in **int** or **float** type OR ‘Math Error’.
+
+Example:
+
+from rithmetic import \*  
+<br/>res = ln(0.5)  
+<br/>print(res)
+
+This will print -0.693147181. As the natural log of 0.5 is -0.69314718.
+
+**log(num, base)**
+
+Calculates the log of the given positive number in desired integer base (not to be confused with the base in converter and verifier functions. This is the base of the log. Ex log<sub>10</sub> has a base of 10).
+
+num – any positive number | should be of **int** or **float** type
+
+base – any positive integer base for the log | should be of **int** type
+
+Returns – The resultant value in **int** or **float** type OR ‘Math Error’.
+
+Example:
+
+from rithmetic import \*  
+<br/>res = log(100, 10)  
+<br/>print(res)
+
+This will print 2.0. As the log<sub>10</sub> of 100 is 2.
+
+**n_root(num, root)**
+
+Calculates the n<sup>th</sup> root of the given number.
+
+num – any number | should be of **int** or **float** type
+
+root – the n<sup>th</sup> value for the root. Ex: 2 for sq-root and 3 for cube-root | should be of **int** type
+
+Returns – The resultant value in **int** or **float** type.
+
+Example:
+
+from rithmetic import \*  
+<br/>res = n_root(8, 3)  
+<br/>print(res)
+
+This will print 2.0. As cube-root of 8 is 2.
+
+Utility
+
+**signhandlex(sinum)**
+
+Removes negative sign from a number.
+
+sinum – any number with negative sign | can be of **int** or **float** or **str** type
+
+Returns – The number without the negative sing in **float** type.
+
+Example:
+
+from rithmetic import \*  
+<br/>res = signhandlex(-1.25)  
+<br/>print(res)
+
+This will print 1.25.
+
+**decround(num, limit)**
+
+Limits the decimal spaces of number to a desired length without rounding off.
+
+num – any number | should be **int** or **float** type
+
+limit – any positive integer | should be **int** type
+
+Returns – a tuple with two values. First: the resultant number with limited decimal spaces in **int** or **str** type; Second: ‘int’ if the entered value was an integer, ‘short’ if the length of the decimal spaces was less than the entered limit, ‘None’ if the entered number had longer length of decimal spaces than the specified limit.
+
+Examples:
+
+from rithmetic import \*  
+<br/>res = decround(55, 6)  
+<br/>print(res)
+
+This will print (55, 'int').
+
+from rithmetic import \*  
+<br/>res = decround(5.52, 6)  
+<br/>print(res)
+
+This will print (‘5.52’, 'short').
+
+from rithmetic import \*  
+<br/>res = decround(5.525684999, 6)  
+<br/>print(res)
+
+This will print ('5.525684', None).
+
+**fine_range(start, stop, step)**
+
+To be used as a generator to generate a range of float values.
+
+start – any number from where the range starts | should be **int** or **float** type
+
+stop – any number where the range stops | should be **int** or **float** type
+
+step – the unit step increment of the values in the range | should be **int** or **float** type
+
+Returns – A range of the values in **int** or **float** type as per the start, stop and step entered.
+
+Examples:
+
+from rithmetic import \*  
+<br/>list = \[\]  
+<br/>for val in fine_range(1, 2, 0.1):  
+list.append(val)  
+<br/>print(list)
+
+This will print \[1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0\].
+
+**Disclaimer –** rithmetic functions (converters, operators and calculators) do not round off any numbers and the max level of decimal spaces is set to 100. So, you will find some **str** type output values with a large number of decimal spaces (limited to a max of 100).
+
+**exp** and **exp10** support both **^** and **\*\*** as exponent operator.
