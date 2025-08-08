@@ -1,0 +1,116 @@
+Metadata-Version: 2.4
+Name: akashshare
+Version: 0.1.7
+Summary: CLI tool to share files over LAN using UDP + TCP
+Author-email: Akash <akashpawar202k@gmail.com>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: InquirerPy
+Requires-Dist: tqdm
+
+# akashshare
+
+A simple CLI tool to share files over LAN using UDP for discovery and TCP for file transfer.
+Works on Mac, Linux, and Windows connected to the same Wi-Fi network.
+
+---
+
+## Quick Start (pipx preferred)
+
+If you don’t have `pipx` installed, install it using:
+
+```bash
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+```
+
+More info: [pipx installation guide](https://pypa.github.io/pipx/installation/)
+
+Then run directly using:
+
+```bash
+pipx run git+https://github.com/yourusername/akashshare.git
+```
+
+Great for quick file sharing on the same Wi-Fi network without installing.
+
+---
+
+## Features
+
+* Discover peers on the local network using UDP broadcast
+* Transfer files over TCP connection
+* Easy interactive CLI for sending and receiving files
+* No heavy dependencies, lightweight and fast
+* Cross-platform (Mac, Linux, Windows)
+
+---
+
+## Installation (alternate method)
+
+### Install via pip
+
+```bash
+pip install akashshare
+```
+
+Run the tool by:
+
+```bash
+akashshare
+```
+
+---
+
+## Usage
+
+Run the CLI and choose an action:
+
+* **Send**: Choose a file to share; receiver will be discovered automatically.
+* **Receive**: Listen for a sender and receive files.
+* **Exit**: Quit the tool.
+
+---
+
+## How it works
+
+* **Discovery**: Uses UDP broadcast on port `50000` to find peers on the local network.
+* **File transfer**: Uses TCP on port `50001` to send or receive the file.
+
+---
+
+## Requirements
+
+* Python 3.8 or higher
+* InquirerPy (installed automatically via pip)
+
+---
+
+## Example
+
+On **sender** machine:
+
+```bash
+akashshare
+# Select "Send" and enter file path when prompted
+```
+
+On **receiver** machine:
+
+```bash
+akashshare
+# Select "Receive" to wait for incoming files
+```
+
+---
+
+## License
+
+MIT License © Akash Pawar
+
+---
+
+## Contact
+
+For questions or feedback, email: [akashpawar202k@gmail.com](mailto:akashpawar202k@gmail.com)
