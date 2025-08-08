@@ -1,0 +1,103 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mpl-pan-zoom"
+dynamic = ["version"]
+description = "Panning and zooming with the mouse for matplotlib"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "BSD-3-Clause"}
+authors = [
+    {name = "Ian Hunt-Isaak", email = "ianhuntisaak@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = [
+    "matplotlib",
+    "numpy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ianhi/mpl-pan-zoom"
+"Source Code" = "https://github.com/ianhi/mpl-pan-zoom"
+
+[project.optional-dependencies]
+dev = [
+    "ipython",
+    "pre-commit",
+    "pytest",
+    "ruff",
+]
+doc = [
+    "Sphinx>=1.5",
+    "jupyter-sphinx",
+    "myst-nb",
+    "numpydoc",
+    "sphinx-book-theme",
+    "sphinx-copybutton",
+    "sphinx-panels",
+    "sphinx-thebe",
+    "sphinx-togglebutton",
+]
+testing = [
+    "nbval",
+    "pytest",
+    "pytest-cov",
+    "pytest-mpl",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mpl_pan_zoom"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "UP", # pyupgrade
+    "B",  # flake8-bugbear
+    "C",  # flake8-comprehensions
+    "D",  # pydocstyle
+]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]
+"docs/**" = ["D"]
+
+[tool.pytest.ini_options]
+testpaths = ["docs/examples", "tests"]
+addopts = [
+    "--current-env",
+    "--doctest-continue-on-failure",
+    "--doctest-modules",
+    "--ignore-glob=docs/examples/*.py",
+    "--mpl",
+    "--nbval",
+]
