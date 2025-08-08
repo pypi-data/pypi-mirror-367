@@ -1,0 +1,42 @@
+[project]
+name = "BackupBackup"
+version = "0.0.6"
+description = "FastAPI-Endpoints with storeage provisioning"
+authors = [
+  { name="LeroyLeroy", email="admin@backupbackup.ch" },
+]
+readme = "README.md"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+    "bcrypt>=4.3.0",
+    "captcha>=0.7.1",
+    "cryptography>=45.0.5",
+    "fastapi>=0.116.1",
+    "httpx>=0.28.1",
+    "jinja2>=3.1.6",
+    "passlib>=1.7.4",
+    "pre-commit>=4.2.0",
+    "pydantic-settings>=2.10.1",
+    "pydantic[email]>=2.11.7",
+    "pyjwt>=2.10.1",
+    "pytest>=8.4.1",
+    "python-multipart>=0.0.20",
+    "redis>=6.2.0",
+    "schedule>=1.2.2",
+    "sqlmodel>=0.0.24",
+    "uvicorn>=0.35.0",
+]
+
+[project.urls]
+Homepage = "https://codeberg.org/LeroyLeroy/BackupBackup"
+Issues = "https://codeberg.org/LeroyLeroy/BackupBackup/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["backend"]
+addopts = ["-v"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+# I'm using a DB table named TestPhase which would get matched
+collect_ignore = ["backend/models.py"]
