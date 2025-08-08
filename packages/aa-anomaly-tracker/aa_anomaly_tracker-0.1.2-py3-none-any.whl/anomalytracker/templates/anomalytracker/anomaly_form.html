@@ -1,0 +1,74 @@
+
+{% extends 'anomalytracker/base.html' %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans mode %} Anomaly</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_anom_system">{% trans "System" %}</label>
+        {{ form.anom_system }}
+    </div>
+    <div class="mb-3">
+        <label for="id_anom_tier">{% trans "Tier" %}</label>
+        {{ form.anom_tier }}
+    </div>
+    <div class="mb-3">
+        <label for="id_ore">{% trans "Ore" %}</label>
+        {{ form.ore }}
+    </div>
+    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+</form>
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% endblock %}
+{% block extra_javascript %}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select-search').select2({
+                width: '100%',
+                placeholder: "Search system...",
+            });
+        });
+    </script>
+{% endblock %}
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+/* Select2 fix for dark themes */
+.select2-container--default .select2-selection--single {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fff !important;
+}
+
+.select2-container--default .select2-results > .select2-results__options {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: #444 !important;
+    color: #fff !important;
+}
+</style>
+{% endblock %}

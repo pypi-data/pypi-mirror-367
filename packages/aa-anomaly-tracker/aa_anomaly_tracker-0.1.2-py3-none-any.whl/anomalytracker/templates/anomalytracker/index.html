@@ -1,0 +1,138 @@
+{% extends 'anomalytracker/base.html' %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block details %}
+    <div class="card card-primary">
+        <div class="card-header">
+            <div class="card-title">{% translate "Headline" %}</div>
+        </div>
+
+        <div class="card-body">
+            {{ text }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card mt-4">
+    <div class="card-header">
+        <strong>{% translate "Anomalies" %}</strong>
+    </div>
+    <div class="card-body">
+        <table id="oreAnomalyTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% translate "Status" %}</th>
+                    <th>{% translate "System" %}</th>
+                    <th>{% translate "Tier" %}</th>
+                    <th>{% translate "Ore" %}</th>
+                    <th>{% translate "Timer" %}</th>
+                    <th>{% translate "Action" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if anomalies %}{% for anom in anomalies %}
+                <tr>
+                    <td>{% if anom.is_up %}✅{% else %}❌{% endif %}</td>
+                    <td>
+                        <span class="copy-to-clipboard" title="Click to copy">
+                        {{ anom.anom_system.name }}
+                        </span>
+                    </td>
+
+                    <td>{{ anom.anom_tier.get_tier_display }}</td>
+                    <td>{{ anom.ore }}</td>
+                    <td>
+                        {% if anom.is_timer_active %}
+                            <span class="badge bg-warning text-dark">
+                                {{ anom.time_left_hhmm }} {% translate "left" %}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if anom.anom_tier.respawn_time != 0 %}
+                            {% if anom.is_up %}
+                            <form method="post" action="{% url 'anomalytracker:roll' anom.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-success btn-sm">Roll</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'anomalytracker:unroll' anom.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-danger btn-sm">Unroll</button>
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6">{% translate 'No mining anomalies tracked.' %}</td></tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <strong>{% translate "Ice Anomalies" %}</strong>
+    </div>
+    <div class="card-body">
+        <table id="iceAnomalyTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% translate "Status" %}</th>
+                    <th>{% translate "System" %}</th>
+                    <th>{% translate "Ore" %}</th>
+                    <th>{% translate "Timer" %}</th>
+                    <th>{% translate "Action" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if ice_anomalies %}{% for anom in ice_anomalies %}
+                <tr>
+                    <td>{% if anom.is_up %}✅{% else %}❌{% endif %}</td>
+                    <td class="copy-to-clipboard" title="Click to copy">
+                    {{ anom.anom_system.name }}
+                    </td>
+                    <td>{{ anom.get_ore_display }}</td>
+                    <td>
+                        {% if anom.is_timer_active %}
+                            <span class="badge bg-warning text-dark">
+                                {{ anom.time_left_hhmm }} left
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if anom.anom_tier.respawn_time != 0 %}
+                            {% if anom.is_up %}
+                            <form method="post" action="{% url 'anomalytracker:roll' anom.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-success btn-sm">Roll</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'anomalytracker:unroll' anom.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-danger btn-sm">Unroll</button>
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5">{% translate 'No Ice anomalies tracked.' %}</td></tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
