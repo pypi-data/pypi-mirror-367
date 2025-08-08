@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=78.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pchjlib"
+version = "1.4.5"
+description = "A versatile toolkit for applying custom folder icons."
+readme = { file = "README.md", content-type = "text/markdown" }
+license-files = ["LICENSE.txt"]
+keywords = ["pchjlib", "foldericon", "asset-management"]
+authors = [{ name = "Joesifer" }]
+urls = { Homepage = "https://github.com/Joesifer/pchjlib" }
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3 :: Only",
+  "Operating System :: OS Independent"
+]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.optional-dependencies]
+numpy = ["numpy"]
+
+[project.scripts]
+pchjlib   = "pchjlib.pchjmain:main"
+pchj-icon = "pchjlib.pchjicon:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+zip-safe = true
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pchjlib = ["desktop.ini", "logo.ico"]
+
+[tool.flake8]
+doctests = true
+
+[tool.isort]
+force_single_line = true
+combine_as_imports = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+known_third_party = ["six", "docutils", "pkg_resources", "pytz"]
+line_length = 80
+lines_after_imports = 2
