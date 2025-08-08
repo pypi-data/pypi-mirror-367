@@ -1,0 +1,130 @@
+Metadata-Version: 2.4
+Name: SpinWaveToolkit
+Version: 1.0.0
+Summary: Set of tools useful in spin wave research.
+Author-email: Ondřej Wojewoda <ondrej.wojewoda@ceitec.vutbr.cz>
+Maintainer-email: Ondřej Wojewoda <ondrej.wojewoda@ceitec.vutbr.cz>, Jan Klíma <jan.klima4@vutbr.cz>, Dominik Pavelka <dominik.pavelka@vutbr.cz>, Michal Urbánek <michal.urbanek@ceitec.vutbr.cz>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/CEITECmagnonics/SpinWaveToolkit
+Project-URL: Bug Reports, https://github.com/CEITECmagnonics/SpinWaveToolkit/issues
+Project-URL: Forum, https://github.com/CEITECmagnonics/SpinWaveToolkit/discussions
+Keywords: magnetism,physics,analytical,magnonic,spin-wave
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy<2.0,>1.20
+Requires-Dist: scipy>1.8
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pylint; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: license-file
+
+# SpinWaveToolkit
+
+> [!WARNING]
+> This module needs some updating, which is currently WIP. If you are a contributor, see [CONTRIBUTING GUIDELINES](CONTRIBUTING.md).
+
+## Installation
+
+> [!NOTE]
+> Installation with `pip` from PyPI is currently a WIP. We hope it will be available soon.
+
+Currently you can either 
+1. install from GitHub via `pip` by typing in the command line
+```
+py -m pip install https://github.com/CEITECmagnonics/SpinWaveToolkit/tarball/master --user
+```
+2. or copy the [SpinWaveToolkit][SWTpy] folder to your `site-packages` folder manually. Usually (on Windows machines) located at
+```
+C:\Users\<user>\AppData\Roaming\Python\Python<python-version>\site-packages
+```
+for user-installed modules, or at 
+```
+C:\<python-installation-folder>\Python<python-version>\Lib\site-packages
+```
+for global modules.
+
+## Dependencies
+
+> [!WARNING]
+> This section lacks proof and was not much checked.
+
+The SpinWaveToolkit module is compatible with Python >3.7, and uses the following modules:
+- [numpy] >1.20,<2.0
+- [scipy] >1.8
+
+## About
+This module provides analytical tools in spin-wave physics.
+
+### Classes
+`SingleLayer` - Compute spin-wave characteristics in dependance to k-vector for a single layer using an analytical model of Kalinikos and Slavin.
+
+`SingleLayerNumeric` - Compute spin-wave characteristics in dependance to k-vector for a single layer using a numerical approach by Tacchi.
+
+`DoubleLayerNumeric` - Compute spin-wave characteristics in dependance to k-vector for a double layer using a numerical model of Gallardo.
+
+`Material` - Class for magnetic materials used in spin wave research.
+    
+### Constants
+`MU0` - Magnetic permeability of free space.
+
+`NiFe` - Predefined material NiFe (permalloy).
+
+`CoFeB` - Predefined material CoFeB.
+
+`FeNi` - Predefined material FeNi (metastable iron).
+
+`YIG` - Predefined material YIG.
+    
+### Functions
+`wavenumber2wavelength` - Convert wavenumber to wavelength.
+
+`wavelength2wavenumber` - Convert wavelength to wavenumber.
+
+`wrapAngle` - Wrap angle in radians to range `[0, 2*np.pi)`.
+
+`rootsearch` - Search for a root of a continuous function within an interval `[a, b]`.
+
+`bisect` - Simple bisection method of root finding.
+
+`roots` - Find all roots of a continuous function `f(x, *args)` within a given interval `[a, b]`.
+
+### Example
+Example of calculation of the dispersion relation `f(k_xi)`, and other important quantities, for the lowest-order mode in a 30 nm thick NiFe (Permalloy) layer.
+```Python
+import numpy as np
+import SpinWaveToolkit as SWT
+
+kxi = np.linspace(1e-6, 150e6, 150)
+
+PyChar = SWT.SingleLayer(Bext=20e-3, kxi=kxi, theta=np.pi/2,
+                         phi=np.pi/2, d=30e-9, weff=2e-6,
+                         boundary_cond=2, material=SWT.NiFe)
+DispPy = PyChar.GetDispersion()*1e-9/(2*np.pi)  # GHz
+vgPy = PyChar.GetGroupVelocity()*1e-3  # km/s
+lifetimePy = PyChar.GetLifetime()*1e9  # ns
+decLen = PyChar.GetDecLen()*1e6  # um
+```
+
+
+[SWTpy]:SpinWaveToolkit
+[numpy]:https://numpy.org/
+[scipy]:https://scipy.org/
+
