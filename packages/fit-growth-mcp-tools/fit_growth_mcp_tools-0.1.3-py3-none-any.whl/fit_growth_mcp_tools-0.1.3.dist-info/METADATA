@@ -1,0 +1,99 @@
+Metadata-Version: 2.3
+Name: fit-growth-mcp-tools
+Version: 0.1.3
+Summary: Add your description here
+Requires-Dist: requests>=2.32.4
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+SQL Schema MCP 服务器
+一个用于查询需求分析对应的SQL table scheme信息的模型上下文协议服务器。该服务器包装了原始的get_schema_info API，让AI应用能够通过MCP协议获取SQL表结构信息。
+
+## 主要功能
+根据用户查询需求，分析需要用到的数据表、字段、枚举值、关联方式和易错点等信息。
+
+## 可用工具
+**analyze_sql_schema** - 分析SQL表结构和数据需求
+
+必需参数：
+- user (字符串): 用户信息，用于身份识别和权限控制
+- business_id (字符串): 业务ID，标识具体的业务场景  
+- query (字符串): 用户的数据需求描述，例如"我需要查询最近一个月的用户活跃度数据"
+- appkey (字符串): API密钥，用于接口认证
+
+可选参数：
+- document_id (字符串): 可选的文档ID，关联特定的文档上下文
+- extra_result_params (列表): 额外的结果参数，用于定制返回结果
+
+## 使用示例
+- "查询用户最近30天的购买行为数据"
+- "分析不同地区的销售业绩情况"  
+- "获取商品库存和销量的关联分析"
+## 安装
+
+### 使用 PIP
+你可以通过 pip 安装 fit-growth-mcp-tools：
+
+```bash
+pip install fit-growth-mcp-tools
+```
+
+安装完成后，可以使用以下命令作为脚本运行：
+
+```bash
+python -m fit_growth_mcp_tools
+```
+## 配置
+
+### 为 Claude.app 配置
+在你的 Claude 设置中添加：
+
+```json
+{
+  "mcpServers": {
+    "sql-schema": {
+      "command": "python",
+      "args": ["-m", "fit_growth_mcp_tools"]
+    }
+  }
+}
+```
+
+### 为 Zed 配置
+在你的 Zed settings.json 中添加：
+
+```json
+{
+  "assistant": {
+    "version": "2",
+    "provider": {
+      "name": "anthropic",
+      "default_model": "claude-3-5-sonnet-20241022",
+      "low_speed_timeout_read_timeout": 30,
+      "low_speed_timeout": 30
+    }
+  },
+  "context_servers": [
+    {
+      "id": "sql-schema",
+      "type": "mcp",
+      "settings": {
+        "command": "python",
+        "args": ["-m", "fit_growth_mcp_tools"]
+      }
+    }
+  ]
+}
+```
+
+## API 配置
+服务器连接到内部API服务，需要确保：
+- 网络可以访问 http://11.168.42.59:13699
+- 拥有有效的 appkey 进行身份认证
+- 具备相应的业务权限
+
+## 注意事项
+- 确保提供有效的appkey进行身份认证
+- query描述应该明确具体，便于准确分析  
+- 网络连接需要能访问内部API服务
+- 服务会自动处理网络连接失败、API认证失败等错误情况
