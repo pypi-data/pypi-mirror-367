@@ -1,0 +1,324 @@
+name: Publish to PyPI / Github
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:  
+    inputs:
+      test_only:
+        description: 'Only publish to TestPyPI (for testing)'
+        required: false
+        default: false
+        type: boolean
+      version:
+        description: 'Version to publish (e.g., 0.1.0)'
+        required: true
+        type: string
+
+jobs:
+  build-and-publish-pypi:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies for validation
+        run: pip install toml
+
+      - name: Extract version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION=$(echo $GITHUB_REF | sed -n 's/refs\/tags\/v//p')
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "🏷️ Extracted version: $VERSION"
+
+      - name: Process README for PyPI
+        run: |
+          echo "📝 Processing README for PyPI compatibility..."
+          
+          # Create a backup of original README
+          cp README.md README.original.md
+          
+          # Process README for PyPI
+          python3 << 'EOF'
+          import re
+          
+          # Read the original README
+          with open('README.md', 'r', encoding='utf-8') as f:
+              content = f.read()
+          
+          print("🔄 Processing README content...")
+          
+          # GitHub raw file base URL
+          raw_url = "https://raw.githubusercontent.com/little1d/SpectrumLab/main"
+          
+          print("🖼️ Converting image paths...")
+          
+          # Convert docs/public image paths to absolute GitHub raw URLs
+          content = re.sub(
+              r'<img src="docs/public/([^"]+)"',
+              f'<img src="{raw_url}/docs/public/\\1"',
+              content
+          )
+          
+          # Convert markdown image syntax with docs/public paths
+          content = re.sub(
+              r'!\[([^\]]*)\]\(docs/public/([^)]+)\)',
+              f'![\\1]({raw_url}/docs/public/\\2)',
+              content
+          )
+          
+          print("🔗 Converting relative links to absolute URLs...")
+          
+          # Convert relative links to absolute GitHub URLs (excluding anchor and external links)
+          content = re.sub(
+              r'\[([^\]]+)\]\((?!https?://)(?!#)([^)]+\.md)\)',
+              f'[\\1](https://github.com/little1d/SpectrumLab/blob/main/\\2)',
+              content
+          )
+          
+          print("📋 Adding PyPI header...")
+          
+          # Add PyPI-specific header
+          pypi_header = "<!-- This README is automatically synced from GitHub repository -->\n\n"
+          if not content.startswith("<!-- This README is automatically synced"):
+              content = pypi_header + content
+          
+          # Write the processed README
+          with open('README.md', 'w', encoding='utf-8') as f:
+              f.write(content)
+          
+          print("✅ README processed successfully for PyPI")
+          print("🔍 Changes made:")
+          print("  - Converted docs/public/* image paths to GitHub raw URLs")
+          print("  - Converted relative .md links to GitHub blob URLs")
+          print("  - Added PyPI sync header")
+          EOF
+
+      - name: Update version in pyproject.toml
+        run: |
+          echo "📝 Updating version to $VERSION in pyproject.toml"
+          
+          # Show current version before update
+          echo "Current version in pyproject.toml:"
+          grep 'version = ' pyproject.toml || echo "Version line not found"
+          
+          # Update version
+          sed -i "s/version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          
+          # Show updated version
+          echo "Updated version in pyproject.toml:"
+          grep 'version = ' pyproject.toml
+          
+          # Verify the change was made
+          if grep -q "version = \"$VERSION\"" pyproject.toml; then
+            echo "✅ Version successfully updated to $VERSION"
+          else
+            echo "❌ Failed to update version"
+            exit 1
+          fi
+
+      - name: Validate pyproject.toml
+        run: |
+          echo "🔍 Validating pyproject.toml..."
+          python3 << 'EOF'
+          import toml
+          import sys
+          
+          try:
+              with open('pyproject.toml', 'r') as f:
+                  data = toml.load(f)
+              
+              print('✅ pyproject.toml is valid')
+              print(f'📦 Package: {data["project"]["name"]}')
+              print(f'🏷️  Version: {data["project"]["version"]}')
+              print(f'📄 README: {data["project"].get("readme", "Not specified")}')
+              
+              # Verify version matches expected
+              import os
+              expected_version = os.environ.get('VERSION')
+              actual_version = data["project"]["version"]
+              
+              if expected_version and actual_version == expected_version:
+                  print(f'✅ Version verification passed: {actual_version}')
+              elif expected_version:
+                  print(f'❌ Version mismatch: expected {expected_version}, got {actual_version}')
+                  sys.exit(1)
+              else:
+                  print(f'ℹ️  Version check skipped (no expected version)')
+                  
+          except Exception as e:
+              print(f'❌ pyproject.toml validation failed: {e}')
+              sys.exit(1)
+          EOF
+
+      - name: Build package
+        run: |
+          echo "🔨 Building package..."
+          uv build
+          echo "📦 Package built successfully!"
+          ls -la dist/
+
+      - name: Verify package contents
+        run: |
+          echo "🔍 Verifying package contents..."
+          pip install twine
+          twine check dist/*
+          echo "✅ Package verification completed!"
+
+      - name: Publish to TestPyPI
+        if: github.event_name == 'workflow_dispatch' && inputs.test_only
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.TEST_PYPI_API_KEY }}
+        run: |
+          if [ -z "$UV_PUBLISH_TOKEN" ]; then
+            echo "❌ TEST_PYPI_API_KEY secret not found"
+            exit 1
+          fi
+          echo "🚀 Publishing to TestPyPI..."
+          uv publish --publish-url https://test.pypi.org/legacy/
+          echo "✅ Published to TestPyPI successfully!"
+
+      - name: Publish to PyPI
+        if: |
+          (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+          (github.event_name == 'workflow_dispatch' && !inputs.test_only)
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_KEY }}
+        run: |
+          if [ -z "$UV_PUBLISH_TOKEN" ]; then
+            echo "❌ PYPI_API_KEY secret not found"
+            exit 1
+          fi
+          echo "🚀 Publishing to PyPI..."
+          uv publish --publish-url https://upload.pypi.org/legacy/
+          echo "✅ Published to PyPI successfully!"
+
+      - name: Restore original README
+        if: always()
+        run: |
+          echo "🔄 Restoring original README..."
+          if [ -f README.original.md ]; then
+            mv README.original.md README.md
+            echo "✅ Original README restored"
+          fi
+
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build-and-publish-pypi
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+      (github.event_name == 'workflow_dispatch' && !inputs.test_only)
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Check tag for pre-release
+        id: prerelease_check
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 手动触发时，根据版本号判断是否为预发布版本
+            if [[ "${{ inputs.version }}" == *"alpha"* ]] || [[ "${{ inputs.version }}" == *"beta"* ]] || [[ "${{ inputs.version }}" == *"rc"* ]]; then
+              echo "prerelease=true" >> $GITHUB_OUTPUT
+            else
+              echo "prerelease=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            # Git 标签触发时，根据标签名判断
+            if [[ "${{ github.ref_name }}" == *"alpha"* ]] || [[ "${{ github.ref_name }}" == *"beta"* ]] || [[ "${{ github.ref_name }}" == *"rc"* ]]; then
+              echo "prerelease=true" >> $GITHUB_OUTPUT
+            else
+              echo "prerelease=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          echo "📝 Generating release notes..."
+          cat > release_notes.md << 'EOF'
+          ## 🚀 SpectrumLab Release
+          
+          This release includes the latest updates to SpectrumLab, a pioneering unified platform for spectroscopy research.
+          
+          ### 📦 Installation
+          
+          ```bash
+          pip install spectrumlab
+          ```
+          
+          ### 📚 Documentation
+          
+          - [GitHub Repository](https://github.com/little1d/SpectrumLab)
+          - [PyPI Package](https://pypi.org/project/spectrumlab/)
+          
+          ### 🔗 Links
+          
+          - **Source Code**: [GitHub](https://github.com/little1d/SpectrumLab)
+          - **Documentation**: [README](https://github.com/little1d/SpectrumLab/blob/main/README.md)
+          - **Issues**: [GitHub Issues](https://github.com/little1d/SpectrumLab/issues)
+          
+          EOF
+          echo "✅ Release notes generated"
+
+      - name: Release to GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', inputs.version) || github.ref_name }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ steps.prerelease_check.outputs.prerelease }}
+          files: dist/*
+
+  sync-readme-status:
+    name: README Sync Status
+    runs-on: ubuntu-latest
+    needs: build-and-publish-pypi
+    if: always()
+    
+    steps:
+      - name: README Sync Summary
+        run: |
+          echo "📋 README Sync Summary"
+          echo "===================="
+          echo "✅ GitHub README: Always stays as-is"
+          echo "🔄 PyPI README: Automatically processed and synced during package build"
+          echo "📦 Package Status: ${{ needs.build-and-publish-pypi.result }}"
+          
+          if [ "${{ needs.build-and-publish-pypi.result }}" = "success" ]; then
+            echo "🎉 README successfully synced to PyPI!"
+          else
+            echo "❌ README sync failed - check build logs"
+          fi

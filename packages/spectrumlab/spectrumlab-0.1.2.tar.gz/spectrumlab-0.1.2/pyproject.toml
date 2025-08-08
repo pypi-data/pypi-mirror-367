@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spectrumlab"
+version = "0.1.2"
+description = "A pioneering unified platform designed to systematize and accelerate deep learning research in spectroscopy."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Zhuo Yang", email = "yzachary1551@gmail.com" },
+    { name = "Tianfan Fu", email = "futianfan@gmail.com" },
+]
+keywords = ["benchmark", "chemistry", "spectroscopy", "evaluation"]
+
+dependencies = ["dotenv>=0.9.9", "openai>=1.93.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4.0", "black>=23.0.0", "ruff>=0.1.0", "pre-commit>=4.2.0"]
+test = ["pytest>=8.4.1", "pytest-asyncio>=1.1.0"]
+
+[project.scripts]
+spectrumlab = "spectrumlab.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["spectrumlab"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
