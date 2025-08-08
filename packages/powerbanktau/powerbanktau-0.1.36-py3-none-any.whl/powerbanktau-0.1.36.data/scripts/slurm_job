@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --partition=gpu-general
+#SBATCH --mem=10G
+#SBATCH --job-name=genomenet_nico_ron
+#SBATCH --ntasks=1
+#SBATCH --time=120:00:00
+#SBATCH --output=/tamir2/nicolaslynn/logging/output/slurm-training.out
+#SBATCH --error=/tamir2/nicolaslynn/logging/error/slurm-training.err
+#SBATCH --gres=gpu:1 -A gpu-general-users
+
+# Load user environment
+source ~/.bashrc
+source /tamir2/nicolaslynn/home/miniconda/etc/profile.d/conda.sh
+
+# If GPUs are requested, load the Miniconda module
+module load miniconda/miniconda3-2023-environmentally || { echo "Failed to load miniconda module"; exit 1; }
+
+# Change to the specified directory
+cd /tamir2/nicolaslynn/projects/genomenet/model_training_space || { echo "Error: Directory not found."; exit 1; }
+
+# Start Jupyter Lab
+jupyter lab --ip=* --port=8892 --no-browser

@@ -1,0 +1,44 @@
+
+#!/bin/bash
+#SBATCH --job-name=dl_training
+#SBATCH --ntasks=6
+#SBATCH --gres=gpu:1
+#SBATCH --mem-per-cpu=50
+#SBATCH --output=dl_training_log
+#SBATCH --time=120:00:00            # Walltime (120 hours)
+#SBATCH --partition=gpu-general
+module load miniconda/miniconda3-2023-environmentally
+conda activate /tamir2/nicolaslynn/package_managers/mambaforge/slurmdl
+echo "Running"
+cd /tamir2/nicolaslynn/projects/epitope_discovery
+jupyter lab --ip=* --port=9998 --no-browser
+
+
+
+#!/bin/bash
+#SBATCH --job-name=train-bert1
+#SBATCH --ntasks=6
+#SBATCH --gres=gpu:1
+#SBATCH --mem-per-cpu=50
+#SBATCH --output=train-bert1.log
+
+module load miniconda/miniconda3-2023-environmentally
+conda activate /tamir1/lorna_bakhit/envs/lorna
+echo "Running"
+cd /tamir2/nicolaslynn/projects/epitope_discovery
+python train_model.py
+
+
+
+qsub -q tamirQ -l nodes=1:ppn=1,cput=120:00:00,mem=100000mb,pmem=100000mb,vmem=200
+000mb,pvmem=200000mb -e /tamir2/nicolaslynn/projects/epitope_discovery/err -o /tam
+ir2/nicolaslynn/projects/epitope_discovery/out epitope_discovery_job.sh
+
+
+
+command="srun --partition=tamirQ --nodes=1 --ntasks=1 --gres=gpu:0 --cpus-per-task=1 --time=1:00:00 --mem=2G"
+srun --partition=gpu-general --nodes=1  -A gpu-general-users --ntasks=1 --gres=gpu:1 --cpus-per-task=1 --time=1:00:00 --mem=50G --pty bash
+sbatch --partition=gpu-general -t 7200 --nodes=1 -A gpu-general-users --ntasks=1 --gres=gpu:1 --cpus-per-task=1 submit_job_slurm_persist
+sbatch --gres=gpu:1 -p gpu-general -A gpu-general-users submit_job_slurm
+
+-A gpu-general-users --gres=gpu:1
