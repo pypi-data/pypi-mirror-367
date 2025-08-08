@@ -1,0 +1,130 @@
+{% extends "survey/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ survey.name }} - {% trans "Results" %}{% endblock %}
+
+{% block body %}
+
+
+    <!-- Упрощенный заголовок с результатом -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-5 mb-4">{% trans "Your score" %}: {{ correct_percentage }}%</h1>
+
+            <!-- Прогресс бар результата -->
+            <div class="progress progress-separated mb-3" style="height: 30px;">
+                <div
+                    class="progress-bar bg-success"
+                    role="progressbar"
+                    style="width: {{ correct_percentage }}%"
+                        aria-label="{% trans "Correct" %}">
+                    <i class="ti ti-check display-7"></i>
+                </div>
+                <div
+                    class="progress-bar bg-danger"
+                    role="progressbar"
+                    style="width: {{ incorrect_percentage }}%"
+                    aria-label="{% trans "Incorrect" %}">
+                    <i class="ti ti-x display-7"></i>
+                </div>
+                </div>
+
+
+            <!-- Краткое описание результата -->
+            <p class="mb-4">
+                {% trans "Your result is " %}  {{ correct_answers }} {% trans "correct answers from" %} {{ survey.total_questions }}.
+            </p>
+
+            {% if survey.gift_after %}
+                <p class="mb-4">
+                    Дарим тебе подарок за прохождение опроса: <a class="btn btn-info" target="_blank" href="{{ survey.gift_after }}">Забрать подарок</a>
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+    <div class="btn-list justify-content-center">
+        {% if survey.redirect_url %}
+        <a href="{{ survey.redirect_url }}" class="btn btn-success btn-lg">
+            <i class="ti ti-external-link me-2"></i>
+            {% trans "Go to next page" %}
+        </a>
+        {% endif %}
+        <a href="{{ survey.get_absolute_url }}" class="btn btn-danger btn-lg">
+            <i class="ti ti-refresh me-2"></i>
+            {% trans "Repeat the survey" %}
+        </a>
+    </div>
+
+
+
+
+    <!-- Детальные результаты -->
+    <h2 class="display-7 mb-3 mt-4">{% trans "Your answers" %}</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="accordion accordion-tabs" id="answersAccordion" role="tablist" aria-multiselectable="true">
+                {% for answer_data in answers_data %}
+                <div class="accordion-item bg-secondary-lt">
+                    <div class="accordion-header" role="tab">
+                        <button
+                            class="accordion-button {% if answer_data.is_correct %}collapsed{% endif %} d-flex justify-content-between align-items-center"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ forloop.counter }}"
+                            aria-expanded="{% if not answer_data.is_correct %}true{% else %}false{% endif %}"
+                            aria-controls="collapse{{ forloop.counter }}"
+                            aria-label="{{ answer_data.question.text|truncatewords:8 }}"
+                        >
+                            <div class="d-flex align-items-center">
+                                <span>{{ answer_data.question.text|truncatewords:12 }}</span>
+                            </div>
+
+                            <div class="">
+                                {% if answer_data.is_correct %}
+                                    <span class="badge bg-success text-success-fg mb-2">
+                                        <i class="ti ti-check  icon-tabler"></i>
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger text-danger-fg mb-2">
+                                        <i class="ti ti-x  icon-tabler"></i>
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </button>
+                    </div>
+
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if not answer_data.is_correct %}show{% endif %}" role="tabpanel" data-bs-parent="#answersAccordion">
+                        <div class="accordion-body pt-0">
+
+                            <div class="alert {% if answer_data.is_correct %}alert-success{% else %}alert-danger mb-4{% endif %} py-2 px-3 mb-0">
+                                <strong>{% trans "Your answer:" %}</strong> {{ answer_data.answer.display_value|default:"Not answered" }}
+                            </div>
+                            {% if not answer_data.is_correct %}
+                                <div class="correct-answer-blur" id="correct-answer-{{ forloop.counter }}">
+                                    <div class="position-relative">
+                                        <div class="blur-overlay" onclick="toggleBlur({{ forloop.counter }})">
+                                            <div class="blur-content">
+                                                <i class="ti ti-eye"></i>
+                                                <span>{% trans "Click to see correct answer" %}</span>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-success py-2 px-3 mb-0">
+                                            <strong>{% trans "Correct answer:" %}</strong> {{ answer_data.correct_answer }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
