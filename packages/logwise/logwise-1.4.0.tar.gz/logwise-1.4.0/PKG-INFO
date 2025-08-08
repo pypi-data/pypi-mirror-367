@@ -1,0 +1,102 @@
+Metadata-Version: 2.4
+Name: logwise
+Version: 1.4.0
+Summary: A clean, colorful terminal logger with boxed message support.
+Home-page: https://github.com/prateekgupta1089/logwise
+Author: Prateek Gupta
+Author-email: Prateek Gupta <prateekgupta1089@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Prateek Gupta
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the “Software”), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: wcwidth>=0.2.6
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# logwise
+
+A colorful, modern terminal logger with support for rounded boxed messages, rich formatting, and contextual output — all with zero dependencies.
+
+---
+
+## 🚀 Features
+
+- 🌈 ANSI-colored log levels (debug/info/warn/error/box)
+- 📦 Custom `BOX` log level with **center-aligned**, **rounded box borders**
+- 🧠 Smart handling of f-strings and printf-style logging
+- 🧭 Logs include file name and line number
+- 🪶 Lightweight, no dependencies
+
+---
+
+## 📦 Installation
+
+```bash
+pip install logwise
+```
+
+---
+
+## 🛠️ Usage
+
+```python
+from logwise import logger
+
+logger.debug("This is a debug message")
+logger.info("This is an info message")
+logger.warning("This is a warning")
+logger.error("This is an error")
+logger.box("This is a boxed highlight")
+```
+
+---
+
+## 📁 Example Output
+
+```
+DEBUG  2025-04-22 12:00:01.123 [DEBUG] This is a debug message (main.py:10)
+INFO   2025-04-22 12:00:01.124 [INFO ] This is an info message (main.py:11)
+WARN   2025-04-22 12:00:01.125 [WARN ] This is a warning (main.py:12)
+ERROR  2025-04-22 12:00:01.126 [ERROR] This is an error (main.py:13)
+BOX    2025-04-22 12:00:01.127 (main.py:14)
+       ╭────────────────────────────╮
+       │ This is a boxed highlight  │
+       ╰────────────────────────────╯
+```
+
+---
+
+## 🧩 Developer Notes
+
+`logwise` uses a `CustomLogger` class built atop the Python `logging` module. You can plug it into existing logging flows, redirect output, or customize formatting as needed.
+
+---
+
+## 📄 License
+
+MIT. See [LICENSE](./LICENSE).
