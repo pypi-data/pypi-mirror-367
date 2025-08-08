@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gitevo"
+version = "0.1.3"
+description = "Code evolution analysis for Git repositories"
+authors = [
+  { name="Andre Hora", email="andrehoraa@gmail.com" },
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "gitpython==3.1.44",
+    "treeminer==0.1.0",
+    "tree-sitter",
+    "tree-sitter-python",
+    "tree-sitter-javascript",
+    "tree-sitter-typescript",
+    "tree-sitter-java"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Quality Assurance"
+]
+
+[project.scripts]
+gitevo = "gitevo.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/andrehora/gitevo"
+Issues = "https://github.com/andrehora/gitevo/issues"
+
+[tool.coverage.run]
+omit = [
+    "./gitevo/__main__.py",
+    "./gitevo/reports/*"
+    ]
