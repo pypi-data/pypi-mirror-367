@@ -1,0 +1,166 @@
+Metadata-Version: 2.4
+Name: check_cmake
+Version: 0.5.3
+Summary: A simple linter for CMake.
+Author-email: Mark Gillard <mark.gillard@outlook.com.au>
+License: MIT
+Project-URL: Source, https://github.com/marzer/check-cmake
+Project-URL: Tracker, https://github.com/marzer/check-cmake/issues
+Project-URL: Funding, https://github.com/sponsors/marzer
+Keywords: c++,cmake
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: C
+Classifier: Programming Language :: C++
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Software Development :: Compilers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: misk>=0.8.1
+Requires-Dist: colorama
+Dynamic: license-file
+
+# check-cmake
+
+A simple linter for CMake.
+
+## Installation
+
+`check-cmake` requires Python 3.8 or higher.
+
+```
+pip3 install check-cmake
+```
+
+## Usage
+
+`check-cmake` is a command-line application
+
+```
+usage: check-cmake [-h] [-v] [--version] [--recurse | --no-recurse] [--limit LIMIT] [root]
+
+CMake checker for C and C++ projects.
+
+positional arguments:
+  root                  path to the project root (default: .)
+
+options:
+  -h, --help            show this help message and exit
+  -v, --verbose         enable verbose output
+  --version             print the version and exit
+  --recurse, --no-recurse
+                        recurse into subfolders (default: True)
+  --limit LIMIT         maximum errors to emit (default: 0)
+
+v0.3.0 - github.com/marzer/check-cmake
+```
+
+## Exit codes
+
+| Value | Meaning                |
+| :---- | :--------------------- |
+| 0     | No issues were found   |
+| 1     | Issues were found      |
+| -1    | A fatal error occurred |
+
+## Example output
+
+```
+error: /my_lib/CMakeLists.txt:29:9: language standard level should be set on a per-target basis using target_compile_features()
+  Context:
+    29 | set_target_properties(
+    30 |     my_lib
+    31 |     PROPERTIES
+    32 |         CXX_STANDARD 14
+    33 |         CXX_STANDARD_REQUIRED ON
+    34 |         CXX_EXTENSIONS OFF
+    35 | )
+  Replace with:
+    target_compile_features(): https://cmake.org/cmake/help/latest/command/target_compile_features.html
+  More information:
+    CMAKE_CXX_KNOWN_FEATURES: https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html
+    CMAKE_C_KNOWN_FEATURES: https://cmake.org/cmake/help/latest/prop_gbl/CMAKE_C_KNOWN_FEATURES.html
+
+found 1 error in 1 file.
+```
+
+## Suppressing checks
+
+Checks can be suppressed using comment-based 'pragmas' at the end of the source line:
+
+```cmake
+set_target_properties(
+    my_lib
+    PROPERTIES
+        CXX_STANDARD 14 # nocheck
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS OFF
+)
+```
+
+For compatibility with other tools, any the following will also work:
+
+```cmake
+# nolint
+
+# check-cmake ignore
+# lint-cmake ignore
+# cmake-check ignore
+# cmake-lint ignore
+
+# check-cmake disable
+# lint-cmake disable
+# cmake-check disable
+# cmake-lint disable
+
+# check-cmake: ignore
+# lint-cmake: ignore
+# cmake-check: ignore
+# cmake-lint: ignore
+
+# check-cmake: disable
+# lint-cmake: disable
+# cmake-check: disable
+# cmake-lint: disable
+```
+
+# Changelog
+
+## v0.5.3
+
+- Fixed `# nocheck` not working in some rare circumstances
+
+## v0.5.2
+
+- Fixed internal `Path.relative_to()` error when used inside a virtual environment
+
+## v0.5.1
+
+- Fixed false positive for incorrect use of `SYSTEM` in `target_include_directories()` in some cases
+
+## v0.5.0
+
+- Added check for `add_library()` with implicit type (`STATIC`, `SHARED`, et cetera)
+
+## v0.4.0
+
+- Fixed line numbers sometimes being wrong in context snippets
+- Added check for incorrectly-placed `SYSTEM` in `target_include_directories()`
+- Added check for extraneous space in `ExternalProject_Add()` `CMAKE_ARGS`
+
+## v0.3.0
+
+- Fixed `#nocheck`
+
+## v0.2.0
+
+- Added pragmas for ignoring checks on a line
+- Added check for `cmake_minimum_required()` when `project()` is present
+- Fixed minor formatting issues
+
+## v0.1.0
+
+- First public release 🎉&#xFE0F;
