@@ -1,0 +1,146 @@
+Return-Path: <python-projects-bounces@lists.logilab.org>
+X-Original-To: sylvain.thenault@logilab.fr
+Delivered-To: syt@logilab.fr
+Received: from tucana.logilab.fr (tucana.logilab.fr [172.17.0.4])
+	by orion.logilab.fr (Postfix) with ESMTP id 1A7B6EABB8;
+	Tue, 28 Mar 2006 17:06:41 +0200 (CEST)
+Received: from tucana.logilab.fr (localhost [127.0.0.1])
+	by tucana.logilab.fr (Postfix) with ESMTP id 1E5627144A4;
+	Tue, 28 Mar 2006 17:06:42 +0200 (CEST)
+X-Original-To: python-projects@lists.logilab.org
+Delivered-To: python-projects@lists.logilab.org
+Received: from gw-eur4.philips.com (gw-eur4.philips.com [161.85.125.10])
+	by tucana.logilab.fr (Postfix) with ESMTP id C9E4E7140DB
+	for <python-projects@lists.logilab.org>;
+	Tue, 28 Mar 2006 17:06:39 +0200 (CEST)
+Received: from smtpscan-eur4.philips.com (smtpscan-eur4.mail.philips.com
+	[130.144.57.167])
+	by gw-eur4.philips.com (Postfix) with ESMTP id 291F24971E
+	for <python-projects@lists.logilab.org>;
+	Tue, 28 Mar 2006 15:06:32 +0000 (UTC)
+Received: from smtpscan-eur4.philips.com (localhost [127.0.0.1])
+	by localhost.philips.com (Postfix) with ESMTP id E1FA257
+	for <python-projects@lists.logilab.org>;
+	Tue, 28 Mar 2006 15:06:31 +0000 (GMT)
+Received: from smtprelay-eur2.philips.com (smtprelay-eur2.philips.com
+	[130.144.57.171])
+	by smtpscan-eur4.philips.com (Postfix) with ESMTP id BBF5658
+	for <python-projects@lists.logilab.org>;
+	Tue, 28 Mar 2006 15:06:31 +0000 (GMT)
+Received: from ehvrmh02.diamond.philips.com (ehvrmh02-srv.diamond.philips.com
+	[130.139.27.125])
+	by smtprelay-eur2.philips.com (Postfix) with ESMTP id 7C2F633
+	for <python-projects@lists.logilab.org>;
+	Tue, 28 Mar 2006 15:06:31 +0000 (GMT)
+To: python-projects@lists.logilab.org
+MIME-Version: 1.0
+X-Mailer: Lotus Notes Release 6.0.3 September 26, 2003
+Message-ID: <OFE9ED18DA.E3F2A23A-ONC125713F.00521FE5-C125713F.0052FE93@philips.com>
+From: Maarten ter Huurne <maarten.ter.huurne@philips.com>
+Date: Tue, 28 Mar 2006 17:05:23 +0200
+X-MIMETrack: Serialize by Router on ehvrmh02/H/SERVER/PHILIPS(Release
+	6.5.3FP1HF291 | September 19, 2005) at 28/03/2006 17:05:23,
+	Serialize complete at 28/03/2006 17:05:23
+Subject: [Python-projects] pylint: False positive about field initialisation
+X-BeenThere: python-projects@lists.logilab.org
+X-Mailman-Version: 2.1.5
+Precedence: list
+List-Id: "Python-related projects at Logilab.org"
+	<python-projects.lists.logilab.org>
+List-Unsubscribe: <http://lists.logilab.org/mailman/listinfo/python-projects>, 
+	<mailto:python-projects-request@lists.logilab.org?subject=unsubscribe>
+List-Archive: <http://lists.logilab.org/pipermail/python-projects>
+List-Post: <mailto:python-projects@lists.logilab.org>
+List-Help: <mailto:python-projects-request@lists.logilab.org?subject=help>
+List-Subscribe: <http://lists.logilab.org/mailman/listinfo/python-projects>,
+	<mailto:python-projects-request@lists.logilab.org?subject=subscribe>
+Content-Type: multipart/mixed; boundary="===============1708445001=="
+Mime-version: 1.0
+Sender: python-projects-bounces@lists.logilab.org
+Errors-To: python-projects-bounces@lists.logilab.org
+X-Spambayes-Classification: ham; 0.00
+Content-Length: 2915
+Lines: 82
+
+This is a multipart message in MIME format.
+--===============1708445001==
+Content-Type: multipart/alternative;
+	boundary="=_alternative 0052FE92C125713F_="
+
+This is a multipart message in MIME format.
+--=_alternative 0052FE92C125713F_=
+Content-Type: text/plain; charset="US-ASCII"
+
+Hi,
+
+On the following program:
+===
+class C:
+    def __init__(self):
+        self.set(self, 'abc')
+    def set(self, value):
+        self.__value = value
+        self.__length = len(value)
+===
+pylint reports:
+===
+W0201:  5:C.set: Attribute '__value' defined outside __init__
+W0201:  6:C.set: Attribute '__length' defined outside __init__
+===
+
+Although strictly speaking they are indeed defined outside __init__, these 
+fields are guaranteed to be initialised when an object of type C is 
+constructed. It would be useful if pylint could recognise situations like 
+this one and not issue this warning.
+
+Bye,
+                Maarten
+
+--=_alternative 0052FE92C125713F_=
+Content-Type: text/html; charset="US-ASCII"
+
+
+<br><font size=2 face="sans-serif">Hi,</font>
+<br>
+<br><font size=2 face="sans-serif">On the following program:</font>
+<br><font size=2 face="sans-serif">===</font>
+<br><font size=2 face="sans-serif">class C:</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; def __init__(self):</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; &nbsp; &nbsp; self.set(self,
+'abc')</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; def set(self, value):</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; &nbsp; &nbsp; self.__value
+= value</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; &nbsp; &nbsp; self.__length
+= len(value)</font>
+<br><font size=2 face="sans-serif">===</font>
+<br><font size=2 face="sans-serif">pylint reports:</font>
+<br><font size=2 face="sans-serif">===</font>
+<br><font size=2 face="sans-serif">W0201: &nbsp;5:C.set: Attribute '__value'
+defined outside __init__</font>
+<br><font size=2 face="sans-serif">W0201: &nbsp;6:C.set: Attribute '__length'
+defined outside __init__</font>
+<br><font size=2 face="sans-serif">===</font>
+<br>
+<br><font size=2 face="sans-serif">Although strictly speaking they are
+indeed defined outside __init__, these fields are guaranteed to be initialised
+when an object of type C is constructed. It would be useful if pylint could
+recognise situations like this one and not issue this warning.</font>
+<br>
+<br><font size=2 face="sans-serif">Bye,</font>
+<br><font size=2 face="sans-serif">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; Maarten</font>
+<br>
+--=_alternative 0052FE92C125713F_=--
+
+--===============1708445001==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Python-Projects mailing list
+Python-Projects@lists.logilab.org
+http://lists.logilab.org/mailman/listinfo/python-projects
+--===============1708445001==--

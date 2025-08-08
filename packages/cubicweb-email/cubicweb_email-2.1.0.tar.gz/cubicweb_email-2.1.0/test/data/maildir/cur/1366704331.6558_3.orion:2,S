@@ -1,0 +1,459 @@
+Return-Path: <python-projects-bounces@lists.logilab.org>
+X-Original-To: sylvain.thenault@logilab.fr
+Delivered-To: syt@logilab.fr
+Received: from tucana.logilab.fr (tucana.logilab.fr [172.17.0.4])
+	by orion.logilab.fr (Postfix) with ESMTP id 74E12EAAEA;
+	Tue,  4 Apr 2006 10:16:14 +0200 (CEST)
+Received: from tucana.logilab.fr (localhost [127.0.0.1])
+	by tucana.logilab.fr (Postfix) with ESMTP id 58909714341;
+	Tue,  4 Apr 2006 10:16:22 +0200 (CEST)
+X-Original-To: python-projects@logilab.org
+Delivered-To: python-projects@logilab.org
+Received: from moutng.kundenserver.de (moutng.kundenserver.de
+	[212.227.126.186])
+	by tucana.logilab.fr (Postfix) with ESMTP id 299BE714341
+	for <python-projects@logilab.org>;
+	Tue,  4 Apr 2006 10:16:19 +0200 (CEST)
+Received: from [84.172.55.102] (helo=puppetmaster.scheffel.local)
+	by mrelayeu.kundenserver.de (node=mrelayeu4) with ESMTP (Nemesis),
+	id 0ML21M-1FQght1mgU-0002Is; Tue, 04 Apr 2006 10:16:13 +0200
+Received: from bateau.scheffel.local (unknown [192.168.1.2])
+	by puppetmaster.scheffel.local (Postfix) with ESMTP id 4E7953FD33
+	for <python-projects@logilab.org>;
+	Tue,  4 Apr 2006 10:16:06 +0200 (CEST)
+From: Benjamin Niemann <pink@odahoda.de>
+To: python-projects@logilab.org
+Subject: Re: [Python-projects] Pylint: Disable-msg for a block or statement?
+Date: Tue, 4 Apr 2006 10:16:04 +0200
+User-Agent: KMail/1.9.1
+X-Face: ; czI1AqsPLCJ1N/:]r3q,u?|I3; *; 4_'c"|s-juDQ(dQ>y>g}W+P5"wKe>V,
+	\d/WbS)=?iso-8859-1?q?OHJ=0A=09=3Ar-dk=3FR=5B=3AGQv8NQk?=)P:(aMDAK&[X.#PP8i5?de($^s`:u[l,
+	V#o:-GSMbw6G&U]L
+MIME-Version: 1.0
+Content-Type: Multipart/Mixed;
+  boundary="Boundary-00=_FtiMERWf9GTvn3e"
+Message-Id: <200604041016.05182.pink@odahoda.de>
+X-Provags-ID: kundenserver.de abuse@kundenserver.de
+	login:f8d5efa6895121140e909b9ad378e04f
+X-BeenThere: python-projects@lists.logilab.org
+X-Mailman-Version: 2.1.5
+Precedence: list
+List-Id: "Python-related projects at Logilab.org"
+	<python-projects.lists.logilab.org>
+List-Unsubscribe: <http://lists.logilab.org/mailman/listinfo/python-projects>, 
+	<mailto:python-projects-request@lists.logilab.org?subject=unsubscribe>
+List-Archive: <http://lists.logilab.org/pipermail/python-projects>
+List-Post: <mailto:python-projects@lists.logilab.org>
+List-Help: <mailto:python-projects-request@lists.logilab.org?subject=help>
+List-Subscribe: <http://lists.logilab.org/mailman/listinfo/python-projects>,
+	<mailto:python-projects-request@lists.logilab.org?subject=subscribe>
+Sender: python-projects-bounces@lists.logilab.org
+Errors-To: python-projects-bounces@lists.logilab.org
+X-Spambayes-Classification: ham; 0.00
+Content-Length: 14349
+Lines: 404
+
+--Boundary-00=_FtiMERWf9GTvn3e
+Content-Type: text/plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+On Thursday 16 March 2006 16:11, Sylvain Th=E9nault wrote:
+> On Thursday 16 March =E0 09:57, Pierre_Rouleau@ImpathNetworks.com wrote:
+> > Mirko Friedenhagen wrote:
+> > > googling I found this topic has been discussed a few months ago
+> > > (http://lists.logilab.org/pipermail/python-projects/2005-June/000359.=
+ht
+> > >ml).
+> >
+> > Sylvain, has the facility described in the above URL been incorporated
+> > inside the official build of pylint?
+>
+> I also would like such a feature into pylint but I didn't incorporated
+> the provided patch because I thought at this time (and I still do) that
+> there were better way to do it. However I didn't find the time to do it
+> yet :( Since then, I've seen that Ned Batchelder's pycoverage module
+> seems to have a way to disable coverage analysis for a portion of code
+> similar to what I would like to have... Anyone interested in writting a
+> patch for pylint based on this code and the referenced patch ?
+> Anyway I'll give a higher priority to  this feature since a lot of people
+> want it.
+
+I finally found the time for a new try on this. Patches for pylint 0.10.0 a=
+nd
+astng 0.15.1 are attached.
+
+"# pylint: disable-msg=3D..." and "# pylint: enable-msg=3D..." can now be
+used everywhere in the source code and affects the statement (usually
+a block) that 'contains' it - the comment must be between the first
+and last line of the statement.
+
+1  class foo:
+2    # pylint: disable-msg=3DW1234
+3    def bar(self):
+4      # pylint: disable-msg=3DW4321
+5      pass
+6    def gnurz(self):
+7      pass
+
+W4321 is disable for the block 3-5, W1234 for block 1-7.
+
+Implementation
+=2D-------------
+
+PyLinter.process_tokens() collects the line numbers of all #pylint:
+directives. Then a bottom-up ast walk computes the first and last line
+of each statement, checks if there is a directive inbetween and sets
+the msg state of all lines of the statement. My first thought was to
+apply this only to block statements, but by applying it to all nodes,
+you get extra stuff for free like
+
+some_statement  # pylint: disable-msg=3DEnnn
+
+which only affects this single line.
+
+MessagesHandlerMixIn._module_msgs_state is now a dict of dicts
+{ 'W0123': { 10: False, 11: True, ..., 25: True }, ... }
+The msg code dictionaries contain entries for each line number where a
+module-level enable-msg or disable-msg is active.
+MessagesHandlerMixIn.is_message_enabled will lookup, if there's an
+entry for the affected line (thus a 'line' argument was added).
+
+This implementation is a 'superset' of the current
+semantics. Directives at the top of the module apply to the 'block'
+they are contained in, which happens to be the whole module.
+
+A new method has been added to astng.nodes.NodeNG, which calculates
+the last line number for a node and its children.
+
+Issues
+=2D-----
+
+Performance: PyLinter.process_tokens() has to scan the complete file in
+order to find all directives. Then an additional ast walk has to be perform=
+ed
+in order to collect the line numbers of the containing blocks. I didn't do
+ any real performance testing to measure the impact - just a simple test:
+
+Original V0.10.0:
+
+pink@bateau:~/projects/pylint/pylint/test$ PYTHONPATH=3D../.. /usr/bin/time
+python2.3 func_test.py
+=2E........................................................................=
+=2E...
+=2E........................................................................=
+=2E...
+=2E........................................................................=
+=2E...
+=2E ---------------------------------------------------------------------- =
+Ran
+ 232 tests in 6.993s
+
+OK
+6.57user 0.27system 0:07.84elapsed 87%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (0major+4705minor)pagefaults 0swaps
+
+Patched version:
+
+pink@bateau:~/projects/pylint/pylint/test$ PYTHONPATH=3D../.. /usr/bin/time
+python2.3 func_test.py
+=2E........................................................................=
+=2E...
+=2E........................................................................=
+=2E...
+=2E........................................................................=
+=2E...
+=2E ---------------------------------------------------------------------- =
+Ran
+ 232 tests in 7.304s
+
+OK
+7.06user 0.26system 0:08.13elapsed 90%CPU (0avgtext+0avgdata 0maxresident)k
+0inputs+0outputs (0major+4720minor)pagefaults 0swaps
+
+
+Testsuite: unittest_lint.py/PyLinterTC.test_enable_message broken
+
+P.S.: the tests 'func_noerror_staticmethod_as_decorator' and 'func_format'
+fail with python2.4 but not 2.3. Known issue?
+
+P.P.S.: took me a while to fix this, although I don't understand why: if I
+change the lines in astng.nodes.NodeNG.last_source_line()
+
+    try:
+        return self.__dict__['_cached_last_source_line']
+    except KeyError:
+        ...
+
+to
+
+    try:
+        return self._cached_last_source_line
+    except AttributeError:
+        ...
+
+(which should be the obvious implementation), the test
+'func_bad_assigment_to_exception_var' failed with two missing messages. Even
+if every other change was removed, just calling walking the ast and calling
+last_source_line() on the nodes caused this (and only this) test to fail.
+Any explanation?
+
+=2D-
+Benjamin Niemann
+Email: pink at odahoda dot de
+WWW: http://pink.odahoda.de/
+
+--Boundary-00=_FtiMERWf9GTvn3e
+Content-Type: text/x-diff;
+  charset="iso-8859-1";
+  name="astng.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="astng.patch"
+
+Index: nodes.py
+===================================================================
+--- nodes.py	(.../astng-0.15.1/nodes.py)	(revision 1670)
++++ nodes.py	(.../logilab/astng/nodes.py)	(revision 1674)
+@@ -186,6 +186,18 @@
+             self.lineno = line
+         return line
+ 
++    def last_source_line(self):
++        """return the last line number for this node (including childre)
++        """
++        try:
++            return self.__dict__['_cached_last_source_line']
++        except KeyError:
++            line = self.source_line()
++            for node in self.getChildNodes():
++                line = max(line, node.last_source_line())
++            self._cached_last_source_line = line
++            return line
++
+     def set_local(self, name, stmt):
+         """delegate to a scoped parent handling a locals dictionary
+         """
+
+--Boundary-00=_FtiMERWf9GTvn3e
+Content-Type: text/x-diff;
+  charset="iso-8859-1";
+  name="pylint.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="pylint.patch"
+
+Index: test/input/func_block_disable_msg.py
+===================================================================
+--- test/input/func_block_disable_msg.py	(revision 0)
++++ test/input/func_block_disable_msg.py	(revision 1673)
+@@ -0,0 +1,25 @@
++"""pylint option block-disable-msg"""
++
++__revision__ = None
++
++class Foo(object):
++    """block-disable-msg test"""
++    
++    def __init__(self):
++        pass
++
++    def meth1(self, arg):
++        """this issues a message"""
++        
++        print self
++    
++
++    def meth2(self, arg):
++        """and this one not"""
++
++        # pylint: disable-msg=W0613
++        
++        print self\
++              + "foo"
++
++    
+Index: test/messages/func_block_disable_msg.txt
+===================================================================
+--- test/messages/func_block_disable_msg.txt	(revision 0)
++++ test/messages/func_block_disable_msg.txt	(revision 1673)
+@@ -0,0 +1 @@
++W: 11:Foo.meth1: Unused argument 'arg'
+Index: utils.py
+===================================================================
+--- utils.py	(revision 1672)
++++ utils.py	(working copy)
+@@ -134,10 +134,17 @@
+         """don't output message of the given id"""
+         assert scope in ('package', 'module')
+         msg_id = self.check_message_id(msg_id)
++
+         if scope == 'module':
++            assert line > 0
++
+             if msg_id != 'I0011':
+                 self.add_message('I0011', line=line, args=msg_id)
+-            self._module_msgs_state[msg_id] = False
++                
++            try:
++                self._module_msgs_state[msg_id][line] = False
++            except KeyError:
++                self._module_msgs_state[msg_id] = { line: False }
+         else:
+             msgs = self._msgs_state
+             msgs[msg_id] = False
+@@ -150,14 +157,20 @@
+         assert scope in ('package', 'module')
+         msg_id = self.check_message_id(msg_id)
+         if scope == 'module':
++            assert line > 0
++
+             self.add_message('I0012', line=line, args=msg_id)
+-            self._module_msgs_state[msg_id] = True
++                
++            try:
++                self._module_msgs_state[msg_id][line] = True
++            except KeyError:
++                self._module_msgs_state[msg_id] = { line: True }
+         else:
+             msgs = self._msgs_state
+             msgs[msg_id] = True
+             # sync configuration object 
+             self.config.enable_msg = [mid for mid, val in msgs.items() if val]
+-            
++
+     def disable_message_category(self, msg_cat_id, scope='package', line=None):
+         """don't output message in the given category"""
+         assert scope in ('package', 'module')
+@@ -185,7 +198,7 @@
+             raise UnknownMessage('No such message id %s' % msg_id)
+         return msg_id
+ 
+-    def is_message_enabled(self, msg_id):
++    def is_message_enabled(self, msg_id, line=None):
+         """return true if the message associated to the given message id is
+         enabled
+         """
+@@ -196,8 +209,8 @@
+             if not self._msg_cats_state.get(msg_id[0], True):
+                 return False
+         try:
+-            return self._module_msgs_state[msg_id]
+-        except (KeyError, TypeError):
++            return self._module_msgs_state[msg_id][line]
++        except (KeyError, TypeError):       
+             return self._msgs_state.get(msg_id, True)
+         
+     def add_message(self, msg_id, line=None, node=None, args=None):
+@@ -208,8 +221,14 @@
+         astng checkers should provide the node argument, raw checkers should
+         provide the line argument.
+         """
++
++        if line is None and node is not None:
++            line = node.lineno or node.statement().lineno
++            #if not isinstance(node, Module):
++            #    assert line > 0, node.__class__
++
+         # should this message be displayed
+-        if not self.is_message_enabled(msg_id):
++        if not self.is_message_enabled(msg_id, line):
+             return        
+         # update stats
+         msg_cat = MSG_TYPES[msg_id[0]]
+@@ -223,10 +242,6 @@
+         # expand message ?
+         if args:
+             msg %= args
+-        if line is None and node is not None:
+-            line = node.lineno or node.statement().lineno
+-            #if not isinstance(node, Module):
+-            #    assert line > 0, node.__class__
+         # get module and object
+         if node is None:
+             module, obj = self.current_name, ''
+Index: lint.py
+===================================================================
+--- lint.py	(revision 1672)
++++ lint.py	(working copy)
+@@ -65,7 +65,7 @@
+ from pylint.__pkginfo__ import version
+ 
+ 
+-OPTION_RGX = re.compile('#*\s*pylint:(.*)')
++OPTION_RGX = re.compile('\s*#*\s*pylint:(.*)')
+ REPORTER_OPT_MAP = {'html': HTMLReporter,
+                     'parseable': TextReporter2,
+                     'color': ColorizedTextReporter}
+@@ -373,7 +373,7 @@
+         #line_num = 0
+         for (tok_type, _, start, _, line) in tokens:
+             if tok_type not in (comment, newline):
+-                break
++                continue
+             #if start[0] == line_num:
+             #    continue
+             match = OPTION_RGX.match(line)
+@@ -522,13 +522,48 @@
+         else:
+             #assert astng.file.endswith('.py')
+             stream = norm_open(astng.file)
++
++            #invoke IRawChecker interface on self
++            self.process_module(stream)
++
++            # walk ast to collect line numbers
++            orig_state = self._module_msgs_state.copy()
++            self._module_msgs_state = {}
++            self.collect_block_lines(astng, orig_state)
++            #print self._module_msgs_state
++
+             for checker in checkers:
+-                if implements(checker, IRawChecker):
++                #self.process_module was already execute
++                if implements(checker, IRawChecker) and checker is not self:
+                     stream.seek(0)
+                     checker.process_module(stream)
+         # generate events to astng checkers
+         self.astng_events(astng, [checker for checker in checkers
+                                   if implements(checker, IASTNGChecker)])
++
++
++    def collect_block_lines(self, astng, msg_state):
++        # recurse on children (depth first)
++        for child in astng.getChildNodes():
++            self.collect_block_lines(child, msg_state)
++
++        for msg, lines in msg_state.items():
++            for lineno, state in lines.items():
++                first = astng.source_line()
++                last = astng.last_source_line()
++                if lineno >= first and lineno <= last:
++                    # set state for all lines for this block
++                    for line in range(first, last+1):
++                        # do not override existing entries
++                        if (msg not in self._module_msgs_state
++                            or line not in self._module_msgs_state[msg]):
++                            try:
++                                self._module_msgs_state[msg][line] = state
++                            except KeyError:
++                                self._module_msgs_state[msg] = { line: state }
++                            
++                    del lines[lineno]
++                
+     
+     def astng_events(self, astng, checkers, _reversed_checkers=None):
+         """generate event to astng checkers according to the current astng
+
+--Boundary-00=_FtiMERWf9GTvn3e
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Python-Projects mailing list
+Python-Projects@lists.logilab.org
+http://lists.logilab.org/mailman/listinfo/python-projects
+--Boundary-00=_FtiMERWf9GTvn3e--
