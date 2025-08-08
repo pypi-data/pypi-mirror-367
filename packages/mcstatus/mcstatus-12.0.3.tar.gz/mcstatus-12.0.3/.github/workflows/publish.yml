@@ -1,0 +1,86 @@
+name: Publish to PyPi
+
+on:
+  push:
+    tags:
+      # This pattern is not a typical regular expression, see:
+      # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Git Tag to use for the release
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.13"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Tag
+        id: get_tag
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # For push events, the tag is in GITHUB_REF
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # For workflow_dispatch, the tag is in the input
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Checkout the specific tag
+          ref: ${{ steps.get_tag.outputs.tag }}
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-suffix: "publish-ci"
+          activate-environment: true
+
+      - name: Install dependencies
+        run: |
+          uv sync --no-default-groups
+
+      - name: Build package
+        run: uv build
+
+      - name: Upload build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: "dist"
+          path: "dist/"
+          if-no-files-found: error
+          retention-days: 5
+
+  publish-pypi:
+    name: "Publish to PyPI"
+    needs: build
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      # Used to authenticate to PyPI via OIDC.
+      id-token: write
+
+    steps:
+      - name: Download the distribution files from PR artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: "dist"
+          path: "dist/"
+
+      # This uses PyPI's trusted publishing, so no token is required
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
