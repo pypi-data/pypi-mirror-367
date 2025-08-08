@@ -1,0 +1,171 @@
+{% extends 'allianceauth/base-bs5.html' %}
+
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+    {{ block.super }}
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        .copy-to-clipboard {
+            cursor: pointer;
+            color:rgb(55, 185, 66) !important;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .copy-to-clipboard.copied {
+        color: green !important;
+        }
+    </style>
+{% endblock %}
+
+{% load navactive %}
+
+{% block page_title %}
+    {% translate "Mining Anomalies" %}
+{% endblock %}
+
+{% block header_nav_brand %}
+    {% translate "Mining Anomalies" %}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    {{ block.super }}
+        {% if perms.anomalytracker.manage_anoms %}
+                <a
+                    class="nav-link {% navactive request 'anomalytracker:index' %}"
+                    href="{% url 'anomalytracker:index' %}"
+                >
+                    {% translate "List Anoms" %}
+                </a>
+                <a
+                    class="nav-link {% navactive request 'anomalytracker:manageanoms' %}"
+                    href="{% url 'anomalytracker:manageanoms' %}"
+                >
+                    {% translate "Manage Anoms" %}
+                </a>
+        {% endif %}
+
+{% endblock header_nav_collapse_left %}
+
+{% block content %}
+    <div class="allianceauth-anomalytracker-plugin">
+        {% block details %}{% endblock %}
+    </div>
+{% endblock %}
+{% block extra_javascript %}
+    {{ block.super }}
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const defaultOptions = {
+                "pageLength": 10,
+                "lengthMenu": [5, 10, 25, 50],
+                "order": [],
+                "language": {
+                    "emptyTable": "No data available in table.",
+                    "search": "Search:",
+                    "lengthMenu": "Show _MENU_ entries",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "paginate": {
+                        "next": "Next",
+                        "previous": "Previous"
+                    }
+                }
+            };
+
+            if ($('#oreAnomalyTable').length) {
+                let oreOptions = JSON.parse(JSON.stringify(defaultOptions));
+                oreOptions.language.search = "Search Ore:";
+                oreOptions.language.lengthMenu = "Show _MENU_ ore entries";
+                oreOptions.language.info = "Showing _START_ to _END_ of _TOTAL_ ore entries";
+                $('#oreAnomalyTable').DataTable(oreOptions);
+            }
+
+            if ($('#iceAnomalyTable').length) {
+                let iceOptions = JSON.parse(JSON.stringify(defaultOptions));
+                iceOptions.language.search = "Search Ice:";
+                iceOptions.language.lengthMenu = "Show _MENU_ ice entries";
+                iceOptions.language.info = "Showing _START_ to _END_ of _TOTAL_ ice entries";
+                $('#iceAnomalyTable').DataTable(iceOptions);
+            }
+
+            if ($('#manageAnomsTable').length) {
+                $('#manageAnomsTable').DataTable({
+                    "pageLength": 10,
+                    "lengthMenu": [5, 10, 25, 50],
+                    "order": [],
+                    "language": {
+                        "search": "Search:",
+                        "lengthMenu": "Show _MENU_ entries",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                        "paginate": {
+                            "next": "Next",
+                            "previous": "Previous"
+                        }
+                    }
+                });
+            }
+
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyElements = document.querySelectorAll('.copy-to-clipboard');
+
+            copyElements.forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const text = el.textContent.trim();
+                    navigator.clipboard.writeText(text).then(() => {
+                    // Add copied class to change color
+                    el.classList.add('copied');
+                    setTimeout(() => el.classList.remove('copied'), 1500);
+
+                    // Create notification div
+                    const notif = document.createElement('div');
+                    notif.textContent = 'Copied to clipboard';
+                    notif.style.position = 'fixed';
+                    notif.style.left = e.clientX + 10 + 'px';
+                    notif.style.top = e.clientY + 10 + 'px';
+                    notif.style.background = 'rgba(0,0,0,0.7)';
+                    notif.style.color = 'white';
+                    notif.style.padding = '5px 10px';
+                    notif.style.borderRadius = '4px';
+                    notif.style.fontSize = '12px';
+                    notif.style.zIndex = 10000;
+                    notif.style.pointerEvents = 'none';
+                    notif.style.userSelect = 'none';
+                    notif.style.transition = 'opacity 0.5s ease';
+                    notif.style.opacity = '1';
+
+                    document.body.appendChild(notif);
+
+                    // Fade out and remove after 1.5 seconds
+                    setTimeout(() => {
+                        notif.style.opacity = '0';
+                        setTimeout(() => {
+                            notif.remove();
+                        }, 500);
+                    }, 1500);
+
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+            });
+        });
+    });
+
+    </script>
+
+{% endblock %}
+
+
+
+
