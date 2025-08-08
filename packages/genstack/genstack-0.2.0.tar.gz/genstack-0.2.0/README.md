@@ -1,0 +1,106 @@
+# Genstack Python SDK
+
+A robust Python SDK for seamless integration with the Genstack AI platform. This SDK enables developers to interact with Genstack's AI generation APIs, providing a simple and efficient interface for sending requests and handling responses.
+
+## Features
+- **Easy API Integration**: Quickly connect to Genstack's AI services with minimal setup.
+- **Async and Sync Support**: Internally uses async HTTP calls, exposed via a synchronous interface for convenience.
+- **Customizable**: Configure API keys and endpoints as needed.
+- **Error Handling**: Graceful error management for HTTP and runtime issues.
+
+## Installation
+
+Install via pip (recommended):
+
+```bash
+pip install genstack
+```
+
+Or clone this repository and install dependencies:
+
+```bash
+git clone <repo-url>
+cd Python-SDK
+pip install -r requirements.txt
+```
+
+## Usage
+
+### Basic Example
+
+```python
+from genstack import Genstack
+
+client = Genstack(api_key="gen-<your-api-key>")
+
+response = client.generate(
+    input="Generate a short poem about the sea.",
+    track="default-track",  # Required
+    model="gpt-4-1-nano-oai"  # Optional, defaults to 'auto'
+)
+
+if "output" in response:
+    print(response["output"][0]["output"]["text"])
+else:
+    print("Error:", response.get("error", "Unknown error"))
+```
+
+### Initialization
+
+- `api_key` (str): Your Genstack API key (must start with `gen-`).
+- `base_url` (str, optional): Override the default API endpoint (default: `http://localhost:8000`).
+
+### Generate Method
+
+```python
+generate(input, model="auto", track=None)
+```
+- `input` (str or dict): The prompt or payload to send. If a string, it is wrapped as `{ "input": <input> }`.
+- `model` (str, optional): Model identifier (default: `auto`).
+- `track` (str, required): Track identifier for the request.
+
+Returns: `dict` — The API response as a dictionary.
+
+#### Error Handling
+- Raises `ValueError` if the API key is invalid or `track` is missing.
+- Raises `TypeError` if `input` is not a string or dictionary.
+- Returns error details in the response dictionary for HTTP or runtime errors.
+
+## Testing
+
+Tests are provided using `pytest`:
+
+```bash
+pytest tests/
+```
+
+- `test_generate_with_invalid_type`: Ensures type validation for the `generate` method.
+- `call_test.py`: Example/test for real API calls (requires valid API key in environment).
+
+## Dependencies
+- [httpx](https://www.python-httpx.org/): For async HTTP requests.
+- [pytest](https://pytest.org/): For testing.
+
+## Project Structure
+
+```
+Python-SDK/
+  genstack/
+    __init__.py
+    genstack.py
+  tests/
+    test_generate.py
+    call_test.py
+    x_test.py
+  pyproject.toml
+  requirements.txt
+  README.md
+```
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+For more information, visit the [Genstack documentation](https://genstack.ai/) or contact the maintainer at shreyk.dev@gmail.com.
