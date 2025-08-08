@@ -1,0 +1,112 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_mcp_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ecommerce_db}
+      MYSQL_USER: ${MYSQL_USER:-mcp_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-mcp_password}
+      MYSQL_CHARSET: ${MYSQL_CHARSET:-utf8mb4}
+      MYSQL_COLLATION: ${MYSQL_COLLATION:-utf8mb4_unicode_ci}
+      MYSQL_SQL_MODE: ${MYSQL_SQL_MODE:-TRADITIONAL}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+      - ./mysql-config:/etc/mysql/conf.d:ro
+    networks:
+      - mcp_network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD:-rootpassword}",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # MySQL MCP Server Service
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: mysql_mcp_server_pro_plus
+    restart: unless-stopped
+    environment:
+      MYSQL_URL: mysql://${MYSQL_USER:-mcp_user}:${MYSQL_PASSWORD:-mcp_password}@mysql:3306/${MYSQL_DATABASE:-mcp_database}?charset=${MYSQL_CHARSET:-utf8mb4}&collation=${MYSQL_COLLATION:-utf8mb4_unicode_ci}&sql_mode=${MYSQL_SQL_MODE:-TRADITIONAL}
+      PYTHONUNBUFFERED: 1
+      PYTHONDONTWRITEBYTECODE: 1
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mcp_network
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python3",
+          "-c",
+          "import mysql.connector; mysql.connector.connect(host='mysql', user='${MYSQL_USER:-mcp_user}', password='${MYSQL_PASSWORD:-mcp_password}', database='${MYSQL_DATABASE:-mcp_database}')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/tmp
+
+  # Optional: MySQL Admin Tool (phpMyAdmin)
+  phpmyadmin:
+    platform: linux/amd64
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: mysql_mcp_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: ${MYSQL_USER:-mcp_user}
+      PMA_PASSWORD: ${MYSQL_PASSWORD:-mcp_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+    ports:
+      - "8080:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - mcp_network
+    profiles:
+      - admin
+
+volumes:
+  mysql_data:
+
+networks:
+  mcp_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
